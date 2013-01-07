@@ -17,6 +17,8 @@
 @interface FlipsideViewController : UIViewController
 
 @property (weak, nonatomic) id <FlipsideViewControllerDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UITextField *UsernameInput;
+@property (weak, nonatomic) IBOutlet UITextField *PasswordInput;
 
 - (IBAction)done:(id)sender;
 
