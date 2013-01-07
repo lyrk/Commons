@@ -89,7 +89,28 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    NSLog(@"picked");
+    /*
+    
+     Photo:
+     {
+         DPIHeight: 72,
+         DPIWidth 72,
+         Orientation: 6,
+         "{Exif}": {...},
+         "{TIFF}": {...},
+         UIImagePickerControllerMediaType: "public.image",
+         UIImagePickerControllerOriginalImage: <UIImage>
+     }
+     
+     Gallery:
+     {
+         UIImagePickerControllerMediaType = "public.image";
+         UIImagePickerControllerOriginalImage = "<UIImage: 0x1cd44980>";
+         UIImagePickerControllerReferenceURL = "assets-library://asset/asset.JPG?id=E248436B-4DB7-4583-BB6C-6073C332B9A6&ext=JPG";
+     }
+     */
+    NSLog(@"picked: %@", info);
+    self.imagePreview.image = info[UIImagePickerControllerOriginalImage];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
