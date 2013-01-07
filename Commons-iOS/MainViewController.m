@@ -21,6 +21,15 @@
 	// Do any additional setup after loading the view, typically from a nib.
 
     self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
+    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+        // Camera is available
+    } else {
+        // Clicking 'take photo' in simulator *will* crash, so disable the button.
+        // FIXME this doesn't take effect for some reason!
+        [self.TakePhotoButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+        self.TakePhotoButton.enabled = NO;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,15 +57,24 @@
     [self setGalleryButton:nil];
     [self setDescriptionTextView:nil];
     [self setUploadButton:nil];
+    [self setImagePreview:nil];
     [super viewDidUnload];
 }
 
 - (IBAction)pushedPhotoButton:(id)sender {
     NSLog(@"Take photo");
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    picker.delegate = self;
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 - (IBAction)pushedGalleryButton:(id)sender {
     NSLog(@"Open gallery");
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
+    [self presentViewController:picker animated:YES completion:nil];
 }
 
 - (IBAction)pushedUploadFiles:(id)sender {
@@ -68,4 +86,17 @@
 
     NSLog(@"username: %@, password: %@, desc: %@", username, password, desc);
 }
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSLog(@"picked");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    NSLog(@"canceled");
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end
