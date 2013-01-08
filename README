@@ -1,0 +1,28 @@
+This is a test/demo iOS program for uploading photos to Wikimedia Commons --
+actually it uploads them to test.wikipedia.org. You can see uploaded files at
+<http://test.wikipedia.org/wiki/Special:NewFiles>
+
+User credentials should be input on the settings flipside of the app before uploading.
+
+Code implementing the MediaWiki web API is in the mwapi/ subdirectory -- you may adjust
+these files or leave them as-is and just change the surrounding UI code.
+
+
+Core exercises:
+
+1) Detect login and upload errors and give feedback to the user.
+
+2) After uploading, display a button that opens the new file in Safari;
+   use URL format 'http://test.wikipedia.org/wiki/File:' + filename
+
+3) Move i/o off the UI thread and provide visual progress feedback.
+
+
+Bonus exercises:
+
+* Use correct naming style for UI field properties in controller classes.
+
+* When pulling existing images from the gallery, retrieve the original file via asset URL
+  and upload that instead of recompression from a UIImage
+
+* Rearrange UI into multiple steps: login, get photo, give description, upload.
