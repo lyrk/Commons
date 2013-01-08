@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "AppDelegate.h"
+#import "mwapi/MWApi.h"
 
 @interface MainViewController ()
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -87,6 +88,19 @@
     NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
 
     NSLog(@"username: %@, password: %@, desc: %@, jpeg: %i bytes", username, password, desc, (int)(jpeg.length));
+    
+    // hack hack hack
+    // Upload the file
+    NSURL *url = [NSURL URLWithString:@"https://test.wikipedia.org/w/api.php"];
+    MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
+
+    NSString *loginResult = [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES];
+    NSLog(@"login: %@", loginResult);
+
+    MWApiResult *uploadResult = [mwapi uploadFile:@"testfile 99.jpg" withFileData:jpeg text: desc comment:desc];
+    NSLog(@"upload: %@", uploadResult);
+    
+    NSLog(@"done uploading...");
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info

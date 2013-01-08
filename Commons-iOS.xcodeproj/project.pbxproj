@@ -21,6 +21,16 @@
 		D4086190169B760800D6ACB0 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D408618F169B760800D6ACB0 /* FlipsideViewController.m */; };
 		D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086196169B791100D6ACB0 /* Commons-logo-57.png */; };
 		D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086198169B791400D6ACB0 /* Commons-logo-114.png */; };
+		D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */ = {isa = PBXBuildFile; fileRef = D4D0E1E7169BA0F4003047A8 /* mwapi */; };
+		D4D0E1F2169BA5E2003047A8 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
+		D4D0E1F3169BA5E2003047A8 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
+		D4D0E1F4169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */; };
+		D4D0E1F6169BA5E2003047A8 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
+		D4D0E1F7169BA5E2003047A8 /* MWApiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */; };
+		D4D0E1F8169BA5E2003047A8 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
+		D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
+		D4D0E1FA169BA5E2003047A8 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F1169BA5E2003047A8 /* XPathQuery.m */; };
+		D4D0E1FC169BA6D2003047A8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D0E1FB169BA6D2003047A8 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,8 +52,18 @@
 		D408618C169B760800D6ACB0 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		D408618E169B760800D6ACB0 /* FlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
 		D408618F169B760800D6ACB0 /* FlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
-		D4086196169B791100D6ACB0 /* Commons-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-57.png"; sourceTree = "<group>"; };
-		D4086198169B791400D6ACB0 /* Commons-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-114.png"; sourceTree = "<group>"; };
+		D4086196169B791100D6ACB0 /* Commons-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-57.png"; path = "../Commons-logo-57.png"; sourceTree = "<group>"; };
+		D4086198169B791400D6ACB0 /* Commons-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-114.png"; path = "../Commons-logo-114.png"; sourceTree = "<group>"; };
+		D4D0E1E7169BA0F4003047A8 /* mwapi */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mwapi; sourceTree = "<group>"; };
+		D4D0E1E9169BA5E2003047A8 /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Http.m; path = mwapi/Http.m; sourceTree = "<group>"; };
+		D4D0E1EA169BA5E2003047A8 /* MWApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApi.m; path = mwapi/MWApi.m; sourceTree = "<group>"; };
+		D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiMultipartRequestBuilder.m; path = mwapi/MWApiMultipartRequestBuilder.m; sourceTree = "<group>"; };
+		D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiRequestBuilder.m; path = mwapi/MWApiRequestBuilder.m; sourceTree = "<group>"; };
+		D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiResult.m; path = mwapi/MWApiResult.m; sourceTree = "<group>"; };
+		D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extras.m"; path = "mwapi/NSString+Extras.m"; sourceTree = "<group>"; };
+		D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+DictionaryRequest.m"; path = "mwapi/NSURLRequest+DictionaryRequest.m"; sourceTree = "<group>"; };
+		D4D0E1F1169BA5E2003047A8 /* XPathQuery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XPathQuery.m; path = mwapi/XPathQuery.m; sourceTree = "<group>"; };
+		D4D0E1FB169BA6D2003047A8 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4D0E1FC169BA6D2003047A8 /* libxml2.dylib in Frameworks */,
 				D4086171169B760800D6ACB0 /* UIKit.framework in Frameworks */,
 				D4086173169B760800D6ACB0 /* Foundation.framework in Frameworks */,
 				D4086175169B760800D6ACB0 /* CoreGraphics.framework in Frameworks */,
@@ -63,8 +84,8 @@
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
-				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
-				D4086196169B791100D6ACB0 /* Commons-logo-57.png */,
+				D4D0E1FB169BA6D2003047A8 /* libxml2.dylib */,
+				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,
 				D408616F169B760800D6ACB0 /* Frameworks */,
 				D408616D169B760800D6ACB0 /* Products */,
@@ -92,6 +113,17 @@
 		D4086176169B760800D6ACB0 /* Commons-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D4D0E1E9169BA5E2003047A8 /* Http.m */,
+				D4D0E1EA169BA5E2003047A8 /* MWApi.m */,
+				D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */,
+				D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */,
+				D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */,
+				D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */,
+				D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */,
+				D4D0E1F1169BA5E2003047A8 /* XPathQuery.m */,
+				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
+				D4086196169B791100D6ACB0 /* Commons-logo-57.png */,
+				D4D0E1E7169BA0F4003047A8 /* mwapi */,
 				D408617F169B760800D6ACB0 /* AppDelegate.h */,
 				D4086180169B760800D6ACB0 /* AppDelegate.m */,
 				D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */,
@@ -116,6 +148,13 @@
 				D4086186169B760800D6ACB0 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D4D0E1C7169BA036003047A8 /* API headers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "API headers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +215,7 @@
 				D408618A169B760800D6ACB0 /* MainStoryboard.storyboard in Resources */,
 				D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */,
 				D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */,
+				D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +226,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4D0E1F2169BA5E2003047A8 /* Http.m in Sources */,
+				D4D0E1F3169BA5E2003047A8 /* MWApi.m in Sources */,
+				D4D0E1F4169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m in Sources */,
+				D4D0E1F6169BA5E2003047A8 /* MWApiRequestBuilder.m in Sources */,
+				D4D0E1F7169BA5E2003047A8 /* MWApiResult.m in Sources */,
+				D4D0E1F8169BA5E2003047A8 /* NSString+Extras.m in Sources */,
+				D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */,
+				D4D0E1FA169BA5E2003047A8 /* XPathQuery.m in Sources */,
 				D408617D169B760800D6ACB0 /* main.m in Sources */,
 				D4086181169B760800D6ACB0 /* AppDelegate.m in Sources */,
 				D408618D169B760800D6ACB0 /* MainViewController.m in Sources */,
@@ -270,6 +318,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Commons-iOS/Commons-iOS-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Commons-iOS/Commons-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -282,6 +331,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Commons-iOS/Commons-iOS-Prefix.pch";
+				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Commons-iOS/Commons-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -308,6 +358,7 @@
 				D4086195169B760800D6ACB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
