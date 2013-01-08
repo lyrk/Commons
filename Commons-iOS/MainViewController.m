@@ -83,8 +83,10 @@
     NSString *username = self.appDelegate.username;
     NSString *password = self.appDelegate.password;
     NSString *desc = self.DescriptionTextView.text;
+    UIImage *image = self.imagePreview.image;
+    NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
 
-    NSLog(@"username: %@, password: %@, desc: %@", username, password, desc);
+    NSLog(@"username: %@, password: %@, desc: %@, jpeg: %i bytes", username, password, desc, (int)(jpeg.length));
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
