@@ -84,6 +84,7 @@
     NSString *username = self.appDelegate.username;
     NSString *password = self.appDelegate.password;
     NSString *desc = self.DescriptionTextView.text;
+    NSString *filename = [NSString stringWithFormat:@"Testfile %li.jpg", (long)[[NSDate date] timeIntervalSince1970]];
     UIImage *image = self.imagePreview.image;
     NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
 
@@ -97,7 +98,7 @@
     NSString *loginResult = [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES];
     NSLog(@"login: %@", loginResult);
 
-    MWApiResult *uploadResult = [mwapi uploadFile:@"testfile 99.jpg" withFileData:jpeg text: desc comment:desc];
+    MWApiResult *uploadResult = [mwapi uploadFile:filename withFileData:jpeg text: desc comment:desc];
     NSLog(@"upload: %@", uploadResult);
     
     NSLog(@"done uploading...");
@@ -134,6 +135,16 @@
 {
     NSLog(@"canceled");
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+// Hide keyboard when hitting 'done'
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text;
+{
+    if ([text isEqualToString: @"\n"]) {
+        [textView resignFirstResponder];
+        return NO;
+    }
+    return YES;
 }
 
 @end

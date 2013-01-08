@@ -8,7 +8,7 @@
 
 #import "FlipsideViewController.h"
 
-@interface MainViewController : UIViewController <FlipsideViewControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface MainViewController : UIViewController <FlipsideViewControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITextViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *TakePhotoButton;
 @property (weak, nonatomic) IBOutlet UIButton *GalleryButton;
 @property (weak, nonatomic) IBOutlet UITextView *DescriptionTextView;
