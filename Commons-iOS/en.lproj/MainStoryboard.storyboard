@@ -95,7 +95,7 @@
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dCH-6U-das">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="199" id="AND-UX-1fn"/>
+                                    <constraint firstAttribute="height" constant="179" id="1OU-ai-FVA"/>
                                 </constraints>
                             </imageView>
                         </subviews>
@@ -109,12 +109,12 @@
                             <constraint firstItem="vsL-FI-ZH6" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Ua9-SQ-Zpk"/>
                             <constraint firstAttribute="trailing" secondItem="vsL-FI-ZH6" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="V3W-hH-NFg"/>
                             <constraint firstAttribute="trailing" secondItem="dCH-6U-das" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="V5c-h6-phV"/>
+                            <constraint firstItem="s1d-gM-vJv" firstAttribute="top" secondItem="3" secondAttribute="top" constant="58" id="Vyz-HM-SXJ"/>
                             <constraint firstItem="s1d-gM-vJv" firstAttribute="baseline" secondItem="ZrF-YQ-ZzZ" secondAttribute="baseline" type="default" id="XH8-BC-KVq"/>
                             <constraint firstAttribute="trailing" secondItem="10" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="apl-1S-UOC"/>
                             <constraint firstAttribute="bottom" secondItem="10" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="bcr-if-aDO"/>
                             <constraint firstItem="vsL-FI-ZH6" firstAttribute="top" secondItem="dG6-OO-iRf" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="f2B-U0-Z5R"/>
                             <constraint firstItem="dCH-6U-das" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="j7Y-o5-eSF"/>
-                            <constraint firstAttribute="bottom" secondItem="dCH-6U-das" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="kxG-0o-TKf"/>
                             <constraint firstItem="s1d-gM-vJv" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="lPW-FO-ecE"/>
                             <constraint firstItem="dG6-OO-iRf" firstAttribute="top" secondItem="s1d-gM-vJv" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="m0D-Wn-HzA"/>
                             <constraint firstItem="dG6-OO-iRf" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="oc1-Ns-Y76"/>
