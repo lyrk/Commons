@@ -88,11 +88,11 @@
     UIImage *image = self.imagePreview.image;
     NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
 
-    NSLog(@"username: %@, password: %@, desc: %@, jpeg: %i bytes", username, password, desc, (int)(jpeg.length));
+    NSLog(@"username: %@, desc: %@, jpeg: %i bytes", username, desc, (int)(jpeg.length));
     
     // hack hack hack
     // Upload the file
-    NSURL *url = [NSURL URLWithString:@"https://test.wikipedia.org/w/api.php"];
+    NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
     MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
 
     NSString *loginResult = [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES];

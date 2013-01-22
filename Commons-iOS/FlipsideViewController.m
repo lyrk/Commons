@@ -39,6 +39,8 @@
 {
     self.appDelegate.username = self.UsernameInput.text;
     self.appDelegate.password = self.PasswordInput.text;
+    [self.appDelegate saveCredentials];
+
     [self.delegate flipsideViewControllerDidFinish:self];
 }
 

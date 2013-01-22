@@ -21,6 +21,7 @@
 		D4086190169B760800D6ACB0 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D408618F169B760800D6ACB0 /* FlipsideViewController.m */; };
 		D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086196169B791100D6ACB0 /* Commons-logo-57.png */; };
 		D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086198169B791400D6ACB0 /* Commons-logo-114.png */; };
+		D4C08F2A16AF47300069172D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
 		D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */ = {isa = PBXBuildFile; fileRef = D4D0E1E7169BA0F4003047A8 /* mwapi */; };
 		D4D0E1F2169BA5E2003047A8 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
 		D4D0E1F3169BA5E2003047A8 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
@@ -54,6 +55,7 @@
 		D408618F169B760800D6ACB0 /* FlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
 		D4086196169B791100D6ACB0 /* Commons-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-57.png"; path = "../Commons-logo-57.png"; sourceTree = "<group>"; };
 		D4086198169B791400D6ACB0 /* Commons-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-114.png"; path = "../Commons-logo-114.png"; sourceTree = "<group>"; };
+		D4C08F2916AF47300069172D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D4D0E1E7169BA0F4003047A8 /* mwapi */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mwapi; sourceTree = "<group>"; };
 		D4D0E1E9169BA5E2003047A8 /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Http.m; path = mwapi/Http.m; sourceTree = "<group>"; };
 		D4D0E1EA169BA5E2003047A8 /* MWApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApi.m; path = mwapi/MWApi.m; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4C08F2A16AF47300069172D /* Security.framework in Frameworks */,
 				D4D0E1FC169BA6D2003047A8 /* libxml2.dylib in Frameworks */,
 				D4086171169B760800D6ACB0 /* UIKit.framework in Frameworks */,
 				D4086173169B760800D6ACB0 /* Foundation.framework in Frameworks */,
@@ -84,6 +87,7 @@
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
+				D4C08F2916AF47300069172D /* Security.framework */,
 				D4D0E1FB169BA6D2003047A8 /* libxml2.dylib */,
 				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,

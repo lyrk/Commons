@@ -14,4 +14,7 @@
 @property (copy, nonatomic) NSString *username;
 @property (copy, nonatomic) NSString *password;
 
+- (void)loadCredentials;
+- (void)saveCredentials;
+
 @end
