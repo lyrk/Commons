@@ -9,9 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "MWApiResult.h"
 
-@interface Http : NSObject <NSURLConnectionDataDelegate>
+@interface Http : NSObject <NSURLConnectionDataDelegate> {
+    NSURLRequest *requestUrl_;
+    void (^onCompletion_)(MWApiResult *);
+    NSMutableData *data_;
+    NSURLResponse *response_;
+}
 
-+ (MWApiResult *)retrieveResponseSync:(NSURLRequest *)requestUrl;
-- (void)retrieveResponseAsync:(NSURLRequest *)requestUrl;
++ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))block;
+
+- (id)initWithRequest:(NSURLRequest *)requestUrl;
+- (void)retrieveResponseAsyncWithBlock:(void(^)(MWApiResult *))block;
 
 @end

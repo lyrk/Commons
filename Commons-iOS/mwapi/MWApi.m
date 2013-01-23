@@ -66,80 +66,87 @@ id delegate;
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:each];
 }
 
-- (BOOL) validateLogin {
-    MWApiRequestBuilder *builder = [[self action:@"query"] param:@"meta" :@"userinfo"];
-    MWApiResult *result = [self makeRequest:[builder buildRequest:@"GET"]];
-    userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
-    userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
-    return ![userID_ isEqualToString:@"0"];
-}
-
-- (NSString *)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist
+- (void) validateLogin:(void(^)(BOOL))block
 {
-    NSString *isSuccess = nil;
-    MWApiResult *finalResult = nil;
-    MWApiRequestBuilder *builder = [[[self action:@"login"] param:@"lgname" :username] param:@"lgpassword" :password];
-    MWApiResult *result = [self makeRequest:[builder buildRequest:@"POST"]];
-    NSString *needsToken = result.data[@"login"][@"result"];
-    if([needsToken isEqualToString:@"NeedToken"]){
-        NSString *token = result.data[@"login"][@"token"];
-        [builder param:@"lgtoken" :token];
-        finalResult = [self makeRequest:[builder buildRequest:@"POST"]];
-        isSuccess = finalResult.data[@"login"][@"result"];
-    }
-    if ([isSuccess isEqualToString:@"Success"]) {
-        isLoggedIn_ = YES;
-        if(doCookiePersist){
-            [self setAuthCookieFromResult:finalResult];
+    MWApiRequestBuilder *builder = [[self action:@"query"] param:@"meta" :@"userinfo"];
+    [self makeRequest:[builder buildRequest:@"GET"] onCompletion:^(MWApiResult *result) {
+        userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
+        userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
+        block(![userID_ isEqualToString:@"0"]);
+    }];
+}
+
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block
+{
+    MWApiRequestBuilder *builder = [self action:@"login"];
+    [builder params: @{
+        @"lgname": username,
+        @"lgpassword": password
+    }];
+    [self makeRequest:[builder buildRequest:@"POST"] onCompletion:^(MWApiResult *result) {
+        void (^complete)(MWApiResult *) = ^(MWApiResult *completeResult) {
+            if ([completeResult.data[@"login"][@"result"] isEqualToString:@"Success"]) {
+                isLoggedIn_ = YES;
+                if(doCookiePersist){
+                    [self setAuthCookieFromResult:completeResult];
+                }
+            }
+            block(completeResult);
+        };
+        if([result.data[@"login"][@"result"] isEqualToString:@"NeedToken"]){
+            NSString *token = result.data[@"login"][@"token"];
+            [builder param:@"lgtoken" :token];
+            [self makeRequest:[builder buildRequest:@"POST"] onCompletion:complete];
+        } else {
+            complete(result);
         }
-        return isSuccess;
-    }else{
-        return needsToken;
-    }
+    }];
 }
 
-- (NSString *)loginWithUsername:(NSString *)username andPassword:(NSString *)password {
-    return [self loginWithUsername:username andPassword:password withCookiePersistence:NO];
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block {
+    [self loginWithUsername:username andPassword:password withCookiePersistence:NO onCompletion:block];
 }
 
-- (void) logout {
+- (void) logout:onCompletion:(void(^)(MWApiResult *))block {
     MWApiRequestBuilder *builder = [self action:@"logout"];
-    [self makeRequest:[builder buildRequest:@"POST"]];
-    [self clearAuthCookie];
-    isLoggedIn_ = NO;
+    [self makeRequest:[builder buildRequest:@"POST"] onCompletion:^(MWApiResult *result) {
+        [self clearAuthCookie];
+        isLoggedIn_ = NO;
+        block(result);
+    }];
 }
 
-- (MWApiResult *)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment {
+- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))block {
     
-    MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
-    [[[[[[builder param:@"action" :@"upload" ] param:@"token" :[self editToken]]param:@"filename" :filename ] param:@"ignorewarnings" :@"1" ] param:@"comment" :comment] param:@"format" :@"json"];
-    builder = (text != nil)? [builder param:@"text" :text] : builder;
-    
-    NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
-    return [builder.api makeRequest:uploadRequest];
+    [self editToken: ^(NSString *editToken) {
+        MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
+        [builder params: @{
+             @"action": @"upload",
+             @"token": editToken,
+             @"filename": filename,
+             @"ignorewarnings": @"1",
+             @"comment": comment,
+             @"text": (text != nil) ? text : @"",
+             @"format": @"json"
+        }];
+        
+        NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
+        [builder.api makeRequest:uploadRequest onCompletion:block];
+    }];
 }
 
-- (MWApiResult *)uploadFile:(NSString *)filename withFilepath:(NSString *)filepath text:(NSString *)text comment:(NSString *)comment {
-    NSData *data = [NSData dataWithContentsOfFile:filepath];
-    return [self uploadFile:filename withFileData:data text:text comment:comment];
-}
-
-- (MWApiResult *)uploadFile:(NSString *)filename withFilepath:(NSString *)filepath comment:(NSString *)comment {
-    return [self uploadFile:filename withFilepath:filepath text:nil comment:comment];
-}
-
-- (NSString *)editToken {
+- (void)editToken:(void(^)(NSString *))block {
     MWApiRequestBuilder *builder = [[self action:@"tokens"] param:@"type" :@"edit"];
-    MWApiResult *result = [self makeRequest:[builder buildRequest:@"GET"]];
-    return [result.data[@"tokens"][@"edittoken"] copy];
+    [self makeRequest:[builder buildRequest:@"GET"] onCompletion:^(MWApiResult *result) {
+        block([result.data[@"tokens"][@"edittoken"] copy]);
+    }];
 }
 
-- (MWApiResult *)makeRequest:(NSMutableURLRequest *)request
+- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))block
 {
     if(!includeAuthCookie_){
         [self clearAuthCookie];
     }
-    MWApiResult *result = [Http retrieveResponseSync:request];
-    return result;
+    [Http retrieveResponse:request onCompletion:block];
 }
 @end

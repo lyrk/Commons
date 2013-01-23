@@ -33,15 +33,13 @@
 - (MWApiRequestBuilder *) action:(NSString *)action;
 - (NSArray *) authCookie;
 - (void) setAuthCookie:(NSArray *)newAuthCookie;
-- (BOOL) validateLogin;
+- (void) validateLogin:(void(^)(BOOL))block;
 - (BOOL) isLoggedIn;
-- (NSString *)loginWithUsername:(NSString *)username andPassword:(NSString *)password;
-- (NSString *)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist;
-- (void) logout;
-- (MWApiResult *)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment;
-- (MWApiResult *)uploadFile:(NSString *)filename withFilepath:(NSString *)filepath text:(NSString *)text comment:(NSString *)comment;
-- (MWApiResult *)uploadFile:(NSString *)filename withFilepath:(NSString *)filepath comment:(NSString *)comment;
-- (NSString *)editToken;
-- (MWApiResult *)makeRequest:(NSURLRequest *)request;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block;
+- (void) logout: onCompletion:(void(^)(MWApiResult *))block;
+- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))block;
+- (void)editToken:(void(^)(NSString *))block;
+- (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))block;;
 
 @end

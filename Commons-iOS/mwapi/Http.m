@@ -10,18 +10,27 @@
 
 @implementation Http
 
-+ (MWApiResult *)retrieveResponseSync:(NSURLRequest *)requestUrl
++ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))block
 {
-    NSURLResponse *response;
-    NSError *error;
-    NSData* data = [NSURLConnection sendSynchronousRequest:requestUrl returningResponse:&response error:&error];
-    MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl response:response responseBody:data errors:error];
-    return result;
+    Http *http = [[Http alloc] initWithRequest:requestUrl];
+    [http retrieveResponseAsyncWithBlock: block];
 }
 
-- (void)retrieveResponseAsync:(NSURLRequest *)requestUrl
+- (id)initWithRequest:(NSURLRequest *)requestUrl
 {
-    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:requestUrl delegate:self];
+    if ([self init]) {
+        requestUrl_ = requestUrl;
+        onCompletion_ = nil;
+        data_ = nil;
+    }
+    return self;
+}
+
+- (void)retrieveResponseAsyncWithBlock:(void(^)(MWApiResult *))block;
+{
+    onCompletion_ = [block copy];
+    data_ = [[NSMutableData alloc] init];
+    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:requestUrl_ delegate:self];
     [connection start];
 }
 
@@ -29,12 +38,30 @@
 
 - (void)connection:(NSURLConnection*) connection didReceiveResponse:(NSURLResponse *)response
 {
-    NSLog(@"Response recieved");	    
+    NSLog(@"Response recieved");
+    response_ = response;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSLog(@"finished loading");
+    if (onCompletion_ != nil) {
+        NSError *error;
+        MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl_ response:response_ responseBody:data_ errors:error];
+        onCompletion_(result);
+
+        onCompletion_ = nil;
+        data_ = nil;
+        response_ = nil;
+    }
 }		
 
 - (void)connection:(NSURLConnection*) connection didReceiveData:(NSData *)data
 {
     NSLog(@"Data recieved");
+    if (data_ != nil) {
+        [data_ appendData: data];
+    }
 }
 
 -(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
