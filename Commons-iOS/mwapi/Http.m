@@ -15,8 +15,7 @@
     NSURLResponse *response;
     NSError *error;
     NSData* data = [NSURLConnection sendSynchronousRequest:requestUrl returningResponse:&response error:&error];
-    NSString *responseBody = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl response:response responseBody:responseBody errors:error];
+    MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl response:response responseBody:data errors:error];
     return result;
 }
 
@@ -35,8 +34,7 @@
 
 - (void)connection:(NSURLConnection*) connection didReceiveData:(NSData *)data
 {
-    NSLog(@"Data recieved");    
-    NSString* responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"Data recieved");
 }
 
 -(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error

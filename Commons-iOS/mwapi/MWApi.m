@@ -69,8 +69,8 @@ id delegate;
 - (BOOL) validateLogin {
     MWApiRequestBuilder *builder = [[self action:@"query"] param:@"meta" :@"userinfo"];
     MWApiResult *result = [self makeRequest:[builder buildRequest:@"GET"]];
-    userID_ = [result getStringWithXpath:@"/api/query/userinfo/@id"];
-    userName_ = [result getStringWithXpath:@"/api/query/userinfo/@name"];
+    userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
+    userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
     return ![userID_ isEqualToString:@"0"];
 }
 
@@ -80,12 +80,12 @@ id delegate;
     MWApiResult *finalResult = nil;
     MWApiRequestBuilder *builder = [[[self action:@"login"] param:@"lgname" :username] param:@"lgpassword" :password];
     MWApiResult *result = [self makeRequest:[builder buildRequest:@"POST"]];
-    NSString *needsToken = [result getStringWithXpath:@"/api/login/@result"];
+    NSString *needsToken = result.data[@"login"][@"result"];
     if([needsToken isEqualToString:@"NeedToken"]){
-        NSString *token = [result getStringWithXpath:@"/api/login/@token"];
+        NSString *token = result.data[@"login"][@"token"];
         [builder param:@"lgtoken" :token];
         finalResult = [self makeRequest:[builder buildRequest:@"POST"]];
-        isSuccess = [finalResult getStringWithXpath:@"/api/login/@result"];
+        isSuccess = finalResult.data[@"login"][@"result"];
     }
     if ([isSuccess isEqualToString:@"Success"]) {
         isLoggedIn_ = YES;
@@ -112,7 +112,7 @@ id delegate;
 - (MWApiResult *)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment {
     
     MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
-    [[[[[[builder param:@"action" :@"upload" ] param:@"token" :[self editToken]]param:@"filename" :filename ] param:@"ignorewarnings" :@"1" ] param:@"comment" :comment] param:@"format" :@"xml"];
+    [[[[[[builder param:@"action" :@"upload" ] param:@"token" :[self editToken]]param:@"filename" :filename ] param:@"ignorewarnings" :@"1" ] param:@"comment" :comment] param:@"format" :@"json"];
     builder = (text != nil)? [builder param:@"text" :text] : builder;
     
     NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
@@ -131,7 +131,7 @@ id delegate;
 - (NSString *)editToken {
     MWApiRequestBuilder *builder = [[self action:@"tokens"] param:@"type" :@"edit"];
     MWApiResult *result = [self makeRequest:[builder buildRequest:@"GET"]];
-    return [result getStringWithXpath:@"/api/tokens/@edittoken"];
+    return [result.data[@"tokens"][@"edittoken"] copy];
 }
 
 - (MWApiResult *)makeRequest:(NSMutableURLRequest *)request

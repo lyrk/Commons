@@ -22,7 +22,7 @@
     if(self){
         params_ = [[NSMutableDictionary alloc] init];
         api_ = mwapi;
-        dataType_ = @"xml"; //default reponse format is set to xml 
+        dataType_ = @"json"; //default reponse format is set to json
     }
     return self;
 }

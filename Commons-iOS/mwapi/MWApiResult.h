@@ -11,18 +11,16 @@
 @interface MWApiResult : NSObject{
     NSURLRequest *request_;
     NSURLResponse *response_;
-    NSString *responseBody_;
     NSError *error_;
+    NSDictionary *data_;
 }
 
 @property (nonatomic,retain) NSURLRequest *request;
 @property (nonatomic,retain) NSURLResponse *response;
 @property (nonatomic,retain) NSString *responseBody;
 @property (nonatomic,retain) NSError *error;
+@property (nonatomic,retain) NSDictionary *data;
 
--(id) initWithRequest:(NSURLRequest *)request response:(NSURLResponse *)response responseBody:(NSString *)body errors:(NSError *)error;
--(NSArray *) getNodesWithXpath:(NSString *)xpath;
--(NSNumber *) getNumberWithXpath:(NSString *)xpath;
--(NSString *) getStringWithXpath:(NSString *)xpath;
+-(id) initWithRequest:(NSURLRequest *)request response:(NSURLResponse *)response responseBody:(NSData *)body errors:(NSError *)error;
 
 @end

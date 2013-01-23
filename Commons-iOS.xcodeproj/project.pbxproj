@@ -30,8 +30,6 @@
 		D4D0E1F7169BA5E2003047A8 /* MWApiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */; };
 		D4D0E1F8169BA5E2003047A8 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
 		D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
-		D4D0E1FA169BA5E2003047A8 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F1169BA5E2003047A8 /* XPathQuery.m */; };
-		D4D0E1FC169BA6D2003047A8 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D4D0E1FB169BA6D2003047A8 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,8 +62,6 @@
 		D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiResult.m; path = mwapi/MWApiResult.m; sourceTree = "<group>"; };
 		D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extras.m"; path = "mwapi/NSString+Extras.m"; sourceTree = "<group>"; };
 		D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+DictionaryRequest.m"; path = "mwapi/NSURLRequest+DictionaryRequest.m"; sourceTree = "<group>"; };
-		D4D0E1F1169BA5E2003047A8 /* XPathQuery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = XPathQuery.m; path = mwapi/XPathQuery.m; sourceTree = "<group>"; };
-		D4D0E1FB169BA6D2003047A8 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +70,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4C08F2A16AF47300069172D /* Security.framework in Frameworks */,
-				D4D0E1FC169BA6D2003047A8 /* libxml2.dylib in Frameworks */,
 				D4086171169B760800D6ACB0 /* UIKit.framework in Frameworks */,
 				D4086173169B760800D6ACB0 /* Foundation.framework in Frameworks */,
 				D4086175169B760800D6ACB0 /* CoreGraphics.framework in Frameworks */,
@@ -88,7 +83,6 @@
 			isa = PBXGroup;
 			children = (
 				D4C08F2916AF47300069172D /* Security.framework */,
-				D4D0E1FB169BA6D2003047A8 /* libxml2.dylib */,
 				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,
 				D408616F169B760800D6ACB0 /* Frameworks */,
@@ -157,7 +151,6 @@
 				D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */,
 				D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */,
 				D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */,
-				D4D0E1F1169BA5E2003047A8 /* XPathQuery.m */,
 			);
 			name = mwapi;
 			sourceTree = "<group>";
@@ -245,7 +238,6 @@
 				D4D0E1F7169BA5E2003047A8 /* MWApiResult.m in Sources */,
 				D4D0E1F8169BA5E2003047A8 /* NSString+Extras.m in Sources */,
 				D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */,
-				D4D0E1FA169BA5E2003047A8 /* XPathQuery.m in Sources */,
 				D408617D169B760800D6ACB0 /* main.m in Sources */,
 				D4086181169B760800D6ACB0 /* AppDelegate.m in Sources */,
 				D408618D169B760800D6ACB0 /* MainViewController.m in Sources */,
