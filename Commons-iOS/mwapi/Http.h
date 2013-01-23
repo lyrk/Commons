@@ -16,11 +16,9 @@
     NSURLResponse *response_;
 }
 
-+ (MWApiResult *)retrieveResponseSync:(NSURLRequest *)requestUrl;
 + (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))block;
 
 - (id)initWithRequest:(NSURLRequest *)requestUrl;
-- (MWApiResult *)retrieveResponseSync;
 - (void)retrieveResponseAsyncWithBlock:(void(^)(MWApiResult *))block;
 
 @end

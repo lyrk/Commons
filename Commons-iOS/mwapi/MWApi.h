@@ -33,14 +33,13 @@
 - (MWApiRequestBuilder *) action:(NSString *)action;
 - (NSArray *) authCookie;
 - (void) setAuthCookie:(NSArray *)newAuthCookie;
-- (BOOL) validateLogin;
+- (void) validateLogin:(void(^)(BOOL))block;
 - (BOOL) isLoggedIn;
 - (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block;
 - (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block;
 - (void) logout: onCompletion:(void(^)(MWApiResult *))block;
 - (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))block;
-- (NSString *)editToken;
-- (MWApiResult *)makeRequest:(NSURLRequest *)request;
+- (void)editToken:(void(^)(NSString *))block;
 - (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))block;;
 
 @end

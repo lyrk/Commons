@@ -66,12 +66,14 @@ id delegate;
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:each];
 }
 
-- (BOOL) validateLogin {
+- (void) validateLogin:(void(^)(BOOL))block
+{
     MWApiRequestBuilder *builder = [[self action:@"query"] param:@"meta" :@"userinfo"];
-    MWApiResult *result = [self makeRequest:[builder buildRequest:@"GET"]];
-    userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
-    userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
-    return ![userID_ isEqualToString:@"0"];
+    [self makeRequest:[builder buildRequest:@"GET"] onCompletion:^(MWApiResult *result) {
+        userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
+        userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
+        block(![userID_ isEqualToString:@"0"]);
+    }];
 }
 
 - (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block
@@ -116,34 +118,28 @@ id delegate;
 
 - (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))block {
     
-    MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
-    [builder params: @{
-        @"action": @"upload",
-        @"token": self.editToken,
-        @"filename": filename,
-        @"ignorewarnings": @"1",
-        @"comment": comment,
-        @"text": (text != nil) ? text : @"",
-        @"format": @"json"
+    [self editToken: ^(NSString *editToken) {
+        MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
+        [builder params: @{
+             @"action": @"upload",
+             @"token": editToken,
+             @"filename": filename,
+             @"ignorewarnings": @"1",
+             @"comment": comment,
+             @"text": (text != nil) ? text : @"",
+             @"format": @"json"
+        }];
+        
+        NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
+        [builder.api makeRequest:uploadRequest onCompletion:block];
     }];
-    
-    NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
-    [builder.api makeRequest:uploadRequest onCompletion:block];
 }
 
-- (NSString *)editToken {
+- (void)editToken:(void(^)(NSString *))block {
     MWApiRequestBuilder *builder = [[self action:@"tokens"] param:@"type" :@"edit"];
-    MWApiResult *result = [self makeRequest:[builder buildRequest:@"GET"]];
-    return [result.data[@"tokens"][@"edittoken"] copy];
-}
-
-- (MWApiResult *)makeRequest:(NSMutableURLRequest *)request
-{
-    if(!includeAuthCookie_){
-        [self clearAuthCookie];
-    }
-    MWApiResult *result = [Http retrieveResponseSync:request];
-    return result;
+    [self makeRequest:[builder buildRequest:@"GET"] onCompletion:^(MWApiResult *result) {
+        block([result.data[@"tokens"][@"edittoken"] copy]);
+    }];
 }
 
 - (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))block

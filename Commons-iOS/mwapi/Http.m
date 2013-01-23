@@ -10,12 +10,6 @@
 
 @implementation Http
 
-+ (MWApiResult *)retrieveResponseSync:(NSURLRequest *)requestUrl
-{
-    Http *http = [[Http alloc] initWithRequest:requestUrl];
-    return [http retrieveResponseSync];
-}
-
 + (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))block
 {
     Http *http = [[Http alloc] initWithRequest:requestUrl];
@@ -30,16 +24,6 @@
         data_ = nil;
     }
     return self;
-}
-
-- (MWApiResult *)retrieveResponseSync
-{
-    onCompletion_ = nil;
-    NSURLResponse *response;
-    NSError *error;
-    NSData* data = [NSURLConnection sendSynchronousRequest:requestUrl_ returningResponse:&response error:&error];
-    MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl_ response:response responseBody:data errors:error];
-    return result;
 }
 
 - (void)retrieveResponseAsyncWithBlock:(void(^)(MWApiResult *))block;
