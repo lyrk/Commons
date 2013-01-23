@@ -44,7 +44,7 @@
 
 - (void)retrieveResponseAsyncWithBlock:(void(^)(MWApiResult *))block;
 {
-    onCompletion_ = block;
+    onCompletion_ = [block copy];
     data_ = [[NSMutableData alloc] init];
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:requestUrl_ delegate:self];
     [connection start];
@@ -55,13 +55,20 @@
 - (void)connection:(NSURLConnection*) connection didReceiveResponse:(NSURLResponse *)response
 {
     NSLog(@"Response recieved");
+    response_ = response;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    NSLog(@"finished loading");
     if (onCompletion_ != nil) {
         NSError *error;
-        MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl_ response:response responseBody:data_ errors:error];
+        MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl_ response:response_ responseBody:data_ errors:error];
         onCompletion_(result);
 
         onCompletion_ = nil;
         data_ = nil;
+        response_ = nil;
     }
 }		
 

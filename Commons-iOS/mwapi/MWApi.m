@@ -74,43 +74,44 @@ id delegate;
     return ![userID_ isEqualToString:@"0"];
 }
 
-- (NSString *)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block
 {
-    NSString *isSuccess = nil;
-    MWApiResult *finalResult = nil;
     MWApiRequestBuilder *builder = [self action:@"login"];
     [builder params: @{
         @"lgname": username,
         @"lgpassword": password
     }];
-    MWApiResult *result = [self makeRequest:[builder buildRequest:@"POST"]];
-    NSString *needsToken = result.data[@"login"][@"result"];
-    if([needsToken isEqualToString:@"NeedToken"]){
-        NSString *token = result.data[@"login"][@"token"];
-        [builder param:@"lgtoken" :token];
-        finalResult = [self makeRequest:[builder buildRequest:@"POST"]];
-        isSuccess = finalResult.data[@"login"][@"result"];
-    }
-    if ([isSuccess isEqualToString:@"Success"]) {
-        isLoggedIn_ = YES;
-        if(doCookiePersist){
-            [self setAuthCookieFromResult:finalResult];
+    [self makeRequest:[builder buildRequest:@"POST"] onCompletion:^(MWApiResult *result) {
+        void (^complete)(MWApiResult *) = ^(MWApiResult *completeResult) {
+            if ([completeResult.data[@"login"][@"result"] isEqualToString:@"Success"]) {
+                isLoggedIn_ = YES;
+                if(doCookiePersist){
+                    [self setAuthCookieFromResult:completeResult];
+                }
+            }
+            block(completeResult);
+        };
+        if([result.data[@"login"][@"result"] isEqualToString:@"NeedToken"]){
+            NSString *token = result.data[@"login"][@"token"];
+            [builder param:@"lgtoken" :token];
+            [self makeRequest:[builder buildRequest:@"POST"] onCompletion:complete];
+        } else {
+            complete(result);
         }
-        return isSuccess;
-    }else{
-        return needsToken;
-    }
+    }];
 }
 
-- (NSString *)loginWithUsername:(NSString *)username andPassword:(NSString *)password {
-    return [self loginWithUsername:username andPassword:password withCookiePersistence:NO];
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block {
+    [self loginWithUsername:username andPassword:password withCookiePersistence:NO onCompletion:block];
 }
 
-- (void) logout {
+- (void) logout:onCompletion:(void(^)(MWApiResult *))block {
     MWApiRequestBuilder *builder = [self action:@"logout"];
-    [self makeRequest:[builder buildRequest:@"POST"]];
-    [self clearAuthCookie];
-    isLoggedIn_ = NO;
+    [self makeRequest:[builder buildRequest:@"POST"] onCompletion:^(MWApiResult *result) {
+        [self clearAuthCookie];
+        isLoggedIn_ = NO;
+        block(result);
+    }];
 }
 
 - (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))block {

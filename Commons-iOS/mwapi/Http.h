@@ -13,6 +13,7 @@
     NSURLRequest *requestUrl_;
     void (^onCompletion_)(MWApiResult *);
     NSMutableData *data_;
+    NSURLResponse *response_;
 }
 
 + (MWApiResult *)retrieveResponseSync:(NSURLRequest *)requestUrl;

@@ -95,13 +95,17 @@
     NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
     MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
 
-    NSString *loginResult = [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES];
-    NSLog(@"login: %@", loginResult);
-
-    [mwapi uploadFile:filename withFileData:jpeg text: desc comment:desc onCompletion:^(MWApiResult *uploadResult) {
-        NSLog(@"upload: %@", uploadResult);
-        
-        NSLog(@"done uploading...");
+    [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
+        NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
+        if (mwapi.isLoggedIn) {
+            [mwapi uploadFile:filename withFileData:jpeg text: desc comment:desc onCompletion:^(MWApiResult *uploadResult) {
+                NSLog(@"upload: %@", uploadResult.data);
+                
+                NSLog(@"done uploading...");
+            }];
+        } else {
+            NSLog(@"not logged in");
+        }
     }];
 }
 

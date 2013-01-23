@@ -35,9 +35,9 @@
 - (void) setAuthCookie:(NSArray *)newAuthCookie;
 - (BOOL) validateLogin;
 - (BOOL) isLoggedIn;
-- (NSString *)loginWithUsername:(NSString *)username andPassword:(NSString *)password;
-- (NSString *)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist;
-- (void) logout;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block;
+- (void) logout: onCompletion:(void(^)(MWApiResult *))block;
 - (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))block;
 - (NSString *)editToken;
 - (MWApiResult *)makeRequest:(NSURLRequest *)request;
