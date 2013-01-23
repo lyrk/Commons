@@ -150,7 +150,6 @@ id delegate;
     if(!includeAuthCookie_){
         [self clearAuthCookie];
     }
-    Http *http = [[Http alloc] initWithRequest:request];
-    [http retrieveResponseAsyncWithBlock:block];
+    [Http retrieveResponse:request onCompletion:block];
 }
 @end

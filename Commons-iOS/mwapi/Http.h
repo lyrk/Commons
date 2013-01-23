@@ -16,6 +16,7 @@
 }
 
 + (MWApiResult *)retrieveResponseSync:(NSURLRequest *)requestUrl;
++ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))block;
 
 - (id)initWithRequest:(NSURLRequest *)requestUrl;
 - (MWApiResult *)retrieveResponseSync;

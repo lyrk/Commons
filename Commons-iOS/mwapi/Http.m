@@ -16,6 +16,12 @@
     return [http retrieveResponseSync];
 }
 
++ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))block
+{
+    Http *http = [[Http alloc] initWithRequest:requestUrl];
+    [http retrieveResponseAsyncWithBlock: block];
+}
+
 - (id)initWithRequest:(NSURLRequest *)requestUrl
 {
     if ([self init]) {
