@@ -21,6 +21,7 @@
 
 -(id) initWithApi:(MWApi *)mwapi;
 -(id) param:(NSString *) key : (id) value;
+-(id) params:(NSDictionary *) keyval;
 -(NSURLRequest *)buildRequest:(NSString *)requestType;
 -(void)dataType:(NSString *)type;
 

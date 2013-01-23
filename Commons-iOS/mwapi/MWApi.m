@@ -78,7 +78,11 @@ id delegate;
 {
     NSString *isSuccess = nil;
     MWApiResult *finalResult = nil;
-    MWApiRequestBuilder *builder = [[[self action:@"login"] param:@"lgname" :username] param:@"lgpassword" :password];
+    MWApiRequestBuilder *builder = [self action:@"login"];
+    [builder params: @{
+        @"lgname": username,
+        @"lgpassword": password
+    }];
     MWApiResult *result = [self makeRequest:[builder buildRequest:@"POST"]];
     NSString *needsToken = result.data[@"login"][@"result"];
     if([needsToken isEqualToString:@"NeedToken"]){
@@ -112,8 +116,15 @@ id delegate;
 - (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))block {
     
     MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
-    [[[[[[builder param:@"action" :@"upload" ] param:@"token" :[self editToken]]param:@"filename" :filename ] param:@"ignorewarnings" :@"1" ] param:@"comment" :comment] param:@"format" :@"json"];
-    builder = (text != nil)? [builder param:@"text" :text] : builder;
+    [builder params: @{
+        @"action": @"upload",
+        @"token": self.editToken,
+        @"filename": filename,
+        @"ignorewarnings": @"1",
+        @"comment": comment,
+        @"text": (text != nil) ? text : @"",
+        @"format": @"json"
+    }];
     
     NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
     [builder.api makeRequest:uploadRequest onCompletion:block];

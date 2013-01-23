@@ -33,6 +33,13 @@
     return self;
 }
 
+-(id) params:(NSDictionary *) keyval {
+    for (NSString *key in keyval) {
+        [self param:key :keyval[key]];
+    }
+    return self;
+}
+
 -(void)dataType:(NSString *)type
 {
     dataType_ = type;
