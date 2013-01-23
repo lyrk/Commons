@@ -98,10 +98,11 @@
     NSString *loginResult = [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES];
     NSLog(@"login: %@", loginResult);
 
-    MWApiResult *uploadResult = [mwapi uploadFile:filename withFileData:jpeg text: desc comment:desc];
-    NSLog(@"upload: %@", uploadResult);
-    
-    NSLog(@"done uploading...");
+    [mwapi uploadFile:filename withFileData:jpeg text: desc comment:desc onCompletion:^(MWApiResult *uploadResult) {
+        NSLog(@"upload: %@", uploadResult);
+        
+        NSLog(@"done uploading...");
+    }];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info

@@ -109,23 +109,14 @@ id delegate;
     isLoggedIn_ = NO;
 }
 
-- (MWApiResult *)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment {
+- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))block {
     
     MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
     [[[[[[builder param:@"action" :@"upload" ] param:@"token" :[self editToken]]param:@"filename" :filename ] param:@"ignorewarnings" :@"1" ] param:@"comment" :comment] param:@"format" :@"json"];
     builder = (text != nil)? [builder param:@"text" :text] : builder;
     
     NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
-    return [builder.api makeRequest:uploadRequest];
-}
-
-- (MWApiResult *)uploadFile:(NSString *)filename withFilepath:(NSString *)filepath text:(NSString *)text comment:(NSString *)comment {
-    NSData *data = [NSData dataWithContentsOfFile:filepath];
-    return [self uploadFile:filename withFileData:data text:text comment:comment];
-}
-
-- (MWApiResult *)uploadFile:(NSString *)filename withFilepath:(NSString *)filepath comment:(NSString *)comment {
-    return [self uploadFile:filename withFilepath:filepath text:nil comment:comment];
+    [builder.api makeRequest:uploadRequest onCompletion:block];
 }
 
 - (NSString *)editToken {
@@ -141,5 +132,14 @@ id delegate;
     }
     MWApiResult *result = [Http retrieveResponseSync:request];
     return result;
+}
+
+- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))block
+{
+    if(!includeAuthCookie_){
+        [self clearAuthCookie];
+    }
+    Http *http = [[Http alloc] initWithRequest:request];
+    [http retrieveResponseAsyncWithBlock:block];
 }
 @end
