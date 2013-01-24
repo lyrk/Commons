@@ -12,13 +12,14 @@
 @interface Http : NSObject <NSURLConnectionDataDelegate> {
     NSURLRequest *requestUrl_;
     void (^onCompletion_)(MWApiResult *);
+    void (^onProgress_)(NSInteger,NSInteger);
     NSMutableData *data_;
     NSURLResponse *response_;
 }
 
-+ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))block;
++ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
 
 - (id)initWithRequest:(NSURLRequest *)requestUrl;
-- (void)retrieveResponseAsyncWithBlock:(void(^)(MWApiResult *))block;
+- (void)retrieveResponseOnCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
 
 @end

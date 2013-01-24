@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UITextView *DescriptionTextView;
 @property (weak, nonatomic) IBOutlet UIButton *UploadButton;
 @property (weak, nonatomic) IBOutlet UIImageView *imagePreview;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 - (IBAction)pushedPhotoButton:(id)sender;
 - (IBAction)pushedGalleryButton:(id)sender;

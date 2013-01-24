@@ -10,10 +10,10 @@
 
 @implementation Http
 
-+ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))block
++ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
 {
     Http *http = [[Http alloc] initWithRequest:requestUrl];
-    [http retrieveResponseAsyncWithBlock: block];
+    [http retrieveResponseOnCompletion:completionBlock onProgress:progressBlock];
 }
 
 - (id)initWithRequest:(NSURLRequest *)requestUrl
@@ -26,9 +26,10 @@
     return self;
 }
 
-- (void)retrieveResponseAsyncWithBlock:(void(^)(MWApiResult *))block;
+- (void)retrieveResponseOnCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
 {
-    onCompletion_ = [block copy];
+    onCompletion_ = [completionBlock copy];
+    onProgress_ = [progressBlock copy];
     data_ = [[NSMutableData alloc] init];
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:requestUrl_ delegate:self];
     [connection start];
@@ -51,6 +52,7 @@
         onCompletion_(result);
 
         onCompletion_ = nil;
+        onProgress_ = nil;
         data_ = nil;
         response_ = nil;
     }
@@ -71,7 +73,10 @@
 
 - (void) connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    
+    if (onProgress_ != nil) {
+        NSLog(@"%i %i %i", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+        onProgress_(totalBytesWritten, totalBytesExpectedToWrite);
+    }
 }
 
 @end

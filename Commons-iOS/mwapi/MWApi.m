@@ -116,8 +116,8 @@ id delegate;
     }];
 }
 
-- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))block {
-    
+- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock
+{
     [self editToken: ^(NSString *editToken) {
         MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
         [builder params: @{
@@ -131,7 +131,7 @@ id delegate;
         }];
         
         NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
-        [builder.api makeRequest:uploadRequest onCompletion:block];
+        [builder.api makeRequest:uploadRequest onCompletion:completionBlock onProgress: progressBlock];
     }];
 }
 
@@ -142,11 +142,17 @@ id delegate;
     }];
 }
 
-- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))block
+- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock
 {
     if(!includeAuthCookie_){
         [self clearAuthCookie];
     }
-    [Http retrieveResponse:request onCompletion:block];
+    [Http retrieveResponse:request onCompletion:completionBlock onProgress:progressBlock];
 }
+
+- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))block
+{
+    [self makeRequest: request onCompletion:block onProgress:nil];
+}
+
 @end

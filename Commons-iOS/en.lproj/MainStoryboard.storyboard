@@ -101,6 +101,12 @@
                                     <constraint firstAttribute="height" constant="179" id="1OU-ai-FVA"/>
                                 </constraints>
                             </imageView>
+                            <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="y1e-sR-bPP">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="Z1Y-4H-ltI"/>
+                                </constraints>
+                            </progressView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="pd7-ag-Tps"/>
                         </subviews>
                         <color key="backgroundColor" white="0.25" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -113,16 +119,20 @@
                             <constraint firstAttribute="trailing" secondItem="vsL-FI-ZH6" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="V3W-hH-NFg"/>
                             <constraint firstAttribute="trailing" secondItem="dCH-6U-das" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="V5c-h6-phV"/>
                             <constraint firstItem="s1d-gM-vJv" firstAttribute="top" secondItem="3" secondAttribute="top" constant="58" id="Vyz-HM-SXJ"/>
+                            <constraint firstAttribute="bottom" secondItem="y1e-sR-bPP" secondAttribute="bottom" constant="25" id="Wvv-8F-HgD"/>
                             <constraint firstItem="s1d-gM-vJv" firstAttribute="baseline" secondItem="ZrF-YQ-ZzZ" secondAttribute="baseline" type="default" id="XH8-BC-KVq"/>
+                            <constraint firstItem="y1e-sR-bPP" firstAttribute="centerX" secondItem="dCH-6U-das" secondAttribute="centerX" type="default" id="ZOz-x2-Jur"/>
                             <constraint firstAttribute="trailing" secondItem="10" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="apl-1S-UOC"/>
                             <constraint firstAttribute="bottom" secondItem="10" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="bcr-if-aDO"/>
                             <constraint firstItem="vsL-FI-ZH6" firstAttribute="top" secondItem="dG6-OO-iRf" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="f2B-U0-Z5R"/>
                             <constraint firstItem="dCH-6U-das" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="j7Y-o5-eSF"/>
                             <constraint firstItem="s1d-gM-vJv" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="lPW-FO-ecE"/>
                             <constraint firstItem="dG6-OO-iRf" firstAttribute="top" secondItem="s1d-gM-vJv" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="m0D-Wn-HzA"/>
+                            <constraint firstItem="pd7-ag-Tps" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="oTT-QF-aJt"/>
                             <constraint firstItem="dG6-OO-iRf" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="oc1-Ns-Y76"/>
                             <constraint firstItem="JAn-3X-Reg" firstAttribute="leading" secondItem="3" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="pO5-re-65l"/>
                             <constraint firstItem="JAn-3X-Reg" firstAttribute="baseline" secondItem="s1d-gM-vJv" secondAttribute="baseline" type="default" id="s3e-4F-dRo"/>
+                            <constraint firstItem="pd7-ag-Tps" firstAttribute="top" secondItem="10" secondAttribute="top" type="default" id="tGB-8b-MIF"/>
                             <constraint firstItem="dCH-6U-das" firstAttribute="top" secondItem="vsL-FI-ZH6" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="yzr-Pk-vPK"/>
                             <constraint firstItem="4M6-PK-rE1" firstAttribute="trailing" secondItem="3" secondAttribute="trailing" type="default" id="z0f-Jg-TXN"/>
                         </constraints>
@@ -133,7 +143,9 @@
                         <outlet property="GalleryButton" destination="ZrF-YQ-ZzZ" id="KyS-ZW-SZz"/>
                         <outlet property="TakePhotoButton" destination="s1d-gM-vJv" id="CYY-tQ-YcU"/>
                         <outlet property="UploadButton" destination="vsL-FI-ZH6" id="lgg-Nd-UZN"/>
+                        <outlet property="activityIndicator" destination="pd7-ag-Tps" id="xlf-01-DQn"/>
                         <outlet property="imagePreview" destination="dCH-6U-das" id="jPw-BT-cfY"/>
+                        <outlet property="progressBar" destination="y1e-sR-bPP" id="eOR-iH-8Qf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
@@ -226,7 +238,9 @@
                 <relationship kind="outlet" name="GalleryButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="TakePhotoButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="UploadButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="imagePreview" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="progressBar" candidateClass="UIProgressView"/>
             </relationships>
         </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
