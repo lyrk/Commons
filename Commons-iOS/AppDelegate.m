@@ -14,6 +14,7 @@
 {
     // Override point for customization after application launch.
     [self loadCredentials];
+    [self setupData];
     
     return YES;
 }
@@ -128,6 +129,43 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)setupData
+{
+    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
+    
+    NSArray* documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* documentRootPath = [documentPaths objectAtIndex:0];
+    NSString* dataPath = [documentRootPath stringByAppendingString:@"/uploads.sqlite"];
+    NSLog(@"data path: %@", dataPath);
+    NSURL *url = [NSURL fileURLWithPath:dataPath];
+    
+    NSError *error;
+    if ([persistentStoreCoordinator addPersistentStoreWithType: NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) {
+        NSLog(@"Created persistent store.");
+    } else {
+        NSLog(@"Error creating persistent store coordinator: %@", error.localizedFailureReason);
+    }
+    self.context = [[NSManagedObjectContext alloc] init];
+    self.context.persistentStoreCoordinator = persistentStoreCoordinator;
+}
+
+- (void)saveData
+{
+    NSError *error;
+    BOOL success = [self.context save:&error];
+    if (success) {
+        NSLog(@"Saved database.");
+    } else {
+        NSLog(@"Error saving database: %@", error.localizedFailureReason);
+    }
+}
+
+- (FileUpload *)createUploadRecord
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"FileUpload" inManagedObjectContext:self.context];
 }
 
 @end

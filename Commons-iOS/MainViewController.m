@@ -9,6 +9,7 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "mwapi/MWApi.h"
+#import "FileUpload.h"
 
 @interface MainViewController ()
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -93,6 +94,13 @@
 
     NSLog(@"username: %@, desc: %@, jpeg: %i bytes", username, desc, (int)(jpeg.length));
     
+    // quick hack: save some temp data
+    FileUpload *record = [self.appDelegate createUploadRecord];
+    record.title = filename;
+    record.desc = desc;
+    record.fileType = @"image/jpeg";
+    [self.appDelegate saveData];
+
     // hack hack hack
     // Upload the file
     NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
