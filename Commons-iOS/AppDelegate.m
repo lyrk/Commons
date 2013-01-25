@@ -15,6 +15,7 @@
     // Override point for customization after application launch.
     [self loadCredentials];
     [self setupData];
+    [self fetchUploadRecords];
     
     return YES;
 }
@@ -166,6 +167,25 @@
 - (FileUpload *)createUploadRecord
 {
     return [NSEntityDescription insertNewObjectForEntityForName:@"FileUpload" inManagedObjectContext:self.context];
+}
+
+- (NSArray *)fetchUploadRecords
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES selector:nil];
+    fetchRequest.sortDescriptors = @[sortDescriptor];
+
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"FileUpload"
+                                              inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    NSError *error = nil;
+    NSArray *fetchedObjects = [self.context
+                               executeFetchRequest:fetchRequest error:&error];
+
+    for (FileUpload *file in fetchedObjects) {
+        NSLog(@"found: %@", file.title);
+    }
+    return fetchedObjects;
 }
 
 @end
