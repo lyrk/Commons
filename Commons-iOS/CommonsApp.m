@@ -168,4 +168,9 @@ static CommonsApp *singleton_;
     return fetchedObjects;
 }
 
+- (void)prepareImage:(UIImage *)image
+{
+    self.image = image;
+}
+
 @end
