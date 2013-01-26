@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TableViewController : UITableViewController <UIImagePickerControllerDelegate>
+@interface TableViewController : UITableViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;

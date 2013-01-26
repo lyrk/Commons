@@ -3,12 +3,14 @@
     <entity name="FileUpload" representedClassName="FileUpload" syncable="YES">
         <attribute name="assetUrl" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="filePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="fileSize" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="fileType" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="localFile" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="progress" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="thumbnailFile" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="FileUpload" positionX="160" positionY="192" width="128" height="135"/>
+        <element name="FileUpload" positionX="160" positionY="192" width="128" height="165"/>
     </elements>
 </model>

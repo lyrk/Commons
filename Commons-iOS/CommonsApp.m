@@ -168,9 +168,42 @@ static CommonsApp *singleton_;
     return fetchedObjects;
 }
 
-- (void)prepareImage:(UIImage *)image
+- (void)prepareImage:(NSDictionary *)info
 {
+    // hack hack
+    NSData *data = [self getImageData:info];
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
     self.image = image;
+
+    NSString *filename = [NSString stringWithFormat:@"Testfile %li.jpg", (long)[[NSDate date] timeIntervalSince1970]];
+    NSString *desc = @"temporary description text";
+
+    
+    FileUpload *record = [self createUploadRecord];
+    
+    record.title = filename;
+    record.desc = desc;
+
+    record.fileType = @"image/jpeg";
+    record.fileSize = [NSNumber numberWithInteger:[data length]];
+    record.progress = @0.0f;
+    
+    // save local file
+    //record.localFile = @"";
+    //record.assetUrl = @"";
+
+    // save thumbnail
+    //record.thumbnailFile = [self saveThumbnail: image];
+    
+
+    [self saveData];
+}
+
+- (NSData *)getImageData:(NSDictionary *)info
+{
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
+    return jpeg;
 }
 
 @end

@@ -2,7 +2,7 @@
 //  FileUpload.h
 //  Commons-iOS
 //
-//  Created by Brion on 1/24/13.
+//  Created by Brion on 1/25/13.
 //  Copyright (c) 2013 Wikimedia. All rights reserved.
 //
 
@@ -12,11 +12,13 @@
 
 @interface FileUpload : NSManagedObject
 
-@property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSString * assetUrl;
-@property (nonatomic, retain) NSString * filePath;
 @property (nonatomic, retain) NSString * desc;
+@property (nonatomic, retain) NSString * localFile;
 @property (nonatomic, retain) NSString * fileType;
-@property (nonatomic, retain) NSData * thumbnail;
+@property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSNumber * progress;
+@property (nonatomic, retain) NSString * thumbnailFile;
+@property (nonatomic, retain) NSNumber * fileSize;
 
 @end

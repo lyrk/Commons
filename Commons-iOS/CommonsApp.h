@@ -25,6 +25,7 @@
 - (void)saveCredentials;
 - (void)saveData;
 - (FileUpload *)createUploadRecord;
-- (void)prepareImage:(UIImage *)image;
+- (void)prepareImage:(NSDictionary *)info;
+- (NSData *)getImageData:(NSDictionary *)info;
 
 @end

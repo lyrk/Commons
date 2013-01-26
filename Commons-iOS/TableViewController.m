@@ -145,17 +145,12 @@
     NSString *password = app.password;
     NSString *desc = @"temporary description text";
     NSString *filename = [NSString stringWithFormat:@"Testfile %li.jpg", (long)[[NSDate date] timeIntervalSince1970]];
+    
+    // @FIXMEEEE
     UIImage *image = app.image;
     NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
     
     NSLog(@"username: %@, desc: %@, jpeg: %i bytes", username, desc, (int)(jpeg.length));
-    
-    // quick hack: save some temp data
-    FileUpload *record = [app createUploadRecord];
-    record.title = filename;
-    record.desc = desc;
-    record.fileType = @"image/jpeg";
-    [app saveData];
     
     // hack hack hack
     // Upload the file
@@ -230,8 +225,7 @@
      }
      */
     NSLog(@"picked: %@", info);
-    UIImage *image = info[UIImagePickerControllerOriginalImage];
-    [CommonsApp.singleton prepareImage:image];
+    [CommonsApp.singleton prepareImage:info];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
