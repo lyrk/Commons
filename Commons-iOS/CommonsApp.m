@@ -130,6 +130,11 @@ static CommonsApp *singleton_;
     return [[self documentRootPath] stringByAppendingFormat:@"/thumbs/%@", fileName];
 }
 
+- (NSString *)thumbPath2x:(NSString *)fileName
+{
+    return [[[self thumbPath:fileName] stringByDeletingPathExtension] stringByAppendingString:@"@2x.jpg"];
+}
+
 - (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
 {
     // fixme include some nice randoms
@@ -245,8 +250,7 @@ static CommonsApp *singleton_;
                 // @fixme delete the data
                 NSLog(@"upload: %@", uploadResult.data);
                 if (completionBlock != nil) {
-                    [self.context deleteObject:record];
-                    [self saveData];
+                    [self deleteUploadRecord:record];
                     completionBlock();
                 }
             };
@@ -296,6 +300,19 @@ static CommonsApp *singleton_;
     [self saveData];
 }
 
+- (void)deleteUploadRecord:(FileUpload *)record
+{
+    if (record.localFile) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSError *error;
+        [fm removeItemAtPath: [self filePath:record.localFile] error:&error];
+        [fm removeItemAtPath: [self thumbPath:record.thumbnailFile] error:&error];
+        [fm removeItemAtPath: [self thumbPath2x:record.thumbnailFile] error:&error];
+    }
+    [self.context deleteObject:record];
+    [self saveData];
+}
+
 - (NSData *)getImageData:(NSDictionary *)info
 {
     UIImage *image = info[UIImagePickerControllerOriginalImage];
@@ -315,20 +332,26 @@ static CommonsApp *singleton_;
 {
     // hack: do actual thumbnailing
     NSString *thumbName = [self uniqueFilenameWithExtension:@"jpg"];
-    [self saveRawThumbnail:image withName:thumbName size:64];
-
-    NSString *thumbName2x = [[thumbName stringByDeletingPathExtension] stringByAppendingString:@"@2x.jpg"];
-    [self saveRawThumbnail:image withName:thumbName2x size:128];
+    [self saveRawThumbnail:image withName:thumbName retina:NO];
+    [self saveRawThumbnail:image withName:thumbName retina:YES];
 
     return thumbName;
 }
 
-- (void)saveRawThumbnail:(UIImage *)image withName:(NSString *)thumbName size:(NSInteger)size
+- (void)saveRawThumbnail:(UIImage *)image withName:(NSString *)thumbName retina:(BOOL)isRetina
 {
+    NSInteger size;
+    NSString *thumbPath;
+    if (isRetina) {
+        size = 128;
+        thumbPath = [self thumbPath2x:thumbName];
+    } else {
+        size = 64;
+        thumbPath = [self thumbPath:thumbName];
+    }
     UIImage *thumb = [self makeThumbnail:image size:size];
     NSData *data = UIImageJPEGRepresentation(thumb, 0.7);
 
-    NSString *thumbPath = [self thumbPath:thumbName];
     [data writeToFile:thumbPath atomically:YES];
 }
 
