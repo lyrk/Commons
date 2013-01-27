@@ -214,9 +214,13 @@ static CommonsApp *singleton_;
 
 - (FileUpload *)firstUploadRecord
 {
-    // hack
     NSFetchedResultsController *controller = [self fetchUploadRecords];
-    return controller.fetchedObjects[0];
+    NSArray *objs = controller.fetchedObjects;
+    if (objs.count) {
+        return objs[0];
+    } else {
+        return nil;
+    }
 }
 
 - (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
@@ -236,13 +240,13 @@ static CommonsApp *singleton_;
             record.progress = @0.0f;
             void (^progress)(NSInteger, NSInteger) = ^(NSInteger bytesSent, NSInteger bytesTotal) {
                 record.progress = [NSNumber numberWithFloat:(float)bytesSent / (float)bytesTotal];
-                //[self saveData];
             };
-            //[self saveData];
             void (^complete)(MWApiResult *) = ^(MWApiResult *uploadResult) {
                 // @fixme delete the data
                 NSLog(@"upload: %@", uploadResult.data);
                 if (completionBlock != nil) {
+                    [self.context deleteObject:record];
+                    [self saveData];
                     completionBlock();
                 }
             };

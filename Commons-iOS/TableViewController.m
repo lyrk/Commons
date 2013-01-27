@@ -159,13 +159,21 @@
 
 - (IBAction)uploadButtonPushed:(id)sender {
     NSLog(@"Upload ye files!");
-    
-    CommonsApp *app = CommonsApp.singleton;
-    FileUpload *record = [app firstUploadRecord];
-    [app beginUpload:record completion:^() {
-        //
-        NSLog(@"done uploading");
-    }];
+
+    __block void (^run)() = ^() {
+        CommonsApp *app = CommonsApp.singleton;
+        FileUpload *record = [app firstUploadRecord];
+        if (record != nil) {
+            [app beginUpload:record completion:^() {
+                NSLog(@"completed an upload, going on to next");
+                run();
+            }];
+        } else {
+            NSLog(@"no more uploads");
+            run = nil;
+        }
+    };
+    run();
 }
 
 - (IBAction)takePhotoButtonPushed:(id)sender {
