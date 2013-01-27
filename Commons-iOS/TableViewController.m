@@ -215,7 +215,7 @@
      }
      */
     NSLog(@"picked: %@", info);
-    [CommonsApp.singleton prepareImage:info];
+    [CommonsApp.singleton prepareImage:info onCompletion:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Wikimedia. All rights reserved.
 //
 
+#import <AssetsLibrary/AssetsLibrary.h>
+
 #import "CommonsApp.h"
 #import "mwapi/MWApi.h"
 
@@ -266,38 +268,41 @@ static CommonsApp *singleton_;
     }];
 }
 
-- (void)prepareImage:(NSDictionary *)info
+- (void)prepareImage:(NSDictionary *)info onCompletion:(void(^)())completionBlock
 {
-    // hack hack
-    NSData *data = [self getImageData:info];
-    UIImage *image = info[UIImagePickerControllerOriginalImage];
-    self.image = image;
+    void (^done)() = [completionBlock copy];
+    [self getImageData:info onCompletion:^(NSData *data) {
+        UIImage *image = info[UIImagePickerControllerOriginalImage];
+        
+        NSString *filename = [NSString stringWithFormat:@"Testfile %li.jpg", (long)[[NSDate date] timeIntervalSince1970]];
+        NSString *desc = @"temporary description text";
+        
+        
+        FileUpload *record = [self createUploadRecord];
+        
+        record.created = [NSDate date];
+        record.title = filename;
+        record.desc = desc;
+        
+        record.fileType = @"image/jpeg";
+        record.fileSize = [NSNumber numberWithInteger:[data length]];
+        record.progress = @0.0f;
+        
+        // save local file
+        record.localFile = [self saveFile: data forType:record.fileType];
+        
+        // FIXME -- save only asset URL
+        //record.assetUrl = @"";
 
-    NSString *filename = [NSString stringWithFormat:@"Testfile %li.jpg", (long)[[NSDate date] timeIntervalSince1970]];
-    NSString *desc = @"temporary description text";
+        // save thumbnail
+        record.thumbnailFile = [self saveThumbnail:image];
 
-    
-    FileUpload *record = [self createUploadRecord];
-    
-    record.created = [NSDate date];
-    record.title = filename;
-    record.desc = desc;
-
-    record.fileType = @"image/jpeg";
-    record.fileSize = [NSNumber numberWithInteger:[data length]];
-    record.progress = @0.0f;
-    
-    // save local file
-    record.localFile = [self saveFile: data forType:record.fileType];
-
-    // FIXME -- save only asset URL
-    //record.assetUrl = @"";
-
-    // save thumbnail
-    record.thumbnailFile = [self saveThumbnail:image];
-    
-
-    [self saveData];
+        [self saveData];
+        
+        if (done != nil) {
+            done();
+        }
+    }];
 }
 
 - (void)deleteUploadRecord:(FileUpload *)record
@@ -313,11 +318,44 @@ static CommonsApp *singleton_;
     [self saveData];
 }
 
-- (NSData *)getImageData:(NSDictionary *)info
+- (void)getImageData:(NSDictionary *)info onCompletion:(void (^)(NSData *))completionBlock
 {
+    void (^done)(NSData *) = [completionBlock copy];
     UIImage *image = info[UIImagePickerControllerOriginalImage];
-    NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
-    return jpeg;
+    NSURL *url = info[UIImagePickerControllerReferenceURL];
+    if (url != nil) {
+        [self getAssetImageData: url onCompletion:completionBlock];
+    } else {
+        NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
+        // how to dispatch?
+        if (done != nil) {
+            done(jpeg);
+        }
+    }
+}
+
+- (void)getAssetImageData:(NSURL *)url onCompletion:(void (^)(NSData *))completionBlock
+{
+    __block void (^done)(NSData *) = [completionBlock copy];
+
+    void (^complete)(ALAsset *) = ^(ALAsset *asset) {
+        ALAssetRepresentation *rep = [asset defaultRepresentation];
+        Byte *buffer = (Byte*)malloc(rep.size);
+        NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
+        NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
+        done(data);
+        done = nil;
+    };
+
+    void (^fail)(NSError*) = ^(NSError *err) {
+        NSLog(@"Error: %@",[err localizedDescription]);
+        done(nil);
+        done = nil;
+    };
+    ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
+    [assetLibrary assetForURL:url
+                  resultBlock:complete
+                 failureBlock:fail];
 }
 
 - (NSString *)saveFile:(NSData *)data forType:(NSString *)fileType

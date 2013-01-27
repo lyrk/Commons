@@ -25,6 +25,7 @@
 		D450A0E116B347BE00D1D1E2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
 		D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
+		D4896B5116B5C97D009A35FA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */; };
 		D49F79B516B33A4B00850EF0 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D49F79B416B33A4B00850EF0 /* TableViewController.m */; };
 		D4C08F2A16AF47300069172D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
 		D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */ = {isa = PBXBuildFile; fileRef = D4D0E1E7169BA0F4003047A8 /* mwapi */; };
@@ -71,6 +72,7 @@
 		D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonsApp.m; sourceTree = "<group>"; };
 		D450A0F716B366E200D1D1E2 /* FileUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUpload.h; sourceTree = "<group>"; };
 		D450A0F816B366E200D1D1E2 /* FileUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUpload.m; sourceTree = "<group>"; };
+		D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D49F79B316B33A4B00850EF0 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		D49F79B416B33A4B00850EF0 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		D4C08F2916AF47300069172D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -89,6 +91,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4896B5116B5C97D009A35FA /* AssetsLibrary.framework in Frameworks */,
 				D41B99F516B1CEB50045BEB5 /* CoreData.framework in Frameworks */,
 				D4C08F2A16AF47300069172D /* Security.framework in Frameworks */,
 				D4086171169B760800D6ACB0 /* UIKit.framework in Frameworks */,
@@ -103,6 +106,7 @@
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
+				D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */,
 				D41B99F416B1CEB50045BEB5 /* CoreData.framework */,
 				D4C08F2916AF47300069172D /* Security.framework */,
 				D4D0E1C7169BA036003047A8 /* API headers */,

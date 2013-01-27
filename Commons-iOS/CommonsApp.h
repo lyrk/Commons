@@ -36,8 +36,8 @@
 - (FileUpload *)firstUploadRecord;
 - (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
 
-- (void)prepareImage:(NSDictionary *)info;
-- (NSData *)getImageData:(NSDictionary *)info;
+- (void)prepareImage:(NSDictionary *)info onCompletion:(void(^)())completionBlock;
+- (void)deleteUploadRecord:(FileUpload *)record;
 - (UIImage *)makeThumbnail:(UIImage *)image size:(NSInteger)size;
 
 @end
