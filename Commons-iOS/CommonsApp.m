@@ -233,13 +233,13 @@ static CommonsApp *singleton_;
     record.progress = @0.0f;
     
     // save local file
-    NSString *localFile = [self saveFile: data forType:record.fileType];
+    record.localFile = [self saveFile: data forType:record.fileType];
 
     // FIXME -- save only asset URL
     //record.assetUrl = @"";
 
     // save thumbnail
-    record.thumbnailFile = [self saveThumbnail: image];
+    record.thumbnailFile = [self saveThumbnail:image];
     
 
     [self saveData];
@@ -264,10 +264,33 @@ static CommonsApp *singleton_;
 {
     // hack: do actual thumbnailing
     NSString *thumbName = [self uniqueFilenameWithExtension:@"jpg"];
-    NSString *thumbPath = [self thumbPath:thumbName];
-    NSData *data = UIImageJPEGRepresentation(image, 0.9);
-    
-    [data writeToFile:thumbPath atomically:YES];
+    [self saveRawThumbnail:image withName:thumbName size:64];
+
+    NSString *thumbName2x = [[thumbName stringByDeletingPathExtension] stringByAppendingString:@"@2x.jpg"];
+    [self saveRawThumbnail:image withName:thumbName2x size:128];
+
     return thumbName;
 }
+
+- (void)saveRawThumbnail:(UIImage *)image withName:(NSString *)thumbName size:(NSInteger)size
+{
+    UIImage *thumb = [self makeThumbnail:image size:size];
+    NSData *data = UIImageJPEGRepresentation(thumb, 0.7);
+
+    NSString *thumbPath = [self thumbPath:thumbName];
+    [data writeToFile:thumbPath atomically:YES];
+}
+
+- (UIImage *)makeThumbnail:(UIImage *)image size:(NSInteger)size
+{
+    CGSize newSize = CGSizeMake((float)size, (float)size);
+
+    UIGraphicsBeginImageContext(newSize);
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    return newImage;
+}
+
 @end

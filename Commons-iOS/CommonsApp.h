@@ -36,5 +36,6 @@
 
 - (void)prepareImage:(NSDictionary *)info;
 - (NSData *)getImageData:(NSDictionary *)info;
+- (UIImage *)makeThumbnail:(UIImage *)image size:(NSInteger)size;
 
 @end
