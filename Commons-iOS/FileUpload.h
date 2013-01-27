@@ -13,6 +13,7 @@
 @interface FileUpload : NSManagedObject
 
 @property (nonatomic, retain) NSString * assetUrl;
+@property (nonatomic, retain) NSDate * created;
 @property (nonatomic, retain) NSString * desc;
 @property (nonatomic, retain) NSString * localFile;
 @property (nonatomic, retain) NSString * fileType;
@@ -20,5 +21,7 @@
 @property (nonatomic, retain) NSNumber * progress;
 @property (nonatomic, retain) NSString * thumbnailFile;
 @property (nonatomic, retain) NSNumber * fileSize;
+
+- (NSString *)prettySize;
 
 @end

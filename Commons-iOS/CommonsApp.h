@@ -24,13 +24,17 @@
 - (void)loadCredentials;
 - (void)saveCredentials;
 
+- (NSString *)documentRootPath;
+- (NSString *)filePath:(NSString *)fileName;
+- (NSString *)thumbPath:(NSString *)fileName;
+- (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
+- (UIImage *)loadThumbnail:(NSString *)fileName;
+
 - (void)saveData;
 - (NSFetchedResultsController *)fetchUploadRecords;
 - (FileUpload *)createUploadRecord;
 
 - (void)prepareImage:(NSDictionary *)info;
 - (NSData *)getImageData:(NSDictionary *)info;
-
-- (NSString *)prettySize:(NSInteger)size;
 
 @end

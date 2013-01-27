@@ -83,7 +83,9 @@
     // Configure the cell...
     FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.titleLabel.text = record.title;
-    cell.sizeLabel.text = [app prettySize:record.fileSize.integerValue];
+    cell.sizeLabel.text = record.prettySize;
+    cell.progressBar.progress = record.progress.floatValue;
+    cell.image.image = [app loadThumbnail: record.thumbnailFile];
     
     return cell;
 }

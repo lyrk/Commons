@@ -112,14 +112,57 @@ static CommonsApp *singleton_;
     }
 }
 
+- (NSString *)documentRootPath
+{
+    NSArray* documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* documentRootPath = [documentPaths objectAtIndex:0];
+    return documentRootPath;
+}
+
+- (NSString *)filePath:(NSString *)fileName
+{
+    return [[self documentRootPath] stringByAppendingFormat:@"/queued/%@", fileName];
+}
+
+- (NSString *)thumbPath:(NSString *)fileName
+{
+    return [[self documentRootPath] stringByAppendingFormat:@"/thumbs/%@", fileName];
+}
+
+- (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
+{
+    // fixme include some nice randoms
+    NSString *filename = [NSString stringWithFormat:@"%li.%@", (long)[[NSDate date] timeIntervalSince1970], extension];
+    return filename;
+}
+
+- (UIImage *)loadThumbnail:(NSString *)fileName;
+{
+    return [[UIImage alloc] initWithContentsOfFile:[self thumbPath:fileName]];
+}
+
+- (void)ensureDirectory:(NSString *)dir
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if (![fm fileExistsAtPath:dir]) {
+        NSError *err;
+        [fm createDirectoryAtPath:dir withIntermediateDirectories:YES attributes:nil error:&err];
+    }
+}
+
 - (void)setupData
 {
+    NSString *root = [self documentRootPath];
+
+    // Create queued file & thumb storage directories
+    [self ensureDirectory: [root stringByAppendingString:@"/queued"]];
+    [self ensureDirectory: [root stringByAppendingString:@"/thumbs"]];
+
+    // Initialize CoreData
     NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
     
-    NSArray* documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString* documentRootPath = [documentPaths objectAtIndex:0];
-    NSString* dataPath = [documentRootPath stringByAppendingString:@"/uploads.sqlite"];
+    NSString* dataPath = [root stringByAppendingString:@"/uploads.sqlite"];
     NSLog(@"data path: %@", dataPath);
     NSURL *url = [NSURL fileURLWithPath:dataPath];
     
@@ -152,24 +195,12 @@ static CommonsApp *singleton_;
 - (NSFetchedResultsController *)fetchUploadRecords
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES selector:nil];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:YES selector:nil];
     fetchRequest.sortDescriptors = @[sortDescriptor];
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"FileUpload"
                                               inManagedObjectContext:self.context];
     [fetchRequest setEntity:entity];
-
-    // temp
-    /*
-    NSError *error = nil;
-    NSArray *fetchedObjects = [self.context
-                               executeFetchRequest:fetchRequest error:&error];
-    
-    for (FileUpload *file in fetchedObjects) {
-        NSLog(@"found: %@", file.title);
-    }
-    //return fetchedObjects;
-    */
 
     NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                                  managedObjectContext:self.context
@@ -193,6 +224,7 @@ static CommonsApp *singleton_;
     
     FileUpload *record = [self createUploadRecord];
     
+    record.created = [NSDate date];
     record.title = filename;
     record.desc = desc;
 
@@ -201,11 +233,13 @@ static CommonsApp *singleton_;
     record.progress = @0.0f;
     
     // save local file
-    //record.localFile = @"";
+    NSString *localFile = [self saveFile: data forType:record.fileType];
+
+    // FIXME -- save only asset URL
     //record.assetUrl = @"";
 
     // save thumbnail
-    //record.thumbnailFile = [self saveThumbnail: image];
+    record.thumbnailFile = [self saveThumbnail: image];
     
 
     [self saveData];
@@ -218,11 +252,22 @@ static CommonsApp *singleton_;
     return jpeg;
 }
 
-- (NSString *)prettySize:(NSInteger)size
+- (NSString *)saveFile:(NSData *)data forType:(NSString *)fileType
 {
-    // temp
-    float megs = (float)size / (1024.0f * 1024.0f);
-    return [NSString stringWithFormat:@"%0.1f MB", megs];
+    NSString *fileName = [self uniqueFilenameWithExtension:@"jpg"];
+    NSString *filePath = [self filePath:fileName];
+    [data writeToFile:filePath atomically:YES];
+    return fileName;
 }
 
+- (NSString *)saveThumbnail:(UIImage *)image
+{
+    // hack: do actual thumbnailing
+    NSString *thumbName = [self uniqueFilenameWithExtension:@"jpg"];
+    NSString *thumbPath = [self thumbPath:thumbName];
+    NSData *data = UIImageJPEGRepresentation(image, 0.9);
+    
+    [data writeToFile:thumbPath atomically:YES];
+    return thumbName;
+}
 @end
