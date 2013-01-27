@@ -7,6 +7,7 @@
 //
 
 #import "CommonsApp.h"
+#import "mwapi/MWApi.h"
 
 @implementation CommonsApp
 
@@ -209,6 +210,52 @@ static CommonsApp *singleton_;
     NSError *error = nil;
     [controller performFetch:&error];
     return controller;
+}
+
+- (FileUpload *)firstUploadRecord
+{
+    // hack
+    NSFetchedResultsController *controller = [self fetchUploadRecords];
+    return controller.fetchedObjects[0];
+}
+
+- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
+{
+    NSString *filePath = [self filePath:record.localFile];
+    NSData *jpeg = [NSData dataWithContentsOfFile:filePath];
+    
+    NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
+    MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
+    
+    // Run an indeterminate activity indicator during login validation...
+    //[self.activityIndicator startAnimating];
+    [mwapi loginWithUsername:self.username andPassword:self.password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
+        NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
+        //[self.activityIndicator stopAnimating];
+        if (mwapi.isLoggedIn) {
+            record.progress = @0.0f;
+            void (^progress)(NSInteger, NSInteger) = ^(NSInteger bytesSent, NSInteger bytesTotal) {
+                record.progress = [NSNumber numberWithFloat:(float)bytesSent / (float)bytesTotal];
+                //[self saveData];
+            };
+            //[self saveData];
+            void (^complete)(MWApiResult *) = ^(MWApiResult *uploadResult) {
+                // @fixme delete the data
+                NSLog(@"upload: %@", uploadResult.data);
+                if (completionBlock != nil) {
+                    completionBlock();
+                }
+            };
+            [mwapi uploadFile:record.title
+                 withFileData:jpeg
+                         text:record.desc
+                      comment:@"Uploaded with Commons for iOS"
+                 onCompletion:complete
+                   onProgress:progress];
+        } else {
+            NSLog(@"not logged in");
+        }
+    }];
 }
 
 - (void)prepareImage:(NSDictionary *)info

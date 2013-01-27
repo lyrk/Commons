@@ -161,48 +161,10 @@
     NSLog(@"Upload ye files!");
     
     CommonsApp *app = CommonsApp.singleton;
-    NSString *username = app.username;
-    NSString *password = app.password;
-    NSString *desc = @"temporary description text";
-    NSString *filename = [NSString stringWithFormat:@"Testfile %li.jpg", (long)[[NSDate date] timeIntervalSince1970]];
-    
-    // @FIXMEEEE
-    UIImage *image = app.image;
-    NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
-    
-    NSLog(@"username: %@, desc: %@, jpeg: %i bytes", username, desc, (int)(jpeg.length));
-    
-    // hack hack hack
-    // Upload the file
-    NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
-    MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
-    
-    // Run an indeterminate activity indicator during login validation...
-    //[self.activityIndicator startAnimating];
-    [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
-        NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
-        //[self.activityIndicator stopAnimating];
-        if (mwapi.isLoggedIn) {
-            //[self.progressBar setProgress:0.0f];
-            //self.progressBar.hidden = NO;
-            void (^progress)(NSInteger, NSInteger) = ^(NSInteger bytesSent, NSInteger bytesTotal) {
-                //self.progressBar.progress = (float)bytesSent / (float)bytesTotal;
-            };
-            void (^complete)(MWApiResult *) = ^(MWApiResult *uploadResult) {
-                NSLog(@"upload: %@", uploadResult.data);
-                
-                NSLog(@"done uploading...");
-                //self.progressBar.hidden = YES;
-            };
-            [mwapi uploadFile:filename
-                 withFileData:jpeg
-                         text:desc
-                      comment:@"Uploaded with Commons for iOS"
-                 onCompletion:complete
-                   onProgress:progress];
-        } else {
-            NSLog(@"not logged in");
-        }
+    FileUpload *record = [app firstUploadRecord];
+    [app beginUpload:record completion:^() {
+        //
+        NSLog(@"done uploading");
     }];
 }
 

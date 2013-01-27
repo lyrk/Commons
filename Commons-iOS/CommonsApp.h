@@ -33,6 +33,8 @@
 - (void)saveData;
 - (NSFetchedResultsController *)fetchUploadRecords;
 - (FileUpload *)createUploadRecord;
+- (FileUpload *)firstUploadRecord;
+- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
 
 - (void)prepareImage:(NSDictionary *)info;
 - (NSData *)getImageData:(NSDictionary *)info;
