@@ -17,10 +17,15 @@
 		D4086185169B760800D6ACB0 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086184169B760800D6ACB0 /* Default@2x.png */; };
 		D4086187169B760800D6ACB0 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086186169B760800D6ACB0 /* Default-568h@2x.png */; };
 		D408618A169B760800D6ACB0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */; };
-		D408618D169B760800D6ACB0 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D408618C169B760800D6ACB0 /* MainViewController.m */; };
-		D4086190169B760800D6ACB0 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D408618F169B760800D6ACB0 /* FlipsideViewController.m */; };
 		D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086196169B791100D6ACB0 /* Commons-logo-57.png */; };
 		D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086198169B791400D6ACB0 /* Commons-logo-114.png */; };
+		D413DEE016B56E9700842FEB /* FileUploadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D413DEDF16B56E9700842FEB /* FileUploadCell.m */; };
+		D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */; };
+		D41B99F516B1CEB50045BEB5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41B99F416B1CEB50045BEB5 /* CoreData.framework */; };
+		D450A0E116B347BE00D1D1E2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
+		D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
+		D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
+		D49F79B516B33A4B00850EF0 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D49F79B416B33A4B00850EF0 /* TableViewController.m */; };
 		D4C08F2A16AF47300069172D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
 		D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */ = {isa = PBXBuildFile; fileRef = D4D0E1E7169BA0F4003047A8 /* mwapi */; };
 		D4D0E1F2169BA5E2003047A8 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
@@ -47,12 +52,27 @@
 		D4086184169B760800D6ACB0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D4086186169B760800D6ACB0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D4086189169B760800D6ACB0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		D408618B169B760800D6ACB0 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		D408618C169B760800D6ACB0 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		D408618E169B760800D6ACB0 /* FlipsideViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlipsideViewController.h; sourceTree = "<group>"; };
-		D408618F169B760800D6ACB0 /* FlipsideViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlipsideViewController.m; sourceTree = "<group>"; };
 		D4086196169B791100D6ACB0 /* Commons-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-57.png"; path = "../Commons-logo-57.png"; sourceTree = "<group>"; };
 		D4086198169B791400D6ACB0 /* Commons-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-114.png"; path = "../Commons-logo-114.png"; sourceTree = "<group>"; };
+		D413DEDE16B56E9700842FEB /* FileUploadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUploadCell.h; sourceTree = "<group>"; };
+		D413DEDF16B56E9700842FEB /* FileUploadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUploadCell.m; sourceTree = "<group>"; };
+		D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FileUpload.xcdatamodel; sourceTree = "<group>"; };
+		D41B99F416B1CEB50045BEB5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D450A0D816B3477400D1D1E2 /* Http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Http.h; path = mwapi/Http.h; sourceTree = "<group>"; };
+		D450A0D916B3477400D1D1E2 /* MWApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApi.h; path = mwapi/MWApi.h; sourceTree = "<group>"; };
+		D450A0DA16B3477400D1D1E2 /* MWApiMultipartRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiMultipartRequestBuilder.h; path = mwapi/MWApiMultipartRequestBuilder.h; sourceTree = "<group>"; };
+		D450A0DB16B3477400D1D1E2 /* MWApiRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiRequestBuilder.h; path = mwapi/MWApiRequestBuilder.h; sourceTree = "<group>"; };
+		D450A0DC16B3477400D1D1E2 /* MWApiResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiResult.h; path = mwapi/MWApiResult.h; sourceTree = "<group>"; };
+		D450A0DD16B3477400D1D1E2 /* NSString+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSString+Extras.h"; path = "mwapi/NSString+Extras.h"; sourceTree = "<group>"; };
+		D450A0DE16B3477400D1D1E2 /* NSURLRequest+DictionaryRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSURLRequest+DictionaryRequest.h"; path = "mwapi/NSURLRequest+DictionaryRequest.h"; sourceTree = "<group>"; };
+		D450A0DF16B347BE00D1D1E2 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		D450A0E216B34ADD00D1D1E2 /* CommonsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonsApp.h; sourceTree = "<group>"; };
+		D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonsApp.m; sourceTree = "<group>"; };
+		D450A0F716B366E200D1D1E2 /* FileUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUpload.h; sourceTree = "<group>"; };
+		D450A0F816B366E200D1D1E2 /* FileUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUpload.m; sourceTree = "<group>"; };
+		D49F79B316B33A4B00850EF0 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		D49F79B416B33A4B00850EF0 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		D4C08F2916AF47300069172D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D4D0E1E7169BA0F4003047A8 /* mwapi */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mwapi; sourceTree = "<group>"; };
 		D4D0E1E9169BA5E2003047A8 /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Http.m; path = mwapi/Http.m; sourceTree = "<group>"; };
@@ -69,6 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D41B99F516B1CEB50045BEB5 /* CoreData.framework in Frameworks */,
 				D4C08F2A16AF47300069172D /* Security.framework in Frameworks */,
 				D4086171169B760800D6ACB0 /* UIKit.framework in Frameworks */,
 				D4086173169B760800D6ACB0 /* Foundation.framework in Frameworks */,
@@ -82,6 +103,7 @@
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
+				D41B99F416B1CEB50045BEB5 /* CoreData.framework */,
 				D4C08F2916AF47300069172D /* Security.framework */,
 				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,
@@ -112,15 +134,11 @@
 			isa = PBXGroup;
 			children = (
 				D4294E28169CC34E00BCF709 /* mwapi */,
-				D4D0E1E7169BA0F4003047A8 /* mwapi */,
-				D408617F169B760800D6ACB0 /* AppDelegate.h */,
-				D4086180169B760800D6ACB0 /* AppDelegate.m */,
-				D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */,
-				D408618B169B760800D6ACB0 /* MainViewController.h */,
-				D408618C169B760800D6ACB0 /* MainViewController.m */,
-				D408618E169B760800D6ACB0 /* FlipsideViewController.h */,
-				D408618F169B760800D6ACB0 /* FlipsideViewController.m */,
+				D450A0D716B3473A00D1D1E2 /* View Controllers */,
+				D450A0D516B3471A00D1D1E2 /* Data Model */,
 				D4086177169B760800D6ACB0 /* Supporting Files */,
+				D450A0E216B34ADD00D1D1E2 /* CommonsApp.h */,
+				D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */,
 			);
 			path = "Commons-iOS";
 			sourceTree = "<group>";
@@ -144,6 +162,14 @@
 		D4294E28169CC34E00BCF709 /* mwapi */ = {
 			isa = PBXGroup;
 			children = (
+				D4D0E1E7169BA0F4003047A8 /* mwapi */,
+				D450A0D816B3477400D1D1E2 /* Http.h */,
+				D450A0D916B3477400D1D1E2 /* MWApi.h */,
+				D450A0DA16B3477400D1D1E2 /* MWApiMultipartRequestBuilder.h */,
+				D450A0DB16B3477400D1D1E2 /* MWApiRequestBuilder.h */,
+				D450A0DC16B3477400D1D1E2 /* MWApiResult.h */,
+				D450A0DD16B3477400D1D1E2 /* NSString+Extras.h */,
+				D450A0DE16B3477400D1D1E2 /* NSURLRequest+DictionaryRequest.h */,
 				D4D0E1E9169BA5E2003047A8 /* Http.m */,
 				D4D0E1EA169BA5E2003047A8 /* MWApi.m */,
 				D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */,
@@ -153,6 +179,32 @@
 				D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */,
 			);
 			name = mwapi;
+			sourceTree = "<group>";
+		};
+		D450A0D516B3471A00D1D1E2 /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */,
+				D450A0F716B366E200D1D1E2 /* FileUpload.h */,
+				D450A0F816B366E200D1D1E2 /* FileUpload.m */,
+			);
+			name = "Data Model";
+			sourceTree = "<group>";
+		};
+		D450A0D716B3473A00D1D1E2 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */,
+				D408617F169B760800D6ACB0 /* AppDelegate.h */,
+				D4086180169B760800D6ACB0 /* AppDelegate.m */,
+				D49F79B316B33A4B00850EF0 /* TableViewController.h */,
+				D49F79B416B33A4B00850EF0 /* TableViewController.m */,
+				D450A0DF16B347BE00D1D1E2 /* SettingsViewController.h */,
+				D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */,
+				D413DEDE16B56E9700842FEB /* FileUploadCell.h */,
+				D413DEDF16B56E9700842FEB /* FileUploadCell.m */,
+			);
+			name = "View Controllers";
 			sourceTree = "<group>";
 		};
 		D4D0E1C7169BA036003047A8 /* API headers */ = {
@@ -240,8 +292,12 @@
 				D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */,
 				D408617D169B760800D6ACB0 /* main.m in Sources */,
 				D4086181169B760800D6ACB0 /* AppDelegate.m in Sources */,
-				D408618D169B760800D6ACB0 /* MainViewController.m in Sources */,
-				D4086190169B760800D6ACB0 /* FlipsideViewController.m in Sources */,
+				D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */,
+				D49F79B516B33A4B00850EF0 /* TableViewController.m in Sources */,
+				D450A0E116B347BE00D1D1E2 /* SettingsViewController.m in Sources */,
+				D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */,
+				D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */,
+				D413DEE016B56E9700842FEB /* FileUploadCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,6 +421,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */,
+			);
+			currentVersion = D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */;
+			path = FileUpload.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D4086163169B760800D6ACB0 /* Project object */;
 }
