@@ -8,6 +8,7 @@
 
 #import "TableViewController.h"
 #import "CommonsApp.h"
+#import "FileUploadCell.h"
 #import "mwapi/MWApi.h"
 
 @interface TableViewController ()
@@ -42,6 +43,9 @@
         // FIXME this doesn't take effect for some reason!
         self.takePhotoButton.enabled = NO;
     }
+
+    CommonsApp *app = [CommonsApp singleton];
+    self.fetchedResultsController = [app fetchUploadRecords];
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,17 +64,26 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    if (self.fetchedResultsController != nil) {
+        NSLog(@"rows: %d objects", self.fetchedResultsController.fetchedObjects.count);
+        return self.fetchedResultsController.fetchedObjects.count;
+    } else {
+        return 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    CommonsApp *app = CommonsApp.singleton;
+
+    static NSString *CellIdentifier = @"protoCell";
+    FileUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.titleLabel.text = record.title;
+    cell.sizeLabel.text = [app prettySize:record.fileSize.integerValue];
     
     return cell;
 }
@@ -134,6 +147,7 @@
     [self setChoosePhotoButton:nil];
     [self setTakePhotoButton:nil];
     [self setTableView:nil];
+    [self setFetchedResultsController:nil];
     [super viewDidUnload];
 }
 

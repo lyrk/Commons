@@ -23,9 +23,14 @@
 - (void)initializeApp;
 - (void)loadCredentials;
 - (void)saveCredentials;
+
 - (void)saveData;
+- (NSFetchedResultsController *)fetchUploadRecords;
 - (FileUpload *)createUploadRecord;
+
 - (void)prepareImage:(NSDictionary *)info;
 - (NSData *)getImageData:(NSDictionary *)info;
+
+- (NSString *)prettySize:(NSInteger)size;
 
 @end

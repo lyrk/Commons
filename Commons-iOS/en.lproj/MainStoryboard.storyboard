@@ -105,7 +105,7 @@
                             </items>
                         </toolbar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="protoCell" rowHeight="65" id="cbo-SO-ruF">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="protoCell" rowHeight="65" id="cbo-SO-ruF" customClass="FileUploadCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -146,6 +146,12 @@
                                     <constraint firstItem="ofk-2m-pZJ" firstAttribute="leading" secondItem="taR-BX-uy6" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="v3q-ZX-0FL"/>
                                     <constraint firstItem="ofk-2m-pZJ" firstAttribute="centerY" secondItem="taR-BX-uy6" secondAttribute="centerY" type="default" id="wii-tl-twF"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="image" destination="MCa-uJ-Cz5" id="ncp-fO-3dL"/>
+                                    <outlet property="progressBar" destination="ofk-2m-pZJ" id="57X-E2-SQJ"/>
+                                    <outlet property="sizeLabel" destination="taR-BX-uy6" id="vow-dD-eiU"/>
+                                    <outlet property="titleLabel" destination="ZOC-Yx-hBF" id="n9F-xK-04V"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
@@ -190,6 +196,15 @@
         </scene>
     </scenes>
     <classes>
+        <class className="FileUploadCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FileUploadCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="progressBar" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="sizeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
         <class className="NSLayoutConstraint" superclassName="NSObject">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
         </class>

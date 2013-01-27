@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
 @interface TableViewController : UITableViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
@@ -14,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *choosePhotoButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *takePhotoButton;
+
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 - (IBAction)uploadButtonPushed:(id)sender;
 - (IBAction)takePhotoButtonPushed:(id)sender;

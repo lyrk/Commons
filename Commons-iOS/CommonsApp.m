@@ -149,7 +149,7 @@ static CommonsApp *singleton_;
     return [NSEntityDescription insertNewObjectForEntityForName:@"FileUpload" inManagedObjectContext:self.context];
 }
 
-- (NSArray *)fetchUploadRecords
+- (NSFetchedResultsController *)fetchUploadRecords
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES selector:nil];
@@ -158,6 +158,9 @@ static CommonsApp *singleton_;
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"FileUpload"
                                               inManagedObjectContext:self.context];
     [fetchRequest setEntity:entity];
+
+    // temp
+    /*
     NSError *error = nil;
     NSArray *fetchedObjects = [self.context
                                executeFetchRequest:fetchRequest error:&error];
@@ -165,7 +168,16 @@ static CommonsApp *singleton_;
     for (FileUpload *file in fetchedObjects) {
         NSLog(@"found: %@", file.title);
     }
-    return fetchedObjects;
+    //return fetchedObjects;
+    */
+
+    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                                 managedObjectContext:self.context
+                                                                                   sectionNameKeyPath:nil
+                                                                                            cacheName:nil];
+    NSError *error = nil;
+    [controller performFetch:&error];
+    return controller;
 }
 
 - (void)prepareImage:(NSDictionary *)info
@@ -204,6 +216,13 @@ static CommonsApp *singleton_;
     UIImage *image = info[UIImagePickerControllerOriginalImage];
     NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
     return jpeg;
+}
+
+- (NSString *)prettySize:(NSInteger)size
+{
+    // temp
+    float megs = (float)size / (1024.0f * 1024.0f);
+    return [NSString stringWithFormat:@"%0.1f MB", megs];
 }
 
 @end
