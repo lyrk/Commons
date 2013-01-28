@@ -79,25 +79,9 @@
             <objects>
                 <tableViewController id="3Ab-9I-ivX" customClass="TableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="SEh-cu-BPR">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="372"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <toolbar key="tableFooterView" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="mbK-2K-I9e">
-                            <rect key="frame" x="0.0" y="87" width="320" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                            <items>
-                                <barButtonItem title="Take photo" id="uX9-Id-kYm">
-                                    <connections>
-                                        <action selector="takePhotoButtonPushed:" destination="3Ab-9I-ivX" id="3Zq-W4-NiZ"/>
-                                    </connections>
-                                </barButtonItem>
-                                <barButtonItem title="Choose photo" id="Bgx-q3-9zd">
-                                    <connections>
-                                        <action selector="choosePhotoButtonPushed:" destination="3Ab-9I-ivX" id="rts-st-RiB"/>
-                                    </connections>
-                                </barButtonItem>
-                            </items>
-                        </toolbar>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="protoCell" rowHeight="65" id="cbo-SO-ruF" customClass="FileUploadCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="65"/>
@@ -137,6 +121,18 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
+                    <toolbarItems>
+                        <barButtonItem title="Take photo" id="uX9-Id-kYm">
+                            <connections>
+                                <action selector="takePhotoButtonPushed:" destination="3Ab-9I-ivX" id="3Zq-W4-NiZ"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem title="Choose photo" id="Bgx-q3-9zd">
+                            <connections>
+                                <action selector="choosePhotoButtonPushed:" destination="3Ab-9I-ivX" id="rts-st-RiB"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Commons" id="nKA-kL-sug">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="Tf8-ip-eax">
                             <connections>
@@ -149,6 +145,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="choosePhotoButton" destination="Bgx-q3-9zd" id="0Eb-Qa-sX3"/>
                         <outlet property="settingsButton" destination="Tf8-ip-eax" id="1Fq-FR-Vgp"/>
@@ -164,10 +161,14 @@
         <!--Navigation Controller-->
         <scene sceneID="QIr-ce-0cf">
             <objects>
-                <navigationController definesPresentationContext="YES" id="TTI-Hz-lQf" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" toolbarHidden="NO" id="TTI-Hz-lQf" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="DOd-wt-aKl">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="xpp-FN-TNc">
+                        <rect key="frame" x="0.0" y="436" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="3Ab-9I-ivX" kind="relationship" relationship="rootViewController" id="10G-Lb-bOT"/>
                     </connections>
