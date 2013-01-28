@@ -231,8 +231,9 @@ static CommonsApp *singleton_;
 
 - (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
 {
+    NSString *fileName = [self filenameForTitle:record.title type:record.fileType];
     NSString *filePath = [self filePath:record.localFile];
-    NSData *jpeg = [NSData dataWithContentsOfFile:filePath];
+    NSData *fileData = [NSData dataWithContentsOfFile:filePath];
     
     NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
     MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
@@ -255,8 +256,8 @@ static CommonsApp *singleton_;
                     completionBlock();
                 }
             };
-            [mwapi uploadFile:record.title
-                 withFileData:jpeg
+            [mwapi uploadFile:fileName
+                 withFileData:fileData
                          text:record.desc
                       comment:@"Uploaded with Commons for iOS"
                  onCompletion:complete
@@ -267,23 +268,39 @@ static CommonsApp *singleton_;
     }];
 }
 
+- (NSString *)filenameForTitle:(NSString *)title type:(NSString *)fileType
+{
+    NSDictionary *types = @{
+        @"image/jpeg": @"jpg",
+        @"image/png": @"png",
+        @"image/gif": @"gif"
+    };
+    NSString *extension = types[fileType];
+    if (extension == nil) {
+        NSLog(@"EXPLODING KABOOOOOOOOM unrecognized type %@", fileType);
+    }
+    
+    // fixme strip chars etc
+    return [[title stringByAppendingString:@"."] stringByAppendingString:extension];
+}
+
 - (void)prepareImage:(NSDictionary *)info onCompletion:(void(^)())completionBlock
 {
     void (^done)() = [completionBlock copy];
     [self getImageData:info onCompletion:^(NSData *data) {
         UIImage *image = info[UIImagePickerControllerOriginalImage];
         
-        NSString *filename = [NSString stringWithFormat:@"Testfile %li.jpg", (long)[[NSDate date] timeIntervalSince1970]];
+        NSString *title = [NSString stringWithFormat:@"Testfile %li", (long)[[NSDate date] timeIntervalSince1970]];
         NSString *desc = @"temporary description text";
         
         
         FileUpload *record = [self createUploadRecord];
         
         record.created = [NSDate date];
-        record.title = filename;
+        record.title = title;
         record.desc = desc;
         
-        record.fileType = @"image/jpeg";
+        record.fileType = [self getImageType:info];
         record.fileSize = [NSNumber numberWithInteger:[data length]];
         record.progress = @0.0f;
         
@@ -330,6 +347,26 @@ static CommonsApp *singleton_;
         if (done != nil) {
             done(jpeg);
         }
+    }
+}
+
+- (NSString *)getImageType:(NSDictionary *)info
+{
+    NSURL *url = info[UIImagePickerControllerReferenceURL];
+    if (url != nil) {
+        NSString *extension = [[url pathExtension] lowercaseString];
+        NSLog(@"ext is %@", extension);
+        if ([extension isEqualToString:@"png"]) {
+            // Screenshots and saved items may be PNGs
+            return @"image/png";
+        } else if ([extension isEqualToString:@"gif"]) {
+            return @"image/gif";
+        } else {
+            return @"image/jpeg";
+        }
+    } else {
+        // Freshly taken photo, we'll go craaaazy
+        return @"image/jpeg";
     }
 }
 
