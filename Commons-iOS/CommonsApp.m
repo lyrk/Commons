@@ -17,9 +17,8 @@ static CommonsApp *singleton_;
 
 + (CommonsApp *)singleton
 {
-    if (singleton_ == nil) {
-        singleton_ = [[CommonsApp alloc] init];
-    }
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{ singleton_ = [[CommonsApp alloc] init]; });
     return singleton_;
 }
 
