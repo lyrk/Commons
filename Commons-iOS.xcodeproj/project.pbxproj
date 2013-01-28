@@ -143,6 +143,7 @@
 				D4086177169B760800D6ACB0 /* Supporting Files */,
 				D450A0E216B34ADD00D1D1E2 /* CommonsApp.h */,
 				D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */,
+				D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */,
 			);
 			path = "Commons-iOS";
 			sourceTree = "<group>";
@@ -198,7 +199,6 @@
 		D450A0D716B3473A00D1D1E2 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */,
 				D408617F169B760800D6ACB0 /* AppDelegate.h */,
 				D4086180169B760800D6ACB0 /* AppDelegate.m */,
 				D49F79B316B33A4B00850EF0 /* TableViewController.h */,
