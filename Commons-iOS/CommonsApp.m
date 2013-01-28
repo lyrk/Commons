@@ -394,10 +394,27 @@ static CommonsApp *singleton_;
 
 - (UIImage *)makeThumbnail:(UIImage *)image size:(NSInteger)size
 {
+    CGSize oldSize = image.size;
     CGSize newSize = CGSizeMake((float)size, (float)size);
+    CGRect rect;
+
+    if (oldSize.width == oldSize.height) {
+        // already square \o/
+        rect = CGRectMake(0, 0, newSize.width, newSize.height);
+    } else if (oldSize.width > oldSize.height) {
+        // landscape crop to square
+        CGFloat provisionalWidth = oldSize.width * newSize.height / oldSize.height;
+        CGFloat bufferX = (provisionalWidth - newSize.width) / 2;
+        rect = CGRectMake(0 - bufferX, 0, provisionalWidth, newSize.height);
+    } else {
+        // portrait crop to square
+        CGFloat provisionalHeight = oldSize.height * newSize.width / oldSize.width;
+        CGFloat bufferY = (provisionalHeight - newSize.height) / 2;
+        rect = CGRectMake(0, 0 - bufferY, newSize.width, provisionalHeight);
+    }
 
     UIGraphicsBeginImageContext(newSize);
-    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    [image drawInRect:rect];
     UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
