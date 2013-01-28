@@ -2,20 +2,17 @@ This is an early stub of an iOS app for uploading photos to Wikimedia Commons --
 actually it uploads them to test2.wikipedia.org. You can see uploaded files at
 <http://test2.wikipedia.org/wiki/Special:NewFiles>
 
-User credentials should be input on the settings flipside of the app before uploading.
+User credentials should be input on the settings screen of the app before uploading.
 They are saved to the app's keychain, so need not be entered again.
 
-Code implementing the MediaWiki web API is in the mwapi/ subdirectory -- these will be
-rewritten shortly to use JSON objects instead of XML.
+Code implementing the MediaWiki web API is in the mwapi/ subdirectory.
 
+Code is currently under GNU GPL v2; see the file COPYING for details.
 
 Todo:
 * Detect login and upload errors and give feedback to the user.
 * After uploading, display a button that opens the new file in Safari
-* Move i/o off the UI thread and provide visual progress feedback.
-* When pulling existing images from the gallery, retrieve the original file via asset URL
-  and upload that instead of recompression from a UIImage
 * Rearrange UI into multiple steps: login, get photo, give description, upload.
-* queue up multiple items
 * cancel ability
 * clean up classes
+* fix for uploading PNG images from gallery (screenshots)
