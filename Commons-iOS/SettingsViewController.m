@@ -8,6 +8,8 @@
 
 #import "SettingsViewController.h"
 #import "CommonsApp.h"
+#import "mwapi/MWApi.h"
+
 
 @interface SettingsViewController ()
 
@@ -49,14 +51,40 @@
 - (IBAction)pushedDoneButton:(id)sender {
     CommonsApp *app = CommonsApp.singleton;
     
-    // @fixme test login
-
-    app.username = self.usernameField.text;
-    app.password = self.passwordField.text;
-    [app saveCredentials];
+    NSString *username = self.usernameField.text;
+    NSString *password = self.passwordField.text;
     
-    // @fixme check debug switch
-    [self dismissViewControllerAnimated:YES completion:nil];
+    // Test credentials to make sure they are valid
+    
+    NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
+    MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
+    
+    [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
+        
+        NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
+        
+        if (mwapi.isLoggedIn) {
+            // Credentials verified
+            
+            // Save credentials
+            app.username = username;
+            app.password = password;
+            [app saveCredentials];
+            
+            // Dismiss view
+            
+            // @fixme check debug switch
+            
+            [self dismissViewControllerAnimated:YES completion:nil];
+            
+        } else {
+            // Credentials invalid
+            
+            // @fixme alert user to invalid credentials
+            
+            NSLog(@"Credentials invalid!");
+        }
+    }];
 }
 
 @end
