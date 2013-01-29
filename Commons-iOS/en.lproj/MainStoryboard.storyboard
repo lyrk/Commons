@@ -117,7 +117,7 @@
                                     <outlet property="progressBar" destination="ofk-2m-pZJ" id="57X-E2-SQJ"/>
                                     <outlet property="sizeLabel" destination="taR-BX-uy6" id="vow-dD-eiU"/>
                                     <outlet property="titleLabel" destination="ZOC-Yx-hBF" id="n9F-xK-04V"/>
-                                    <segue destination="epi-E0-AsP" kind="push" id="8zI-gk-iod"/>
+                                    <segue destination="epi-E0-AsP" kind="push" identifier="DetailSegue" id="8zI-gk-iod"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -137,7 +137,7 @@
                     <navigationItem key="navigationItem" title="Commons" id="nKA-kL-sug">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="Tf8-ip-eax">
                             <connections>
-                                <segue destination="CKn-7N-hi9" kind="modal" id="1pN-Vg-lJL"/>
+                                <segue destination="CKn-7N-hi9" kind="modal" identifier="SettingsSegue" id="1pN-Vg-lJL"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Upload" id="5TM-AT-dmy">

@@ -156,10 +156,11 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
 {
-    CommonsApp *app = CommonsApp.singleton;
-    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
-    DetailTableViewController *view = [segue destinationViewController];
-    view.selectedRecord = record;
+    if ([segue.identifier isEqualToString:@"DetailSegue"]) {
+        FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
+        DetailTableViewController *view = [segue destinationViewController];
+        view.selectedRecord = record;
+    }
 }
 
 - (void)viewDidUnload {
