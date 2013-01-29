@@ -7,8 +7,11 @@
 //
 
 #import "TableViewController.h"
+
 #import "CommonsApp.h"
 #import "FileUploadCell.h"
+#import "DetailTableViewController.h"
+
 #import "mwapi/MWApi.h"
 
 @interface TableViewController ()
@@ -144,6 +147,19 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+    /*
+    CommonsApp *app = CommonsApp.singleton;
+    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    app.selectedRecord = record;
+    */
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+{
+    CommonsApp *app = CommonsApp.singleton;
+    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
+    DetailTableViewController *view = [segue destinationViewController];
+    view.selectedRecord = record;
 }
 
 - (void)viewDidUnload {
