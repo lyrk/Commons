@@ -337,16 +337,17 @@ static CommonsApp *singleton_;
 - (void)getImageData:(NSDictionary *)info onCompletion:(void (^)(NSData *))completionBlock
 {
     void (^done)(NSData *) = [completionBlock copy];
-    UIImage *image = info[UIImagePickerControllerOriginalImage];
     NSURL *url = info[UIImagePickerControllerReferenceURL];
     if (url != nil) {
-        [self getAssetImageData: url onCompletion:completionBlock];
+        // We picked something from the photo library; fetch its original data.
+        [self getAssetImageData: url onCompletion:done];
     } else {
-        NSData *jpeg = UIImageJPEGRepresentation(image, 0.9);
-        // how to dispatch?
-        if (done != nil) {
-            done(jpeg);
-        }
+        // Freshly-taken photo. Add it to the camera roll and fetch it back;
+        // this not only is polite (keep your photos locally) but it conveniently
+        // adds the EXIF metadata in, which UIImageJPEGRepresentation doesn't do.
+        [self saveImageData:info onCompletion:^(NSURL *savedUrl) {
+            [self getAssetImageData:savedUrl onCompletion:done];
+        }];
     }
 }
 
@@ -368,6 +369,18 @@ static CommonsApp *singleton_;
         // Freshly taken photo, we'll go craaaazy
         return @"image/jpeg";
     }
+}
+
+- (void)saveImageData:(NSDictionary *)info onCompletion:(void(^)(NSURL *))completionBlock
+{
+    UIImage *image = info[UIImagePickerControllerOriginalImage];
+    NSDictionary *metadata = info[UIImagePickerControllerMediaMetadata];
+    ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
+    [assetLibrary writeImageToSavedPhotosAlbum:image.CGImage
+                                      metadata:metadata
+                               completionBlock:^(NSURL *assetURL, NSError *error) {
+                                   completionBlock(assetURL);
+                               }];
 }
 
 - (void)getAssetImageData:(NSURL *)url onCompletion:(void (^)(NSData *))completionBlock
