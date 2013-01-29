@@ -148,6 +148,11 @@ static CommonsApp *singleton_;
     return [[UIImage alloc] initWithContentsOfFile:[self thumbPath:fileName]];
 }
 
+- (UIImage *)loadImage:(NSString *)fileName;
+{
+    return [[UIImage alloc] initWithContentsOfFile:[self filePath:fileName]];
+}
+
 - (void)ensureDirectory:(NSString *)dir
 {
     NSFileManager *fm = [NSFileManager defaultManager];

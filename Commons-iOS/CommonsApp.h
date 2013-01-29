@@ -28,6 +28,7 @@
 - (NSString *)filePath:(NSString *)fileName;
 - (NSString *)thumbPath:(NSString *)fileName;
 - (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
+- (UIImage *)loadImage:(NSString *)fileName;
 - (UIImage *)loadThumbnail:(NSString *)fileName;
 
 - (void)saveData;
