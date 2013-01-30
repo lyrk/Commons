@@ -171,6 +171,7 @@
     [self setTakePhotoButton:nil];
     [self setTableView:nil];
     [self setFetchedResultsController:nil];
+    self.popover = nil;
     [super viewDidUnload];
 }
 
@@ -225,7 +226,15 @@
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
-    [self presentViewController:picker animated:YES completion:nil];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // fixme how do we free the popover when it's gone?
+        self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
+        [self.popover presentPopoverFromBarButtonItem:self.choosePhotoButton
+                    permittedArrowDirections:UIPopoverArrowDirectionAny
+                                    animated:YES];
+    } else {
+        [self presentViewController:picker animated:YES completion:nil];
+    }
 }
 
 - (UIBarButtonItem *)uploadBarButtonItem {

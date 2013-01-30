@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *takePhotoButton;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) UIPopoverController *popover;
 
 - (IBAction)uploadButtonPushed:(id)sender;
 - (IBAction)takePhotoButtonPushed:(id)sender;
