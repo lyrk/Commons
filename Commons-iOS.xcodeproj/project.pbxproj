@@ -109,9 +109,6 @@
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
-				D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */,
-				D41B99F416B1CEB50045BEB5 /* CoreData.framework */,
-				D4C08F2916AF47300069172D /* Security.framework */,
 				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,
 				D408616F169B760800D6ACB0 /* Frameworks */,
@@ -130,6 +127,9 @@
 		D408616F169B760800D6ACB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */,
+				D41B99F416B1CEB50045BEB5 /* CoreData.framework */,
+				D4C08F2916AF47300069172D /* Security.framework */,
 				D4086170169B760800D6ACB0 /* UIKit.framework */,
 				D4086172169B760800D6ACB0 /* Foundation.framework */,
 				D4086174169B760800D6ACB0 /* CoreGraphics.framework */,
