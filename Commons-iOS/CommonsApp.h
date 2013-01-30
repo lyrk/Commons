@@ -16,7 +16,7 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (copy, nonatomic) NSString *username;
 @property (copy, nonatomic) NSString *password;
-@property (strong, nonatomic) UIImage *image; // temp
+@property (nonatomic) BOOL debugMode;
 @property (strong, nonatomic) NSManagedObjectContext *context;
 @property (strong, nonatomic) MWApi *currentUploadOp;
 
@@ -37,6 +37,8 @@
 - (NSFetchedResultsController *)fetchUploadRecords;
 - (FileUpload *)createUploadRecord;
 - (FileUpload *)firstUploadRecord;
+
+- (MWApi *)startApi;
 - (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
 - (void)cancelCurrentUpload;
 

@@ -29,10 +29,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
 	// Do any additional setup after loading the view.
     CommonsApp *app = CommonsApp.singleton;
     self.usernameField.text = app.username;
     self.passwordField.text = app.password;
+
+    self.debugModeSwitch.on = app.debugMode;
+    [self setDebugModeLabel];
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,6 +49,7 @@
     [self setUsernameField:nil];
     [self setPasswordField:nil];
     [self setDebugModeSwitch:nil];
+    [self setUploadTargetLabel:nil];
     [super viewDidUnload];
 }
 
@@ -59,9 +64,7 @@
     if (![app.username isEqualToString:username] || ![app.password isEqualToString:password]) {
         
         // Test credentials to make sure they are valid
-        
-        NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
-        MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
+        MWApi *mwapi = [app startApi];
         
         [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
             
@@ -106,6 +109,20 @@
         // @fixme check debug switch
         
         [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+- (IBAction)debugSwitchPushed:(id)sender {
+    CommonsApp.singleton.debugMode = self.debugModeSwitch.on;
+    [self setDebugModeLabel];
+}
+
+- (void)setDebugModeLabel
+{
+    if (CommonsApp.singleton.debugMode) {
+        self.uploadTargetLabel.text = @"Uploading to test.wikipedia.org";
+    } else {
+        self.uploadTargetLabel.text = @"Uploading to commons.wikimedia.org";
     }
 }
 

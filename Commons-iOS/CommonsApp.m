@@ -25,6 +25,7 @@ static CommonsApp *singleton_;
 - (void)initializeApp
 {
     [self loadCredentials];
+    self.debugMode = YES; // fixme -- save in a preference
     [self setupData];
     [self fetchUploadRecords];
 }
@@ -234,14 +235,25 @@ static CommonsApp *singleton_;
     }
 }
 
+- (MWApi *)startApi
+{
+    NSString *urlStr;
+    if (self.debugMode) {
+        urlStr = @"https://test.wikipedia.org/w/api.php";
+    } else {
+        urlStr = @"https://commons.wikimedia.org/w/api.php";
+    }
+    NSURL *url = [NSURL URLWithString:urlStr];
+    return [[MWApi alloc] initWithApiUrl:url];;
+}
+
 - (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
 {
     NSString *fileName = [self filenameForTitle:record.title type:record.fileType];
     NSString *filePath = [self filePath:record.localFile];
     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
     
-    NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
-    _currentUploadOp = [[MWApi alloc] initWithApiUrl:url];
+    _currentUploadOp = [self startApi];
     
     // Run an indeterminate activity indicator during login validation...
     //[self.activityIndicator startAnimating];
