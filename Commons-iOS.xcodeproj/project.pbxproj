@@ -28,6 +28,8 @@
 		D4896B5116B5C97D009A35FA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */; };
 		D49F79B516B33A4B00850EF0 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D49F79B416B33A4B00850EF0 /* TableViewController.m */; };
 		D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
+		D4AFF27816B8A651003D96F3 /* redbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = D4AFF27616B8A651003D96F3 /* redbutton.png */; };
+		D4AFF27916B8A651003D96F3 /* redbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4AFF27716B8A651003D96F3 /* redbutton@2x.png */; };
 		D4C08F2A16AF47300069172D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
 		D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */ = {isa = PBXBuildFile; fileRef = D4D0E1E7169BA0F4003047A8 /* mwapi */; };
 		D4D0E1F2169BA5E2003047A8 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
@@ -78,6 +80,8 @@
 		D49F79B416B33A4B00850EF0 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewController.h; sourceTree = "<group>"; };
 		D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewController.m; sourceTree = "<group>"; };
+		D4AFF27616B8A651003D96F3 /* redbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbutton.png; sourceTree = "<group>"; };
+		D4AFF27716B8A651003D96F3 /* redbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redbutton@2x.png"; sourceTree = "<group>"; };
 		D4C08F2916AF47300069172D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D4D0E1E7169BA0F4003047A8 /* mwapi */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mwapi; sourceTree = "<group>"; };
 		D4D0E1E9169BA5E2003047A8 /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Http.m; path = mwapi/Http.m; sourceTree = "<group>"; };
@@ -154,6 +158,8 @@
 		D4086177169B760800D6ACB0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D4AFF27616B8A651003D96F3 /* redbutton.png */,
+				D4AFF27716B8A651003D96F3 /* redbutton@2x.png */,
 				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
 				D4086196169B791100D6ACB0 /* Commons-logo-57.png */,
 				D4086178169B760800D6ACB0 /* Commons-iOS-Info.plist */,
@@ -282,6 +288,8 @@
 				D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */,
 				D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */,
 				D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */,
+				D4AFF27816B8A651003D96F3 /* redbutton.png in Resources */,
+				D4AFF27916B8A651003D96F3 /* redbutton@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

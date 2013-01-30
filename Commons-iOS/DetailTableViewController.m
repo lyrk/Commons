@@ -28,6 +28,12 @@
 {
     [super viewDidLoad];
 
+    // Can't seem to set the left/top cap sizes in IB
+    [self.deleteButton setBackgroundImage:[[UIImage imageNamed:@"redbutton.png"]
+         stretchableImageWithLeftCapWidth:8.0f
+                             topCapHeight:0.0f]
+                                 forState:UIControlStateNormal];
+
     // Load up the selected record
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = self.selectedRecord;
@@ -109,6 +115,7 @@
     [self setTitleTextField:nil];
     [self setDescriptionTextView:nil];
     [self setSelectedRecord:nil];
+    [self setDeleteButton:nil];
     [super viewDidUnload];
 }
 
@@ -128,6 +135,13 @@
     NSLog(@"setting desc: %@", self.descriptionTextView.text);
     record.desc = self.descriptionTextView.text;
     [app saveData];
+}
+
+- (IBAction)deleteButtonPushed:(id)sender {
+    CommonsApp *app = CommonsApp.singleton;
+    [app deleteUploadRecord:self.selectedRecord];
+    self.selectedRecord = nil;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

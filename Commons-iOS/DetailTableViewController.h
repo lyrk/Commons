@@ -14,6 +14,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imagePreview;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
+@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
+- (IBAction)deleteButtonPushed:(id)sender;
+
 @property (strong, nonatomic) FileUpload *selectedRecord;
 
 @end
