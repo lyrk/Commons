@@ -31,8 +31,12 @@
     onCompletion_ = [completionBlock copy];
     onProgress_ = [progressBlock copy];
     data_ = [[NSMutableData alloc] init];
-    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:requestUrl_ delegate:self];
-    [connection start];
+    connection_ = [[NSURLConnection alloc] initWithRequest:requestUrl_ delegate:self];
+    [connection_ start];
+}
+
+- (void)cancel {
+    [connection_ cancel];
 }
 
 #pragma mark - NSConnectionDelegate methods

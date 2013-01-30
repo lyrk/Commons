@@ -9,7 +9,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 #import "CommonsApp.h"
-#import "mwapi/MWApi.h"
+#import "Http.h"
 
 @implementation CommonsApp
 
@@ -241,14 +241,14 @@ static CommonsApp *singleton_;
     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
     
     NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
-    MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
+    _currentUploadOp = [[MWApi alloc] initWithApiUrl:url];
     
     // Run an indeterminate activity indicator during login validation...
     //[self.activityIndicator startAnimating];
-    [mwapi loginWithUsername:self.username andPassword:self.password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
+    [_currentUploadOp loginWithUsername:self.username andPassword:self.password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
         NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
         //[self.activityIndicator stopAnimating];
-        if (mwapi.isLoggedIn) {
+        if (_currentUploadOp.isLoggedIn) {
             record.progress = @0.0f;
             void (^progress)(NSInteger, NSInteger) = ^(NSInteger bytesSent, NSInteger bytesTotal) {
                 record.progress = [NSNumber numberWithFloat:(float)bytesSent / (float)bytesTotal];
@@ -261,16 +261,28 @@ static CommonsApp *singleton_;
                     completionBlock();
                 }
             };
-            [mwapi uploadFile:fileName
-                 withFileData:fileData
-                         text:record.desc
-                      comment:@"Uploaded with Commons for iOS"
-                 onCompletion:complete
-                   onProgress:progress];
+            [_currentUploadOp uploadFile:fileName
+                            withFileData:fileData
+                                    text:record.desc
+                                 comment:@"Uploaded with Commons for iOS"
+                            onCompletion:complete
+                              onProgress:progress];
         } else {
             NSLog(@"not logged in");
         }
     }];
+}
+
+- (void)cancelCurrentUpload {
+    
+    NSLog(@"Canceling current upload");
+    
+    // Stop upload
+    [_currentUploadOp cancelCurrentRequest];
+    
+    // Reset progress on the upload
+    [[self firstUploadRecord] setProgress:[NSNumber numberWithFloat:0.0f]];
+    [self saveData];
 }
 
 - (NSString *)filenameForTitle:(NSString *)title type:(NSString *)fileType

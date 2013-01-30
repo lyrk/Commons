@@ -182,23 +182,28 @@
     if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
         // User is logged in
         
-        NSLog(@"Upload ye files!");
-        
-        __block void (^run)() = ^() {
-            CommonsApp *app = CommonsApp.singleton;
-            FileUpload *record = [app firstUploadRecord];
-            if (record != nil) {
-                [app beginUpload:record completion:^() {
-                    NSLog(@"completed an upload, going on to next");
-                    run();
-                }];
-            } else {
-                NSLog(@"no more uploads");
-                run = nil;
-            }
-        };
-        run();
-        
+        if ([self.fetchedResultsController.fetchedObjects count] > 0) {
+            
+            self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
+            
+            NSLog(@"Upload ye files!");
+            
+            __block void (^run)() = ^() {
+                CommonsApp *app = CommonsApp.singleton;
+                FileUpload *record = [app firstUploadRecord];
+                if (record != nil) {
+                    [app beginUpload:record completion:^() {
+                        NSLog(@"completed an upload, going on to next");
+                        run();
+                    }];
+                } else {
+                    NSLog(@"no more uploads");
+                    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+                    run = nil;
+                }
+            };
+            run();
+        }
     }
     else {
     // User is not logged in
@@ -221,6 +226,32 @@
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
     [self presentViewController:picker animated:YES completion:nil];
+}
+
+- (UIBarButtonItem *)uploadBarButtonItem {
+    
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(uploadButtonPushed:)];
+    return btn;
+}
+
+- (UIBarButtonItem *)cancelBarButtonItem {
+    
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(cancelButtonPushed:)];
+    return btn;
+}
+
+- (void)cancelButtonPushed:(id)sender {
+    
+    CommonsApp *app = [CommonsApp singleton];
+    [app cancelCurrentUpload];
+    
+    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info

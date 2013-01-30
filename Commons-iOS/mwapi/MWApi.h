@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MWApiResult.h"
 #import "MWApiRequestBuilder.h"
+#import "Http.h"
 
 @interface MWApi : NSObject{
 
@@ -18,6 +19,7 @@
     NSArray *authCookie_;
     BOOL includeAuthCookie_;
     BOOL isLoggedIn_;
+    Http *connection_;
 }
 
 @property(nonatomic, readonly) NSURL* apiURL;
@@ -25,6 +27,7 @@
 @property(nonatomic, readonly) NSString* userName;
 @property(nonatomic, readwrite)BOOL includeAuthCookie;
 @property(nonatomic, readonly) BOOL isLoggedIn;
+@property(nonatomic, readonly) Http *connection;
 
 - (id)initWithApiUrl: (NSURL*)url;
 	
@@ -42,5 +45,6 @@
 - (void)editToken:(void(^)(NSString *))block;
 - (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
 - (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))block;
+- (void)cancelCurrentRequest;
 
 @end
