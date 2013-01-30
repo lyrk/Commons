@@ -275,7 +275,7 @@ static CommonsApp *singleton_;
             };
             [_currentUploadOp uploadFile:fileName
                             withFileData:fileData
-                                    text:record.desc
+                                    text:[self formatDescription:record]
                                  comment:@"Uploaded with Commons for iOS"
                             onCompletion:complete
                               onProgress:progress];
@@ -283,6 +283,21 @@ static CommonsApp *singleton_;
             NSLog(@"not logged in");
         }
     }];
+}
+
+- (NSString *)formatDescription:(FileUpload *)record
+{
+    // fixme add date? eg {{According to EXIF data|2012-11-24}}
+    NSString *format = @"== {{int:filedesc}} ==\n"
+                       @"{{Information|Description=%@|source={{own}}|author=[[User:%@]]}}\n" 
+                       @"== {{int:license-header}} ==\n"
+                       @"{{self|cc-by-sa-3.0}}\n"
+                       @"\n"
+                       @"[[Category:Mobile upload]]\n"
+                       @"\n"
+                       @"[[Category:Uploaded with iOS Commons App]]\n";
+    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username];
+    return desc;
 }
 
 - (void)cancelCurrentUpload {
