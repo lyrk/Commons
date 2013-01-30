@@ -175,22 +175,36 @@
 }
 
 - (IBAction)uploadButtonPushed:(id)sender {
-    NSLog(@"Upload ye files!");
-
-    __block void (^run)() = ^() {
-        CommonsApp *app = CommonsApp.singleton;
-        FileUpload *record = [app firstUploadRecord];
-        if (record != nil) {
-            [app beginUpload:record completion:^() {
-                NSLog(@"completed an upload, going on to next");
-                run();
-            }];
-        } else {
-            NSLog(@"no more uploads");
-            run = nil;
-        }
-    };
-    run();
+    
+    CommonsApp *app = [CommonsApp singleton];
+    
+    // Only allow uploads if user is logged in
+    if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
+        // User is logged in
+        
+        NSLog(@"Upload ye files!");
+        
+        __block void (^run)() = ^() {
+            CommonsApp *app = CommonsApp.singleton;
+            FileUpload *record = [app firstUploadRecord];
+            if (record != nil) {
+                [app beginUpload:record completion:^() {
+                    NSLog(@"completed an upload, going on to next");
+                    run();
+                }];
+            } else {
+                NSLog(@"no more uploads");
+                run = nil;
+            }
+        };
+        run();
+        
+    }
+    else {
+    // User is not logged in
+        
+        NSLog(@"Can't upload because user is not logged in.");
+    }
 }
 
 - (IBAction)takePhotoButtonPushed:(id)sender {

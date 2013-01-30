@@ -49,42 +49,64 @@
 }
 
 - (IBAction)pushedDoneButton:(id)sender {
+    
     CommonsApp *app = CommonsApp.singleton;
     
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
     
-    // Test credentials to make sure they are valid
-    
-    NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
-    MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
-    
-    [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
+    // Only update & validate user credentials if they have been changed
+    if (![app.username isEqualToString:username] || ![app.password isEqualToString:password]) {
         
-        NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
+        // Test credentials to make sure they are valid
         
-        if (mwapi.isLoggedIn) {
-            // Credentials verified
+        NSURL *url = [NSURL URLWithString:@"https://test2.wikipedia.org/w/api.php"];
+        MWApi *mwapi = [[MWApi alloc] initWithApiUrl:url];
+        
+        [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
             
-            // Save credentials
-            app.username = username;
-            app.password = password;
-            [app saveCredentials];
+            NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
             
-            // Dismiss view
-            
-            // @fixme check debug switch
-            
-            [self dismissViewControllerAnimated:YES completion:nil];
-            
-        } else {
-            // Credentials invalid
-            
-            // @fixme alert user to invalid credentials
-            
-            NSLog(@"Credentials invalid!");
-        }
-    }];
+            if (mwapi.isLoggedIn) {
+                // Credentials verified
+                
+                // Save credentials
+                app.username = username;
+                app.password = password;
+                [app saveCredentials];
+                
+                // Dismiss view
+                
+                // @fixme check debug switch
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
+            } else {
+                // Credentials invalid
+                
+                // @fixme alert user to invalid credentials
+                
+                NSLog(@"Credentials invalid!");
+                
+                // Erase saved credentials so that the credentials are validated every time they are changed
+                app.username = @"";
+                app.password = @"";
+                [app saveCredentials];
+            }
+        }];
+        
+    }
+    else {
+    // Credentials have not been changed
+        
+        NSLog(@"Credentials have not been changed.");
+        
+        // Dismiss view
+        
+        // @fixme check debug switch
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end
