@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "FileUpload.h"
+#import "mwapi/MWApi.h"
 
 @interface CommonsApp : NSObject
 
@@ -17,6 +18,7 @@
 @property (copy, nonatomic) NSString *password;
 @property (strong, nonatomic) UIImage *image; // temp
 @property (strong, nonatomic) NSManagedObjectContext *context;
+@property (strong, nonatomic) MWApi *currentUploadOp;
 
 + (CommonsApp *)singleton;
 
@@ -36,6 +38,7 @@
 - (FileUpload *)createUploadRecord;
 - (FileUpload *)firstUploadRecord;
 - (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
+- (void)cancelCurrentUpload;
 
 - (void)prepareImage:(NSDictionary *)info onCompletion:(void(^)())completionBlock;
 - (void)deleteUploadRecord:(FileUpload *)record;

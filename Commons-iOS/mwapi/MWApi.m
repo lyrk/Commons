@@ -7,7 +7,6 @@
 //
 
 #import "MWApi.h"
-#import "Http.h"
 #import "NSURLRequest+DictionaryRequest.h"
 #import "MWApiMultipartRequestBuilder.h"
 
@@ -20,6 +19,7 @@ id delegate;
 @synthesize userName = userName_;
 @synthesize includeAuthCookie = includeAuthCookie_;
 @synthesize isLoggedIn = isLoggedIn_;
+@synthesize connection = connection_;
 
 - (id)initWithApiUrl: (NSURL*)url {
     self = [super init];
@@ -147,12 +147,18 @@ id delegate;
     if(!includeAuthCookie_){
         [self clearAuthCookie];
     }
-    [Http retrieveResponse:request onCompletion:completionBlock onProgress:progressBlock];
+    
+    connection_ = [[Http alloc] initWithRequest:request];
+    [connection_ retrieveResponseOnCompletion:completionBlock onProgress:progressBlock];
 }
 
 - (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))block
 {
     [self makeRequest: request onCompletion:block onProgress:nil];
+}
+
+- (void)cancelCurrentRequest {
+    [self.connection cancel];
 }
 
 @end
