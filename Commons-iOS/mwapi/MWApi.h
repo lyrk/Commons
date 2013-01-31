@@ -45,6 +45,9 @@
 - (void)editToken:(void(^)(NSString *))block;
 - (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
 - (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))block;
+
+- (void)getRequest:(NSDictionary *)params onCompletion:(void(^)(MWApiResult *))block;
+
 - (void)cancelCurrentRequest;
 
 @end

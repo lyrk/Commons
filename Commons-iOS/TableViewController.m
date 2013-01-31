@@ -82,9 +82,23 @@
     FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
 
     cell.titleLabel.text = record.title;
-    cell.sizeLabel.text = record.prettySize;
-    cell.progressBar.progress = record.progress.floatValue;
-    cell.image.image = [app loadThumbnail: record.thumbnailFile];
+    if (record.thumbnailFile) {
+        cell.image.image = [app loadThumbnail: record.thumbnailFile];
+    } else {
+        cell.image.image = nil;
+    }
+    if (record.complete.boolValue) {
+        // Old upload, already complete.
+        // We have the title; fetch thumbnails and such on demand.
+        cell.sizeLabel.text = [app prettyDate:record.created];
+        cell.progressBar.hidden = YES;
+    } else {
+        // Queued upload, not yet complete.
+        // We have local data & progress info.
+        cell.sizeLabel.text = record.prettySize;
+        cell.progressBar.hidden = NO;
+        cell.progressBar.progress = record.progress.floatValue;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -172,6 +186,7 @@
     [self setTableView:nil];
     [self setFetchedResultsController:nil];
     self.popover = nil;
+    [self setRefreshButton:nil];
     [super viewDidUnload];
 }
 
@@ -235,6 +250,10 @@
     } else {
         [self presentViewController:picker animated:YES completion:nil];
     }
+}
+
+- (IBAction)refreshButtonPushed:(id)sender {
+    [CommonsApp.singleton refreshHistory];
 }
 
 - (UIBarButtonItem *)uploadBarButtonItem {

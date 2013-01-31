@@ -208,7 +208,7 @@ static CommonsApp *singleton_;
 - (NSFetchedResultsController *)fetchUploadRecords
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:YES selector:nil];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:NO selector:nil];
     fetchRequest.sortDescriptors = @[sortDescriptor];
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"FileUpload"
@@ -339,7 +339,8 @@ static CommonsApp *singleton_;
         
         
         FileUpload *record = [self createUploadRecord];
-        
+        record.complete = @NO;
+
         record.created = [NSDate date];
         record.title = title;
         record.desc = desc;
@@ -513,6 +514,104 @@ static CommonsApp *singleton_;
     UIGraphicsEndImageContext();
 
     return newImage;
+}
+
+- (void)refreshHistory
+{
+    MWApi *api = [self startApi];
+    [api getRequest: @{
+                           @"action": @"query",
+                        @"generator": @"allimages",
+                          @"gaisort": @"timestamp",
+                           @"gaidir": @"descending",
+                          @"gaiuser": self.username,
+                             @"prop": @"imageinfo",
+                           @"iiprop": @"timestamp|url",
+                       @"iiurlwidth": @"568",
+                      @"iiurlheight": @"424"
+                      }
+       onCompletion:^(MWApiResult *result) {
+           NSFetchedResultsController *records = [self fetchUploadRecords];
+           for (FileUpload *oldRecord in records.fetchedObjects) {
+               if (oldRecord.complete.boolValue) {
+                   [self deleteUploadRecord:oldRecord];
+               }
+           }
+           records = nil;
+
+           /*
+            page: {
+            imageinfo =     (
+                {
+                    descriptionurl = "https://test.wikipedia.org/wiki/File:Testfile_1359577778.png";
+                    thumbheight = 424;
+                    thumburl = "https://upload.wikimedia.org/wikipedia/test/thumb/5/5d/Testfile_1359577778.png/318px-Testfile_1359577778.png";
+                    thumbwidth = 318;
+                    url = "https://upload.wikimedia.org/wikipedia/test/5/5d/Testfile_1359577778.png";
+                }
+            );
+            imagerepository = local;
+            ns = 6;
+            pageid = 66296;
+            title = "File:Testfile 1359577778.png";
+            }
+           */
+           NSDictionary *pages = result.data[@"query"][@"pages"];
+           for (NSString *pageId in pages) {
+               NSDictionary *page = pages[pageId];
+               NSDictionary *imageinfo = page[@"imageinfo"][0];
+               NSLog(@"page: %@", page);
+
+               FileUpload *record = [self createUploadRecord];
+               record.complete = @YES;
+
+               record.title = page[@"title"];
+               record.progress = @1.0f;
+               record.created = [self decodeDate:imageinfo[@"timestamp"]];
+
+               [self saveData];
+           }
+       }];
+}
+
+- (NSString *)prettyDate:(NSDate *)date
+{
+    NSDate *now = [NSDate date];
+    NSTimeInterval interval = [now timeIntervalSinceDate:date];
+    if (interval < 3600.0) {
+        double minutes = interval / 60.0;
+        return [NSString stringWithFormat:@"%0.0f mins ago", minutes];
+    } else if (interval < 86400.0) {
+        double hours = interval / 3600.0;
+        return [NSString stringWithFormat:@"%0.0f hours ago", hours];
+    } else {
+        double days = interval / 86400.0;
+        return [NSString stringWithFormat:@"%0.0f days ago", days];
+    }
+}
+
+- (NSDate *)decodeDate:(NSString *)str
+{
+    int year, month, day, h, m, s;
+
+    // 2012-08-27T20:08:10Z
+    sscanf([str UTF8String], "%d-%d-%dT%d:%d:%dZ", &year, &month, &day, &h, &m, &s);
+
+    NSDateComponents *parts = [[NSDateComponents alloc] init];
+    parts.year = year;
+    parts.month = month;
+    parts.day = day;
+    parts.hour = h;
+    parts.minute = m;
+    parts.second = s;
+    parts.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSGregorianCalendar];
+
+    NSDate *date = [gregorian dateFromComponents:parts];
+
+    return date;
 }
 
 @end

@@ -12,6 +12,7 @@
 @implementation FileUpload
 
 @dynamic assetUrl;
+@dynamic complete;
 @dynamic created;
 @dynamic desc;
 @dynamic localFile;

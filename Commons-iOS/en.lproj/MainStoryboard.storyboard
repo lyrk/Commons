@@ -88,6 +88,7 @@
         <!--Table View Controller - Commons-->
         <scene sceneID="Sfk-GT-xFA">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="odl-n5-1fe" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController id="3Ab-9I-ivX" customClass="TableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="65" sectionHeaderHeight="22" sectionFooterHeight="22" id="SEh-cu-BPR">
                         <rect key="frame" x="0.0" y="64" width="320" height="372"/>
@@ -112,7 +113,7 @@
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="9.9 MB" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="taR-BX-uy6">
-                                            <rect key="frame" x="72" y="29" width="60" height="21"/>
+                                            <rect key="frame" x="72" y="29" width="212" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -144,6 +145,11 @@
                                 <action selector="choosePhotoButtonPushed:" destination="3Ab-9I-ivX" id="rts-st-RiB"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem title="Refresh" id="Q3f-0k-hEi">
+                            <connections>
+                                <action selector="refreshButtonPushed:" destination="3Ab-9I-ivX" id="LRf-Nb-YiT"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Commons" id="nKA-kL-sug">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="Tf8-ip-eax">
@@ -160,13 +166,13 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="choosePhotoButton" destination="Bgx-q3-9zd" id="0Eb-Qa-sX3"/>
+                        <outlet property="refreshButton" destination="Q3f-0k-hEi" id="JzK-yF-8mc"/>
                         <outlet property="settingsButton" destination="Tf8-ip-eax" id="1Fq-FR-Vgp"/>
                         <outlet property="tableView" destination="SEh-cu-BPR" id="eJz-ft-INP"/>
                         <outlet property="takePhotoButton" destination="uX9-Id-kYm" id="5WW-4A-Wp4"/>
                         <outlet property="uploadButton" destination="5TM-AT-dmy" id="Tqn-mm-8dS"/>
                     </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="odl-n5-1fe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-108" y="1026"/>
         </scene>
