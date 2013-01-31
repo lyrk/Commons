@@ -140,7 +140,9 @@ static CommonsApp *singleton_;
 - (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
 {
     // fixme include some nice randoms
-    NSString *filename = [NSString stringWithFormat:@"%li.%@", (long)[[NSDate date] timeIntervalSince1970], extension];
+    long date = [[NSDate date] timeIntervalSince1970];
+    int randomNumber = arc4random();
+    NSString *filename = [NSString stringWithFormat:@"%li-%i.%@", date, randomNumber, extension];
     return filename;
 }
 
@@ -529,8 +531,8 @@ static CommonsApp *singleton_;
                           @"gaiuser": self.username,
                              @"prop": @"imageinfo",
                            @"iiprop": @"timestamp|url",
-                       @"iiurlwidth": @"568",
-                      @"iiurlheight": @"424"
+                       @"iiurlwidth": @"256",
+                      @"iiurlheight": @"256"
                       }
        onCompletion:^(MWApiResult *result) {
            NSFetchedResultsController *records = [self fetchUploadRecords];
@@ -560,20 +562,47 @@ static CommonsApp *singleton_;
            */
            NSDictionary *pages = result.data[@"query"][@"pages"];
            for (NSString *pageId in pages) {
-               NSDictionary *page = pages[pageId];
-               NSDictionary *imageinfo = page[@"imageinfo"][0];
-               NSLog(@"page: %@", page);
+               (^() {
+                   NSDictionary *page = pages[pageId];
+                   NSDictionary *imageinfo = page[@"imageinfo"][0];
+                   NSLog(@"page: %@", page);
 
-               FileUpload *record = [self createUploadRecord];
-               record.complete = @YES;
+                   FileUpload *record = [self createUploadRecord];
+                   record.complete = @YES;
 
-               record.title = page[@"title"];
-               record.progress = @1.0f;
-               record.created = [self decodeDate:imageinfo[@"timestamp"]];
+                   record.title = page[@"title"];
+                   record.progress = @1.0f;
+                   record.created = [self decodeDate:imageinfo[@"timestamp"]];
 
-               [self saveData];
+                   [self saveData];
+                   
+                   [self fetchImage:[NSURL URLWithString:imageinfo[@"thumburl"]] onCompletion:^(UIImage *image) {
+                       if (image != nil) {
+                           record.thumbnailFile = [self saveThumbnail:image];
+                           [self saveData];
+                       } else {
+                           NSLog(@"Error fetching thumbnail");
+                       }
+                   }];
+               })();
            }
        }];
+}
+
+- (void)fetchImage:(NSURL *)url onCompletion:(void(^)(UIImage *image))block
+{
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    void (^done)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (error == nil) {
+            UIImage *image = [UIImage imageWithData:data];
+            block(image);
+        } else {
+            block(nil);
+        }
+    };
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:done];
 }
 
 - (NSString *)prettyDate:(NSDate *)date
