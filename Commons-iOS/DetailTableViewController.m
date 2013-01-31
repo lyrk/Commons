@@ -44,12 +44,20 @@
             // Fetch medium thumbnail from the interwebs
             CGFloat density = [UIScreen mainScreen].scale;
             CGSize size = CGSizeMake(284.0f * density, 212.0f * density);
+            
+            // Start by showing the locally stored thumbnail
+            if (record.thumbnailFile != nil) {
+                self.imagePreview.image = [app loadThumbnail:record.thumbnailFile];
+            }
+            self.imageSpinner.hidden = NO;
             [app fetchWikiImage:record.title size:size onCompletion:^(UIImage *image) {
+                self.imageSpinner.hidden = YES;
                 self.imagePreview.image = image;
             }];
         } else {
             // Use the pre-uploaded file as the medium thumbnail
             self.imagePreview.image = [app loadImage:record.localFile];
+            self.imageSpinner.hidden = YES;
         }
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
@@ -126,6 +134,7 @@
     [self setDescriptionTextView:nil];
     [self setSelectedRecord:nil];
     [self setDeleteButton:nil];
+    [self setImageSpinner:nil];
     [super viewDidUnload];
 }
 
