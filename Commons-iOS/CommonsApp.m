@@ -368,10 +368,12 @@ static CommonsApp *singleton_;
 
 - (void)deleteUploadRecord:(FileUpload *)record
 {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSError *error;
     if (record.localFile) {
-        NSFileManager *fm = [NSFileManager defaultManager];
-        NSError *error;
         [fm removeItemAtPath: [self filePath:record.localFile] error:&error];
+    }
+    if (record.thumbnailFile) {
         [fm removeItemAtPath: [self thumbPath:record.thumbnailFile] error:&error];
         [fm removeItemAtPath: [self thumbPath2x:record.thumbnailFile] error:&error];
     }
