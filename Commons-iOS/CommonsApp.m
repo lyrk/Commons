@@ -230,11 +230,12 @@ static CommonsApp *singleton_;
 {
     NSFetchedResultsController *controller = [self fetchUploadRecords];
     NSArray *objs = controller.fetchedObjects;
-    if (objs.count) {
-        return objs[0];
-    } else {
-        return nil;
+    for (FileUpload *record in objs) {
+        if (!record.complete.boolValue) {
+            return record;
+        }
     }
+    return nil;
 }
 
 - (MWApi *)startApi
