@@ -614,6 +614,28 @@ static CommonsApp *singleton_;
                            completionHandler:done];
 }
 
+- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block
+{
+    MWApi *api = [self startApi];
+    [api getRequest:@{
+               @"action": @"query",
+                 @"prop": @"imageinfo",
+               @"titles": [@"File:" stringByAppendingString:[self cleanupTitle:title]],
+               @"iiprop": @"url",
+           @"iiurlwidth": [NSString stringWithFormat:@"%f", size.width],
+          @"iiurlheight": [NSString stringWithFormat:@"%f", size.height]
+                    }
+       onCompletion:^(MWApiResult *result) {
+           NSDictionary *pages = result.data[@"query"][@"pages"];
+           for (NSString *key in pages) {
+               NSDictionary *page = pages[key];
+               NSDictionary *imageinfo = page[@"imageinfo"][0];
+               NSURL *thumbUrl = [NSURL URLWithString:imageinfo[@"thumburl"]];
+               [self fetchImage:thumbUrl onCompletion:block];
+           }
+     }];
+}
+
 - (NSString *)prettyDate:(NSDate *)date
 {
     NSDate *now = [NSDate date];
