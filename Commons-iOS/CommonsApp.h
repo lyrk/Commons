@@ -46,4 +46,11 @@
 - (void)deleteUploadRecord:(FileUpload *)record;
 - (UIImage *)makeThumbnail:(UIImage *)image size:(NSInteger)size;
 
+- (void)refreshHistory;
+
+- (void)fetchImage:(NSURL *)url onCompletion:(void(^)(UIImage *image))block;
+- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block;
+
+- (NSString *)prettyDate:(NSDate *)date;
+
 @end

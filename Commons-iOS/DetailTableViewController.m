@@ -38,9 +38,19 @@
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = self.selectedRecord;
     if (record != nil) {
-        self.imagePreview.image = [app loadImage:record.localFile];
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
+        if (record.complete.boolValue) {
+            // Fetch medium thumbnail from the interwebs
+            CGFloat density = [UIScreen mainScreen].scale;
+            CGSize size = CGSizeMake(284.0f * density, 212.0f * density);
+            [app fetchWikiImage:record.title size:size onCompletion:^(UIImage *image) {
+                self.imagePreview.image = image;
+            }];
+        } else {
+            // Use the pre-uploaded file as the medium thumbnail
+            self.imagePreview.image = [app loadImage:record.localFile];
+        }
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
     }

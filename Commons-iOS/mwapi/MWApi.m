@@ -161,4 +161,13 @@ id delegate;
     [self.connection cancel];
 }
 
+- (void)getRequest:(NSDictionary *)params onCompletion:(void(^)(MWApiResult *))block
+{
+    MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
+    [builder params:params];
+    [builder param:@"format" :@"json"];
+    NSURLRequest *request = [builder buildRequest:@"GET"];
+    [self makeRequest:request onCompletion:block];
+}
+
 @end

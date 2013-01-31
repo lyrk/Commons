@@ -140,7 +140,9 @@ static CommonsApp *singleton_;
 - (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
 {
     // fixme include some nice randoms
-    NSString *filename = [NSString stringWithFormat:@"%li.%@", (long)[[NSDate date] timeIntervalSince1970], extension];
+    long date = [[NSDate date] timeIntervalSince1970];
+    int randomNumber = arc4random();
+    NSString *filename = [NSString stringWithFormat:@"%li-%i.%@", date, randomNumber, extension];
     return filename;
 }
 
@@ -208,7 +210,7 @@ static CommonsApp *singleton_;
 - (NSFetchedResultsController *)fetchUploadRecords
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:YES selector:nil];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:NO selector:nil];
     fetchRequest.sortDescriptors = @[sortDescriptor];
     
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"FileUpload"
@@ -228,11 +230,12 @@ static CommonsApp *singleton_;
 {
     NSFetchedResultsController *controller = [self fetchUploadRecords];
     NSArray *objs = controller.fetchedObjects;
-    if (objs.count) {
-        return objs[0];
-    } else {
-        return nil;
+    for (FileUpload *record in objs) {
+        if (!record.complete.boolValue) {
+            return record;
+        }
     }
+    return nil;
 }
 
 - (MWApi *)startApi
@@ -255,21 +258,29 @@ static CommonsApp *singleton_;
     
     _currentUploadOp = [self startApi];
     
-    // Run an indeterminate activity indicator during login validation...
-    //[self.activityIndicator startAnimating];
     [_currentUploadOp loginWithUsername:self.username andPassword:self.password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
         NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
-        //[self.activityIndicator stopAnimating];
         if (_currentUploadOp.isLoggedIn) {
             record.progress = @0.0f;
             void (^progress)(NSInteger, NSInteger) = ^(NSInteger bytesSent, NSInteger bytesTotal) {
                 record.progress = [NSNumber numberWithFloat:(float)bytesSent / (float)bytesTotal];
             };
             void (^complete)(MWApiResult *) = ^(MWApiResult *uploadResult) {
-                // @fixme delete the data
                 NSLog(@"upload: %@", uploadResult.data);
                 if (completionBlock != nil) {
-                    [self deleteUploadRecord:record];
+                    NSDictionary *upload = uploadResult.data[@"upload"];
+                    NSDictionary *imageinfo = upload[@"imageinfo"];
+                    if ([upload[@"result"] isEqualToString:@"Success"]) {
+                        NSLog(@"successful upload!");
+                        record.complete = @YES;
+                        record.created = [self decodeDate:imageinfo[@"timestamp"]];
+                        record.title = [self cleanupTitle:upload[@"filename"]];
+                    } else {
+                        NSLog(@"failed upload!");
+                        // whaaaaaaat?
+                        record.progress = @0.0f;
+                    }
+                    [self saveData];
                     completionBlock();
                 }
             };
@@ -339,7 +350,8 @@ static CommonsApp *singleton_;
         
         
         FileUpload *record = [self createUploadRecord];
-        
+        record.complete = @NO;
+
         record.created = [NSDate date];
         record.title = title;
         record.desc = desc;
@@ -367,10 +379,12 @@ static CommonsApp *singleton_;
 
 - (void)deleteUploadRecord:(FileUpload *)record
 {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSError *error;
     if (record.localFile) {
-        NSFileManager *fm = [NSFileManager defaultManager];
-        NSError *error;
         [fm removeItemAtPath: [self filePath:record.localFile] error:&error];
+    }
+    if (record.thumbnailFile) {
         [fm removeItemAtPath: [self thumbPath:record.thumbnailFile] error:&error];
         [fm removeItemAtPath: [self thumbPath2x:record.thumbnailFile] error:&error];
     }
@@ -513,6 +527,169 @@ static CommonsApp *singleton_;
     UIGraphicsEndImageContext();
 
     return newImage;
+}
+
+- (void)refreshHistory
+{
+    MWApi *api = [self startApi];
+    [api getRequest: @{
+                           @"action": @"query",
+                        @"generator": @"allimages",
+                          @"gaisort": @"timestamp",
+                           @"gaidir": @"descending",
+                          @"gaiuser": self.username,
+                             @"prop": @"imageinfo",
+                           @"iiprop": @"timestamp|url",
+                       @"iiurlwidth": @"256",
+                      @"iiurlheight": @"256"
+                      }
+       onCompletion:^(MWApiResult *result) {
+           NSFetchedResultsController *records = [self fetchUploadRecords];
+           for (FileUpload *oldRecord in records.fetchedObjects) {
+               if (oldRecord.complete.boolValue) {
+                   [self deleteUploadRecord:oldRecord];
+               }
+           }
+           records = nil;
+
+           /*
+            page: {
+            imageinfo =     (
+                {
+                    descriptionurl = "https://test.wikipedia.org/wiki/File:Testfile_1359577778.png";
+                    thumbheight = 424;
+                    thumburl = "https://upload.wikimedia.org/wikipedia/test/thumb/5/5d/Testfile_1359577778.png/318px-Testfile_1359577778.png";
+                    thumbwidth = 318;
+                    url = "https://upload.wikimedia.org/wikipedia/test/5/5d/Testfile_1359577778.png";
+                }
+            );
+            imagerepository = local;
+            ns = 6;
+            pageid = 66296;
+            title = "File:Testfile 1359577778.png";
+            }
+           */
+           NSDictionary *pages = result.data[@"query"][@"pages"];
+           for (NSString *pageId in pages) {
+               (^() {
+                   NSDictionary *page = pages[pageId];
+                   NSDictionary *imageinfo = page[@"imageinfo"][0];
+                   NSLog(@"page: %@", page);
+
+                   FileUpload *record = [self createUploadRecord];
+                   record.complete = @YES;
+
+                   record.title = [self cleanupTitle:page[@"title"]];
+                   record.progress = @1.0f;
+                   record.created = [self decodeDate:imageinfo[@"timestamp"]];
+
+                   [self saveData];
+                   
+                   [self fetchImage:[NSURL URLWithString:imageinfo[@"thumburl"]] onCompletion:^(UIImage *image) {
+                       if (image != nil) {
+                           record.thumbnailFile = [self saveThumbnail:image];
+                           [self saveData];
+                       } else {
+                           NSLog(@"Error fetching thumbnail");
+                       }
+                   }];
+               })();
+           }
+       }];
+}
+
+- (void)fetchImage:(NSURL *)url onCompletion:(void(^)(UIImage *image))block
+{
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    void (^done)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (error == nil) {
+            UIImage *image = [UIImage imageWithData:data];
+            block(image);
+        } else {
+            block(nil);
+        }
+    };
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:done];
+}
+
+- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block
+{
+    MWApi *api = [self startApi];
+    [api getRequest:@{
+               @"action": @"query",
+                 @"prop": @"imageinfo",
+               @"titles": [@"File:" stringByAppendingString:[self cleanupTitle:title]],
+               @"iiprop": @"url",
+           @"iiurlwidth": [NSString stringWithFormat:@"%f", size.width],
+          @"iiurlheight": [NSString stringWithFormat:@"%f", size.height]
+                    }
+       onCompletion:^(MWApiResult *result) {
+           NSDictionary *pages = result.data[@"query"][@"pages"];
+           for (NSString *key in pages) {
+               NSDictionary *page = pages[key];
+               NSDictionary *imageinfo = page[@"imageinfo"][0];
+               NSURL *thumbUrl = [NSURL URLWithString:imageinfo[@"thumburl"]];
+               [self fetchImage:thumbUrl onCompletion:block];
+           }
+     }];
+}
+
+- (NSString *)prettyDate:(NSDate *)date
+{
+    NSDate *now = [NSDate date];
+    NSTimeInterval interval = [now timeIntervalSinceDate:date];
+    if (interval < 3600.0) {
+        double minutes = interval / 60.0;
+        return [NSString stringWithFormat:@"%0.0f mins ago", minutes];
+    } else if (interval < 86400.0) {
+        double hours = interval / 3600.0;
+        return [NSString stringWithFormat:@"%0.0f hours ago", hours];
+    } else {
+        double days = interval / 86400.0;
+        return [NSString stringWithFormat:@"%0.0f days ago", days];
+    }
+}
+
+- (NSDate *)decodeDate:(NSString *)str
+{
+    int year, month, day, h, m, s;
+
+    // 2012-08-27T20:08:10Z
+    sscanf([str UTF8String], "%d-%d-%dT%d:%d:%dZ", &year, &month, &day, &h, &m, &s);
+
+    NSDateComponents *parts = [[NSDateComponents alloc] init];
+    parts.year = year;
+    parts.month = month;
+    parts.day = day;
+    parts.hour = h;
+    parts.minute = m;
+    parts.second = s;
+    parts.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
+
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSGregorianCalendar];
+
+    NSDate *date = [gregorian dateFromComponents:parts];
+
+    return date;
+}
+
+- (NSString *)cleanupTitle:(NSString *)title
+{
+    // First, strip a 'File:' namespace prefix if present
+    NSArray *parts = [title componentsSeparatedByString:@":"];
+    NSString *main;
+    main = parts[parts.count - 1];
+    if (parts.count > 1) {
+        main = parts[1];
+    }
+
+    // Convert underscores to spaces
+    NSString *display = [main stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+
+    return display;
 }
 
 @end
