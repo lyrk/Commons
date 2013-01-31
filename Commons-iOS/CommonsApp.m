@@ -258,21 +258,29 @@ static CommonsApp *singleton_;
     
     _currentUploadOp = [self startApi];
     
-    // Run an indeterminate activity indicator during login validation...
-    //[self.activityIndicator startAnimating];
     [_currentUploadOp loginWithUsername:self.username andPassword:self.password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
         NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
-        //[self.activityIndicator stopAnimating];
         if (_currentUploadOp.isLoggedIn) {
             record.progress = @0.0f;
             void (^progress)(NSInteger, NSInteger) = ^(NSInteger bytesSent, NSInteger bytesTotal) {
                 record.progress = [NSNumber numberWithFloat:(float)bytesSent / (float)bytesTotal];
             };
             void (^complete)(MWApiResult *) = ^(MWApiResult *uploadResult) {
-                // @fixme delete the data
                 NSLog(@"upload: %@", uploadResult.data);
                 if (completionBlock != nil) {
-                    [self deleteUploadRecord:record];
+                    NSDictionary *upload = uploadResult.data[@"upload"];
+                    NSDictionary *imageinfo = upload[@"imageinfo"];
+                    if ([upload[@"result"] isEqualToString:@"Success"]) {
+                        NSLog(@"successful upload!");
+                        record.complete = @YES;
+                        record.created = [self decodeDate:imageinfo[@"timestamp"]];
+                        record.title = upload[@"filename"];
+                    } else {
+                        NSLog(@"failed upload!");
+                        // whaaaaaaat?
+                        record.progress = @0.0f;
+                    }
+                    [self saveData];
                     completionBlock();
                 }
             };
