@@ -126,4 +126,22 @@
     }
 }
 
+#pragma mark - Text Field Delegate Methods
+
+/**
+ * Advance text field to text field with next tag.
+ */
+- (BOOL)textFieldShouldReturn:(UITextField *)textField;
+{
+    NSInteger nextTag = textField.tag + 1;
+
+    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
+    if (nextResponder) {
+        [nextResponder becomeFirstResponder];
+    } else {
+        [textField resignFirstResponder];
+    }
+    return NO;
+}
+
 @end
