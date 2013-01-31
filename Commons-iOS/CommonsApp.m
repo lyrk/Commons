@@ -274,7 +274,7 @@ static CommonsApp *singleton_;
                         NSLog(@"successful upload!");
                         record.complete = @YES;
                         record.created = [self decodeDate:imageinfo[@"timestamp"]];
-                        record.title = upload[@"filename"];
+                        record.title = [self cleanupTitle:upload[@"filename"]];
                     } else {
                         NSLog(@"failed upload!");
                         // whaaaaaaat?
@@ -579,7 +579,7 @@ static CommonsApp *singleton_;
                    FileUpload *record = [self createUploadRecord];
                    record.complete = @YES;
 
-                   record.title = page[@"title"];
+                   record.title = [self cleanupTitle:page[@"title"]];
                    record.progress = @1.0f;
                    record.created = [self decodeDate:imageinfo[@"timestamp"]];
 
@@ -652,6 +652,22 @@ static CommonsApp *singleton_;
     NSDate *date = [gregorian dateFromComponents:parts];
 
     return date;
+}
+
+- (NSString *)cleanupTitle:(NSString *)title
+{
+    // First, strip a 'File:' namespace prefix if present
+    NSArray *parts = [title componentsSeparatedByString:@":"];
+    NSString *main;
+    main = parts[parts.count - 1];
+    if (parts.count > 1) {
+        main = parts[1];
+    }
+
+    // Convert underscores to spaces
+    NSString *display = [main stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+
+    return display;
 }
 
 @end
