@@ -17,11 +17,14 @@
     CommonsApp *app = CommonsApp.singleton;
     [app initializeApp];
 
+    // We seem to get a second ping after launching, wtf?
+    /*
     NSLog(@"launch options: %@", launchOptions);
     NSURL *url = launchOptions[UIApplicationLaunchOptionsURLKey];
     if (url != nil) {
         [app processLaunchURL:url];
     }
+    */
     
     return YES;
 }
