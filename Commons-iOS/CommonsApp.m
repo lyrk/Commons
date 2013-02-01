@@ -464,16 +464,48 @@ static CommonsApp *singleton_;
     
     // save local file
     record.localFile = [self saveFile:data forType:record.fileType];
+    [self saveData];
     
     // save thumbnail
-    UIImage *image = [UIImage imageWithData:data];
-    if (image) {
-        record.thumbnailFile = [self saveThumbnail:image];
+    [self loadImage:data fileType:record.fileType onCompletion:^(UIImage *image) {
+        if (image) {
+            record.thumbnailFile = [self saveThumbnail:image];
+            [self saveData];
+        } else {
+            NSLog(@"unable to create thumbnail for %@", fileName);
+        }
+    }];
+}
+
+- (void)loadImage:(NSData *)data fileType:(NSString *)fileType onCompletion:(void(^)(UIImage *))block
+{
+    if ([fileType isEqualToString:@"image/svg+xml"]) {
+        [self loadSVGImage:data onCompletion:block];
+    } else if ([fileType isEqualToString:@"application/pdf"]) {
+        [self loadPDFImage:data onCompletion:block];
     } else {
-        NSLog(@"unable to create thumbnail for %@", fileName);
+        UIImage *image = [UIImage imageWithData:data];
+        // fixme dispatch to the event loop
+        block(image);
     }
+}
+
+- (void)loadSVGImage:(NSData *)data onCompletion:(void(^)(UIImage *))block
+{
+    // fixme implement thumbnailing
+    UIImage *image = [UIImage imageNamed:@"fileicon-svg.png"];
     
-    [self saveData];
+    // fixme dispatch to the event loop
+    block(image);
+}
+
+- (void)loadPDFImage:(NSData *)data onCompletion:(void(^)(UIImage *))block
+{
+    // fixme implement thumbnailing
+    UIImage *image = [UIImage imageNamed:@"fileicon-pdf.png"];
+
+    // fixme dispatch to the event loop
+    block(image);
 }
 
 - (void)deleteUploadRecord:(FileUpload *)record
