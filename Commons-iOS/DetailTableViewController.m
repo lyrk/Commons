@@ -41,6 +41,11 @@
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
         if (record.complete.boolValue) {
+            // Completed upload...
+            self.titleTextField.enabled = NO;
+            self.descriptionTextView.editable = NO;
+            self.deleteButton.enabled = NO;
+
             // Fetch medium thumbnail from the interwebs
             CGFloat density = [UIScreen mainScreen].scale;
             CGSize size = CGSizeMake(284.0f * density, 212.0f * density);
@@ -55,6 +60,11 @@
                 self.imagePreview.image = image;
             }];
         } else {
+            // Locally queued file...
+            self.titleTextField.enabled = YES;
+            self.descriptionTextView.editable = YES;
+            self.deleteButton.enabled = YES;
+
             // Use the pre-uploaded file as the medium thumbnail
             self.imagePreview.image = [app loadImage:record.localFile];
             if (self.imagePreview.image == nil) {
