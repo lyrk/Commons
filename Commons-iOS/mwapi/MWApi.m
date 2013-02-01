@@ -107,7 +107,7 @@ id delegate;
     [self loginWithUsername:username andPassword:password withCookiePersistence:NO onCompletion:block];
 }
 
-- (void) logout:onCompletion:(void(^)(MWApiResult *))block {
+- (void)logoutOnCompletion:(void(^)(MWApiResult *))block {
     MWApiRequestBuilder *builder = [self action:@"logout"];
     [self makeRequest:[builder buildRequest:@"POST"] onCompletion:^(MWApiResult *result) {
         [self clearAuthCookie];
