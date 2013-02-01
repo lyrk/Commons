@@ -7,12 +7,9 @@
 //
 
 #import "TableViewController.h"
-
 #import "CommonsApp.h"
 #import "FileUploadCell.h"
 #import "DetailTableViewController.h"
-
-#import "mwapi/MWApi.h"
 
 @interface TableViewController ()
 
@@ -56,6 +53,28 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"DetailSegue"]) {
+        FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
+        DetailTableViewController *view = [segue destinationViewController];
+        view.selectedRecord = record;
+    }
+}
+
+- (void)viewDidUnload {
+    [self setSettingsButton:nil];
+    [self setUploadButton:nil];
+    [self setTakePhotoButton:nil];
+    [self setChoosePhotoButton:nil];
+    [self setTakePhotoButton:nil];
+    [self setTableView:nil];
+    [self setFetchedResultsController:nil];
+    self.popover = nil;
+    [self setRefreshButton:nil];
+    [super viewDidUnload];
 }
 
 #pragma mark - Table view data source
@@ -111,45 +130,6 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -168,119 +148,7 @@
     */
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"DetailSegue"]) {
-        FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
-        DetailTableViewController *view = [segue destinationViewController];
-        view.selectedRecord = record;
-    }
-}
-
-- (void)viewDidUnload {
-    [self setSettingsButton:nil];
-    [self setUploadButton:nil];
-    [self setTakePhotoButton:nil];
-    [self setChoosePhotoButton:nil];
-    [self setTakePhotoButton:nil];
-    [self setTableView:nil];
-    [self setFetchedResultsController:nil];
-    self.popover = nil;
-    [self setRefreshButton:nil];
-    [super viewDidUnload];
-}
-
-- (IBAction)uploadButtonPushed:(id)sender {
-    
-    CommonsApp *app = [CommonsApp singleton];
-    
-    // Only allow uploads if user is logged in
-    if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
-        // User is logged in
-        
-        if ([self.fetchedResultsController.fetchedObjects count] > 0) {
-            
-            self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
-            
-            NSLog(@"Upload ye files!");
-            
-            __block void (^run)() = ^() {
-                CommonsApp *app = CommonsApp.singleton;
-                FileUpload *record = [app firstUploadRecord];
-                if (record != nil) {
-                    [app beginUpload:record completion:^() {
-                        NSLog(@"completed an upload, going on to next");
-                        run();
-                    }];
-                } else {
-                    NSLog(@"no more uploads");
-                    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
-                    run = nil;
-                }
-            };
-            run();
-        }
-    }
-    else {
-    // User is not logged in
-        
-        NSLog(@"Can't upload because user is not logged in.");
-    }
-}
-
-- (IBAction)takePhotoButtonPushed:(id)sender {
-    NSLog(@"Take photo");
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    picker.delegate = self;
-    [self presentViewController:picker animated:YES completion:nil];
-}
-
-- (IBAction)choosePhotoButtonPushed:(id)sender {
-    NSLog(@"Open gallery");
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    picker.delegate = self;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        // fixme how do we free the popover when it's gone?
-        self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
-        [self.popover presentPopoverFromBarButtonItem:self.choosePhotoButton
-                    permittedArrowDirections:UIPopoverArrowDirectionAny
-                                    animated:YES];
-    } else {
-        [self presentViewController:picker animated:YES completion:nil];
-    }
-}
-
-- (IBAction)refreshButtonPushed:(id)sender {
-    [CommonsApp.singleton refreshHistory];
-}
-
-- (UIBarButtonItem *)uploadBarButtonItem {
-    
-    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(uploadButtonPushed:)];
-    return btn;
-}
-
-- (UIBarButtonItem *)cancelBarButtonItem {
-    
-    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(cancelButtonPushed:)];
-    return btn;
-}
-
-- (void)cancelButtonPushed:(id)sender {
-    
-    CommonsApp *app = [CommonsApp singleton];
-    [app cancelCurrentUpload];
-    
-    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
-}
+#pragma mark - Image Picker Controller Delegate Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -315,54 +183,177 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark - Interface Items
 
-// fetch controller delegate
+- (UIBarButtonItem *)uploadBarButtonItem {
+
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(uploadButtonPushed:)];
+    return btn;
+}
+
+- (UIBarButtonItem *)cancelBarButtonItem {
+
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(cancelButtonPushed:)];
+    return btn;
+}
+
+#pragma mark - Interface Actions
+
+- (IBAction)uploadButtonPushed:(id)sender {
+
+    CommonsApp *app = [CommonsApp singleton];
+
+    // Only allow uploads if user is logged in
+    if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
+        // User is logged in
+
+        if ([self.fetchedResultsController.fetchedObjects count] > 0) {
+
+            self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
+
+            NSLog(@"Upload ye files!");
+
+            __block void (^run)() = ^() {
+                FileUpload *record = [app firstUploadRecord];
+                if (record != nil) {
+                    [app beginUpload:record completion:^() {
+                        NSLog(@"completed an upload, going on to next");
+                        run();
+                    }];
+                } else {
+                    NSLog(@"no more uploads");
+                    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+                    run = nil;
+                }
+            };
+            run();
+        }
+    }
+    else {
+        // User is not logged in
+
+        NSLog(@"Can't upload because user is not logged in.");
+    }
+}
+
+- (IBAction)takePhotoButtonPushed:(id)sender {
+    NSLog(@"Take photo");
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    picker.delegate = self;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+/**
+ * Show the image picker.
+ * On iPad, show a popover.
+ */
+- (IBAction)choosePhotoButtonPushed:(id)sender
+{
+    NSLog(@"Open gallery");
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
+
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if (!self.popover) { // prevent crash when choose photo is tapped twice in succession
+            self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
+            self.popover.delegate = self;
+            [self.popover presentPopoverFromBarButtonItem:self.choosePhotoButton
+                                 permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                 animated:YES];
+        }
+    } else {
+        [self presentViewController:picker animated:YES completion:nil];
+    }
+}
+
+- (IBAction)refreshButtonPushed:(id)sender {
+    [CommonsApp.singleton refreshHistory];
+}
+
+- (void)cancelButtonPushed:(id)sender {
+
+    CommonsApp *app = [CommonsApp singleton];
+    [app cancelCurrentUpload];
+
+    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+}
+
+#pragma mark - NSFetchedResultsController Delegate Methods
+
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView beginUpdates];
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+- (void)controller:(NSFetchedResultsController *)controller
+   didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
+     forChangeType:(NSFetchedResultsChangeType)type
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
     UITableView *tableView = self.tableView;
-    
-    switch(type) {
+
+    switch (type) {
         case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
             break;
-            
+
         case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                             withRowAnimation:UITableViewRowAnimationFade];
             break;
-            
+
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:(FileUploadCell *)[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            [self configureCell:(FileUploadCell *) [tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
             break;
-            
+
         case NSFetchedResultsChangeMove:
-            [tableView deleteRowsAtIndexPaths:[NSArray
-                                               arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView insertRowsAtIndexPaths:[NSArray
-                                               arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView                   deleteRowsAtIndexPaths:[NSArray
+                    arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView                      insertRowsAtIndexPaths:[NSArray
+                    arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
 }
 
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id )sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-    
-    switch(type) {
+- (void)controller:(NSFetchedResultsController *)controller
+  didChangeSection:(id)sectionInfo
+           atIndex:(NSUInteger)sectionIndex
+     forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch (type) {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
             break;
-            
+
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
+                          withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
 }
-
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView endUpdates];
 }
+
+#pragma mark - Popover Controller Delegate Methods
+
+/**
+ * Release memory after popover controller is dismissed.
+ */
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    self.popover = nil;
+}
+
 
 @end
