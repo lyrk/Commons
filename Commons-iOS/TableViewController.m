@@ -297,8 +297,8 @@
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        // fixme how do we free the popover when it's gone?
         self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
+        self.popover.delegate = self;
         [self.popover presentPopoverFromBarButtonItem:self.choosePhotoButton
                              permittedArrowDirections:UIPopoverArrowDirectionAny
                                              animated:YES];
@@ -378,5 +378,17 @@
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView endUpdates];
 }
+
+#pragma mark - Popover Controller Delegate Methods
+
+/**
+ * Release memory after popover controller is dismissed.
+ */
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    NSLog(@"freeing popover");
+    self.popover = nil;
+}
+
 
 @end
