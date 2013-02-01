@@ -25,6 +25,7 @@
 - (void)initializeApp;
 - (void)loadCredentials;
 - (void)saveCredentials;
+- (BOOL)processLaunchURL:(NSURL *)url;
 
 - (NSString *)documentRootPath;
 - (NSString *)filePath:(NSString *)fileName;

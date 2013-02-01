@@ -14,9 +14,22 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [CommonsApp.singleton initializeApp];
+    CommonsApp *app = CommonsApp.singleton;
+    [app initializeApp];
+
+    NSLog(@"launch options: %@", launchOptions);
+    NSURL *url = launchOptions[UIApplicationLaunchOptionsURLKey];
+    if (url != nil) {
+        [app processLaunchURL:url];
+    }
     
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    CommonsApp *app = CommonsApp.singleton;
+    return [app processLaunchURL:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

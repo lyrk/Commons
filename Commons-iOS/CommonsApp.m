@@ -42,6 +42,45 @@ static CommonsApp *singleton_;
     [self setKeychainValue:self.password forEntry:@"org.wikimedia.password"];
 }
 
+- (BOOL)processLaunchURL:(NSURL *)url
+{
+    NSLog(@"Launched with URL: %@", url);
+    NSString *path = [self realPath:url.path];
+    NSString *inbox = [[self realPath:[self documentRootPath]] stringByAppendingString:@"/Inbox/"];
+    
+    if ([[path substringToIndex:[inbox length]] isEqualToString:inbox]) {
+        NSString *fileName = [path lastPathComponent];
+        NSLog(@"loading %@ from another app...", fileName);
+
+        // Read into memory...
+        NSData *data = [NSData dataWithContentsOfFile:path];
+
+        // Delete the source file, we're done with it.
+        NSFileManager *fm = [NSFileManager defaultManager];
+        __autoreleasing NSError *error;
+        [fm removeItemAtPath:path error:&error];
+
+        // Start storing it!
+        [self prepareFile:fileName data:data onCompletion:^() {
+            // woo
+        }];
+
+        return YES;
+    } else {
+        NSLog(@"Didn't recognize file path %@ - not in inbox %@", path, inbox);
+        return NO;
+    }
+}
+
+- (NSString *)realPath:(NSString *)path
+{
+    // fixme are we leaking the UTF8String?
+    const char *bits = realpath([path UTF8String], NULL);
+    NSString *ret = [NSString stringWithUTF8String:bits];
+    free((void *)bits);
+    return ret;
+}
+
 - (BOOL)setKeychainValue:(NSString *)value forEntry:(NSString *)entry
 {
     NSData *encodedName = [entry dataUsingEncoding:NSUTF8StringEncoding];
@@ -325,18 +364,48 @@ static CommonsApp *singleton_;
 
 - (NSString *)filenameForTitle:(NSString *)title type:(NSString *)fileType
 {
+    NSString *extension = [self extensionForType:fileType];
+    
+    // fixme strip chars etc
+    return [[title stringByAppendingString:@"."] stringByAppendingString:extension];
+}
+            
+- (NSString *)extensionForType:(NSString *)fileType
+{
     NSDictionary *types = @{
         @"image/jpeg": @"jpg",
         @"image/png": @"png",
-        @"image/gif": @"gif"
+        @"image/gif": @"gif",
+        @"image/tiff": @"tif",
+        @"image/svg+xml": @"svg",
+        @"application/pdf": @"pdf"
     };
     NSString *extension = types[fileType];
     if (extension == nil) {
         NSLog(@"EXPLODING KABOOOOOOOOM unrecognized type %@", fileType);
     }
-    
-    // fixme strip chars etc
-    return [[title stringByAppendingString:@"."] stringByAppendingString:extension];
+    return extension;
+}
+
+- (NSString *)typeForExtension:(NSString *)ext
+{
+    NSDictionary *map = @{
+        @"jpg": @"image/jpeg",
+        @"jpeg": @"image/jpeg",
+        @"png": @"image/png",
+        @"gif": @"image/gif",
+        @"tif": @"image/tiff",
+        @"tiff": @"image/tiff",
+        @"svg": @"image/svg+xml",
+        @"pdf": @"application/pdf"
+    };
+    NSString *type = map[[ext lowercaseString]];
+    if (type != nil) {
+        return type;
+    } else {
+        NSLog(@"Unrecognized file extension %@", ext);
+        return @"application/octet-stream";
+    }
 }
 
 - (void)prepareImage:(NSDictionary *)info onCompletion:(void(^)())completionBlock
@@ -377,6 +446,36 @@ static CommonsApp *singleton_;
     }];
 }
 
+- (void)prepareFile:(NSString *)fileName data:(NSData *)data onCompletion:(void(^)())completionBlock
+{
+    NSString *extension = [fileName pathExtension];
+    NSString *basename = [fileName substringToIndex:(fileName.length - extension.length - 1)];
+    
+    FileUpload *record = [self createUploadRecord];
+    record.complete = @NO;
+    
+    record.created = [NSDate date];
+    record.title = basename;
+    record.desc = @"imported file";
+    
+    record.fileType = [self typeForExtension:extension];
+    record.fileSize = [NSNumber numberWithInteger:[data length]];
+    record.progress = @0.0f;
+    
+    // save local file
+    record.localFile = [self saveFile:data forType:record.fileType];
+    
+    // save thumbnail
+    UIImage *image = [UIImage imageWithData:data];
+    if (image) {
+        record.thumbnailFile = [self saveThumbnail:image];
+    } else {
+        NSLog(@"unable to create thumbnail for %@", fileName);
+    }
+    
+    [self saveData];
+}
+
 - (void)deleteUploadRecord:(FileUpload *)record
 {
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -413,16 +512,7 @@ static CommonsApp *singleton_;
 {
     NSURL *url = info[UIImagePickerControllerReferenceURL];
     if (url != nil) {
-        NSString *extension = [[url pathExtension] lowercaseString];
-        NSLog(@"ext is %@", extension);
-        if ([extension isEqualToString:@"png"]) {
-            // Screenshots and saved items may be PNGs
-            return @"image/png";
-        } else if ([extension isEqualToString:@"gif"]) {
-            return @"image/gif";
-        } else {
-            return @"image/jpeg";
-        }
+        return [self typeForExtension:[url pathExtension]];
     } else {
         // Freshly taken photo, we'll go craaaazy
         return @"image/jpeg";
