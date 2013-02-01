@@ -7,7 +7,6 @@
 //
 
 #import "TableViewController.h"
-
 #import "CommonsApp.h"
 #import "FileUploadCell.h"
 #import "DetailTableViewController.h"
@@ -204,7 +203,6 @@
     return btn;
 }
 
-
 #pragma mark - Interface Actions
 
 - (IBAction)uploadButtonPushed:(id)sender {
@@ -280,7 +278,6 @@
     self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
 }
 
-
 #pragma mark - NSFetchedResultsController Delegate Methods
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
@@ -347,7 +344,6 @@
  */
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
-    NSLog(@"freeing popover");
     self.popover = nil;
 }
 
