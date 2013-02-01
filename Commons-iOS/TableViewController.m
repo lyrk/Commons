@@ -148,7 +148,7 @@
     */
 }
 
-#pragma mark - Image Picker Controller
+#pragma mark - Image Picker Controller Delegate Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -250,17 +250,25 @@
     [self presentViewController:picker animated:YES completion:nil];
 }
 
-- (IBAction)choosePhotoButtonPushed:(id)sender {
+/**
+ * Show the image picker.
+ * On iPad, show a popover.
+ */
+- (IBAction)choosePhotoButtonPushed:(id)sender
+{
     NSLog(@"Open gallery");
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
+
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
-        self.popover.delegate = self;
-        [self.popover presentPopoverFromBarButtonItem:self.choosePhotoButton
-                             permittedArrowDirections:UIPopoverArrowDirectionAny
-                                             animated:YES];
+        if (!self.popover) { // prevent crash when choose photo is tapped twice in succession
+            self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
+            self.popover.delegate = self;
+            [self.popover presentPopoverFromBarButtonItem:self.choosePhotoButton
+                                 permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                 animated:YES];
+        }
     } else {
         [self presentViewController:picker animated:YES completion:nil];
     }
