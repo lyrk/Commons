@@ -47,6 +47,7 @@
 		D4D0E1F7169BA5E2003047A8 /* MWApiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */; };
 		D4D0E1F8169BA5E2003047A8 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
 		D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
+		DC0F63DF16BBB73F0017E63C /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC0F63DE16BBB73F0017E63C /* defaults.plist */; };
 		DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
 /* End PBXBuildFile section */
 
@@ -108,6 +109,7 @@
 		D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiResult.m; path = mwapi/MWApiResult.m; sourceTree = "<group>"; };
 		D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extras.m"; path = "mwapi/NSString+Extras.m"; sourceTree = "<group>"; };
 		D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+DictionaryRequest.m"; path = "mwapi/NSURLRequest+DictionaryRequest.m"; sourceTree = "<group>"; };
+		DC0F63DE16BBB73F0017E63C /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 		DC2CB56516B9BD420047977E /* MWNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWNetworkActivityIndicatorManager.h; path = mwapi/MWNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWNetworkActivityIndicatorManager.m; path = mwapi/MWNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -196,6 +198,7 @@
 				D4086182169B760800D6ACB0 /* Default.png */,
 				D4086184169B760800D6ACB0 /* Default@2x.png */,
 				D4086186169B760800D6ACB0 /* Default-568h@2x.png */,
+				DC0F63DE16BBB73F0017E63C /* defaults.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				D40CE3D716BB398A00E63B27 /* Commons-logo-72@2x.png in Resources */,
 				D40CE3DE16BB542300E63B27 /* fileicon-pdf.png in Resources */,
 				D40CE3DF16BB542300E63B27 /* fileicon-svg.png in Resources */,
+				DC0F63DF16BBB73F0017E63C /* defaults.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

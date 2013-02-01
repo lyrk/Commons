@@ -24,10 +24,25 @@ static CommonsApp *singleton_;
 
 - (void)initializeApp
 {
+    // Register default perferences with 'defaults.plist' file
+    NSString *defaultsFile = [[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"];
+    NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsFile];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+    
     [self loadCredentials];
-    self.debugMode = YES; // fixme -- save in a preference
     [self setupData];
     [self fetchUploadRecords];
+}
+
+- (BOOL)debugMode {
+    
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"DebugMode"];
+}
+
+- (void)setDebugMode:(BOOL)value {
+    
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:@"DebugMode"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)loadCredentials
