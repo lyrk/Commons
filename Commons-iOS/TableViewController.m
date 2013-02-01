@@ -56,6 +56,28 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"DetailSegue"]) {
+        FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
+        DetailTableViewController *view = [segue destinationViewController];
+        view.selectedRecord = record;
+    }
+}
+
+- (void)viewDidUnload {
+    [self setSettingsButton:nil];
+    [self setUploadButton:nil];
+    [self setTakePhotoButton:nil];
+    [self setChoosePhotoButton:nil];
+    [self setTakePhotoButton:nil];
+    [self setTableView:nil];
+    [self setFetchedResultsController:nil];
+    self.popover = nil;
+    [self setRefreshButton:nil];
+    [super viewDidUnload];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -166,118 +188,7 @@
     */
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"DetailSegue"]) {
-        FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
-        DetailTableViewController *view = [segue destinationViewController];
-        view.selectedRecord = record;
-    }
-}
-
-- (void)viewDidUnload {
-    [self setSettingsButton:nil];
-    [self setUploadButton:nil];
-    [self setTakePhotoButton:nil];
-    [self setChoosePhotoButton:nil];
-    [self setTakePhotoButton:nil];
-    [self setTableView:nil];
-    [self setFetchedResultsController:nil];
-    self.popover = nil;
-    [self setRefreshButton:nil];
-    [super viewDidUnload];
-}
-
-- (IBAction)uploadButtonPushed:(id)sender {
-    
-    CommonsApp *app = [CommonsApp singleton];
-    
-    // Only allow uploads if user is logged in
-    if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
-        // User is logged in
-        
-        if ([self.fetchedResultsController.fetchedObjects count] > 0) {
-            
-            self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
-            
-            NSLog(@"Upload ye files!");
-
-            __block void (^run)() = ^() {
-                FileUpload *record = [app firstUploadRecord];
-                if (record != nil) {
-                    [app beginUpload:record completion:^() {
-                        NSLog(@"completed an upload, going on to next");
-                        run();
-                    }];
-                } else {
-                    NSLog(@"no more uploads");
-                    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
-                    run = nil;
-                }
-            };
-            run();
-        }
-    }
-    else {
-    // User is not logged in
-        
-        NSLog(@"Can't upload because user is not logged in.");
-    }
-}
-
-- (IBAction)takePhotoButtonPushed:(id)sender {
-    NSLog(@"Take photo");
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-    picker.delegate = self;
-    [self presentViewController:picker animated:YES completion:nil];
-}
-
-- (IBAction)choosePhotoButtonPushed:(id)sender {
-    NSLog(@"Open gallery");
-    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    picker.delegate = self;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        // fixme how do we free the popover when it's gone?
-        self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
-        [self.popover presentPopoverFromBarButtonItem:self.choosePhotoButton
-                    permittedArrowDirections:UIPopoverArrowDirectionAny
-                                    animated:YES];
-    } else {
-        [self presentViewController:picker animated:YES completion:nil];
-    }
-}
-
-- (IBAction)refreshButtonPushed:(id)sender {
-    [CommonsApp.singleton refreshHistory];
-}
-
-- (UIBarButtonItem *)uploadBarButtonItem {
-    
-    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(uploadButtonPushed:)];
-    return btn;
-}
-
-- (UIBarButtonItem *)cancelBarButtonItem {
-    
-    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(cancelButtonPushed:)];
-    return btn;
-}
-
-- (void)cancelButtonPushed:(id)sender {
-    
-    CommonsApp *app = [CommonsApp singleton];
-    [app cancelCurrentUpload];
-    
-    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
-}
+#pragma mark - Image Picker Controller
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
@@ -310,6 +221,102 @@
 {
     NSLog(@"canceled");
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Interface Items
+
+- (UIBarButtonItem *)uploadBarButtonItem {
+
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(uploadButtonPushed:)];
+    return btn;
+}
+
+- (UIBarButtonItem *)cancelBarButtonItem {
+
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
+                                                            style:UIBarButtonItemStylePlain
+                                                           target:self
+                                                           action:@selector(cancelButtonPushed:)];
+    return btn;
+}
+
+
+#pragma mark - Interface Actions
+
+- (IBAction)uploadButtonPushed:(id)sender {
+
+    CommonsApp *app = [CommonsApp singleton];
+
+    // Only allow uploads if user is logged in
+    if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
+        // User is logged in
+
+        if ([self.fetchedResultsController.fetchedObjects count] > 0) {
+
+            self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
+
+            NSLog(@"Upload ye files!");
+
+            __block void (^run)() = ^() {
+                FileUpload *record = [app firstUploadRecord];
+                if (record != nil) {
+                    [app beginUpload:record completion:^() {
+                        NSLog(@"completed an upload, going on to next");
+                        run();
+                    }];
+                } else {
+                    NSLog(@"no more uploads");
+                    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+                    run = nil;
+                }
+            };
+            run();
+        }
+    }
+    else {
+        // User is not logged in
+
+        NSLog(@"Can't upload because user is not logged in.");
+    }
+}
+
+- (IBAction)takePhotoButtonPushed:(id)sender {
+    NSLog(@"Take photo");
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    picker.delegate = self;
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+- (IBAction)choosePhotoButtonPushed:(id)sender {
+    NSLog(@"Open gallery");
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.delegate = self;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // fixme how do we free the popover when it's gone?
+        self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
+        [self.popover presentPopoverFromBarButtonItem:self.choosePhotoButton
+                             permittedArrowDirections:UIPopoverArrowDirectionAny
+                                             animated:YES];
+    } else {
+        [self presentViewController:picker animated:YES completion:nil];
+    }
+}
+
+- (IBAction)refreshButtonPushed:(id)sender {
+    [CommonsApp.singleton refreshHistory];
+}
+
+- (void)cancelButtonPushed:(id)sender {
+
+    CommonsApp *app = [CommonsApp singleton];
+    [app cancelCurrentUpload];
+
+    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
 }
 
 
