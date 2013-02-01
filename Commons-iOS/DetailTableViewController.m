@@ -57,6 +57,10 @@
         } else {
             // Use the pre-uploaded file as the medium thumbnail
             self.imagePreview.image = [app loadImage:record.localFile];
+            if (self.imagePreview.image == nil) {
+                // Can't read that file format natively; use our thumbnail icon
+                self.imagePreview.image = [app loadThumbnail:record.thumbnailFile];
+            }
             self.imageSpinner.hidden = YES;
         }
     } else {
