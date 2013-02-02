@@ -294,14 +294,32 @@ static CommonsApp *singleton_;
 
 - (MWApi *)startApi
 {
-    NSString *urlStr;
-    if (self.debugMode) {
-        urlStr = @"https://test.wikipedia.org/w/api.php";
-    } else {
-        urlStr = @"https://commons.wikimedia.org/w/api.php";
-    }
-    NSURL *url = [NSURL URLWithString:urlStr];
+    NSURL *url = [NSURL URLWithString:[[self wikiURLBase] stringByAppendingString:@"/w/api.php"]];
     return [[MWApi alloc] initWithApiUrl:url];;
+}
+
+- (NSString *)wikiURLBase
+{
+    if (self.debugMode) {
+        return @"https://test.wikipedia.org";
+    } else {
+        return @"https://commons.wikimedia.org";
+    }
+}
+
+- (NSURL *)URLForWikiPage:(NSString *)title
+{
+    NSString *urlStr = [NSString stringWithFormat:@"%@/wiki/%@",
+                                                 [self wikiURLBase],
+                                                 [self encodeWikiTitle:title]];
+    return [NSURL URLWithString:urlStr];
+}
+
+- (NSString *)encodeWikiTitle:(NSString *)title
+{
+    // note: MediaWiki de-escapes a couple of things for its canonical URLs.
+    return [[title stringByReplacingOccurrencesOfString:@" " withString:@"_"]
+            stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;

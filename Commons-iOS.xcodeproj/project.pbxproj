@@ -38,6 +38,8 @@
 		D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
 		D4AFF27816B8A651003D96F3 /* redbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = D4AFF27616B8A651003D96F3 /* redbutton.png */; };
 		D4AFF27916B8A651003D96F3 /* redbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4AFF27716B8A651003D96F3 /* redbutton@2x.png */; };
+		D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
+		D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		D4C08F2A16AF47300069172D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
 		D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */ = {isa = PBXBuildFile; fileRef = D4D0E1E7169BA0F4003047A8 /* mwapi */; };
 		D4D0E1F2169BA5E2003047A8 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
@@ -100,6 +102,10 @@
 		D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewController.m; sourceTree = "<group>"; };
 		D4AFF27616B8A651003D96F3 /* redbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbutton.png; sourceTree = "<group>"; };
 		D4AFF27716B8A651003D96F3 /* redbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redbutton@2x.png"; sourceTree = "<group>"; };
+		D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		D4B83E2016BC950900ABAF94 /* BrowserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserHelper.h; sourceTree = "<group>"; };
+		D4B83E2116BC950900ABAF94 /* BrowserHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserHelper.m; sourceTree = "<group>"; };
 		D4C08F2916AF47300069172D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D4D0E1E7169BA0F4003047A8 /* mwapi */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mwapi; sourceTree = "<group>"; };
 		D4D0E1E9169BA5E2003047A8 /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Http.m; path = mwapi/Http.m; sourceTree = "<group>"; };
@@ -178,6 +184,8 @@
 				D450A0E216B34ADD00D1D1E2 /* CommonsApp.h */,
 				D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */,
 				D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */,
+				D4B83E2016BC950900ABAF94 /* BrowserHelper.h */,
+				D4B83E2116BC950900ABAF94 /* BrowserHelper.m */,
 			);
 			path = "Commons-iOS";
 			sourceTree = "<group>";
@@ -250,6 +258,8 @@
 				D413DEDF16B56E9700842FEB /* FileUploadCell.m */,
 				D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */,
 				D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */,
+				D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */,
+				D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -358,6 +368,8 @@
 				D413DEE016B56E9700842FEB /* FileUploadCell.m in Sources */,
 				D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */,
 				DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */,
+				D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */,
+				D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
