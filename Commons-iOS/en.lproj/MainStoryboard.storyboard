@@ -265,14 +265,14 @@
                             </tableViewSection>
                             <tableViewSection id="vHv-Gu-r2P">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DeleteCell" rowHeight="64" id="S2e-7b-daJ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DeleteCell" rowHeight="64" id="OGF-s2-a4Y">
                                         <rect key="frame" x="0.0" y="507" width="320" height="66"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="10" y="1" width="300" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0Vu-QC-ma3">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8x6-pj-1Ig">
                                                     <rect key="frame" x="20" y="10" width="260" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
@@ -284,7 +284,23 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
-                                                        <action selector="deleteButtonPushed:" destination="epi-E0-AsP" eventType="touchUpInside" id="GR5-Fs-o4a"/>
+                                                        <action selector="deleteButtonPushed:" destination="epi-E0-AsP" eventType="touchUpInside" id="fFR-He-Vy3"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="0Vu-QC-ma3">
+                                                    <rect key="frame" x="20" y="10" width="260" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" size="button"/>
+                                                    <state key="normal" title="Open wiki page">
+                                                        <color key="titleColor" red="0.19607843137254902" green="0.30980392156862746" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="highlighted">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="openPageButtonPushed:" destination="epi-E0-AsP" eventType="touchUpInside" id="0la-UH-olv"/>
+                                                        <segue destination="wx9-WY-6j8" kind="push" identifier="OpenPageSegue" id="uB6-7b-sE4"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -302,16 +318,50 @@
                     <navigationItem key="navigationItem" title="Photo Details" id="zmF-L8-v3a"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="deleteButton" destination="0Vu-QC-ma3" id="KKW-LG-M5L"/>
+                        <outlet property="deleteButton" destination="8x6-pj-1Ig" id="qJe-C9-b5V"/>
                         <outlet property="descriptionTextView" destination="ucL-2U-rnz" id="gR2-E9-5x4"/>
                         <outlet property="imagePreview" destination="Luf-Jz-Qvj" id="h3z-EF-ppE"/>
                         <outlet property="imageSpinner" destination="EeR-Re-MP4" id="XGR-D2-TO9"/>
+                        <outlet property="openPageButton" destination="0Vu-QC-ma3" id="4w7-6B-I04"/>
                         <outlet property="titleTextField" destination="V0c-wd-2eA" id="jDg-9F-Bth"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pjA-1f-CoP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="435" y="1343"/>
+        </scene>
+        <!--Web View Controller-->
+        <scene sceneID="hV5-yL-clO">
+            <objects>
+                <viewController id="wx9-WY-6j8" customClass="WebViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1cH-cL-YOZ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" scalesPageToFit="YES" id="AdI-fV-Ske">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="lYW-ac-t8Y">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="5tx-pm-FMc">
+                            <connections>
+                                <action selector="actionButtonPushed:" destination="wx9-WY-6j8" id="9pG-bg-Waz"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="TitleBar" destination="lYW-ac-t8Y" id="CwG-SS-e4U"/>
+                        <outlet property="actionButton" destination="5tx-pm-FMc" id="2vo-Cq-TKB"/>
+                        <outlet property="webView" destination="AdI-fV-Ske" id="j09-at-CHB"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8wD-J6-S9Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="877" y="1343"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QIr-ce-0cf">

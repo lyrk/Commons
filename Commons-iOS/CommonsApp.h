@@ -40,6 +40,8 @@
 - (FileUpload *)firstUploadRecord;
 
 - (MWApi *)startApi;
+- (NSString *)wikiURLBase;
+- (NSURL *)URLForWikiPage:(NSString *)title;
 - (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
 - (void)cancelCurrentUpload;
 

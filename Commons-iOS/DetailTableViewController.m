@@ -8,6 +8,7 @@
 
 #import "DetailTableViewController.h"
 #import "CommonsApp.h"
+#import "WebViewController.h"
 
 @interface DetailTableViewController ()
 
@@ -44,7 +45,8 @@
             // Completed upload...
             self.titleTextField.enabled = NO;
             self.descriptionTextView.editable = NO;
-            self.deleteButton.enabled = NO;
+            self.deleteButton.hidden = YES;
+            self.openPageButton.hidden = NO;
 
             // Fetch medium thumbnail from the interwebs
             CGFloat density = [UIScreen mainScreen].scale;
@@ -63,7 +65,8 @@
             // Locally queued file...
             self.titleTextField.enabled = YES;
             self.descriptionTextView.editable = YES;
-            self.deleteButton.enabled = YES;
+            self.deleteButton.hidden = NO;
+            self.openPageButton.hidden = YES;
 
             // Use the pre-uploaded file as the medium thumbnail
             self.imagePreview.image = [app loadImage:record.localFile];
@@ -142,6 +145,17 @@
      */
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"OpenPageSegue"]) {
+        if (self.selectedRecord) {
+            WebViewController *view = [segue destinationViewController];
+            NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
+            view.targetURL = [CommonsApp.singleton URLForWikiPage:pageTitle];
+        }
+    }
+}
+
 - (void)viewDidUnload {
     [self setImagePreview:nil];
     [self setTitleTextField:nil];
@@ -149,6 +163,7 @@
     [self setSelectedRecord:nil];
     [self setDeleteButton:nil];
     [self setImageSpinner:nil];
+    [self setOpenPageButton:nil];
     [super viewDidUnload];
 }
 
@@ -177,4 +192,6 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)openPageButtonPushed:(id)sender {
+}
 @end
