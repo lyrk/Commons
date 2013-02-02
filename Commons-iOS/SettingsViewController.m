@@ -66,33 +66,39 @@
         // Test credentials to make sure they are valid
         MWApi *mwapi = [app startApi];
         
-        [mwapi loginWithUsername:username andPassword:password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
-            
-            NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
-            
-            if (mwapi.isLoggedIn) {
-                // Credentials verified
-                
-                // Save credentials
-                app.username = username;
-                app.password = password;
-                [app saveCredentials];
-                
-                // Dismiss view
-                
-                [self dismissViewControllerAnimated:YES completion:nil];
-                
-            } else {
-                // Credentials invalid
-                
-                NSLog(@"Credentials invalid!");
-                
-                // Erase saved credentials so that the credentials are validated every time they are changed
-                app.username = @"";
-                app.password = @"";
-                [app saveCredentials];
-            }
-        }];
+        [mwapi loginWithUsername:username
+                     andPassword:password
+           withCookiePersistence:YES
+                    onCompletion:^(MWApiResult *loginResult) {
+                        
+                        NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
+                        
+                        if (mwapi.isLoggedIn) {
+                            // Credentials verified
+                            
+                            // Save credentials
+                            app.username = username;
+                            app.password = password;
+                            [app saveCredentials];
+                            
+                            // Dismiss view
+                            
+                            [self dismissViewControllerAnimated:YES completion:nil];
+                            
+                        } else {
+                            // Credentials invalid
+                            
+                            NSLog(@"Credentials invalid!");
+                            
+                            // Erase saved credentials so that the credentials are validated every time they are changed
+                            app.username = @"";
+                            app.password = @"";
+                            [app saveCredentials];
+                        }
+                    }
+                       onFailure:^(NSError *error) {
+                           NSLog(@"Login failed: %@", [error localizedDescription]);
+                       }];
         
     }
     else {

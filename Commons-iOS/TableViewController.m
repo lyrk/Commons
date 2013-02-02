@@ -211,20 +211,27 @@
     // Only allow uploads if user is logged in
     if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
         // User is logged in
-
+        
         if ([self.fetchedResultsController.fetchedObjects count] > 0) {
-
+            
             self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
-
+            
             NSLog(@"Upload ye files!");
-
+            
             __block void (^run)() = ^() {
                 FileUpload *record = [app firstUploadRecord];
                 if (record != nil) {
-                    [app beginUpload:record completion:^() {
-                        NSLog(@"completed an upload, going on to next");
-                        run();
-                    }];
+                    [app beginUpload:record
+                          completion:^() {
+                              NSLog(@"completed an upload, going on to next");
+                              run();
+                          }
+                           onFailure:^(NSError *error) {
+                               NSLog(@"Upload failed: %@", [error localizedDescription]);
+                               self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+                               run = nil;
+                           }
+                     ];
                 } else {
                     NSLog(@"no more uploads");
                     self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];

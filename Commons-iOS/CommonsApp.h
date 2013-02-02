@@ -42,7 +42,7 @@
 - (MWApi *)startApi;
 - (NSString *)wikiURLBase;
 - (NSURL *)URLForWikiPage:(NSString *)title;
-- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
+- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock onFailure:(void(^)(NSError *))failureBlock;
 - (void)cancelCurrentUpload;
 
 - (void)prepareImage:(NSDictionary *)info onCompletion:(void(^)())completionBlock;
@@ -51,8 +51,8 @@
 
 - (void)refreshHistory;
 
-- (void)fetchImage:(NSURL *)url onCompletion:(void(^)(UIImage *image))block;
-- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block;
+- (void)fetchImage:(NSURL *)url onCompletion:(void(^)(UIImage *image))block onFailure:(void(^)(NSError *))failureBlock;
+- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block onFailure:(void(^)(NSError *))failureBlock;
 
 - (NSString *)prettyDate:(NSDate *)date;
 

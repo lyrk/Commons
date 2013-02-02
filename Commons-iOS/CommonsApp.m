@@ -322,7 +322,7 @@ static CommonsApp *singleton_;
             stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock;
+- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock onFailure:(void (^)(NSError *))failureBlock;
 {
     NSString *fileName = [self filenameForTitle:record.title type:record.fileType];
     NSString *filePath = [self filePath:record.localFile];
@@ -330,42 +330,64 @@ static CommonsApp *singleton_;
     
     _currentUploadOp = [self startApi];
     
-    [_currentUploadOp loginWithUsername:self.username andPassword:self.password withCookiePersistence:YES onCompletion:^(MWApiResult *loginResult) {
-        NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
-        if (_currentUploadOp.isLoggedIn) {
-            record.progress = @0.0f;
-            void (^progress)(NSInteger, NSInteger) = ^(NSInteger bytesSent, NSInteger bytesTotal) {
-                record.progress = [NSNumber numberWithFloat:(float)bytesSent / (float)bytesTotal];
-            };
-            void (^complete)(MWApiResult *) = ^(MWApiResult *uploadResult) {
-                NSLog(@"upload: %@", uploadResult.data);
-                if (completionBlock != nil) {
-                    NSDictionary *upload = uploadResult.data[@"upload"];
-                    NSDictionary *imageinfo = upload[@"imageinfo"];
-                    if ([upload[@"result"] isEqualToString:@"Success"]) {
-                        NSLog(@"successful upload!");
-                        record.complete = @YES;
-                        record.created = [self decodeDate:imageinfo[@"timestamp"]];
-                        record.title = [self cleanupTitle:upload[@"filename"]];
-                    } else {
-                        NSLog(@"failed upload!");
-                        // whaaaaaaat?
-                        record.progress = @0.0f;
-                    }
-                    [self saveData];
-                    completionBlock();
-                }
-            };
-            [_currentUploadOp uploadFile:fileName
-                            withFileData:fileData
-                                    text:[self formatDescription:record]
-                                 comment:@"Uploaded with Commons for iOS"
-                            onCompletion:complete
-                              onProgress:progress];
-        } else {
-            NSLog(@"not logged in");
-        }
-    }];
+    [_currentUploadOp loginWithUsername:self.username
+                            andPassword:self.password
+                  withCookiePersistence:YES
+                           onCompletion:^(MWApiResult *loginResult) {
+                               
+                               NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
+                               
+                               if (_currentUploadOp.isLoggedIn) {
+                                   
+                                   record.progress = @0.0f;
+                                   
+                                   // Progress block
+                                   void (^progress)(NSInteger, NSInteger) = ^(NSInteger bytesSent, NSInteger bytesTotal) {
+                                       record.progress = [NSNumber numberWithFloat:(float)bytesSent / (float)bytesTotal];
+                                   };
+                                   
+                                   // Completion block
+                                   void (^complete)(MWApiResult *) = ^(MWApiResult *uploadResult) {
+                                       NSLog(@"upload: %@", uploadResult.data);
+                                       if (completionBlock != nil) {
+                                           NSDictionary *upload = uploadResult.data[@"upload"];
+                                           NSDictionary *imageinfo = upload[@"imageinfo"];
+                                           if ([upload[@"result"] isEqualToString:@"Success"]) {
+                                               NSLog(@"successful upload!");
+                                               record.complete = @YES;
+                                               record.created = [self decodeDate:imageinfo[@"timestamp"]];
+                                               record.title = [self cleanupTitle:upload[@"filename"]];
+                                           } else {
+                                               NSLog(@"failed upload!");
+                                               // whaaaaaaat?
+                                               record.progress = @0.0f;
+                                           }
+                                           [self saveData];
+                                           completionBlock();
+                                       }
+                                   };
+                                   
+                                   // Failure block
+                                   void (^failure)(NSError *) = ^(NSError *error) {
+                                       NSLog(@"failed upload!");
+                                       record.progress = @0.0f;
+                                   };
+                                   
+                                   [_currentUploadOp uploadFile:fileName
+                                                   withFileData:fileData
+                                                           text:[self formatDescription:record]
+                                                        comment:@"Uploaded with Commons for iOS"
+                                                   onCompletion:complete
+                                                     onProgress:progress
+                                                      onFailure:failure];
+                                   
+                               } else {
+                                   
+                                   NSLog(@"not logged in");
+                               }
+                               
+                           }
+                              onFailure:failureBlock];
 }
 
 - (NSString *)formatDescription:(FileUpload *)record
@@ -688,16 +710,16 @@ static CommonsApp *singleton_;
 {
     MWApi *api = [self startApi];
     [api getRequest: @{
-                           @"action": @"query",
-                        @"generator": @"allimages",
-                          @"gaisort": @"timestamp",
-                           @"gaidir": @"descending",
-                          @"gaiuser": self.username,
-                             @"prop": @"imageinfo",
-                           @"iiprop": @"timestamp|url",
-                       @"iiurlwidth": @"256",
-                      @"iiurlheight": @"256"
-                      }
+     @"action": @"query",
+     @"generator": @"allimages",
+     @"gaisort": @"timestamp",
+     @"gaidir": @"descending",
+     @"gaiuser": self.username,
+     @"prop": @"imageinfo",
+     @"iiprop": @"timestamp|url",
+     @"iiurlwidth": @"256",
+     @"iiurlheight": @"256"
+     }
        onCompletion:^(MWApiResult *result) {
            NSFetchedResultsController *records = [self fetchUploadRecords];
            for (FileUpload *oldRecord in records.fetchedObjects) {
@@ -706,54 +728,63 @@ static CommonsApp *singleton_;
                }
            }
            records = nil;
-
+           
            /*
             page: {
             imageinfo =     (
-                {
-                    descriptionurl = "https://test.wikipedia.org/wiki/File:Testfile_1359577778.png";
-                    thumbheight = 424;
-                    thumburl = "https://upload.wikimedia.org/wikipedia/test/thumb/5/5d/Testfile_1359577778.png/318px-Testfile_1359577778.png";
-                    thumbwidth = 318;
-                    url = "https://upload.wikimedia.org/wikipedia/test/5/5d/Testfile_1359577778.png";
-                }
+            {
+            descriptionurl = "https://test.wikipedia.org/wiki/File:Testfile_1359577778.png";
+            thumbheight = 424;
+            thumburl = "https://upload.wikimedia.org/wikipedia/test/thumb/5/5d/Testfile_1359577778.png/318px-Testfile_1359577778.png";
+            thumbwidth = 318;
+            url = "https://upload.wikimedia.org/wikipedia/test/5/5d/Testfile_1359577778.png";
+            }
             );
             imagerepository = local;
             ns = 6;
             pageid = 66296;
             title = "File:Testfile 1359577778.png";
             }
-           */
+            */
            NSDictionary *pages = result.data[@"query"][@"pages"];
            for (NSString *pageId in pages) {
                (^() {
                    NSDictionary *page = pages[pageId];
                    NSDictionary *imageinfo = page[@"imageinfo"][0];
                    NSLog(@"page: %@", page);
-
+                   
                    FileUpload *record = [self createUploadRecord];
                    record.complete = @YES;
-
+                   
                    record.title = [self cleanupTitle:page[@"title"]];
                    record.progress = @1.0f;
                    record.created = [self decodeDate:imageinfo[@"timestamp"]];
-
+                   
                    [self saveData];
                    
-                   [self fetchImage:[NSURL URLWithString:imageinfo[@"thumburl"]] onCompletion:^(UIImage *image) {
-                       if (image != nil) {
-                           record.thumbnailFile = [self saveThumbnail:image];
-                           [self saveData];
-                       } else {
-                           NSLog(@"Error fetching thumbnail");
+                   [self fetchImage:[NSURL URLWithString:imageinfo[@"thumburl"]]
+                       onCompletion:^(UIImage *image) {
+                           if (image != nil) {
+                               record.thumbnailFile = [self saveThumbnail:image];
+                               [self saveData];
+                           } else {
+                               NSLog(@"Error fetching thumbnail");
+                           }
                        }
-                   }];
+                          onFailure:^(NSError *error) {
+                              NSLog(@"Error fetching thumbnail: %@", [error localizedDescription]);
+                          }
+                    ];
                })();
            }
-       }];
+       }
+          onFailure:^(NSError *error) {
+              NSLog(@"Failed to refresh history: %@", [error localizedDescription]);
+          }
+     ];
 }
 
-- (void)fetchImage:(NSURL *)url onCompletion:(void(^)(UIImage *image))block
+- (void)fetchImage:(NSURL *)url onCompletion:(void(^)(UIImage *image))block onFailure:(void (^)(NSError *))failureBlock 
 {
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     void (^done)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -762,6 +793,7 @@ static CommonsApp *singleton_;
             block(image);
         } else {
             block(nil);
+            failureBlock(error);
         }
     };
     [NSURLConnection sendAsynchronousRequest:request
@@ -769,26 +801,28 @@ static CommonsApp *singleton_;
                            completionHandler:done];
 }
 
-- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block
+- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block onFailure:(void (^)(NSError *))failureBlock
 {
     MWApi *api = [self startApi];
     [api getRequest:@{
-               @"action": @"query",
-                 @"prop": @"imageinfo",
-               @"titles": [@"File:" stringByAppendingString:[self cleanupTitle:title]],
-               @"iiprop": @"url",
-           @"iiurlwidth": [NSString stringWithFormat:@"%f", size.width],
-          @"iiurlheight": [NSString stringWithFormat:@"%f", size.height]
-                    }
+     @"action": @"query",
+     @"prop": @"imageinfo",
+     @"titles": [@"File:" stringByAppendingString:[self cleanupTitle:title]],
+     @"iiprop": @"url",
+     @"iiurlwidth": [NSString stringWithFormat:@"%f", size.width],
+     @"iiurlheight": [NSString stringWithFormat:@"%f", size.height]
+     }
        onCompletion:^(MWApiResult *result) {
            NSDictionary *pages = result.data[@"query"][@"pages"];
            for (NSString *key in pages) {
                NSDictionary *page = pages[key];
                NSDictionary *imageinfo = page[@"imageinfo"][0];
                NSURL *thumbUrl = [NSURL URLWithString:imageinfo[@"thumburl"]];
-               [self fetchImage:thumbUrl onCompletion:block];
+               [self fetchImage:thumbUrl onCompletion:block onFailure:failureBlock];
            }
-     }];
+       }
+          onFailure:failureBlock
+     ];
 }
 
 - (NSString *)prettyDate:(NSDate *)date

@@ -69,54 +69,68 @@ id delegate;
 - (void) validateLogin:(void(^)(BOOL))block
 {
     MWApiRequestBuilder *builder = [[self action:@"query"] param:@"meta" :@"userinfo"];
-    [self makeRequest:[builder buildRequest:@"GET"] onCompletion:^(MWApiResult *result) {
-        userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
-        userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
-        block(![userID_ isEqualToString:@"0"]);
-    }];
+    [self makeRequest:[builder buildRequest:@"GET"]
+         onCompletion:^(MWApiResult *result) {
+             userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
+             userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
+             block(![userID_ isEqualToString:@"0"]);
+         }
+            onFailure:^(NSError *error) {
+                NSLog(@"Failed to validate login: %@", [error localizedDescription]);
+            }];
 }
 
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block onFailure:(void (^)(NSError *))failureBlock
 {
     MWApiRequestBuilder *builder = [self action:@"login"];
     [builder params: @{
-        @"lgname": username,
-        @"lgpassword": password
-    }];
-    [self makeRequest:[builder buildRequest:@"POST"] onCompletion:^(MWApiResult *result) {
-        void (^complete)(MWApiResult *) = ^(MWApiResult *completeResult) {
-            if ([completeResult.data[@"login"][@"result"] isEqualToString:@"Success"]) {
-                isLoggedIn_ = YES;
-                if(doCookiePersist){
-                    [self setAuthCookieFromResult:completeResult];
-                }
-            }
-            block(completeResult);
-        };
-        if([result.data[@"login"][@"result"] isEqualToString:@"NeedToken"]){
-            NSString *token = result.data[@"login"][@"token"];
-            [builder param:@"lgtoken" :token];
-            [self makeRequest:[builder buildRequest:@"POST"] onCompletion:complete];
-        } else {
-            complete(result);
-        }
-    }];
+     @"lgname": username,
+     @"lgpassword": password
+     }];
+    [self makeRequest:[builder buildRequest:@"POST"]
+         onCompletion:^(MWApiResult *result) {
+             void (^complete)(MWApiResult *) = ^(MWApiResult *completeResult) {
+                 if ([completeResult.data[@"login"][@"result"] isEqualToString:@"Success"]) {
+                     isLoggedIn_ = YES;
+                     if(doCookiePersist){
+                         [self setAuthCookieFromResult:completeResult];
+                     }
+                 }
+                 block(completeResult);
+             };
+             if([result.data[@"login"][@"result"] isEqualToString:@"NeedToken"]){
+                 NSString *token = result.data[@"login"][@"token"];
+                 [builder param:@"lgtoken" :token];
+                 [self makeRequest:[builder buildRequest:@"POST"]
+                      onCompletion:complete
+                         onFailure:^(NSError *error) {
+                             NSLog(@"Failed to get token for user: %@", [error localizedDescription]);
+                         }];
+             } else {
+                 complete(result);
+             }
+         }
+            onFailure:failureBlock];
 }
 
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block {
-    [self loginWithUsername:username andPassword:password withCookiePersistence:NO onCompletion:block];
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block onFailure:(void (^)(NSError *))failureBlock {
+    [self loginWithUsername:username andPassword:password withCookiePersistence:NO onCompletion:block onFailure:failureBlock];
 }
 
 - (void)logoutOnCompletion:(void(^)(MWApiResult *))block {
     MWApiRequestBuilder *builder = [self action:@"logout"];
-    [self makeRequest:[builder buildRequest:@"POST"] onCompletion:^(MWApiResult *result) {
-        [self clearAuthCookie];
-        isLoggedIn_ = NO;
-        block(result);
-    }];
+    [self makeRequest:[builder buildRequest:@"POST"]
+         onCompletion:^(MWApiResult *result) {
+             [self clearAuthCookie];
+             isLoggedIn_ = NO;
+             block(result);
+         }
+            onFailure:^(NSError *error) {
+                NSLog(@"Failed to log out user: %@", [error localizedDescription]);
+            }];
 }
 
-- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock
+- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void (^)(NSError *))failureBlock
 {
     [self editToken: ^(NSString *editToken) {
         MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
@@ -131,43 +145,49 @@ id delegate;
         }];
         
         NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
-        [builder.api makeRequest:uploadRequest onCompletion:completionBlock onProgress: progressBlock];
+        [builder.api makeRequest:uploadRequest onCompletion:completionBlock onProgress:progressBlock onFailure:failureBlock];
     }];
 }
 
 - (void)editToken:(void(^)(NSString *))block {
     MWApiRequestBuilder *builder = [[self action:@"tokens"] param:@"type" :@"edit"];
-    [self makeRequest:[builder buildRequest:@"GET"] onCompletion:^(MWApiResult *result) {
-        block([result.data[@"tokens"][@"edittoken"] copy]);
-    }];
+    [self makeRequest:[builder buildRequest:@"GET"]
+         onCompletion:^(MWApiResult *result) {
+             block([result.data[@"tokens"][@"edittoken"] copy]);
+         }
+            onFailure:^(NSError *error) {
+                NSLog(@"Failed to get edit token: %@", [error localizedDescription]);
+            }];
 }
 
-- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock
+- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void (^)(NSError *))failureBlock
 {
     if(!includeAuthCookie_){
         [self clearAuthCookie];
     }
     
     connection_ = [[Http alloc] initWithRequest:request];
-    [connection_ retrieveResponseOnCompletion:completionBlock onProgress:progressBlock];
+    [connection_ retrieveResponseOnCompletion:completionBlock onProgress:progressBlock onFailure:failureBlock];
 }
 
-- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))block
+- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
 {
-    [self makeRequest: request onCompletion:block onProgress:nil];
+    [self makeRequest: request onCompletion:block onProgress:nil onFailure:failureBlock];
 }
 
 - (void)cancelCurrentRequest {
     [self.connection cancel];
 }
 
-- (void)getRequest:(NSDictionary *)params onCompletion:(void(^)(MWApiResult *))block
+- (void)getRequest:(NSDictionary *)params onCompletion:(void(^)(MWApiResult *))block onFailure:(void (^)(NSError *))failureBlock
 {
     MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
     [builder params:params];
     [builder param:@"format" :@"json"];
     NSURLRequest *request = [builder buildRequest:@"GET"];
-    [self makeRequest:request onCompletion:block];
+    [self makeRequest:request
+         onCompletion:block
+            onFailure:failureBlock];
 }
 
 @end
