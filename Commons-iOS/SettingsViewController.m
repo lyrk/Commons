@@ -80,14 +80,10 @@
                 
                 // Dismiss view
                 
-                // @fixme check debug switch
-                
                 [self dismissViewControllerAnimated:YES completion:nil];
                 
             } else {
                 // Credentials invalid
-                
-                // @fixme alert user to invalid credentials
                 
                 NSLog(@"Credentials invalid!");
                 
@@ -105,9 +101,7 @@
         NSLog(@"Credentials have not been changed.");
         
         // Dismiss view
-        
-        // @fixme check debug switch
-        
+               
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }

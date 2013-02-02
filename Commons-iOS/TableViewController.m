@@ -40,7 +40,6 @@
         // Camera is available
     } else {
         // Clicking 'take photo' in simulator *will* crash, so disable the button.
-        // FIXME this doesn't take effect for some reason!
         self.takePhotoButton.enabled = NO;
     }
 
