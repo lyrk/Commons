@@ -98,7 +98,7 @@
     [self.actionSheet showFromBarButtonItem:item animated:YES];
 }
 
-- (void)showFromView:(UIView *)view onCompletion:(void(^)())block
+- (void)showInView:(UIView *)view onCompletion:(void(^)())block
 {
     self.onCompletion = [block copy];
     [self.actionSheet showInView:view];
