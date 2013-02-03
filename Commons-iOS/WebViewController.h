@@ -25,6 +25,5 @@
 - (IBAction)refreshButtonPushed:(id)sender;
 - (IBAction)stopButtonPushed:(id)sender;
 - (IBAction)forwardButtonPushed:(id)sender;
-- (IBAction)actionButtonPushed:(id)sender;
 
 @end

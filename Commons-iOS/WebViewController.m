@@ -75,7 +75,6 @@
     if (self.helper == nil) {
         BrowserHelper *helper = [[BrowserHelper alloc] initWithURL:self.targetURL];
         self.helper = helper;
-        UIActionSheet *sheet = helper.actionSheet;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [helper showFromBarButtonItem:self.actionButton onCompletion:^() {
                 self.helper = nil;
