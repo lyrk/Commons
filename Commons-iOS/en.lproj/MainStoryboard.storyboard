@@ -138,6 +138,9 @@
                                 </connections>
                             </tableViewCell>
                         </prototypes>
+                        <connections>
+                            <outlet property="delegate" destination="3Ab-9I-ivX" id="s9z-6l-c50"/>
+                        </connections>
                     </tableView>
                     <toolbarItems>
                         <barButtonItem title="Take photo" id="uX9-Id-kYm">

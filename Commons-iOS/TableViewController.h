@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "FileUpload.h"
 
 @interface TableViewController : UITableViewController <UINavigationControllerDelegate,
-        UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate>
+        UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
@@ -20,6 +21,7 @@
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) UIPopoverController *popover;
+@property (strong, nonatomic) FileUpload *selectedRecord;
 
 - (IBAction)uploadButtonPushed:(id)sender;
 - (IBAction)takePhotoButtonPushed:(id)sender;

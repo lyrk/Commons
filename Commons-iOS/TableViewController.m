@@ -69,9 +69,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"DetailSegue"]) {
-        FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:[self.tableView indexPathForSelectedRow]];
         DetailTableViewController *view = [segue destinationViewController];
-        view.selectedRecord = record;
+        view.selectedRecord = self.selectedRecord;
     }
 }
 
@@ -84,6 +83,7 @@
     [self setTableView:nil];
     [self setFetchedResultsController:nil];
     self.popover = nil;
+    self.selectedRecord = nil;
     [self setRefreshButton:nil];
     [super viewDidUnload];
 }
@@ -139,24 +139,6 @@
     // Configure the cell...
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
-}
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
-    /*
-    CommonsApp *app = CommonsApp.singleton;
-    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-    app.selectedRecord = record;
-    */
 }
 
 #pragma mark - Image Picker Controller Delegate Methods
@@ -340,6 +322,15 @@
         case NSFetchedResultsChangeInsert:
             [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
                              withRowAnimation:UITableViewRowAnimationFade];
+
+            {
+                FileUpload *record = (FileUpload *)anObject;
+                if (!record.complete.boolValue) {
+                    // This will go crazy if we import multiple items at once :)
+                    self.selectedRecord = record;
+                    [self performSegueWithIdentifier:@"DetailSegue" sender:self];
+                }
+            }
             break;
 
         case NSFetchedResultsChangeDelete:
@@ -392,5 +383,18 @@
     self.popover = nil;
 }
 
+#pragma mark - UITableViewDelegate methods
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    self.selectedRecord = record;
+    return indexPath;
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.selectedRecord = nil;
+}
 
 @end
