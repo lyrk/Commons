@@ -351,7 +351,11 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="n8U-cW-Ghk"/>
-                        <barButtonItem style="plain" systemItem="action" id="5tx-pm-FMc"/>
+                        <barButtonItem style="plain" systemItem="action" id="5tx-pm-FMc">
+                            <connections>
+                                <action selector="actionButtonPushed:" destination="wx9-WY-6j8" id="4Ld-WF-j3k"/>
+                            </connections>
+                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="site" id="lYW-ac-t8Y"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
