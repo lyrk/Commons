@@ -21,6 +21,5 @@
 @property (strong, nonatomic) FileUpload *selectedRecord;
 
 - (IBAction)deleteButtonPushed:(id)sender;
-- (IBAction)openPageButtonPushed:(id)sender;
 
 @end

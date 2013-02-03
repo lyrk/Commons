@@ -8,6 +8,7 @@
 
 #import "WebViewController.h"
 #import "BrowserHelper.h"
+#import "MWNetworkActivityIndicatorManager.h"
 
 @interface WebViewController ()
 
@@ -108,6 +109,7 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [self updateButtons];
+    [[MWNetworkActivityIndicatorManager sharedManager] hide];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -121,11 +123,13 @@
 {
     [self updateButtons];
     self.titleNavItem.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    [[MWNetworkActivityIndicatorManager sharedManager] hide];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
     [self updateButtons];
+    [[MWNetworkActivityIndicatorManager sharedManager] show];
 }
 
 
