@@ -29,12 +29,6 @@
 {
     [super viewDidLoad];
 
-    // Can't seem to set the left/top cap sizes in IB
-    [self.deleteButton setBackgroundImage:[[UIImage imageNamed:@"redbutton.png"]
-         stretchableImageWithLeftCapWidth:8.0f
-                             topCapHeight:0.0f]
-                                 forState:UIControlStateNormal];
-
     // Load up the selected record
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = self.selectedRecord;
@@ -45,8 +39,8 @@
             // Completed upload...
             self.titleTextField.enabled = NO;
             self.descriptionTextView.editable = NO;
-            self.deleteButton.hidden = YES;
-            self.openPageButton.hidden = NO;
+            self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
+            self.actionButton.enabled = YES; // open link or share on the web
 
             // Fetch medium thumbnail from the interwebs
             CGFloat density = [UIScreen mainScreen].scale;
@@ -72,8 +66,8 @@
             // Locally queued file...
             self.titleTextField.enabled = YES;
             self.descriptionTextView.editable = YES;
-            self.deleteButton.hidden = NO;
-            self.openPageButton.hidden = YES;
+            self.deleteButton.enabled = YES;
+            self.actionButton.enabled = NO;
 
             // Use the pre-uploaded file as the medium thumbnail
             self.imagePreview.image = [app loadImage:record.localFile];
@@ -168,9 +162,9 @@
     [self setTitleTextField:nil];
     [self setDescriptionTextView:nil];
     [self setSelectedRecord:nil];
-    [self setDeleteButton:nil];
     [self setImageSpinner:nil];
-    [self setOpenPageButton:nil];
+    [self setDeleteButton:nil];
+    [self setActionButton:nil];
     [super viewDidUnload];
 }
 
@@ -199,6 +193,4 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (IBAction)openPageButtonPushed:(id)sender {
-}
 @end

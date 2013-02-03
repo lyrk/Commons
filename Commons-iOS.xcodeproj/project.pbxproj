@@ -36,8 +36,6 @@
 		D4896B5116B5C97D009A35FA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */; };
 		D49F79B516B33A4B00850EF0 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D49F79B416B33A4B00850EF0 /* TableViewController.m */; };
 		D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
-		D4AFF27816B8A651003D96F3 /* redbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = D4AFF27616B8A651003D96F3 /* redbutton.png */; };
-		D4AFF27916B8A651003D96F3 /* redbutton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4AFF27716B8A651003D96F3 /* redbutton@2x.png */; };
 		D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		D4C08F2A16AF47300069172D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
@@ -100,8 +98,6 @@
 		D49F79B416B33A4B00850EF0 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewController.h; sourceTree = "<group>"; };
 		D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewController.m; sourceTree = "<group>"; };
-		D4AFF27616B8A651003D96F3 /* redbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbutton.png; sourceTree = "<group>"; };
-		D4AFF27716B8A651003D96F3 /* redbutton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redbutton@2x.png"; sourceTree = "<group>"; };
 		D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		D4B83E2016BC950900ABAF94 /* BrowserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserHelper.h; sourceTree = "<group>"; };
@@ -195,8 +191,6 @@
 			children = (
 				D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */,
 				D40CE3DD16BB542200E63B27 /* fileicon-svg.png */,
-				D4AFF27616B8A651003D96F3 /* redbutton.png */,
-				D4AFF27716B8A651003D96F3 /* redbutton@2x.png */,
 				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
 				D4086196169B791100D6ACB0 /* Commons-logo-57.png */,
 				D4086178169B760800D6ACB0 /* Commons-iOS-Info.plist */,
@@ -330,8 +324,6 @@
 				D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */,
 				D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */,
 				D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */,
-				D4AFF27816B8A651003D96F3 /* redbutton.png in Resources */,
-				D4AFF27916B8A651003D96F3 /* redbutton@2x.png in Resources */,
 				D40CE3CD16BB390A00E63B27 /* Default-Portrait~ipad.png in Resources */,
 				D40CE3CF16BB390D00E63B27 /* Default-Portrait@2x~ipad.png in Resources */,
 				D40CE3D116BB391300E63B27 /* Default-Landscape~ipad.png in Resources */,

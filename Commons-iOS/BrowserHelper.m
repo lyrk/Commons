@@ -92,6 +92,18 @@
     return [NSURL URLWithString:[@"dolphin://" stringByAppendingString:urlStr]];
 }
 
+- (void)showFromBarButtonItem:(UIBarButtonItem *)item onCompletion:(void(^)())block
+{
+    self.onCompletion = [block copy];
+    [self.actionSheet showFromBarButtonItem:item animated:YES];
+}
+
+- (void)showFromView:(UIView *)view onCompletion:(void(^)())block
+{
+    self.onCompletion = [block copy];
+    [self.actionSheet showInView:view];
+}
+
 #pragma mark UIActionSheetDelegate methods
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -104,8 +116,11 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    void (^onCompletion)() = self.onCompletion;
     self.browserButtons = nil;
     self.actionSheet = nil;
+    self.onCompletion = nil;
+    onCompletion();
 }
 
 @end
