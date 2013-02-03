@@ -322,7 +322,7 @@ static CommonsApp *singleton_;
             stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock onFailure:(void (^)(NSError *))failureBlock;
+- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock onFailure:(void (^)(NSError *))failureBlock
 {
     NSString *fileName = [self filenameForTitle:record.title type:record.fileType];
     NSString *filePath = [self filePath:record.localFile];
