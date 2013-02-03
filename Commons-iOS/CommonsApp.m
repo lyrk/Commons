@@ -780,6 +780,13 @@ static CommonsApp *singleton_;
        }
           onFailure:^(NSError *error) {
               NSLog(@"Failed to refresh history: %@", [error localizedDescription]);
+              
+              UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Refresh failed!"
+                                                                  message:[error localizedDescription]
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"Dismiss"
+                                                        otherButtonTitles:nil];
+              [alertView show];
           }
      ];
 }

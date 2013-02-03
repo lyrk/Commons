@@ -227,8 +227,18 @@
                               run();
                           }
                            onFailure:^(NSError *error) {
+                               
                                NSLog(@"Upload failed: %@", [error localizedDescription]);
+                               
                                self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+                               
+                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Upload failed!"
+                                                                                   message:[error localizedDescription]
+                                                                                  delegate:nil
+                                                                         cancelButtonTitle:@"Dismiss"
+                                                                         otherButtonTitles:nil];
+                               [alertView show];
+                               
                                run = nil;
                            }
                      ];
@@ -243,6 +253,13 @@
     }
     else {
         // User is not logged in
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh oh!"
+                                                            message:@"You need to login before you can upload photos"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Dismiss"
+                                                  otherButtonTitles:nil];
+        [alertView show];
 
         NSLog(@"Can't upload because user is not logged in.");
     }

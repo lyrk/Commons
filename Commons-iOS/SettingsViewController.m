@@ -94,10 +94,25 @@
                             app.username = @"";
                             app.password = @"";
                             [app saveCredentials];
+                            
+                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh oh!"
+                                                                                message:@"Your username and/or password is incorrect"
+                                                                               delegate:nil
+                                                                      cancelButtonTitle:@"Dismiss"
+                                                                      otherButtonTitles:nil];
+                            [alertView show];
                         }
                     }
                        onFailure:^(NSError *error) {
+                           
                            NSLog(@"Login failed: %@", [error localizedDescription]);
+                           
+                           UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login failed!"
+                                                                               message:[error localizedDescription]
+                                                                              delegate:nil
+                                                                     cancelButtonTitle:@"Dismiss"
+                                                                     otherButtonTitles:nil];
+                           [alertView show];
                        }];
         
     }
