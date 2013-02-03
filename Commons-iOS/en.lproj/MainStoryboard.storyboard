@@ -126,12 +126,20 @@
                                         <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" id="ofk-2m-pZJ">
                                             <rect key="frame" x="134" y="35" width="150" height="9"/>
                                         </progressView>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Queued" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZGO-ru-mSa">
+                                            <rect key="frame" x="134" y="29" width="146" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
                                     <outlet property="image" destination="MCa-uJ-Cz5" id="ncp-fO-3dL"/>
                                     <outlet property="progressBar" destination="ofk-2m-pZJ" id="57X-E2-SQJ"/>
+                                    <outlet property="queuedLabel" destination="ZGO-ru-mSa" id="6Or-jh-wO7"/>
                                     <outlet property="sizeLabel" destination="taR-BX-uy6" id="vow-dD-eiU"/>
                                     <outlet property="titleLabel" destination="ZOC-Yx-hBF" id="n9F-xK-04V"/>
                                     <segue destination="epi-E0-AsP" kind="push" identifier="DetailSegue" id="8zI-gk-iod"/>

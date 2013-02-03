@@ -122,12 +122,19 @@
         // We have the title; fetch thumbnails and such on demand.
         cell.sizeLabel.text = [app prettyDate:record.created];
         cell.progressBar.hidden = YES;
+        cell.queuedLabel.hidden = YES;
     } else {
         // Queued upload, not yet complete.
         // We have local data & progress info.
         cell.sizeLabel.text = record.prettySize;
-        cell.progressBar.hidden = NO;
-        cell.progressBar.progress = record.progress.floatValue;
+        if (record.progress.floatValue == 0.0f) {
+            cell.progressBar.hidden = YES;
+            cell.queuedLabel.hidden = NO;
+        } else {
+            cell.progressBar.hidden = NO;
+            cell.queuedLabel.hidden = YES;
+            cell.progressBar.progress = record.progress.floatValue;
+        }
     }
 }
 
