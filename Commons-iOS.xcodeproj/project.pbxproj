@@ -65,7 +65,6 @@
 
 /* Begin PBXFileReference section */
 		65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		65137CD516BE4C3B006FA9BD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		65137CDB16BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-iOS-Logic-Testing-Info.plist"; sourceTree = "<group>"; };
 		65137CDD16BE4C3B006FA9BD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65137CDF16BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Commons_iOS_Logic_Testing.h; sourceTree = "<group>"; };
@@ -298,7 +297,6 @@
 				D4086170169B760800D6ACB0 /* UIKit.framework */,
 				D4086172169B760800D6ACB0 /* Foundation.framework */,
 				D4086174169B760800D6ACB0 /* CoreGraphics.framework */,
-				65137CD516BE4C3B006FA9BD /* SenTestingKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
