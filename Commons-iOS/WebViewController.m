@@ -36,6 +36,7 @@
         self.stopButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop
                                                                         target:self
                                                                         action:@selector(stopButtonPushed:)];
+        [self updateButtons];
     }
 }
 
