@@ -46,6 +46,10 @@
     CommonsApp *app = [CommonsApp singleton];
     self.fetchedResultsController = [app fetchUploadRecords];
     self.fetchedResultsController.delegate = self;
+    
+    if (app.username == nil || [app.username isEqualToString:@""]) {
+        [self performSegueWithIdentifier:@"SettingsSegue" sender:self];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
