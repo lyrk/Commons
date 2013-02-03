@@ -13,6 +13,7 @@
 		65137CE116BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 65137CE016BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m */; };
 		65137CF516BE4C78006FA9BD /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137CE716BE4C78006FA9BD /* libOCMock.a */; };
 		65137CF716BE4C8C006FA9BD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */; };
+		65137D0016BE6131006FA9BD /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137CF816BE6131006FA9BD /* libOCMock.a */; };
 		D4086171169B760800D6ACB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		D4086173169B760800D6ACB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
 		D4086175169B760800D6ACB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086174169B760800D6ACB0 /* CoreGraphics.framework */; };
@@ -79,6 +80,13 @@
 		65137CF316BE4C78006FA9BD /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCMockObject.h; path = "Commons-iOS-Testing/Libraries/OCMock/OCMockObject.h"; sourceTree = SOURCE_ROOT; };
 		65137CF416BE4C78006FA9BD /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OCMockRecorder.h; path = "Commons-iOS-Testing/Libraries/OCMock/OCMockRecorder.h"; sourceTree = SOURCE_ROOT; };
 		65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		65137CF816BE6131006FA9BD /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = Libraries/libOCMock.a; sourceTree = "<group>"; };
+		65137CFA16BE6131006FA9BD /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		65137CFB16BE6131006FA9BD /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		65137CFC16BE6131006FA9BD /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		65137CFD16BE6131006FA9BD /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		65137CFE16BE6131006FA9BD /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		65137CFF16BE6131006FA9BD /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
 		D408616C169B760800D6ACB0 /* Commons-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Commons-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4086170169B760800D6ACB0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D4086172169B760800D6ACB0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -152,6 +160,7 @@
 				65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */,
 				65137CD816BE4C3B006FA9BD /* Foundation.framework in Frameworks */,
 				65137CF516BE4C78006FA9BD /* libOCMock.a in Frameworks */,
+				65137D0016BE6131006FA9BD /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +204,8 @@
 		65137CE616BE4C46006FA9BD /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				65137CF816BE6131006FA9BD /* libOCMock.a */,
+				65137CF916BE6131006FA9BD /* OCMock */,
 				65137CE716BE4C78006FA9BD /* libOCMock.a */,
 				65137CE816BE4C78006FA9BD /* OCMock */,
 				65137CEF16BE4C78006FA9BD /* NSNotificationCenter+OCMAdditions.h */,
@@ -220,6 +231,20 @@
 			name = OCMock;
 			path = "Commons-iOS-Testing/Libraries/OCMock";
 			sourceTree = SOURCE_ROOT;
+		};
+		65137CF916BE6131006FA9BD /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				65137CFA16BE6131006FA9BD /* NSNotificationCenter+OCMAdditions.h */,
+				65137CFB16BE6131006FA9BD /* OCMArg.h */,
+				65137CFC16BE6131006FA9BD /* OCMConstraint.h */,
+				65137CFD16BE6131006FA9BD /* OCMock.h */,
+				65137CFE16BE6131006FA9BD /* OCMockObject.h */,
+				65137CFF16BE6131006FA9BD /* OCMockRecorder.h */,
+			);
+			name = OCMock;
+			path = Libraries/OCMock;
+			sourceTree = "<group>";
 		};
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
@@ -555,6 +580,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Commons-iOS-Testing/Libraries\"",
+					"\"$(SRCROOT)/Commons-iOS-Logic-Testing/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -578,6 +604,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Commons-iOS-Testing/Libraries\"",
+					"\"$(SRCROOT)/Commons-iOS-Logic-Testing/Libraries\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = octest;
@@ -672,6 +699,7 @@
 				65137CE416BE4C3B006FA9BD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D4086166169B760800D6ACB0 /* Build configuration list for PBXProject "Commons-iOS" */ = {
 			isa = XCConfigurationList;
