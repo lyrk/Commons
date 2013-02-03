@@ -80,6 +80,7 @@
                             app.username = username;
                             app.password = password;
                             [app saveCredentials];
+                            [app refreshHistory];
                             
                             // Dismiss view
                             
@@ -128,8 +129,10 @@
 }
 
 - (IBAction)debugSwitchPushed:(id)sender {
-    CommonsApp.singleton.debugMode = self.debugModeSwitch.on;
+    CommonsApp *app = CommonsApp.singleton;
+    app.debugMode = self.debugModeSwitch.on;
     [self setDebugModeLabel];
+    [app refreshHistory];
 }
 
 - (void)setDebugModeLabel
