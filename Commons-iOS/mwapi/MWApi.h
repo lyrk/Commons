@@ -38,15 +38,15 @@
 - (void) setAuthCookie:(NSArray *)newAuthCookie;
 - (void) validateLogin:(void(^)(BOOL))block;
 - (BOOL) isLoggedIn;
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block;
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
 - (void)logoutOnCompletion:(void(^)(MWApiResult *))block;
-- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
+- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void(^)(NSError *))failureBlock;
 - (void)editToken:(void(^)(NSString *))block;
-- (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
-- (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))block;
+- (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void(^)(NSError *))failureBlock;
+- (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
 
-- (void)getRequest:(NSDictionary *)params onCompletion:(void(^)(MWApiResult *))block;
+- (void)getRequest:(NSDictionary *)params onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
 
 - (void)cancelCurrentRequest;
 

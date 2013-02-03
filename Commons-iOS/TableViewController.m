@@ -48,6 +48,14 @@
     self.fetchedResultsController.delegate = self;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    // Enable 'Upload' button only if there are files queued for upload
+    self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -174,6 +182,8 @@
     NSLog(@"picked: %@", info);
     [CommonsApp.singleton prepareImage:info onCompletion:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
+    
+    self.uploadButton.enabled = YES;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -211,20 +221,37 @@
     // Only allow uploads if user is logged in
     if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
         // User is logged in
-
+        
         if ([self.fetchedResultsController.fetchedObjects count] > 0) {
-
+            
             self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
-
+            
             NSLog(@"Upload ye files!");
-
+            
             __block void (^run)() = ^() {
                 FileUpload *record = [app firstUploadRecord];
                 if (record != nil) {
-                    [app beginUpload:record completion:^() {
-                        NSLog(@"completed an upload, going on to next");
-                        run();
-                    }];
+                    [app beginUpload:record
+                          completion:^() {
+                              NSLog(@"completed an upload, going on to next");
+                              run();
+                          }
+                           onFailure:^(NSError *error) {
+                               
+                               NSLog(@"Upload failed: %@", [error localizedDescription]);
+                               
+                               self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+                               
+                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Upload failed!"
+                                                                                   message:[error localizedDescription]
+                                                                                  delegate:nil
+                                                                         cancelButtonTitle:@"Dismiss"
+                                                                         otherButtonTitles:nil];
+                               [alertView show];
+                               
+                               run = nil;
+                           }
+                     ];
                 } else {
                     NSLog(@"no more uploads");
                     self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
@@ -236,6 +263,13 @@
     }
     else {
         // User is not logged in
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh oh!"
+                                                            message:@"You need to login before you can upload photos"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Dismiss"
+                                                  otherButtonTitles:nil];
+        [alertView show];
 
         NSLog(@"Can't upload because user is not logged in.");
     }

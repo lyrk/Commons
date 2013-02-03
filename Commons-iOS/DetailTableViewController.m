@@ -57,10 +57,17 @@
                 self.imagePreview.image = [app loadThumbnail:record.thumbnailFile];
             }
             self.imageSpinner.hidden = NO;
-            [app fetchWikiImage:record.title size:size onCompletion:^(UIImage *image) {
-                self.imageSpinner.hidden = YES;
-                self.imagePreview.image = image;
-            }];
+            [app fetchWikiImage:record.title
+                           size:size
+                   onCompletion:^(UIImage *image) {
+                       self.imageSpinner.hidden = YES;
+                       self.imagePreview.image = image;
+                   }
+                      onFailure:^(NSError *error) {
+                          NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
+                          self.imageSpinner.hidden = YES;
+                      }
+             ];
         } else {
             // Locally queued file...
             self.titleTextField.enabled = YES;

@@ -13,15 +13,16 @@
     NSURLRequest *requestUrl_;
     void (^onCompletion_)(MWApiResult *);
     void (^onProgress_)(NSInteger,NSInteger);
+    void (^onFailure_)(NSError *);
     NSMutableData *data_;
     NSURLResponse *response_;
     NSURLConnection *connection_;
 }
 
-+ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
++ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void(^)(NSError *))failureBlock;
 
 - (id)initWithRequest:(NSURLRequest *)requestUrl;
-- (void)retrieveResponseOnCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
+- (void)retrieveResponseOnCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void(^)(NSError *))failureBlock;
 - (void)cancel;
 
 @end
