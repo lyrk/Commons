@@ -8,6 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
+		65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
+		65137CD816BE4C3B006FA9BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
+		65137CDE16BE4C3B006FA9BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65137CDC16BE4C3B006FA9BD /* InfoPlist.strings */; };
+		65137CE116BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 65137CE016BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m */; };
+		65137CF716BE4C8C006FA9BD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */; };
+		65137D0716BE6696006FA9BD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */; };
+		65137D0816BE6696006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
+		65137D0916BE6696006FA9BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
+		65137D0F16BE6696006FA9BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65137D0D16BE6696006FA9BD /* InfoPlist.strings */; };
+		65137D1216BE6696006FA9BD /* Commons_iOS_Application_Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 65137D1116BE6696006FA9BD /* Commons_iOS_Application_Testing.m */; };
+		65137D2016BE69B8006FA9BD /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137D1816BE69B8006FA9BD /* libOCMock.a */; };
 		D4086171169B760800D6ACB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		D4086173169B760800D6ACB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
 		D4086175169B760800D6ACB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086174169B760800D6ACB0 /* CoreGraphics.framework */; };
@@ -55,6 +66,26 @@
 
 /* Begin PBXFileReference section */
 		65CA697416BFCE3300839D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65137CDB16BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-iOS-Logic-Testing-Info.plist"; sourceTree = "<group>"; };
+		65137CDD16BE4C3B006FA9BD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		65137CDF16BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Commons_iOS_Logic_Testing.h; sourceTree = "<group>"; };
+		65137CE016BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Commons_iOS_Logic_Testing.m; sourceTree = "<group>"; };
+		65137CE216BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commons-iOS-Logic-Testing-Prefix.pch"; sourceTree = "<group>"; };
+		65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Application-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65137D0C16BE6696006FA9BD /* Commons-iOS-Application-Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-iOS-Application-Testing-Info.plist"; sourceTree = "<group>"; };
+		65137D0E16BE6696006FA9BD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		65137D1016BE6696006FA9BD /* Commons_iOS_Application_Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Commons_iOS_Application_Testing.h; sourceTree = "<group>"; };
+		65137D1116BE6696006FA9BD /* Commons_iOS_Application_Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Commons_iOS_Application_Testing.m; sourceTree = "<group>"; };
+		65137D1316BE6696006FA9BD /* Commons-iOS-Application-Testing-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commons-iOS-Application-Testing-Prefix.pch"; sourceTree = "<group>"; };
+		65137D1816BE69B8006FA9BD /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = "Testing-Libraries/libOCMock.a"; sourceTree = "<group>"; };
+		65137D1A16BE69B8006FA9BD /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		65137D1B16BE69B8006FA9BD /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		65137D1C16BE69B8006FA9BD /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		65137D1D16BE69B8006FA9BD /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		65137D1E16BE69B8006FA9BD /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		65137D1F16BE69B8006FA9BD /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
 		D408616C169B760800D6ACB0 /* Commons-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Commons-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4086170169B760800D6ACB0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D4086172169B760800D6ACB0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -122,6 +153,28 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		65137CD016BE4C3B006FA9BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65137CF716BE4C8C006FA9BD /* SenTestingKit.framework in Frameworks */,
+				65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */,
+				65137CD816BE4C3B006FA9BD /* Foundation.framework in Frameworks */,
+				65137D2016BE69B8006FA9BD /* libOCMock.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		65137D0216BE6696006FA9BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65137D0716BE6696006FA9BD /* SenTestingKit.framework in Frameworks */,
+				65137D0816BE6696006FA9BD /* UIKit.framework in Frameworks */,
+				65137D0916BE6696006FA9BD /* Foundation.framework in Frameworks */,
+				65137D2116BE69B8006FA9BD /* libOCMock.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4086169169B760800D6ACB0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -139,6 +192,77 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65137CD916BE4C3B006FA9BD /* Commons-iOS-Logic-Testing */ = {
+			isa = PBXGroup;
+			children = (
+				65137CE616BE4C46006FA9BD /* Libraries */,
+				65137CDF16BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.h */,
+				65137CE016BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m */,
+				65137CDA16BE4C3B006FA9BD /* Supporting Files */,
+			);
+			path = "Commons-iOS-Logic-Testing";
+			sourceTree = "<group>";
+		};
+		65137CDA16BE4C3B006FA9BD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				65137CDB16BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Info.plist */,
+				65137CDC16BE4C3B006FA9BD /* InfoPlist.strings */,
+				65137CE216BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		65137CE616BE4C46006FA9BD /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		65137D0A16BE6696006FA9BD /* Commons-iOS-Application-Testing */ = {
+			isa = PBXGroup;
+			children = (
+				65137D1016BE6696006FA9BD /* Commons_iOS_Application_Testing.h */,
+				65137D1116BE6696006FA9BD /* Commons_iOS_Application_Testing.m */,
+				65137D0B16BE6696006FA9BD /* Supporting Files */,
+			);
+			path = "Commons-iOS-Application-Testing";
+			sourceTree = "<group>";
+		};
+		65137D0B16BE6696006FA9BD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				65137D0C16BE6696006FA9BD /* Commons-iOS-Application-Testing-Info.plist */,
+				65137D0D16BE6696006FA9BD /* InfoPlist.strings */,
+				65137D1316BE6696006FA9BD /* Commons-iOS-Application-Testing-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		65137D1716BE6999006FA9BD /* Testing-Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				65137D1816BE69B8006FA9BD /* libOCMock.a */,
+				65137D1916BE69B8006FA9BD /* OCMock */,
+			);
+			name = "Testing-Libraries";
+			sourceTree = "<group>";
+		};
+		65137D1916BE69B8006FA9BD /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				65137D1A16BE69B8006FA9BD /* NSNotificationCenter+OCMAdditions.h */,
+				65137D1B16BE69B8006FA9BD /* OCMArg.h */,
+				65137D1C16BE69B8006FA9BD /* OCMConstraint.h */,
+				65137D1D16BE69B8006FA9BD /* OCMock.h */,
+				65137D1E16BE69B8006FA9BD /* OCMockObject.h */,
+				65137D1F16BE69B8006FA9BD /* OCMockRecorder.h */,
+			);
+			name = OCMock;
+			path = "Testing-Libraries/OCMock";
+			sourceTree = "<group>";
+		};
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +275,9 @@
 				D40CE3CC16BB390A00E63B27 /* Default-Portrait~ipad.png */,
 				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,
+				65137CD916BE4C3B006FA9BD /* Commons-iOS-Logic-Testing */,
+				65137D0A16BE6696006FA9BD /* Commons-iOS-Application-Testing */,
+				65137D1716BE6999006FA9BD /* Testing-Libraries */,
 				D408616F169B760800D6ACB0 /* Frameworks */,
 				D408616D169B760800D6ACB0 /* Products */,
 			);
@@ -160,6 +287,8 @@
 			isa = PBXGroup;
 			children = (
 				D408616C169B760800D6ACB0 /* Commons-iOS.app */,
+				65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */,
+				65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,6 +296,7 @@
 		D408616F169B760800D6ACB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */,
 				D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */,
 				D41B99F416B1CEB50045BEB5 /* CoreData.framework */,
 				D4C08F2916AF47300069172D /* Security.framework */,
@@ -277,6 +407,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		65137CD316BE4C3B006FA9BD /* Commons-iOS-Logic-Testing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65137CE516BE4C3B006FA9BD /* Build configuration list for PBXNativeTarget "Commons-iOS-Logic-Testing" */;
+			buildPhases = (
+				65137CCF16BE4C3B006FA9BD /* Sources */,
+				65137CD016BE4C3B006FA9BD /* Frameworks */,
+				65137CD116BE4C3B006FA9BD /* Resources */,
+				65137CD216BE4C3B006FA9BD /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Commons-iOS-Logic-Testing";
+			productName = "Commons-iOS-Logic-Testing";
+			productReference = 65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+		65137D0516BE6696006FA9BD /* Commons-iOS-Application-Testing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65137D1416BE6696006FA9BD /* Build configuration list for PBXNativeTarget "Commons-iOS-Application-Testing" */;
+			buildPhases = (
+				65137D0116BE6696006FA9BD /* Sources */,
+				65137D0216BE6696006FA9BD /* Frameworks */,
+				65137D0316BE6696006FA9BD /* Resources */,
+				65137D0416BE6696006FA9BD /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Commons-iOS-Application-Testing";
+			productName = "Commons-iOS-Application-Testing";
+			productReference = 65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		D408616B169B760800D6ACB0 /* Commons-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4086193169B760800D6ACB0 /* Build configuration list for PBXNativeTarget "Commons-iOS" */;
@@ -316,11 +482,29 @@
 			projectRoot = "";
 			targets = (
 				D408616B169B760800D6ACB0 /* Commons-iOS */,
+				65137CD316BE4C3B006FA9BD /* Commons-iOS-Logic-Testing */,
+				65137D0516BE6696006FA9BD /* Commons-iOS-Application-Testing */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		65137CD116BE4C3B006FA9BD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65137CDE16BE4C3B006FA9BD /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		65137D0316BE6696006FA9BD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65137D0F16BE6696006FA9BD /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D408616A169B760800D6ACB0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -347,7 +531,52 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		65137CD216BE4C3B006FA9BD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		65137D0416BE6696006FA9BD /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		65137CCF16BE4C3B006FA9BD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65137CE116BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		65137D0116BE6696006FA9BD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				65137D1216BE6696006FA9BD /* Commons_iOS_Application_Testing.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4086168169B760800D6ACB0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -378,6 +607,22 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		65137CDC16BE4C3B006FA9BD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				65137CDD16BE4C3B006FA9BD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		65137D0D16BE6696006FA9BD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				65137D0E16BE6696006FA9BD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		D4086179169B760800D6ACB0 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -397,6 +642,104 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		65137CE316BE4C3B006FA9BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Commons-iOS-Logic-Testing/Commons-iOS-Logic-Testing-Prefix.pch";
+				INFOPLIST_FILE = "Commons-iOS-Logic-Testing/Commons-iOS-Logic-Testing-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Testing-Libraries\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		65137CE416BE4C3B006FA9BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Commons-iOS-Logic-Testing/Commons-iOS-Logic-Testing-Prefix.pch";
+				INFOPLIST_FILE = "Commons-iOS-Logic-Testing/Commons-iOS-Logic-Testing-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Testing-Libraries\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		65137D1516BE6696006FA9BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Commons-iOS.app/Commons-iOS";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Commons-iOS-Application-Testing/Commons-iOS-Application-Testing-Prefix.pch";
+				INFOPLIST_FILE = "Commons-iOS-Application-Testing/Commons-iOS-Application-Testing-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Testing-Libraries\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		65137D1616BE6696006FA9BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Commons-iOS.app/Commons-iOS";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Commons-iOS-Application-Testing/Commons-iOS-Application-Testing-Prefix.pch";
+				INFOPLIST_FILE = "Commons-iOS-Application-Testing/Commons-iOS-Application-Testing-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Testing-Libraries\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		D4086191169B760800D6ACB0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -478,6 +821,23 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		65137CE516BE4C3B006FA9BD /* Build configuration list for PBXNativeTarget "Commons-iOS-Logic-Testing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65137CE316BE4C3B006FA9BD /* Debug */,
+				65137CE416BE4C3B006FA9BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		65137D1416BE6696006FA9BD /* Build configuration list for PBXNativeTarget "Commons-iOS-Application-Testing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				65137D1516BE6696006FA9BD /* Debug */,
+				65137D1616BE6696006FA9BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		D4086166169B760800D6ACB0 /* Build configuration list for PBXProject "Commons-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
