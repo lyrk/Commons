@@ -29,7 +29,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Load up the selected record
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = self.selectedRecord;
