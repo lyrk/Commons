@@ -8,12 +8,29 @@
 
 #import "AppDelegate.h"
 #import "CommonsApp.h"
+#import "Reachability.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    // allocate a reachability object
+    Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    // tell the reachability that we DONT want to be reachable on 3G/EDGE/CDMA
+    // reach.reachableOnWWAN = NO;
+    
+    // here we set up a NSNotification observer. The Reachability that caused the notification
+    // is passed in the object parameter
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(reachabilityChanged:)
+                                                 name:kReachabilityChangedNotification
+                                               object:nil];
+    
+    [reach startNotifier];
+    
     [CommonsApp.singleton initializeApp];
     
     return YES;
@@ -44,6 +61,25 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+-(void)reachabilityChanged:(NSNotification*)note
+{
+    Reachability * reach = [note object];
+    NetworkStatus netStatus = [reach currentReachabilityStatus];
+    
+//    if([reach isReachable])
+    if (netStatus == ReachableViaWiFi || netStatus == ReachableViaWWAN)
+    {
+        // optional alert informing you if you are connected to the internet.
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Yay" message:@"Your are connected to the internet" delegate:nil cancelButtonTitle:@"okay" otherButtonTitles:nil, nil];
+        [alert show];
+    }
+    else if (netStatus == NotReachable)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Please check your internet connection" delegate:nil cancelButtonTitle:@"okay" otherButtonTitles:nil, nil];
+        [alert show];
+    }
 }
 
 
