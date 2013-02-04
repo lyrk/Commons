@@ -10,6 +10,7 @@
 #import "CommonsApp.h"
 #import "WebViewController.h"
 #import "ImageScrollViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface DetailTableViewController ()
 
@@ -26,6 +27,9 @@
     return self;
 }
 
+/**
+ * View has loaded.
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -33,6 +37,7 @@
     // Load up the selected record
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = self.selectedRecord;
+
     if (record != nil) {
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
@@ -46,23 +51,33 @@
             // Fetch medium thumbnail from the interwebs
             CGFloat density = [UIScreen mainScreen].scale;
             CGSize size = CGSizeMake(284.0f * density, 212.0f * density);
-            
+
             // Start by showing the locally stored thumbnail
             if (record.thumbnailFile != nil) {
                 self.imagePreview.image = [app loadThumbnail:record.thumbnailFile];
             }
+
             self.imageSpinner.hidden = NO;
             [app fetchWikiImage:record.title
                            size:size
                    onCompletion:^(UIImage *image) {
                        self.imageSpinner.hidden = YES;
+
+                       // provide a smooth image transition between thumbnail and wiki image
+                       CATransition *transition = [CATransition animation];
+                       transition.duration = 2.2f;
+                       transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+                       transition.type = kCATransitionFade;
+                       [self.imagePreview.layer addAnimation:transition forKey:nil];
                        self.imagePreview.image = image;
+
                    }
                       onFailure:^(NSError *error) {
                           NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
                           self.imageSpinner.hidden = YES;
                       }
              ];
+
         } else {
             // Locally queued file...
             self.titleTextField.enabled = YES;
@@ -96,43 +111,43 @@
 #pragma mark - Table view data source
 
 /*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
 
 /*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
 
 /*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
 
 /*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
 
 #pragma mark - Table view delegate
 
