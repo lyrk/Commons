@@ -65,7 +65,7 @@
 
                        // provide a smooth image transition between thumbnail and wiki image
                        CATransition *transition = [CATransition animation];
-                       transition.duration = 2.2f;
+                       transition.duration = 0.5f;
                        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
                        transition.type = kCATransitionFade;
                        [self.imagePreview.layer addAnimation:transition forKey:nil];
