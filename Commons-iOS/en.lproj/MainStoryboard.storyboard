@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3012" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TTI-Hz-lQf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TTI-Hz-lQf">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -213,6 +213,21 @@
                                             <rect key="frame" x="10" y="1" width="300" height="229"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oNX-Qb-oYH">
+                                                    <rect key="frame" x="0.0" y="0.0" width="300" height="229"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                    <state key="normal">
+                                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <state key="highlighted">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <segue destination="ztA-ps-80H" kind="push" identifier="OpenImageSegue" id="G7d-w0-Dew"/>
+                                                    </connections>
+                                                </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="Luf-Jz-Qvj">
                                                     <rect key="frame" x="8" y="8" width="284" height="212"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -304,6 +319,7 @@
                         <outlet property="actionButton" destination="DlG-Q0-XOO" id="MR9-xY-Pvf"/>
                         <outlet property="deleteButton" destination="iM5-hd-Jq4" id="D1H-hA-sAU"/>
                         <outlet property="descriptionTextView" destination="ucL-2U-rnz" id="gR2-E9-5x4"/>
+                        <outlet property="imageButton" destination="oNX-Qb-oYH" id="M0g-kX-SaU"/>
                         <outlet property="imagePreview" destination="Luf-Jz-Qvj" id="h3z-EF-ppE"/>
                         <outlet property="imageSpinner" destination="EeR-Re-MP4" id="XGR-D2-TO9"/>
                         <outlet property="titleTextField" destination="V0c-wd-2eA" id="jDg-9F-Bth"/>
@@ -312,6 +328,48 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pjA-1f-CoP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="435" y="1343"/>
+        </scene>
+        <!--Image Scroll View Controller-->
+        <scene sceneID="4bg-WC-a6Z">
+            <objects>
+                <viewController wantsFullScreenLayout="YES" hidesBottomBarWhenPushed="YES" id="ztA-ps-80H" customClass="ImageScrollViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mMF-Iz-wZa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" hidesWhenStopped="YES" animating="YES" style="whiteLarge" id="AHO-ok-7c7">
+                                <rect key="frame" x="141" y="266" width="37" height="37"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                            </activityIndicatorView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="fIK-76-39B">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView multipleTouchEnabled="YES" contentMode="center" id="zSx-Mc-ptc">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <connections>
+                                    <outlet property="delegate" destination="ztA-ps-80H" id="Lf9-uk-yW2"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Dgf-rJ-B8D"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="AHO-ok-7c7" id="XCh-Nj-xAz"/>
+                        <outlet property="imageScrollView" destination="fIK-76-39B" id="9xa-VU-6Yg"/>
+                        <outlet property="imageView" destination="zSx-Mc-ptc" id="Fyv-Wt-H4A"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bTl-1f-uIh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="877" y="742"/>
         </scene>
         <!--Web View Controller - site-->
         <scene sceneID="hV5-yL-clO">

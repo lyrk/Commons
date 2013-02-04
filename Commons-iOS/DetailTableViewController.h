@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *imageSpinner;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
+@property (weak, nonatomic) IBOutlet UIButton *imageButton;
 
 @property (strong, nonatomic) FileUpload *selectedRecord;
 

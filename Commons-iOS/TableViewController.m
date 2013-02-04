@@ -52,9 +52,9 @@
     }
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated {
     
-    [super viewWillAppear:animated];
+    [super viewDidAppear:animated];
     
     // Enable 'Upload' button only if there are files queued for upload
     self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
@@ -175,8 +175,6 @@
     NSLog(@"picked: %@", info);
     [CommonsApp.singleton prepareImage:info onCompletion:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
-    self.uploadButton.enabled = YES;
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
