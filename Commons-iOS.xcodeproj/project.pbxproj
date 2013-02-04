@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
 		65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		65137CD816BE4C3B006FA9BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
 		65137CDE16BE4C3B006FA9BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65137CDC16BE4C3B006FA9BD /* InfoPlist.strings */; };
@@ -19,6 +18,28 @@
 		65137D0F16BE6696006FA9BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65137D0D16BE6696006FA9BD /* InfoPlist.strings */; };
 		65137D1216BE6696006FA9BD /* Commons_iOS_Application_Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 65137D1116BE6696006FA9BD /* Commons_iOS_Application_Testing.m */; };
 		65137D2016BE69B8006FA9BD /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137D1816BE69B8006FA9BD /* libOCMock.a */; };
+		65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
+		65CA697F16C05B9700839D09 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
+		65CA698016C05B9700839D09 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
+		65CA698116C05B9700839D09 /* MWApiMultipartRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */; };
+		65CA698216C05B9700839D09 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
+		65CA698316C05B9700839D09 /* MWApiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */; };
+		65CA698416C05B9700839D09 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
+		65CA698516C05B9700839D09 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
+		65CA698616C05B9700839D09 /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
+		65CA698716C05B9700839D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
+		65CA698816C05B9700839D09 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D49F79B416B33A4B00850EF0 /* TableViewController.m */; };
+		65CA698916C05B9700839D09 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
+		65CA698A16C05B9700839D09 /* FileUploadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D413DEDF16B56E9700842FEB /* FileUploadCell.m */; };
+		65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
+		65CA698C16C05B9700839D09 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
+		65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
+		65CA698E16C05B9700839D09 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
+		65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
+		65CA699016C05B9700839D09 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
+		65CA699116C05BC300839D09 /* FileUpload.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */; };
+		65CA699216C05BD500839D09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D408617C169B760800D6ACB0 /* main.m */; };
+		65CA699316C05BF400839D09 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137D1816BE69B8006FA9BD /* libOCMock.a */; };
 		D4086171169B760800D6ACB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		D4086173169B760800D6ACB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
 		D4086175169B760800D6ACB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086174169B760800D6ACB0 /* CoreGraphics.framework */; };
@@ -65,7 +86,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		65CA697416BFCE3300839D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65137CDB16BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-iOS-Logic-Testing-Info.plist"; sourceTree = "<group>"; };
 		65137CDD16BE4C3B006FA9BD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -86,6 +106,7 @@
 		65137D1D16BE69B8006FA9BD /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
 		65137D1E16BE69B8006FA9BD /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		65137D1F16BE69B8006FA9BD /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
+		65CA697416BFCE3300839D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D408616C169B760800D6ACB0 /* Commons-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Commons-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4086170169B760800D6ACB0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D4086172169B760800D6ACB0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -171,7 +192,7 @@
 				65137D0716BE6696006FA9BD /* SenTestingKit.framework in Frameworks */,
 				65137D0816BE6696006FA9BD /* UIKit.framework in Frameworks */,
 				65137D0916BE6696006FA9BD /* Foundation.framework in Frameworks */,
-				65137D2116BE69B8006FA9BD /* libOCMock.a in Frameworks */,
+				65CA699316C05BF400839D09 /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,7 +287,6 @@
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
-				65CA697416BFCE3300839D09 /* QuartzCore.framework */,
 				D40CE3D616BB398A00E63B27 /* Commons-logo-72@2x.png */,
 				D40CE3D416BB398700E63B27 /* Commons-logo-72.png */,
 				D40CE3D216BB391500E63B27 /* Default-Landscape@2x~ipad.png */,
@@ -296,6 +316,7 @@
 		D408616F169B760800D6ACB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				65CA697416BFCE3300839D09 /* QuartzCore.framework */,
 				65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */,
 				D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */,
 				D41B99F416B1CEB50045BEB5 /* CoreData.framework */,
@@ -566,6 +587,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				65137CE116BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m in Sources */,
+				65CA697F16C05B9700839D09 /* Http.m in Sources */,
+				65CA698016C05B9700839D09 /* MWApi.m in Sources */,
+				65CA698116C05B9700839D09 /* MWApiMultipartRequestBuilder.m in Sources */,
+				65CA698216C05B9700839D09 /* MWApiRequestBuilder.m in Sources */,
+				65CA698316C05B9700839D09 /* MWApiResult.m in Sources */,
+				65CA698416C05B9700839D09 /* NSString+Extras.m in Sources */,
+				65CA698516C05B9700839D09 /* NSURLRequest+DictionaryRequest.m in Sources */,
+				65CA698616C05B9700839D09 /* MWNetworkActivityIndicatorManager.m in Sources */,
+				65CA698716C05B9700839D09 /* AppDelegate.m in Sources */,
+				65CA698816C05B9700839D09 /* TableViewController.m in Sources */,
+				65CA698916C05B9700839D09 /* SettingsViewController.m in Sources */,
+				65CA699216C05BD500839D09 /* main.m in Sources */,
+				65CA699116C05BC300839D09 /* FileUpload.xcdatamodeld in Sources */,
+				65CA698A16C05B9700839D09 /* FileUploadCell.m in Sources */,
+				65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */,
+				65CA698C16C05B9700839D09 /* WebViewController.m in Sources */,
+				65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */,
+				65CA698E16C05B9700839D09 /* FileUpload.m in Sources */,
+				65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */,
+				65CA699016C05B9700839D09 /* BrowserHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -837,6 +878,7 @@
 				65137D1616BE6696006FA9BD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D4086166169B760800D6ACB0 /* Build configuration list for PBXProject "Commons-iOS" */ = {
 			isa = XCConfigurationList;
