@@ -84,7 +84,8 @@
     
     // Center activity indicator view
     CGRect bounds = [[UIScreen mainScreen] bounds];
-    [self.activityIndicator setFrame:CGRectMake(bounds.size.width/2 - self.activityIndicator.frame.size.width/2, bounds.size.height/2 - self.activityIndicator.frame.size.height/2, self.activityIndicator.frame.size.width, self.activityIndicator.frame.size.height)];
+    self.activityIndicator.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+    activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     
     // Change the appearance of the status bar and navigation bar
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
