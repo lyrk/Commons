@@ -7,6 +7,7 @@
 //
 
 #import "Commons_iOS_Logic_Testing.h"
+#import "CommonsApp.h"
 
 @implementation Commons_iOS_Logic_Testing
 
@@ -24,9 +25,11 @@
     [super tearDown];
 }
 
-- (void)testExample
+- (void)testSingleton
 {
-    STFail(@"Unit tests are not implemented yet in Commons-iOS-Logic-Testing");
+    CommonsApp *app1 = [CommonsApp singleton];
+    CommonsApp *app2 = [CommonsApp singleton];
+    STAssertEquals(app1, app2, @"Singleton should return same object every time");
 }
 
 @end

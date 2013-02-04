@@ -40,6 +40,16 @@
 		65CA699116C05BC300839D09 /* FileUpload.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */; };
 		65CA699216C05BD500839D09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D408617C169B760800D6ACB0 /* main.m */; };
 		65CA699316C05BF400839D09 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137D1816BE69B8006FA9BD /* libOCMock.a */; };
+		65CA699416C0685600839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
+		65CA699516C0685900839D09 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */; };
+		65CA699616C0685B00839D09 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41B99F416B1CEB50045BEB5 /* CoreData.framework */; };
+		65CA699716C0685D00839D09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
+		65CA699816C0686200839D09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086174169B760800D6ACB0 /* CoreGraphics.framework */; };
+		65CA699916C0687100839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
+		65CA699A16C0687400839D09 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */; };
+		65CA699B16C0687600839D09 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41B99F416B1CEB50045BEB5 /* CoreData.framework */; };
+		65CA699C16C0687700839D09 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
+		65CA699D16C0687C00839D09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086174169B760800D6ACB0 /* CoreGraphics.framework */; };
 		D4086171169B760800D6ACB0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		D4086173169B760800D6ACB0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
 		D4086175169B760800D6ACB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086174169B760800D6ACB0 /* CoreGraphics.framework */; };
@@ -179,8 +189,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				65137CF716BE4C8C006FA9BD /* SenTestingKit.framework in Frameworks */,
-				65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */,
+				65CA699916C0687100839D09 /* QuartzCore.framework in Frameworks */,
+				65CA699A16C0687400839D09 /* AssetsLibrary.framework in Frameworks */,
+				65CA699B16C0687600839D09 /* CoreData.framework in Frameworks */,
 				65137CD816BE4C3B006FA9BD /* Foundation.framework in Frameworks */,
+				65CA699D16C0687C00839D09 /* CoreGraphics.framework in Frameworks */,
+				65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */,
+				65CA699C16C0687700839D09 /* Security.framework in Frameworks */,
 				65137D2016BE69B8006FA9BD /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,6 +205,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				65137D0716BE6696006FA9BD /* SenTestingKit.framework in Frameworks */,
+				65CA699416C0685600839D09 /* QuartzCore.framework in Frameworks */,
+				65CA699516C0685900839D09 /* AssetsLibrary.framework in Frameworks */,
+				65CA699616C0685B00839D09 /* CoreData.framework in Frameworks */,
+				65CA699716C0685D00839D09 /* Security.framework in Frameworks */,
+				65CA699816C0686200839D09 /* CoreGraphics.framework in Frameworks */,
 				65137D0816BE6696006FA9BD /* UIKit.framework in Frameworks */,
 				65137D0916BE6696006FA9BD /* Foundation.framework in Frameworks */,
 				65CA699316C05BF400839D09 /* libOCMock.a in Frameworks */,
