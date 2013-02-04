@@ -32,7 +32,7 @@
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
- 
+
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
@@ -46,16 +46,16 @@
     CommonsApp *app = [CommonsApp singleton];
     self.fetchedResultsController = [app fetchUploadRecords];
     self.fetchedResultsController.delegate = self;
-    
+
     if (app.username == nil || [app.username isEqualToString:@""]) {
         [self performSegueWithIdentifier:@"SettingsSegue" sender:self];
     }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+
     [super viewWillAppear:animated];
-    
+
     // Enable 'Upload' button only if there are files queued for upload
     self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
 }
@@ -88,7 +88,7 @@
     [super viewDidUnload];
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table View Data Source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -107,6 +107,11 @@
     }
 }
 
+/**
+ * Configure the attributes of a table cell.
+ * @param cell
+ * @param index path
+ */
 - (void)configureCell:(FileUploadCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -142,7 +147,7 @@
 {
     static NSString *CellIdentifier = @"protoCell";
     FileUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
+
     // Configure the cell...
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
@@ -153,7 +158,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     /*
-     
+
      Photo:
      {
      DPIHeight: 72,
@@ -164,7 +169,7 @@
      UIImagePickerControllerMediaType: "public.image",
      UIImagePickerControllerOriginalImage: <UIImage>
      }
-     
+
      Gallery:
      {
      UIImagePickerControllerMediaType = "public.image";
@@ -175,7 +180,7 @@
     NSLog(@"picked: %@", info);
     [CommonsApp.singleton prepareImage:info onCompletion:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
+
     self.uploadButton.enabled = YES;
 }
 
@@ -214,13 +219,13 @@
     // Only allow uploads if user is logged in
     if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
         // User is logged in
-        
+
         if ([self.fetchedResultsController.fetchedObjects count] > 0) {
-            
+
             self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
-            
+
             NSLog(@"Upload ye files!");
-            
+
             __block void (^run)() = ^() {
                 FileUpload *record = [app firstUploadRecord];
                 if (record != nil) {
@@ -230,18 +235,18 @@
                               run();
                           }
                            onFailure:^(NSError *error) {
-                               
+
                                NSLog(@"Upload failed: %@", [error localizedDescription]);
-                               
+
                                self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
-                               
+
                                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Upload failed!"
                                                                                    message:[error localizedDescription]
                                                                                   delegate:nil
                                                                          cancelButtonTitle:@"Dismiss"
                                                                          otherButtonTitles:nil];
                                [alertView show];
-                               
+
                                run = nil;
                            }
                      ];
@@ -256,7 +261,7 @@
     }
     else {
         // User is not logged in
-        
+
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh oh!"
                                                             message:@"You need to login before you can upload photos"
                                                            delegate:nil
@@ -279,6 +284,7 @@
 /**
  * Show the image picker.
  * On iPad, show a popover.
+ * @param sender
  */
 - (IBAction)choosePhotoButtonPushed:(id)sender
 {
@@ -330,14 +336,14 @@
             [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
                              withRowAnimation:UITableViewRowAnimationFade];
 
-            {
-                FileUpload *record = (FileUpload *)anObject;
-                if (!record.complete.boolValue) {
-                    // This will go crazy if we import multiple items at once :)
-                    self.selectedRecord = record;
-                    [self performSegueWithIdentifier:@"DetailSegue" sender:self];
-                }
+        {
+            FileUpload *record = (FileUpload *)anObject;
+            if (!record.complete.boolValue) {
+                // This will go crazy if we import multiple items at once :)
+                self.selectedRecord = record;
+                [self performSegueWithIdentifier:@"DetailSegue" sender:self];
             }
+        }
             break;
 
         case NSFetchedResultsChangeDelete:
@@ -351,9 +357,9 @@
 
         case NSFetchedResultsChangeMove:
             [tableView                   deleteRowsAtIndexPaths:[NSArray
-                    arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                                                                 arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [tableView                      insertRowsAtIndexPaths:[NSArray
-                    arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+                                                                    arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
 }
@@ -384,6 +390,7 @@
 
 /**
  * Release memory after popover controller is dismissed.
+ * @param popover controller
  */
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
