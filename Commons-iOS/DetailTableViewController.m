@@ -9,6 +9,7 @@
 #import "DetailTableViewController.h"
 #import "CommonsApp.h"
 #import "WebViewController.h"
+#import "ImageScrollViewController.h"
 
 @interface DetailTableViewController ()
 
@@ -146,6 +147,14 @@
      */
 }
 
+
+#pragma mark -
+
+- (void)popViewControllerAnimated {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"OpenPageSegue"]) {
@@ -155,6 +164,49 @@
             view.targetURL = [CommonsApp.singleton URLForWikiPage:pageTitle];
         }
     }
+    else if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
+        
+        if (self.selectedRecord) {
+            
+            ImageScrollViewController *view = [segue destinationViewController];
+            
+            CGFloat density = [UIScreen mainScreen].scale;
+            CGSize size = CGSizeMake(1024.0f * density, 1024.0f * density);
+            
+            FileUpload *record = self.selectedRecord;
+            if (record != nil) {
+                
+                view.title = record.title;
+                
+                if (record.complete.boolValue) {
+                    // Internet
+                    
+                    [[CommonsApp singleton] fetchWikiImage:record.title
+                                                      size:size
+                                              onCompletion:^(UIImage *image) {
+                                                  
+                                                  [view setImage:image];
+                                              }
+                                                 onFailure:^(NSError *error) {
+                                                     
+                                                     NSLog(@"Failed to download image: %@", [error localizedDescription]);
+                                                     
+                                                     // Pop back after a second if image failed to download
+                                                     [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
+                                                 }];
+                }
+                else {
+                    // Local
+                    
+                    view.image = self.imagePreview.image;
+                }
+                
+            }
+            
+        }
+        
+    }
+    
 }
 
 - (void)viewDidUnload {
