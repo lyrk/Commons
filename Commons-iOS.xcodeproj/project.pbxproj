@@ -18,6 +18,8 @@
 		65137D0F16BE6696006FA9BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65137D0D16BE6696006FA9BD /* InfoPlist.strings */; };
 		65137D1216BE6696006FA9BD /* Commons_iOS_Application_Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 65137D1116BE6696006FA9BD /* Commons_iOS_Application_Testing.m */; };
 		65137D2016BE69B8006FA9BD /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137D1816BE69B8006FA9BD /* libOCMock.a */; };
+		655BF5EF16C1052D00B22299 /* StorageTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 655BF5EE16C1052D00B22299 /* StorageTools.m */; };
+		655BF5F016C1052D00B22299 /* StorageTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 655BF5EE16C1052D00B22299 /* StorageTools.m */; };
 		65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
 		65CA697F16C05B9700839D09 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
 		65CA698016C05B9700839D09 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
@@ -116,6 +118,8 @@
 		65137D1D16BE69B8006FA9BD /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
 		65137D1E16BE69B8006FA9BD /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		65137D1F16BE69B8006FA9BD /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
+		655BF5ED16C1052D00B22299 /* StorageTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageTools.h; sourceTree = "<group>"; };
+		655BF5EE16C1052D00B22299 /* StorageTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorageTools.m; sourceTree = "<group>"; };
 		65CA697416BFCE3300839D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D408616C169B760800D6ACB0 /* Commons-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Commons-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4086170169B760800D6ACB0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -236,7 +240,6 @@
 		65137CD916BE4C3B006FA9BD /* Commons-iOS-Logic-Testing */ = {
 			isa = PBXGroup;
 			children = (
-				65137CE616BE4C46006FA9BD /* Libraries */,
 				65137CDF16BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.h */,
 				65137CE016BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m */,
 				65137CDA16BE4C3B006FA9BD /* Supporting Files */,
@@ -252,13 +255,6 @@
 				65137CE216BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		65137CE616BE4C46006FA9BD /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Libraries;
 			sourceTree = "<group>";
 		};
 		65137D0A16BE6696006FA9BD /* Commons-iOS-Application-Testing */ = {
@@ -302,6 +298,15 @@
 			);
 			name = OCMock;
 			path = "Testing-Libraries/OCMock";
+			sourceTree = "<group>";
+		};
+		655BF5EC16C104CD00B22299 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				655BF5ED16C1052D00B22299 /* StorageTools.h */,
+				655BF5EE16C1052D00B22299 /* StorageTools.m */,
+			);
+			name = Utilities;
 			sourceTree = "<group>";
 		};
 		D4086161169B760800D6ACB0 = {
@@ -354,6 +359,7 @@
 				D4294E28169CC34E00BCF709 /* mwapi */,
 				D450A0D716B3473A00D1D1E2 /* View Controllers */,
 				D450A0D516B3471A00D1D1E2 /* Data Model */,
+				655BF5EC16C104CD00B22299 /* Utilities */,
 				D4086177169B760800D6ACB0 /* Supporting Files */,
 				D450A0E216B34ADD00D1D1E2 /* CommonsApp.h */,
 				D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */,
@@ -627,6 +633,7 @@
 				65CA698E16C05B9700839D09 /* FileUpload.m in Sources */,
 				65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */,
 				65CA699016C05B9700839D09 /* BrowserHelper.m in Sources */,
+				655BF5F016C1052D00B22299 /* StorageTools.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,6 +669,7 @@
 				D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */,
 				D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */,
 				DC606FBF16BF28FA006EFA5C /* ImageScrollViewController.m in Sources */,
+				655BF5EF16C1052D00B22299 /* StorageTools.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
