@@ -29,10 +29,12 @@
 
 - (NSString *)documentRootPath;
 - (NSString *)filePath:(NSString *)fileName;
-- (NSString *)thumbPath:(NSString *)fileName;
 - (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
-- (UIImage *)loadImage:(NSString *)fileName;
-- (UIImage *)loadThumbnail:(NSString *)fileName;
+
+- (void)loadImage:(NSString *)fileName fileType:(NSString *)fileType onCompletion:(void(^)(UIImage *))block;
+
+- (void)fetchImageURL:(NSURL *)url onCompletion:(void(^)(UIImage *image))block onFailure:(void(^)(NSError *))failureBlock;
+- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block onFailure:(void(^)(NSError *))failureBlock;
 
 - (void)saveData;
 - (NSFetchedResultsController *)fetchUploadRecords;
@@ -47,13 +49,12 @@
 
 - (void)prepareImage:(NSDictionary *)info onCompletion:(void(^)())completionBlock;
 - (void)deleteUploadRecord:(FileUpload *)record;
-- (UIImage *)makeThumbnail:(UIImage *)image size:(NSInteger)size;
 
 - (void)refreshHistory;
 
-- (void)fetchImage:(NSURL *)url onCompletion:(void(^)(UIImage *image))block onFailure:(void(^)(NSError *))failureBlock;
-- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block onFailure:(void(^)(NSError *))failureBlock;
+- (NSString *)cleanupTitle:(NSString *)title;
 
 - (NSString *)prettyDate:(NSDate *)date;
+- (NSDate *)decodeDate:(NSString *)str;
 
 @end

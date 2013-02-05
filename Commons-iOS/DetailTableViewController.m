@@ -35,63 +35,33 @@
     [super viewDidLoad];
     
     // Load up the selected record
-    CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = self.selectedRecord;
 
     if (record != nil) {
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
+        self.imageSpinner.hidden = NO;
+        [record fetchThumbnailOnCompletion:^(UIImage *image) {
+                    self.imageSpinner.hidden = YES;
+                    self.imagePreview.image = image;
+                }
+                                 onFailure:^(NSError *error) {
+                                     NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
+                                    self.imageSpinner.hidden = YES;
+                                 }];
+
         if (record.complete.boolValue) {
             // Completed upload...
             self.titleTextField.enabled = NO;
             self.descriptionTextView.editable = NO;
             self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
             self.actionButton.enabled = YES; // open link or share on the web
-
-            // Fetch medium thumbnail from the interwebs
-            CGFloat density = [UIScreen mainScreen].scale;
-            CGSize size = CGSizeMake(284.0f * density, 212.0f * density);
-
-            // Start by showing the locally stored thumbnail
-            if (record.thumbnailFile != nil) {
-                self.imagePreview.image = [app loadThumbnail:record.thumbnailFile];
-            }
-
-            self.imageSpinner.hidden = NO;
-            [app fetchWikiImage:record.title
-                           size:size
-                   onCompletion:^(UIImage *image) {
-                       self.imageSpinner.hidden = YES;
-
-                       // provide a smooth image transition between thumbnail and wiki image
-                       CATransition *transition = [CATransition animation];
-                       transition.duration = 0.5f;
-                       transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-                       transition.type = kCATransitionFade;
-                       [self.imagePreview.layer addAnimation:transition forKey:nil];
-                       self.imagePreview.image = image;
-
-                   }
-                      onFailure:^(NSError *error) {
-                          NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
-                          self.imageSpinner.hidden = YES;
-                      }
-             ];
-
         } else {
             // Locally queued file...
             self.titleTextField.enabled = YES;
             self.descriptionTextView.editable = YES;
             self.deleteButton.enabled = YES;
             self.actionButton.enabled = NO;
-
-            // Use the pre-uploaded file as the medium thumbnail
-            self.imagePreview.image = [app loadImage:record.localFile];
-            if (self.imagePreview.image == nil) {
-                // Can't read that file format natively; use our thumbnail icon
-                self.imagePreview.image = [app loadThumbnail:record.thumbnailFile];
-            }
-            self.imageSpinner.hidden = YES;
         }
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
@@ -155,27 +125,24 @@
                 
                 view.title = record.title;
                 
+                void (^completion)(UIImage *image) = ^(UIImage *image) {
+                    [view setImage:image];
+                };
+                void (^failure)(NSError *error) = ^(NSError *error) {
+                    NSLog(@"Failed to download image: %@", [error localizedDescription]);
+                    // Pop back after a second if image failed to download
+                    [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
+                };
                 if (record.complete.boolValue) {
-                    // Internet
-                    
-                    [[CommonsApp singleton] fetchWikiImage:record.title
-                                                      size:size
-                                              onCompletion:^(UIImage *image) {
-                                                  
-                                                  [view setImage:image];
-                                              }
-                                                 onFailure:^(NSError *error) {
-                                                     
-                                                     NSLog(@"Failed to download image: %@", [error localizedDescription]);
-                                                     
-                                                     // Pop back after a second if image failed to download
-                                                     [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
-                                                 }];
-                }
-                else {
-                    // Local
-                    
-                    view.image = self.imagePreview.image;
+                    // Fetch cached or internet image at standard size...
+                    [CommonsApp.singleton fetchWikiImage:record.title
+                                                    size:size
+                                            onCompletion:completion
+                                               onFailure:failure];
+                } else {
+                    // Load the local file...
+                    [record fetchThumbnailOnCompletion:completion
+                                             onFailure:failure];
                 }
                 
             }

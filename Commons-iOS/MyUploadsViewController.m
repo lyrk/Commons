@@ -272,8 +272,8 @@
             break;
             
         case NSFetchedResultsChangeMove:
-            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-            [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            [self.collectionView moveItemAtIndexPath:indexPath toIndexPath:newIndexPath];
+            [self configureCell:(ImageListCell *)[self.collectionView cellForItemAtIndexPath:newIndexPath] atIndexPath:newIndexPath];
             break;
     }
 }
@@ -371,15 +371,30 @@
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    cell.titleLabel.text = record.title;
+    NSString *title = record.title;
+    cell.title = title;
+    cell.titleLabel.text = title;
+    /*
     if (record.thumbnailFile) {
         cell.image.image = [app loadThumbnail: record.thumbnailFile];
     } else {
         cell.image.image = nil;
     }
+    */
+    
+    cell.image.image = nil;
+    void (^completion)(UIImage *) = ^(UIImage *image) {
+        if ([cell.title isEqualToString:title]) {
+            cell.image.image = image;
+        }
+    };
+    void (^failure)(NSError *) = ^(NSError *error) {
+        NSLog(@"failed to load thumbnail");
+    };
+    [record fetchThumbnailOnCompletion:completion
+                             onFailure:failure];
     if (record.complete.boolValue) {
         // Old upload, already complete.
-        // We have the title; fetch thumbnails and such on demand.
         cell.statusLabel.text = [app prettyDate:record.created];
         cell.progressBar.hidden = YES;
     } else {

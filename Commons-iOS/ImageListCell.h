@@ -14,4 +14,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 
+@property (strong, nonatomic) NSString *title;
+
 @end

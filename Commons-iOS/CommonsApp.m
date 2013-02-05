@@ -200,16 +200,6 @@ static CommonsApp *singleton_;
     return filename;
 }
 
-- (UIImage *)loadThumbnail:(NSString *)fileName;
-{
-    return [[UIImage alloc] initWithContentsOfFile:[self thumbPath:fileName]];
-}
-
-- (UIImage *)loadImage:(NSString *)fileName;
-{
-    return [[UIImage alloc] initWithContentsOfFile:[self filePath:fileName]];
-}
-
 - (void)ensureDirectory:(NSString *)dir
 {
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -353,17 +343,22 @@ static CommonsApp *singleton_;
                                            NSDictionary *upload = uploadResult.data[@"upload"];
                                            NSDictionary *imageinfo = upload[@"imageinfo"];
                                            if ([upload[@"result"] isEqualToString:@"Success"]) {
-                                               NSLog(@"successful upload!");
-                                               record.complete = @YES;
-                                               record.created = [self decodeDate:imageinfo[@"timestamp"]];
                                                record.title = [self cleanupTitle:upload[@"filename"]];
+
+                                               // Unfortunately we didn't get the thumbnail URL. :P
+                                               // Ask for it in a second request...
+                                               NSLog(@"fetching thumb URL after upload");
+                                               [record saveThumbnailOnCompletion:completionBlock
+                                                                       onFailure:failureBlock];
                                            } else {
                                                NSLog(@"failed upload!");
                                                // whaaaaaaat?
                                                record.progress = @0.0f;
+                                               [self saveData];
+
+                                               NSError *err = nil; // fixme create a sane error object?
+                                               failureBlock(err);
                                            }
-                                           [self saveData];
-                                           completionBlock();
                                        }
                                    };
                                    
@@ -467,8 +462,6 @@ static CommonsApp *singleton_;
 {
     void (^done)() = [completionBlock copy];
     [self getImageData:info onCompletion:^(NSData *data) {
-        UIImage *image = info[UIImagePickerControllerOriginalImage];
-        
         NSString *title = [NSString stringWithFormat:@"Testfile %li", (long)[[NSDate date] timeIntervalSince1970]];
         NSString *desc = @"temporary description text";
         
@@ -486,12 +479,6 @@ static CommonsApp *singleton_;
         
         // save local file
         record.localFile = [self saveFile: data forType:record.fileType];
-        
-        // FIXME -- save only asset URL
-        //record.assetUrl = @"";
-
-        // save thumbnail
-        record.thumbnailFile = [self saveThumbnail:image];
 
         [self saveData];
         
@@ -520,32 +507,22 @@ static CommonsApp *singleton_;
     // save local file
     record.localFile = [self saveFile:data forType:record.fileType];
     [self saveData];
-    
-    // save thumbnail
-    [self loadImage:data fileType:record.fileType onCompletion:^(UIImage *image) {
-        if (image) {
-            record.thumbnailFile = [self saveThumbnail:image];
-            [self saveData];
-        } else {
-            NSLog(@"unable to create thumbnail for %@", fileName);
-        }
-    }];
 }
 
-- (void)loadImage:(NSData *)data fileType:(NSString *)fileType onCompletion:(void(^)(UIImage *))block
+- (void)loadImage:(NSString *)fileName fileType:(NSString *)fileType onCompletion:(void(^)(UIImage *))block
 {
     if ([fileType isEqualToString:@"image/svg+xml"]) {
-        [self loadSVGImage:data onCompletion:block];
+        [self loadSVGImage:fileName onCompletion:block];
     } else if ([fileType isEqualToString:@"application/pdf"]) {
-        [self loadPDFImage:data onCompletion:block];
+        [self loadPDFImage:fileName onCompletion:block];
     } else {
-        UIImage *image = [UIImage imageWithData:data];
+        UIImage *image = [UIImage imageWithContentsOfFile:[self filePath:fileName]];
         // fixme dispatch to the event loop
         block(image);
     }
 }
 
-- (void)loadSVGImage:(NSData *)data onCompletion:(void(^)(UIImage *))block
+- (void)loadSVGImage:(NSString *)fileName onCompletion:(void(^)(UIImage *))block
 {
     // fixme implement thumbnailing
     UIImage *image = [UIImage imageNamed:@"fileicon-svg.png"];
@@ -554,7 +531,7 @@ static CommonsApp *singleton_;
     block(image);
 }
 
-- (void)loadPDFImage:(NSData *)data onCompletion:(void(^)(UIImage *))block
+- (void)loadPDFImage:(NSString *)fileName onCompletion:(void(^)(UIImage *))block
 {
     // fixme implement thumbnailing
     UIImage *image = [UIImage imageNamed:@"fileicon-pdf.png"];
@@ -563,16 +540,60 @@ static CommonsApp *singleton_;
     block(image);
 }
 
+
+/**
+ * Will make use of NSURL's default caching handlers
+ */
+- (void)fetchImageURL:(NSURL *)url onCompletion:(void(^)(UIImage *image))block onFailure:(void (^)(NSError *))failureBlock
+{
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+    void (^done)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (error == nil) {
+            UIImage *image = [UIImage imageWithData:data];
+            block(image);
+        } else {
+            block(nil);
+            failureBlock(error);
+        }
+    };
+    [NSURLConnection sendAsynchronousRequest:request
+                                       queue:[NSOperationQueue mainQueue]
+                           completionHandler:done];
+}
+
+/**
+ * Won't make use of caching for the image metadata, but should for the actual file.
+ */
+- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block onFailure:(void(^)(NSError *))failureBlock;
+{
+    MWApi *api = [self startApi];
+    [api getRequest:@{
+     @"action": @"query",
+     @"prop": @"imageinfo",
+     @"titles": [@"File:" stringByAppendingString:[self cleanupTitle:title]],
+     @"iiprop": @"url",
+     @"iiurlwidth": [NSString stringWithFormat:@"%f", size.width],
+     @"iiurlheight": [NSString stringWithFormat:@"%f", size.height]
+     }
+       onCompletion:^(MWApiResult *result) {
+           NSDictionary *pages = result.data[@"query"][@"pages"];
+           for (NSString *key in pages) {
+               NSDictionary *page = pages[key];
+               NSDictionary *imageinfo = page[@"imageinfo"][0];
+               NSURL *thumbUrl = [NSURL URLWithString:imageinfo[@"thumburl"]];
+               [self fetchImageURL:thumbUrl onCompletion:block onFailure:failureBlock];
+           }
+       }
+          onFailure:failureBlock
+     ];
+}
+
 - (void)deleteUploadRecord:(FileUpload *)record
 {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSError *error;
     if (record.localFile) {
         [fm removeItemAtPath: [self filePath:record.localFile] error:&error];
-    }
-    if (record.thumbnailFile) {
-        [fm removeItemAtPath: [self thumbPath:record.thumbnailFile] error:&error];
-        [fm removeItemAtPath: [self thumbPath2x:record.thumbnailFile] error:&error];
     }
     [self.context deleteObject:record];
     [self saveData];
@@ -650,62 +671,6 @@ static CommonsApp *singleton_;
     return fileName;
 }
 
-- (NSString *)saveThumbnail:(UIImage *)image
-{
-    // hack: do actual thumbnailing
-    NSString *thumbName = [self uniqueFilenameWithExtension:@"jpg"];
-    [self saveRawThumbnail:image withName:thumbName retina:NO];
-    [self saveRawThumbnail:image withName:thumbName retina:YES];
-
-    return thumbName;
-}
-
-- (void)saveRawThumbnail:(UIImage *)image withName:(NSString *)thumbName retina:(BOOL)isRetina
-{
-    NSInteger size;
-    NSString *thumbPath;
-    if (isRetina) {
-        size = 128;
-        thumbPath = [self thumbPath2x:thumbName];
-    } else {
-        size = 64;
-        thumbPath = [self thumbPath:thumbName];
-    }
-    UIImage *thumb = [self makeThumbnail:image size:size];
-    NSData *data = UIImageJPEGRepresentation(thumb, 0.7);
-
-    [data writeToFile:thumbPath atomically:YES];
-}
-
-- (UIImage *)makeThumbnail:(UIImage *)image size:(NSInteger)size
-{
-    CGSize oldSize = image.size;
-    CGSize newSize = CGSizeMake((float)size, (float)size);
-    CGRect rect;
-
-    if (oldSize.width == oldSize.height) {
-        // already square \o/
-        rect = CGRectMake(0, 0, newSize.width, newSize.height);
-    } else if (oldSize.width > oldSize.height) {
-        // landscape crop to square
-        CGFloat provisionalWidth = oldSize.width * newSize.height / oldSize.height;
-        CGFloat bufferX = (provisionalWidth - newSize.width) / 2;
-        rect = CGRectMake(0 - bufferX, 0, provisionalWidth, newSize.height);
-    } else {
-        // portrait crop to square
-        CGFloat provisionalHeight = oldSize.height * newSize.width / oldSize.width;
-        CGFloat bufferY = (provisionalHeight - newSize.height) / 2;
-        rect = CGRectMake(0, 0 - bufferY, newSize.width, provisionalHeight);
-    }
-
-    UIGraphicsBeginImageContext(newSize);
-    [image drawInRect:rect];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-
-    return newImage;
-}
-
 - (void)refreshHistory
 {
     MWApi *api = [self startApi];
@@ -718,8 +683,8 @@ static CommonsApp *singleton_;
      @"gailimit": @"100",
      @"prop": @"imageinfo",
      @"iiprop": @"timestamp|url",
-     @"iiurlwidth": @"256",
-     @"iiurlheight": @"256"
+     @"iiurlwidth": @"640",
+     @"iiurlheight": @"640"
      }
        onCompletion:^(MWApiResult *result) {
            NSFetchedResultsController *records = [self fetchUploadRecords];
@@ -753,29 +718,17 @@ static CommonsApp *singleton_;
                    NSDictionary *page = pages[pageId];
                    NSDictionary *imageinfo = page[@"imageinfo"][0];
                    NSLog(@"page: %@", page);
-                   
+
                    FileUpload *record = [self createUploadRecord];
                    record.complete = @YES;
-                   
+
                    record.title = [self cleanupTitle:page[@"title"]];
                    record.progress = @1.0f;
                    record.created = [self decodeDate:imageinfo[@"timestamp"]];
+
+                   record.thumbnailURL = imageinfo[@"thumburl"];
                    
                    [self saveData];
-                   
-                   [self fetchImage:[NSURL URLWithString:imageinfo[@"thumburl"]]
-                       onCompletion:^(UIImage *image) {
-                           if (image != nil) {
-                               record.thumbnailFile = [self saveThumbnail:image];
-                               [self saveData];
-                           } else {
-                               NSLog(@"Error fetching thumbnail");
-                           }
-                       }
-                          onFailure:^(NSError *error) {
-                              NSLog(@"Error fetching thumbnail: %@", [error localizedDescription]);
-                          }
-                    ];
                })();
            }
        }
@@ -789,47 +742,6 @@ static CommonsApp *singleton_;
                                                         otherButtonTitles:nil];
               [alertView show];
           }
-     ];
-}
-
-- (void)fetchImage:(NSURL *)url onCompletion:(void(^)(UIImage *image))block onFailure:(void (^)(NSError *))failureBlock 
-{
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    void (^done)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (error == nil) {
-            UIImage *image = [UIImage imageWithData:data];
-            block(image);
-        } else {
-            block(nil);
-            failureBlock(error);
-        }
-    };
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:done];
-}
-
-- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block onFailure:(void (^)(NSError *))failureBlock
-{
-    MWApi *api = [self startApi];
-    [api getRequest:@{
-     @"action": @"query",
-     @"prop": @"imageinfo",
-     @"titles": [@"File:" stringByAppendingString:[self cleanupTitle:title]],
-     @"iiprop": @"url",
-     @"iiurlwidth": [NSString stringWithFormat:@"%f", size.width],
-     @"iiurlheight": [NSString stringWithFormat:@"%f", size.height]
-     }
-       onCompletion:^(MWApiResult *result) {
-           NSDictionary *pages = result.data[@"query"][@"pages"];
-           for (NSString *key in pages) {
-               NSDictionary *page = pages[key];
-               NSDictionary *imageinfo = page[@"imageinfo"][0];
-               NSURL *thumbUrl = [NSURL URLWithString:imageinfo[@"thumburl"]];
-               [self fetchImage:thumbUrl onCompletion:block onFailure:failureBlock];
-           }
-       }
-          onFailure:failureBlock
      ];
 }
 

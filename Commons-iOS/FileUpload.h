@@ -12,7 +12,6 @@
 
 @interface FileUpload : NSManagedObject
 
-@property (nonatomic, retain) NSString * assetUrl;
 @property (nonatomic, retain) NSNumber * complete;
 @property (nonatomic, retain) NSDate * created;
 @property (nonatomic, retain) NSString * desc;
@@ -20,9 +19,11 @@
 @property (nonatomic, retain) NSString * fileType;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSNumber * progress;
-@property (nonatomic, retain) NSString * thumbnailFile;
+@property (nonatomic, retain) NSString * thumbnailURL;
 @property (nonatomic, retain) NSNumber * fileSize;
 
 - (NSString *)prettySize;
+- (void)fetchThumbnailOnCompletion:(void(^)(UIImage *image))block onFailure:(void(^)(NSError *))failureBlock;
+- (void)saveThumbnailOnCompletion:(void(^)())block onFailure:(void(^)(NSError *))failureBlock;
 
 @end
