@@ -73,6 +73,10 @@
 		D413DEE016B56E9700842FEB /* FileUploadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D413DEDF16B56E9700842FEB /* FileUploadCell.m */; };
 		D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */; };
 		D41B99F516B1CEB50045BEB5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41B99F416B1CEB50045BEB5 /* CoreData.framework */; };
+		D41D280D16C18C9F00BC3ABE /* cc-by.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280916C18C9F00BC3ABE /* cc-by.png */; };
+		D41D280E16C18C9F00BC3ABE /* cc-by@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280A16C18C9F00BC3ABE /* cc-by@2x.png */; };
+		D41D280F16C18C9F00BC3ABE /* cc-sa.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280B16C18C9F00BC3ABE /* cc-sa.png */; };
+		D41D281016C18C9F00BC3ABE /* cc-sa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280C16C18C9F00BC3ABE /* cc-sa@2x.png */; };
 		D450A0E116B347BE00D1D1E2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
 		D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
@@ -145,6 +149,10 @@
 		D413DEDF16B56E9700842FEB /* FileUploadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUploadCell.m; sourceTree = "<group>"; };
 		D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FileUpload.xcdatamodel; sourceTree = "<group>"; };
 		D41B99F416B1CEB50045BEB5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D41D280916C18C9F00BC3ABE /* cc-by.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by.png"; sourceTree = "<group>"; };
+		D41D280A16C18C9F00BC3ABE /* cc-by@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by@2x.png"; sourceTree = "<group>"; };
+		D41D280B16C18C9F00BC3ABE /* cc-sa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa.png"; sourceTree = "<group>"; };
+		D41D280C16C18C9F00BC3ABE /* cc-sa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa@2x.png"; sourceTree = "<group>"; };
 		D450A0D816B3477400D1D1E2 /* Http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Http.h; path = mwapi/Http.h; sourceTree = "<group>"; };
 		D450A0D916B3477400D1D1E2 /* MWApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApi.h; path = mwapi/MWApi.h; sourceTree = "<group>"; };
 		D450A0DA16B3477400D1D1E2 /* MWApiMultipartRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiMultipartRequestBuilder.h; path = mwapi/MWApiMultipartRequestBuilder.h; sourceTree = "<group>"; };
@@ -367,6 +375,10 @@
 		D4086177169B760800D6ACB0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D41D280916C18C9F00BC3ABE /* cc-by.png */,
+				D41D280A16C18C9F00BC3ABE /* cc-by@2x.png */,
+				D41D280B16C18C9F00BC3ABE /* cc-sa.png */,
+				D41D280C16C18C9F00BC3ABE /* cc-sa@2x.png */,
 				D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */,
 				D40CE3DD16BB542200E63B27 /* fileicon-svg.png */,
 				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
@@ -567,6 +579,10 @@
 				D40CE3DE16BB542300E63B27 /* fileicon-pdf.png in Resources */,
 				D40CE3DF16BB542300E63B27 /* fileicon-svg.png in Resources */,
 				DC0F63DF16BBB73F0017E63C /* defaults.plist in Resources */,
+				D41D280D16C18C9F00BC3ABE /* cc-by.png in Resources */,
+				D41D280E16C18C9F00BC3ABE /* cc-by@2x.png in Resources */,
+				D41D280F16C18C9F00BC3ABE /* cc-sa.png in Resources */,
+				D41D281016C18C9F00BC3ABE /* cc-sa@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

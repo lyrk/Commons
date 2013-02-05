@@ -137,8 +137,11 @@
             NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
             view.targetURL = [CommonsApp.singleton URLForWikiPage:pageTitle];
         }
-    }
-    else if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
+    } else if ([segue.identifier isEqualToString:@"OpenLicenseSegue"]) {
+        WebViewController *view = [segue destinationViewController];
+        // fixme use the proper link for data
+        view.targetURL = [NSURL URLWithString:@"https://creativecommons.org/licenses/by-sa/3.0/"];
+    } else if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
         
         if (self.selectedRecord) {
             
