@@ -1,25 +1,25 @@
 //
-//  TableViewController.m
+//  MyUploadsViewController.m
 //  Commons-iOS
 //
-//  Created by Brion on 1/25/13.
+//  Created by Brion on 2/5/13.
 //  Copyright (c) 2013 Wikimedia. All rights reserved.
 //
 
-#import "TableViewController.h"
+#import "MyUploadsViewController.h"
 #import "CommonsApp.h"
-#import "FileUploadCell.h"
+#import "ImageListCell.h"
 #import "DetailTableViewController.h"
 
-@interface TableViewController ()
+@interface MyUploadsViewController ()
 
 @end
 
-@implementation TableViewController
+@implementation MyUploadsViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
     }
@@ -30,40 +30,40 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         // Camera is available
     } else {
         // Clicking 'take photo' in simulator *will* crash, so disable the button.
         self.takePhotoButton.enabled = NO;
     }
-
+    
     CommonsApp *app = [CommonsApp singleton];
     self.fetchedResultsController = [app fetchUploadRecords];
     self.fetchedResultsController.delegate = self;
-
+    
     if (app.username == nil || [app.username isEqualToString:@""]) {
         [self performSegueWithIdentifier:@"SettingsSegue" sender:self];
     }
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-
-    [super viewDidAppear:animated];
-
-    // Enable 'Upload' button only if there are files queued for upload
-    self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidUnload {
+    [self setSettingsButton:nil];
+    [self setUploadButton:nil];
+    [self setChoosePhotoButton:nil];
+    [self setTakePhotoButton:nil];
+    [self setRefreshButton:nil];
+
+    [self setFetchedResultsController:nil];
+    self.popover = nil;
+    self.selectedRecord = nil;
+
+    [super viewDidUnload];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
@@ -74,91 +74,12 @@
     }
 }
 
-- (void)viewDidUnload {
-    [self setSettingsButton:nil];
-    [self setUploadButton:nil];
-    [self setTakePhotoButton:nil];
-    [self setChoosePhotoButton:nil];
-    [self setTakePhotoButton:nil];
-    [self setTableView:nil];
-    [self setFetchedResultsController:nil];
-    self.popover = nil;
-    self.selectedRecord = nil;
-    [self setRefreshButton:nil];
-    [super viewDidUnload];
-}
-
-#pragma mark - Table View Data Source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    if (self.fetchedResultsController != nil) {
-        NSLog(@"rows: %d objects", self.fetchedResultsController.fetchedObjects.count);
-        return self.fetchedResultsController.fetchedObjects.count;
-    } else {
-        return 0;
-    }
-}
-
-/**
- * Configure the attributes of a table cell.
- * @param cell
- * @param index path
- */
-- (void)configureCell:(FileUploadCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    CommonsApp *app = CommonsApp.singleton;
-    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
-
-    cell.titleLabel.text = record.title;
-    if (record.thumbnailFile) {
-        cell.image.image = [app loadThumbnail: record.thumbnailFile];
-    } else {
-        cell.image.image = nil;
-    }
-    if (record.complete.boolValue) {
-        // Old upload, already complete.
-        // We have the title; fetch thumbnails and such on demand.
-        cell.sizeLabel.text = [app prettyDate:record.created];
-        cell.progressBar.hidden = YES;
-        cell.queuedLabel.hidden = YES;
-    } else {
-        // Queued upload, not yet complete.
-        // We have local data & progress info.
-        cell.sizeLabel.text = record.prettySize;
-        if (record.progress.floatValue == 0.0f) {
-            cell.progressBar.hidden = YES;
-            cell.queuedLabel.hidden = NO;
-        } else {
-            cell.progressBar.hidden = NO;
-            cell.queuedLabel.hidden = YES;
-            cell.progressBar.progress = record.progress.floatValue;
-        }
-    }
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"protoCell";
-    FileUploadCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-
-    // Configure the cell...
-    [self configureCell:cell atIndexPath:indexPath];
-    return cell;
-}
-
 #pragma mark - Image Picker Controller Delegate Methods
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     /*
-
+     
      Photo:
      {
      DPIHeight: 72,
@@ -169,7 +90,7 @@
      UIImagePickerControllerMediaType: "public.image",
      UIImagePickerControllerOriginalImage: <UIImage>
      }
-
+     
      Gallery:
      {
      UIImagePickerControllerMediaType = "public.image";
@@ -180,7 +101,7 @@
     NSLog(@"picked: %@", info);
     [CommonsApp.singleton prepareImage:info onCompletion:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
-
+    
     self.uploadButton.enabled = YES;
 }
 
@@ -193,7 +114,7 @@
 #pragma mark - Interface Items
 
 - (UIBarButtonItem *)uploadBarButtonItem {
-
+    
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
@@ -202,7 +123,7 @@
 }
 
 - (UIBarButtonItem *)cancelBarButtonItem {
-
+    
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
@@ -213,19 +134,19 @@
 #pragma mark - Interface Actions
 
 - (IBAction)uploadButtonPushed:(id)sender {
-
+    
     CommonsApp *app = [CommonsApp singleton];
-
+    
     // Only allow uploads if user is logged in
     if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
         // User is logged in
-
+        
         if ([self.fetchedResultsController.fetchedObjects count] > 0) {
-
+            
             self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
-
+            
             NSLog(@"Upload ye files!");
-
+            
             __block void (^run)() = ^() {
                 FileUpload *record = [app firstUploadRecord];
                 if (record != nil) {
@@ -235,18 +156,18 @@
                               run();
                           }
                            onFailure:^(NSError *error) {
-
+                               
                                NSLog(@"Upload failed: %@", [error localizedDescription]);
-
+                               
                                self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
-
+                               
                                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Upload failed!"
                                                                                    message:[error localizedDescription]
                                                                                   delegate:nil
                                                                          cancelButtonTitle:@"Dismiss"
                                                                          otherButtonTitles:nil];
                                [alertView show];
-
+                               
                                run = nil;
                            }
                      ];
@@ -261,14 +182,14 @@
     }
     else {
         // User is not logged in
-
+        
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh oh!"
                                                             message:@"You need to login before you can upload photos"
                                                            delegate:nil
                                                   cancelButtonTitle:@"Dismiss"
                                                   otherButtonTitles:nil];
         [alertView show];
-
+        
         NSLog(@"Can't upload because user is not logged in.");
     }
 }
@@ -292,7 +213,7 @@
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
-
+    
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         if (!self.popover) { // prevent crash when choose photo is tapped twice in succession
             self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
@@ -311,17 +232,17 @@
 }
 
 - (void)cancelButtonPushed:(id)sender {
-
+    
     CommonsApp *app = [CommonsApp singleton];
     [app cancelCurrentUpload];
-
+    
     self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
 }
 
 #pragma mark - NSFetchedResultsController Delegate Methods
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView beginUpdates];
+    /*[self.tableView beginUpdates];*/
 }
 
 - (void)controller:(NSFetchedResultsController *)controller
@@ -329,37 +250,30 @@
      forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
-    UITableView *tableView = self.tableView;
-
     switch (type) {
         case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]
-                             withRowAnimation:UITableViewRowAnimationFade];
-
-        {
-            FileUpload *record = (FileUpload *)anObject;
-            if (!record.complete.boolValue) {
-                // This will go crazy if we import multiple items at once :)
-                self.selectedRecord = record;
-                [self performSegueWithIdentifier:@"DetailSegue" sender:self];
+            [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
+            {
+                FileUpload *record = (FileUpload *)anObject;
+                if (!record.complete.boolValue) {
+                    // This will go crazy if we import multiple items at once :)
+                    self.selectedRecord = record;
+                    [self performSegueWithIdentifier:@"DetailSegue" sender:self];
+                }
             }
-        }
             break;
-
+            
         case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
-                             withRowAnimation:UITableViewRowAnimationFade];
+            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
             break;
-
+            
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:(FileUploadCell *) [tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            [self configureCell:(ImageListCell *)[self.collectionView cellForItemAtIndexPath:indexPath] atIndexPath:indexPath];
             break;
-
+            
         case NSFetchedResultsChangeMove:
-            [tableView                   deleteRowsAtIndexPaths:[NSArray
-                                                                 arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView                      insertRowsAtIndexPaths:[NSArray
-                                                                    arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+            [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
             break;
     }
 }
@@ -371,19 +285,17 @@
 {
     switch (type) {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-                          withRowAnimation:UITableViewRowAnimationFade];
+            [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
             break;
-
+            
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-                          withRowAnimation:UITableViewRowAnimationFade];
+            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex]];
             break;
     }
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self.tableView endUpdates];
+    /*[self.tableView endUpdates];*/
 }
 
 #pragma mark - Popover Controller Delegate Methods
@@ -397,18 +309,92 @@
     self.popover = nil;
 }
 
-#pragma mark - UITableViewDelegate methods
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+#pragma mark - UICollectionViewDelegate methods
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     self.selectedRecord = record;
     return indexPath;
 }
 
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedRecord = nil;
 }
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout  *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // iPad: fit 3 across in portrait or 4 across landscape
+        return CGSizeMake(240.0f, 200.0f);
+    } else {
+        // iPhone/iPod: fit 1 across in portrait
+        return CGSizeMake(300.0f, 200.0f);
+    }
+}
+
+#pragma mark - UICollectionViewDataSource methods
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    if (self.fetchedResultsController != nil) {
+        NSLog(@"rows: %d objects", self.fetchedResultsController.fetchedObjects.count);
+        return self.fetchedResultsController.fetchedObjects.count;
+    } else {
+        return 0;
+    }
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    ImageListCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imageListCell"
+                                                                    forIndexPath:indexPath];
+    
+    // Configure the cell...
+    [self configureCell:cell atIndexPath:indexPath];
+    return cell;
+}
+
+/**
+ * Configure the attributes of a table cell.
+ * @param cell
+ * @param index path
+ */
+- (void)configureCell:(ImageListCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+    CommonsApp *app = CommonsApp.singleton;
+    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    cell.titleLabel.text = record.title;
+    if (record.thumbnailFile) {
+        cell.image.image = [app loadThumbnail: record.thumbnailFile];
+    } else {
+        cell.image.image = nil;
+    }
+    if (record.complete.boolValue) {
+        // Old upload, already complete.
+        // We have the title; fetch thumbnails and such on demand.
+        cell.statusLabel.text = [app prettyDate:record.created];
+        cell.progressBar.hidden = YES;
+    } else {
+        // Queued upload, not yet complete.
+        // We have local data & progress info.
+        if (record.progress.floatValue == 0.0f) {
+            cell.progressBar.hidden = YES;
+            cell.statusLabel.text = @"Queued";
+        } else {
+            cell.progressBar.hidden = NO;
+            cell.statusLabel.text = @"Uploading";
+            cell.progressBar.progress = record.progress.floatValue;
+        }
+    }
+}
+
 
 @end

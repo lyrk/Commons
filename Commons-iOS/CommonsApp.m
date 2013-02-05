@@ -715,6 +715,7 @@ static CommonsApp *singleton_;
      @"gaisort": @"timestamp",
      @"gaidir": @"descending",
      @"gaiuser": self.username,
+     @"gailimit": @"100",
      @"prop": @"imageinfo",
      @"iiprop": @"timestamp|url",
      @"iiurlwidth": @"256",

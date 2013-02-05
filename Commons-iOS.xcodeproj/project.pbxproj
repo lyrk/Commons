@@ -28,9 +28,7 @@
 		65CA698516C05B9700839D09 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
 		65CA698616C05B9700839D09 /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
 		65CA698716C05B9700839D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
-		65CA698816C05B9700839D09 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D49F79B416B33A4B00850EF0 /* TableViewController.m */; };
 		65CA698916C05B9700839D09 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
-		65CA698A16C05B9700839D09 /* FileUploadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D413DEDF16B56E9700842FEB /* FileUploadCell.m */; };
 		65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
 		65CA698C16C05B9700839D09 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
@@ -70,18 +68,20 @@
 		D40CE3D716BB398A00E63B27 /* Commons-logo-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3D616BB398A00E63B27 /* Commons-logo-72@2x.png */; };
 		D40CE3DE16BB542300E63B27 /* fileicon-pdf.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */; };
 		D40CE3DF16BB542300E63B27 /* fileicon-svg.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3DD16BB542200E63B27 /* fileicon-svg.png */; };
-		D413DEE016B56E9700842FEB /* FileUploadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D413DEDF16B56E9700842FEB /* FileUploadCell.m */; };
 		D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */; };
 		D41B99F516B1CEB50045BEB5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41B99F416B1CEB50045BEB5 /* CoreData.framework */; };
 		D41D280D16C18C9F00BC3ABE /* cc-by.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280916C18C9F00BC3ABE /* cc-by.png */; };
 		D41D280E16C18C9F00BC3ABE /* cc-by@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280A16C18C9F00BC3ABE /* cc-by@2x.png */; };
 		D41D280F16C18C9F00BC3ABE /* cc-sa.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280B16C18C9F00BC3ABE /* cc-sa.png */; };
 		D41D281016C18C9F00BC3ABE /* cc-sa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280C16C18C9F00BC3ABE /* cc-sa@2x.png */; };
+		D41D281316C19C4D00BC3ABE /* ImageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281216C19C4D00BC3ABE /* ImageListCell.m */; };
+		D41D281416C19C4D00BC3ABE /* ImageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281216C19C4D00BC3ABE /* ImageListCell.m */; };
+		D41D281716C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
+		D41D281816C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
 		D450A0E116B347BE00D1D1E2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
 		D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
 		D4896B5116B5C97D009A35FA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */; };
-		D49F79B516B33A4B00850EF0 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D49F79B416B33A4B00850EF0 /* TableViewController.m */; };
 		D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
 		D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
@@ -145,14 +145,16 @@
 		D40CE3D616BB398A00E63B27 /* Commons-logo-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-72@2x.png"; sourceTree = "<group>"; };
 		D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fileicon-pdf.png"; sourceTree = "<group>"; };
 		D40CE3DD16BB542200E63B27 /* fileicon-svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fileicon-svg.png"; sourceTree = "<group>"; };
-		D413DEDE16B56E9700842FEB /* FileUploadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUploadCell.h; sourceTree = "<group>"; };
-		D413DEDF16B56E9700842FEB /* FileUploadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUploadCell.m; sourceTree = "<group>"; };
 		D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FileUpload.xcdatamodel; sourceTree = "<group>"; };
 		D41B99F416B1CEB50045BEB5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D41D280916C18C9F00BC3ABE /* cc-by.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by.png"; sourceTree = "<group>"; };
 		D41D280A16C18C9F00BC3ABE /* cc-by@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by@2x.png"; sourceTree = "<group>"; };
 		D41D280B16C18C9F00BC3ABE /* cc-sa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa.png"; sourceTree = "<group>"; };
 		D41D280C16C18C9F00BC3ABE /* cc-sa@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa@2x.png"; sourceTree = "<group>"; };
+		D41D281116C19C4D00BC3ABE /* ImageListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageListCell.h; sourceTree = "<group>"; };
+		D41D281216C19C4D00BC3ABE /* ImageListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageListCell.m; sourceTree = "<group>"; };
+		D41D281516C19CE100BC3ABE /* MyUploadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyUploadsViewController.h; sourceTree = "<group>"; };
+		D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyUploadsViewController.m; sourceTree = "<group>"; };
 		D450A0D816B3477400D1D1E2 /* Http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Http.h; path = mwapi/Http.h; sourceTree = "<group>"; };
 		D450A0D916B3477400D1D1E2 /* MWApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApi.h; path = mwapi/MWApi.h; sourceTree = "<group>"; };
 		D450A0DA16B3477400D1D1E2 /* MWApiMultipartRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiMultipartRequestBuilder.h; path = mwapi/MWApiMultipartRequestBuilder.h; sourceTree = "<group>"; };
@@ -167,8 +169,6 @@
 		D450A0F716B366E200D1D1E2 /* FileUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUpload.h; sourceTree = "<group>"; };
 		D450A0F816B366E200D1D1E2 /* FileUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUpload.m; sourceTree = "<group>"; };
 		D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
-		D49F79B316B33A4B00850EF0 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
-		D49F79B416B33A4B00850EF0 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewController.h; sourceTree = "<group>"; };
 		D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewController.m; sourceTree = "<group>"; };
 		D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
@@ -434,18 +434,18 @@
 			children = (
 				D408617F169B760800D6ACB0 /* AppDelegate.h */,
 				D4086180169B760800D6ACB0 /* AppDelegate.m */,
-				D49F79B316B33A4B00850EF0 /* TableViewController.h */,
-				D49F79B416B33A4B00850EF0 /* TableViewController.m */,
 				D450A0DF16B347BE00D1D1E2 /* SettingsViewController.h */,
 				D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */,
-				D413DEDE16B56E9700842FEB /* FileUploadCell.h */,
-				D413DEDF16B56E9700842FEB /* FileUploadCell.m */,
 				D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */,
 				D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */,
 				D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */,
 				D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */,
 				DC606FBD16BF28FA006EFA5C /* ImageScrollViewController.h */,
 				DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */,
+				D41D281116C19C4D00BC3ABE /* ImageListCell.h */,
+				D41D281216C19C4D00BC3ABE /* ImageListCell.m */,
+				D41D281516C19CE100BC3ABE /* MyUploadsViewController.h */,
+				D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -632,11 +632,9 @@
 				65CA698516C05B9700839D09 /* NSURLRequest+DictionaryRequest.m in Sources */,
 				65CA698616C05B9700839D09 /* MWNetworkActivityIndicatorManager.m in Sources */,
 				65CA698716C05B9700839D09 /* AppDelegate.m in Sources */,
-				65CA698816C05B9700839D09 /* TableViewController.m in Sources */,
 				65CA698916C05B9700839D09 /* SettingsViewController.m in Sources */,
 				65CA699216C05BD500839D09 /* main.m in Sources */,
 				65CA699116C05BC300839D09 /* FileUpload.xcdatamodeld in Sources */,
-				65CA698A16C05B9700839D09 /* FileUploadCell.m in Sources */,
 				65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */,
 				65CA698C16C05B9700839D09 /* WebViewController.m in Sources */,
 				65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */,
@@ -651,6 +649,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				65137D1216BE6696006FA9BD /* Commons_iOS_Application_Testing.m in Sources */,
+				D41D281416C19C4D00BC3ABE /* ImageListCell.m in Sources */,
+				D41D281816C19CE100BC3ABE /* MyUploadsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -668,16 +668,16 @@
 				D408617D169B760800D6ACB0 /* main.m in Sources */,
 				D4086181169B760800D6ACB0 /* AppDelegate.m in Sources */,
 				D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */,
-				D49F79B516B33A4B00850EF0 /* TableViewController.m in Sources */,
 				D450A0E116B347BE00D1D1E2 /* SettingsViewController.m in Sources */,
 				D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */,
 				D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */,
-				D413DEE016B56E9700842FEB /* FileUploadCell.m in Sources */,
 				D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */,
 				DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */,
 				D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */,
 				D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */,
 				DC606FBF16BF28FA006EFA5C /* ImageScrollViewController.m in Sources */,
+				D41D281316C19C4D00BC3ABE /* ImageListCell.m in Sources */,
+				D41D281716C19CE100BC3ABE /* MyUploadsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

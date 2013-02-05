@@ -1,8 +1,8 @@
 //
-//  TableViewController.h
+//  MyUploadsViewController.h
 //  Commons-iOS
 //
-//  Created by Brion on 1/25/13.
+//  Created by Brion on 2/5/13.
 //  Copyright (c) 2013 Wikimedia. All rights reserved.
 //
 
@@ -10,9 +10,8 @@
 #import <CoreData/CoreData.h>
 #import "FileUpload.h"
 
-@interface TableViewController : UITableViewController <UINavigationControllerDelegate,
-        UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate, UITableViewDelegate>
-
+@interface MyUploadsViewController : UICollectionViewController <UINavigationControllerDelegate,
+UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *choosePhotoButton;
