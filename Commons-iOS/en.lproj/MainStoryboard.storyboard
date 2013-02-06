@@ -345,7 +345,13 @@
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="tQV-mc-jnO"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Photo Details" id="zmF-L8-v3a"/>
+                    <navigationItem key="navigationItem" title="Photo Details" id="zmF-L8-v3a">
+                        <barButtonItem key="rightBarButtonItem" title="Upload" id="Rto-Ar-uoA">
+                            <connections>
+                                <action selector="uploadButtonPushed:" destination="epi-E0-AsP" id="mm0-MW-ciN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="actionButton" destination="DlG-Q0-XOO" id="MR9-xY-Pvf"/>
@@ -354,6 +360,7 @@
                         <outlet property="imagePreview" destination="Luf-Jz-Qvj" id="h3z-EF-ppE"/>
                         <outlet property="imageSpinner" destination="EeR-Re-MP4" id="XGR-D2-TO9"/>
                         <outlet property="titleTextField" destination="V0c-wd-2eA" id="jDg-9F-Bth"/>
+                        <outlet property="uploadButton" destination="Rto-Ar-uoA" id="P1C-xf-4bX"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pjA-1f-CoP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -490,13 +497,14 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTableViewController.h"/>
             <relationships>
                 <relationship kind="action" name="deleteButtonPushed:"/>
+                <relationship kind="action" name="uploadButtonPushed:"/>
                 <relationship kind="outlet" name="actionButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="deleteButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="descriptionTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="imageButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="imagePreview" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="imageSpinner" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="titleTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="uploadButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
         <class className="ImageListCell" superclassName="UICollectionViewCell">

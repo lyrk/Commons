@@ -56,12 +56,14 @@
             self.descriptionTextView.editable = NO;
             self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
             self.actionButton.enabled = YES; // open link or share on the web
+            self.uploadButton.enabled = NO; // fixme either hide or replace with action button?
         } else {
             // Locally queued file...
             self.titleTextField.enabled = YES;
             self.descriptionTextView.editable = YES;
             self.deleteButton.enabled = YES;
             self.actionButton.enabled = NO;
+            self.uploadButton.enabled = YES;
         }
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
@@ -161,6 +163,7 @@
     [self setImageSpinner:nil];
     [self setDeleteButton:nil];
     [self setActionButton:nil];
+    [self setUploadButton:nil];
     [super viewDidUnload];
 }
 
@@ -187,6 +190,26 @@
     [app deleteUploadRecord:self.selectedRecord];
     self.selectedRecord = nil;
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)uploadButtonPushed:(id)sender {
+    CommonsApp *app = CommonsApp.singleton;
+    // fixme merge with main loop's thingy
+    [app beginUpload:self.selectedRecord
+          completion:^() {
+              NSLog(@"completed a singleton upload!");
+          }
+           onFailure:^(NSError *error) {
+               NSLog(@"Upload failed: %@", [error localizedDescription]);
+               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Upload failed!"
+                                                                   message:[error localizedDescription]
+                                                                  delegate:nil
+                                                         cancelButtonTitle:@"Dismiss"
+                                                         otherButtonTitles:nil];
+               [alertView show];
+           }
+     ];
+    [self popViewControllerAnimated];
 }
 
 @end

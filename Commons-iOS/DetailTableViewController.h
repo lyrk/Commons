@@ -17,10 +17,11 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *imageSpinner;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
-@property (weak, nonatomic) IBOutlet UIButton *imageButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 
 @property (strong, nonatomic) FileUpload *selectedRecord;
 
 - (IBAction)deleteButtonPushed:(id)sender;
+- (IBAction)uploadButtonPushed:(id)sender;
 
 @end
