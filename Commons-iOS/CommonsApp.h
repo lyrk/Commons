@@ -23,6 +23,7 @@
 + (CommonsApp *)singleton;
 
 - (void)initializeApp;
+- (NSString *)version;
 - (void)loadCredentials;
 - (void)saveCredentials;
 - (BOOL)processLaunchURL:(NSURL *)url;

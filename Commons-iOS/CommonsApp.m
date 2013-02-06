@@ -34,6 +34,11 @@ static CommonsApp *singleton_;
     [self fetchUploadRecords];
 }
 
+- (NSString *)version
+{
+    return NSBundle.mainBundle.infoDictionary[(NSString*)kCFBundleVersionKey];
+}
+
 - (BOOL)debugMode {
     
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"DebugMode"];
@@ -393,10 +398,8 @@ static CommonsApp *singleton_;
                        @"== {{int:license-header}} ==\n"
                        @"{{self|cc-by-sa-3.0}}\n"
                        @"\n"
-                       @"[[Category:Mobile upload]]\n"
-                       @"\n"
-                       @"[[Category:Uploaded with iOS Commons App]]\n";
-    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username];
+                       @"{{Uploaded from Mobile|platform=iOS|version=%@}}\n";
+    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, self.version];
     return desc;
 }
 
