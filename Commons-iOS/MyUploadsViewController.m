@@ -381,18 +381,29 @@
         cell.image.image = nil;
     }
     */
-    
-    cell.image.image = nil;
-    void (^completion)(UIImage *) = ^(UIImage *image) {
-        if ([cell.title isEqualToString:title]) {
-            cell.image.image = image;
-        }
-    };
-    void (^failure)(NSError *) = ^(NSError *error) {
-        NSLog(@"failed to load thumbnail");
-    };
-    [record fetchThumbnailOnCompletion:completion
-                             onFailure:failure];
+
+    NSURL *thumbURL;
+    if (record.complete.boolValue) {
+        thumbURL = [NSURL URLWithString:record.thumbnailURL];
+    } else {
+        thumbURL = [NSURL fileURLWithPath:record.localFile];
+    }
+    if (cell.thumbnailURL && [cell.thumbnailURL isEqual:thumbURL]) {
+        // Nothing to do!
+    } else {
+        cell.thumbnailURL = thumbURL;
+        cell.image.image = nil;
+        void (^completion)(UIImage *) = ^(UIImage *image) {
+            if ([cell.title isEqualToString:title]) {
+                cell.image.image = image;
+            }
+        };
+        void (^failure)(NSError *) = ^(NSError *error) {
+            NSLog(@"failed to load thumbnail");
+        };
+        [record fetchThumbnailOnCompletion:completion
+                                 onFailure:failure];
+    }
     if (record.complete.boolValue) {
         // Old upload, already complete.
         cell.statusLabel.text = [app prettyDate:record.created];

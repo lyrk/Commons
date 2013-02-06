@@ -15,5 +15,6 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 
 @property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSURL *thumbnailURL;
 
 @end
