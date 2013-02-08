@@ -94,6 +94,24 @@
 		D4D0E1F7169BA5E2003047A8 /* MWApiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */; };
 		D4D0E1F8169BA5E2003047A8 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
 		D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
+		D4E0383C16C4567500330A7F /* MWMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0383B16C4567500330A7F /* MWMessage.m */; };
+		D4E0383D16C4567500330A7F /* MWMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0383B16C4567500330A7F /* MWMessage.m */; };
+		D4E0383E16C4567500330A7F /* MWMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0383B16C4567500330A7F /* MWMessage.m */; };
+		D4E0384116C462C800330A7F /* MWMessageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0384016C462C800330A7F /* MWMessageStore.m */; };
+		D4E0384216C462C800330A7F /* MWMessageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0384016C462C800330A7F /* MWMessageStore.m */; };
+		D4E0384316C462C800330A7F /* MWMessageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0384016C462C800330A7F /* MWMessageStore.m */; };
+		D4E0384A16C463C700330A7F /* messages-en.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0384916C463C700330A7F /* messages-en.json */; };
+		D4E0384B16C463C700330A7F /* messages-en.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0384916C463C700330A7F /* messages-en.json */; };
+		D4E0384C16C463C700330A7F /* messages-en.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0384916C463C700330A7F /* messages-en.json */; };
+		D4E0385416C46FDD00330A7F /* MWI18N.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0385316C46FDD00330A7F /* MWI18N.m */; };
+		D4E0385516C46FDD00330A7F /* MWI18N.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0385316C46FDD00330A7F /* MWI18N.m */; };
+		D4E0385616C46FDD00330A7F /* MWI18N.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0385316C46FDD00330A7F /* MWI18N.m */; };
+		D4E0385816C47B5200330A7F /* messages-fr.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385716C47B5200330A7F /* messages-fr.json */; };
+		D4E0385916C47B5200330A7F /* messages-fr.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385716C47B5200330A7F /* messages-fr.json */; };
+		D4E0385A16C47B5200330A7F /* messages-fr.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385716C47B5200330A7F /* messages-fr.json */; };
+		D4E0385C16C47B6C00330A7F /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
+		D4E0385D16C47B6C00330A7F /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
+		D4E0385E16C47B6C00330A7F /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
 		DC0F63DF16BBB73F0017E63C /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC0F63DE16BBB73F0017E63C /* defaults.plist */; };
 		DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
 		DC606FBF16BF28FA006EFA5C /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
@@ -184,6 +202,15 @@
 		D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiResult.m; path = mwapi/MWApiResult.m; sourceTree = "<group>"; };
 		D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extras.m"; path = "mwapi/NSString+Extras.m"; sourceTree = "<group>"; };
 		D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+DictionaryRequest.m"; path = "mwapi/NSURLRequest+DictionaryRequest.m"; sourceTree = "<group>"; };
+		D4E0383A16C4567500330A7F /* MWMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWMessage.h; path = MWI18N/MWMessage.h; sourceTree = "<group>"; };
+		D4E0383B16C4567500330A7F /* MWMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWMessage.m; path = MWI18N/MWMessage.m; sourceTree = "<group>"; };
+		D4E0383F16C462C800330A7F /* MWMessageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWMessageStore.h; path = MWI18N/MWMessageStore.h; sourceTree = "<group>"; };
+		D4E0384016C462C800330A7F /* MWMessageStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWMessageStore.m; path = MWI18N/MWMessageStore.m; sourceTree = "<group>"; };
+		D4E0384916C463C700330A7F /* messages-en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-en.json"; path = "messages/messages-en.json"; sourceTree = "<group>"; };
+		D4E0385216C46FDD00330A7F /* MWI18N.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWI18N.h; path = MWI18N/MWI18N.h; sourceTree = "<group>"; };
+		D4E0385316C46FDD00330A7F /* MWI18N.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWI18N.m; path = MWI18N/MWI18N.m; sourceTree = "<group>"; };
+		D4E0385716C47B5200330A7F /* messages-fr.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-fr.json"; path = "messages/messages-fr.json"; sourceTree = "<group>"; };
+		D4E0385B16C47B6C00330A7F /* messages-qqq.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-qqq.json"; path = "messages/messages-qqq.json"; sourceTree = "<group>"; };
 		DC0F63DE16BBB73F0017E63C /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 		DC2CB56516B9BD420047977E /* MWNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWNetworkActivityIndicatorManager.h; path = mwapi/MWNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWNetworkActivityIndicatorManager.m; path = mwapi/MWNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
@@ -359,6 +386,7 @@
 		D4086176169B760800D6ACB0 /* Commons-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				D4E0383416C44C4B00330A7F /* mwi18n */,
 				D4294E28169CC34E00BCF709 /* mwapi */,
 				D450A0D716B3473A00D1D1E2 /* View Controllers */,
 				D450A0D516B3471A00D1D1E2 /* Data Model */,
@@ -391,6 +419,7 @@
 				D4086184169B760800D6ACB0 /* Default@2x.png */,
 				D4086186169B760800D6ACB0 /* Default-568h@2x.png */,
 				DC0F63DE16BBB73F0017E63C /* defaults.plist */,
+				D4E0384D16C463D300330A7F /* Messages */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -455,6 +484,29 @@
 			children = (
 			);
 			name = "API headers";
+			sourceTree = "<group>";
+		};
+		D4E0383416C44C4B00330A7F /* mwi18n */ = {
+			isa = PBXGroup;
+			children = (
+				D4E0383A16C4567500330A7F /* MWMessage.h */,
+				D4E0383B16C4567500330A7F /* MWMessage.m */,
+				D4E0383F16C462C800330A7F /* MWMessageStore.h */,
+				D4E0384016C462C800330A7F /* MWMessageStore.m */,
+				D4E0385216C46FDD00330A7F /* MWI18N.h */,
+				D4E0385316C46FDD00330A7F /* MWI18N.m */,
+			);
+			name = mwi18n;
+			sourceTree = "<group>";
+		};
+		D4E0384D16C463D300330A7F /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				D4E0384916C463C700330A7F /* messages-en.json */,
+				D4E0385716C47B5200330A7F /* messages-fr.json */,
+				D4E0385B16C47B6C00330A7F /* messages-qqq.json */,
+			);
+			name = Messages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -547,6 +599,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				65137CDE16BE4C3B006FA9BD /* InfoPlist.strings in Resources */,
+				D4E0384B16C463C700330A7F /* messages-en.json in Resources */,
+				D4E0385916C47B5200330A7F /* messages-fr.json in Resources */,
+				D4E0385D16C47B6C00330A7F /* messages-qqq.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +610,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				65137D0F16BE6696006FA9BD /* InfoPlist.strings in Resources */,
+				D4E0384C16C463C700330A7F /* messages-en.json in Resources */,
+				D4E0385A16C47B5200330A7F /* messages-fr.json in Resources */,
+				D4E0385E16C47B6C00330A7F /* messages-qqq.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,6 +641,9 @@
 				D41D280E16C18C9F00BC3ABE /* cc-by@2x.png in Resources */,
 				D41D280F16C18C9F00BC3ABE /* cc-sa.png in Resources */,
 				D41D281016C18C9F00BC3ABE /* cc-sa@2x.png in Resources */,
+				D4E0384A16C463C700330A7F /* messages-en.json in Resources */,
+				D4E0385816C47B5200330A7F /* messages-fr.json in Resources */,
+				D4E0385C16C47B6C00330A7F /* messages-qqq.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,6 +702,9 @@
 				65CA698E16C05B9700839D09 /* FileUpload.m in Sources */,
 				65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */,
 				65CA699016C05B9700839D09 /* BrowserHelper.m in Sources */,
+				D4E0383D16C4567500330A7F /* MWMessage.m in Sources */,
+				D4E0384216C462C800330A7F /* MWMessageStore.m in Sources */,
+				D4E0385516C46FDD00330A7F /* MWI18N.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -651,6 +715,9 @@
 				65137D1216BE6696006FA9BD /* Commons_iOS_Application_Testing.m in Sources */,
 				D41D281416C19C4D00BC3ABE /* ImageListCell.m in Sources */,
 				D41D281816C19CE100BC3ABE /* MyUploadsViewController.m in Sources */,
+				D4E0383E16C4567500330A7F /* MWMessage.m in Sources */,
+				D4E0384316C462C800330A7F /* MWMessageStore.m in Sources */,
+				D4E0385616C46FDD00330A7F /* MWI18N.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,6 +745,9 @@
 				DC606FBF16BF28FA006EFA5C /* ImageScrollViewController.m in Sources */,
 				D41D281316C19C4D00BC3ABE /* ImageListCell.m in Sources */,
 				D41D281716C19CE100BC3ABE /* MyUploadsViewController.m in Sources */,
+				D4E0383C16C4567500330A7F /* MWMessage.m in Sources */,
+				D4E0384116C462C800330A7F /* MWMessageStore.m in Sources */,
+				D4E0385416C46FDD00330A7F /* MWI18N.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 //
 
 #import "BrowserHelper.h"
+#import "MWI18N/MWMessage.h"
 
 @implementation BrowserHelper
 
@@ -19,6 +20,16 @@
     return self;
 }
 
+- (NSString *)openInString:(NSString *)browser
+{
+    return [MWMessage forKey:@"web-open-in" param:browser].text;
+}
+
+- (NSString *)cancelString
+{
+    return [MWMessage forKey:@"web-cancel"].text;
+}
+
 - (void)buildActionSheet:(NSURL *)url
 {
     UIApplication *app = [UIApplication sharedApplication];
@@ -29,30 +40,30 @@
                                               otherButtonTitles:nil];
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     
-    int safariIndex = [sheet addButtonWithTitle:@"Open in Safari"];
+    int safariIndex = [sheet addButtonWithTitle:[self openInString:@"Safari"]];
     buttons[safariIndex] = url;
 
     NSURL *chromeURL = [self chromeURL:url];
     if ([app canOpenURL:chromeURL]) {
-        int chromeIndex = [sheet addButtonWithTitle:@"Open in Chrome"];
+        int chromeIndex = [sheet addButtonWithTitle:[self openInString:@"Chrome"]];
         buttons[chromeIndex] = chromeURL;
     }
     
     NSURL *operaURL = [self operaURL:url];
     if ([app canOpenURL:operaURL]) {
-        int operaIndex = [sheet addButtonWithTitle:@"Open in Opera"];
+        int operaIndex = [sheet addButtonWithTitle:[self openInString:@"Opera"]];
         buttons[operaIndex] = operaURL;
     }
     
     NSURL *dolphinURL = [self dolphinURL:url];
     if ([app canOpenURL:dolphinURL]) {
-        int dolphinIndex = [sheet addButtonWithTitle:@"Open in Dolphin"];
+        int dolphinIndex = [sheet addButtonWithTitle:[self openInString:@"Dolphin"]];
         buttons[dolphinIndex] = dolphinURL;
     }
     
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
         // Just tap outside to dismiss on iPad...
-        int cancelIndex = [sheet addButtonWithTitle:@"Cancel"];
+        int cancelIndex = [sheet addButtonWithTitle:[self cancelString]];
         sheet.cancelButtonIndex = cancelIndex;
     }
     

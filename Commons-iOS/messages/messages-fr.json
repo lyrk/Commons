@@ -1,0 +1,35 @@
+{
+    "contribs-title": "Mes Contributions",
+    "contribs-settings-button": "Préférences",
+    "contribs-upload-button": "Importer",
+    "contribs-photo-library-button": "Photos",
+    "contribs-state-queued": "Attendant",
+    "contribs-state-uploading": "En cours",
+    
+    "error-upload-failed": "Importage rattée!",
+    "error-dismiss": "Annuler",
+    "error-nologin-title": "Sacre bleu!",
+    "error-nologin-text": "Il faut s'identifier avant d'importer les photos",
+    
+    "reltime-minutes": "$1 mins",
+    "reltime-hours": "$1 heurs",
+    "reltime-days": "$1 jours",
+    
+    "settings-title": "Préférences",
+    "settings-username-label": "Nom d'utilisateur à Wikimédia",
+    "settings-username-placeholder": "Nom d'utilisateur",
+    "settings-password-label": "Mot de passe",
+    "settings-password-placeholder": "Requis",
+    "settings-debug-label": "Mode debugging",
+    "settings-debug-detail": "Importer fichiers à $1",
+    
+    "details-title": "Details de photo",
+    "details-upload-button": "Importer",
+    "details-title-label": "Titre",
+    "details-title-placeholder": "Titre unique et descriptif",
+    "details-description-label": "Description",
+    "details-license-label": "Licence",
+    
+    "web-open-in": "Ouvrir dans $1",
+    "web-cancel": "Annuler"
+}

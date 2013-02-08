@@ -10,8 +10,11 @@
 
 @interface SettingsViewController : UIViewController <UITextFieldDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
+@property (weak, nonatomic) IBOutlet UILabel *passwordLabel;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
+@property (weak, nonatomic) IBOutlet UILabel *debugModeLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *debugModeSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *uploadTargetLabel;
 

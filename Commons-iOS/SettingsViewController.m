@@ -9,7 +9,7 @@
 #import "SettingsViewController.h"
 #import "CommonsApp.h"
 #import "mwapi/MWApi.h"
-
+#import "MWI18N/MWMessage.h"
 
 @interface SettingsViewController ()
 
@@ -29,6 +29,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    // l10n
+    self.navigationItem.title = [MWMessage forKey:@"settings-title"].text;
+    self.usernameLabel.text = [MWMessage forKey:@"settings-username-label"].text;
+    self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
+    self.passwordLabel.text = [MWMessage forKey:@"settings-password-label"].text;
+    self.passwordField.placeholder = [MWMessage forKey:@"settings"].text;
+    self.debugModeLabel.text = [MWMessage forKey:@"settings-debug-label"].text;
 
 	// Do any additional setup after loading the view.
     CommonsApp *app = CommonsApp.singleton;
@@ -50,6 +58,9 @@
     [self setPasswordField:nil];
     [self setDebugModeSwitch:nil];
     [self setUploadTargetLabel:nil];
+    [self setUsernameLabel:nil];
+    [self setPasswordLabel:nil];
+    [self setDebugModeLabel:nil];
     [super viewDidUnload];
 }
 
@@ -137,11 +148,13 @@
 
 - (void)setDebugModeLabel
 {
+    NSString *target;
     if (CommonsApp.singleton.debugMode) {
-        self.uploadTargetLabel.text = @"Uploading to test.wikipedia.org";
+        target = @"test.wikipedia.org";
     } else {
-        self.uploadTargetLabel.text = @"Uploading to commons.wikimedia.org";
+        target = @"commons.wikimedia.org";
     }
+    self.uploadTargetLabel.text = [MWMessage forKey:@"settings-debug-detail" params:@[target]].text;
 }
 
 #pragma mark - Text Field Delegate Methods

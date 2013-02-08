@@ -10,6 +10,7 @@
 #import "CommonsApp.h"
 #import "ImageListCell.h"
 #import "DetailTableViewController.h"
+#import "MWI18N/MWI18N.h"
 
 @interface MyUploadsViewController ()
 
@@ -30,6 +31,12 @@
 {
     [super viewDidLoad];
 
+    // l10n
+    self.navigationItem.title = [MWMessage forKey:@"contribs-title"].text;
+    self.settingsButton.title = [MWMessage forKey:@"contribs-settings-button"].text;
+    self.uploadButton.title = [MWMessage forKey:@"contribs-upload-button"].text;
+    self.choosePhotoButton.title = [MWMessage forKey:@"contribs-photo-library-button"].text;
+    
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         // Camera is available
     } else {
@@ -161,10 +168,10 @@
                                
                                self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
                                
-                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Upload failed!"
+                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-upload-failed"].text
                                                                                    message:[error localizedDescription]
                                                                                   delegate:nil
-                                                                         cancelButtonTitle:@"Dismiss"
+                                                                         cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
                                                                          otherButtonTitles:nil];
                                [alertView show];
                                
@@ -183,10 +190,10 @@
     else {
         // User is not logged in
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh oh!"
-                                                            message:@"You need to login before you can upload photos"
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-nologin-title"].text
+                                                            message:[MWMessage forKey:@"error-nologin-text"].text
                                                            delegate:nil
-                                                  cancelButtonTitle:@"Dismiss"
+                                                  cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
                                                   otherButtonTitles:nil];
         [alertView show];
         
@@ -413,10 +420,10 @@
         // We have local data & progress info.
         if (record.progress.floatValue == 0.0f) {
             cell.progressBar.hidden = YES;
-            cell.statusLabel.text = @"Queued";
+            cell.statusLabel.text = [MWMessage forKey:@"contribs-state-queued"].text;
         } else {
             cell.progressBar.hidden = NO;
-            cell.statusLabel.text = @"Uploading";
+            cell.statusLabel.text = [MWMessage forKey:@"contribs-state-uploading"].text;
             cell.progressBar.progress = record.progress.floatValue;
         }
     }

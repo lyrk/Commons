@@ -7,6 +7,7 @@
 //
 
 #import <AssetsLibrary/AssetsLibrary.h>
+#import "MWI18N/MWI18N.h"
 
 #import "CommonsApp.h"
 #import "Http.h"
@@ -24,6 +25,9 @@ static CommonsApp *singleton_;
 
 - (void)initializeApp
 {
+    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+    [MWI18N setLanguage:language];
+
     // Register default perferences with 'defaults.plist' file
     NSString *defaultsFile = [[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"];
     NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsFile];
@@ -754,13 +758,13 @@ static CommonsApp *singleton_;
     NSTimeInterval interval = [now timeIntervalSinceDate:date];
     if (interval < 3600.0) {
         double minutes = interval / 60.0;
-        return [NSString stringWithFormat:@"%0.0f mins ago", minutes];
+        return [MWMessage forKey:@"reltime-minutes" param:[NSString stringWithFormat:@"%0.0f", minutes]].text;
     } else if (interval < 86400.0) {
         double hours = interval / 3600.0;
-        return [NSString stringWithFormat:@"%0.0f hours ago", hours];
+        return [MWMessage forKey:@"reltime-hours" param:[NSString stringWithFormat:@"%0.0f", hours]].text;
     } else {
         double days = interval / 86400.0;
-        return [NSString stringWithFormat:@"%0.0f days ago", days];
+        return [MWMessage forKey:@"reltime-days" param:[NSString stringWithFormat:@"%0.0f", days]].text;
     }
 }
 

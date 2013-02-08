@@ -11,6 +11,7 @@
 #import "WebViewController.h"
 #import "ImageScrollViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MWI18N/MWMessage.h"
 
 @interface DetailTableViewController ()
 
@@ -34,6 +35,14 @@
 {
     [super viewDidLoad];
     
+    // l10n
+    self.navigationController.title = [MWMessage forKey:@"details-title"].text;
+    self.uploadButton.title = [MWMessage forKey:@"details-upload-button"].text;
+    self.titleLabel.text = [MWMessage forKey:@"details-title-label"].text;
+    self.titleTextField.placeholder = [MWMessage forKey:@"details-title-placeholder"].text;
+    self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
+    self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
+
     // Load up the selected record
     FileUpload *record = self.selectedRecord;
 
@@ -164,6 +173,9 @@
     [self setDeleteButton:nil];
     [self setActionButton:nil];
     [self setUploadButton:nil];
+    [self setTitleLabel:nil];
+    [self setDescriptionLabel:nil];
+    [self setLicenseLabel:nil];
     [super viewDidUnload];
 }
 
