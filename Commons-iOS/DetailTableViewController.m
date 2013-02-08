@@ -205,22 +205,9 @@
 }
 
 - (IBAction)uploadButtonPushed:(id)sender {
-    CommonsApp *app = CommonsApp.singleton;
-    // fixme merge with main loop's thingy
-    [app beginUpload:self.selectedRecord
-          completion:^() {
-              NSLog(@"completed a singleton upload!");
-          }
-           onFailure:^(NSError *error) {
-               NSLog(@"Upload failed: %@", [error localizedDescription]);
-               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Upload failed!"
-                                                                   message:[error localizedDescription]
-                                                                  delegate:nil
-                                                         cancelButtonTitle:@"Dismiss"
-                                                         otherButtonTitles:nil];
-               [alertView show];
-           }
-     ];
+    if ([[self.navigationController.viewControllers objectAtIndex:0] respondsToSelector:@selector(uploadButtonPushed:)]) {
+        [[self.navigationController.viewControllers objectAtIndex:0] performSelector:@selector(uploadButtonPushed:)];
+    }
     [self popViewControllerAnimated];
 }
 
