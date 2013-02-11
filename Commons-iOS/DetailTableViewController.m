@@ -8,6 +8,10 @@
 
 #import "DetailTableViewController.h"
 #import "CommonsApp.h"
+#import "WebViewController.h"
+#import "ImageScrollViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "MWI18N/MWMessage.h"
 
 @interface DetailTableViewController ()
 
@@ -24,26 +28,56 @@
     return self;
 }
 
+/**
+ * View has loaded.
+ */
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Can't seem to set the left/top cap sizes in IB
-    [self.deleteButton setBackgroundImage:[[UIImage imageNamed:@"redbutton.png"]
-         stretchableImageWithLeftCapWidth:8.0f
-                             topCapHeight:0.0f]
-                                 forState:UIControlStateNormal];
-
+    
+    // l10n
+    self.navigationController.title = [MWMessage forKey:@"details-title"].text;
+    self.uploadButton.title = [MWMessage forKey:@"details-upload-button"].text;
+    self.titleLabel.text = [MWMessage forKey:@"details-title-label"].text;
+    self.titleTextField.placeholder = [MWMessage forKey:@"details-title-placeholder"].text;
+    self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
+    self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
+    
     // Load up the selected record
-    CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = self.selectedRecord;
+    
     if (record != nil) {
-        self.imagePreview.image = [app loadImage:record.localFile];
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
+        self.imageSpinner.hidden = NO;
+        [record fetchThumbnailOnCompletion:^(UIImage *image) {
+            self.imageSpinner.hidden = YES;
+            self.imagePreview.image = image;
+        }
+                                 onFailure:^(NSError *error) {
+                                     NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
+                                     self.imageSpinner.hidden = YES;
+                                 }];
+        
+        if (record.complete.boolValue) {
+            // Completed upload...
+            self.titleTextField.enabled = NO;
+            self.descriptionTextView.editable = NO;
+            self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
+            self.actionButton.enabled = YES; // open link or share on the web
+            self.uploadButton.enabled = NO; // fixme either hide or replace with action button?
+        } else {
+            // Locally queued file...
+            self.titleTextField.enabled = YES;
+            self.descriptionTextView.editable = YES;
+            self.deleteButton.enabled = YES;
+            self.actionButton.enabled = NO;
+            self.uploadButton.enabled = YES;
+        }
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
     }
-
+    
     // Set delegates so we know when fields change...
     self.titleTextField.delegate = self;
     self.descriptionTextView.delegate = self;
@@ -54,47 +88,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-#pragma mark - Table view data source
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 #pragma mark - Table view delegate
 
@@ -109,12 +102,80 @@
      */
 }
 
+
+#pragma mark -
+
+- (void)popViewControllerAnimated {
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"OpenPageSegue"]) {
+        if (self.selectedRecord) {
+            WebViewController *view = [segue destinationViewController];
+            NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
+            view.targetURL = [CommonsApp.singleton URLForWikiPage:pageTitle];
+        }
+    } else if ([segue.identifier isEqualToString:@"OpenLicenseSegue"]) {
+        WebViewController *view = [segue destinationViewController];
+        // fixme use the proper link for data
+        view.targetURL = [NSURL URLWithString:@"https://creativecommons.org/licenses/by-sa/3.0/"];
+    } else if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
+        
+        if (self.selectedRecord) {
+            
+            ImageScrollViewController *view = [segue destinationViewController];
+            
+            CGFloat density = [UIScreen mainScreen].scale;
+            CGSize size = CGSizeMake(1024.0f * density, 1024.0f * density);
+            
+            FileUpload *record = self.selectedRecord;
+            if (record != nil) {
+                
+                view.title = record.title;
+                
+                void (^completion)(UIImage *image) = ^(UIImage *image) {
+                    [view setImage:image];
+                };
+                void (^failure)(NSError *error) = ^(NSError *error) {
+                    NSLog(@"Failed to download image: %@", [error localizedDescription]);
+                    // Pop back after a second if image failed to download
+                    [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
+                };
+                if (record.complete.boolValue) {
+                    // Fetch cached or internet image at standard size...
+                    [CommonsApp.singleton fetchWikiImage:record.title
+                                                    size:size
+                                            onCompletion:completion
+                                               onFailure:failure];
+                } else {
+                    // Load the local file...
+                    [record fetchThumbnailOnCompletion:completion
+                                             onFailure:failure];
+                }
+                
+            }
+            
+        }
+        
+    }
+    
+}
+
 - (void)viewDidUnload {
     [self setImagePreview:nil];
     [self setTitleTextField:nil];
     [self setDescriptionTextView:nil];
     [self setSelectedRecord:nil];
+    [self setImageSpinner:nil];
     [self setDeleteButton:nil];
+    [self setActionButton:nil];
+    [self setUploadButton:nil];
+    [self setTitleLabel:nil];
+    [self setDescriptionLabel:nil];
+    [self setLicenseLabel:nil];
     [super viewDidUnload];
 }
 
@@ -141,6 +202,26 @@
     [app deleteUploadRecord:self.selectedRecord];
     self.selectedRecord = nil;
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)uploadButtonPushed:(id)sender {
+    CommonsApp *app = CommonsApp.singleton;
+    // fixme merge with main loop's thingy
+    [app beginUpload:self.selectedRecord
+          completion:^() {
+              NSLog(@"completed a singleton upload!");
+          }
+           onFailure:^(NSError *error) {
+               NSLog(@"Upload failed: %@", [error localizedDescription]);
+               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Upload failed!"
+                                                                   message:[error localizedDescription]
+                                                                  delegate:nil
+                                                         cancelButtonTitle:@"Dismiss"
+                                                         otherButtonTitles:nil];
+               [alertView show];
+           }
+     ];
+    [self popViewControllerAnimated];
 }
 
 @end

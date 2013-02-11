@@ -15,6 +15,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+
     
     // allocate a reachability object
     Reachability* reach = [Reachability reachabilityWithHostname:@"www.commons.wikimedia.org"];
@@ -35,8 +36,27 @@
     [reach startNotifier];
     
     [CommonsApp.singleton initializeApp];
+
+    CommonsApp *app = CommonsApp.singleton;
+    [app initializeApp];
+
+    // We seem to get a second ping after launching, wtf?
+    /*
+    NSLog(@"launch options: %@", launchOptions);
+    NSURL *url = launchOptions[UIApplicationLaunchOptionsURLKey];
+    if (url != nil) {
+        [app processLaunchURL:url];
+    }
+    */
+
     
     return YES;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    CommonsApp *app = CommonsApp.singleton;
+    return [app processLaunchURL:url];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

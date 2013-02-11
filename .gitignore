@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 *.DS_Store
 *.xcuserdatad
@@ -15,3 +16,15 @@ DerivedData/
 build/
 
 xcuserdata
+=======
+# Mac OS X ignores
+.DS_Store*
+._*
+
+# Xcode ignore
+*.pbxuser
+*.perspective
+*.perspectivev3
+xcuserdata
+project.xcworkspace
+>>>>>>> upstream/master

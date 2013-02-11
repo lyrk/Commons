@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MWApiResult.h"
 #import "MWApiRequestBuilder.h"
+#import "Http.h"
 
 @interface MWApi : NSObject{
 
@@ -18,6 +19,7 @@
     NSArray *authCookie_;
     BOOL includeAuthCookie_;
     BOOL isLoggedIn_;
+    Http *connection_;
 }
 
 @property(nonatomic, readonly) NSURL* apiURL;
@@ -25,6 +27,7 @@
 @property(nonatomic, readonly) NSString* userName;
 @property(nonatomic, readwrite)BOOL includeAuthCookie;
 @property(nonatomic, readonly) BOOL isLoggedIn;
+@property(nonatomic, readonly) Http *connection;
 
 - (id)initWithApiUrl: (NSURL*)url;
 	
@@ -35,12 +38,16 @@
 - (void) setAuthCookie:(NSArray *)newAuthCookie;
 - (void) validateLogin:(void(^)(BOOL))block;
 - (BOOL) isLoggedIn;
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block;
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block;
-- (void) logout: onCompletion:(void(^)(MWApiResult *))block;
-- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
+- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
+- (void)logoutOnCompletion:(void(^)(MWApiResult *))block;
+- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void(^)(NSError *))failureBlock;
 - (void)editToken:(void(^)(NSString *))block;
-- (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock;
-- (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))block;
+- (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void(^)(NSError *))failureBlock;
+- (void)makeRequest:(NSURLRequest *)request onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
+
+- (void)getRequest:(NSDictionary *)params onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
+
+- (void)cancelCurrentRequest;
 
 @end
