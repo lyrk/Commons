@@ -11,6 +11,7 @@
 #import "CommonsApp.h"
 #import "FileUploadCell.h"
 #import "DetailTableViewController.h"
+#import "Reachability.h"
 
 #import "mwapi/MWApi.h"
 
@@ -32,7 +33,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChange:) name:kReachabilityChangedNotification object:nil];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -56,6 +59,19 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)reachabilityChange:(NSNotification*)note {
+    Reachability * reach = [note object];
+    NetworkStatus netStatus = [reach currentReachabilityStatus];
+    if (netStatus == ReachableViaWiFi || netStatus == ReachableViaWWAN)
+    {
+        self.uploadButton.enabled = YES;
+    }
+    else if (netStatus == NotReachable)
+    {
+        self.uploadButton.enabled = NO;
+    }
 }
 
 #pragma mark - Table view data source

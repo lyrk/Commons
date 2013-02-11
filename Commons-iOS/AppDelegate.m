@@ -17,17 +17,20 @@
     // Override point for customization after application launch.
     
     // allocate a reachability object
-    Reachability* reach = [Reachability reachabilityWithHostname:@"www.google.com"];
+    Reachability* reach = [Reachability reachabilityWithHostname:@"www.commons.wikimedia.org"];
     
     // tell the reachability that we DONT want to be reachable on 3G/EDGE/CDMA
     // reach.reachableOnWWAN = NO;
     
     // here we set up a NSNotification observer. The Reachability that caused the notification
     // is passed in the object parameter
+   
+    /* WORKING
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
                                                  name:kReachabilityChangedNotification
                                                object:nil];
+     */
     
     [reach startNotifier];
     
@@ -63,8 +66,12 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
--(void)reachabilityChanged:(NSNotification*)note
-{
+
+/* -> Use this method if you want "no internet" alerts in any part of the app.
+
+-(void)reachabilityChanged:(NSNotification*)note {
+    NSLog(@"reachabilityChanged");
+    
     Reachability * reach = [note object];
     NetworkStatus netStatus = [reach currentReachabilityStatus];
     
@@ -81,6 +88,6 @@
         [alert show];
     }
 }
-
+*/
 
 @end

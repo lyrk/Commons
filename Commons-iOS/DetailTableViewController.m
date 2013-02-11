@@ -27,7 +27,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     // Can't seem to set the left/top cap sizes in IB
     [self.deleteButton setBackgroundImage:[[UIImage imageNamed:@"redbutton.png"]
          stretchableImageWithLeftCapWidth:8.0f
