@@ -176,11 +176,6 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="edQ-Xr-kM9"/>
-                        <barButtonItem systemItem="refresh" id="5Iv-XD-rh3">
-                            <connections>
-                                <action selector="refreshButtonPushed:" destination="Vu1-Bf-o5x" id="FTg-W2-vJt"/>
-                            </connections>
-                        </barButtonItem>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="My Uploads" id="3XW-36-cry">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="WRa-lC-y9h">
@@ -198,7 +193,6 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="blackTranslucent"/>
                     <connections>
                         <outlet property="choosePhotoButton" destination="cpK-jB-1OI" id="RFf-A3-Nz9"/>
-                        <outlet property="refreshButton" destination="5Iv-XD-rh3" id="Jw1-oz-1Ra"/>
                         <outlet property="settingsButton" destination="WRa-lC-y9h" id="kpa-ih-D2t"/>
                         <outlet property="takePhotoButton" destination="PXx-zf-9Ct" id="RGH-Jf-2dZ"/>
                         <outlet property="uploadButton" destination="fnJ-FD-iFu" id="fPU-wI-MXR"/>

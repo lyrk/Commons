@@ -31,7 +31,14 @@
 {
     [super viewDidLoad];
 
+    // Set up refresh
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
+             forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+
     // l10n
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
     self.navigationItem.title = [MWMessage forKey:@"contribs-title"].text;
     self.settingsButton.title = [MWMessage forKey:@"contribs-settings-button"].text;
     self.uploadButton.title = [MWMessage forKey:@"contribs-upload-button"].text;
@@ -235,7 +242,9 @@
 }
 
 - (IBAction)refreshButtonPushed:(id)sender {
-    [CommonsApp.singleton refreshHistory];
+    [CommonsApp.singleton refreshHistoryOnCompletion:^() {
+        [self.refreshControl endRefreshing];
+    }];
 }
 
 - (void)cancelButtonPushed:(id)sender {
