@@ -680,6 +680,11 @@ static CommonsApp *singleton_;
 
 - (void)refreshHistory
 {
+    [self refreshHistoryOnCompletion:nil];
+}
+
+- (void)refreshHistoryOnCompletion:(void(^)())completionBlock;
+{
     MWApi *api = [self startApi];
     [api getRequest: @{
      @"action": @"query",
@@ -738,6 +743,9 @@ static CommonsApp *singleton_;
                    [self saveData];
                })();
            }
+           if (completionBlock) {
+               completionBlock();
+           }
        }
           onFailure:^(NSError *error) {
               NSLog(@"Failed to refresh history: %@", [error localizedDescription]);
@@ -748,6 +756,9 @@ static CommonsApp *singleton_;
                                                         cancelButtonTitle:@"Dismiss"
                                                         otherButtonTitles:nil];
               [alertView show];
+              if (completionBlock) {
+                  completionBlock();
+              }
           }
      ];
 }

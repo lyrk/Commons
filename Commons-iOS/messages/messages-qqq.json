@@ -5,6 +5,7 @@
     "contribs-photo-library-button": "Button text for opening the device's photo library to import an image. Should be short, sits on a toolbar.",
     "contribs-state-queued": "Label on not-yet-uploaded photo items in contributions list view",
     "contribs-state-uploading": "Label on currently-uploading photo items in contributions list view",
+    "contribs-refresh": "Label appearing on 'pull-to-refresh' area above upload scroller view",
     
     "error-upload-failed": "Error message indicating that upload failed.",
     "error-dismiss": "Button text for dismissing error alert.",

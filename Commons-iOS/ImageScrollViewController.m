@@ -88,8 +88,8 @@
     activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     
     // Change the appearance of the status bar and navigation bar
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
+    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
+    //[self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
         
     // Setup the scroll view
     imageScrollView.bouncesZoom = YES;
@@ -126,8 +126,8 @@
     
     // Restore appearance when popping back
     
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
+    //[self.navigationController.navigationBar setBarStyle:UIBarStyleDefault];
+    //[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:YES];
     
     [self setControlsHidden:NO animated:YES permanent:YES];
 }

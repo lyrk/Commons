@@ -18,6 +18,8 @@ UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverCo
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *takePhotoButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
+
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) UIPopoverController *popover;
 @property (strong, nonatomic) FileUpload *selectedRecord;
