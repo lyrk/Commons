@@ -78,6 +78,13 @@
 		D41D281416C19C4D00BC3ABE /* ImageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281216C19C4D00BC3ABE /* ImageListCell.m */; };
 		D41D281716C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
 		D41D281816C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
+		D4284F1016C9C2AA008640B0 /* MWEventLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */; };
+		D44DDD3C16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
+		D44DDD3D16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
+		D44DDD3E16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
+		D44DDD3F16CC4D6000318FBF /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
+		D44DDD4016CC4D6000318FBF /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
+		D44DDD4116CC4D6000318FBF /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
 		D450A0E116B347BE00D1D1E2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
 		D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
@@ -173,6 +180,12 @@
 		D41D281216C19C4D00BC3ABE /* ImageListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageListCell.m; sourceTree = "<group>"; };
 		D41D281516C19CE100BC3ABE /* MyUploadsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyUploadsViewController.h; sourceTree = "<group>"; };
 		D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyUploadsViewController.m; sourceTree = "<group>"; };
+		D4284F0E16C9C2AA008640B0 /* MWEventLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWEventLogging.h; path = MWEventLogging/MWEventLogging.h; sourceTree = "<group>"; };
+		D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWEventLogging.m; path = MWEventLogging/MWEventLogging.m; sourceTree = "<group>"; };
+		D44DDD3816CC4D6000318FBF /* MWDeferred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWDeferred.h; path = mwapi/MWDeferred.h; sourceTree = "<group>"; };
+		D44DDD3916CC4D6000318FBF /* MWDeferred.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWDeferred.m; path = mwapi/MWDeferred.m; sourceTree = "<group>"; };
+		D44DDD3A16CC4D6000318FBF /* MWPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPromise.h; path = mwapi/MWPromise.h; sourceTree = "<group>"; };
+		D44DDD3B16CC4D6000318FBF /* MWPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWPromise.m; path = mwapi/MWPromise.m; sourceTree = "<group>"; };
 		D450A0D816B3477400D1D1E2 /* Http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Http.h; path = mwapi/Http.h; sourceTree = "<group>"; };
 		D450A0D916B3477400D1D1E2 /* MWApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApi.h; path = mwapi/MWApi.h; sourceTree = "<group>"; };
 		D450A0DA16B3477400D1D1E2 /* MWApiMultipartRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiMultipartRequestBuilder.h; path = mwapi/MWApiMultipartRequestBuilder.h; sourceTree = "<group>"; };
@@ -388,6 +401,7 @@
 			children = (
 				D4E0383416C44C4B00330A7F /* mwi18n */,
 				D4294E28169CC34E00BCF709 /* mwapi */,
+				D4284F1116C9C32D008640B0 /* MWEventLogging */,
 				D450A0D716B3473A00D1D1E2 /* View Controllers */,
 				D450A0D516B3471A00D1D1E2 /* Data Model */,
 				D4086177169B760800D6ACB0 /* Supporting Files */,
@@ -424,9 +438,22 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		D4284F1116C9C32D008640B0 /* MWEventLogging */ = {
+			isa = PBXGroup;
+			children = (
+				D4284F0E16C9C2AA008640B0 /* MWEventLogging.h */,
+				D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */,
+			);
+			name = MWEventLogging;
+			sourceTree = "<group>";
+		};
 		D4294E28169CC34E00BCF709 /* mwapi */ = {
 			isa = PBXGroup;
 			children = (
+				D44DDD3816CC4D6000318FBF /* MWDeferred.h */,
+				D44DDD3916CC4D6000318FBF /* MWDeferred.m */,
+				D44DDD3A16CC4D6000318FBF /* MWPromise.h */,
+				D44DDD3B16CC4D6000318FBF /* MWPromise.m */,
 				D4D0E1E7169BA0F4003047A8 /* mwapi */,
 				D450A0D816B3477400D1D1E2 /* Http.h */,
 				D450A0D916B3477400D1D1E2 /* MWApi.h */,
@@ -705,6 +732,8 @@
 				D4E0383D16C4567500330A7F /* MWMessage.m in Sources */,
 				D4E0384216C462C800330A7F /* MWMessageStore.m in Sources */,
 				D4E0385516C46FDD00330A7F /* MWI18N.m in Sources */,
+				D44DDD3D16CC4D6000318FBF /* MWDeferred.m in Sources */,
+				D44DDD4016CC4D6000318FBF /* MWPromise.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,6 +747,8 @@
 				D4E0383E16C4567500330A7F /* MWMessage.m in Sources */,
 				D4E0384316C462C800330A7F /* MWMessageStore.m in Sources */,
 				D4E0385616C46FDD00330A7F /* MWI18N.m in Sources */,
+				D44DDD3E16CC4D6000318FBF /* MWDeferred.m in Sources */,
+				D44DDD4116CC4D6000318FBF /* MWPromise.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -748,6 +779,9 @@
 				D4E0383C16C4567500330A7F /* MWMessage.m in Sources */,
 				D4E0384116C462C800330A7F /* MWMessageStore.m in Sources */,
 				D4E0385416C46FDD00330A7F /* MWI18N.m in Sources */,
+				D4284F1016C9C2AA008640B0 /* MWEventLogging.m in Sources */,
+				D44DDD3C16CC4D6000318FBF /* MWDeferred.m in Sources */,
+				D44DDD3F16CC4D6000318FBF /* MWPromise.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,33 +12,31 @@
 
 @implementation Http
 
-+ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void(^)(NSError *))failureBlock
++ (MWPromise *)retrieveResponse:(NSURLRequest *)requestUrl
 {
     Http *http = [[Http alloc] initWithRequest:requestUrl];
-    [http retrieveResponseOnCompletion:completionBlock onProgress:progressBlock onFailure:failureBlock];
+    return [http retrieveResponse];
 }
 
 - (id)initWithRequest:(NSURLRequest *)requestUrl
 {
     if (self = [self init]) {
         requestUrl_ = requestUrl;
-        onCompletion_ = nil;
-        onFailure_ = nil;
+        deferred_ = [[MWDeferred alloc] init];
         data_ = nil;
     }
     return self;
 }
 
-- (void)retrieveResponseOnCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void (^)(NSError *))failureBlock
+- (MWPromise *)retrieveResponse
 {
-    onCompletion_ = [completionBlock copy];
-    onProgress_ = [progressBlock copy];
-    onFailure_ = [failureBlock copy];
     data_ = [[NSMutableData alloc] init];
     connection_ = [[NSURLConnection alloc] initWithRequest:requestUrl_ delegate:self];
     [connection_ start];
-    
+
     [[MWNetworkActivityIndicatorManager sharedManager] show];
+
+    return deferred_.promise;
 }
 
 - (void)cancel {
@@ -61,18 +59,10 @@
     
     [[MWNetworkActivityIndicatorManager sharedManager] hide];
     
-    if (onCompletion_ != nil) {
-        NSError *error;
-        MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl_ response:response_ responseBody:data_ errors:error];
-        onCompletion_(result);
-
-        onCompletion_ = nil;
-        onProgress_ = nil;
-        onFailure_ = nil;
-        data_ = nil;
-        response_ = nil;
-    }
-}		
+    NSError *error;
+    MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl_ response:response_ responseBody:data_ errors:error];
+    [deferred_ resolve:result];
+}
 
 - (void)connection:(NSURLConnection*) connection didReceiveData:(NSData *)data
 {
@@ -86,15 +76,17 @@
 {
     NSLog(@"Request failed with error: %@", [error localizedDescription]);
     [[MWNetworkActivityIndicatorManager sharedManager] hide];
-    onFailure_(error);
+    [deferred_ reject:error];
 }
 
 - (void) connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    if (onProgress_ != nil) {
-        NSLog(@"%i %i %i", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
-        onProgress_(totalBytesWritten, totalBytesExpectedToWrite);
-    }
+    NSLog(@"%i %i %i", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+    NSDictionary *dict = @{
+                           @"sent": [NSNumber numberWithInteger:totalBytesWritten],
+                           @"total": [NSNumber numberWithInteger:totalBytesExpectedToWrite]
+                        };
+    [deferred_ notify:dict];
 }
 
 @end

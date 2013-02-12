@@ -113,7 +113,7 @@
      }
      */
     NSLog(@"picked: %@", info);
-    [CommonsApp.singleton prepareImage:info onCompletion:nil];
+    [CommonsApp.singleton prepareImage:info];
     [self dismissViewControllerAnimated:YES completion:nil];
     
     self.uploadButton.enabled = YES;
@@ -164,27 +164,26 @@
             __block void (^run)() = ^() {
                 FileUpload *record = [app firstUploadRecord];
                 if (record != nil) {
-                    [app beginUpload:record
-                          completion:^() {
-                              NSLog(@"completed an upload, going on to next");
-                              run();
-                          }
-                           onFailure:^(NSError *error) {
-                               
-                               NSLog(@"Upload failed: %@", [error localizedDescription]);
-                               
-                               self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
-                               
-                               UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-upload-failed"].text
-                                                                                   message:[error localizedDescription]
-                                                                                  delegate:nil
-                                                                         cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
-                                                                         otherButtonTitles:nil];
-                               [alertView show];
-                               
-                               run = nil;
-                           }
-                     ];
+                    MWPromise *upload = [app beginUpload:record];
+                    [upload done:^(id arg) {
+                        NSLog(@"completed an upload, going on to next");
+                        run();
+                    }];
+                    [upload fail:^(NSError *error) {
+                        
+                         NSLog(@"Upload failed: %@", [error localizedDescription]);
+                        
+                         self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+                        
+                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-upload-failed"].text
+                                                                             message:[error localizedDescription]
+                                                                            delegate:nil
+                                                                   cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
+                                                                   otherButtonTitles:nil];
+                         [alertView show];
+                        
+                         run = nil;
+                    }];
                 } else {
                     NSLog(@"no more uploads");
                     self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
@@ -242,7 +241,8 @@
 }
 
 - (IBAction)refreshButtonPushed:(id)sender {
-    [CommonsApp.singleton refreshHistoryOnCompletion:^() {
+    MWPromise *refresh = [CommonsApp.singleton refreshHistory];
+    [refresh done:^(id arg) {
         [self.refreshControl endRefreshing];
     }];
 }
@@ -409,16 +409,15 @@
     } else {
         cell.thumbnailURL = thumbURL;
         cell.image.image = nil;
-        void (^completion)(UIImage *) = ^(UIImage *image) {
+        MWPromise *fetch = [record fetchThumbnail];
+        [fetch done:^(UIImage *image) {
             if ([cell.title isEqualToString:title]) {
                 cell.image.image = image;
             }
-        };
-        void (^failure)(NSError *) = ^(NSError *error) {
+        }];
+        [fetch fail:^(NSError *error) {
             NSLog(@"failed to load thumbnail");
-        };
-        [record fetchThumbnailOnCompletion:completion
-                                 onFailure:failure];
+        }];
     }
     if (record.complete.boolValue) {
         // Old upload, already complete.

@@ -66,73 +66,103 @@ id delegate;
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:each];
 }
 
-- (void) validateLogin:(void(^)(BOOL))block
+- (MWPromise *) validateLogin
 {
+    MWDeferred *deferred = [[MWDeferred alloc] init];
     MWApiRequestBuilder *builder = [[self action:@"query"] param:@"meta" :@"userinfo"];
-    [self makeRequest:[builder buildRequest:@"GET"]
-         onCompletion:^(MWApiResult *result) {
-             userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
-             userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
-             block(![userID_ isEqualToString:@"0"]);
-         }
-            onFailure:^(NSError *error) {
-                NSLog(@"Failed to validate login: %@", [error localizedDescription]);
-            }];
+    MWPromise *login = [self makeRequest:[builder buildRequest:@"GET"]];
+    [login done:^(MWApiResult *result) {
+        userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
+        userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
+        BOOL loggedIn = ![userID_ isEqualToString:@"0"];
+        [deferred resolve:[NSNumber numberWithBool:(loggedIn)]];
+    }];
+    [login fail:^(NSError *error) {
+        NSLog(@"Failed to validate login: %@", [error localizedDescription]);
+        [deferred reject:error];
+    }];
+    return deferred.promise;
 }
 
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist onCompletion:(void(^)(MWApiResult *))block onFailure:(void (^)(NSError *))failureBlock
+- (MWPromise *)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist
 {
     MWApiRequestBuilder *builder = [self action:@"login"];
     [builder params: @{
      @"lgname": username,
      @"lgpassword": password
      }];
-    [self makeRequest:[builder buildRequest:@"POST"]
-         onCompletion:^(MWApiResult *result) {
-             void (^complete)(MWApiResult *) = ^(MWApiResult *completeResult) {
-                 if ([completeResult.data[@"login"][@"result"] isEqualToString:@"Success"]) {
-                     isLoggedIn_ = YES;
-                     if(doCookiePersist){
-                         [self setAuthCookieFromResult:completeResult];
-                     }
-                 }
-                 block(completeResult);
-             };
-             if([result.data[@"login"][@"result"] isEqualToString:@"NeedToken"]){
-                 NSString *token = result.data[@"login"][@"token"];
-                 [builder param:@"lgtoken" :token];
-                 [self makeRequest:[builder buildRequest:@"POST"]
-                      onCompletion:complete
-                         onFailure:^(NSError *error) {
-                             NSLog(@"Failed to get token for user: %@", [error localizedDescription]);
-                         }];
-             } else {
-                 complete(result);
-             }
-         }
-            onFailure:failureBlock];
-}
+    MWDeferred *deferred = [[MWDeferred alloc] init];
 
-- (void)loginWithUsername:(NSString *)username andPassword:(NSString *)password onCompletion:(void(^)(MWApiResult *))block onFailure:(void (^)(NSError *))failureBlock {
-    [self loginWithUsername:username andPassword:password withCookiePersistence:NO onCompletion:block onFailure:failureBlock];
-}
+    MWDeferred *finalLogin = [[MWDeferred alloc] init];
 
-- (void)logoutOnCompletion:(void(^)(MWApiResult *))block {
-    MWApiRequestBuilder *builder = [self action:@"logout"];
-    [self makeRequest:[builder buildRequest:@"POST"]
-         onCompletion:^(MWApiResult *result) {
-             [self clearAuthCookie];
-             isLoggedIn_ = NO;
-             block(result);
-         }
-            onFailure:^(NSError *error) {
-                NSLog(@"Failed to log out user: %@", [error localizedDescription]);
+    MWPromise *loginPromise = [self makeRequest:[builder buildRequest:@"POST"]];
+    [loginPromise done:^(MWApiResult *result) {
+        if([result.data[@"login"][@"result"] isEqualToString:@"NeedToken"]){
+            NSString *token = result.data[@"login"][@"token"];
+            [builder param:@"lgtoken" :token];
+            MWPromise *second = [self makeRequest:[builder buildRequest:@"POST"]];
+            [second done:^(MWApiResult *result) {
+                [finalLogin resolve:result];
             }];
+            [second fail:^(NSError *error) {
+                [finalLogin reject:error];
+            }];
+        } else {
+            [finalLogin resolve:result];
+        }
+    }];
+    [loginPromise fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
+
+    MWPromise *finalPromise = finalLogin.promise;
+    [finalPromise done:^(MWApiResult *result) {
+        if ([result.data[@"login"][@"result"] isEqualToString:@"Success"]) {
+            isLoggedIn_ = YES;
+            if(doCookiePersist){
+                [self setAuthCookieFromResult:result];
+            }
+        }
+        [deferred resolve:result];
+    }];
+    [finalPromise fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
+        
+    return deferred.promise;
 }
 
-- (void)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void (^)(NSError *))failureBlock
+- (MWPromise *)loginWithUsername:(NSString *)username andPassword:(NSString *)password
 {
-    [self editToken: ^(NSString *editToken) {
+    return [self loginWithUsername:username andPassword:password withCookiePersistence:NO];
+}
+
+- (MWPromise *)logout {
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+
+    MWApiRequestBuilder *builder = [self action:@"logout"];
+    MWPromise *logout = [self makeRequest:[builder buildRequest:@"POST"]];
+
+    [logout done:^(MWApiResult *result) {
+        [self clearAuthCookie];
+        isLoggedIn_ = NO;
+        [deferred resolve:result];
+    }];
+     
+    [logout fail:^(NSError *error) {
+        NSLog(@"Failed to log out user: %@", [error localizedDescription]);
+        [deferred reject:error];
+    }];
+    
+    return deferred.promise;
+}
+
+- (MWPromise *)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment
+{
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+
+    MWPromise *token = [self editToken];
+    [token done:^(NSString *editToken){
         MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
         [builder params: @{
              @"action": @"upload",
@@ -145,49 +175,57 @@ id delegate;
         }];
         
         NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
-        [builder.api makeRequest:uploadRequest onCompletion:completionBlock onProgress:progressBlock onFailure:failureBlock];
+        MWPromise *upload = [builder.api makeRequest:uploadRequest];
+        [upload done:^(MWApiResult *result) {
+            [deferred resolve:result];
+        }];
+        [upload fail:^(NSError *err) {
+            [deferred reject:err];
+        }];
     }];
+    [token fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
+
+    return deferred.promise;
 }
 
-- (void)editToken:(void(^)(NSString *))block {
+- (MWPromise *)editToken {
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+
     MWApiRequestBuilder *builder = [[self action:@"tokens"] param:@"type" :@"edit"];
-    [self makeRequest:[builder buildRequest:@"GET"]
-         onCompletion:^(MWApiResult *result) {
-             block([result.data[@"tokens"][@"edittoken"] copy]);
-         }
-            onFailure:^(NSError *error) {
-                NSLog(@"Failed to get edit token: %@", [error localizedDescription]);
-            }];
+    MWPromise *token = [self makeRequest:[builder buildRequest:@"GET"]];
+    [token done:^(MWApiResult *result) {
+        [deferred resolve:[result.data[@"tokens"][@"edittoken"] copy]];
+    }];
+    [token fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
+
+    return deferred.promise;
 }
 
-- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void (^)(NSError *))failureBlock
+- (MWPromise *)makeRequest:(NSMutableURLRequest *)request
 {
     if(!includeAuthCookie_){
         [self clearAuthCookie];
     }
     
     connection_ = [[Http alloc] initWithRequest:request];
-    [connection_ retrieveResponseOnCompletion:completionBlock onProgress:progressBlock onFailure:failureBlock];
-}
-
-- (void)makeRequest:(NSMutableURLRequest *)request onCompletion:(void(^)(MWApiResult *))block onFailure:(void(^)(NSError *))failureBlock;
-{
-    [self makeRequest: request onCompletion:block onProgress:nil onFailure:failureBlock];
+    return [connection_ retrieveResponse];
 }
 
 - (void)cancelCurrentRequest {
     [self.connection cancel];
 }
 
-- (void)getRequest:(NSDictionary *)params onCompletion:(void(^)(MWApiResult *))block onFailure:(void (^)(NSError *))failureBlock
+- (MWPromise *)getRequest:(NSDictionary *)params
 {
     MWApiMultipartRequestBuilder *builder = [[MWApiMultipartRequestBuilder alloc] initWithApi:self];
     [builder params:params];
     [builder param:@"format" :@"json"];
     NSURLRequest *request = [builder buildRequest:@"GET"];
-    [self makeRequest:request
-         onCompletion:block
-            onFailure:failureBlock];
+    return [self makeRequest:request];
 }
 
 @end

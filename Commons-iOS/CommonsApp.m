@@ -84,10 +84,8 @@ static CommonsApp *singleton_;
         __autoreleasing NSError *error;
         [fm removeItemAtPath:path error:&error];
 
-        // Start storing it!
-        [self prepareFile:fileName data:data onCompletion:^() {
-            // woo
-        }];
+        // Store it!
+        [self prepareFile:fileName data:data];
 
         return YES;
     } else {
@@ -321,7 +319,7 @@ static CommonsApp *singleton_;
             stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
-- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock onFailure:(void (^)(NSError *))failureBlock
+- (MWPromise *)beginUpload:(FileUpload *)record
 {
     NSString *fileName = [self filenameForTitle:record.title type:record.fileType];
     NSString *filePath = [self filePath:record.localFile];
@@ -329,69 +327,70 @@ static CommonsApp *singleton_;
     
     _currentUploadOp = [self startApi];
     
-    [_currentUploadOp loginWithUsername:self.username
-                            andPassword:self.password
-                  withCookiePersistence:YES
-                           onCompletion:^(MWApiResult *loginResult) {
-                               
-                               NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
-                               
-                               if (_currentUploadOp.isLoggedIn) {
-                                   
-                                   record.progress = @0.0f;
-                                   
-                                   // Progress block
-                                   void (^progress)(NSInteger, NSInteger) = ^(NSInteger bytesSent, NSInteger bytesTotal) {
-                                       record.progress = [NSNumber numberWithFloat:(float)bytesSent / (float)bytesTotal];
-                                   };
-                                   
-                                   // Completion block
-                                   void (^complete)(MWApiResult *) = ^(MWApiResult *uploadResult) {
-                                       NSLog(@"upload: %@", uploadResult.data);
-                                       if (completionBlock != nil) {
-                                           NSDictionary *upload = uploadResult.data[@"upload"];
-                                           NSDictionary *imageinfo = upload[@"imageinfo"];
-                                           if ([upload[@"result"] isEqualToString:@"Success"]) {
-                                               record.title = [self cleanupTitle:upload[@"filename"]];
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+    MWPromise *login = [_currentUploadOp loginWithUsername:self.username
+                                                andPassword:self.password
+                                      withCookiePersistence:YES];
+    [login done:^(MWApiResult *loginResult) {
+       
+       NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
+       
+       if (_currentUploadOp.isLoggedIn) {
+           
+           record.progress = @0.0f;
+           
+           MWPromise *upload = [_currentUploadOp uploadFile:fileName
+                                               withFileData:fileData
+                                                       text:[self formatDescription:record]
+                                                    comment:@"Uploaded with Commons for iOS"];
 
-                                               // Unfortunately we didn't get the thumbnail URL. :P
-                                               // Ask for it in a second request...
-                                               NSLog(@"fetching thumb URL after upload");
-                                               [record saveThumbnailOnCompletion:completionBlock
-                                                                       onFailure:failureBlock];
-                                           } else {
-                                               NSLog(@"failed upload!");
-                                               // whaaaaaaat?
-                                               record.progress = @0.0f;
-                                               [self saveData];
+           [upload progress:^(NSDictionary *dict) {
+               // Progress block
+               NSNumber *bytesSent = dict[@"sent"];
+               NSNumber *bytesTotal = dict[@"total"];
+               record.progress = [NSNumber numberWithFloat:bytesSent.floatValue / bytesTotal.floatValue];
+           }];
+           
+           // Completion block
+           [upload done:^(MWApiResult *uploadResult) {
+               NSLog(@"upload: %@", uploadResult.data);
+               NSDictionary *upload = uploadResult.data[@"upload"];
+               NSDictionary *imageinfo = upload[@"imageinfo"];
+               if ([upload[@"result"] isEqualToString:@"Success"]) {
+                   record.title = [self cleanupTitle:upload[@"filename"]];
 
-                                               NSError *err = nil; // fixme create a sane error object?
-                                               failureBlock(err);
-                                           }
-                                       }
-                                   };
-                                   
-                                   // Failure block
-                                   void (^failure)(NSError *) = ^(NSError *error) {
-                                       NSLog(@"failed upload!");
-                                       record.progress = @0.0f;
-                                   };
-                                   
-                                   [_currentUploadOp uploadFile:fileName
-                                                   withFileData:fileData
-                                                           text:[self formatDescription:record]
-                                                        comment:@"Uploaded with Commons for iOS"
-                                                   onCompletion:complete
-                                                     onProgress:progress
-                                                      onFailure:failure];
-                                   
-                               } else {
-                                   
-                                   NSLog(@"not logged in");
-                               }
-                               
-                           }
-                              onFailure:failureBlock];
+                   // Unfortunately we didn't get the thumbnail URL. :P
+                   // Ask for it in a second request...
+                   NSLog(@"fetching thumb URL after upload");
+                   MWPromise *saveThumb = [record saveThumbnail];
+                   [saveThumb done:^(MWApiResult *result) {
+                       [deferred resolve:record];
+                   }];
+               } else {
+                   NSLog(@"failed upload!");
+                   // whaaaaaaat?
+                   record.progress = @0.0f;
+                   [self saveData];
+
+                   NSError *err = nil; // fixme create a sane error object?
+                   [deferred reject:err];
+               }
+           }];
+           
+           // Failure block
+           [upload fail:^(NSError *error) {
+               NSLog(@"failed upload!");
+               record.progress = @0.0f;
+               [deferred reject:error];
+           }];
+       } else {
+           NSLog(@"not logged in");
+       }
+    }];
+    [login fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
+    return deferred.promise;
 }
 
 - (NSString *)formatDescription:(FileUpload *)record
@@ -465,10 +464,11 @@ static CommonsApp *singleton_;
     }
 }
 
-- (void)prepareImage:(NSDictionary *)info onCompletion:(void(^)())completionBlock
+- (MWPromise *)prepareImage:(NSDictionary *)info
 {
-    void (^done)() = [completionBlock copy];
-    [self getImageData:info onCompletion:^(NSData *data) {
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+    MWPromise *fetch = [self getImageData:info];
+    [fetch done:^(NSData *data) {
         NSString *title = [NSString stringWithFormat:@"Testfile %li", (long)[[NSDate date] timeIntervalSince1970]];
         NSString *desc = @"temporary description text";
         
@@ -488,14 +488,15 @@ static CommonsApp *singleton_;
         record.localFile = [self saveFile: data forType:record.fileType];
 
         [self saveData];
-        
-        if (done != nil) {
-            done();
-        }
+        [deferred resolve:record];
     }];
+    [fetch fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
+    return [deferred promise];
 }
 
-- (void)prepareFile:(NSString *)fileName data:(NSData *)data onCompletion:(void(^)())completionBlock
+- (void)prepareFile:(NSString *)fileName data:(NSData *)data
 {
     NSString *extension = [fileName pathExtension];
     NSString *basename = [fileName substringToIndex:(fileName.length - extension.length - 1)];
@@ -516,83 +517,120 @@ static CommonsApp *singleton_;
     [self saveData];
 }
 
-- (void)loadImage:(NSString *)fileName fileType:(NSString *)fileType onCompletion:(void(^)(UIImage *))block
+- (MWPromise *)loadImage:(NSString *)fileName fileType:(NSString *)fileType
 {
+    MWDeferred *deferred = [[MWDeferred alloc] init];
     if ([fileType isEqualToString:@"image/svg+xml"]) {
-        [self loadSVGImage:fileName onCompletion:block];
+        MWPromise *svg = [self loadSVGImage:fileName];
+        [svg done:^(UIImage *image) {
+            [deferred resolve:image];
+        }];
+        [svg fail:^(NSError *err) {
+            [deferred reject:err];
+        }];
     } else if ([fileType isEqualToString:@"application/pdf"]) {
-        [self loadPDFImage:fileName onCompletion:block];
+        MWPromise *pdf = [self loadPDFImage:fileName];
+        [pdf done:^(UIImage *image) {
+            [deferred resolve:image];
+        }];
+        [pdf fail:^(NSError *err) {
+            [deferred reject:err];
+        }];
     } else {
-        UIImage *image = [UIImage imageWithContentsOfFile:[self filePath:fileName]];
-        // fixme dispatch to the event loop
-        block(image);
+        // dispatch to the event loop
+        [NSOperationQueue.mainQueue addOperationWithBlock:^() {
+            // fixme can we background decoding?
+            UIImage *image = [UIImage imageWithContentsOfFile:[self filePath:fileName]];
+            [deferred resolve:image];
+        }];
     }
+    return deferred.promise;
 }
 
-- (void)loadSVGImage:(NSString *)fileName onCompletion:(void(^)(UIImage *))block
+- (MWPromise *)loadSVGImage:(NSString *)fileName
 {
-    // fixme implement thumbnailing
-    UIImage *image = [UIImage imageNamed:@"fileicon-svg.png"];
+    MWDeferred *deferred = [[MWDeferred alloc] init];
     
-    // fixme dispatch to the event loop
-    block(image);
+    // dispatch to the event loop
+    [NSOperationQueue.mainQueue addOperationWithBlock:^() {
+        // fixme implement thumbnailing
+        UIImage *image = [UIImage imageNamed:@"fileicon-svg.png"];
+        [deferred resolve:image];
+    }];
+    
+    return deferred.promise;
 }
 
-- (void)loadPDFImage:(NSString *)fileName onCompletion:(void(^)(UIImage *))block
+- (MWPromise *)loadPDFImage:(NSString *)fileName
 {
-    // fixme implement thumbnailing
-    UIImage *image = [UIImage imageNamed:@"fileicon-pdf.png"];
+    MWDeferred *deferred = [[MWDeferred alloc] init];
 
-    // fixme dispatch to the event loop
-    block(image);
+    // dispatch to the event loop
+    [NSOperationQueue.mainQueue addOperationWithBlock:^() {
+        // fixme implement thumbnailing
+        UIImage *image = [UIImage imageNamed:@"fileicon-pdf.png"];
+        [deferred resolve:image];
+    }];
+
+    return deferred.promise;
 }
 
 
 /**
  * Will make use of NSURL's default caching handlers
  */
-- (void)fetchImageURL:(NSURL *)url onCompletion:(void(^)(UIImage *image))block onFailure:(void (^)(NSError *))failureBlock
+- (MWPromise *)fetchImageURL:(NSURL *)url
 {
+    MWDeferred *deferred = [[MWDeferred alloc] init];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     void (^done)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *data, NSError *error) {
         if (error == nil) {
             UIImage *image = [UIImage imageWithData:data];
-            block(image);
+            [deferred resolve:image];
         } else {
-            block(nil);
-            failureBlock(error);
+            [deferred reject:error];
         }
     };
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:done];
+    return deferred.promise;
 }
 
 /**
  * Won't make use of caching for the image metadata, but should for the actual file.
  */
-- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block onFailure:(void(^)(NSError *))failureBlock;
+- (MWPromise *)fetchWikiImage:(NSString *)title size:(CGSize)size
 {
+    MWDeferred *deferred = [[MWDeferred alloc] init];
     MWApi *api = [self startApi];
-    [api getRequest:@{
+    MWPromise *lookup = [api getRequest:@{
      @"action": @"query",
      @"prop": @"imageinfo",
      @"titles": [@"File:" stringByAppendingString:[self cleanupTitle:title]],
      @"iiprop": @"url",
      @"iiurlwidth": [NSString stringWithFormat:@"%f", size.width],
      @"iiurlheight": [NSString stringWithFormat:@"%f", size.height]
-     }
-       onCompletion:^(MWApiResult *result) {
-           NSDictionary *pages = result.data[@"query"][@"pages"];
-           for (NSString *key in pages) {
-               NSDictionary *page = pages[key];
-               NSDictionary *imageinfo = page[@"imageinfo"][0];
-               NSURL *thumbUrl = [NSURL URLWithString:imageinfo[@"thumburl"]];
-               [self fetchImageURL:thumbUrl onCompletion:block onFailure:failureBlock];
-           }
-       }
-          onFailure:failureBlock
-     ];
+    }];
+    [lookup done:^(MWApiResult *result) {
+        NSDictionary *pages = result.data[@"query"][@"pages"];
+        for (NSString *key in pages) {
+            NSDictionary *page = pages[key];
+            NSDictionary *imageinfo = page[@"imageinfo"][0];
+            NSURL *thumbUrl = [NSURL URLWithString:imageinfo[@"thumburl"]];
+            MWPromise *fetch = [self fetchImageURL:thumbUrl];
+            [fetch done:^(UIImage *image) {
+                [deferred resolve:image];
+            }];
+            [fetch fail:^(NSError *err) {
+                [deferred reject:err];
+            }];
+        }
+    }];
+    [lookup fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
+    return deferred.promise;
 }
 
 - (void)deleteUploadRecord:(FileUpload *)record
@@ -606,21 +644,24 @@ static CommonsApp *singleton_;
     [self saveData];
 }
 
-- (void)getImageData:(NSDictionary *)info onCompletion:(void (^)(NSData *))completionBlock
+- (MWPromise *)getImageData:(NSDictionary *)info
 {
-    void (^done)(NSData *) = [completionBlock copy];
+    MWDeferred *deferred = [[MWDeferred alloc] init];
     NSURL *url = info[UIImagePickerControllerReferenceURL];
     if (url != nil) {
         // We picked something from the photo library; fetch its original data.
-        [self getAssetImageData: url onCompletion:done];
+        MWPromise *getAsset = [self getAssetImageData:url];
+        [getAsset pipe:deferred];
     } else {
         // Freshly-taken photo. Add it to the camera roll and fetch it back;
         // this not only is polite (keep your photos locally) but it conveniently
         // adds the EXIF metadata in, which UIImageJPEGRepresentation doesn't do.
-        [self saveImageData:info onCompletion:^(NSURL *savedUrl) {
-            [self getAssetImageData:savedUrl onCompletion:done];
+        MWPromise *save = [self saveImageData:info];
+        [save pipe:deferred withFilter:(id)^(NSURL *savedUrl) {
+            return [self getAssetImageData:savedUrl];
         }];
     }
+    return deferred.promise;
 }
 
 - (NSString *)getImageType:(NSDictionary *)info
@@ -634,40 +675,46 @@ static CommonsApp *singleton_;
     }
 }
 
-- (void)saveImageData:(NSDictionary *)info onCompletion:(void(^)(NSURL *))completionBlock
+- (MWPromise *)saveImageData:(NSDictionary *)info
 {
+    MWDeferred *deferred = [[MWDeferred alloc] init];
     UIImage *image = info[UIImagePickerControllerOriginalImage];
     NSDictionary *metadata = info[UIImagePickerControllerMediaMetadata];
     ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
     [assetLibrary writeImageToSavedPhotosAlbum:image.CGImage
                                       metadata:metadata
                                completionBlock:^(NSURL *assetURL, NSError *error) {
-                                   completionBlock(assetURL);
+                                   if (error == nil) {
+                                       [deferred resolve:assetURL];
+                                   } else {
+                                       [deferred reject:assetURL];
+                                   }
                                }];
+    return deferred.promise;
 }
 
-- (void)getAssetImageData:(NSURL *)url onCompletion:(void (^)(NSData *))completionBlock
+- (MWPromise *)getAssetImageData:(NSURL *)url
 {
-    __block void (^done)(NSData *) = [completionBlock copy];
+    MWDeferred *deferred = [[MWDeferred alloc] init];
 
     void (^complete)(ALAsset *) = ^(ALAsset *asset) {
         ALAssetRepresentation *rep = [asset defaultRepresentation];
         Byte *buffer = (Byte*)malloc(rep.size);
         NSUInteger buffered = [rep getBytes:buffer fromOffset:0.0 length:rep.size error:nil];
         NSData *data = [NSData dataWithBytesNoCopy:buffer length:buffered freeWhenDone:YES];
-        done(data);
-        done = nil;
+        [deferred resolve:data];
     };
 
     void (^fail)(NSError*) = ^(NSError *err) {
-        NSLog(@"Error: %@",[err localizedDescription]);
-        done(nil);
-        done = nil;
+        [deferred reject:err];
     };
+
     ALAssetsLibrary *assetLibrary=[[ALAssetsLibrary alloc] init];
     [assetLibrary assetForURL:url
                   resultBlock:complete
                  failureBlock:fail];
+
+    return [deferred promise];
 }
 
 - (NSString *)saveFile:(NSData *)data forType:(NSString *)fileType
@@ -678,15 +725,11 @@ static CommonsApp *singleton_;
     return fileName;
 }
 
-- (void)refreshHistory
+- (MWPromise *)refreshHistory
 {
-    [self refreshHistoryOnCompletion:nil];
-}
-
-- (void)refreshHistoryOnCompletion:(void(^)())completionBlock;
-{
+    MWDeferred *deferred = [[MWDeferred alloc] init];
     MWApi *api = [self startApi];
-    [api getRequest: @{
+    MWPromise *req = [api getRequest: @{
      @"action": @"query",
      @"generator": @"allimages",
      @"gaisort": @"timestamp",
@@ -697,70 +740,66 @@ static CommonsApp *singleton_;
      @"iiprop": @"timestamp|url",
      @"iiurlwidth": @"640",
      @"iiurlheight": @"640"
-     }
-       onCompletion:^(MWApiResult *result) {
-           NSFetchedResultsController *records = [self fetchUploadRecords];
-           for (FileUpload *oldRecord in records.fetchedObjects) {
-               if (oldRecord.complete.boolValue) {
-                   [self deleteUploadRecord:oldRecord];
-               }
-           }
-           records = nil;
-           
-           /*
-            page: {
-            imageinfo =     (
-            {
-            descriptionurl = "https://test.wikipedia.org/wiki/File:Testfile_1359577778.png";
-            thumbheight = 424;
-            thumburl = "https://upload.wikimedia.org/wikipedia/test/thumb/5/5d/Testfile_1359577778.png/318px-Testfile_1359577778.png";
-            thumbwidth = 318;
-            url = "https://upload.wikimedia.org/wikipedia/test/5/5d/Testfile_1359577778.png";
+    }];
+    [req done:^(MWApiResult *result) {
+        NSFetchedResultsController *records = [self fetchUploadRecords];
+        for (FileUpload *oldRecord in records.fetchedObjects) {
+            if (oldRecord.complete.boolValue) {
+                [self deleteUploadRecord:oldRecord];
             }
-            );
-            imagerepository = local;
-            ns = 6;
-            pageid = 66296;
-            title = "File:Testfile 1359577778.png";
-            }
-            */
-           NSDictionary *pages = result.data[@"query"][@"pages"];
-           for (NSString *pageId in pages) {
-               (^() {
-                   NSDictionary *page = pages[pageId];
-                   NSDictionary *imageinfo = page[@"imageinfo"][0];
-                   NSLog(@"page: %@", page);
+        }
+        records = nil;
+       
+        /*
+         page: {
+         imageinfo =     (
+         {
+         descriptionurl = "https://test.wikipedia.org/wiki/File:Testfile_1359577778.png";
+         thumbheight = 424;
+         thumburl = "https://upload.wikimedia.org/wikipedia/test/thumb/5/5d/Testfile_1359577778.png/318px-Testfile_1359577778.png";
+         thumbwidth = 318;
+         url = "https://upload.wikimedia.org/wikipedia/test/5/5d/Testfile_1359577778.png";
+         }
+         );
+         imagerepository = local;
+         ns = 6;
+         pageid = 66296;
+         title = "File:Testfile 1359577778.png";
+         }
+         */
+        NSDictionary *pages = result.data[@"query"][@"pages"];
+        for (NSString *pageId in pages) {
+            (^() {
+                NSDictionary *page = pages[pageId];
+                NSDictionary *imageinfo = page[@"imageinfo"][0];
+                NSLog(@"page: %@", page);
 
-                   FileUpload *record = [self createUploadRecord];
-                   record.complete = @YES;
+                FileUpload *record = [self createUploadRecord];
+                record.complete = @YES;
 
-                   record.title = [self cleanupTitle:page[@"title"]];
-                   record.progress = @1.0f;
-                   record.created = [self decodeDate:imageinfo[@"timestamp"]];
+                record.title = [self cleanupTitle:page[@"title"]];
+                record.progress = @1.0f;
+                record.created = [self decodeDate:imageinfo[@"timestamp"]];
 
-                   record.thumbnailURL = imageinfo[@"thumburl"];
-                   
-                   [self saveData];
-               })();
-           }
-           if (completionBlock) {
-               completionBlock();
-           }
-       }
-          onFailure:^(NSError *error) {
-              NSLog(@"Failed to refresh history: %@", [error localizedDescription]);
-              
-              UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Refresh failed!"
-                                                                  message:[error localizedDescription]
-                                                                 delegate:nil
-                                                        cancelButtonTitle:@"Dismiss"
-                                                        otherButtonTitles:nil];
-              [alertView show];
-              if (completionBlock) {
-                  completionBlock();
-              }
-          }
-     ];
+               record.thumbnailURL = imageinfo[@"thumburl"];
+               
+                [self saveData];
+            })();
+        }
+        [deferred resolve:nil];
+    }];
+    [req fail:^(NSError *error) {
+        NSLog(@"Failed to refresh history: %@", [error localizedDescription]);
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Refresh failed!"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Dismiss"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [deferred reject:error];
+    }];
+    return [deferred promise];
 }
 
 - (NSString *)prettyDate:(NSDate *)date

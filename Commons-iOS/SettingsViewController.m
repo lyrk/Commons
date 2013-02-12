@@ -77,55 +77,55 @@
         // Test credentials to make sure they are valid
         MWApi *mwapi = [app startApi];
         
-        [mwapi loginWithUsername:username
-                     andPassword:password
-           withCookiePersistence:YES
-                    onCompletion:^(MWApiResult *loginResult) {
-                        
-                        NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
-                        
-                        if (mwapi.isLoggedIn) {
-                            // Credentials verified
-                            
-                            // Save credentials
-                            app.username = username;
-                            app.password = password;
-                            [app saveCredentials];
-                            [app refreshHistory];
-                            
-                            // Dismiss view
-                            
-                            [self dismissViewControllerAnimated:YES completion:nil];
-                            
-                        } else {
-                            // Credentials invalid
-                            
-                            NSLog(@"Credentials invalid!");
-                            
-                            // Erase saved credentials so that the credentials are validated every time they are changed
-                            app.username = @"";
-                            app.password = @"";
-                            [app saveCredentials];
-                            
-                            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh oh!"
-                                                                                message:@"Your username and/or password is incorrect"
-                                                                               delegate:nil
-                                                                      cancelButtonTitle:@"Dismiss"
-                                                                      otherButtonTitles:nil];
-                            [alertView show];
-                        }
-                    }
-                       onFailure:^(NSError *error) {
-                           
-                           NSLog(@"Login failed: %@", [error localizedDescription]);
-                           
-                           UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login failed!"
-                                                                               message:[error localizedDescription]
-                                                                              delegate:nil
-                                                                     cancelButtonTitle:@"Dismiss"
-                                                                     otherButtonTitles:nil];
-                           [alertView show];
-                       }];
+        MWPromise *login = [mwapi loginWithUsername:username
+                                        andPassword:password
+                              withCookiePersistence:YES];
+        [login done:^(MWApiResult *loginResult) {
+            
+            NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
+            
+            if (mwapi.isLoggedIn) {
+                // Credentials verified
+                
+                // Save credentials
+                app.username = username;
+                app.password = password;
+                [app saveCredentials];
+                [app refreshHistory];
+                
+                // Dismiss view
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+                
+            } else {
+                // Credentials invalid
+                
+                NSLog(@"Credentials invalid!");
+                
+                // Erase saved credentials so that the credentials are validated every time they are changed
+                app.username = @"";
+                app.password = @"";
+                [app saveCredentials];
+                
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh oh!"
+                                                                    message:@"Your username and/or password is incorrect"
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"Dismiss"
+                                                          otherButtonTitles:nil];
+                [alertView show];
+            }
+        }];
+        [login fail:^(NSError *error) {
+            
+            NSLog(@"Login failed: %@", [error localizedDescription]);
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login failed!"
+                                                                message:[error localizedDescription]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Dismiss"
+                                                      otherButtonTitles:nil];
+            [alertView show];
+        }];
         
     }
     else {

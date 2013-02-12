@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+#import "mwapi/MWApi.h"
 
 @interface FileUpload : NSManagedObject
 
@@ -23,7 +24,7 @@
 @property (nonatomic, retain) NSNumber * fileSize;
 
 - (NSString *)prettySize;
-- (void)fetchThumbnailOnCompletion:(void(^)(UIImage *image))block onFailure:(void(^)(NSError *))failureBlock;
-- (void)saveThumbnailOnCompletion:(void(^)())block onFailure:(void(^)(NSError *))failureBlock;
+- (MWPromise *)fetchThumbnail;
+- (MWPromise *)saveThumbnail;
 
 @end

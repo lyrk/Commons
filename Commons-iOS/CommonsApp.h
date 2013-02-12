@@ -32,10 +32,9 @@
 - (NSString *)filePath:(NSString *)fileName;
 - (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
 
-- (void)loadImage:(NSString *)fileName fileType:(NSString *)fileType onCompletion:(void(^)(UIImage *))block;
-
-- (void)fetchImageURL:(NSURL *)url onCompletion:(void(^)(UIImage *image))block onFailure:(void(^)(NSError *))failureBlock;
-- (void)fetchWikiImage:(NSString *)title size:(CGSize)size onCompletion:(void(^)(UIImage *))block onFailure:(void(^)(NSError *))failureBlock;
+- (MWPromise *)loadImage:(NSString *)fileName fileType:(NSString *)fileType;
+- (MWPromise *)fetchImageURL:(NSURL *)url;
+- (MWPromise *)fetchWikiImage:(NSString *)title size:(CGSize)size;
 
 - (void)saveData;
 - (NSFetchedResultsController *)fetchUploadRecords;
@@ -45,14 +44,13 @@
 - (MWApi *)startApi;
 - (NSString *)wikiURLBase;
 - (NSURL *)URLForWikiPage:(NSString *)title;
-- (void)beginUpload:(FileUpload *)record completion:(void(^)())completionBlock onFailure:(void(^)(NSError *))failureBlock;
+- (MWPromise *)beginUpload:(FileUpload *)record;
 - (void)cancelCurrentUpload;
 
-- (void)prepareImage:(NSDictionary *)info onCompletion:(void(^)())completionBlock;
+- (MWPromise *)prepareImage:(NSDictionary *)info;
 - (void)deleteUploadRecord:(FileUpload *)record;
 
-- (void)refreshHistoryOnCompletion:(void(^)())completionBlock;
-- (void)refreshHistory;
+- (MWPromise *)refreshHistory;
 
 - (NSString *)cleanupTitle:(NSString *)title;
 

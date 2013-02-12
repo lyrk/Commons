@@ -8,21 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import "MWApiResult.h"
+#import "MWDeferred.h"
 
 @interface Http : NSObject <NSURLConnectionDataDelegate> {
     NSURLRequest *requestUrl_;
-    void (^onCompletion_)(MWApiResult *);
-    void (^onProgress_)(NSInteger,NSInteger);
-    void (^onFailure_)(NSError *);
+    MWDeferred *deferred_;
     NSMutableData *data_;
     NSURLResponse *response_;
     NSURLConnection *connection_;
 }
 
-+ (void)retrieveResponse:(NSURLRequest *)requestUrl onCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void(^)(NSError *))failureBlock;
++ (MWPromise *)retrieveResponse:(NSURLRequest *)requestUrl;
 
 - (id)initWithRequest:(NSURLRequest *)requestUrl;
-- (void)retrieveResponseOnCompletion:(void(^)(MWApiResult *))completionBlock onProgress:(void(^)(NSInteger,NSInteger))progressBlock onFailure:(void(^)(NSError *))failureBlock;
+- (MWPromise *)retrieveResponse;
 - (void)cancel;
 
 @end
