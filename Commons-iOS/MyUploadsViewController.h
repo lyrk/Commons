@@ -13,7 +13,7 @@
 @interface MyUploadsViewController : UICollectionViewController <UINavigationControllerDelegate,
 UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *choosePhotoButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *takePhotoButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *refreshButton;

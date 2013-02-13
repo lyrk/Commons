@@ -76,6 +76,13 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -143,16 +150,20 @@
 
 #pragma mark - Interface Items
 
-- (UIBarButtonItem *)uploadBarButtonItem {
+- (UIBarButtonItem *)uploadButton {
     
-    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(uploadButtonPushed:)];
-    return btn;
+    if (!_uploadButton) {
+        
+        _uploadButton = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
+                                                         style:UIBarButtonItemStylePlain
+                                                        target:self
+                                                        action:@selector(uploadButtonPushed:)];
+    }
+    
+    return _uploadButton;
 }
 
-- (UIBarButtonItem *)cancelBarButtonItem {
+- (UIBarButtonItem *)cancelButton {
     
     UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
                                                             style:UIBarButtonItemStylePlain
@@ -173,7 +184,7 @@
         
         if ([self.fetchedResultsController.fetchedObjects count] > 0) {
             
-            self.navigationItem.rightBarButtonItem = [self cancelBarButtonItem];
+            [self.navigationItem setRightBarButtonItem:[self cancelButton] animated:YES];
             
             NSLog(@"Upload ye files!");
             
@@ -202,7 +213,8 @@
                     }];
                 } else {
                     NSLog(@"no more uploads");
-                    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+                    [self.navigationItem setRightBarButtonItem:self.uploadButton animated:YES];
+                    [self.navigationItem.rightBarButtonItem setEnabled:NO];
                     run = nil;
                 }
             };
@@ -268,7 +280,8 @@
     CommonsApp *app = [CommonsApp singleton];
     [app cancelCurrentUpload];
     
-    self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+    [self.navigationItem setRightBarButtonItem:self.uploadButton animated:YES];
+    self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
 }
 
 #pragma mark - NSFetchedResultsController Delegate Methods
