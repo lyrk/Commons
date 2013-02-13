@@ -176,12 +176,7 @@ id delegate;
         
         NSURLRequest *uploadRequest = [builder buildRequest:@"POST" withFilename:filename withFileData:data];
         MWPromise *upload = [builder.api makeRequest:uploadRequest];
-        [upload done:^(MWApiResult *result) {
-            [deferred resolve:result];
-        }];
-        [upload fail:^(NSError *err) {
-            [deferred reject:err];
-        }];
+        [upload pipe:deferred];
     }];
     [token fail:^(NSError *err) {
         [deferred reject:err];

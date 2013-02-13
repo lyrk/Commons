@@ -81,7 +81,6 @@
 
 - (void) connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    NSLog(@"%i %i %i", bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
     NSDictionary *dict = @{
                            @"sent": [NSNumber numberWithInteger:totalBytesWritten],
                            @"total": [NSNumber numberWithInteger:totalBytesExpectedToWrite]

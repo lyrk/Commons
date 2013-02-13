@@ -200,7 +200,7 @@
                         
                          NSLog(@"Upload failed: %@", [error localizedDescription]);
                         
-                         self.navigationItem.rightBarButtonItem = [self uploadBarButtonItem];
+                         self.navigationItem.rightBarButtonItem = [self uploadButton];
                         
                          UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-upload-failed"].text
                                                                              message:[error localizedDescription]

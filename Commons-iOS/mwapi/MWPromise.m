@@ -64,7 +64,7 @@
         [chained resolve:arg];
     }];
     [self progress:^(id arg) {
-        [chained progress:arg];
+        [chained notify:arg];
     }];
     [self fail:^(id arg) {
         [chained reject:arg];
@@ -79,7 +79,7 @@
         [chained resolve:retval];
     }];
     [self progress:^(id arg) {
-        [chained progress:arg];
+        [chained notify:arg];
     }];
     [self fail:^(id arg) {
         [chained reject:arg];

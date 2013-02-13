@@ -345,6 +345,7 @@ static CommonsApp *singleton_;
                                                     comment:@"Uploaded with Commons for iOS"];
 
            [upload progress:^(NSDictionary *dict) {
+               NSLog(@"Got a progress block %@", dict);
                // Progress block
                NSNumber *bytesSent = dict[@"sent"];
                NSNumber *bytesTotal = dict[@"total"];
@@ -353,7 +354,6 @@ static CommonsApp *singleton_;
            
            // Completion block
            [upload done:^(MWApiResult *uploadResult) {
-               NSLog(@"upload: %@", uploadResult.data);
                NSDictionary *upload = uploadResult.data[@"upload"];
                NSDictionary *imageinfo = upload[@"imageinfo"];
                if ([upload[@"result"] isEqualToString:@"Success"]) {
@@ -657,8 +657,12 @@ static CommonsApp *singleton_;
         // this not only is polite (keep your photos locally) but it conveniently
         // adds the EXIF metadata in, which UIImageJPEGRepresentation doesn't do.
         MWPromise *save = [self saveImageData:info];
-        [save pipe:deferred withFilter:(id)^(NSURL *savedUrl) {
-            return [self getAssetImageData:savedUrl];
+        [save done:^(NSURL *savedUrl) {
+            MWPromise *getData = [self getAssetImageData:savedUrl];
+            [getData pipe:deferred];
+        }];
+        [save fail:^(NSError *err) {
+            [deferred reject:err];
         }];
     }
     return deferred.promise;
