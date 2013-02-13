@@ -11,6 +11,7 @@
 #import "ImageListCell.h"
 #import "DetailTableViewController.h"
 #import "MWI18N/MWI18N.h"
+#import "Reachability.h"
 
 @interface MyUploadsViewController ()
 
@@ -30,6 +31,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChange:) name:kReachabilityChangedNotification object:nil];
 
     // Set up refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -57,6 +60,19 @@
     
     if (app.username == nil || [app.username isEqualToString:@""]) {
         [self performSegueWithIdentifier:@"SettingsSegue" sender:self];
+    }
+}
+
+-(void)reachabilityChange:(NSNotification*)note {
+    Reachability * reach = [note object];
+    NetworkStatus netStatus = [reach currentReachabilityStatus];
+    if (netStatus == ReachableViaWiFi || netStatus == ReachableViaWWAN)
+    {
+        self.uploadButton.enabled = YES;
+    }
+    else if (netStatus == NotReachable)
+    {
+        self.uploadButton.enabled = NO;
     }
 }
 
