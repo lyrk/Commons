@@ -42,10 +42,10 @@
     self.titleTextField.placeholder = [MWMessage forKey:@"details-title-placeholder"].text;
     self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
-
+    
     // Load up the selected record
     FileUpload *record = self.selectedRecord;
-
+    
     if (record != nil) {
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
@@ -79,7 +79,7 @@
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
     }
-
+    
     // Set delegates so we know when fields change...
     self.titleTextField.delegate = self;
     self.descriptionTextView.delegate = self;
