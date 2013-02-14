@@ -94,154 +94,149 @@
             </objects>
             <point key="canvasLocation" x="427" y="343"/>
         </scene>
-        <!--My Uploads View Controller - My Uploads-->
-        <scene sceneID="H7s-e8-ctb">
+        <!--My Uploads View Controller-->
+        <scene sceneID="njz-Z4-kiv">
             <objects>
-                <collectionViewController autoresizesArchivedViewToFullSize="NO" id="Vu1-Bf-o5x" customClass="MyUploadsViewController" sceneMemberID="viewController">
-                    <collectionView key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="mTF-n9-aLV">
+                <viewController id="jET-mn-Ts4" customClass="MyUploadsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Wo-hn-oxn">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <inset key="contentInset" minX="0.0" minY="44" maxX="0.0" maxY="44"/>
-                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="YU7-DY-2uM">
-                            <size key="itemSize" width="150" height="150"/>
-                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                            <inset key="sectionInset" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
-                        </collectionViewFlowLayout>
-                        <view key="backgroundView" contentMode="scaleAspectFill" id="Qqx-tP-usa">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="QgA-Pl-hEh">
-                                    <rect key="frame" x="0.0" y="416" width="320" height="44"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                    <items/>
-                                </toolbar>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vMt-yt-DPQ">
-                                    <rect key="frame" x="124" y="360" width="72" height="72"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                    <state key="normal" image="add_image.png" backgroundImage="photo-button-bg.png">
-                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="addMediaButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="kev-wY-GZN"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YkX-Ws-keA">
-                                    <rect key="frame" x="38" y="302" width="72" height="72"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                    <state key="normal" image="camera.png" backgroundImage="photo-button-bg.png">
-                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="addMediaButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="ose-vD-6yv"/>
-                                        <action selector="takePhotoButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="SWs-qe-gaQ"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vaw-aE-DoK">
-                                    <rect key="frame" x="216" y="302" width="72" height="72"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                    <state key="normal" image="gallery.png" backgroundImage="photo-button-bg.png">
-                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <state key="highlighted">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="addMediaButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="fcI-sl-Wns"/>
-                                        <action selector="choosePhotoButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="P8V-8Z-AOo"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                        </view>
-                        <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageListCell" id="fxd-h5-oSR" customClass="ImageListCell">
-                                <rect key="frame" x="5" y="0.0" width="150" height="150"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="XOQ-vH-P1a">
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="C6f-pH-iVT">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jyT-Ct-CGN">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="5" minY="44" maxX="5" maxY="44"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageListCell" id="fxd-h5-oSR" customClass="ImageListCell">
+                                        <rect key="frame" x="5" y="44" width="150" height="150"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </imageView>
-                                        <view contentMode="scaleToFill" id="okD-fs-BOe">
-                                            <rect key="frame" x="0.0" y="106" width="150" height="44"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                            <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Queued" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6oN-oL-8y2">
-                                                    <rect key="frame" x="20" y="11" width="121" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" id="7Uq-lr-dsu">
-                                                    <rect key="frame" x="0.0" y="35" width="150" height="9"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="XOQ-vH-P1a">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" id="okD-fs-BOe">
+                                                    <rect key="frame" x="0.0" y="106" width="150" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                </progressView>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Queued" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6oN-oL-8y2">
+                                                            <rect key="frame" x="20" y="11" width="121" height="21"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" id="7Uq-lr-dsu">
+                                                            <rect key="frame" x="0.0" y="35" width="150" height="9"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                        </progressView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                                </view>
                                             </subviews>
-                                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <size key="customSize" width="150" height="150"/>
+                                        <size key="customSize" width="150" height="150"/>
+                                        <connections>
+                                            <outlet property="image" destination="XOQ-vH-P1a" id="ODq-Px-xkj"/>
+                                            <outlet property="infoBox" destination="okD-fs-BOe" id="qDq-MR-MbT"/>
+                                            <outlet property="progressBar" destination="7Uq-lr-dsu" id="kRb-fM-NSo"/>
+                                            <outlet property="statusLabel" destination="6oN-oL-8y2" id="dNy-RZ-XEQ"/>
+                                            <segue destination="epi-E0-AsP" kind="push" identifier="DetailSegue" id="80O-WZ-gMr"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
                                 <connections>
-                                    <outlet property="image" destination="XOQ-vH-P1a" id="ODq-Px-xkj"/>
-                                    <outlet property="infoBox" destination="okD-fs-BOe" id="qDq-MR-MbT"/>
-                                    <outlet property="progressBar" destination="7Uq-lr-dsu" id="kRb-fM-NSo"/>
-                                    <outlet property="statusLabel" destination="6oN-oL-8y2" id="dNy-RZ-XEQ"/>
-                                    <segue destination="epi-E0-AsP" kind="push" identifier="DetailSegue" id="80O-WZ-gMr"/>
+                                    <outlet property="dataSource" destination="jET-mn-Ts4" id="d47-KL-AbZ"/>
+                                    <outlet property="delegate" destination="jET-mn-Ts4" id="YI2-JG-QhS"/>
                                 </connections>
-                            </collectionViewCell>
-                        </cells>
-                        <connections>
-                            <outlet property="dataSource" destination="Vu1-Bf-o5x" id="gsQ-SL-Iws"/>
-                            <outlet property="delegate" destination="Vu1-Bf-o5x" id="fwU-J6-I3J"/>
-                        </connections>
-                    </collectionView>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="My Uploads" id="3XW-36-cry">
+                            </collectionView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="QgA-Pl-hEh">
+                                <rect key="frame" x="0.0" y="416" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items/>
+                            </toolbar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vMt-yt-DPQ">
+                                <rect key="frame" x="124" y="358" width="72" height="72"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="add_image.png" backgroundImage="photo-button-bg.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addMediaButtonPushed:" destination="jET-mn-Ts4" eventType="touchUpInside" id="zgt-QO-b45"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YkX-Ws-keA">
+                                <rect key="frame" x="44" y="306" width="72" height="72"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="camera.png" backgroundImage="photo-button-bg.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="takePhotoButtonPushed:" destination="jET-mn-Ts4" eventType="touchUpInside" id="nyO-bt-56O"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vaw-aE-DoK">
+                                <rect key="frame" x="204" y="306" width="72" height="72"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <state key="normal" image="gallery.png" backgroundImage="photo-button-bg.png">
+                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="choosePhotoButtonPushed:" destination="jET-mn-Ts4" eventType="touchUpInside" id="Ats-Ut-fss"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="cin-BK-iTy">
                         <barButtonItem key="leftBarButtonItem" title="Upload" id="fnJ-FD-iFu">
                             <connections>
-                                <action selector="uploadButtonPushed:" destination="Vu1-Bf-o5x" id="vUt-rv-sAH"/>
+                                <action selector="uploadButtonPushed:" destination="jET-mn-Ts4" id="Sht-UV-8oh"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="settings.png" style="plain" id="WRa-lC-y9h">
+                        <barButtonItem key="rightBarButtonItem" image="settings.png" style="plain" id="dpF-J9-5J3">
                             <connections>
-                                <segue destination="CKn-7N-hi9" kind="modal" identifier="SettingsSegue" id="vuj-tf-OSP"/>
+                                <segue destination="CKn-7N-hi9" kind="modal" id="6dp-eM-W06"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackTranslucent" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="addMediaButton" destination="vMt-yt-DPQ" id="XHf-Yf-nBW"/>
-                        <outlet property="buttonLayerView" destination="Qqx-tP-usa" id="YTK-2F-V0N"/>
-                        <outlet property="choosePhotoButton" destination="Vaw-aE-DoK" id="r5o-HO-nY3"/>
-                        <outlet property="settingsButton" destination="WRa-lC-y9h" id="kpa-ih-D2t"/>
-                        <outlet property="takePhotoButton" destination="YkX-Ws-keA" id="a1J-KL-Igg"/>
-                        <outlet property="uploadButton" destination="fnJ-FD-iFu" id="fPU-wI-MXR"/>
+                        <outlet property="addMediaButton" destination="vMt-yt-DPQ" id="tI6-GT-dmu"/>
+                        <outlet property="choosePhotoButton" destination="Vaw-aE-DoK" id="GHc-Zk-KSC"/>
+                        <outlet property="collectionView" destination="C6f-pH-iVT" id="1Wm-oE-YLv"/>
+                        <outlet property="settingsButton" destination="dpF-J9-5J3" id="epx-WR-IB4"/>
+                        <outlet property="takePhotoButton" destination="YkX-Ws-keA" id="AW3-Fd-YVl"/>
+                        <outlet property="uploadButton" destination="fnJ-FD-iFu" id="6lU-xy-TW7"/>
                     </connections>
-                </collectionViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="zUb-K0-wmu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Ld-l7-aRA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-116" y="1026"/>
+            <point key="canvasLocation" x="-167" y="1026"/>
         </scene>
         <!--Detail Table View Controller - Photo Details-->
         <scene sceneID="unP-Te-9L6">
@@ -525,7 +520,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="Vu1-Bf-o5x" kind="relationship" relationship="rootViewController" id="J4R-dP-bVg"/>
+                        <segue destination="jET-mn-Ts4" kind="relationship" relationship="rootViewController" id="oXn-Yz-V7F"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yzo-mz-ZKm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -542,6 +537,102 @@
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="40" height="34"/>
     </resources>
+    <classes>
+        <class className="DetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="deleteButtonPushed:"/>
+                <relationship kind="action" name="uploadButtonPushed:"/>
+                <relationship kind="outlet" name="actionButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="deleteButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="descriptionTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="imagePreview" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="imageSpinner" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="licenseLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="titleTextField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="uploadButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="ImageListCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageListCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="infoBox" candidateClass="UIView"/>
+                <relationship kind="outlet" name="progressBar" candidateClass="UIProgressView"/>
+                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="ImageScrollViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageScrollViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
+                <relationship kind="outlet" name="imageScrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="MyUploadsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MyUploadsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addMediaButtonPushed:"/>
+                <relationship kind="action" name="choosePhotoButtonPushed:"/>
+                <relationship kind="action" name="refreshButtonPushed:"/>
+                <relationship kind="action" name="takePhotoButtonPushed:"/>
+                <relationship kind="action" name="uploadButtonPushed:"/>
+                <relationship kind="outlet" name="addMediaButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="buttonLayerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="choosePhotoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="collectionView" candidateClass="UICollectionView"/>
+                <relationship kind="outlet" name="settingsButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="takePhotoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="uploadButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
+        <class className="SettingsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="debugSwitchPushed:"/>
+                <relationship kind="action" name="pushedDoneButton:"/>
+                <relationship kind="outlet" name="debugModeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="debugModeSwitch" candidateClass="UISwitch"/>
+                <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="passwordLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="uploadTargetLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="usernameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="UICollectionReusableView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionReusableView.h"/>
+        </class>
+        <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
+        <class className="WebViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WebViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="actionButtonPushed:"/>
+                <relationship kind="action" name="backButtonPushed:"/>
+                <relationship kind="action" name="forwardButtonPushed:"/>
+                <relationship kind="action" name="refreshButtonPushed:"/>
+                <relationship kind="action" name="stopButtonPushed:"/>
+                <relationship kind="outlet" name="actionButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="backButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="forwardButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="refreshButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="stopButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="titleNavItem" candidateClass="UINavigationItem"/>
+                <relationship kind="outlet" name="webView" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

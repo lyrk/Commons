@@ -31,6 +31,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChange:) name:kReachabilityChangedNotification object:nil];
 
@@ -103,7 +106,7 @@
     [self setAddMediaButton:nil];
     [self setTakePhotoButton:nil];
     [self setChoosePhotoButton:nil];
-    [self setButtonLayerView:nil];
+    [self setCollectionView:nil];
     [super viewDidUnload];
 }
 
