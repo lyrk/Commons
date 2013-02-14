@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "FileUpload.h"
 #import "mwapi/MWApi.h"
+#import "MWEventLogging/MWEventLogging.h"
 
 @interface CommonsApp : NSObject
 
@@ -19,6 +20,7 @@
 @property (nonatomic) BOOL debugMode;
 @property (strong, nonatomic) NSManagedObjectContext *context;
 @property (strong, nonatomic) MWApi *currentUploadOp;
+@property (strong, nonatomic) MWEventLogging *eventLog;
 
 + (CommonsApp *)singleton;
 

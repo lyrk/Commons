@@ -13,6 +13,7 @@
 
 - (id)initWithEndpointURL:(NSURL *)endpoint;
 
+- (void)setSchema:(NSString *)schemaName meta:(NSDictionary *)meta;
 - (void)setDefaults:(NSString *)schemaName defaults:(NSDictionary *)schemaDefaults;
 - (MWPromise *)log:(NSString *)schemaName event:(NSDictionary *)event;
 

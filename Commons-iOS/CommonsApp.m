@@ -28,6 +28,15 @@ static CommonsApp *singleton_;
     NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
     [MWI18N setLanguage:language];
 
+    NSURL *endPoint = [NSURL URLWithString:@"https://bits.wikimedia.org/event.gif"];
+    self.eventLog = [[MWEventLogging alloc] initWithEndpointURL:endPoint];
+    [self.eventLog setSchema:@"MobileAppLoginAttempts" meta:@{
+        @"revision": @5240393
+    }];
+    [self.eventLog setSchema:@"MobileAppUploadAttempts" meta:@{
+        @"revision": @5241449
+    }];
+
     // Register default perferences with 'defaults.plist' file
     NSString *defaultsFile = [[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"];
     NSDictionary *defaults = [NSDictionary dictionaryWithContentsOfFile:defaultsFile];
@@ -333,8 +342,6 @@ static CommonsApp *singleton_;
                                       withCookiePersistence:YES];
     [login done:^(MWApiResult *loginResult) {
        
-       NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
-       
        if (_currentUploadOp.isLoggedIn) {
            
            record.progress = @0.0f;
@@ -359,6 +366,13 @@ static CommonsApp *singleton_;
                if ([upload[@"result"] isEqualToString:@"Success"]) {
                    record.title = [self cleanupTitle:upload[@"filename"]];
 
+                   [self.eventLog log:@"MobileAppUploadAttempts" event:@{
+                        @"username": self.username,
+                        @"source": @"gallery", // fixme
+                        @"filename": fileName,
+                        @"result": @"success"
+                    }];
+
                    // Unfortunately we didn't get the thumbnail URL. :P
                    // Ask for it in a second request...
                    NSLog(@"fetching thumb URL after upload");
@@ -367,7 +381,13 @@ static CommonsApp *singleton_;
                        [deferred resolve:record];
                    }];
                } else {
-                   NSLog(@"failed upload!");
+                   [self.eventLog log:@"MobileAppUploadAttempts" event:@{
+                        @"username": self.username,
+                        @"source": @"gallery", // fixme
+                        @"filename": fileName,
+                        @"result": upload[@"result"]
+                    }];
+
                    // whaaaaaaat?
                    record.progress = @0.0f;
                    [self saveData];
@@ -379,16 +399,30 @@ static CommonsApp *singleton_;
            
            // Failure block
            [upload fail:^(NSError *error) {
-               NSLog(@"failed upload!");
+               [self.eventLog log:@"MobileAppUploadAttempts" event:@{
+                    @"username": self.username,
+                    @"source": @"gallery", // fixme
+                    @"filename": fileName,
+                    @"result": [error description] // ?
+                }];
                record.progress = @0.0f;
                [deferred reject:error];
            }];
        } else {
-           NSLog(@"not logged in");
+           [self.eventLog log:@"MobileAppLoginAttempts" event:@{
+                @"username": self.username,
+                @"source": @"launcher", // fixme?
+                @"result": loginResult.data[@"login"][@"result"] // and/or data[error][code]?
+            }];
        }
     }];
     [login fail:^(NSError *err) {
         [deferred reject:err];
+        [self.eventLog log:@"MobileAppLoginAttempts" event:@{
+            @"username": self.username,
+            @"source": @"launcher", // fixme?
+            @"result": [err description] // ?
+        }];
     }];
     return deferred.promise;
 }
