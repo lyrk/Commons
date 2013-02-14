@@ -103,43 +103,36 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <inset key="contentInset" minX="0.0" minY="44" maxX="0.0" maxY="44"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="YU7-DY-2uM">
-                            <size key="itemSize" width="300" height="200"/>
+                            <size key="itemSize" width="150" height="150"/>
                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageListCell" id="fxd-h5-oSR" customClass="ImageListCell">
-                                <rect key="frame" x="10" y="0.0" width="300" height="200"/>
+                                <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="XOQ-vH-P1a">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="200"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" id="okD-fs-BOe">
-                                            <rect key="frame" x="0.0" y="156" width="300" height="44"/>
+                                            <rect key="frame" x="0.0" y="106" width="150" height="44"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Image title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eYp-WC-xnS">
-                                                    <rect key="frame" x="9" y="11" width="158" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Queued" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6oN-oL-8y2">
-                                                    <rect key="frame" x="175" y="11" width="116" height="21"/>
+                                                    <rect key="frame" x="20" y="11" width="121" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" id="7Uq-lr-dsu">
-                                                    <rect key="frame" x="0.0" y="35" width="300" height="9"/>
+                                                    <rect key="frame" x="0.0" y="35" width="150" height="9"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 </progressView>
                                             </subviews>
@@ -148,12 +141,12 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <size key="customSize" width="300" height="200"/>
+                                <size key="customSize" width="150" height="150"/>
                                 <connections>
                                     <outlet property="image" destination="XOQ-vH-P1a" id="ODq-Px-xkj"/>
+                                    <outlet property="infoBox" destination="okD-fs-BOe" id="qDq-MR-MbT"/>
                                     <outlet property="progressBar" destination="7Uq-lr-dsu" id="kRb-fM-NSo"/>
                                     <outlet property="statusLabel" destination="6oN-oL-8y2" id="dNy-RZ-XEQ"/>
-                                    <outlet property="titleLabel" destination="eYp-WC-xnS" id="Jt4-Qw-ued"/>
                                     <segue destination="epi-E0-AsP" kind="push" identifier="DetailSegue" id="80O-WZ-gMr"/>
                                 </connections>
                             </collectionViewCell>
@@ -493,8 +486,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cc-by.png" width="16" height="16"/>
-        <image name="cc-sa.png" width="16" height="16"/>
+        <image name="cc-by.png" width="24" height="24"/>
+        <image name="cc-sa.png" width="24" height="24"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

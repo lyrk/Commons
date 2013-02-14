@@ -373,10 +373,10 @@
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // iPad: fit 3 across in portrait or 4 across landscape
-        return CGSizeMake(240.0f, 200.0f);
+        return CGSizeMake(240.0f, 240.0f);
     } else {
-        // iPhone/iPod: fit 1 across in portrait
-        return CGSizeMake(300.0f, 200.0f);
+        // iPhone/iPod: fit 2 across in portrait, 3 across in landscape
+        return CGSizeMake(150.0f, 150.0f);
     }
 }
 
@@ -418,7 +418,6 @@
     
     NSString *title = record.title;
     cell.title = title;
-    cell.titleLabel.text = title;
     /*
     if (record.thumbnailFile) {
         cell.image.image = [app loadThumbnail: record.thumbnailFile];
@@ -450,11 +449,13 @@
     }
     if (record.complete.boolValue) {
         // Old upload, already complete.
-        cell.statusLabel.text = [app prettyDate:record.created];
+        cell.infoBox.hidden = YES;
+        cell.statusLabel.text = @"";
         cell.progressBar.hidden = YES;
     } else {
         // Queued upload, not yet complete.
         // We have local data & progress info.
+        cell.infoBox.hidden = NO;
         if (record.progress.floatValue == 0.0f) {
             cell.progressBar.hidden = YES;
             cell.statusLabel.text = [MWMessage forKey:@"contribs-state-queued"].text;
