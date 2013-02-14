@@ -145,6 +145,11 @@
     NSLog(@"picked: %@", info);
     [CommonsApp.singleton prepareImage:info];
     [self dismissViewControllerAnimated:YES completion:nil];
+    if (self.popover) {
+        [self.popover dismissPopoverAnimated:YES];
+    }
+    self.choosePhotoButton.hidden = YES;
+    self.takePhotoButton.hidden = YES;
     
     self.uploadButton.enabled = YES;
 }
@@ -153,6 +158,8 @@
 {
     NSLog(@"canceled");
     [self dismissViewControllerAnimated:YES completion:nil];
+    self.choosePhotoButton.hidden = YES;
+    self.takePhotoButton.hidden = YES;
 }
 
 #pragma mark - Interface Items
@@ -266,7 +273,9 @@
         if (!self.popover) { // prevent crash when choose photo is tapped twice in succession
             self.popover = [[UIPopoverController alloc] initWithContentViewController:picker];
             self.popover.delegate = self;
-            [self.popover presentPopoverFromBarButtonItem:self.choosePhotoButton
+            CGRect rect = self.choosePhotoButton.frame;
+            [self.popover presentPopoverFromRect:rect
+                                          inView:self.view
                                  permittedArrowDirections:UIPopoverArrowDirectionAny
                                                  animated:YES];
         }
@@ -364,6 +373,8 @@
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
     self.popover = nil;
+    self.choosePhotoButton.hidden = YES;
+    self.takePhotoButton.hidden = YES;
 }
 
 
