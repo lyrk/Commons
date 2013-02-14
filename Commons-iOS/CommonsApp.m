@@ -352,7 +352,6 @@ static CommonsApp *singleton_;
                                                     comment:@"Uploaded with Commons for iOS"];
 
            [upload progress:^(NSDictionary *dict) {
-               NSLog(@"Got a progress block %@", dict);
                // Progress block
                NSNumber *bytesSent = dict[@"sent"];
                NSNumber *bytesTotal = dict[@"total"];
