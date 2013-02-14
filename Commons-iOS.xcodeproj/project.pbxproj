@@ -84,6 +84,7 @@
 		65C4D58916CCE3550077E0A2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		65C4D58A16CCE3550077E0A2 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		65C4D58D16CCE37F0077E0A2 /* LoginTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C4D58C16CCE37F0077E0A2 /* LoginTest.m */; };
+		65C4D58E16CCEE5E0077E0A2 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137D1816BE69B8006FA9BD /* libOCMock.a */; };
 		65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
 		65CA697F16C05B9700839D09 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
 		65CA698016C05B9700839D09 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
@@ -358,6 +359,7 @@
 				65C4D53E16CCE10B0077E0A2 /* Foundation.framework in Frameworks */,
 				65C4D53F16CCE10B0077E0A2 /* CoreGraphics.framework in Frameworks */,
 				65C4D55616CCE1900077E0A2 /* GHUnitIOS.framework in Frameworks */,
+				65C4D58E16CCEE5E0077E0A2 /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1161,6 +1163,10 @@
 				GCC_PREFIX_HEADER = "Commons-iOS-GHUnit-Testing/Commons-iOS-GHUnit-Testing-Prefix.pch";
 				INFOPLIST_FILE = "Commons-iOS-GHUnit-Testing/Commons-iOS-GHUnit-Testing-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Testing-Libraries\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -1185,6 +1191,10 @@
 				GCC_PREFIX_HEADER = "Commons-iOS-GHUnit-Testing/Commons-iOS-GHUnit-Testing-Prefix.pch";
 				INFOPLIST_FILE = "Commons-iOS-GHUnit-Testing/Commons-iOS-GHUnit-Testing-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Testing-Libraries\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
