@@ -163,7 +163,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Rsf-px-l7w"/>
-                        <barButtonItem systemItem="camera" id="PXx-zf-9Ct">
+                        <barButtonItem style="plain" systemItem="camera" id="PXx-zf-9Ct">
                             <connections>
                                 <action selector="takePhotoButtonPushed:" destination="Vu1-Bf-o5x" id="ND2-wL-l0d"/>
                             </connections>
@@ -171,14 +171,14 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="edQ-Xr-kM9"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="My Uploads" id="3XW-36-cry">
-                        <barButtonItem key="leftBarButtonItem" title="Settings" id="WRa-lC-y9h">
-                            <connections>
-                                <segue destination="CKn-7N-hi9" kind="modal" identifier="SettingsSegue" id="vuj-tf-OSP"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Upload" id="fnJ-FD-iFu">
+                        <barButtonItem key="leftBarButtonItem" title="Upload" id="fnJ-FD-iFu">
                             <connections>
                                 <action selector="uploadButtonPushed:" destination="Vu1-Bf-o5x" id="vUt-rv-sAH"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="settings.png" style="plain" id="WRa-lC-y9h">
+                            <connections>
+                                <segue destination="CKn-7N-hi9" kind="modal" identifier="SettingsSegue" id="vuj-tf-OSP"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -488,6 +488,7 @@
     <resources>
         <image name="cc-by.png" width="24" height="24"/>
         <image name="cc-sa.png" width="24" height="24"/>
+        <image name="settings.png" width="40" height="34"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

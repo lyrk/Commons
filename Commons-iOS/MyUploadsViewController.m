@@ -43,7 +43,6 @@
     // l10n
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
     self.navigationItem.title = [MWMessage forKey:@"contribs-title"].text;
-    self.settingsButton.title = [MWMessage forKey:@"contribs-settings-button"].text;
     self.uploadButton.title = [MWMessage forKey:@"contribs-upload-button"].text;
     self.choosePhotoButton.title = [MWMessage forKey:@"contribs-photo-library-button"].text;
     
@@ -184,7 +183,7 @@
         
         if ([self.fetchedResultsController.fetchedObjects count] > 0) {
             
-            [self.navigationItem setRightBarButtonItem:[self cancelButton] animated:YES];
+            [self.navigationItem setLeftBarButtonItem:[self cancelButton] animated:YES];
             
             NSLog(@"Upload ye files!");
             
@@ -200,7 +199,7 @@
                         
                          NSLog(@"Upload failed: %@", [error localizedDescription]);
                         
-                         self.navigationItem.rightBarButtonItem = [self uploadButton];
+                         self.navigationItem.leftBarButtonItem = [self uploadButton];
                         
                          UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-upload-failed"].text
                                                                              message:[error localizedDescription]
@@ -213,8 +212,8 @@
                     }];
                 } else {
                     NSLog(@"no more uploads");
-                    [self.navigationItem setRightBarButtonItem:self.uploadButton animated:YES];
-                    [self.navigationItem.rightBarButtonItem setEnabled:NO];
+                    [self.navigationItem setLeftBarButtonItem:self.uploadButton animated:YES];
+                    [self.navigationItem.leftBarButtonItem setEnabled:NO];
                     run = nil;
                 }
             };
@@ -280,7 +279,7 @@
     CommonsApp *app = [CommonsApp singleton];
     [app cancelCurrentUpload];
     
-    [self.navigationItem setRightBarButtonItem:self.uploadButton animated:YES];
+    [self.navigationItem setLeftBarButtonItem:self.uploadButton animated:YES];
     self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
 }
 
