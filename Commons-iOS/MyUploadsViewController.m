@@ -372,7 +372,7 @@
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // iPad: fit 3 across in portrait or 4 across landscape
-        return CGSizeMake(240.0f, 240.0f);
+        return CGSizeMake(245.0f, 245.0f);
     } else {
         // iPhone/iPod: fit 2 across in portrait, 3 across in landscape
         return CGSizeMake(150.0f, 150.0f);
