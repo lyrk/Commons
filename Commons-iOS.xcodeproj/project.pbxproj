@@ -83,6 +83,7 @@
 		65C4D58816CCE3550077E0A2 /* StorageTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 655BF5EE16C1052D00B22299 /* StorageTools.m */; };
 		65C4D58916CCE3550077E0A2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		65C4D58A16CCE3550077E0A2 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
+		65C4D58D16CCE37F0077E0A2 /* LoginTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C4D58C16CCE37F0077E0A2 /* LoginTest.m */; };
 		65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
 		65CA697F16C05B9700839D09 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
 		65CA698016C05B9700839D09 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
@@ -224,6 +225,7 @@
 		65C4D54E16CCE10B0077E0A2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		65C4D55016CCE10B0077E0A2 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		65C4D55516CCE1900077E0A2 /* GHUnitIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnitIOS.framework; path = "Testing-Libraries/GHUnitIOS.framework"; sourceTree = "<group>"; };
+		65C4D58C16CCE37F0077E0A2 /* LoginTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginTest.m; sourceTree = "<group>"; };
 		65CA697416BFCE3300839D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D408616C169B760800D6ACB0 /* Commons-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Commons-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4086170169B760800D6ACB0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -454,6 +456,7 @@
 			isa = PBXGroup;
 			children = (
 				65C4D54116CCE10B0077E0A2 /* Supporting Files */,
+				65C4D58C16CCE37F0077E0A2 /* LoginTest.m */,
 			);
 			path = "Commons-iOS-GHUnit-Testing";
 			sourceTree = "<group>";
@@ -960,6 +963,7 @@
 				65C4D58916CCE3550077E0A2 /* CommonsApp.m in Sources */,
 				65C4D58A16CCE3550077E0A2 /* BrowserHelper.m in Sources */,
 				65C4D54716CCE10B0077E0A2 /* main.m in Sources */,
+				65C4D58D16CCE37F0077E0A2 /* LoginTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
