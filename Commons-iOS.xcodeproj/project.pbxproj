@@ -57,6 +57,32 @@
 		65C4D56E16CCE31E0077E0A2 /* messages-en.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0384916C463C700330A7F /* messages-en.json */; };
 		65C4D56F16CCE31E0077E0A2 /* messages-fr.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385716C47B5200330A7F /* messages-fr.json */; };
 		65C4D57016CCE31E0077E0A2 /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
+		65C4D57116CCE3550077E0A2 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
+		65C4D57216CCE3550077E0A2 /* MWMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0383B16C4567500330A7F /* MWMessage.m */; };
+		65C4D57316CCE3550077E0A2 /* MWMessageStore.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0384016C462C800330A7F /* MWMessageStore.m */; };
+		65C4D57416CCE3550077E0A2 /* MWI18N.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0385316C46FDD00330A7F /* MWI18N.m */; };
+		65C4D57516CCE3550077E0A2 /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
+		65C4D57616CCE3550077E0A2 /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
+		65C4D57716CCE3550077E0A2 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
+		65C4D57816CCE3550077E0A2 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
+		65C4D57916CCE3550077E0A2 /* MWApiMultipartRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */; };
+		65C4D57A16CCE3550077E0A2 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
+		65C4D57B16CCE3550077E0A2 /* MWApiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */; };
+		65C4D57C16CCE3550077E0A2 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
+		65C4D57D16CCE3550077E0A2 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
+		65C4D57E16CCE3550077E0A2 /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
+		65C4D57F16CCE3550077E0A2 /* MWEventLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */; };
+		65C4D58016CCE3550077E0A2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
+		65C4D58116CCE3550077E0A2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
+		65C4D58216CCE3550077E0A2 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
+		65C4D58316CCE3550077E0A2 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
+		65C4D58416CCE3550077E0A2 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
+		65C4D58516CCE3550077E0A2 /* ImageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281216C19C4D00BC3ABE /* ImageListCell.m */; };
+		65C4D58616CCE3550077E0A2 /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
+		65C4D58716CCE3550077E0A2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
+		65C4D58816CCE3550077E0A2 /* StorageTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 655BF5EE16C1052D00B22299 /* StorageTools.m */; };
+		65C4D58916CCE3550077E0A2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
+		65C4D58A16CCE3550077E0A2 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
 		65CA697F16C05B9700839D09 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
 		65CA698016C05B9700839D09 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
@@ -907,6 +933,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C4D57116CCE3550077E0A2 /* Reachability.m in Sources */,
+				65C4D57216CCE3550077E0A2 /* MWMessage.m in Sources */,
+				65C4D57316CCE3550077E0A2 /* MWMessageStore.m in Sources */,
+				65C4D57416CCE3550077E0A2 /* MWI18N.m in Sources */,
+				65C4D57516CCE3550077E0A2 /* MWDeferred.m in Sources */,
+				65C4D57616CCE3550077E0A2 /* MWPromise.m in Sources */,
+				65C4D57716CCE3550077E0A2 /* Http.m in Sources */,
+				65C4D57816CCE3550077E0A2 /* MWApi.m in Sources */,
+				65C4D57916CCE3550077E0A2 /* MWApiMultipartRequestBuilder.m in Sources */,
+				65C4D57A16CCE3550077E0A2 /* MWApiRequestBuilder.m in Sources */,
+				65C4D57B16CCE3550077E0A2 /* MWApiResult.m in Sources */,
+				65C4D57C16CCE3550077E0A2 /* NSString+Extras.m in Sources */,
+				65C4D57D16CCE3550077E0A2 /* NSURLRequest+DictionaryRequest.m in Sources */,
+				65C4D57E16CCE3550077E0A2 /* MWNetworkActivityIndicatorManager.m in Sources */,
+				65C4D57F16CCE3550077E0A2 /* MWEventLogging.m in Sources */,
+				65C4D58016CCE3550077E0A2 /* AppDelegate.m in Sources */,
+				65C4D58116CCE3550077E0A2 /* SettingsViewController.m in Sources */,
+				65C4D58216CCE3550077E0A2 /* DetailTableViewController.m in Sources */,
+				65C4D58316CCE3550077E0A2 /* WebViewController.m in Sources */,
+				65C4D58416CCE3550077E0A2 /* ImageScrollViewController.m in Sources */,
+				65C4D58516CCE3550077E0A2 /* ImageListCell.m in Sources */,
+				65C4D58616CCE3550077E0A2 /* MyUploadsViewController.m in Sources */,
+				65C4D58716CCE3550077E0A2 /* FileUpload.m in Sources */,
+				65C4D58816CCE3550077E0A2 /* StorageTools.m in Sources */,
+				65C4D58916CCE3550077E0A2 /* CommonsApp.m in Sources */,
+				65C4D58A16CCE3550077E0A2 /* BrowserHelper.m in Sources */,
 				65C4D54716CCE10B0077E0A2 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
