@@ -146,6 +146,8 @@
 		D41D281716C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
 		D41D281816C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
 		D4284F1016C9C2AA008640B0 /* MWEventLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */; };
+		D43E578D16CD9C3C00FBB0F9 /* photo-button-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D43E578B16CD9C3C00FBB0F9 /* photo-button-bg.png */; };
+		D43E578E16CD9C3C00FBB0F9 /* photo-button-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D43E578C16CD9C3C00FBB0F9 /* photo-button-bg@2x.png */; };
 		D44DDD3C16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
 		D44DDD3D16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
 		D44DDD3E16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
@@ -272,6 +274,8 @@
 		D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyUploadsViewController.m; sourceTree = "<group>"; };
 		D4284F0E16C9C2AA008640B0 /* MWEventLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWEventLogging.h; path = MWEventLogging/MWEventLogging.h; sourceTree = "<group>"; };
 		D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWEventLogging.m; path = MWEventLogging/MWEventLogging.m; sourceTree = "<group>"; };
+		D43E578B16CD9C3C00FBB0F9 /* photo-button-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-button-bg.png"; sourceTree = "<group>"; };
+		D43E578C16CD9C3C00FBB0F9 /* photo-button-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-button-bg@2x.png"; sourceTree = "<group>"; };
 		D44DDD3816CC4D6000318FBF /* MWDeferred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWDeferred.h; path = mwapi/MWDeferred.h; sourceTree = "<group>"; };
 		D44DDD3916CC4D6000318FBF /* MWDeferred.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWDeferred.m; path = mwapi/MWDeferred.m; sourceTree = "<group>"; };
 		D44DDD3A16CC4D6000318FBF /* MWPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPromise.h; path = mwapi/MWPromise.h; sourceTree = "<group>"; };
@@ -564,6 +568,8 @@
 		D4086177169B760800D6ACB0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D43E578B16CD9C3C00FBB0F9 /* photo-button-bg.png */,
+				D43E578C16CD9C3C00FBB0F9 /* photo-button-bg@2x.png */,
 				D485559D16CD804900ED60B1 /* add_image.png */,
 				D485559E16CD804900ED60B1 /* add_image@2x.png */,
 				D485559F16CD804900ED60B1 /* camera.png */,
@@ -884,6 +890,8 @@
 				D48555AA16CD804900ED60B1 /* gallery@2x.png in Resources */,
 				D48555AB16CD804900ED60B1 /* settings.png in Resources */,
 				D48555AC16CD804900ED60B1 /* settings@2x.png in Resources */,
+				D43E578D16CD9C3C00FBB0F9 /* photo-button-bg.png in Resources */,
+				D43E578E16CD9C3C00FBB0F9 /* photo-button-bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,9 +14,10 @@
 UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *choosePhotoButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *takePhotoButton;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
+@property (weak, nonatomic) IBOutlet UIButton *addMediaButton;
+@property (weak, nonatomic) IBOutlet UIButton *takePhotoButton;
+@property (weak, nonatomic) IBOutlet UIButton *choosePhotoButton;
+@property (weak, nonatomic) IBOutlet UIView *buttonLayerView;
 
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
@@ -28,5 +29,6 @@ UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverCo
 - (IBAction)takePhotoButtonPushed:(id)sender;
 - (IBAction)choosePhotoButtonPushed:(id)sender;
 - (IBAction)refreshButtonPushed:(id)sender;
+- (IBAction)addMediaButtonPushed:(id)sender;
 
 @end

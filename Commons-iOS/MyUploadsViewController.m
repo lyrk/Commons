@@ -44,7 +44,7 @@
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
     self.navigationItem.title = [MWMessage forKey:@"contribs-title"].text;
     self.uploadButton.title = [MWMessage forKey:@"contribs-upload-button"].text;
-    self.choosePhotoButton.title = [MWMessage forKey:@"contribs-photo-library-button"].text;
+    //self.choosePhotoButton.title = [MWMessage forKey:@"contribs-photo-library-button"].text; // fixme set accessibility title
     
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         // Camera is available
@@ -52,6 +52,8 @@
         // Clicking 'take photo' in simulator *will* crash, so disable the button.
         self.takePhotoButton.enabled = NO;
     }
+    self.takePhotoButton.hidden = YES;
+    self.choosePhotoButton.hidden = YES;
     
     CommonsApp *app = [CommonsApp singleton];
     self.fetchedResultsController = [app fetchUploadRecords];
@@ -93,12 +95,15 @@
     [self setUploadButton:nil];
     [self setChoosePhotoButton:nil];
     [self setTakePhotoButton:nil];
-    [self setRefreshButton:nil];
 
     [self setFetchedResultsController:nil];
     self.popover = nil;
     self.selectedRecord = nil;
 
+    [self setAddMediaButton:nil];
+    [self setTakePhotoButton:nil];
+    [self setChoosePhotoButton:nil];
+    [self setButtonLayerView:nil];
     [super viewDidUnload];
 }
 
@@ -272,6 +277,11 @@
     [refresh done:^(id arg) {
         [self.refreshControl endRefreshing];
     }];
+}
+
+- (IBAction)addMediaButtonPushed:(id)sender {
+    self.takePhotoButton.hidden = !self.takePhotoButton.hidden;
+    self.choosePhotoButton.hidden = !self.choosePhotoButton.hidden;
 }
 
 - (void)cancelButtonPushed:(id)sender {

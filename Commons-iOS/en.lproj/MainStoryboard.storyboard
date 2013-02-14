@@ -108,6 +108,65 @@
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                         </collectionViewFlowLayout>
+                        <view key="backgroundView" contentMode="scaleAspectFill" id="Qqx-tP-usa">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="QgA-Pl-hEh">
+                                    <rect key="frame" x="0.0" y="416" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                    <items/>
+                                </toolbar>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vMt-yt-DPQ">
+                                    <rect key="frame" x="124" y="360" width="72" height="72"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" image="add_image.png" backgroundImage="photo-button-bg.png">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="addMediaButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="kev-wY-GZN"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YkX-Ws-keA">
+                                    <rect key="frame" x="38" y="302" width="72" height="72"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" image="camera.png" backgroundImage="photo-button-bg.png">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="addMediaButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="ose-vD-6yv"/>
+                                        <action selector="takePhotoButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="SWs-qe-gaQ"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vaw-aE-DoK">
+                                    <rect key="frame" x="216" y="302" width="72" height="72"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" image="gallery.png" backgroundImage="photo-button-bg.png">
+                                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <state key="highlighted">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="addMediaButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="fcI-sl-Wns"/>
+                                        <action selector="choosePhotoButtonPushed:" destination="Vu1-Bf-o5x" eventType="touchUpInside" id="P8V-8Z-AOo"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageListCell" id="fxd-h5-oSR" customClass="ImageListCell">
                                 <rect key="frame" x="5" y="0.0" width="150" height="150"/>
@@ -156,20 +215,7 @@
                             <outlet property="delegate" destination="Vu1-Bf-o5x" id="fwU-J6-I3J"/>
                         </connections>
                     </collectionView>
-                    <toolbarItems>
-                        <barButtonItem title="Photos" id="cpK-jB-1OI">
-                            <connections>
-                                <action selector="choosePhotoButtonPushed:" destination="Vu1-Bf-o5x" id="fKK-vt-hM8"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Rsf-px-l7w"/>
-                        <barButtonItem style="plain" systemItem="camera" id="PXx-zf-9Ct">
-                            <connections>
-                                <action selector="takePhotoButtonPushed:" destination="Vu1-Bf-o5x" id="ND2-wL-l0d"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="edQ-Xr-kM9"/>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="My Uploads" id="3XW-36-cry">
                         <barButtonItem key="leftBarButtonItem" title="Upload" id="fnJ-FD-iFu">
                             <connections>
@@ -183,11 +229,13 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="blackTranslucent" prompted="NO"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="blackTranslucent"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="choosePhotoButton" destination="cpK-jB-1OI" id="RFf-A3-Nz9"/>
+                        <outlet property="addMediaButton" destination="vMt-yt-DPQ" id="XHf-Yf-nBW"/>
+                        <outlet property="buttonLayerView" destination="Qqx-tP-usa" id="YTK-2F-V0N"/>
+                        <outlet property="choosePhotoButton" destination="Vaw-aE-DoK" id="r5o-HO-nY3"/>
                         <outlet property="settingsButton" destination="WRa-lC-y9h" id="kpa-ih-D2t"/>
-                        <outlet property="takePhotoButton" destination="PXx-zf-9Ct" id="RGH-Jf-2dZ"/>
+                        <outlet property="takePhotoButton" destination="YkX-Ws-keA" id="a1J-KL-Igg"/>
                         <outlet property="uploadButton" destination="fnJ-FD-iFu" id="fPU-wI-MXR"/>
                     </connections>
                 </collectionViewController>
@@ -486,8 +534,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add_image.png" width="32" height="27"/>
+        <image name="camera.png" width="30" height="25"/>
         <image name="cc-by.png" width="24" height="24"/>
         <image name="cc-sa.png" width="24" height="24"/>
+        <image name="gallery.png" width="30" height="25"/>
+        <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="40" height="34"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
