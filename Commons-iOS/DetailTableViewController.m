@@ -12,6 +12,7 @@
 #import "ImageScrollViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MWI18N/MWMessage.h"
+#import "MyUploadsViewController.h"
 
 @interface DetailTableViewController ()
 
@@ -203,8 +204,9 @@
 }
 
 - (IBAction)uploadButtonPushed:(id)sender {
-    if ([[self.navigationController.viewControllers objectAtIndex:0] respondsToSelector:@selector(uploadButtonPushed:)]) {
-        [[self.navigationController.viewControllers objectAtIndex:0] performSelector:@selector(uploadButtonPushed:)];
+    MyUploadsViewController *controller = [self.navigationController.viewControllers objectAtIndex:0];
+    if ([controller respondsToSelector:@selector(uploadButtonPushed:)]) {
+        [controller performSelector:@selector(uploadButtonPushed:) withObject:controller.uploadButton];
     }
     [self popViewControllerAnimated];
 }
