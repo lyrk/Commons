@@ -53,6 +53,10 @@
 		65C4D56A16CCE2E30077E0A2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086182169B760800D6ACB0 /* Default.png */; };
 		65C4D56B16CCE2E30077E0A2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086184169B760800D6ACB0 /* Default@2x.png */; };
 		65C4D56C16CCE2E30077E0A2 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086186169B760800D6ACB0 /* Default-568h@2x.png */; };
+		65C4D56D16CCE3110077E0A2 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */; };
+		65C4D56E16CCE31E0077E0A2 /* messages-en.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0384916C463C700330A7F /* messages-en.json */; };
+		65C4D56F16CCE31E0077E0A2 /* messages-fr.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385716C47B5200330A7F /* messages-fr.json */; };
+		65C4D57016CCE31E0077E0A2 /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
 		65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
 		65CA697F16C05B9700839D09 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
 		65CA698016C05B9700839D09 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
@@ -761,6 +765,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65C4D56E16CCE31E0077E0A2 /* messages-en.json in Resources */,
+				65C4D56F16CCE31E0077E0A2 /* messages-fr.json in Resources */,
+				65C4D57016CCE31E0077E0A2 /* messages-qqq.json in Resources */,
+				65C4D56D16CCE3110077E0A2 /* MainStoryboard.storyboard in Resources */,
 				65C4D55C16CCE2E20077E0A2 /* Commons-logo-72@2x.png in Resources */,
 				65C4D55D16CCE2E20077E0A2 /* Commons-logo-72.png in Resources */,
 				65C4D55E16CCE2E30077E0A2 /* Default-Landscape@2x~ipad.png in Resources */,
