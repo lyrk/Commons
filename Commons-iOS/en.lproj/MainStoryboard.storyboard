@@ -493,8 +493,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cc-by.png" width="24" height="24"/>
-        <image name="cc-sa.png" width="24" height="24"/>
+        <image name="cc-by.png" width="16" height="16"/>
+        <image name="cc-sa.png" width="16" height="16"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
