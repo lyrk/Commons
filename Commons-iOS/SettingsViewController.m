@@ -82,8 +82,6 @@
                               withCookiePersistence:YES];
         [login done:^(MWApiResult *loginResult) {
             
-            NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
-            
             if (mwapi.isLoggedIn) {
                 // Credentials verified
                 
@@ -100,29 +98,25 @@
             } else {
                 // Credentials invalid
                 
-                NSLog(@"Credentials invalid!");
-                
                 // Erase saved credentials so that the credentials are validated every time they are changed
                 app.username = @"";
                 app.password = @"";
                 [app saveCredentials];
                 
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Uh oh!"
-                                                                    message:@"Your username and/or password is incorrect"
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-bad-password-title"]
+                                                                    message:[MWMessage forKey:@"error-bad-password"]
                                                                    delegate:nil
-                                                          cancelButtonTitle:@"Dismiss"
+                                                          cancelButtonTitle:[MWMessage forKey:@"error-dismiss"]
                                                           otherButtonTitles:nil];
                 [alertView show];
             }
         }];
         [login fail:^(NSError *error) {
             
-            NSLog(@"Login failed: %@", [error localizedDescription]);
-            
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Login failed!"
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-login-fail"].text
                                                                 message:[error localizedDescription]
                                                                delegate:nil
-                                                      cancelButtonTitle:@"Dismiss"
+                                                      cancelButtonTitle:[MWMessage forKey:@"error-dismiss"]
                                                       otherButtonTitles:nil];
             [alertView show];
         }];
