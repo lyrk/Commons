@@ -103,10 +103,10 @@
                 app.password = @"";
                 [app saveCredentials];
                 
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-bad-password-title"]
-                                                                    message:[MWMessage forKey:@"error-bad-password"]
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-bad-password-title"].text
+                                                                    message:[MWMessage forKey:@"error-bad-password"].text
                                                                    delegate:nil
-                                                          cancelButtonTitle:[MWMessage forKey:@"error-dismiss"]
+                                                          cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
                                                           otherButtonTitles:nil];
                 [alertView show];
             }
@@ -116,7 +116,7 @@
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-login-fail"].text
                                                                 message:[error localizedDescription]
                                                                delegate:nil
-                                                      cancelButtonTitle:[MWMessage forKey:@"error-dismiss"]
+                                                      cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
                                                       otherButtonTitles:nil];
             [alertView show];
         }];
