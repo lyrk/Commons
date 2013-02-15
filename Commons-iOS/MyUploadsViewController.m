@@ -85,6 +85,9 @@
     [super viewWillAppear:animated];
     
     self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
+    
+    // hide the standard toolbar and show our own
+    [self.navigationController setToolbarHidden:YES animated:YES];
 }
 
 - (void)didReceiveMemoryWarning
