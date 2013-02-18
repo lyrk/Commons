@@ -44,7 +44,9 @@ static CommonsApp *singleton_;
     
     [self loadCredentials];
     [self setupData];
-    [self fetchUploadRecords];
+    if ([self.username length] != 0) { // @todo handle lack of upload records
+        [self fetchUploadRecords];
+    }
 }
 
 - (NSString *)version
@@ -283,6 +285,7 @@ static CommonsApp *singleton_;
                                                                                             cacheName:nil];
     NSError *error = nil;
     [controller performFetch:&error];
+
     return controller;
 }
 
