@@ -8,7 +8,6 @@
 
 #import <GHUnitIOS/GHUnit.h>
 #import "MWApi.h"
-#import "CommonsApp.h"
 
 @interface LoginTest : GHAsyncTestCase
 

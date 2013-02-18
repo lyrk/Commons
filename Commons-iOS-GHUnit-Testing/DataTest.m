@@ -8,7 +8,6 @@
 
 #import <GHUnitIOS/GHUnit.h>
 #import "CommonsApp.h"
-#import <CoreData/CoreData.h>
 
 @interface DataTest : GHTestCase
 
