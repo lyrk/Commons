@@ -11,14 +11,10 @@
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
 		65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		65137CD816BE4C3B006FA9BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
-		65137CDE16BE4C3B006FA9BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65137CDC16BE4C3B006FA9BD /* InfoPlist.strings */; };
-		65137CE116BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 65137CE016BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m */; };
 		65137CF716BE4C8C006FA9BD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */; };
 		65137D0716BE6696006FA9BD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */; };
 		65137D0816BE6696006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		65137D0916BE6696006FA9BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
-		65137D0F16BE6696006FA9BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65137D0D16BE6696006FA9BD /* InfoPlist.strings */; };
-		65137D1216BE6696006FA9BD /* Commons_iOS_Application_Testing.m in Sources */ = {isa = PBXBuildFile; fileRef = 65137D1116BE6696006FA9BD /* Commons_iOS_Application_Testing.m */; };
 		65137D2016BE69B8006FA9BD /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137D1816BE69B8006FA9BD /* libOCMock.a */; };
 		655BF5EF16C1052D00B22299 /* StorageTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 655BF5EE16C1052D00B22299 /* StorageTools.m */; };
 		655BF5F016C1052D00B22299 /* StorageTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 655BF5EE16C1052D00B22299 /* StorageTools.m */; };
@@ -208,18 +204,8 @@
 		1F7C6BF716BEEE4D00B7C558 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		65137CDB16BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-iOS-Logic-Testing-Info.plist"; sourceTree = "<group>"; };
-		65137CDD16BE4C3B006FA9BD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		65137CDF16BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Commons_iOS_Logic_Testing.h; sourceTree = "<group>"; };
-		65137CE016BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Commons_iOS_Logic_Testing.m; sourceTree = "<group>"; };
-		65137CE216BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commons-iOS-Logic-Testing-Prefix.pch"; sourceTree = "<group>"; };
 		65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Application-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		65137D0C16BE6696006FA9BD /* Commons-iOS-Application-Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-iOS-Application-Testing-Info.plist"; sourceTree = "<group>"; };
-		65137D0E16BE6696006FA9BD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		65137D1016BE6696006FA9BD /* Commons_iOS_Application_Testing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Commons_iOS_Application_Testing.h; sourceTree = "<group>"; };
-		65137D1116BE6696006FA9BD /* Commons_iOS_Application_Testing.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Commons_iOS_Application_Testing.m; sourceTree = "<group>"; };
-		65137D1316BE6696006FA9BD /* Commons-iOS-Application-Testing-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commons-iOS-Application-Testing-Prefix.pch"; sourceTree = "<group>"; };
 		65137D1816BE69B8006FA9BD /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = "Testing-Libraries/libOCMock.a"; sourceTree = "<group>"; };
 		65137D1A16BE69B8006FA9BD /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
 		65137D1B16BE69B8006FA9BD /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
@@ -405,46 +391,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		65137CD916BE4C3B006FA9BD /* Commons-iOS-Logic-Testing */ = {
-			isa = PBXGroup;
-			children = (
-				65137CDF16BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.h */,
-				65137CE016BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m */,
-				65137CDA16BE4C3B006FA9BD /* Supporting Files */,
-			);
-			path = "Commons-iOS-Logic-Testing";
-			sourceTree = "<group>";
-		};
-		65137CDA16BE4C3B006FA9BD /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				65137CDB16BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Info.plist */,
-				65137CDC16BE4C3B006FA9BD /* InfoPlist.strings */,
-				65137CE216BE4C3B006FA9BD /* Commons-iOS-Logic-Testing-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		65137D0A16BE6696006FA9BD /* Commons-iOS-Application-Testing */ = {
-			isa = PBXGroup;
-			children = (
-				65137D1016BE6696006FA9BD /* Commons_iOS_Application_Testing.h */,
-				65137D1116BE6696006FA9BD /* Commons_iOS_Application_Testing.m */,
-				65137D0B16BE6696006FA9BD /* Supporting Files */,
-			);
-			path = "Commons-iOS-Application-Testing";
-			sourceTree = "<group>";
-		};
-		65137D0B16BE6696006FA9BD /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				65137D0C16BE6696006FA9BD /* Commons-iOS-Application-Testing-Info.plist */,
-				65137D0D16BE6696006FA9BD /* InfoPlist.strings */,
-				65137D1316BE6696006FA9BD /* Commons-iOS-Application-Testing-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		65137D1716BE6999006FA9BD /* Testing-Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -514,8 +460,6 @@
 				D40CE3CC16BB390A00E63B27 /* Default-Portrait~ipad.png */,
 				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,
-				65137CD916BE4C3B006FA9BD /* Commons-iOS-Logic-Testing */,
-				65137D0A16BE6696006FA9BD /* Commons-iOS-Application-Testing */,
 				65C4D54016CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing */,
 				65137D1716BE6999006FA9BD /* Testing-Libraries */,
 				D408616F169B760800D6ACB0 /* Frameworks */,
@@ -810,7 +754,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65137CDE16BE4C3B006FA9BD /* InfoPlist.strings in Resources */,
 				D4E0384B16C463C700330A7F /* messages-en.json in Resources */,
 				D4E0385916C47B5200330A7F /* messages-fr.json in Resources */,
 				D4E0385D16C47B6C00330A7F /* messages-qqq.json in Resources */,
@@ -821,7 +764,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65137D0F16BE6696006FA9BD /* InfoPlist.strings in Resources */,
 				D4E0384C16C463C700330A7F /* messages-en.json in Resources */,
 				D4E0385A16C47B5200330A7F /* messages-fr.json in Resources */,
 				D4E0385E16C47B6C00330A7F /* messages-qqq.json in Resources */,
@@ -937,7 +879,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65137CE116BE4C3B006FA9BD /* Commons_iOS_Logic_Testing.m in Sources */,
 				65CA697F16C05B9700839D09 /* Http.m in Sources */,
 				65CA698016C05B9700839D09 /* MWApi.m in Sources */,
 				65CA698116C05B9700839D09 /* MWApiMultipartRequestBuilder.m in Sources */,
@@ -969,7 +910,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65137D1216BE6696006FA9BD /* Commons_iOS_Application_Testing.m in Sources */,
 				D41D281416C19C4D00BC3ABE /* ImageListCell.m in Sources */,
 				D41D281816C19CE100BC3ABE /* MyUploadsViewController.m in Sources */,
 				D4E0383E16C4567500330A7F /* MWMessage.m in Sources */,
@@ -1055,22 +995,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		65137CDC16BE4C3B006FA9BD /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				65137CDD16BE4C3B006FA9BD /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		65137D0D16BE6696006FA9BD /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				65137D0E16BE6696006FA9BD /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		65C4D54316CCE10B0077E0A2 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
