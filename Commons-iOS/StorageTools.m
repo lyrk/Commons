@@ -91,4 +91,16 @@
     return NULL;
 }
 
+/**
+ * Generate a UUID.
+ * @return (NSString *)universally unique identifier
+ */
++(NSString *)UUID
+{
+    CFUUIDRef aUUID = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, aUUID);
+    CFRelease(aUUID);
+    return (__bridge NSString *)string;
+}
+
 @end

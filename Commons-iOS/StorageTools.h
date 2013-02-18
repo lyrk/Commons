@@ -12,5 +12,6 @@
 
 -(NSNumber *)freeDiskSpace;
 -(NSNumber *)totalDiskSpace;
++(NSString *)UUID;
 
 @end
