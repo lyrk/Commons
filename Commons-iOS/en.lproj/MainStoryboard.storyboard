@@ -218,7 +218,7 @@
                                 <action selector="uploadButtonPushed:" destination="jET-mn-Ts4" id="Sht-UV-8oh"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="settings.png" style="plain" id="dpF-J9-5J3">
+                        <barButtonItem key="rightBarButtonItem" image="settings.png" id="dpF-J9-5J3">
                             <connections>
                                 <segue destination="CKn-7N-hi9" kind="modal" identifier="SettingsSegue" id="6dp-eM-W06"/>
                             </connections>
