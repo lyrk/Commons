@@ -8,9 +8,11 @@
 
 #import <GHUnitIOS/GHUnit.h>
 #import "MWApi.h"
-#import "MWPromise.h"
+#import "CommonsApp.h"
 
 @interface LoginTest : GHAsyncTestCase
+
+@property(nonatomic, strong) NSURL *url;
 
 @end
 
@@ -21,6 +23,12 @@
     return NO;
 }
 
+- (void)setUp
+{
+    NSString *wikiURLBase = @"https://test.wikipedia.org";
+    self.url = [NSURL URLWithString:[wikiURLBase stringByAppendingString:@"/w/api.php"]];
+}
+
 /**
  * Test the login process. Use invalid credentials for now.
  */
@@ -28,11 +36,7 @@
 {
     [self prepare];
 
-    NSString *wikiURLBase = @"https://test.wikipedia.org";
-    NSURL *url = [NSURL URLWithString:[wikiURLBase stringByAppendingString:@"/w/api.php"]];
-
-    NSLog(@"url=%@", url);
-    MWApi *api = [[MWApi alloc] initWithApiUrl:url];
+    MWApi *api = [[MWApi alloc] initWithApiUrl:self.url];
 
     NSString *username = @"BadUsername";
     NSString *password = @"BadPassword";
