@@ -12,8 +12,8 @@
 @implementation NSString (Extras)
 
 - (NSString *)urlEncodedUTF8String {
-    return (__bridge id)CFURLCreateStringByAddingPercentEscapes(0, (__bridge CFStringRef)self, 0,
-                                                       (CFStringRef)@";/?:@&=$+{}<>,", kCFStringEncodingUTF8);
+    return (__bridge_transfer id)CFURLCreateStringByAddingPercentEscapes(0, (__bridge CFStringRef)self, 0,
+                                                       (__bridge CFStringRef)@";/?:@&=$+{}<>,", kCFStringEncodingUTF8);
 }
 
 + (NSString *)sha1:(NSString *)dataFromString isFile:(BOOL)isFile
