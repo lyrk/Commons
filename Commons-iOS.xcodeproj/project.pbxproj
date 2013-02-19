@@ -59,7 +59,7 @@
 		65C4D57416CCE3550077E0A2 /* MWI18N.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0385316C46FDD00330A7F /* MWI18N.m */; };
 		65C4D57516CCE3550077E0A2 /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
 		65C4D57616CCE3550077E0A2 /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
-		65C4D57716CCE3550077E0A2 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
+		65C4D57716CCE3550077E0A2 /* MWHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* MWHttp.m */; };
 		65C4D57816CCE3550077E0A2 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
 		65C4D57916CCE3550077E0A2 /* MWApiMultipartRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */; };
 		65C4D57A16CCE3550077E0A2 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
@@ -82,7 +82,7 @@
 		65C4D58D16CCE37F0077E0A2 /* LoginTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C4D58C16CCE37F0077E0A2 /* LoginTest.m */; };
 		65C4D58E16CCEE5E0077E0A2 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137D1816BE69B8006FA9BD /* libOCMock.a */; };
 		65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65CA697416BFCE3300839D09 /* QuartzCore.framework */; };
-		65CA697F16C05B9700839D09 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
+		65CA697F16C05B9700839D09 /* MWHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* MWHttp.m */; };
 		65CA698016C05B9700839D09 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
 		65CA698116C05B9700839D09 /* MWApiMultipartRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */; };
 		65CA698216C05B9700839D09 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
@@ -168,8 +168,7 @@
 		D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		D4C08F2A16AF47300069172D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
-		D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */ = {isa = PBXBuildFile; fileRef = D4D0E1E7169BA0F4003047A8 /* mwapi */; };
-		D4D0E1F2169BA5E2003047A8 /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* Http.m */; };
+		D4D0E1F2169BA5E2003047A8 /* MWHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* MWHttp.m */; };
 		D4D0E1F3169BA5E2003047A8 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
 		D4D0E1F4169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */; };
 		D4D0E1F6169BA5E2003047A8 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
@@ -270,7 +269,7 @@
 		D44DDD3916CC4D6000318FBF /* MWDeferred.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWDeferred.m; path = mwapi/MWDeferred.m; sourceTree = "<group>"; };
 		D44DDD3A16CC4D6000318FBF /* MWPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPromise.h; path = mwapi/MWPromise.h; sourceTree = "<group>"; };
 		D44DDD3B16CC4D6000318FBF /* MWPromise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWPromise.m; path = mwapi/MWPromise.m; sourceTree = "<group>"; };
-		D450A0D816B3477400D1D1E2 /* Http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Http.h; path = mwapi/Http.h; sourceTree = "<group>"; };
+		D450A0D816B3477400D1D1E2 /* MWHttp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWHttp.h; path = mwapi/MWHttp.h; sourceTree = "<group>"; };
 		D450A0D916B3477400D1D1E2 /* MWApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApi.h; path = mwapi/MWApi.h; sourceTree = "<group>"; };
 		D450A0DA16B3477400D1D1E2 /* MWApiMultipartRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiMultipartRequestBuilder.h; path = mwapi/MWApiMultipartRequestBuilder.h; sourceTree = "<group>"; };
 		D450A0DB16B3477400D1D1E2 /* MWApiRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiRequestBuilder.h; path = mwapi/MWApiRequestBuilder.h; sourceTree = "<group>"; };
@@ -299,8 +298,7 @@
 		D4B83E2016BC950900ABAF94 /* BrowserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserHelper.h; sourceTree = "<group>"; };
 		D4B83E2116BC950900ABAF94 /* BrowserHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserHelper.m; sourceTree = "<group>"; };
 		D4C08F2916AF47300069172D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		D4D0E1E7169BA0F4003047A8 /* mwapi */ = {isa = PBXFileReference; lastKnownFileType = folder; path = mwapi; sourceTree = "<group>"; };
-		D4D0E1E9169BA5E2003047A8 /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Http.m; path = mwapi/Http.m; sourceTree = "<group>"; };
+		D4D0E1E9169BA5E2003047A8 /* MWHttp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWHttp.m; path = mwapi/MWHttp.m; sourceTree = "<group>"; };
 		D4D0E1EA169BA5E2003047A8 /* MWApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApi.m; path = mwapi/MWApi.m; sourceTree = "<group>"; };
 		D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiMultipartRequestBuilder.m; path = mwapi/MWApiMultipartRequestBuilder.m; sourceTree = "<group>"; };
 		D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiRequestBuilder.m; path = mwapi/MWApiRequestBuilder.m; sourceTree = "<group>"; };
@@ -565,20 +563,19 @@
 				D44DDD3916CC4D6000318FBF /* MWDeferred.m */,
 				D44DDD3A16CC4D6000318FBF /* MWPromise.h */,
 				D44DDD3B16CC4D6000318FBF /* MWPromise.m */,
-				D4D0E1E7169BA0F4003047A8 /* mwapi */,
-				D450A0D816B3477400D1D1E2 /* Http.h */,
+				D450A0D816B3477400D1D1E2 /* MWHttp.h */,
+				D4D0E1E9169BA5E2003047A8 /* MWHttp.m */,
 				D450A0D916B3477400D1D1E2 /* MWApi.h */,
-				D450A0DA16B3477400D1D1E2 /* MWApiMultipartRequestBuilder.h */,
-				D450A0DB16B3477400D1D1E2 /* MWApiRequestBuilder.h */,
-				D450A0DC16B3477400D1D1E2 /* MWApiResult.h */,
-				D450A0DD16B3477400D1D1E2 /* NSString+Extras.h */,
-				D450A0DE16B3477400D1D1E2 /* NSURLRequest+DictionaryRequest.h */,
-				D4D0E1E9169BA5E2003047A8 /* Http.m */,
 				D4D0E1EA169BA5E2003047A8 /* MWApi.m */,
+				D450A0DA16B3477400D1D1E2 /* MWApiMultipartRequestBuilder.h */,
 				D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */,
+				D450A0DB16B3477400D1D1E2 /* MWApiRequestBuilder.h */,
 				D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */,
+				D450A0DC16B3477400D1D1E2 /* MWApiResult.h */,
 				D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */,
+				D450A0DD16B3477400D1D1E2 /* NSString+Extras.h */,
 				D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */,
+				D450A0DE16B3477400D1D1E2 /* NSURLRequest+DictionaryRequest.h */,
 				D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */,
 				DC2CB56516B9BD420047977E /* MWNetworkActivityIndicatorManager.h */,
 				DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */,
@@ -813,7 +810,6 @@
 				D408618A169B760800D6ACB0 /* MainStoryboard.storyboard in Resources */,
 				D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */,
 				D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */,
-				D4D0E1E8169BA0F4003047A8 /* mwapi in Resources */,
 				D40CE3CD16BB390A00E63B27 /* Default-Portrait~ipad.png in Resources */,
 				D40CE3CF16BB390D00E63B27 /* Default-Portrait@2x~ipad.png in Resources */,
 				D40CE3D116BB391300E63B27 /* Default-Landscape~ipad.png in Resources */,
@@ -879,7 +875,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65CA697F16C05B9700839D09 /* Http.m in Sources */,
+				65CA697F16C05B9700839D09 /* MWHttp.m in Sources */,
 				65CA698016C05B9700839D09 /* MWApi.m in Sources */,
 				65CA698116C05B9700839D09 /* MWApiMultipartRequestBuilder.m in Sources */,
 				65CA698216C05B9700839D09 /* MWApiRequestBuilder.m in Sources */,
@@ -930,7 +926,7 @@
 				65C4D57416CCE3550077E0A2 /* MWI18N.m in Sources */,
 				65C4D57516CCE3550077E0A2 /* MWDeferred.m in Sources */,
 				65C4D57616CCE3550077E0A2 /* MWPromise.m in Sources */,
-				65C4D57716CCE3550077E0A2 /* Http.m in Sources */,
+				65C4D57716CCE3550077E0A2 /* MWHttp.m in Sources */,
 				65C4D57816CCE3550077E0A2 /* MWApi.m in Sources */,
 				65C4D57916CCE3550077E0A2 /* MWApiMultipartRequestBuilder.m in Sources */,
 				65C4D57A16CCE3550077E0A2 /* MWApiRequestBuilder.m in Sources */,
@@ -962,7 +958,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */,
-				D4D0E1F2169BA5E2003047A8 /* Http.m in Sources */,
+				D4D0E1F2169BA5E2003047A8 /* MWHttp.m in Sources */,
 				D4D0E1F3169BA5E2003047A8 /* MWApi.m in Sources */,
 				D4D0E1F4169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m in Sources */,
 				D4D0E1F6169BA5E2003047A8 /* MWApiRequestBuilder.m in Sources */,

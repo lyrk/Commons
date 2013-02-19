@@ -196,7 +196,7 @@
         [self clearAuthCookie];
     }
     
-    connection_ = [[Http alloc] initWithRequest:request];
+    connection_ = [[MWHttp alloc] initWithRequest:request];
     return [connection_ retrieveResponse];
 }
 

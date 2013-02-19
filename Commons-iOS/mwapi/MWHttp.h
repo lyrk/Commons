@@ -10,7 +10,7 @@
 #import "MWApiResult.h"
 #import "MWDeferred.h"
 
-@interface Http : NSObject <NSURLConnectionDataDelegate> {
+@interface MWHttp : NSObject <NSURLConnectionDataDelegate> {
     NSURLRequest *requestUrl_;
     MWDeferred *deferred_;
     NSMutableData *data_;

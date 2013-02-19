@@ -6,15 +6,15 @@
 //  Copyright (c) 2012 Wikimedia Foundation. All rights reserved.
 //
 
-#import "Http.h"
+#import "MWHttp.h"
 #import "MWNetworkActivityIndicatorManager.h"
 
 
-@implementation Http
+@implementation MWHttp
 
 + (MWPromise *)retrieveResponse:(NSURLRequest *)requestUrl
 {
-    Http *http = [[Http alloc] initWithRequest:requestUrl];
+    MWHttp *http = [[MWHttp alloc] initWithRequest:requestUrl];
     return [http retrieveResponse];
 }
 

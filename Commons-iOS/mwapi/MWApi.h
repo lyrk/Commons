@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MWApiResult.h"
 #import "MWApiRequestBuilder.h"
-#import "Http.h"
+#import "MWHttp.h"
 #import "MWDeferred.h"
 
 #define MW_ERROR_CODE(x) ([(x).domain isEqualToString:@"MediaWiki API"] ? (x).userInfo[@"MW error code"] : @"network")
@@ -23,7 +23,7 @@
     NSArray *authCookie_;
     BOOL includeAuthCookie_;
     BOOL isLoggedIn_;
-    Http *connection_;
+    MWHttp *connection_;
 }
 
 @property(nonatomic, readonly) NSURL* apiURL;
@@ -31,7 +31,7 @@
 @property(nonatomic, readonly) NSString* userName;
 @property(nonatomic, readwrite)BOOL includeAuthCookie;
 @property(nonatomic, readonly) BOOL isLoggedIn;
-@property(nonatomic, readonly) Http *connection;
+@property(nonatomic, readonly) MWHttp *connection;
 
 - (id)initWithApiUrl: (NSURL*)url;
 

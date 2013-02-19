@@ -11,7 +11,6 @@
 #import "MWI18N/MWI18N.h"
 
 #import "CommonsApp.h"
-#import "Http.h"
 
 @implementation CommonsApp
 
