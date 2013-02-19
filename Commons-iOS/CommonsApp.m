@@ -7,6 +7,7 @@
 //
 
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <sys/utsname.h>
 #import "MWI18N/MWI18N.h"
 
 #import "CommonsApp.h"
@@ -21,6 +22,15 @@ static CommonsApp *singleton_;
     static dispatch_once_t once;
     dispatch_once(&once, ^{ singleton_ = [[CommonsApp alloc] init]; });
     return singleton_;
+}
+
+- (NSString *)machineName
+{
+    struct utsname systemInfo;
+    uname(&systemInfo);
+
+    return [NSString stringWithCString:systemInfo.machine
+                              encoding:NSUTF8StringEncoding];
 }
 
 - (void)initializeApp
@@ -364,11 +374,10 @@ static CommonsApp *singleton_;
            // Completion block
            [upload done:^(MWApiResult *uploadResult) {
                NSDictionary *upload = uploadResult.data[@"upload"];
-               NSDictionary *imageinfo = upload[@"imageinfo"];
                if ([upload[@"result"] isEqualToString:@"Success"]) {
                    record.title = [self cleanupTitle:upload[@"filename"]];
 
-                   [self.eventLog log:@"MobileAppUploadAttempts" event:@{
+                   [self log:@"MobileAppUploadAttempts" event:@{
                         @"username": self.username,
                         @"source": @"gallery", // fixme
                         @"filename": fileName,
@@ -383,7 +392,7 @@ static CommonsApp *singleton_;
                        [deferred resolve:record];
                    }];
                } else {
-                   [self.eventLog log:@"MobileAppUploadAttempts" event:@{
+                   [self log:@"MobileAppUploadAttempts" event:@{
                         @"username": self.username,
                         @"source": @"gallery", // fixme
                         @"filename": fileName,
@@ -405,7 +414,7 @@ static CommonsApp *singleton_;
                     @"username": self.username,
                     @"source": @"gallery", // fixme
                     @"filename": fileName,
-                    @"result": [error description] // ?
+                    @"result": MW_ERROR_CODE(error)
                 }];
                record.progress = @0.0f;
                [deferred reject:error];
@@ -419,12 +428,12 @@ static CommonsApp *singleton_;
        }
     }];
     [login fail:^(NSError *err) {
-        [deferred reject:err];
-        [self.eventLog log:@"MobileAppLoginAttempts" event:@{
+        [self log:@"MobileAppLoginAttempts" event:@{
             @"username": self.username,
             @"source": @"launcher", // fixme?
-            @"result": [err description] // ?
+            @"result": MW_ERROR_CODE(err)
         }];
+        [deferred reject:err];
     }];
     return deferred.promise;
 }
@@ -896,6 +905,22 @@ static CommonsApp *singleton_;
     NSString *display = [main stringByReplacingOccurrencesOfString:@"_" withString:@" "];
 
     return display;
+}
+
+/**
+ * Record a log event and send to upstream tracking,
+ * filling out some common fields.
+ */
+- (void)log:(NSString *)schemaName event:(NSDictionary *)event
+{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:event];
+    UIDevice *device = [UIDevice currentDevice];
+    dict[@"username"] = self.username;
+    dict[@"device"] = self.machineName;
+    dict[@"platform"] = [@"iOS/" stringByAppendingString:device.systemVersion];
+    dict[@"appversion"] = [@"iOS/" stringByAppendingString:self.version];
+
+    [self.eventLog log:schemaName event:dict];
 }
 
 @end

@@ -220,7 +220,7 @@
                          self.navigationItem.leftBarButtonItem = [self uploadButton];
                         
                          UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-upload-failed"].text
-                                                                             message:[error localizedDescription]
+                                                                             message:MW_ERROR_INFO(error)
                                                                             delegate:nil
                                                                    cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
                                                                    otherButtonTitles:nil];

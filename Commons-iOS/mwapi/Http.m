@@ -60,8 +60,26 @@
     [[MWNetworkActivityIndicatorManager sharedManager] hide];
     
     NSError *error;
+    // fixme check for HTTP error responses
+    // fixme check for invalid JSON
     MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl_ response:response_ responseBody:data_ errors:error];
-    [deferred_ resolve:result];
+    if (result.data[@"error"]) {
+        NSLog(@"API error! %@", result.data);
+        // Generic error result from the API.
+        NSDictionary *info = @{
+                               @"MW error code": result.data[@"error"][@"code"],
+                               @"MW error info": result.data[@"error"][@"info"]
+                              };
+        NSError *error = [NSError errorWithDomain:@"MediaWiki API" code:100 userInfo:info];
+        [deferred_ reject:error];
+    } else {
+        NSLog(@"API success! %@", result.data);
+        // Non-error result. Doesn't necessarily mean success -- check the documentation
+        // for the API methods you're calling to see if there's a response value.
+        
+        // fixme should we just return the JSON dictionary directly instead of a MWResponse?
+        [deferred_ resolve:result];
+    }
 }
 
 - (void)connection:(NSURLConnection*) connection didReceiveData:(NSData *)data

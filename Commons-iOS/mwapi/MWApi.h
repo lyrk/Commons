@@ -12,6 +12,9 @@
 #import "Http.h"
 #import "MWDeferred.h"
 
+#define MW_ERROR_CODE(x) ([(x).domain isEqualToString:@"MediaWiki API"] ? (x).userInfo[@"MW error code"] : @"network")
+#define MW_ERROR_INFO(x) ([(x).domain isEqualToString:@"MediaWiki API"] ? (x).userInfo[@"MW error info"] : (x).description)
+
 @interface MWApi : NSObject{
 
     NSURL *apiURL_;
@@ -31,9 +34,7 @@
 @property(nonatomic, readonly) Http *connection;
 
 - (id)initWithApiUrl: (NSURL*)url;
-	
-- (id)delegate;
-- (void)setDelegate:(id)newDelegate;
+
 - (MWApiRequestBuilder *) action:(NSString *)action;
 - (NSArray *) authCookie;
 - (void) setAuthCookie:(NSArray *)newAuthCookie;

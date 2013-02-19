@@ -10,8 +10,6 @@
 #import "NSURLRequest+DictionaryRequest.h"
 #import "MWApiMultipartRequestBuilder.h"
 
-id delegate;
-
 @implementation MWApi
 
 @synthesize apiURL = apiURL_;
@@ -29,14 +27,6 @@ id delegate;
         [self clearAuthCookie]; // Clearing previous authCookies from the shared cookie storage
     }
     return self;
-}
-
-- (id)delegate {
-    return delegate;
-}
-
-- (void)setDelegate:(id)newDelegate {
-    delegate = newDelegate;
 }
 
 - (MWApiRequestBuilder *) action:(NSString *)action {

@@ -59,4 +59,6 @@
 - (NSString *)prettyDate:(NSDate *)date;
 - (NSDate *)decodeDate:(NSString *)str;
 
+- (void)log:(NSString *)schemaName event:(NSDictionary *)event;
+
 @end
