@@ -20,7 +20,6 @@
     NSString *userID_;
     NSString *userName_;
     NSArray *authCookie_;
-    BOOL includeAuthCookie_;
     BOOL isLoggedIn_;
     MWHttp *connection_;
 }
@@ -28,7 +27,6 @@
 @property(nonatomic, readonly) NSURL* apiURL;
 @property(nonatomic, readonly) NSString* userID;
 @property(nonatomic, readonly) NSString* userName;
-@property(nonatomic, readwrite)BOOL includeAuthCookie;
 @property(nonatomic, readonly) BOOL isLoggedIn;
 @property(nonatomic, readonly) MWHttp *connection;
 
@@ -36,11 +34,9 @@
 
 - (MWApiRequestBuilder *) action:(NSString *)action;
 - (NSArray *) authCookie;
-- (void) setAuthCookie:(NSArray *)newAuthCookie;
 - (MWPromise *) validateLogin;
 - (BOOL) isLoggedIn;
 - (MWPromise *)loginWithUsername:(NSString *)username andPassword:(NSString *)password;
-- (MWPromise *)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL)doCookiePersist;
 - (MWPromise *)logout;
 - (MWPromise *)uploadFile:(NSString *)filename withFileData:(NSData *)data text:(NSString *)text comment:(NSString *)comment;
 - (MWPromise *)editToken;

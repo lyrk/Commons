@@ -78,8 +78,7 @@
         MWApi *mwapi = [app startApi];
         
         MWPromise *login = [mwapi loginWithUsername:username
-                                        andPassword:password
-                              withCookiePersistence:YES];
+                                        andPassword:password];
         [login done:^(NSDictionary *loginResult) {
             
             if (mwapi.isLoggedIn) {

@@ -387,7 +387,7 @@
 {
     FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     self.selectedRecord = record;
-    return indexPath;
+    return YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath

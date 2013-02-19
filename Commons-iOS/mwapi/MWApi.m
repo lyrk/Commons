@@ -15,7 +15,6 @@
 @synthesize apiURL = apiURL_;
 @synthesize userID = userID_;
 @synthesize userName = userName_;
-@synthesize includeAuthCookie = includeAuthCookie_;
 @synthesize isLoggedIn = isLoggedIn_;
 @synthesize connection = connection_;
 
@@ -23,7 +22,6 @@
     self = [super init];
     if(self){
         apiURL_ = url;
-        includeAuthCookie_ = YES;
         [self clearAuthCookie]; // Clearing previous authCookies from the shared cookie storage
     }
     return self;
@@ -37,16 +35,6 @@
     	
 - (NSArray *) authCookie {
     return authCookie_;
-}
-
-- (void) setAuthCookie:(NSArray *)newAuthCookie{
-    authCookie_ = newAuthCookie;
-    [[ NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies: authCookie_ forURL: apiURL_ mainDocumentURL: nil ];
-}
-
-- (void) setAuthCookieFromResult:(NSDictionary *)result {
-    authCookie_ = [ NSHTTPCookie cookiesWithResponseHeaderFields:[(NSHTTPURLResponse *)result.response allHeaderFields] forURL:apiURL_];
-    [[ NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies: authCookie_ forURL: apiURL_ mainDocumentURL: nil ];
 }
 
 -(void)clearAuthCookie{
@@ -74,7 +62,7 @@
     return deferred.promise;
 }
 
-- (MWPromise *)loginWithUsername:(NSString *)username andPassword:(NSString *)password withCookiePersistence:(BOOL) doCookiePersist
+- (MWPromise *)loginWithUsername:(NSString *)username andPassword:(NSString *)password
 {
     MWApiRequestBuilder *builder = [self action:@"login"];
     [builder params: @{
@@ -109,9 +97,6 @@
     [finalPromise done:^(NSDictionary *result) {
         if ([result[@"login"][@"result"] isEqualToString:@"Success"]) {
             isLoggedIn_ = YES;
-            if(doCookiePersist){
-                [self setAuthCookieFromResult:result];
-            }
         }
         [deferred resolve:result];
     }];
@@ -120,11 +105,6 @@
     }];
         
     return deferred.promise;
-}
-
-- (MWPromise *)loginWithUsername:(NSString *)username andPassword:(NSString *)password
-{
-    return [self loginWithUsername:username andPassword:password withCookiePersistence:NO];
 }
 
 - (MWPromise *)logout {
@@ -192,10 +172,6 @@
 
 - (MWPromise *)makeRequest:(NSMutableURLRequest *)request
 {
-    if(!includeAuthCookie_){
-        [self clearAuthCookie];
-    }
-    
     connection_ = [[MWHttp alloc] initWithRequest:request];
     return [connection_ retrieveResponse];
 }

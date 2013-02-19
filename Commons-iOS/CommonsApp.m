@@ -350,8 +350,7 @@ static CommonsApp *singleton_;
     
     MWDeferred *deferred = [[MWDeferred alloc] init];
     MWPromise *login = [_currentUploadOp loginWithUsername:self.username
-                                                andPassword:self.password
-                                      withCookiePersistence:YES];
+                                                andPassword:self.password];
     [login done:^(NSDictionary *loginResult) {
        
        if (_currentUploadOp.isLoggedIn) {
