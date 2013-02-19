@@ -352,7 +352,7 @@ static CommonsApp *singleton_;
     MWPromise *login = [_currentUploadOp loginWithUsername:self.username
                                                 andPassword:self.password
                                       withCookiePersistence:YES];
-    [login done:^(MWApiResult *loginResult) {
+    [login done:^(NSDictionary *loginResult) {
        
        if (_currentUploadOp.isLoggedIn) {
            
@@ -371,8 +371,8 @@ static CommonsApp *singleton_;
            }];
            
            // Completion block
-           [upload done:^(MWApiResult *uploadResult) {
-               NSDictionary *upload = uploadResult.data[@"upload"];
+           [upload done:^(NSDictionary *uploadResult) {
+               NSDictionary *upload = uploadResult[@"upload"];
                if ([upload[@"result"] isEqualToString:@"Success"]) {
                    record.title = [self cleanupTitle:upload[@"filename"]];
 
@@ -387,7 +387,7 @@ static CommonsApp *singleton_;
                    // Ask for it in a second request...
                    NSLog(@"fetching thumb URL after upload");
                    MWPromise *saveThumb = [record saveThumbnail];
-                   [saveThumb done:^(MWApiResult *result) {
+                   [saveThumb done:^(NSDictionary *result) {
                        [deferred resolve:record];
                    }];
                } else {
@@ -422,7 +422,7 @@ static CommonsApp *singleton_;
            [self.eventLog log:@"MobileAppLoginAttempts" event:@{
                 @"username": self.username,
                 @"source": @"launcher", // fixme?
-                @"result": loginResult.data[@"login"][@"result"] // and/or data[error][code]?
+                @"result": loginResult[@"login"][@"result"] // and/or data[error][code]?
             }];
        }
     }];
@@ -656,8 +656,8 @@ static CommonsApp *singleton_;
      @"iiurlwidth": [NSString stringWithFormat:@"%f", size.width],
      @"iiurlheight": [NSString stringWithFormat:@"%f", size.height]
     }];
-    [lookup done:^(MWApiResult *result) {
-        NSDictionary *pages = result.data[@"query"][@"pages"];
+    [lookup done:^(NSDictionary *result) {
+        NSDictionary *pages = result[@"query"][@"pages"];
         for (NSString *key in pages) {
             NSDictionary *page = pages[key];
             NSDictionary *imageinfo = page[@"imageinfo"][0];
@@ -789,7 +789,7 @@ static CommonsApp *singleton_;
      @"iiurlwidth": @"640",
      @"iiurlheight": @"640"
     }];
-    [req done:^(MWApiResult *result) {
+    [req done:^(NSDictionary *result) {
         NSFetchedResultsController *records = [self fetchUploadRecords];
         for (FileUpload *oldRecord in records.fetchedObjects) {
             if (oldRecord.complete.boolValue) {
@@ -815,7 +815,7 @@ static CommonsApp *singleton_;
          title = "File:Testfile 1359577778.png";
          }
          */
-        NSDictionary *pages = result.data[@"query"][@"pages"];
+        NSDictionary *pages = result[@"query"][@"pages"];
         for (NSString *pageId in pages) {
             (^() {
                 NSDictionary *page = pages[pageId];

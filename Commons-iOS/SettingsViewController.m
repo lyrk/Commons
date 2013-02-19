@@ -80,7 +80,7 @@
         MWPromise *login = [mwapi loginWithUsername:username
                                         andPassword:password
                               withCookiePersistence:YES];
-        [login done:^(MWApiResult *loginResult) {
+        [login done:^(NSDictionary *loginResult) {
             
             if (mwapi.isLoggedIn) {
                 // Credentials verified

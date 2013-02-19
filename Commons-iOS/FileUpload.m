@@ -71,9 +71,8 @@
          @"iiurlwidth": @"640",
          @"iiurlheight": @"640"
     }];
-    [fetch done:^(MWApiResult *result) {
-        NSLog(@"thumbnail info: %@", result.data);
-        NSDictionary *pages = result.data[@"query"][@"pages"];
+    [fetch done:^(NSDictionary *result) {
+        NSDictionary *pages = result[@"query"][@"pages"];
         for (NSString *pageId in pages) {
             NSDictionary *page = pages[pageId];
             NSDictionary *imageinfo = page[@"imageinfo"][0];

@@ -44,9 +44,9 @@
                                   andPassword:password
                         withCookiePersistence:YES];
 
-    [login done:^(MWApiResult *loginResult) {
+    [login done:^(NSDictionary *loginResult) {
 
-        NSLog(@"login: %@", loginResult.data[@"login"][@"result"]);
+        NSLog(@"login: %@", loginResult[@"login"][@"result"]);
 
         if (api.isLoggedIn) {
             [self notify:kGHUnitWaitStatusFailure forSelector:_cmd];

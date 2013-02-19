@@ -49,42 +49,41 @@
 
 - (void)connection:(NSURLConnection*) connection didReceiveResponse:(NSURLResponse *)response
 {
-    NSLog(@"Response recieved");
     response_ = response;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"finished loading");
-    
     [[MWNetworkActivityIndicatorManager sharedManager] hide];
-    
-    NSError *error;
+
     // fixme check for HTTP error responses
-    // fixme check for invalid JSON
-    MWApiResult *result = [[MWApiResult alloc]initWithRequest:requestUrl_ response:response_ responseBody:data_ errors:error];
-    if (result.data[@"error"]) {
-        NSLog(@"API error! %@", result.data);
+
+    NSError *error;
+    NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data_ options:0 error:&error];
+
+    if (result == nil) {
+        // JSON deserialization failure
+        [deferred_ resolve:error];
+    } else if (result[@"error"]) {
         // Generic error result from the API.
         NSDictionary *info = @{
-                               @"MW error code": result.data[@"error"][@"code"],
-                               @"MW error info": result.data[@"error"][@"info"]
-                              };
-        NSError *error = [NSError errorWithDomain:@"MediaWiki API" code:100 userInfo:info];
+                               @"MW error code": result[@"error"][@"code"],
+                               @"MW error info": result[@"error"][@"info"]
+                             };
+        error = [NSError errorWithDomain:@"MediaWiki API" code:100 userInfo:info];
         [deferred_ reject:error];
     } else {
-        NSLog(@"API success! %@", result.data);
         // Non-error result. Doesn't necessarily mean success -- check the documentation
         // for the API methods you're calling to see if there's a response value.
         
         // fixme should we just return the JSON dictionary directly instead of a MWResponse?
         [deferred_ resolve:result];
     }
+    [self cleanUp];
 }
 
 - (void)connection:(NSURLConnection*) connection didReceiveData:(NSData *)data
 {
-    NSLog(@"Data recieved");
     if (data_ != nil) {
         [data_ appendData: data];
     }
@@ -92,9 +91,9 @@
 
 -(void) connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    NSLog(@"Request failed with error: %@", [error localizedDescription]);
     [[MWNetworkActivityIndicatorManager sharedManager] hide];
     [deferred_ reject:error];
+    [self cleanUp];
 }
 
 - (void) connection:(NSURLConnection *)connection didSendBodyData:(NSInteger)bytesWritten totalBytesWritten:(NSInteger)totalBytesWritten totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
@@ -102,8 +101,17 @@
     NSDictionary *dict = @{
                            @"sent": [NSNumber numberWithInteger:totalBytesWritten],
                            @"total": [NSNumber numberWithInteger:totalBytesExpectedToWrite]
-                        };
+                         };
     [deferred_ notify:dict];
+}
+
+- (void)cleanUp
+{
+    requestUrl_ = nil;
+    deferred_ = nil;
+    response_ = nil;
+    data_ = nil;
+    connection_ = nil;
 }
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MWApiResult.h"
 @class MWApi;
 
 @interface MWApiRequestBuilder : NSObject

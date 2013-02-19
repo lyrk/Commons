@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MWApiResult.h"
 #import "MWApiRequestBuilder.h"
 #import "MWHttp.h"
 #import "MWDeferred.h"

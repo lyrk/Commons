@@ -44,7 +44,7 @@
     [[ NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies: authCookie_ forURL: apiURL_ mainDocumentURL: nil ];
 }
 
-- (void) setAuthCookieFromResult:(MWApiResult *)result {
+- (void) setAuthCookieFromResult:(NSDictionary *)result {
     authCookie_ = [ NSHTTPCookie cookiesWithResponseHeaderFields:[(NSHTTPURLResponse *)result.response allHeaderFields] forURL:apiURL_];
     [[ NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies: authCookie_ forURL: apiURL_ mainDocumentURL: nil ];
 }
@@ -61,9 +61,9 @@
     MWDeferred *deferred = [[MWDeferred alloc] init];
     MWApiRequestBuilder *builder = [[self action:@"query"] param:@"meta" :@"userinfo"];
     MWPromise *login = [self makeRequest:[builder buildRequest:@"GET"]];
-    [login done:^(MWApiResult *result) {
-        userID_ = [result.data[@"query"][@"userinfo"][@"id"] copy];
-        userName_ = [result.data[@"query"][@"userinfo"][@"name"] copy];
+    [login done:^(NSDictionary *result) {
+        userID_ = [result[@"query"][@"userinfo"][@"id"] copy];
+        userName_ = [result[@"query"][@"userinfo"][@"name"] copy];
         BOOL loggedIn = ![userID_ isEqualToString:@"0"];
         [deferred resolve:[NSNumber numberWithBool:(loggedIn)]];
     }];
@@ -86,12 +86,12 @@
     MWDeferred *finalLogin = [[MWDeferred alloc] init];
 
     MWPromise *loginPromise = [self makeRequest:[builder buildRequest:@"POST"]];
-    [loginPromise done:^(MWApiResult *result) {
-        if([result.data[@"login"][@"result"] isEqualToString:@"NeedToken"]){
-            NSString *token = result.data[@"login"][@"token"];
+    [loginPromise done:^(NSDictionary *result) {
+        if([result[@"login"][@"result"] isEqualToString:@"NeedToken"]){
+            NSString *token = result[@"login"][@"token"];
             [builder param:@"lgtoken" :token];
             MWPromise *second = [self makeRequest:[builder buildRequest:@"POST"]];
-            [second done:^(MWApiResult *result) {
+            [second done:^(NSDictionary *result) {
                 [finalLogin resolve:result];
             }];
             [second fail:^(NSError *error) {
@@ -106,8 +106,8 @@
     }];
 
     MWPromise *finalPromise = finalLogin.promise;
-    [finalPromise done:^(MWApiResult *result) {
-        if ([result.data[@"login"][@"result"] isEqualToString:@"Success"]) {
+    [finalPromise done:^(NSDictionary *result) {
+        if ([result[@"login"][@"result"] isEqualToString:@"Success"]) {
             isLoggedIn_ = YES;
             if(doCookiePersist){
                 [self setAuthCookieFromResult:result];
@@ -133,7 +133,7 @@
     MWApiRequestBuilder *builder = [self action:@"logout"];
     MWPromise *logout = [self makeRequest:[builder buildRequest:@"POST"]];
 
-    [logout done:^(MWApiResult *result) {
+    [logout done:^(NSDictionary *result) {
         [self clearAuthCookie];
         isLoggedIn_ = NO;
         [deferred resolve:result];
@@ -180,8 +180,8 @@
 
     MWApiRequestBuilder *builder = [[self action:@"tokens"] param:@"type" :@"edit"];
     MWPromise *token = [self makeRequest:[builder buildRequest:@"GET"]];
-    [token done:^(MWApiResult *result) {
-        [deferred resolve:[result.data[@"tokens"][@"edittoken"] copy]];
+    [token done:^(NSDictionary *result) {
+        [deferred resolve:[result[@"tokens"][@"edittoken"] copy]];
     }];
     [token fail:^(NSError *err) {
         [deferred reject:err];

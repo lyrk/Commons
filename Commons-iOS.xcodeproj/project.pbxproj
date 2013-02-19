@@ -63,7 +63,6 @@
 		65C4D57816CCE3550077E0A2 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
 		65C4D57916CCE3550077E0A2 /* MWApiMultipartRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */; };
 		65C4D57A16CCE3550077E0A2 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
-		65C4D57B16CCE3550077E0A2 /* MWApiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */; };
 		65C4D57C16CCE3550077E0A2 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
 		65C4D57D16CCE3550077E0A2 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
 		65C4D57E16CCE3550077E0A2 /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
@@ -86,7 +85,6 @@
 		65CA698016C05B9700839D09 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
 		65CA698116C05B9700839D09 /* MWApiMultipartRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */; };
 		65CA698216C05B9700839D09 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
-		65CA698316C05B9700839D09 /* MWApiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */; };
 		65CA698416C05B9700839D09 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
 		65CA698516C05B9700839D09 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
 		65CA698616C05B9700839D09 /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
@@ -172,7 +170,6 @@
 		D4D0E1F3169BA5E2003047A8 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
 		D4D0E1F4169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */; };
 		D4D0E1F6169BA5E2003047A8 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
-		D4D0E1F7169BA5E2003047A8 /* MWApiResult.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */; };
 		D4D0E1F8169BA5E2003047A8 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
 		D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
 		D4E0383C16C4567500330A7F /* MWMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0383B16C4567500330A7F /* MWMessage.m */; };
@@ -273,7 +270,6 @@
 		D450A0D916B3477400D1D1E2 /* MWApi.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApi.h; path = mwapi/MWApi.h; sourceTree = "<group>"; };
 		D450A0DA16B3477400D1D1E2 /* MWApiMultipartRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiMultipartRequestBuilder.h; path = mwapi/MWApiMultipartRequestBuilder.h; sourceTree = "<group>"; };
 		D450A0DB16B3477400D1D1E2 /* MWApiRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiRequestBuilder.h; path = mwapi/MWApiRequestBuilder.h; sourceTree = "<group>"; };
-		D450A0DC16B3477400D1D1E2 /* MWApiResult.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiResult.h; path = mwapi/MWApiResult.h; sourceTree = "<group>"; };
 		D450A0DD16B3477400D1D1E2 /* NSString+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSString+Extras.h"; path = "mwapi/NSString+Extras.h"; sourceTree = "<group>"; };
 		D450A0DE16B3477400D1D1E2 /* NSURLRequest+DictionaryRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSURLRequest+DictionaryRequest.h"; path = "mwapi/NSURLRequest+DictionaryRequest.h"; sourceTree = "<group>"; };
 		D450A0DF16B347BE00D1D1E2 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -302,7 +298,6 @@
 		D4D0E1EA169BA5E2003047A8 /* MWApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApi.m; path = mwapi/MWApi.m; sourceTree = "<group>"; };
 		D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiMultipartRequestBuilder.m; path = mwapi/MWApiMultipartRequestBuilder.m; sourceTree = "<group>"; };
 		D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiRequestBuilder.m; path = mwapi/MWApiRequestBuilder.m; sourceTree = "<group>"; };
-		D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiResult.m; path = mwapi/MWApiResult.m; sourceTree = "<group>"; };
 		D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extras.m"; path = "mwapi/NSString+Extras.m"; sourceTree = "<group>"; };
 		D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+DictionaryRequest.m"; path = "mwapi/NSURLRequest+DictionaryRequest.m"; sourceTree = "<group>"; };
 		D4E0383A16C4567500330A7F /* MWMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWMessage.h; path = MWI18N/MWMessage.h; sourceTree = "<group>"; };
@@ -571,8 +566,6 @@
 				D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */,
 				D450A0DB16B3477400D1D1E2 /* MWApiRequestBuilder.h */,
 				D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */,
-				D450A0DC16B3477400D1D1E2 /* MWApiResult.h */,
-				D4D0E1EE169BA5E2003047A8 /* MWApiResult.m */,
 				D450A0DD16B3477400D1D1E2 /* NSString+Extras.h */,
 				D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */,
 				D450A0DE16B3477400D1D1E2 /* NSURLRequest+DictionaryRequest.h */,
@@ -879,7 +872,6 @@
 				65CA698016C05B9700839D09 /* MWApi.m in Sources */,
 				65CA698116C05B9700839D09 /* MWApiMultipartRequestBuilder.m in Sources */,
 				65CA698216C05B9700839D09 /* MWApiRequestBuilder.m in Sources */,
-				65CA698316C05B9700839D09 /* MWApiResult.m in Sources */,
 				65CA698416C05B9700839D09 /* NSString+Extras.m in Sources */,
 				65CA698516C05B9700839D09 /* NSURLRequest+DictionaryRequest.m in Sources */,
 				65CA698616C05B9700839D09 /* MWNetworkActivityIndicatorManager.m in Sources */,
@@ -930,7 +922,6 @@
 				65C4D57816CCE3550077E0A2 /* MWApi.m in Sources */,
 				65C4D57916CCE3550077E0A2 /* MWApiMultipartRequestBuilder.m in Sources */,
 				65C4D57A16CCE3550077E0A2 /* MWApiRequestBuilder.m in Sources */,
-				65C4D57B16CCE3550077E0A2 /* MWApiResult.m in Sources */,
 				65C4D57C16CCE3550077E0A2 /* NSString+Extras.m in Sources */,
 				65C4D57D16CCE3550077E0A2 /* NSURLRequest+DictionaryRequest.m in Sources */,
 				65C4D57E16CCE3550077E0A2 /* MWNetworkActivityIndicatorManager.m in Sources */,
@@ -962,7 +953,6 @@
 				D4D0E1F3169BA5E2003047A8 /* MWApi.m in Sources */,
 				D4D0E1F4169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m in Sources */,
 				D4D0E1F6169BA5E2003047A8 /* MWApiRequestBuilder.m in Sources */,
-				D4D0E1F7169BA5E2003047A8 /* MWApiResult.m in Sources */,
 				D4D0E1F8169BA5E2003047A8 /* NSString+Extras.m in Sources */,
 				D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */,
 				D408617D169B760800D6ACB0 /* main.m in Sources */,

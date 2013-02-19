@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MWApiResult.h"
 #import "MWDeferred.h"
 
 @interface MWHttp : NSObject <NSURLConnectionDataDelegate> {
