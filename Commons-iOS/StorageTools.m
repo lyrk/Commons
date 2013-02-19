@@ -100,7 +100,7 @@
     CFUUIDRef aUUID = CFUUIDCreate(NULL);
     CFStringRef string = CFUUIDCreateString(NULL, aUUID);
     CFRelease(aUUID);
-    return (__bridge NSString *)string;
+    return (__bridge_transfer NSString *)string;
 }
 
 @end
