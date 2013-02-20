@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Wikimedia. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "MyUploadsViewController.h"
 #import "CommonsApp.h"
 #import "ImageListCell.h"
@@ -466,6 +467,13 @@
         MWPromise *fetch = [record fetchThumbnail];
         [fetch done:^(UIImage *image) {
             if ([cell.title isEqualToString:title]) {
+                // provide a smooth image transition
+                CATransition *transition = [CATransition animation];
+                transition.duration = 0.25f;
+                transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+                transition.type = kCATransitionFade;
+                [cell.image.layer addAnimation:transition forKey:nil];
+
                 cell.image.image = image;
             }
         }];
