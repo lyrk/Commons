@@ -49,7 +49,7 @@
 - (MWPromise *)beginUpload:(FileUpload *)record;
 - (void)cancelCurrentUpload;
 
-- (MWPromise *)prepareImage:(NSDictionary *)info;
+- (MWPromise *)prepareImage:(NSDictionary *)info from:(NSString *)source;
 - (void)deleteUploadRecord:(FileUpload *)record;
 
 - (MWPromise *)refreshHistory;

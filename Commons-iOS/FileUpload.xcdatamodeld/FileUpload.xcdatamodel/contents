@@ -8,10 +8,11 @@
         <attribute name="fileType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="localFile" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="progress" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="thumbnailURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="FileUpload" positionX="160" positionY="192" width="128" height="180"/>
+        <element name="FileUpload" positionX="160" positionY="192" width="128" height="195"/>
     </elements>
 </model>

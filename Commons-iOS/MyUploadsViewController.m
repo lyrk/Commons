@@ -14,7 +14,9 @@
 #import "MWI18N/MWI18N.h"
 #import "Reachability.h"
 
-@interface MyUploadsViewController ()
+@interface MyUploadsViewController () {
+    NSString *pickerSource_;
+}
 
 @end
 
@@ -147,7 +149,7 @@
      }
      */
     NSLog(@"picked: %@", info);
-    [CommonsApp.singleton prepareImage:info];
+    [CommonsApp.singleton prepareImage:info from:pickerSource_];
     [self dismissViewControllerAnimated:YES completion:nil];
     if (self.popover) {
         [self.popover dismissPopoverAnimated:YES];
@@ -255,6 +257,7 @@
 
 - (IBAction)takePhotoButtonPushed:(id)sender {
     NSLog(@"Take photo");
+    pickerSource_ = @"camera";
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypeCamera;
     picker.delegate = self;
@@ -269,6 +272,7 @@
 - (IBAction)choosePhotoButtonPushed:(id)sender
 {
     NSLog(@"Open gallery");
+    pickerSource_ = @"gallery";
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;

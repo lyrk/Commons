@@ -18,6 +18,7 @@
 @dynamic fileType;
 @dynamic title;
 @dynamic progress;
+@dynamic source;
 @dynamic thumbnailURL;
 @dynamic fileSize;
 

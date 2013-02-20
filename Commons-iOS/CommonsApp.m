@@ -377,7 +377,7 @@ static CommonsApp *singleton_;
 
                    [self log:@"MobileAppUploadAttempts" event:@{
                         @"username": self.username,
-                        @"source": @"gallery", // fixme
+                        @"source": record.source,
                         @"filename": fileName,
                         @"result": @"success"
                     }];
@@ -392,7 +392,7 @@ static CommonsApp *singleton_;
                } else {
                    [self log:@"MobileAppUploadAttempts" event:@{
                         @"username": self.username,
-                        @"source": @"gallery", // fixme
+                        @"source": record.source,
                         @"filename": fileName,
                         @"result": upload[@"result"]
                     }];
@@ -410,7 +410,7 @@ static CommonsApp *singleton_;
            [upload fail:^(NSError *error) {
                [self.eventLog log:@"MobileAppUploadAttempts" event:@{
                     @"username": self.username,
-                    @"source": @"gallery", // fixme
+                    @"source": record.source,
                     @"filename": fileName,
                     @"result": MW_ERROR_CODE(error)
                 }];
@@ -507,7 +507,7 @@ static CommonsApp *singleton_;
     }
 }
 
-- (MWPromise *)prepareImage:(NSDictionary *)info
+- (MWPromise *)prepareImage:(NSDictionary *)info from:(NSString *)source
 {
     MWDeferred *deferred = [[MWDeferred alloc] init];
     MWPromise *fetch = [self getImageData:info];
@@ -518,6 +518,7 @@ static CommonsApp *singleton_;
         
         FileUpload *record = [self createUploadRecord];
         record.complete = @NO;
+        record.source = source;
 
         record.created = [NSDate date];
         record.title = title;
@@ -546,6 +547,7 @@ static CommonsApp *singleton_;
     
     FileUpload *record = [self createUploadRecord];
     record.complete = @NO;
+    record.source = @"external";
     
     record.created = [NSDate date];
     record.title = basename;

@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString * fileType;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSNumber * progress;
+@property (nonatomic, retain) NSString * source;
 @property (nonatomic, retain) NSString * thumbnailURL;
 @property (nonatomic, retain) NSNumber * fileSize;
 
