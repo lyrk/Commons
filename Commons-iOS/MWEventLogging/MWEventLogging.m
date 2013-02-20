@@ -44,7 +44,6 @@
     }
     return @{
         @"event"    : expandedEvent,
-        @"isValid"  : @YES, // fixme
         @"revision" : schema[@"revision"],
         @"schema"   : schemaName,
         @"webHost"  : @"commons.wikimedia.org", // fixme
