@@ -1,5 +1,5 @@
 {
-    "contribs-title": "Mes Contributions",
+    "contribs-title": "Mes fichiers",
     "contribs-settings-button": "Préférences",
     "contribs-upload-button": "Importer",
     "contribs-photo-library-button": "Photos",
@@ -23,7 +23,7 @@
     "settings-debug-label": "Mode debugging",
     "settings-debug-detail": "Importer fichiers à $1",
     
-    "details-title": "Details de photo",
+    "details-title": "Details",
     "details-upload-button": "Importer",
     "details-title-label": "Titre",
     "details-title-placeholder": "Titre unique et descriptif",

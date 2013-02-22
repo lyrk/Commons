@@ -1,5 +1,5 @@
 {
-    "contribs-title": "My Contributions",
+    "contribs-title": "My uploads",
     "contribs-settings-button": "Settings",
     "contribs-upload-button": "Upload",
     "contribs-photo-library-button": "Photos",
@@ -24,7 +24,7 @@
     "settings-debug-label": "Debug mode",
     "settings-debug-detail": "Uploading to $1",
     
-    "details-title": "Photo details",
+    "details-title": "Details",
     "details-upload-button": "Upload",
     "details-title-label": "Title",
     "details-title-placeholder": "Unique, descriptive title",
