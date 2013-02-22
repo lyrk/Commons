@@ -40,10 +40,10 @@ static CommonsApp *singleton_;
     NSURL *endPoint = [NSURL URLWithString:@"https://bits.wikimedia.org/event.gif"];
     self.eventLog = [[MWEventLogging alloc] initWithEndpointURL:endPoint];
     [self.eventLog setSchema:@"MobileAppLoginAttempts" meta:@{
-        @"revision": @5240393
+        @"revision": @5257721
     }];
     [self.eventLog setSchema:@"MobileAppUploadAttempts" meta:@{
-        @"revision": @5241449
+        @"revision": @5257716
     }];
 
     // Register default perferences with 'defaults.plist' file

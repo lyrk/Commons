@@ -83,6 +83,10 @@
             
             if (mwapi.isLoggedIn) {
                 // Credentials verified
+                [app log:@"MobileAppLoginAttempts" event:@{
+                    @"username": username,
+                    @"result": @"success"
+                }];
                 
                 // Save credentials
                 app.username = username;
@@ -96,6 +100,10 @@
                 
             } else {
                 // Credentials invalid
+                [app log:@"MobileAppLoginAttempts" event:@{
+                    @"username": username,
+                    @"result": loginResult[@"login"][@"result"]
+                }];
                 
                 // Erase saved credentials so that the credentials are validated every time they are changed
                 app.username = @"";
@@ -112,6 +120,10 @@
         }];
         [login fail:^(NSError *error) {
             
+            [app log:@"MobileAppLoginAttempts" event:@{
+                @"username": username,
+                @"result": @"network"
+            }];
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-login-fail"].text
                                                                 message:[error localizedDescription]
                                                                delegate:nil
