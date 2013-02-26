@@ -91,6 +91,9 @@
     
     // hide the standard toolbar and show our own
     [self.navigationController setToolbarHidden:YES animated:YES];
+
+    // Update collectionview cell size for iPhone/iPod, in case orientation changed while we were away
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)didReceiveMemoryWarning
@@ -404,10 +407,15 @@
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // iPad: fit 3 across in portrait or 4 across landscape
-        return CGSizeMake(245.0f, 245.0f);
+        return CGSizeMake(256.0f - 2.0f, 240.0f);
     } else {
-        // iPhone/iPod: fit 2 across in portrait, 3 across in landscape
-        return CGSizeMake(150.0f, 150.0f);
+        // iPhone/iPod: fit 1 across in portrait, 2 across in landscape
+        CGSize screenSize = UIScreen.mainScreen.bounds.size;
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            return CGSizeMake(screenSize.width, 240.0f);
+        } else {
+            return CGSizeMake(screenSize.height / 2.0f - 1.0f, 240.0f);
+        }
     }
 }
 
@@ -487,13 +495,13 @@
     }
     if (record.complete.boolValue) {
         // Old upload, already complete.
-        cell.infoBox.hidden = YES;
+        cell.titleLabel.text = record.title;
         cell.statusLabel.text = @"";
         cell.progressBar.hidden = YES;
     } else {
         // Queued upload, not yet complete.
         // We have local data & progress info.
-        cell.infoBox.hidden = NO;
+        cell.titleLabel.text = record.title;
         if (record.progress.floatValue == 0.0f) {
             cell.progressBar.hidden = YES;
             cell.statusLabel.text = [MWMessage forKey:@"contribs-state-queued"].text;
@@ -505,5 +513,10 @@
     }
 }
 
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    // Update collectionview cell size for iPhone/iPod
+    [self.collectionView.collectionViewLayout invalidateLayout];
+}
 
 @end
