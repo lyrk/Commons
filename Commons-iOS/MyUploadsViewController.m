@@ -89,7 +89,7 @@
     
     self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
     
-    // hide the standard toolbar and show our own
+    // hide the standard toolbar?
     [self.navigationController setToolbarHidden:YES animated:YES];
 
     // Update collectionview cell size for iPhone/iPod, in case orientation changed while we were away

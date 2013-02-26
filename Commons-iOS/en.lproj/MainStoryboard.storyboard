@@ -167,13 +167,8 @@
                                     <outlet property="delegate" destination="jET-mn-Ts4" id="YI2-JG-QhS"/>
                                 </connections>
                             </collectionView>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="blackTranslucent" id="QgA-Pl-hEh">
-                                <rect key="frame" x="0.0" y="372" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <items/>
-                            </toolbar>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vMt-yt-DPQ">
-                                <rect key="frame" x="124" y="314" width="72" height="72"/>
+                                <rect key="frame" x="124" y="324" width="72" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" image="add_image.png" backgroundImage="photo-button-bg.png">
@@ -188,7 +183,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="YkX-Ws-keA">
-                                <rect key="frame" x="44" y="262" width="72" height="72"/>
+                                <rect key="frame" x="44" y="272" width="72" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" image="camera.png" backgroundImage="photo-button-bg.png">
@@ -203,7 +198,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vaw-aE-DoK">
-                                <rect key="frame" x="204" y="262" width="72" height="72"/>
+                                <rect key="frame" x="204" y="272" width="72" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                 <state key="normal" image="gallery.png" backgroundImage="photo-button-bg.png">
