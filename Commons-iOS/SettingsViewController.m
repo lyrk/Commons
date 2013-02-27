@@ -45,6 +45,39 @@
 
     self.debugModeSwitch.on = app.debugMode;
     [self setDebugModeLabel];
+
+    // Keyboard show/hide listeners to adjust scroll view
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+    CGSize keyboardSize = [[[notification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardSize.height, 0.0);
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
+
+    CGRect aRect = self.view.frame;
+    aRect.size.height -= keyboardSize.height;
+    if (!CGRectContainsPoint(aRect, self.debugModeLabel.frame.origin) ) {
+        CGPoint scrollPoint = CGPointMake(0.0, self.debugModeLabel.frame.origin.y - (keyboardSize.height-15));
+        [self.scrollView setContentOffset:scrollPoint animated:YES];
+    }
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+    self.scrollView.contentInset = contentInsets;
+    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,6 +87,7 @@
 }
 
 - (void)viewDidUnload {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self setUsernameField:nil];
     [self setPasswordField:nil];
     [self setDebugModeSwitch:nil];
