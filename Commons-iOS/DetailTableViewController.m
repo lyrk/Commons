@@ -73,7 +73,7 @@
             // Locally queued file...
             self.titleTextField.enabled = YES;
             self.descriptionTextView.editable = YES;
-            self.deleteButton.enabled = YES;
+            self.deleteButton.enabled = (record.progress.floatValue == 0.0f); // don't allow delete _during_ upload
             self.actionButton.enabled = NO;
             self.uploadButton.enabled = YES;
         }
