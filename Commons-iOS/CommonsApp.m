@@ -7,6 +7,7 @@
 //
 
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <ImageIO/ImageIO.h>
 #import <sys/utsname.h>
 #import "MWI18N/MWI18N.h"
 
@@ -438,15 +439,53 @@ static CommonsApp *singleton_;
 
 - (NSString *)formatDescription:(FileUpload *)record
 {
-    // fixme add date? eg {{According to EXIF data|2012-11-24}}
     NSString *format = @"== {{int:filedesc}} ==\n"
-                       @"{{Information|Description=%@|source={{own}}|author=[[User:%@]]}}\n" 
+                       @"{{Information|Description=%@|source={{own}}|author=[[User:%@]]|date=%@}}\n"
                        @"== {{int:license-header}} ==\n"
                        @"{{self|cc-by-sa-3.0}}\n"
                        @"\n"
                        @"{{Uploaded from Mobile|platform=iOS|version=%@}}\n";
-    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, self.version];
+    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], self.version];
     return desc;
+}
+
+- (NSString *)formatDescriptionDate:(FileUpload *)record
+{
+    NSString *path = [self filePath:record.localFile];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    NSDate *date = [self extractExifDate:url];
+    if (date) {
+        return [NSString stringWithFormat:@"{{According to EXIF data|%@}}", [self formatDate:date]];
+    } else {
+        date = [NSDate date];
+        return [NSString stringWithFormat:@"{{Upload date|%@}}", [self formatDate:date]];
+    }
+    // fixme add date? eg {{According to EXIF data|2012-11-24}}
+}
+
+- (NSString *)formatDate:(NSDate *)date
+{
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit) fromDate:date];
+    return [NSString stringWithFormat:@"%04d-%02d-%02d", components.year, components.month, components.day];
+}
+
+- (NSDate *)extractExifDate:(NSURL *)url
+{
+    // CGImageProperties.h.
+    // kCGImagePropertyExifDictionary
+    // kCGImagePropertyExifDateTimeOriginal
+    CGImageSourceRef src = CGImageSourceCreateWithURL((__bridge CFURLRef)url, nil);
+    NSDictionary *dict = (__bridge_transfer NSDictionary *)CGImageSourceCopyPropertiesAtIndex(src, 0, nil);
+    CFRelease(src);
+    
+    NSString *dateStr = dict[(__bridge NSString *)kCGImagePropertyExifDictionary][(__bridge NSString *)kCGImagePropertyExifDateTimeOriginal];
+    if (dateStr) {
+        return [self decodeExifDate:dateStr];
+    } else {
+        return nil;
+    }
 }
 
 - (void)cancelCurrentUpload {
@@ -888,6 +927,30 @@ static CommonsApp *singleton_;
 
     NSDate *date = [gregorian dateFromComponents:parts];
 
+    return date;
+}
+
+- (NSDate *)decodeExifDate:(NSString *)str
+{
+    int year, month, day, h, m, s;
+    
+    // 2013:02:26 16:34:32
+    sscanf([str UTF8String], "%d:%d:%d %d:%d:%d", &year, &month, &day, &h, &m, &s);
+    
+    NSDateComponents *parts = [[NSDateComponents alloc] init];
+    parts.year = year;
+    parts.month = month;
+    parts.day = day;
+    parts.hour = h;
+    parts.minute = m;
+    parts.second = s;
+    parts.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"]; // likely to be wildly wrong, but eh
+    
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    NSDate *date = [gregorian dateFromComponents:parts];
+    
     return date;
 }
 
