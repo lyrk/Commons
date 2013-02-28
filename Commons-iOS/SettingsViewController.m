@@ -35,7 +35,7 @@
     self.usernameLabel.text = [MWMessage forKey:@"settings-username-label"].text;
     self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
     self.passwordLabel.text = [MWMessage forKey:@"settings-password-label"].text;
-    self.passwordField.placeholder = [MWMessage forKey:@"settings"].text;
+    self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
     self.debugModeLabel.text = [MWMessage forKey:@"settings-debug-label"].text;
 
 	// Do any additional setup after loading the view.

@@ -16,10 +16,10 @@
     "reltime-days": "$1 jours",
     
     "settings-title": "Préférences",
-    "settings-username-label": "Nom d'utilisateur à Wikimédia",
+    "settings-username-label": "Nom d'utilisateur",
     "settings-username-placeholder": "Nom d'utilisateur",
     "settings-password-label": "Mot de passe",
-    "settings-password-placeholder": "Requis",
+    "settings-password-placeholder": "Mot de passe",
     "settings-debug-label": "Mode debugging",
     "settings-debug-detail": "Importer fichiers à $1",
     

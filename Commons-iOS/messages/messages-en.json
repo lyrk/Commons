@@ -17,10 +17,10 @@
     "reltime-days": "$1 days ago",
 
     "settings-title": "Settings",
-    "settings-username-label": "Wikimedia username",
+    "settings-username-label": "Username",
     "settings-username-placeholder": "Username",
     "settings-password-label": "Password",
-    "settings-password-placeholder": "Required",
+    "settings-password-placeholder": "Password",
     "settings-debug-label": "Debug mode",
     "settings-debug-detail": "Uploading to $1",
     
