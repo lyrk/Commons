@@ -32,9 +32,7 @@
 
     // l10n
     self.navigationItem.title = [MWMessage forKey:@"settings-title"].text;
-    self.usernameLabel.text = [MWMessage forKey:@"settings-username-label"].text;
     self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
-    self.passwordLabel.text = [MWMessage forKey:@"settings-password-label"].text;
     self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
     self.debugModeLabel.text = [MWMessage forKey:@"settings-debug-label"].text;
 
@@ -67,8 +65,9 @@
 
     CGRect aRect = self.view.frame;
     aRect.size.height -= keyboardSize.height;
-    if (!CGRectContainsPoint(aRect, self.debugModeLabel.frame.origin) ) {
-        CGPoint scrollPoint = CGPointMake(0.0, self.debugModeLabel.frame.origin.y - (keyboardSize.height-15));
+    if (!CGRectContainsPoint(aRect, self.uploadTargetLabel.frame.origin) ) {
+        CGPoint scrollPoint = CGPointMake(0.0, self.uploadTargetLabel.frame.origin.y - (keyboardSize.height-15));
+        NSLog(@"scrollPoint is %f %f", scrollPoint.x, scrollPoint.y);
         [self.scrollView setContentOffset:scrollPoint animated:YES];
     }
 }
@@ -92,8 +91,6 @@
     [self setPasswordField:nil];
     [self setDebugModeSwitch:nil];
     [self setUploadTargetLabel:nil];
-    [self setUsernameLabel:nil];
-    [self setPasswordLabel:nil];
     [self setDebugModeLabel:nil];
     [super viewDidUnload];
 }

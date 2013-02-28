@@ -20,9 +20,7 @@
     "reltime-days": "Relative time to display on photos. $1 is time in days. Note that PLURAL will be supported, but is not yet.",
     
     "settings-title": "Title for screen where the user can input their account info and settings",
-    "settings-username-label": "Label for username field in settings",
     "settings-username-placeholder": "Placeholder text for username field in settings",
-    "settings-password-label": "Label for password field in settings",
     "settings-password-placeholder": "Placeholder text for password field in settings",
     "settings-debug-label": "Label for debug mode switch in settings (switches between uploading to Commons and to a test site)",
     "settings-debug-detail": "Label indicating which site photos will be uploaded to. $1 is a domain name such as commons.wikimedia.org",
