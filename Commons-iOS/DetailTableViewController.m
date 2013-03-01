@@ -77,7 +77,7 @@
             self.descriptionTextView.editable = YES;
             self.deleteButton.enabled = (record.progress.floatValue == 0.0f); // don't allow delete _during_ upload
             self.actionButton.enabled = NO;
-            self.uploadButton.enabled = YES;
+            [self updateUploadButton];
         }
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
@@ -86,6 +86,15 @@
     // Set delegates so we know when fields change...
     self.titleTextField.delegate = self;
     self.descriptionTextView.delegate = self;
+}
+
+- (void)updateUploadButton
+{
+    FileUpload *record = self.selectedRecord;
+    if (record != nil && !record.complete.boolValue) {
+        self.uploadButton.enabled = record.title.length > 0 &&
+                                    record.desc.length > 0;
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -192,20 +201,23 @@
     NSLog(@"setting title: %@", self.titleTextField.text);
     record.title = self.titleTextField.text;
     [app saveData];
+    [self updateUploadButton];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     CommonsApp *app = CommonsApp.singleton;
-    FileUpload *record = self.selectedRecord;
-    NSLog(@"setting desc: %@", self.descriptionTextView.text);
-    record.desc = self.descriptionTextView.text;
     [app saveData];
 }
 
 - (void)textViewDidChange:(UITextView *)textView
 {
     self.descriptionPlaceholder.hidden = (textView.text.length > 0);
+
+    FileUpload *record = self.selectedRecord;
+    NSLog(@"setting desc: %@", self.descriptionTextView.text);
+    record.desc = self.descriptionTextView.text;
+    [self updateUploadButton];
 }
 
 - (IBAction)deleteButtonPushed:(id)sender {
