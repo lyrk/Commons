@@ -42,6 +42,7 @@
     self.titleLabel.text = [MWMessage forKey:@"details-title-label"].text;
     self.titleTextField.placeholder = [MWMessage forKey:@"details-title-placeholder"].text;
     self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
+    self.descriptionPlaceholder.text = [MWMessage forKey:@"details-description-placeholder"].text;
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
     
     // Load up the selected record
@@ -50,6 +51,7 @@
     if (record != nil) {
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
+        self.descriptionPlaceholder.hidden = (record.desc.length > 0);
         self.imageSpinner.hidden = NO;
 
         MWPromise *thumb = [record fetchThumbnail];
@@ -80,7 +82,7 @@
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
     }
-    
+
     // Set delegates so we know when fields change...
     self.titleTextField.delegate = self;
     self.descriptionTextView.delegate = self;
@@ -199,6 +201,11 @@
     NSLog(@"setting desc: %@", self.descriptionTextView.text);
     record.desc = self.descriptionTextView.text;
     [app saveData];
+}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+    self.descriptionPlaceholder.hidden = (textView.text.length > 0);
 }
 
 - (IBAction)deleteButtonPushed:(id)sender {

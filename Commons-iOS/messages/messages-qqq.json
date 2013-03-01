@@ -30,6 +30,7 @@
     "details-title-label": "Label for title input/display field on photo details",
     "details-title-placeholder": "Placeholder text for title input field on photo details",
     "details-description-label": "Label for description input/display field on photo details",
+    "details-description-placeholder": "Placeholder text for description input field on photo details",
     "details-license-label": "Label for license selector/display field on photo details",
     
     "web-open-in": "Button text for opening web page in a given browser. $1 is the application name such as 'Safari' or 'Opera'",

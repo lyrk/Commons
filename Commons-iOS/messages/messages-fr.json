@@ -26,6 +26,7 @@
     "details-title-label": "Titre",
     "details-title-placeholder": "Titre unique et descriptif",
     "details-description-label": "Description",
+    "details-description-placeholder": "Requis",
     "details-license-label": "Licence",
     
     "web-open-in": "Ouvrir dans $1",

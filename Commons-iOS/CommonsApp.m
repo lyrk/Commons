@@ -551,8 +551,8 @@ static CommonsApp *singleton_;
     MWDeferred *deferred = [[MWDeferred alloc] init];
     MWPromise *fetch = [self getImageData:info];
     [fetch done:^(NSData *data) {
-        NSString *title = [NSString stringWithFormat:@"Testfile %li", (long)[[NSDate date] timeIntervalSince1970]];
-        NSString *desc = @"temporary description text";
+        NSString *title = @""; // require user to fill them out
+        NSString *desc = @""; // require user to fill them out
         
         
         FileUpload *record = [self createUploadRecord];

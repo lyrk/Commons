@@ -27,6 +27,7 @@
     "details-title-label": "Title",
     "details-title-placeholder": "Unique, descriptive title",
     "details-description-label": "Description",
+    "details-description-placeholder": "Required",
     "details-license-label": "License",
     
     "web-open-in": "Open in $1",
