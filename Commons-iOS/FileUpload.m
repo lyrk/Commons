@@ -95,4 +95,11 @@
     return deferred.promise;
 }
 
+- (BOOL)isReadyForUpload
+{
+    return self.complete.boolValue == NO &&
+           self.title.length > 0 &&
+           self.desc.length > 0;
+}
+
 @end

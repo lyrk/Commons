@@ -27,5 +27,6 @@
 - (NSString *)prettySize;
 - (MWPromise *)fetchThumbnail;
 - (MWPromise *)saveThumbnail;
+- (BOOL)isReadyForUpload;
 
 @end

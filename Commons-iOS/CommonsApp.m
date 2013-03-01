@@ -304,7 +304,7 @@ static CommonsApp *singleton_;
     NSFetchedResultsController *controller = [self fetchUploadRecords];
     NSArray *objs = controller.fetchedObjects;
     for (FileUpload *record in objs) {
-        if (!record.complete.boolValue) {
+        if (record.isReadyForUpload) {
             return record;
         }
     }
