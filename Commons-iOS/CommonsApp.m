@@ -395,7 +395,6 @@ static CommonsApp *singleton_;
                    record.title = [self cleanupTitle:upload[@"filename"]];
 
                    [self log:@"MobileAppUploadAttempts" event:@{
-                        @"username": self.username,
                         @"source": record.source,
                         @"filename": fileName,
                         @"result": @"success"
@@ -410,7 +409,6 @@ static CommonsApp *singleton_;
                    }];
                } else {
                    [self log:@"MobileAppUploadAttempts" event:@{
-                        @"username": self.username,
                         @"source": record.source,
                         @"filename": fileName,
                         @"result": upload[@"result"]
@@ -428,7 +426,6 @@ static CommonsApp *singleton_;
            // Failure block
            [upload fail:^(NSError *error) {
                [self.eventLog log:@"MobileAppUploadAttempts" event:@{
-                    @"username": self.username,
                     @"source": record.source,
                     @"filename": fileName,
                     @"result": MW_ERROR_CODE(error)
@@ -438,7 +435,6 @@ static CommonsApp *singleton_;
            }];
        } else {
            [self.eventLog log:@"MobileAppLoginAttempts" event:@{
-                @"username": self.username,
                 @"source": @"launcher", // fixme?
                 @"result": loginResult[@"login"][@"result"] // and/or data[error][code]?
             }];
@@ -446,7 +442,6 @@ static CommonsApp *singleton_;
     }];
     [login fail:^(NSError *err) {
         [self log:@"MobileAppLoginAttempts" event:@{
-            @"username": self.username,
             @"source": @"launcher", // fixme?
             @"result": MW_ERROR_CODE(err)
         }];
@@ -996,7 +991,9 @@ static CommonsApp *singleton_;
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:event];
     UIDevice *device = [UIDevice currentDevice];
-    dict[@"username"] = self.username;
+    if (dict[@"username"] == nil) {
+        dict[@"username"] = self.username;
+    }
     dict[@"device"] = self.machineName;
     dict[@"platform"] = [@"iOS/" stringByAppendingString:device.systemVersion];
     dict[@"appversion"] = [@"iOS/" stringByAppendingString:self.version];

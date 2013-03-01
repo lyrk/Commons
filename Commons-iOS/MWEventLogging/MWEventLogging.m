@@ -68,7 +68,7 @@
     NSString *urlStr = [NSString stringWithFormat:@"%@?%@;",
                         endpoint_,
                         encodedJsonStr];
-    NSLog(@"%@", urlStr);
+
     NSURL *url = [NSURL URLWithString:urlStr];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
 

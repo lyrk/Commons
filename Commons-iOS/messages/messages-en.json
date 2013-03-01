@@ -11,6 +11,8 @@
     "error-dismiss": "Dismiss",
     "error-nologin-title": "Uh oh!",
     "error-nologin-text": "You need to login before you can upload photos",
+    "error-bad-password-title": "Login error",
+    "error-bad-password": "Bad username or password",
 
     "reltime-minutes": "$1 mins ago",
     "reltime-hours": "$1 hours ago",
