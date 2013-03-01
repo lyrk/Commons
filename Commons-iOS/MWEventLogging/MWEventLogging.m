@@ -23,6 +23,8 @@
     if (self) {
         endpoint_ = endpoint;
         schemas_ = [[NSMutableDictionary alloc] init];
+        self.host = @"unknown.example";
+        self.wiki = @"unknown";
     }
     return self;
 }
@@ -46,8 +48,8 @@
         @"event"    : expandedEvent,
         @"revision" : schema[@"revision"],
         @"schema"   : schemaName,
-        @"webHost"  : @"commons.wikimedia.org", // fixme
-        @"wiki"     : @"commonswiki" // fixme
+        @"webHost"  : self.host,
+        @"wiki"     : self.wiki
     };
 }
 

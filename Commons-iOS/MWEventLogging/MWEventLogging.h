@@ -11,6 +11,9 @@
 
 @interface MWEventLogging : NSObject
 
+@property (strong, nonatomic) NSString *host;
+@property (strong, nonatomic) NSString *wiki;
+
 - (id)initWithEndpointURL:(NSURL *)endpoint;
 
 - (void)setSchema:(NSString *)schemaName meta:(NSDictionary *)meta;

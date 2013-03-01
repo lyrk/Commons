@@ -33,19 +33,25 @@ static CommonsApp *singleton_;
                               encoding:NSUTF8StringEncoding];
 }
 
+- (MWEventLogging *)setupLog
+{
+    NSURL *endPoint = [NSURL URLWithString:@"https://bits.wikimedia.org/event.gif"];
+    return [[MWEventLogging alloc] initWithEndpointURL:endPoint];
+}
+
 - (void)initializeApp
 {
     NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
     [MWI18N setLanguage:language];
 
-    NSURL *endPoint = [NSURL URLWithString:@"https://bits.wikimedia.org/event.gif"];
-    self.eventLog = [[MWEventLogging alloc] initWithEndpointURL:endPoint];
+    self.eventLog = [self setupLog];
     [self.eventLog setSchema:@"MobileAppLoginAttempts" meta:@{
         @"revision": @5257721
     }];
     [self.eventLog setSchema:@"MobileAppUploadAttempts" meta:@{
         @"revision": @5257716
     }];
+    [self updateLogOptions];
 
     // Register default perferences with 'defaults.plist' file
     NSString *defaultsFile = [[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"];
@@ -56,6 +62,17 @@ static CommonsApp *singleton_;
     [self setupData];
     if ([self.username length] != 0) { // @todo handle lack of upload records
         [self fetchUploadRecords];
+    }
+}
+
+- (void)updateLogOptions
+{
+    if (self.debugMode) {
+        self.eventLog.host = @"test.wikipedia.org";
+        self.eventLog.wiki = @"testwiki";
+    } else {
+        self.eventLog.host = @"commons.wikimedia.org";
+        self.eventLog.wiki = @"commonswiki";
     }
 }
 
@@ -73,6 +90,7 @@ static CommonsApp *singleton_;
     
     [[NSUserDefaults standardUserDefaults] setBool:value forKey:@"DebugMode"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    [self updateLogOptions];
 }
 
 - (void)loadCredentials
