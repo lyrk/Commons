@@ -831,16 +831,12 @@ static CommonsApp *singleton_;
     MWDeferred *deferred = [[MWDeferred alloc] init];
     MWApi *api = [self startApi];
     MWPromise *req = [api getRequest: @{
-     @"action": @"query",
-     @"generator": @"allimages",
-     @"gaisort": @"timestamp",
-     @"gaidir": @"descending",
-     @"gaiuser": self.username,
-     @"gailimit": @"100",
-     @"prop": @"imageinfo",
-     @"iiprop": @"timestamp|url",
-     @"iiurlwidth": @"640",
-     @"iiurlheight": @"640"
+        @"action": @"query",
+        @"list": @"logevents",
+        @"leaction": @"upload/upload",
+        @"leprop": @"title|timestamp",
+        @"leuser": self.username,
+        @"lelimit": @"500"
     }];
     [req done:^(NSDictionary *result) {
         NSFetchedResultsController *records = [self fetchUploadRecords];
@@ -852,24 +848,22 @@ static CommonsApp *singleton_;
         records = nil;
        
         /*
-         page: {
-         imageinfo =     (
          {
-         descriptionurl = "https://test.wikipedia.org/wiki/File:Testfile_1359577778.png";
-         thumbheight = 424;
-         thumburl = "https://upload.wikimedia.org/wikipedia/test/thumb/5/5d/Testfile_1359577778.png/318px-Testfile_1359577778.png";
-         thumbwidth = 318;
-         url = "https://upload.wikimedia.org/wikipedia/test/5/5d/Testfile_1359577778.png";
-         }
-         );
-         imagerepository = local;
-         ns = 6;
-         pageid = 66296;
-         title = "File:Testfile 1359577778.png";
+             "query": {
+                 "logevents": [
+                     {
+                     "ns": 6,
+                     "title": "File:Test image xyz.jpg",
+                     "timestamp": "2013-03-01T21:10:21Z"
+                     },
+                     ...
+                ]
+             }
          }
          */
-        NSDictionary *pages = result[@"query"][@"pages"];
-        for (NSString *pageId in pages) {
+        for (NSDictionary *logevent in result[@"query"][@"logevents"]) {
+            NSLog(@"%@", logevent);
+            /*
             (^() {
                 NSDictionary *page = pages[pageId];
                 NSDictionary *imageinfo = page[@"imageinfo"][0];
@@ -886,6 +880,17 @@ static CommonsApp *singleton_;
                
                 [self saveData];
             })();
+             */
+            FileUpload *record = [self createUploadRecord];
+            record.complete = @YES;
+            
+            record.title = [self cleanupTitle:logevent[@"title"]];
+            record.progress = @1.0f;
+            record.created = [self decodeDate:logevent[@"timestamp"]];
+            
+            //record.thumbnailURL = imageinfo[@"thumburl"];
+            
+            [self saveData];
         }
         [deferred resolve:nil];
     }];
