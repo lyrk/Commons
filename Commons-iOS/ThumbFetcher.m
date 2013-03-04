@@ -40,8 +40,11 @@
 
     [requests_ addObject:entry];
 
-    if (queued_) {
-        // We've already requested a thumb, we're waiting in case we get a couple more.
+    if (requests_.count == 50) {
+        // We're nearing the maximum request size. Batch one off!
+        [self fetchQueuedThumbnails];
+    } else if (queued_) {
+        // We've already requested a thumb, we're still waiting in case we get a couple more.
     } else {
         queued_ = YES;
 
@@ -62,6 +65,10 @@
     CommonsApp *app = CommonsApp.singleton;
     MWApi *api = [app startApi];
     MWDeferred *deferred = [[MWDeferred alloc] init];
+
+    if (requests_.count == 0) {
+        return nil;
+    }
 
     // Grab the queued requests and clear the queue...
     NSMutableArray *entries = requests_;

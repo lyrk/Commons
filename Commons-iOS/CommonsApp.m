@@ -395,20 +395,15 @@ static CommonsApp *singleton_;
                NSDictionary *upload = uploadResult[@"upload"];
                if ([upload[@"result"] isEqualToString:@"Success"]) {
                    record.title = [self cleanupTitle:upload[@"filename"]];
+                   record.complete = @YES;
+                   record.progress = @1.0f;
+                   [self saveData];
 
                    [self log:@"MobileAppUploadAttempts" event:@{
                         @"source": record.source,
                         @"filename": fileName,
                         @"result": @"success"
                     }];
-
-                   // Unfortunately we didn't get the thumbnail URL. :P
-                   // Ask for it in a second request...
-                   NSLog(@"fetching thumb URL after upload");
-                   MWPromise *saveThumb = [record saveThumbnail];
-                   [saveThumb done:^(NSDictionary *result) {
-                       [deferred resolve:record];
-                   }];
                } else {
                    [self log:@"MobileAppUploadAttempts" event:@{
                         @"source": record.source,

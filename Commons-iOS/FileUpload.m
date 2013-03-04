@@ -55,45 +55,6 @@
     return deferred.promise;
 }
 
-/**
- * Fetch thumbnail data and save to the record
- */
-- (MWPromise *)saveThumbnail
-{
-    CommonsApp *app = CommonsApp.singleton;
-    MWDeferred *deferred = [[MWDeferred alloc] init];
-    MWApi *api = [app startApi];
-
-    MWPromise *fetch = [api getRequest:@{
-         @"action": @"query",
-         @"titles": [@"File:" stringByAppendingString:self.title],
-         @"prop": @"imageinfo",
-         @"iiprop": @"timestamp|url",
-         @"iiurlwidth": @"640",
-         @"iiurlheight": @"640"
-    }];
-    [fetch done:^(NSDictionary *result) {
-        NSDictionary *pages = result[@"query"][@"pages"];
-        for (NSString *pageId in pages) {
-            NSDictionary *page = pages[pageId];
-            NSDictionary *imageinfo = page[@"imageinfo"][0];
- 
-            self.complete = @YES;
-            self.title = [app cleanupTitle:page[@"title"]];
-            self.created = [app decodeDate:imageinfo[@"timestamp"]];
-            self.thumbnailURL = imageinfo[@"thumburl"];
- 
-            NSLog(@"got thumb URL %@", self.thumbnailURL);
-        }
-        [app saveData];
-        [deferred resolve:result];
-    }];
-    [fetch fail:^(NSError *err) {
-        [deferred reject:err];
-    }];
-
-    return deferred.promise;
-}
 
 - (BOOL)isReadyForUpload
 {
