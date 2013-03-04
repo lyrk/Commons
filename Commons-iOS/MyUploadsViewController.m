@@ -456,28 +456,25 @@
     FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     
     NSString *title = record.title;
-    cell.title = title;
-    /*
-    if (record.thumbnailFile) {
-        cell.image.image = [app loadThumbnail: record.thumbnailFile];
-    } else {
-        cell.image.image = nil;
-    }
-    */
 
-    NSURL *thumbURL;
-    if (record.complete.boolValue) {
-        thumbURL = [NSURL URLWithString:record.thumbnailURL];
+    if (cell.title && [cell.title isEqual:title]) {
+        // Image should already be loaded.
+        NSLog(@"already loaded a title");
     } else {
-        thumbURL = [NSURL fileURLWithPath:record.localFile];
-    }
-    if (cell.thumbnailURL && [cell.thumbnailURL isEqual:thumbURL]) {
-        // Nothing to do!
-    } else {
-        cell.thumbnailURL = thumbURL;
+        // Save the title for future checks...
+        cell.title = title;
+
+        MWPromise *fetchThumb;
+        if (record.complete.boolValue) {
+            CGSize size = CGSizeMake(640.0f, 640.0f);
+            fetchThumb = [app fetchWikiImage:title size:size];
+        } else {
+            NSURL *thumbURL = [NSURL fileURLWithPath:record.localFile];
+            fetchThumb = [app fetchImageURL:thumbURL];
+        }
         cell.image.image = nil;
-        MWPromise *fetch = [record fetchThumbnail];
-        [fetch done:^(UIImage *image) {
+        [fetchThumb done:^(UIImage *image) {
+            NSLog(@"got thumbnail");
             if ([cell.title isEqualToString:title]) {
                 // provide a smooth image transition
                 CATransition *transition = [CATransition animation];
@@ -489,7 +486,7 @@
                 cell.image.image = image;
             }
         }];
-        [fetch fail:^(NSError *error) {
+        [fetchThumb fail:^(NSError *error) {
             NSLog(@"failed to load thumbnail");
         }];
     }

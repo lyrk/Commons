@@ -52,6 +52,8 @@ static CommonsApp *singleton_;
         @"revision": @5257716
     }];
     [self updateLogOptions];
+    
+    self.thumbFetcher = [[ThumbFetcher alloc] init];
 
     // Register default perferences with 'defaults.plist' file
     NSString *defaultsFile = [[NSBundle mainBundle] pathForResource:@"defaults" ofType:@"plist"];
@@ -699,35 +701,7 @@ static CommonsApp *singleton_;
  */
 - (MWPromise *)fetchWikiImage:(NSString *)title size:(CGSize)size
 {
-    MWDeferred *deferred = [[MWDeferred alloc] init];
-    MWApi *api = [self startApi];
-    MWPromise *lookup = [api getRequest:@{
-     @"action": @"query",
-     @"prop": @"imageinfo",
-     @"titles": [@"File:" stringByAppendingString:[self cleanupTitle:title]],
-     @"iiprop": @"url",
-     @"iiurlwidth": [NSString stringWithFormat:@"%f", size.width],
-     @"iiurlheight": [NSString stringWithFormat:@"%f", size.height]
-    }];
-    [lookup done:^(NSDictionary *result) {
-        NSDictionary *pages = result[@"query"][@"pages"];
-        for (NSString *key in pages) {
-            NSDictionary *page = pages[key];
-            NSDictionary *imageinfo = page[@"imageinfo"][0];
-            NSURL *thumbUrl = [NSURL URLWithString:imageinfo[@"thumburl"]];
-            MWPromise *fetch = [self fetchImageURL:thumbUrl];
-            [fetch done:^(UIImage *image) {
-                [deferred resolve:image];
-            }];
-            [fetch fail:^(NSError *err) {
-                [deferred reject:err];
-            }];
-        }
-    }];
-    [lookup fail:^(NSError *err) {
-        [deferred reject:err];
-    }];
-    return deferred.promise;
+    return [self.thumbFetcher fetchThumbnail:title size:size];
 }
 
 - (void)deleteUploadRecord:(FileUpload *)record

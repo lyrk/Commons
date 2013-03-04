@@ -11,6 +11,7 @@
 #import "FileUpload.h"
 #import "mwapi/MWApi.h"
 #import "MWEventLogging/MWEventLogging.h"
+#import "ThumbFetcher.h"
 
 @interface CommonsApp : NSObject
 
@@ -21,6 +22,7 @@
 @property (strong, nonatomic) NSManagedObjectContext *context;
 @property (strong, nonatomic) MWApi *currentUploadOp;
 @property (strong, nonatomic) MWEventLogging *eventLog;
+@property (strong, nonatomic) ThumbFetcher *thumbFetcher;
 
 + (CommonsApp *)singleton;
 
