@@ -474,7 +474,6 @@
         }
         cell.image.image = nil;
         [fetchThumb done:^(UIImage *image) {
-            NSLog(@"got thumbnail");
             if ([cell.title isEqualToString:title]) {
                 // provide a smooth image transition
                 CATransition *transition = [CATransition animation];

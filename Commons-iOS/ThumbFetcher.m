@@ -40,15 +40,25 @@
 
     [requests_ addObject:entry];
 
-    // fixme: delay a little bit so we can capture multiple adjacent images
-    [self fetchQueuedThumbnails];
+    if (queued_) {
+        // We've already requested a thumb, we're waiting in case we get a couple more.
+    } else {
+        queued_ = YES;
+
+        // Delay a little bit waiting for more ...
+        double delayInSeconds = 0.1;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_queue_t queue = dispatch_get_main_queue();
+        dispatch_after(popTime, queue, ^(){
+            [self fetchQueuedThumbnails];
+        });
+    }
     
     return deferred.promise;
 }
 
 - (MWPromise *)fetchQueuedThumbnails
 {
-    NSLog(@"fetchQueuedThumbnails");
     CommonsApp *app = CommonsApp.singleton;
     MWApi *api = [app startApi];
     MWDeferred *deferred = [[MWDeferred alloc] init];
@@ -56,6 +66,7 @@
     // Grab the queued requests and clear the queue...
     NSMutableArray *entries = requests_;
     requests_ = [[NSMutableArray alloc] init];
+    queued_ = NO;
 
     NSString *width, *height;
     NSMutableArray *buildTitles = [[NSMutableArray alloc] init];
@@ -81,7 +92,6 @@
                         @"iiurlheight": height
                         }];
     [fetch done:^(NSDictionary *result) {
-        NSLog(@"fetch done");
         NSDictionary *pages = result[@"query"][@"pages"];
         for (NSString *pageId in pages) {
             NSDictionary *page = pages[pageId];
@@ -90,8 +100,6 @@
             NSDictionary *imageinfo = page[@"imageinfo"][0];
             NSURL *thumbnailURL = [NSURL URLWithString:imageinfo[@"thumburl"]];
             
-            NSLog(@"got thumb URL %@ for %@", thumbnailURL, title);
-
             MWDeferred *fetchDeferred = deferreds[title];
             MWPromise *fetchImage = [app fetchImageURL:thumbnailURL];
             [fetchImage done:^(UIImage *image) {
