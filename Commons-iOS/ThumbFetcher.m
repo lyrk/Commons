@@ -11,6 +11,7 @@
 
 @interface ThumbFetcher() {
     NSMutableArray *requests_;
+    NSMutableDictionary *requestsByKey_;
     BOOL queued_;
 }
 @end
@@ -22,6 +23,7 @@
     self = [super init];
     if (self) {
         requests_ = [[NSMutableArray alloc] init];
+        requestsByKey_ = [[NSMutableDictionary alloc] init];
         queued_ = NO;
     }
     return self;
@@ -29,16 +31,24 @@
 
 - (MWPromise *)fetchThumbnail:(NSString *)filename size:(CGSize)size
 {
+    NSString *sizeKey = [NSString stringWithFormat:@"%dx%d", (int)size.width, (int)size.height];
+    NSString *key = [NSString stringWithFormat:@"%@-%@", sizeKey, filename];
+    NSDictionary *entry = requestsByKey_[key];
+    if (entry) {
+        return entry[@"deferred"];
+    }
+
     MWDeferred *deferred = [[MWDeferred alloc] init];
-    
-    NSDictionary *entry = @{
-                            @"filename": filename,
-                            @"width": [NSString stringWithFormat:@"%d", (int)size.width],
-                            @"height": [NSString stringWithFormat:@"%d", (int)size.height],
-                            @"deferred": deferred
-                            };
+    entry = @{
+              @"key": key,
+              @"filename": filename,
+              @"width": [NSString stringWithFormat:@"%d", (int)size.width],
+              @"height": [NSString stringWithFormat:@"%d", (int)size.height],
+              @"deferred": deferred
+              };
 
     [requests_ addObject:entry];
+    requestsByKey_[key] = entry;
 
     if (requests_.count == 50) {
         // We're nearing the maximum request size. Batch one off!
@@ -77,16 +87,15 @@
 
     NSString *width, *height;
     NSMutableArray *buildTitles = [[NSMutableArray alloc] init];
-    NSMutableDictionary *deferreds = [[NSMutableDictionary alloc] init];
     for (NSDictionary *entry in entries) {
         NSString *title = [@"File:" stringByAppendingString:entry[@"filename"]];
         [buildTitles addObject:title];
-        deferreds[title] = entry[@"deferred"];
 
         // Fixme handle images of different sizes :)
         width = entry[@"width"];
         height = entry[@"height"];
     }
+    NSString *sizeKey = [NSString stringWithFormat:@"%@x%@", width, height];
     NSString *titles = [buildTitles componentsJoinedByString:@"|"];
 
     NSLog(@"fetching for titles: %@", titles);
@@ -102,17 +111,20 @@
         NSDictionary *pages = result[@"query"][@"pages"];
         for (NSString *pageId in pages) {
             NSDictionary *page = pages[pageId];
-            NSString *title = page[@"title"];
+            NSString *title = [app cleanupTitle:page[@"title"]];
+            NSString *key = [NSString stringWithFormat:@"%@-%@", sizeKey, title];
 
             NSDictionary *imageinfo = page[@"imageinfo"][0];
             NSURL *thumbnailURL = [NSURL URLWithString:imageinfo[@"thumburl"]];
             
-            MWDeferred *fetchDeferred = deferreds[title];
+            MWDeferred *fetchDeferred = requestsByKey_[key][@"deferred"];
             MWPromise *fetchImage = [app fetchImageURL:thumbnailURL];
             [fetchImage done:^(UIImage *image) {
+                [requestsByKey_ removeObjectForKey:key];
                 [fetchDeferred resolve:image];
             }];
             [fetchImage fail:^(NSError *error) {
+                [requestsByKey_ removeObjectForKey:key];
                 [fetchDeferred reject:error];
             }];
         }
@@ -121,6 +133,7 @@
     [fetch fail:^(NSError *err) {
         NSLog(@"fetch failed");
         [deferred reject:err];
+        // fixme reject all the individual deferreds
     }];
     
     return deferred.promise;
