@@ -12,6 +12,7 @@
 @interface ThumbFetcher() {
     NSMutableArray *requests_;
     NSMutableDictionary *requestsByKey_;
+    NSMutableDictionary *urlsByKey_;
     BOOL queued_;
 }
 @end
@@ -24,6 +25,7 @@
     if (self) {
         requests_ = [[NSMutableArray alloc] init];
         requestsByKey_ = [[NSMutableDictionary alloc] init];
+        urlsByKey_ = [[NSMutableDictionary alloc] init];
         queued_ = NO;
     }
     return self;
@@ -35,7 +37,8 @@
     NSString *key = [NSString stringWithFormat:@"%@-%@", sizeKey, filename];
     NSDictionary *entry = requestsByKey_[key];
     if (entry) {
-        return entry[@"deferred"];
+        // We're already requesting this one... piggyback the existing request.
+        return ((MWDeferred *)entry[@"deferred"]).promise;
     }
 
     MWDeferred *deferred = [[MWDeferred alloc] init];
@@ -47,9 +50,17 @@
               @"deferred": deferred
               };
 
-    [requests_ addObject:entry];
     requestsByKey_[key] = entry;
 
+    NSURL *url = urlsByKey_[key];
+    if (url) {
+        // We already know the URL but haven't started fetching it.
+        [self fetchImageByKey:key];
+        return deferred.promise;
+    }
+
+    // We have to look up the proper URL; add it to the queue.
+    [requests_ addObject:entry];
     if (requests_.count == 50) {
         // We're nearing the maximum request size. Batch one off!
         [self fetchQueuedThumbnails];
@@ -117,16 +128,8 @@
             NSDictionary *imageinfo = page[@"imageinfo"][0];
             NSURL *thumbnailURL = [NSURL URLWithString:imageinfo[@"thumburl"]];
             
-            MWDeferred *fetchDeferred = requestsByKey_[key][@"deferred"];
-            MWPromise *fetchImage = [app fetchImageURL:thumbnailURL];
-            [fetchImage done:^(UIImage *image) {
-                [requestsByKey_ removeObjectForKey:key];
-                [fetchDeferred resolve:image];
-            }];
-            [fetchImage fail:^(NSError *error) {
-                [requestsByKey_ removeObjectForKey:key];
-                [fetchDeferred reject:error];
-            }];
+            urlsByKey_[key] = thumbnailURL;
+            [self fetchImageByKey:key];
         }
         [deferred resolve:result];
     }];
@@ -139,4 +142,19 @@
     return deferred.promise;
 }
 
+- (void)fetchImageByKey:(NSString *)key
+{
+    CommonsApp *app = CommonsApp.singleton;
+    NSURL *thumbnailURL = urlsByKey_[key];
+    MWDeferred *fetchDeferred = requestsByKey_[key][@"deferred"];
+    MWPromise *fetchImage = [app fetchImageURL:thumbnailURL];
+    [fetchImage done:^(UIImage *image) {
+        [requestsByKey_ removeObjectForKey:key];
+        [fetchDeferred resolve:image];
+    }];
+    [fetchImage fail:^(NSError *error) {
+        [requestsByKey_ removeObjectForKey:key];
+        [fetchDeferred reject:error];
+    }];
+}
 @end
