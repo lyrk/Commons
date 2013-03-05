@@ -515,4 +515,11 @@
     [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
+#pragma mark UIScrollViewDelegate methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSLog(@"blah");
+}
+
 @end

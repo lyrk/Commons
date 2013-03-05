@@ -128,7 +128,9 @@
             NSDictionary *imageinfo = page[@"imageinfo"][0];
             NSURL *thumbnailURL = [NSURL URLWithString:imageinfo[@"thumburl"]];
             
-            urlsByKey_[key] = thumbnailURL;
+            if (thumbnailURL) {
+                urlsByKey_[key] = thumbnailURL;
+            }
             [self fetchImageByKey:key];
         }
         [deferred resolve:result];
@@ -145,16 +147,22 @@
 - (void)fetchImageByKey:(NSString *)key
 {
     CommonsApp *app = CommonsApp.singleton;
-    NSURL *thumbnailURL = urlsByKey_[key];
     MWDeferred *fetchDeferred = requestsByKey_[key][@"deferred"];
-    MWPromise *fetchImage = [app fetchImageURL:thumbnailURL];
-    [fetchImage done:^(UIImage *image) {
-        [requestsByKey_ removeObjectForKey:key];
-        [fetchDeferred resolve:image];
-    }];
-    [fetchImage fail:^(NSError *error) {
-        [requestsByKey_ removeObjectForKey:key];
+    NSURL *thumbnailURL = urlsByKey_[key];
+    
+    if (thumbnailURL) {
+        MWPromise *fetchImage = [app fetchImageURL:thumbnailURL];
+        [fetchImage done:^(UIImage *image) {
+            [requestsByKey_ removeObjectForKey:key];
+            [fetchDeferred resolve:image];
+        }];
+        [fetchImage fail:^(NSError *error) {
+            [requestsByKey_ removeObjectForKey:key];
+            [fetchDeferred reject:error];
+        }];
+    } else {
+        NSError *error = [NSError errorWithDomain:@"MediaWiki" code:200 userInfo:@{}];
         [fetchDeferred reject:error];
-    }];
+    }
 }
 @end
