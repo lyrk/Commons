@@ -517,9 +517,11 @@
 
 #pragma mark UIScrollViewDelegate methods
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+/*
+ - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     NSLog(@"blah");
 }
+*/
 
 @end
