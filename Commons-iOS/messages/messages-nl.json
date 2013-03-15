@@ -1,0 +1,37 @@
+{
+	"contribs-title": "Mijn uploads",
+	"contribs-settings-button": "Instellingen",
+	"contribs-upload-button": "Uploaden",
+	"contribs-photo-library-button": "Afbeeldingen",
+	"contribs-state-queued": "In wachtrij",
+	"contribs-state-uploading": "Bezig met uploaden",
+	"contribs-refresh": "Sleep naar beneden",
+	"error-upload-failed": "Uploaden is mislukt",
+	"error-dismiss": "Sluiten",
+	"error-nologin-title": "Fout",
+	"error-nologin-text": "U moet aanmelden voordat u afbeeldingen kunt uploaden",
+	"error-bad-password-title": "Aanmeldfout",
+	"error-bad-password": "Gebruikersnaam of wachtwoord vergeten?",
+	"reltime-minutes": "$1 minuten geleden",
+	"reltime-hours": "$1 uur geleden",
+	"reltime-days": "$1 dagen geleden",
+	"settings-title": "Instellingen",
+	"settings-username-placeholder": "Gebruikersnaam",
+	"settings-password-placeholder": "Wachtwoord",
+	"settings-debug-label": "Debugmodus",
+	"settings-debug-detail": "Uploaden naar $1",
+	"details-title": "Details",
+	"details-upload-button": "Uploaden",
+	"details-title-label": "Naam",
+	"details-title-placeholder": "Unieke, beschrijvende naam",
+	"details-description-label": "Beschrijving",
+	"details-description-placeholder": "Vereist",
+	"details-license-label": "Licentie",
+	"web-open-in": "Openen in $1",
+	"web-cancel": "Annuleren",
+	"@metadata": {
+		"authors": [
+			"Siebrand"
+		]
+	}
+}
