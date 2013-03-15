@@ -213,14 +213,14 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="cin-BK-iTy">
-                        <barButtonItem key="leftBarButtonItem" title="Upload" id="fnJ-FD-iFu">
-                            <connections>
-                                <action selector="uploadButtonPushed:" destination="jET-mn-Ts4" id="Sht-UV-8oh"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="settings.png" id="dpF-J9-5J3">
+                        <barButtonItem key="leftBarButtonItem" image="settings.png" id="dpF-J9-5J3">
                             <connections>
                                 <segue destination="CKn-7N-hi9" kind="modal" identifier="SettingsSegue" id="6dp-eM-W06"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Upload" id="a9S-L8-gKd">
+                            <connections>
+                                <action selector="uploadButtonPushed:" destination="jET-mn-Ts4" id="Biy-oi-HPw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -231,7 +231,7 @@
                         <outlet property="collectionView" destination="C6f-pH-iVT" id="1Wm-oE-YLv"/>
                         <outlet property="settingsButton" destination="dpF-J9-5J3" id="epx-WR-IB4"/>
                         <outlet property="takePhotoButton" destination="YkX-Ws-keA" id="AW3-Fd-YVl"/>
-                        <outlet property="uploadButton" destination="fnJ-FD-iFu" id="6lU-xy-TW7"/>
+                        <outlet property="uploadButton" destination="a9S-L8-gKd" id="ggX-ws-anf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ld-l7-aRA" userLabel="First Responder" sceneMemberID="firstResponder"/>
