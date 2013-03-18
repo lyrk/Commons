@@ -1,0 +1,30 @@
+{
+	"contribs-title": "Ma enporzhiadenno\u00f9",
+	"contribs-settings-button": "Arventenno\u00f9",
+	"contribs-upload-button": "Enporzhia\u00f1",
+	"contribs-photo-library-button": "Luc'hskeudenno\u00f9",
+	"contribs-state-queued": "Lakaet el lostenn",
+	"contribs-state-uploading": "Oc'h enporzhia\u00f1",
+	"error-upload-failed": "Enporzhiadenn c'hwitet !",
+	"error-dismiss": "Disteurel",
+	"error-bad-password-title": "Kudenn gevrea\u00f1",
+	"reltime-minutes": "$1 munutenn zo",
+	"reltime-hours": "$1 eurvezh zo",
+	"reltime-days": "$1 devezh zo",
+	"settings-title": "Arventenno\u00f9",
+	"settings-username-placeholder": "Anv implijer",
+	"settings-password-placeholder": "Ger-tremen",
+	"details-title": "Munudo\u00f9",
+	"details-upload-button": "Enporzhia\u00f1",
+	"details-title-label": "Titl",
+	"details-description-label": "Deskrivadur",
+	"details-description-placeholder": "Rekis",
+	"details-license-label": "Aotre-implijout",
+	"web-open-in": "Digeri\u00f1 e $1",
+	"web-cancel": "Nulla\u00f1",
+	"@metadata": {
+		"authors": [
+			"Y-M D"
+		]
+	}
+}

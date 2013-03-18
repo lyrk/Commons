@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Siebrand"
+		]
+	},
 	"contribs-title": "Mijn uploads",
 	"contribs-settings-button": "Instellingen",
 	"contribs-upload-button": "Uploaden",
@@ -28,10 +33,5 @@
 	"details-description-placeholder": "Vereist",
 	"details-license-label": "Licentie",
 	"web-open-in": "Openen in $1",
-	"web-cancel": "Annuleren",
-	"@metadata": {
-		"authors": [
-			"Siebrand"
-		]
-	}
+	"web-cancel": "Annuleren"
 }

@@ -1,0 +1,21 @@
+{
+	"contribs-title": "Mis subidas",
+	"contribs-settings-button": "Configuraci\u00f3n",
+	"contribs-upload-button": "Subir",
+	"contribs-photo-library-button": "Im\u00e1genes",
+	"contribs-state-queued": "En la cola",
+	"contribs-state-uploading": "Subiendo",
+	"contribs-refresh": "Tire para actualizar",
+	"error-upload-failed": "La subida ha fallado!",
+	"error-dismiss": "Ocultar",
+	"error-nologin-title": "Oh no!",
+	"error-nologin-text": "Necesitas iniciar sesi\u00f3n para que puedas subir fotos",
+	"error-bad-password-title": "Error de inicio de sesi\u00f3n",
+	"error-bad-password": "\u00bfOlvidaste tu nombre de usuario o contrase\u00f1a?",
+	"reltime-minutes": "$1 minutos atr\u00e1s",
+	"@metadata": {
+		"authors": [
+			"440hercios"
+		]
+	}
+}

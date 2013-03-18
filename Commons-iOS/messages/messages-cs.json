@@ -1,0 +1,33 @@
+{
+	"contribs-title": "Moje obr\u00e1zky",
+	"contribs-settings-button": "Nastaven\u00ed",
+	"contribs-upload-button": "Nahr\u00e1t",
+	"contribs-photo-library-button": "Fotografie",
+	"contribs-state-queued": "Ve front\u011b",
+	"contribs-state-uploading": "Na\u010d\u00edt\u00e1n\u00ed",
+	"error-upload-failed": "Nahr\u00e1v\u00e1n\u00ed se nezda\u0159ilo!",
+	"error-dismiss": "Zav\u0159\u00edt",
+	"error-nologin-title": "Ach ne!",
+	"error-nologin-text": "Mus\u00edte se p\u0159ihl\u00e1sit, ne\u017e m\u016f\u017eete nahr\u00e1t fotografie",
+	"error-bad-password-title": "Chyba p\u0159i p\u0159ihla\u0161ov\u00e1n\u00ed",
+	"error-bad-password": "\u0160patn\u00e9 u\u017eivatelsk\u00e9 jm\u00e9no nebo heslo",
+	"settings-title": "Nastaven\u00ed",
+	"settings-username-placeholder": "U\u017eivatelsk\u00e9 jm\u00e9no",
+	"settings-password-placeholder": "Heslo",
+	"settings-debug-label": "Re\u017eim lad\u011bn\u00ed",
+	"settings-debug-detail": "Nahr\u00e1v\u00e1n\u00ed na $1",
+	"details-title": "Podrobnosti",
+	"details-upload-button": "Nahr\u00e1t",
+	"details-title-label": "N\u00e1zev",
+	"details-title-placeholder": "Unik\u00e1tn\u00ed, popisn\u00fd n\u00e1zev",
+	"details-description-label": "Popis",
+	"details-description-placeholder": "Po\u017eadovan\u00e9",
+	"details-license-label": "Licence",
+	"web-open-in": "Otev\u0159\u00edt v $1",
+	"web-cancel": "Zru\u0161it",
+	"@metadata": {
+		"authors": [
+			"Chmee2"
+		]
+	}
+}

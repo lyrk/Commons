@@ -1,0 +1,37 @@
+{
+	"contribs-title": "Muatan naik saya",
+	"contribs-settings-button": "Tetapan",
+	"contribs-upload-button": "Muat naik",
+	"contribs-photo-library-button": "Gambar",
+	"contribs-state-queued": "Dibaris gilir",
+	"contribs-state-uploading": "Sedang memuat naik",
+	"contribs-refresh": "Tarik untuk kemas kini",
+	"error-upload-failed": "Muat naik gagal!",
+	"error-dismiss": "Singkir",
+	"error-nologin-title": "Alamak!",
+	"error-nologin-text": "Anda perlu log masuk sebelum boleh memuat naik gambar",
+	"error-bad-password-title": "Ralat log masuk",
+	"error-bad-password": "Nama pengguna atau kata laluan yang salah",
+	"reltime-minutes": "$1 minit yang lalu",
+	"reltime-hours": "$1 jam yang lalu",
+	"reltime-days": "$1 hari yang lalu",
+	"settings-title": "Tetapan",
+	"settings-username-placeholder": "Nama pengguna",
+	"settings-password-placeholder": "Kata laluan",
+	"settings-debug-label": "Mod baiki",
+	"settings-debug-detail": "Memuat naik ke $1",
+	"details-title": "Butiran",
+	"details-upload-button": "Muat naik",
+	"details-title-label": "Tajuk",
+	"details-title-placeholder": "Tajuk yang unik dan memerikan",
+	"details-description-label": "Keterangan",
+	"details-description-placeholder": "Wajib",
+	"details-license-label": "Lesen",
+	"web-open-in": "Buka di $1",
+	"web-cancel": "Batalkan",
+	"@metadata": {
+		"authors": [
+			"Anakmalaysia"
+		]
+	}
+}

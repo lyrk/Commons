@@ -1,0 +1,37 @@
+{
+	"contribs-title": "Mina uppladdningar",
+	"contribs-settings-button": "Inst\u00e4llningar",
+	"contribs-upload-button": "Ladda upp",
+	"contribs-photo-library-button": "Foton",
+	"contribs-state-queued": "K\u00f6ad",
+	"contribs-state-uploading": "Laddar upp",
+	"contribs-refresh": "Dra f\u00f6r att uppdatera",
+	"error-upload-failed": "Uppladdning misslyckades!",
+	"error-dismiss": "St\u00e4ng",
+	"error-nologin-title": "Oj, d\u00e5!",
+	"error-nologin-text": "Du m\u00e5ste logga in innan du kan ladda upp foton",
+	"error-bad-password-title": "Inloggningsproblem",
+	"error-bad-password": "Fel anv\u00e4ndarnamn eller l\u00f6senord",
+	"reltime-minutes": "$1 minuter sedan",
+	"reltime-hours": "$1 timmar sedan",
+	"reltime-days": "$1 dagar sedan",
+	"settings-title": "Inst\u00e4llningar",
+	"settings-username-placeholder": "Anv\u00e4ndarnamn",
+	"settings-password-placeholder": "L\u00f6senord",
+	"settings-debug-label": "Avlusningsl\u00e4ge",
+	"settings-debug-detail": "Laddar upp till $1",
+	"details-title": "Detaljer",
+	"details-upload-button": "Ladda upp",
+	"details-title-label": "Titel",
+	"details-title-placeholder": "Unik, beskrivande titel",
+	"details-description-label": "Beskrivning",
+	"details-description-placeholder": "N\u00f6dv\u00e4ndig",
+	"details-license-label": "Licens",
+	"web-open-in": "\u00d6ppna med $1",
+	"web-cancel": "Avbryt",
+	"@metadata": {
+		"authors": [
+			"WikiPhoenix"
+		]
+	}
+}

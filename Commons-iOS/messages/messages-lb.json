@@ -1,0 +1,34 @@
+{
+	"contribs-settings-button": "Astellungen",
+	"contribs-upload-button": "Eroplueden",
+	"contribs-photo-library-button": "Fotoen",
+	"contribs-state-queued": "An der Queue",
+	"contribs-state-uploading": "Eroplueden",
+	"contribs-refresh": "Dr\u00e9cke fir z'aktualis\u00e9ieren",
+	"error-upload-failed": "Eroplueden huet net fonctionn\u00e9iert!",
+	"error-nologin-title": "Uh oh!",
+	"error-nologin-text": "Dir musst Iech alogge ier Dir Fotoen eropluede k\u00ebnnt",
+	"error-bad-password-title": "Feeler beim Aloggen",
+	"error-bad-password": "Falsche Benotzernumm oder falscht Passwuert",
+	"reltime-minutes": "viru(n) $1 Minutten",
+	"reltime-hours": "viru(n) $1 Stonnen",
+	"reltime-days": "viru(n) $1 Deeg",
+	"settings-title": "Astellungen",
+	"settings-username-placeholder": "Benotzernumm",
+	"settings-password-placeholder": "Passwuert",
+	"settings-debug-label": "Debug Modus",
+	"settings-debug-detail": "Op $1 eroplueden",
+	"details-title": "Detailer",
+	"details-upload-button": "Eroplueden",
+	"details-title-label": "Titel",
+	"details-description-label": "Beschreiwung",
+	"details-description-placeholder": "Obligatoresch",
+	"details-license-label": "Lizenz",
+	"web-open-in": "Mat $1 opmaachen",
+	"web-cancel": "Ofbriechen",
+	"@metadata": {
+		"authors": [
+			"Robby"
+		]
+	}
+}

@@ -1,0 +1,37 @@
+{
+	"contribs-title": "Ta\u00f0 sum eg havi lagt \u00fat",
+	"contribs-settings-button": "Innstillingar",
+	"contribs-upload-button": "Legg \u00fat",
+	"contribs-photo-library-button": "Myndir",
+	"contribs-state-queued": "\u00cd b\u00ed\u00f0ir\u00f8\u00f0",
+	"contribs-state-uploading": "Ver\u00f0ur lagt \u00fat",
+	"contribs-refresh": "H\u00e1la fyri at dagf\u00f8ra",
+	"error-upload-failed": "Ta\u00f0 miseydna\u00f0ist at leggja \u00fat",
+	"error-dismiss": "Koyr vekk",
+	"error-nologin-title": "Uha!",
+	"error-nologin-text": "T\u00fa m\u00e1st rita inn \u00e1\u00f0renn t\u00fa kanst leggja myndir \u00fat",
+	"error-bad-password-title": "Feilur \u00ed innritan",
+	"error-bad-password": "Ikki gott br\u00fakaranavn ella loynior\u00f0",
+	"reltime-minutes": "$1 minuttir s\u00ed\u00f0an",
+	"reltime-hours": "$1 t\u00edmar s\u00ed\u00f0an",
+	"reltime-days": "$1 dagar s\u00ed\u00f0an",
+	"settings-title": "Innstillingar",
+	"settings-username-placeholder": "Br\u00fakaranavn",
+	"settings-password-placeholder": "Loynior\u00f0",
+	"settings-debug-label": "Feilfinnings st\u00f8\u00f0a",
+	"settings-debug-detail": "Legg \u00fat til $1",
+	"details-title": "Sm\u00e1lutir",
+	"details-upload-button": "Legg \u00fat",
+	"details-title-label": "Heiti",
+	"details-title-placeholder": "Serstakt, fr\u00e1grei\u00f0andi heiti",
+	"details-description-label": "Fr\u00e1grei\u00f0ing",
+	"details-description-placeholder": "Er ney\u00f0ugt",
+	"details-license-label": "Lisensur",
+	"web-open-in": "Lat upp \u00ed $1",
+	"web-cancel": "Angra",
+	"@metadata": {
+		"authors": [
+			"EileenSanda"
+		]
+	}
+}

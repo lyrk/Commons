@@ -1,0 +1,37 @@
+{
+	"contribs-title": "\ub0b4 \uc62c\ub9ac\uae30",
+	"contribs-settings-button": "\uc124\uc815",
+	"contribs-upload-button": "\uc62c\ub9ac\uae30",
+	"contribs-photo-library-button": "\uc0ac\uc9c4",
+	"contribs-state-queued": "\ub300\uae30 \uc911",
+	"contribs-state-uploading": "\uc62c\ub9ac\ub294 \uc911",
+	"contribs-refresh": "\uc0c8\ub85c \uace0\uce58\ub824\uba74 \ub2f9\uae30\uae30",
+	"error-upload-failed": "\uc62c\ub9ac\uae30\ub97c \uc2e4\ud328\ud588\uc2b5\ub2c8\ub2e4!",
+	"error-dismiss": "\uae30\uac01",
+	"error-nologin-title": "\uc800\ub7f0!",
+	"error-nologin-text": "\uc0ac\uc9c4\uc744 \uc62c\ub9ac\ub824\uba74 \ub85c\uadf8\uc778\ud574\uc57c \ud569\ub2c8\ub2e4",
+	"error-bad-password-title": "\ub85c\uadf8\uc778 \uc624\ub958",
+	"error-bad-password": "\uc0ac\uc6a9\uc790 \uc774\ub984\uc774\ub098 \ube44\ubc00\ubc88\ud638\uac00 \uc798\ubabb\ub418\uc5c8\uc2b5\ub2c8\ub2e4",
+	"reltime-minutes": "$1\ubd84 \uc804",
+	"reltime-hours": "$1\uc2dc\uac04 \uc804",
+	"reltime-days": "$1\uc77c \uc804",
+	"settings-title": "\uc124\uc815",
+	"settings-username-placeholder": "\uc0ac\uc6a9\uc790 \uc774\ub984",
+	"settings-password-placeholder": "\ube44\ubc00\ubc88\ud638",
+	"settings-debug-label": "\ub514\ubc84\uadf8 \ubaa8\ub4dc",
+	"settings-debug-detail": "$1\uc5d0 \uc62c\ub9ac\ub294 \uc911",
+	"details-title": "\uc790\uc138\ud55c \uc0ac\ud56d",
+	"details-upload-button": "\uc62c\ub9ac\uae30",
+	"details-title-label": "\uc81c\ubaa9",
+	"details-title-placeholder": "\uace0\uc720\ud558\uace0 \uad6c\uccb4\uc801\uc778 \uc81c\ubaa9",
+	"details-description-label": "\uc124\uba85",
+	"details-description-placeholder": "\ud544\uc218",
+	"details-license-label": "\ub77c\uc774\uc120\uc2a4",
+	"web-open-in": "$1(\uc73c)\ub85c \uc5f4\uae30",
+	"web-cancel": "\ucde8\uc18c",
+	"@metadata": {
+		"authors": [
+			"\uc544\ub77c"
+		]
+	}
+}

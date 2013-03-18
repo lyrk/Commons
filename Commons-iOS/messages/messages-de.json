@@ -1,0 +1,37 @@
+{
+	"contribs-title": "Meine hochgeladenen Dateien",
+	"contribs-settings-button": "Einstellungen",
+	"contribs-upload-button": "Hochladen",
+	"contribs-photo-library-button": "Fotos",
+	"contribs-state-queued": "In der Warteschlange",
+	"contribs-state-uploading": "Lade hoch",
+	"contribs-refresh": "Ziehen zum Aktualisieren",
+	"error-upload-failed": "Hochladen fehlgeschlagen!",
+	"error-dismiss": "Ausblenden",
+	"error-nologin-title": "Hoppla!",
+	"error-nologin-text": "Du musst dich anmelden, bevor du Fotos hochladen kannst",
+	"error-bad-password-title": "Anmeldefehler",
+	"error-bad-password": "Benutzername oder Passwort ung\u00fcltig",
+	"reltime-minutes": "vor $1 Minuten",
+	"reltime-hours": "vor $1 Stunden",
+	"reltime-days": "vor $1 Tagen",
+	"settings-title": "Einstellungen",
+	"settings-username-placeholder": "Benutzername",
+	"settings-password-placeholder": "Passwort",
+	"settings-debug-label": "Fehlerbeseitigungsmodus",
+	"settings-debug-detail": "Auf $1 hochladen",
+	"details-title": "Einzelheiten",
+	"details-upload-button": "Hochladen",
+	"details-title-label": "Titel",
+	"details-title-placeholder": "Eindeutiger beschreibender Titel",
+	"details-description-label": "Beschreibung",
+	"details-description-placeholder": "Erforderlich",
+	"details-license-label": "Lizenz",
+	"web-open-in": "In $1 \u00f6ffnen",
+	"web-cancel": "Abbrechen",
+	"@metadata": {
+		"authors": [
+			"Metalhead64"
+		]
+	}
+}
