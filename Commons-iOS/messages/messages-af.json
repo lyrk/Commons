@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Naudefj"
+		]
+	},
 	"contribs-title": "My oplaaie",
 	"contribs-settings-button": "Voorkeure",
 	"contribs-upload-button": "Laai op",
@@ -28,10 +33,5 @@
 	"details-description-placeholder": "Verpligtend",
 	"details-license-label": "Lisensie",
 	"web-open-in": "Open in $1",
-	"web-cancel": "Kanselleer",
-	"@metadata": {
-		"authors": [
-			"Naudefj"
-		]
-	}
+	"web-cancel": "Kanselleer"
 }

@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Michawiki"
+		]
+	},
 	"contribs-title": "Moje aktualizacije",
 	"contribs-settings-button": "Nastajenja",
 	"contribs-upload-button": "Nahra\u0107",
@@ -28,10 +33,5 @@
 	"details-description-placeholder": "Tr\u011bbny",
 	"details-license-label": "Licenca",
 	"web-open-in": "W $1 wo\u010dini\u0107",
-	"web-cancel": "P\u0159etorhny\u0107",
-	"@metadata": {
-		"authors": [
-			"Michawiki"
-		]
-	}
+	"web-cancel": "P\u0159etorhny\u0107"
 }

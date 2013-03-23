@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"EileenSanda"
+		]
+	},
 	"contribs-title": "Ta\u00f0 sum eg havi lagt \u00fat",
 	"contribs-settings-button": "Innstillingar",
 	"contribs-upload-button": "Legg \u00fat",
@@ -28,10 +33,5 @@
 	"details-description-placeholder": "Er ney\u00f0ugt",
 	"details-license-label": "Lisensur",
 	"web-open-in": "Lat upp \u00ed $1",
-	"web-cancel": "Angra",
-	"@metadata": {
-		"authors": [
-			"EileenSanda"
-		]
-	}
+	"web-cancel": "Angra"
 }

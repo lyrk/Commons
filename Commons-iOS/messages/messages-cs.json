@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Chmee2"
+		]
+	},
 	"contribs-title": "Moje obr\u00e1zky",
 	"contribs-settings-button": "Nastaven\u00ed",
 	"contribs-upload-button": "Nahr\u00e1t",
@@ -24,10 +29,5 @@
 	"details-description-placeholder": "Po\u017eadovan\u00e9",
 	"details-license-label": "Licence",
 	"web-open-in": "Otev\u0159\u00edt v $1",
-	"web-cancel": "Zru\u0161it",
-	"@metadata": {
-		"authors": [
-			"Chmee2"
-		]
-	}
+	"web-cancel": "Zru\u0161it"
 }

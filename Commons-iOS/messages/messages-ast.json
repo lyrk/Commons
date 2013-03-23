@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Xuacu"
+		]
+	},
 	"contribs-title": "Les mios xubes",
 	"contribs-settings-button": "Configuraci\u00f3n",
 	"contribs-upload-button": "Xubir",
@@ -28,10 +33,5 @@
 	"details-description-placeholder": "Requer\u00edu",
 	"details-license-label": "Llicencia",
 	"web-open-in": "Abrir en $1",
-	"web-cancel": "Encaboxar",
-	"@metadata": {
-		"authors": [
-			"Xuacu"
-		]
-	}
+	"web-cancel": "Encaboxar"
 }

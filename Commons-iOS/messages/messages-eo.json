@@ -1,0 +1,37 @@
+{
+	"contribs-title": "Miaj al\u015dutoj",
+	"contribs-settings-button": "Agordoj",
+	"contribs-upload-button": "Al\u015duti",
+	"contribs-photo-library-button": "Fotoj",
+	"contribs-state-queued": "Sekvovice",
+	"contribs-state-uploading": "Al\u015dutante",
+	"contribs-refresh": "Tiru pri \u011disdatigi",
+	"error-upload-failed": "Al\u015dutanto malsukcesis!",
+	"error-dismiss": "Forsendi",
+	"error-nologin-title": "Ho ve!",
+	"error-nologin-text": "Vi devas ensaluti anta\u016d ol vi povas al\u015duti fotojn",
+	"error-bad-password-title": "Ensaluta eraro",
+	"error-bad-password": "Malbona salutnomo a\u016d pasvorto",
+	"reltime-minutes": "anta\u016d $1 minutoj",
+	"reltime-hours": "anta\u016d $1 horoj",
+	"reltime-days": "anta\u016d $1 tagoj",
+	"settings-title": "Agordoj",
+	"settings-username-placeholder": "Salutnomo",
+	"settings-password-placeholder": "Pasvorto",
+	"settings-debug-label": "Modalo pri forigi misa\u0135etojn",
+	"settings-debug-detail": "Al\u015duti\u011das al $1",
+	"details-title": "Detaloj",
+	"details-upload-button": "Al\u015duti",
+	"details-title-label": "Titolo",
+	"details-title-placeholder": "Unika, priskriba titolo",
+	"details-description-label": "Priskribo",
+	"details-description-placeholder": "Deviga",
+	"details-license-label": "Permesilo",
+	"web-open-in": "Malfermi en $1",
+	"web-cancel": "Nuligi",
+	"@metadata": {
+		"authors": [
+			"Objectivesea"
+		]
+	}
+}

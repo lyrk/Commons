@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Anakmalaysia"
+		]
+	},
 	"contribs-title": "Muatan naik saya",
 	"contribs-settings-button": "Tetapan",
 	"contribs-upload-button": "Muat naik",
@@ -28,10 +33,5 @@
 	"details-description-placeholder": "Wajib",
 	"details-license-label": "Lesen",
 	"web-open-in": "Buka di $1",
-	"web-cancel": "Batalkan",
-	"@metadata": {
-		"authors": [
-			"Anakmalaysia"
-		]
-	}
+	"web-cancel": "Batalkan"
 }

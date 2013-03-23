@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Robby"
+		]
+	},
 	"contribs-settings-button": "Astellungen",
 	"contribs-upload-button": "Eroplueden",
 	"contribs-photo-library-button": "Fotoen",
@@ -25,10 +30,5 @@
 	"details-description-placeholder": "Obligatoresch",
 	"details-license-label": "Lizenz",
 	"web-open-in": "Mat $1 opmaachen",
-	"web-cancel": "Ofbriechen",
-	"@metadata": {
-		"authors": [
-			"Robby"
-		]
-	}
+	"web-cancel": "Ofbriechen"
 }

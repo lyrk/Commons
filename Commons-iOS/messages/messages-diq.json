@@ -1,0 +1,31 @@
+{
+	"contribs-title": "Barkerd\u0131\u015f\u00ea m\u0131",
+	"contribs-settings-button": "Sazkerd\u0131\u015fi",
+	"contribs-upload-button": "Bar ke",
+	"contribs-photo-library-button": "Fotrafi",
+	"contribs-state-uploading": "Bar beno",
+	"contribs-refresh": "Newekerd\u0131\u015fi r\u00ea bance",
+	"error-upload-failed": "Bar n\u00eabi!",
+	"error-bad-password": "Parolaya \u011felete ya zi namey\u00ea karberio \u011felet",
+	"reltime-minutes": "$1 deqey ver",
+	"reltime-hours": "$1 saeti ver",
+	"reltime-days": "$1 roci ver",
+	"settings-title": "Sazkerd\u0131\u015fi",
+	"settings-username-placeholder": "Namey\u00ea karberi",
+	"settings-password-placeholder": "Parola",
+	"settings-debug-detail": "Bar ke be $1",
+	"details-title": "Teferruati",
+	"details-upload-button": "Bar ke",
+	"details-title-label": "Sername",
+	"details-description-label": "\u015e\u0131nasnay\u0131\u015f",
+	"details-description-placeholder": "Mecburiyo",
+	"details-license-label": "Lisans",
+	"web-open-in": "$1'i akeri",
+	"web-cancel": "B\u0131terkne",
+	"@metadata": {
+		"authors": [
+			"Gorizon",
+			"Mirzali"
+		]
+	}
+}

@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"Metalhead64"
+		]
+	},
 	"contribs-title": "Meine hochgeladenen Dateien",
 	"contribs-settings-button": "Einstellungen",
 	"contribs-upload-button": "Hochladen",
@@ -28,10 +33,5 @@
 	"details-description-placeholder": "Erforderlich",
 	"details-license-label": "Lizenz",
 	"web-open-in": "In $1 \u00f6ffnen",
-	"web-cancel": "Abbrechen",
-	"@metadata": {
-		"authors": [
-			"Metalhead64"
-		]
-	}
+	"web-cancel": "Abbrechen"
 }

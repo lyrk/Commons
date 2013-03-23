@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"\uc544\ub77c"
+		]
+	},
 	"contribs-title": "\ub0b4 \uc62c\ub9ac\uae30",
 	"contribs-settings-button": "\uc124\uc815",
 	"contribs-upload-button": "\uc62c\ub9ac\uae30",
@@ -28,10 +33,5 @@
 	"details-description-placeholder": "\ud544\uc218",
 	"details-license-label": "\ub77c\uc774\uc120\uc2a4",
 	"web-open-in": "$1(\uc73c)\ub85c \uc5f4\uae30",
-	"web-cancel": "\ucde8\uc18c",
-	"@metadata": {
-		"authors": [
-			"\uc544\ub77c"
-		]
-	}
+	"web-cancel": "\ucde8\uc18c"
 }

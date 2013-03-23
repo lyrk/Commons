@@ -16,7 +16,7 @@
 	"error-nologin-title": "Fout",
 	"error-nologin-text": "U moet aanmelden voordat u afbeeldingen kunt uploaden",
 	"error-bad-password-title": "Aanmeldfout",
-	"error-bad-password": "Gebruikersnaam of wachtwoord vergeten?",
+	"error-bad-password": "Onjuiste gebruikersnaam of wachtwoord",
 	"reltime-minutes": "$1 minuten geleden",
 	"reltime-hours": "$1 uur geleden",
 	"reltime-days": "$1 dagen geleden",

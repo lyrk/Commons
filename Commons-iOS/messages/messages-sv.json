@@ -1,4 +1,9 @@
 {
+	"@metadata": {
+		"authors": [
+			"WikiPhoenix"
+		]
+	},
 	"contribs-title": "Mina uppladdningar",
 	"contribs-settings-button": "Inst\u00e4llningar",
 	"contribs-upload-button": "Ladda upp",
@@ -28,10 +33,5 @@
 	"details-description-placeholder": "N\u00f6dv\u00e4ndig",
 	"details-license-label": "Licens",
 	"web-open-in": "\u00d6ppna med $1",
-	"web-cancel": "Avbryt",
-	"@metadata": {
-		"authors": [
-			"WikiPhoenix"
-		]
-	}
+	"web-cancel": "Avbryt"
 }
