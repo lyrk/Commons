@@ -199,6 +199,10 @@
 		D4C0372B1700C38100AA2537 /* messages-sr-ec.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C0370D1700C38000AA2537 /* messages-sr-ec.json */; };
 		D4C0372C1700C38100AA2537 /* messages-sv.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C0370E1700C38000AA2537 /* messages-sv.json */; };
 		D4C0372D1700C38100AA2537 /* messages-zh-hans.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C0370F1700C38100AA2537 /* messages-zh-hans.json */; };
+		D4C037321700F29600AA2537 /* toolbar-back.png in Resources */ = {isa = PBXBuildFile; fileRef = D4C0372E1700F29600AA2537 /* toolbar-back.png */; };
+		D4C037331700F29600AA2537 /* toolbar-back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4C0372F1700F29600AA2537 /* toolbar-back@2x.png */; };
+		D4C037341700F29600AA2537 /* toolbar-forward.png in Resources */ = {isa = PBXBuildFile; fileRef = D4C037301700F29600AA2537 /* toolbar-forward.png */; };
+		D4C037351700F29600AA2537 /* toolbar-forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D4C037311700F29600AA2537 /* toolbar-forward@2x.png */; };
 		D4C08F2A16AF47300069172D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
 		D4D0E1F2169BA5E2003047A8 /* MWHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* MWHttp.m */; };
 		D4D0E1F3169BA5E2003047A8 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
@@ -360,6 +364,10 @@
 		D4C0370D1700C38000AA2537 /* messages-sr-ec.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-sr-ec.json"; path = "messages/messages-sr-ec.json"; sourceTree = "<group>"; };
 		D4C0370E1700C38000AA2537 /* messages-sv.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-sv.json"; path = "messages/messages-sv.json"; sourceTree = "<group>"; };
 		D4C0370F1700C38100AA2537 /* messages-zh-hans.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-zh-hans.json"; path = "messages/messages-zh-hans.json"; sourceTree = "<group>"; };
+		D4C0372E1700F29600AA2537 /* toolbar-back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-back.png"; sourceTree = "<group>"; };
+		D4C0372F1700F29600AA2537 /* toolbar-back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-back@2x.png"; sourceTree = "<group>"; };
+		D4C037301700F29600AA2537 /* toolbar-forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-forward.png"; sourceTree = "<group>"; };
+		D4C037311700F29600AA2537 /* toolbar-forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-forward@2x.png"; sourceTree = "<group>"; };
 		D4C08F2916AF47300069172D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D4D0E1E9169BA5E2003047A8 /* MWHttp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWHttp.m; path = mwapi/MWHttp.m; sourceTree = "<group>"; };
 		D4D0E1EA169BA5E2003047A8 /* MWApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApi.m; path = mwapi/MWApi.m; sourceTree = "<group>"; };
@@ -581,6 +589,10 @@
 		D4086177169B760800D6ACB0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				D4C0372E1700F29600AA2537 /* toolbar-back.png */,
+				D4C0372F1700F29600AA2537 /* toolbar-back@2x.png */,
+				D4C037301700F29600AA2537 /* toolbar-forward.png */,
+				D4C037311700F29600AA2537 /* toolbar-forward@2x.png */,
 				D400C36E16DD96F70059F6A7 /* commons-logo.png */,
 				D400C36F16DD96F70059F6A7 /* commons-logo@2x.png */,
 				D43E578B16CD9C3C00FBB0F9 /* photo-button-bg.png */,
@@ -960,6 +972,10 @@
 				D4C0372B1700C38100AA2537 /* messages-sr-ec.json in Resources */,
 				D4C0372C1700C38100AA2537 /* messages-sv.json in Resources */,
 				D4C0372D1700C38100AA2537 /* messages-zh-hans.json in Resources */,
+				D4C037321700F29600AA2537 /* toolbar-back.png in Resources */,
+				D4C037331700F29600AA2537 /* toolbar-back@2x.png in Resources */,
+				D4C037341700F29600AA2537 /* toolbar-forward.png in Resources */,
+				D4C037351700F29600AA2537 /* toolbar-forward@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3012" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TTI-Hz-lQf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12D78" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="TTI-Hz-lQf">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
@@ -474,7 +474,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems>
-                        <barButtonItem style="plain" systemItem="rewind" id="2Jw-tS-QQ2">
+                        <barButtonItem image="toolbar-back.png" style="plain" id="2Jw-tS-QQ2">
                             <connections>
                                 <action selector="backButtonPushed:" destination="wx9-WY-6j8" id="EkT-Ba-q3V"/>
                             </connections>
@@ -486,7 +486,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="gMJ-lQ-HQt"/>
-                        <barButtonItem style="plain" systemItem="fastForward" id="kJu-Pf-zGN">
+                        <barButtonItem image="toolbar-forward.png" style="plain" id="kJu-Pf-zGN">
                             <connections>
                                 <action selector="forwardButtonPushed:" destination="wx9-WY-6j8" id="3J8-5g-KfG"/>
                             </connections>
@@ -545,6 +545,8 @@
         <image name="gallery.png" width="30" height="25"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="40" height="34"/>
+        <image name="toolbar-back.png" width="24" height="24"/>
+        <image name="toolbar-forward.png" width="24" height="24"/>
     </resources>
     <classes>
         <class className="DetailTableViewController" superclassName="UITableViewController">
@@ -620,6 +622,9 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="WebViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WebViewController.h"/>
