@@ -169,6 +169,36 @@
 		D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
 		D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
+		D4C037101700C38100AA2537 /* messages-af.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F21700C38000AA2537 /* messages-af.json */; };
+		D4C037111700C38100AA2537 /* messages-ar.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F31700C38000AA2537 /* messages-ar.json */; };
+		D4C037121700C38100AA2537 /* messages-ast.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F41700C38000AA2537 /* messages-ast.json */; };
+		D4C037131700C38100AA2537 /* messages-be-tarask.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F51700C38000AA2537 /* messages-be-tarask.json */; };
+		D4C037141700C38100AA2537 /* messages-bn.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F61700C38000AA2537 /* messages-bn.json */; };
+		D4C037151700C38100AA2537 /* messages-br.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F71700C38000AA2537 /* messages-br.json */; };
+		D4C037161700C38100AA2537 /* messages-cs.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F81700C38000AA2537 /* messages-cs.json */; };
+		D4C037171700C38100AA2537 /* messages-de.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F91700C38000AA2537 /* messages-de.json */; };
+		D4C037181700C38100AA2537 /* messages-diq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036FA1700C38000AA2537 /* messages-diq.json */; };
+		D4C037191700C38100AA2537 /* messages-dsb.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036FB1700C38000AA2537 /* messages-dsb.json */; };
+		D4C0371A1700C38100AA2537 /* messages-eo.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036FC1700C38000AA2537 /* messages-eo.json */; };
+		D4C0371B1700C38100AA2537 /* messages-es.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036FD1700C38000AA2537 /* messages-es.json */; };
+		D4C0371C1700C38100AA2537 /* messages-fo.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036FE1700C38000AA2537 /* messages-fo.json */; };
+		D4C0371D1700C38100AA2537 /* messages-fr.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036FF1700C38000AA2537 /* messages-fr.json */; };
+		D4C0371E1700C38100AA2537 /* messages-gl.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037001700C38000AA2537 /* messages-gl.json */; };
+		D4C0371F1700C38100AA2537 /* messages-he.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037011700C38000AA2537 /* messages-he.json */; };
+		D4C037201700C38100AA2537 /* messages-hsb.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037021700C38000AA2537 /* messages-hsb.json */; };
+		D4C037211700C38100AA2537 /* messages-ia.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037031700C38000AA2537 /* messages-ia.json */; };
+		D4C037221700C38100AA2537 /* messages-it.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037041700C38000AA2537 /* messages-it.json */; };
+		D4C037231700C38100AA2537 /* messages-ja.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037051700C38000AA2537 /* messages-ja.json */; };
+		D4C037241700C38100AA2537 /* messages-km.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037061700C38000AA2537 /* messages-km.json */; };
+		D4C037251700C38100AA2537 /* messages-ko.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037071700C38000AA2537 /* messages-ko.json */; };
+		D4C037261700C38100AA2537 /* messages-lb.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037081700C38000AA2537 /* messages-lb.json */; };
+		D4C037271700C38100AA2537 /* messages-mk.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C037091700C38000AA2537 /* messages-mk.json */; };
+		D4C037281700C38100AA2537 /* messages-ms.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C0370A1700C38000AA2537 /* messages-ms.json */; };
+		D4C037291700C38100AA2537 /* messages-ps.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C0370B1700C38000AA2537 /* messages-ps.json */; };
+		D4C0372A1700C38100AA2537 /* messages-ru.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C0370C1700C38000AA2537 /* messages-ru.json */; };
+		D4C0372B1700C38100AA2537 /* messages-sr-ec.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C0370D1700C38000AA2537 /* messages-sr-ec.json */; };
+		D4C0372C1700C38100AA2537 /* messages-sv.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C0370E1700C38000AA2537 /* messages-sv.json */; };
+		D4C0372D1700C38100AA2537 /* messages-zh-hans.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C0370F1700C38100AA2537 /* messages-zh-hans.json */; };
 		D4C08F2A16AF47300069172D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
 		D4D0E1F2169BA5E2003047A8 /* MWHttp.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1E9169BA5E2003047A8 /* MWHttp.m */; };
 		D4D0E1F3169BA5E2003047A8 /* MWApi.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EA169BA5E2003047A8 /* MWApi.m */; };
@@ -300,6 +330,36 @@
 		D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		D4B83E2016BC950900ABAF94 /* BrowserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserHelper.h; sourceTree = "<group>"; };
 		D4B83E2116BC950900ABAF94 /* BrowserHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserHelper.m; sourceTree = "<group>"; };
+		D4C036F21700C38000AA2537 /* messages-af.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-af.json"; path = "messages/messages-af.json"; sourceTree = "<group>"; };
+		D4C036F31700C38000AA2537 /* messages-ar.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ar.json"; path = "messages/messages-ar.json"; sourceTree = "<group>"; };
+		D4C036F41700C38000AA2537 /* messages-ast.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ast.json"; path = "messages/messages-ast.json"; sourceTree = "<group>"; };
+		D4C036F51700C38000AA2537 /* messages-be-tarask.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-be-tarask.json"; path = "messages/messages-be-tarask.json"; sourceTree = "<group>"; };
+		D4C036F61700C38000AA2537 /* messages-bn.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-bn.json"; path = "messages/messages-bn.json"; sourceTree = "<group>"; };
+		D4C036F71700C38000AA2537 /* messages-br.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-br.json"; path = "messages/messages-br.json"; sourceTree = "<group>"; };
+		D4C036F81700C38000AA2537 /* messages-cs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-cs.json"; path = "messages/messages-cs.json"; sourceTree = "<group>"; };
+		D4C036F91700C38000AA2537 /* messages-de.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-de.json"; path = "messages/messages-de.json"; sourceTree = "<group>"; };
+		D4C036FA1700C38000AA2537 /* messages-diq.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-diq.json"; path = "messages/messages-diq.json"; sourceTree = "<group>"; };
+		D4C036FB1700C38000AA2537 /* messages-dsb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-dsb.json"; path = "messages/messages-dsb.json"; sourceTree = "<group>"; };
+		D4C036FC1700C38000AA2537 /* messages-eo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-eo.json"; path = "messages/messages-eo.json"; sourceTree = "<group>"; };
+		D4C036FD1700C38000AA2537 /* messages-es.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-es.json"; path = "messages/messages-es.json"; sourceTree = "<group>"; };
+		D4C036FE1700C38000AA2537 /* messages-fo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-fo.json"; path = "messages/messages-fo.json"; sourceTree = "<group>"; };
+		D4C036FF1700C38000AA2537 /* messages-fr.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-fr.json"; path = "messages/messages-fr.json"; sourceTree = "<group>"; };
+		D4C037001700C38000AA2537 /* messages-gl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-gl.json"; path = "messages/messages-gl.json"; sourceTree = "<group>"; };
+		D4C037011700C38000AA2537 /* messages-he.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-he.json"; path = "messages/messages-he.json"; sourceTree = "<group>"; };
+		D4C037021700C38000AA2537 /* messages-hsb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-hsb.json"; path = "messages/messages-hsb.json"; sourceTree = "<group>"; };
+		D4C037031700C38000AA2537 /* messages-ia.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ia.json"; path = "messages/messages-ia.json"; sourceTree = "<group>"; };
+		D4C037041700C38000AA2537 /* messages-it.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-it.json"; path = "messages/messages-it.json"; sourceTree = "<group>"; };
+		D4C037051700C38000AA2537 /* messages-ja.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ja.json"; path = "messages/messages-ja.json"; sourceTree = "<group>"; };
+		D4C037061700C38000AA2537 /* messages-km.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-km.json"; path = "messages/messages-km.json"; sourceTree = "<group>"; };
+		D4C037071700C38000AA2537 /* messages-ko.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ko.json"; path = "messages/messages-ko.json"; sourceTree = "<group>"; };
+		D4C037081700C38000AA2537 /* messages-lb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-lb.json"; path = "messages/messages-lb.json"; sourceTree = "<group>"; };
+		D4C037091700C38000AA2537 /* messages-mk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-mk.json"; path = "messages/messages-mk.json"; sourceTree = "<group>"; };
+		D4C0370A1700C38000AA2537 /* messages-ms.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ms.json"; path = "messages/messages-ms.json"; sourceTree = "<group>"; };
+		D4C0370B1700C38000AA2537 /* messages-ps.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ps.json"; path = "messages/messages-ps.json"; sourceTree = "<group>"; };
+		D4C0370C1700C38000AA2537 /* messages-ru.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ru.json"; path = "messages/messages-ru.json"; sourceTree = "<group>"; };
+		D4C0370D1700C38000AA2537 /* messages-sr-ec.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-sr-ec.json"; path = "messages/messages-sr-ec.json"; sourceTree = "<group>"; };
+		D4C0370E1700C38000AA2537 /* messages-sv.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-sv.json"; path = "messages/messages-sv.json"; sourceTree = "<group>"; };
+		D4C0370F1700C38100AA2537 /* messages-zh-hans.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-zh-hans.json"; path = "messages/messages-zh-hans.json"; sourceTree = "<group>"; };
 		D4C08F2916AF47300069172D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D4D0E1E9169BA5E2003047A8 /* MWHttp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWHttp.m; path = mwapi/MWHttp.m; sourceTree = "<group>"; };
 		D4D0E1EA169BA5E2003047A8 /* MWApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApi.m; path = mwapi/MWApi.m; sourceTree = "<group>"; };
@@ -642,6 +702,36 @@
 		D4E0384D16C463D300330A7F /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				D4C036F21700C38000AA2537 /* messages-af.json */,
+				D4C036F31700C38000AA2537 /* messages-ar.json */,
+				D4C036F41700C38000AA2537 /* messages-ast.json */,
+				D4C036F51700C38000AA2537 /* messages-be-tarask.json */,
+				D4C036F61700C38000AA2537 /* messages-bn.json */,
+				D4C036F71700C38000AA2537 /* messages-br.json */,
+				D4C036F81700C38000AA2537 /* messages-cs.json */,
+				D4C036F91700C38000AA2537 /* messages-de.json */,
+				D4C036FA1700C38000AA2537 /* messages-diq.json */,
+				D4C036FB1700C38000AA2537 /* messages-dsb.json */,
+				D4C036FC1700C38000AA2537 /* messages-eo.json */,
+				D4C036FD1700C38000AA2537 /* messages-es.json */,
+				D4C036FE1700C38000AA2537 /* messages-fo.json */,
+				D4C036FF1700C38000AA2537 /* messages-fr.json */,
+				D4C037001700C38000AA2537 /* messages-gl.json */,
+				D4C037011700C38000AA2537 /* messages-he.json */,
+				D4C037021700C38000AA2537 /* messages-hsb.json */,
+				D4C037031700C38000AA2537 /* messages-ia.json */,
+				D4C037041700C38000AA2537 /* messages-it.json */,
+				D4C037051700C38000AA2537 /* messages-ja.json */,
+				D4C037061700C38000AA2537 /* messages-km.json */,
+				D4C037071700C38000AA2537 /* messages-ko.json */,
+				D4C037081700C38000AA2537 /* messages-lb.json */,
+				D4C037091700C38000AA2537 /* messages-mk.json */,
+				D4C0370A1700C38000AA2537 /* messages-ms.json */,
+				D4C0370B1700C38000AA2537 /* messages-ps.json */,
+				D4C0370C1700C38000AA2537 /* messages-ru.json */,
+				D4C0370D1700C38000AA2537 /* messages-sr-ec.json */,
+				D4C0370E1700C38000AA2537 /* messages-sv.json */,
+				D4C0370F1700C38100AA2537 /* messages-zh-hans.json */,
 				D471635216F3D54F00962205 /* messages-nl.json */,
 				D4E0384916C463C700330A7F /* messages-en.json */,
 				D4E0385B16C47B6C00330A7F /* messages-qqq.json */,
@@ -840,6 +930,36 @@
 				D400C37016DD96F70059F6A7 /* commons-logo.png in Resources */,
 				D400C37116DD96F70059F6A7 /* commons-logo@2x.png in Resources */,
 				D471635316F3D54F00962205 /* messages-nl.json in Resources */,
+				D4C037101700C38100AA2537 /* messages-af.json in Resources */,
+				D4C037111700C38100AA2537 /* messages-ar.json in Resources */,
+				D4C037121700C38100AA2537 /* messages-ast.json in Resources */,
+				D4C037131700C38100AA2537 /* messages-be-tarask.json in Resources */,
+				D4C037141700C38100AA2537 /* messages-bn.json in Resources */,
+				D4C037151700C38100AA2537 /* messages-br.json in Resources */,
+				D4C037161700C38100AA2537 /* messages-cs.json in Resources */,
+				D4C037171700C38100AA2537 /* messages-de.json in Resources */,
+				D4C037181700C38100AA2537 /* messages-diq.json in Resources */,
+				D4C037191700C38100AA2537 /* messages-dsb.json in Resources */,
+				D4C0371A1700C38100AA2537 /* messages-eo.json in Resources */,
+				D4C0371B1700C38100AA2537 /* messages-es.json in Resources */,
+				D4C0371C1700C38100AA2537 /* messages-fo.json in Resources */,
+				D4C0371D1700C38100AA2537 /* messages-fr.json in Resources */,
+				D4C0371E1700C38100AA2537 /* messages-gl.json in Resources */,
+				D4C0371F1700C38100AA2537 /* messages-he.json in Resources */,
+				D4C037201700C38100AA2537 /* messages-hsb.json in Resources */,
+				D4C037211700C38100AA2537 /* messages-ia.json in Resources */,
+				D4C037221700C38100AA2537 /* messages-it.json in Resources */,
+				D4C037231700C38100AA2537 /* messages-ja.json in Resources */,
+				D4C037241700C38100AA2537 /* messages-km.json in Resources */,
+				D4C037251700C38100AA2537 /* messages-ko.json in Resources */,
+				D4C037261700C38100AA2537 /* messages-lb.json in Resources */,
+				D4C037271700C38100AA2537 /* messages-mk.json in Resources */,
+				D4C037281700C38100AA2537 /* messages-ms.json in Resources */,
+				D4C037291700C38100AA2537 /* messages-ps.json in Resources */,
+				D4C0372A1700C38100AA2537 /* messages-ru.json in Resources */,
+				D4C0372B1700C38100AA2537 /* messages-sr-ec.json in Resources */,
+				D4C0372C1700C38100AA2537 /* messages-sv.json in Resources */,
+				D4C0372D1700C38100AA2537 /* messages-zh-hans.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

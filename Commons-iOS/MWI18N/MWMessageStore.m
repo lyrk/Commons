@@ -53,7 +53,7 @@
         NSData *data = [NSData dataWithContentsOfFile:path];
         return [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
     } else {
-        NSLog(@"no messages at %@", path);
+        NSLog(@"no messages at %@ (%@)", path, filename);
         return @{};
     }
 }

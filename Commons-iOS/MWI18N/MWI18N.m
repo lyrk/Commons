@@ -15,7 +15,7 @@ static MWMessageStore *store_;
 
 + (void)setLanguage:(NSString *)language
 {
-    language_ = [language copy];
+    language_ = [MWI18N filterLanguage:language];
     MWMessageStore *fallback;
     if ([language_ isEqualToString:@"en"]) {
         fallback = nil;
@@ -30,6 +30,12 @@ static MWMessageStore *store_;
 {
     // fixme use the language thingy
     return [store_ fetchMessage:key];
+}
+
++ (NSString *)filterLanguage:(NSString *)language
+{
+    // Force to lowercase to fix eg 'zh-Hans' -> 'zh-hans'
+    return [language lowercaseString];
 }
 
 @end
