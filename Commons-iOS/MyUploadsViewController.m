@@ -469,8 +469,7 @@
             CGSize size = CGSizeMake(640.0f, 640.0f);
             fetchThumb = [app fetchWikiImage:title size:size];
         } else {
-            NSURL *thumbURL = [NSURL fileURLWithPath:record.localFile];
-            fetchThumb = [app fetchImageURL:thumbURL];
+            fetchThumb = [record fetchThumbnail];
         }
         cell.image.image = nil;
         [fetchThumb done:^(UIImage *image) {
