@@ -49,7 +49,7 @@ static CommonsApp *singleton_;
         @"revision": @5257721
     }];
     [self.eventLog setSchema:@"MobileAppUploadAttempts" meta:@{
-        @"revision": @5257716
+        @"revision": @5334329
     }];
     [self updateLogOptions];
     
@@ -402,13 +402,15 @@ static CommonsApp *singleton_;
                    [self log:@"MobileAppUploadAttempts" event:@{
                         @"source": record.source,
                         @"filename": fileName,
-                        @"result": @"success"
+                        @"result": @"success",
+                        @"multiple": @NO
                     }];
                } else {
                    [self log:@"MobileAppUploadAttempts" event:@{
                         @"source": record.source,
                         @"filename": fileName,
-                        @"result": upload[@"result"]
+                        @"result": upload[@"result"],
+                        @"multiple": @NO
                     }];
 
                    // whaaaaaaat?
@@ -425,7 +427,8 @@ static CommonsApp *singleton_;
                [self.eventLog log:@"MobileAppUploadAttempts" event:@{
                     @"source": record.source,
                     @"filename": fileName,
-                    @"result": MW_ERROR_CODE(error)
+                    @"result": MW_ERROR_CODE(error),
+                    @"multiple": @NO
                 }];
                record.progress = @0.0f;
                [deferred reject:error];
