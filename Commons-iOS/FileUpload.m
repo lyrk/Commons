@@ -39,7 +39,8 @@
     MWPromise *fetch;
 
     if (self.complete.boolValue) {
-        fetch = [app fetchImageURL:[NSURL URLWithString:self.thumbnailURL]];
+        CGSize size = CGSizeMake(640.0f, 640.0f); // hmm
+        fetch = [app fetchWikiImage:self.title size:size];
     } else {
         // Use the pre-uploaded file as the medium thumbnail
         fetch = [app loadImage:self.localFile

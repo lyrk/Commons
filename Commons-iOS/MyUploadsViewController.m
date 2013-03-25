@@ -464,13 +464,7 @@
         // Save the title for future checks...
         cell.title = title;
 
-        MWPromise *fetchThumb;
-        if (record.complete.boolValue) {
-            CGSize size = CGSizeMake(640.0f, 640.0f);
-            fetchThumb = [app fetchWikiImage:title size:size];
-        } else {
-            fetchThumb = [record fetchThumbnail];
-        }
+        MWPromise *fetchThumb = [record fetchThumbnail];
         cell.image.image = nil;
         [fetchThumb done:^(UIImage *image) {
             if ([cell.title isEqualToString:title]) {
