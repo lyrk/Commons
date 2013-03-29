@@ -378,7 +378,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="BVL-pj-ibE"/>
-                        <barButtonItem title="Wiki page" style="plain" id="DlG-Q0-XOO">
+                        <barButtonItem image="toolbar-view.png" style="plain" id="DlG-Q0-XOO">
                             <connections>
                                 <action selector="openPageButtonPushed:" destination="epi-E0-AsP" id="yGt-ai-4sm"/>
                                 <segue destination="wx9-WY-6j8" kind="push" identifier="OpenPageSegue" id="6yf-Z5-u4q"/>
@@ -550,6 +550,7 @@
         <image name="settings.png" width="40" height="34"/>
         <image name="toolbar-back.png" width="24" height="24"/>
         <image name="toolbar-forward.png" width="24" height="24"/>
+        <image name="toolbar-view.png" width="32" height="32"/>
     </resources>
     <classes>
         <class className="DetailTableViewController" superclassName="UITableViewController">
