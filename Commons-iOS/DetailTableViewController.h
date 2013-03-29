@@ -22,6 +22,9 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 @property (weak, nonatomic) IBOutlet UILabel *licenseLabel;
+@property (weak, nonatomic) IBOutlet UILabel *licenseNameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *ccByImage;
+@property (weak, nonatomic) IBOutlet UIImageView *ccSaImage;
 
 @property (strong, nonatomic) FileUpload *selectedRecord;
 

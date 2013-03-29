@@ -71,12 +71,35 @@
             self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
             self.actionButton.enabled = YES; // open link or share on the web
             self.uploadButton.enabled = NO; // fixme either hide or replace with action button?
+            
+            // fixme: load description from wiki page
+            self.descriptionLabel.hidden = YES;
+            self.descriptionTextView.hidden = YES;
+            self.descriptionPlaceholder.hidden = YES;
+
+            // fixme: load license info from wiki page
+            self.licenseLabel.hidden = YES;
+            self.licenseNameLabel.hidden = YES;
+            self.ccByImage.hidden = YES;
+            self.ccSaImage.hidden = YES;
+
+            // either use HTML http://commons.wikimedia.org/wiki/Commons:Machine-readable_data
+            // or pick apart the standard templates
         } else {
             // Locally queued file...
             self.titleTextField.enabled = YES;
             self.descriptionTextView.editable = YES;
             self.deleteButton.enabled = (record.progress.floatValue == 0.0f); // don't allow delete _during_ upload
             self.actionButton.enabled = NO;
+
+            self.descriptionLabel.hidden = NO;
+            self.descriptionTextView.hidden = NO;
+            self.descriptionPlaceholder.hidden = (record.desc.length > 0);
+            self.licenseLabel.hidden = NO;
+            self.licenseNameLabel.hidden = NO;
+            self.ccByImage.hidden = NO;
+            self.ccSaImage.hidden = NO;
+
             [self updateUploadButton];
         }
     } else {
@@ -109,6 +132,16 @@
 }
 
 #pragma mark - Table view delegate
+
+// hack to hide table cells
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0 && indexPath.item >= 2 && self.selectedRecord && self.selectedRecord.complete.boolValue) {
+        // fixme: when we extract description and license for done files, stop hiding
+        return 0;
+    }
+    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
