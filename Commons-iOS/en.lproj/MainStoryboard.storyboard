@@ -378,7 +378,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="BVL-pj-ibE"/>
-                        <barButtonItem style="plain" systemItem="action" id="DlG-Q0-XOO">
+                        <barButtonItem title="Wiki page" style="plain" id="DlG-Q0-XOO">
                             <connections>
                                 <action selector="openPageButtonPushed:" destination="epi-E0-AsP" id="yGt-ai-4sm"/>
                                 <segue destination="wx9-WY-6j8" kind="push" identifier="OpenPageSegue" id="6yf-Z5-u4q"/>

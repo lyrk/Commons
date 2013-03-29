@@ -44,7 +44,8 @@
     self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
     self.descriptionPlaceholder.text = [MWMessage forKey:@"details-description-placeholder"].text;
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
-    
+    self.actionButton.title = [MWMessage forKey:@"details-wiki-page"].text;
+
     // Load up the selected record
     FileUpload *record = self.selectedRecord;
     
