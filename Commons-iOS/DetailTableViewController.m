@@ -37,7 +37,7 @@
     [super viewDidLoad];
     
     // l10n
-    self.navigationController.title = [MWMessage forKey:@"details-title"].text;
+    self.title = [MWMessage forKey:@"details-title"].text;
     self.uploadButton.title = [MWMessage forKey:@"details-upload-button"].text;
     self.titleLabel.text = [MWMessage forKey:@"details-title-label"].text;
     self.titleTextField.placeholder = [MWMessage forKey:@"details-title-placeholder"].text;

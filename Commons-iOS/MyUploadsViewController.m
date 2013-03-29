@@ -48,7 +48,7 @@
 
     // l10n
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
-    self.navigationItem.title = [MWMessage forKey:@"contribs-title"].text;
+    self.title = [MWMessage forKey:@"contribs-title"].text;
     self.uploadButton.title = [MWMessage forKey:@"contribs-upload-button"].text;
     //self.choosePhotoButton.title = [MWMessage forKey:@"contribs-photo-library-button"].text; // fixme set accessibility title
     
