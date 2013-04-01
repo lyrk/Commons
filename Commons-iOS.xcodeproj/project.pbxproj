@@ -212,6 +212,14 @@
 		D4D0E1F6169BA5E2003047A8 /* MWApiRequestBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */; };
 		D4D0E1F8169BA5E2003047A8 /* NSString+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */; };
 		D4D0E1F9169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
+		D4DE80E6170A3761005F7580 /* messages-ca.json in Resources */ = {isa = PBXBuildFile; fileRef = D4DE80DE170A3761005F7580 /* messages-ca.json */; };
+		D4DE80E7170A3761005F7580 /* messages-fa.json in Resources */ = {isa = PBXBuildFile; fileRef = D4DE80DF170A3761005F7580 /* messages-fa.json */; };
+		D4DE80E8170A3761005F7580 /* messages-hu.json in Resources */ = {isa = PBXBuildFile; fileRef = D4DE80E0170A3761005F7580 /* messages-hu.json */; };
+		D4DE80E9170A3761005F7580 /* messages-lez.json in Resources */ = {isa = PBXBuildFile; fileRef = D4DE80E1170A3761005F7580 /* messages-lez.json */; };
+		D4DE80EA170A3761005F7580 /* messages-nb.json in Resources */ = {isa = PBXBuildFile; fileRef = D4DE80E2170A3761005F7580 /* messages-nb.json */; };
+		D4DE80EB170A3761005F7580 /* messages-pl.json in Resources */ = {isa = PBXBuildFile; fileRef = D4DE80E3170A3761005F7580 /* messages-pl.json */; };
+		D4DE80EC170A3761005F7580 /* messages-ro.json in Resources */ = {isa = PBXBuildFile; fileRef = D4DE80E4170A3761005F7580 /* messages-ro.json */; };
+		D4DE80ED170A3761005F7580 /* messages-vi.json in Resources */ = {isa = PBXBuildFile; fileRef = D4DE80E5170A3761005F7580 /* messages-vi.json */; };
 		D4E0383C16C4567500330A7F /* MWMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0383B16C4567500330A7F /* MWMessage.m */; };
 		D4E0383D16C4567500330A7F /* MWMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0383B16C4567500330A7F /* MWMessage.m */; };
 		D4E0383E16C4567500330A7F /* MWMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E0383B16C4567500330A7F /* MWMessage.m */; };
@@ -379,6 +387,14 @@
 		D4D0E1ED169BA5E2003047A8 /* MWApiRequestBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiRequestBuilder.m; path = mwapi/MWApiRequestBuilder.m; sourceTree = "<group>"; };
 		D4D0E1EF169BA5E2003047A8 /* NSString+Extras.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extras.m"; path = "mwapi/NSString+Extras.m"; sourceTree = "<group>"; };
 		D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSURLRequest+DictionaryRequest.m"; path = "mwapi/NSURLRequest+DictionaryRequest.m"; sourceTree = "<group>"; };
+		D4DE80DE170A3761005F7580 /* messages-ca.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ca.json"; path = "messages/messages-ca.json"; sourceTree = "<group>"; };
+		D4DE80DF170A3761005F7580 /* messages-fa.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-fa.json"; path = "messages/messages-fa.json"; sourceTree = "<group>"; };
+		D4DE80E0170A3761005F7580 /* messages-hu.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-hu.json"; path = "messages/messages-hu.json"; sourceTree = "<group>"; };
+		D4DE80E1170A3761005F7580 /* messages-lez.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-lez.json"; path = "messages/messages-lez.json"; sourceTree = "<group>"; };
+		D4DE80E2170A3761005F7580 /* messages-nb.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-nb.json"; path = "messages/messages-nb.json"; sourceTree = "<group>"; };
+		D4DE80E3170A3761005F7580 /* messages-pl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-pl.json"; path = "messages/messages-pl.json"; sourceTree = "<group>"; };
+		D4DE80E4170A3761005F7580 /* messages-ro.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ro.json"; path = "messages/messages-ro.json"; sourceTree = "<group>"; };
+		D4DE80E5170A3761005F7580 /* messages-vi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-vi.json"; path = "messages/messages-vi.json"; sourceTree = "<group>"; };
 		D4E0383A16C4567500330A7F /* MWMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWMessage.h; path = MWI18N/MWMessage.h; sourceTree = "<group>"; };
 		D4E0383B16C4567500330A7F /* MWMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWMessage.m; path = MWI18N/MWMessage.m; sourceTree = "<group>"; };
 		D4E0383F16C462C800330A7F /* MWMessageStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWMessageStore.h; path = MWI18N/MWMessageStore.h; sourceTree = "<group>"; };
@@ -720,6 +736,14 @@
 		D4E0384D16C463D300330A7F /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				D4DE80DE170A3761005F7580 /* messages-ca.json */,
+				D4DE80DF170A3761005F7580 /* messages-fa.json */,
+				D4DE80E0170A3761005F7580 /* messages-hu.json */,
+				D4DE80E1170A3761005F7580 /* messages-lez.json */,
+				D4DE80E2170A3761005F7580 /* messages-nb.json */,
+				D4DE80E3170A3761005F7580 /* messages-pl.json */,
+				D4DE80E4170A3761005F7580 /* messages-ro.json */,
+				D4DE80E5170A3761005F7580 /* messages-vi.json */,
 				D4C036F21700C38000AA2537 /* messages-af.json */,
 				D4C036F31700C38000AA2537 /* messages-ar.json */,
 				D4C036F41700C38000AA2537 /* messages-ast.json */,
@@ -984,6 +1008,14 @@
 				D4C037351700F29600AA2537 /* toolbar-forward@2x.png in Resources */,
 				D485AA6D1706525900D555ED /* toolbar-view.png in Resources */,
 				D485AA6E1706525900D555ED /* toolbar-view@2x.png in Resources */,
+				D4DE80E6170A3761005F7580 /* messages-ca.json in Resources */,
+				D4DE80E7170A3761005F7580 /* messages-fa.json in Resources */,
+				D4DE80E8170A3761005F7580 /* messages-hu.json in Resources */,
+				D4DE80E9170A3761005F7580 /* messages-lez.json in Resources */,
+				D4DE80EA170A3761005F7580 /* messages-nb.json in Resources */,
+				D4DE80EB170A3761005F7580 /* messages-pl.json in Resources */,
+				D4DE80EC170A3761005F7580 /* messages-ro.json in Resources */,
+				D4DE80ED170A3761005F7580 /* messages-vi.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
