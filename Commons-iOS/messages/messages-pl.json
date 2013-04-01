@@ -1,0 +1,22 @@
+{
+    "contribs-settings-button": "Ustawienia",
+    "contribs-photo-library-button": "Zdj\u0119cia",
+    "error-bad-password-title": "B\u0142\u0105d logowania",
+    "settings-title": "Ustawienia",
+    "settings-username-placeholder": "Nazwa u\u017cytkownika",
+    "settings-password-placeholder": "Has\u0142o",
+    "settings-debug-label": "Tryb debugowania",
+    "settings-debug-detail": "Przesy\u0142anie do $1",
+    "details-title": "Szczeg\u00f3\u0142y",
+    "details-upload-button": "Prze\u015blij",
+    "details-title-label": "Tytu\u0142",
+    "details-description-label": "Opis",
+    "details-description-placeholder": "Wymagane",
+    "details-license-label": "Licencja",
+    "web-cancel": "Anuluj",
+    "@metadata": {
+        "authors": [
+            "Woytecr"
+        ]
+    }
+}

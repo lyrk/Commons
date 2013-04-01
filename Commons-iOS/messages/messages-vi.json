@@ -1,0 +1,37 @@
+{
+    "contribs-title": "T\u1eadp tin t\u00f4i t\u1ea3i l\u00ean",
+    "contribs-settings-button": "T\u00f9y ch\u1ecdn",
+    "contribs-upload-button": "T\u1ea3i l\u00ean",
+    "contribs-photo-library-button": "H\u00ecnh \u1ea3nh",
+    "contribs-state-queued": "\u0110ang x\u1ebfp h\u00e0ng",
+    "contribs-state-uploading": "\u0110ang t\u1ea3i l\u00ean",
+    "contribs-refresh": "K\u00e9o \u0111\u1ec3 l\u00e0m t\u01b0\u01a1i",
+    "error-upload-failed": "Th\u1ea5t b\u1ea1i khi t\u1ea3i l\u00ean!",
+    "error-dismiss": "B\u1ecf qua",
+    "error-nologin-title": "O\u00e1i!",
+    "error-nologin-text": "B\u1ea1n ph\u1ea3i \u0111\u0103ng nh\u1eadp m\u1edbi \u0111\u01b0\u1ee3c t\u1ea3i l\u00ean h\u00ecnh \u1ea3nh",
+    "error-bad-password-title": "L\u1ed7i \u0111\u0103ng nh\u1eadp",
+    "error-bad-password": "T\u00ean ng\u01b0\u1eddi d\u00f9ng ho\u1eb7c m\u1eadt kh\u1ea9u kh\u00f4ng ch\u00ednh x\u00e1c",
+    "reltime-minutes": "c\u00e1ch \u0111\u00e2y $1 ph\u00fat",
+    "reltime-hours": "c\u00e1ch \u0111\u00e2y $1 gi\u1edd",
+    "reltime-days": "c\u00e1ch \u0111\u00e2y $1 ng\u00e0y",
+    "settings-title": "T\u00f9y ch\u1ecdn",
+    "settings-username-placeholder": "T\u00ean ng\u01b0\u1eddi d\u00f9ng",
+    "settings-password-placeholder": "M\u1eadt kh\u1ea9u",
+    "settings-debug-label": "Ch\u1ebf \u0111\u1ed9 g\u1ee1 l\u1ed7i",
+    "settings-debug-detail": "T\u1ea3i l\u00ean $1",
+    "details-title": "Chi ti\u1ebft",
+    "details-upload-button": "T\u1ea3i l\u00ean",
+    "details-title-label": "Ti\u00eau \u0111\u1ec1",
+    "details-title-placeholder": "T\u00ean mi\u00eau t\u1ea3 v\u00e0 duy nh\u1ea5t",
+    "details-description-label": "Mi\u00eau t\u1ea3",
+    "details-description-placeholder": "B\u1eaft bu\u1ed9c",
+    "details-license-label": "Gi\u1ea5y ph\u00e9p",
+    "web-open-in": "M\u1edf trong $1",
+    "web-cancel": "H\u1ee7y b\u1ecf",
+    "@metadata": {
+        "authors": [
+            "Minh Nguyen"
+        ]
+    }
+}

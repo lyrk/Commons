@@ -1,33 +1,33 @@
 {
-	"contribs-title": "I miei caricamenti",
-	"contribs-settings-button": "Impostazioni",
-	"contribs-upload-button": "Carica",
-	"contribs-photo-library-button": "Foto",
-	"contribs-state-queued": "In coda",
-	"contribs-state-uploading": "Caricamento in corso",
-	"error-upload-failed": "Caricamento non riuscito",
-	"error-dismiss": "Nascondi",
-	"error-nologin-text": "Devi effettuare l'accesso per poter caricare le foto",
-	"error-bad-password-title": "Errore durante l'accesso",
-	"error-bad-password": "Nome utente o password errati",
-	"reltime-minutes": "$1 minuti fa",
-	"reltime-hours": "$1 ore fa",
-	"reltime-days": "$1 giorni fa",
-	"settings-title": "Impostazioni",
-	"settings-username-placeholder": "Nome utente",
-	"settings-password-placeholder": "Password",
-	"settings-debug-detail": "Caricamento su $1",
-	"details-title": "Dettagli",
-	"details-upload-button": "Carica",
-	"details-title-label": "Titolo",
-	"details-title-placeholder": "Titolo descrittivo, univoco",
-	"details-description-label": "Descrizione",
-	"details-description-placeholder": "Obbligatorio",
-	"details-license-label": "Licenza",
-	"web-cancel": "Annulla",
-	"@metadata": {
-		"authors": [
-			"Beta16"
-		]
-	}
+    "@metadata": {
+        "authors": [
+            "Beta16"
+        ]
+    },
+    "contribs-title": "I miei caricamenti",
+    "contribs-settings-button": "Impostazioni",
+    "contribs-upload-button": "Carica",
+    "contribs-photo-library-button": "Foto",
+    "contribs-state-queued": "In coda",
+    "contribs-state-uploading": "Caricamento in corso",
+    "error-upload-failed": "Caricamento non riuscito",
+    "error-dismiss": "Nascondi",
+    "error-nologin-text": "Devi effettuare l'accesso per poter caricare le foto",
+    "error-bad-password-title": "Errore durante l'accesso",
+    "error-bad-password": "Nome utente o password errati",
+    "reltime-minutes": "$1 minuti fa",
+    "reltime-hours": "$1 ore fa",
+    "reltime-days": "$1 giorni fa",
+    "settings-title": "Impostazioni",
+    "settings-username-placeholder": "Nome utente",
+    "settings-password-placeholder": "Password",
+    "settings-debug-detail": "Caricamento su $1",
+    "details-title": "Dettagli",
+    "details-upload-button": "Carica",
+    "details-title-label": "Titolo",
+    "details-title-placeholder": "Titolo descrittivo, univoco",
+    "details-description-label": "Descrizione",
+    "details-description-placeholder": "Obbligatorio",
+    "details-license-label": "Licenza",
+    "web-cancel": "Annulla"
 }

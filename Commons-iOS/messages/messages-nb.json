@@ -1,0 +1,37 @@
+{
+    "contribs-title": "Mine opplastinger",
+    "contribs-settings-button": "Innstillinger",
+    "contribs-upload-button": "Last opp",
+    "contribs-photo-library-button": "Bilder",
+    "contribs-state-queued": "I k\u00f8",
+    "contribs-state-uploading": "Laster opp",
+    "contribs-refresh": "Dra for \u00e5 oppdatere",
+    "error-upload-failed": "Opplasting mislyktes",
+    "error-dismiss": "Lukk",
+    "error-nologin-title": "Ups!",
+    "error-nologin-text": "Du m\u00e5 logge inn f\u00f8r du kan laste opp bilder",
+    "error-bad-password-title": "Innloggingsfeil",
+    "error-bad-password": "Feil brukernavn eller passord",
+    "reltime-minutes": "$1 minutter siden",
+    "reltime-hours": "$1 timer siden",
+    "reltime-days": "$1 dager siden",
+    "settings-title": "Innstillinger",
+    "settings-username-placeholder": "Brukernavn",
+    "settings-password-placeholder": "Passord",
+    "settings-debug-label": "Feils\u00f8kingsmodus",
+    "settings-debug-detail": "Laster opp til $1",
+    "details-title": "Detaljer",
+    "details-upload-button": "Last opp",
+    "details-title-label": "Tittel",
+    "details-title-placeholder": "Unik, beskrivende tittel",
+    "details-description-label": "Beskrivelse",
+    "details-description-placeholder": "P\u00e5krevd",
+    "details-license-label": "Lisens",
+    "web-open-in": "\u00c5pne med $1",
+    "web-cancel": "Avbryt",
+    "@metadata": {
+        "authors": [
+            "Nghtwlkr"
+        ]
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "contribs-title": "\u00cenc\u0103rc\u0103rile mele",
+    "contribs-settings-button": "Set\u0103ri",
+    "contribs-upload-button": "\u00cenc\u0103rcare",
+    "contribs-photo-library-button": "Fotografii",
+    "contribs-state-queued": "\u00cen a\u0219teptare",
+    "contribs-state-uploading": "Se \u00eencarc\u0103",
+    "contribs-refresh": "Trage\u021bi pentru a re\u00eemprosp\u0103ta",
+    "error-upload-failed": "\u00cenc\u0103rcare e\u0219uat\u0103!",
+    "error-dismiss": "Renun\u021bare",
+    "error-nologin-title": "Oh, oh!",
+    "error-nologin-text": "Trebuie s\u0103 v\u0103 autentifica\u021bi \u00eenainte de a putea \u00eenc\u0103rca fotografii",
+    "error-bad-password-title": "Eroare la autentificare",
+    "error-bad-password": "Nume de utilizator sau parol\u0103 gre\u0219ite",
+    "reltime-minutes": "acum $1 minute",
+    "reltime-hours": "acum $1 ore",
+    "reltime-days": "acum $1 zile",
+    "settings-title": "Set\u0103ri",
+    "settings-username-placeholder": "Nume de utilizator",
+    "settings-password-placeholder": "Parol\u0103",
+    "settings-debug-label": "Mod depanare",
+    "settings-debug-detail": "Se \u00eencarc\u0103 la $1",
+    "details-title": "Detalii",
+    "details-upload-button": "\u00cenc\u0103rcare",
+    "details-title-label": "Titlu",
+    "details-title-placeholder": "Titlu unic, descriptiv",
+    "details-description-label": "Descriere",
+    "details-description-placeholder": "Necesar",
+    "details-license-label": "Licen\u021b\u0103",
+    "web-open-in": "Deschide cu $1",
+    "web-cancel": "Revocare",
+    "@metadata": {
+        "authors": [
+            "Minisarm"
+        ]
+    }
+}
