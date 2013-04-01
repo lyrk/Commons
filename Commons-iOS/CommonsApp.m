@@ -405,6 +405,8 @@ static CommonsApp *singleton_;
                         @"result": @"success",
                         @"multiple": @NO
                     }];
+                   
+                   [deferred resolve:record];
                } else {
                    [self log:@"MobileAppUploadAttempts" event:@{
                         @"source": record.source,

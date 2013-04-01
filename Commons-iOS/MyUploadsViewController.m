@@ -207,7 +207,7 @@
         
         if ([self.fetchedResultsController.fetchedObjects count] > 0) {
             
-            [self.navigationItem setLeftBarButtonItem:[self cancelButton] animated:YES];
+            [self.navigationItem setRightBarButtonItem:[self cancelButton] animated:YES];
             
             NSLog(@"Upload ye files!");
             
@@ -223,7 +223,7 @@
                         
                          NSLog(@"Upload failed: %@", [error localizedDescription]);
                         
-                         self.navigationItem.leftBarButtonItem = [self uploadButton];
+                         self.navigationItem.rightBarButtonItem = [self uploadButton];
                         
                          UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-upload-failed"].text
                                                                              message:MW_ERROR_INFO(error)
@@ -236,8 +236,8 @@
                     }];
                 } else {
                     NSLog(@"no more uploads");
-                    [self.navigationItem setLeftBarButtonItem:self.uploadButton animated:YES];
-                    [self.navigationItem.leftBarButtonItem setEnabled:NO];
+                    [self.navigationItem setRightBarButtonItem:self.uploadButton animated:YES];
+                    [self.navigationItem.rightBarButtonItem setEnabled:NO];
                     run = nil;
                 }
             };
@@ -312,7 +312,7 @@
     CommonsApp *app = [CommonsApp singleton];
     [app cancelCurrentUpload];
     
-    [self.navigationItem setLeftBarButtonItem:self.uploadButton animated:YES];
+    [self.navigationItem setRightBarButtonItem:self.uploadButton animated:YES];
     self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
 }
 
