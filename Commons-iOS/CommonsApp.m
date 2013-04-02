@@ -526,7 +526,7 @@ static CommonsApp *singleton_;
 - (NSString *)extensionForType:(NSString *)fileType
 {
     NSDictionary *types = @{
-        @"image/jpeg": @"jpg",
+        @"image/jpeg": @"jpeg", // chose .jpeg to minimize conflicts for now since most default to .jpg
         @"image/png": @"png",
         @"image/gif": @"gif",
         @"image/tiff": @"tif",
