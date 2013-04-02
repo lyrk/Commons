@@ -13,9 +13,16 @@
 
 @interface SettingsViewController ()
 
+- (void)hideKeyboard;
+
 @end
 
 @implementation SettingsViewController
+{
+
+    UITapGestureRecognizer *tap;
+
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,6 +60,11 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    //hide keyboard when anywhere else is tapped
+	tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+	[self.view addGestureRecognizer:tap];
+
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification
@@ -191,6 +203,12 @@
         target = @"commons.wikimedia.org";
     }
     self.uploadTargetLabel.text = [MWMessage forKey:@"settings-debug-detail" params:@[target]].text;
+}
+
+- (void)hideKeyboard
+{
+	[self.usernameField resignFirstResponder];
+	[self.passwordField resignFirstResponder];
 }
 
 #pragma mark - Text Field Delegate Methods
