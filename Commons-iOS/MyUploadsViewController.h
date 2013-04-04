@@ -11,7 +11,7 @@
 #import "FileUpload.h"
 
 @interface MyUploadsViewController : UIViewController <UINavigationControllerDelegate,
-UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource,UIScrollViewDelegate>
+UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource,UIScrollViewDelegate, UIGestureRecognizerDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 @property (weak, nonatomic) IBOutlet UIButton *addMediaButton;

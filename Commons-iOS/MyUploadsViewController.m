@@ -14,9 +14,21 @@
 #import "MWI18N/MWI18N.h"
 #import "Reachability.h"
 
+#define OPAQUE_VIEW_ALPHA 0.7
+#define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
+#define BUTTON_ANIMATION_DURATION 0.25
+
+#define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
+
 @interface MyUploadsViewController () {
     NSString *pickerSource_;
+    UITapGestureRecognizer *tapRecognizer;
+    bool buttonAnimationInProgress;
+    UIView *opaqueView;
 }
+
+- (void) animateTakeAndChoosePhotoButtons;
 
 @end
 
@@ -68,7 +80,31 @@
     if (app.username == nil || [app.username isEqualToString:@""]) {
         [self performSegueWithIdentifier:@"SettingsSegue" sender:self];
     }
+    
+    // Hide take and choose photo buttons when anywhere else is tapped
+	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideTakeAndChoosePhotoButtons:)];
+    
+    // By not cancelling touches in view the tapping the images in the background will cause the tapped image details view to load
+    [tapRecognizer setCancelsTouchesInView:NO];
+    
+    // Makes "gestureRecognizer:shouldReceiveTouch:" be called so decisions may be made about which interface elements respond to tapRecognizer touches
+    [tapRecognizer setDelegate:self];
+    
+	[self.view addGestureRecognizer:tapRecognizer];
+    
+    buttonAnimationInProgress = NO;
+
+    // This view is used to fade out the background when the take and choose photo buttons are revealed
+    opaqueView = [[UIView alloc] init];
+    opaqueView.backgroundColor = [UIColor clearColor];
 }
+
+-(void)viewWillLayoutSubviews
+{
+    // Make sure when the device is rotated that the opaqueView changes dimensions accordingly
+    opaqueView.frame = self.view.bounds;
+}
+
 
 -(void)reachabilityChange:(NSNotification*)note {
     Reachability * reach = [note object];
@@ -259,6 +295,9 @@
 }
 
 - (IBAction)takePhotoButtonPushed:(id)sender {
+    
+    [self hideTakeAndChoosePhotoButtons:nil];
+    
     NSLog(@"Take photo");
     pickerSource_ = @"camera";
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -274,6 +313,9 @@
  */
 - (IBAction)choosePhotoButtonPushed:(id)sender
 {
+    
+    [self hideTakeAndChoosePhotoButtons:nil];
+    
     NSLog(@"Open gallery");
     pickerSource_ = @"gallery";
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -303,9 +345,135 @@
 }
 
 - (IBAction)addMediaButtonPushed:(id)sender {
-    self.takePhotoButton.hidden = !self.takePhotoButton.hidden;
-    self.choosePhotoButton.hidden = !self.choosePhotoButton.hidden;
+    
+    [self animateTakeAndChoosePhotoButtons];
+
 }
+
+- (void)animateTakeAndChoosePhotoButtons {
+    
+    // Animates the take and choose photo buttons from their storyboard location to the location of the add media button
+    // and vice-versa. 
+    
+    // Remember the pre-animation location so the buttons may be returned to them
+    CGPoint takePhotoButtonOriginalCenter;
+    CGPoint choosePhotoButtonOriginalCenter;
+    
+    // Disable all button user interaction during the animation so quick repeated taps don't accidentally result in
+    // unwanted action
+    self.takePhotoButton.enabled = NO;
+    self.choosePhotoButton.enabled = NO;
+    
+    // Use the visibility of the take photo button as a flag to know whether to hide or show
+    if (self.takePhotoButton.hidden) {
+
+        // Make the opaque view appear, presently it's transparent, but its color transition will be animated along with the button location changes below
+        // (also ensure the buttons are on top of the opaque view)
+        [self.view addSubview:opaqueView];
+        [self.view bringSubviewToFront:opaqueView];
+        [self.view bringSubviewToFront:self.takePhotoButton];
+        [self.view bringSubviewToFront:self.choosePhotoButton];
+        [self.view bringSubviewToFront:self.addMediaButton];
+        
+        // Run the "show buttons" animation (first move the take and choose buttons to the add media button position)
+        takePhotoButtonOriginalCenter = self.takePhotoButton.center;
+        choosePhotoButtonOriginalCenter = self.choosePhotoButton.center;
+        self.takePhotoButton.center = self.addMediaButton.center;
+        self.choosePhotoButton.center = self.addMediaButton.center;
+        
+        //make the take and choose buttons twist as they're revealed and hidden
+        self.takePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-90));
+        self.choosePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
+        
+        [UIView animateWithDuration:BUTTON_ANIMATION_DURATION
+                              delay:0.0
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             // Animate the take and choose buttons to their original storyboard positions
+                             self.takePhotoButton.center = takePhotoButtonOriginalCenter;
+                             self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
+                             self.takePhotoButton.hidden = NO;
+                             self.choosePhotoButton.hidden = NO;
+                             buttonAnimationInProgress = YES;
+
+                             self.takePhotoButton.transform = CGAffineTransformIdentity;
+                             self.choosePhotoButton.transform = CGAffineTransformIdentity;
+                             
+                            // Also animate the opaque view from transparent to partially opaque
+                            [opaqueView setAlpha:OPAQUE_VIEW_ALPHA];
+                            opaqueView.backgroundColor = [UIColor OPAQUE_VIEW_BACKGROUND_COLOR];
+                             
+                         }
+                         completion:^(BOOL finished){
+                             self.takePhotoButton.enabled = YES;
+                             self.choosePhotoButton.enabled = YES;
+                             buttonAnimationInProgress = NO;
+
+                         }];
+    }else{
+        // Run the "hide buttons" animation, essentially unwinding the animations above
+        takePhotoButtonOriginalCenter = self.takePhotoButton.center;
+        choosePhotoButtonOriginalCenter = self.choosePhotoButton.center;
+        [UIView animateWithDuration:BUTTON_ANIMATION_DURATION
+                              delay:0.0
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                            self.takePhotoButton.center = self.addMediaButton.center;
+                            self.choosePhotoButton.center = self.addMediaButton.center;
+                            buttonAnimationInProgress = YES;
+
+                            [opaqueView setAlpha:1.0];
+                            opaqueView.backgroundColor = [UIColor clearColor];
+                             
+                             self.takePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-90));
+                             self.choosePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
+                             
+                             //make the add media button swell as the take and choose buttons are hidden - almost makes it appear to swallow them
+                             self.addMediaButton.transform = CGAffineTransformMakeScale(1.25, 1.25);
+                             
+                         }
+                         completion:^(BOOL finished){
+                            self.takePhotoButton.hidden = YES;
+                            self.choosePhotoButton.hidden = YES;
+                            self.takePhotoButton.center = takePhotoButtonOriginalCenter;
+                            self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
+                            self.addMediaButton.transform = CGAffineTransformIdentity;
+                            buttonAnimationInProgress = NO;
+
+                            [opaqueView removeFromSuperview];
+                         }];
+    }
+}
+
+-(void)hideTakeAndChoosePhotoButtons:(UIGestureRecognizer *)gestureRecognizer {
+    // Calls "animateTakeAndChoosePhotoButtons" to animate the hiding of the buttons
+    if (!self.takePhotoButton.hidden) [self animateTakeAndChoosePhotoButtons];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    // The tapRecognizer is used to hide the take and choose photo buttons (via hideTakeAndChoosePhotoButtons)
+    // but it should not hide the buttons if the buttons are already being hidden (if buttonAnimationInProgress is YES)
+    // It should also ignore taps on the add media and take and choose photo buttons
+    if (gestureRecognizer == tapRecognizer) {
+        
+        if (buttonAnimationInProgress) return NO;
+        if (touch.view == self.addMediaButton) return NO;
+        if (touch.view == self.takePhotoButton) return NO;
+        if (touch.view == self.choosePhotoButton) return NO;
+    }
+    
+    return YES;
+}
+
+-(BOOL)shouldAutorotate
+{
+    // Don't auto rotate if animateTakeAndChoosePhotoButtons is currently moving the buttons
+    // This is needed because the button animation code relies on the storyboard button locations
+    // and these button locations are changed by when the device rotates
+    return (!buttonAnimationInProgress);
+}
+
 
 - (void)cancelButtonPushed:(id)sender {
     

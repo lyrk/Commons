@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0456EE8C170CF328008AF00A /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0456EE8B170CF328008AF00A /* NavigationController.m */; };
 		1F7C6BFA16BEEEF300B7C558 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */; };
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
 		65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
@@ -241,6 +242,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0456EE8A170CF328008AF00A /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
+		0456EE8B170CF328008AF00A /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		1F7C6BF616BEEE4D00B7C558 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1F7C6BF716BEEE4D00B7C558 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -709,6 +712,8 @@
 				D41D281216C19C4D00BC3ABE /* ImageListCell.m */,
 				D41D281516C19CE100BC3ABE /* MyUploadsViewController.h */,
 				D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */,
+				0456EE8A170CF328008AF00A /* NavigationController.h */,
+				0456EE8B170CF328008AF00A /* NavigationController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1163,6 +1168,7 @@
 				D44DDD3F16CC4D6000318FBF /* MWPromise.m in Sources */,
 				655BF5EF16C1052D00B22299 /* StorageTools.m in Sources */,
 				D47FFB8816E53FE900B9FD90 /* ThumbFetcher.m in Sources */,
+				0456EE8C170CF328008AF00A /* NavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
