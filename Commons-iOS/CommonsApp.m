@@ -459,7 +459,8 @@ static CommonsApp *singleton_;
                        @"== {{int:license-header}} ==\n"
                        @"{{self|cc-by-sa-3.0}}\n"
                        @"\n"
-                       @"{{Uploaded from Mobile|platform=iOS|version=%@}}\n";
+                       @"{{Uploaded from Mobile|platform=iOS|version=%@}}\n"
+                       @"{{subst:unc}}";
     NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], self.version];
     return desc;
 }
