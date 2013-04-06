@@ -11,6 +11,7 @@
 		0456EE8C170CF328008AF00A /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0456EE8B170CF328008AF00A /* NavigationController.m */; };
 		1F7C6BFA16BEEEF300B7C558 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */; };
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
+		305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 305BC7691710BD3300B2CC01 /* LoadingIndicator.m */; };
 		3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3067546E170FF9D900A4BD8F /* SettingsViewController.m */; };
 		65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		65137CD816BE4C3B006FA9BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
@@ -251,6 +252,8 @@
 		1F7C6BF616BEEE4D00B7C558 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1F7C6BF716BEEE4D00B7C558 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		305BC7681710BD3300B2CC01 /* LoadingIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingIndicator.h; sourceTree = "<group>"; };
+		305BC7691710BD3300B2CC01 /* LoadingIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingIndicator.m; sourceTree = "<group>"; };
 		3067546D170FF9D800A4BD8F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		3067546E170FF9D900A4BD8F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -724,6 +727,8 @@
 				044A0C3B170F6504003395DD /* GradientButton.m */,
 				3067546D170FF9D800A4BD8F /* SettingsViewController.h */,
 				3067546E170FF9D900A4BD8F /* SettingsViewController.m */,
+				305BC7681710BD3300B2CC01 /* LoadingIndicator.h */,
+				305BC7691710BD3300B2CC01 /* LoadingIndicator.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1181,6 +1186,7 @@
 				0456EE8C170CF328008AF00A /* NavigationController.m in Sources */,
 				044A0C3C170F6504003395DD /* GradientButton.m in Sources */,
 				3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */,
+				305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

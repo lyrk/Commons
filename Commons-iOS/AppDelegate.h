@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class LoadingIndicator;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
 }
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (strong, nonatomic) LoadingIndicator *loadingIndicator;
 
 @end

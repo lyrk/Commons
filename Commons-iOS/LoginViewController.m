@@ -12,12 +12,15 @@
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
 #import "GradientButton.h"
+#import "AppDelegate.h"
+#import "LoadingIndicator.h"
 
 #define LOGO_SCALE_NON_IPAD_LANDSCAPE 0.43
 
 @interface LoginViewController ()
 
 - (void)hideKeyboard;
+@property (weak, nonatomic) AppDelegate *appDelegate;
 
 @end
 
@@ -40,6 +43,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+	// Get the app delegate so the loading indicator may be accessed
+	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
 	// Get gradent login button color
 	[_loginButton useGreenConfirmStyle];
@@ -142,7 +148,6 @@
 }
 
 -(void)viewWillLayoutSubviews{
-
 	// Position the logo and the login containers centered horizontally and at about one-third and two-thirds
 	// the way down the screen vertically respectively
 	_logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height / 3.3);
@@ -163,10 +168,11 @@
 		_logoImageView.transform = CGAffineTransformIdentity;
 		_logoImageView.center = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + 15);
 	}
+	
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    
+
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
 	
@@ -225,6 +231,9 @@
 
         ) {
         
+		// Show the loading indicator wheel
+		[self.appDelegate.loadingIndicator show];
+		
         // Test credentials to make sure they are valid
         MWApi *mwapi = [app startApi];
         
@@ -232,6 +241,9 @@
                                         andPassword:password];
         [login done:^(NSDictionary *loginResult) {
             
+			// Hide the loading indicator wheel
+			[self.appDelegate.loadingIndicator hide];
+			
             if (mwapi.isLoggedIn) {
                 // Credentials verified
                 [app log:@"MobileAppLoginAttempts" event:@{
