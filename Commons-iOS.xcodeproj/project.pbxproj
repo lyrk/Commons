@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		044A0C3C170F6504003395DD /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044A0C3B170F6504003395DD /* GradientButton.m */; };
 		0456EE8C170CF328008AF00A /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0456EE8B170CF328008AF00A /* NavigationController.m */; };
 		1F7C6BFA16BEEEF300B7C558 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */; };
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
+		3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3067546E170FF9D900A4BD8F /* SettingsViewController.m */; };
 		65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		65137CD816BE4C3B006FA9BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
 		65137CF716BE4C8C006FA9BD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */; };
@@ -68,7 +70,7 @@
 		65C4D57E16CCE3550077E0A2 /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
 		65C4D57F16CCE3550077E0A2 /* MWEventLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */; };
 		65C4D58016CCE3550077E0A2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
-		65C4D58116CCE3550077E0A2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
+		65C4D58116CCE3550077E0A2 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* LoginViewController.m */; };
 		65C4D58216CCE3550077E0A2 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
 		65C4D58316CCE3550077E0A2 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		65C4D58416CCE3550077E0A2 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
@@ -89,7 +91,7 @@
 		65CA698516C05B9700839D09 /* NSURLRequest+DictionaryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D4D0E1F0169BA5E2003047A8 /* NSURLRequest+DictionaryRequest.m */; };
 		65CA698616C05B9700839D09 /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
 		65CA698716C05B9700839D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
-		65CA698916C05B9700839D09 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
+		65CA698916C05B9700839D09 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* LoginViewController.m */; };
 		65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
 		65CA698C16C05B9700839D09 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
@@ -153,7 +155,7 @@
 		D44DDD3F16CC4D6000318FBF /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
 		D44DDD4016CC4D6000318FBF /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
 		D44DDD4116CC4D6000318FBF /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
-		D450A0E116B347BE00D1D1E2 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */; };
+		D450A0E116B347BE00D1D1E2 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* LoginViewController.m */; };
 		D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
 		D471635316F3D54F00962205 /* messages-nl.json in Resources */ = {isa = PBXBuildFile; fileRef = D471635216F3D54F00962205 /* messages-nl.json */; };
@@ -242,11 +244,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		044A0C3A170F6504003395DD /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
+		044A0C3B170F6504003395DD /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientButton.m; sourceTree = "<group>"; };
 		0456EE8A170CF328008AF00A /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
 		0456EE8B170CF328008AF00A /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		1F7C6BF616BEEE4D00B7C558 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1F7C6BF716BEEE4D00B7C558 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		3067546D170FF9D800A4BD8F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		3067546E170FF9D900A4BD8F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Application-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,8 +329,8 @@
 		D450A0DB16B3477400D1D1E2 /* MWApiRequestBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MWApiRequestBuilder.h; path = mwapi/MWApiRequestBuilder.h; sourceTree = "<group>"; };
 		D450A0DD16B3477400D1D1E2 /* NSString+Extras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSString+Extras.h"; path = "mwapi/NSString+Extras.h"; sourceTree = "<group>"; };
 		D450A0DE16B3477400D1D1E2 /* NSURLRequest+DictionaryRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSURLRequest+DictionaryRequest.h"; path = "mwapi/NSURLRequest+DictionaryRequest.h"; sourceTree = "<group>"; };
-		D450A0DF16B347BE00D1D1E2 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		D450A0DF16B347BE00D1D1E2 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		D450A0E016B347BE00D1D1E2 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		D450A0E216B34ADD00D1D1E2 /* CommonsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonsApp.h; sourceTree = "<group>"; };
 		D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonsApp.m; sourceTree = "<group>"; };
 		D450A0F716B366E200D1D1E2 /* FileUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUpload.h; sourceTree = "<group>"; };
@@ -700,8 +706,8 @@
 			children = (
 				D408617F169B760800D6ACB0 /* AppDelegate.h */,
 				D4086180169B760800D6ACB0 /* AppDelegate.m */,
-				D450A0DF16B347BE00D1D1E2 /* SettingsViewController.h */,
-				D450A0E016B347BE00D1D1E2 /* SettingsViewController.m */,
+				D450A0DF16B347BE00D1D1E2 /* LoginViewController.h */,
+				D450A0E016B347BE00D1D1E2 /* LoginViewController.m */,
 				D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */,
 				D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */,
 				D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */,
@@ -714,6 +720,10 @@
 				D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */,
 				0456EE8A170CF328008AF00A /* NavigationController.h */,
 				0456EE8B170CF328008AF00A /* NavigationController.m */,
+				044A0C3A170F6504003395DD /* GradientButton.h */,
+				044A0C3B170F6504003395DD /* GradientButton.m */,
+				3067546D170FF9D800A4BD8F /* SettingsViewController.h */,
+				3067546E170FF9D900A4BD8F /* SettingsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1068,7 +1078,7 @@
 				65CA698516C05B9700839D09 /* NSURLRequest+DictionaryRequest.m in Sources */,
 				65CA698616C05B9700839D09 /* MWNetworkActivityIndicatorManager.m in Sources */,
 				65CA698716C05B9700839D09 /* AppDelegate.m in Sources */,
-				65CA698916C05B9700839D09 /* SettingsViewController.m in Sources */,
+				65CA698916C05B9700839D09 /* LoginViewController.m in Sources */,
 				65CA699216C05BD500839D09 /* main.m in Sources */,
 				65CA699116C05BC300839D09 /* FileUpload.xcdatamodeld in Sources */,
 				65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */,
@@ -1119,7 +1129,7 @@
 				65C4D57E16CCE3550077E0A2 /* MWNetworkActivityIndicatorManager.m in Sources */,
 				65C4D57F16CCE3550077E0A2 /* MWEventLogging.m in Sources */,
 				65C4D58016CCE3550077E0A2 /* AppDelegate.m in Sources */,
-				65C4D58116CCE3550077E0A2 /* SettingsViewController.m in Sources */,
+				65C4D58116CCE3550077E0A2 /* LoginViewController.m in Sources */,
 				65C4D58216CCE3550077E0A2 /* DetailTableViewController.m in Sources */,
 				65C4D58316CCE3550077E0A2 /* WebViewController.m in Sources */,
 				65C4D58416CCE3550077E0A2 /* ImageScrollViewController.m in Sources */,
@@ -1150,7 +1160,7 @@
 				D408617D169B760800D6ACB0 /* main.m in Sources */,
 				D4086181169B760800D6ACB0 /* AppDelegate.m in Sources */,
 				D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */,
-				D450A0E116B347BE00D1D1E2 /* SettingsViewController.m in Sources */,
+				D450A0E116B347BE00D1D1E2 /* LoginViewController.m in Sources */,
 				D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */,
 				D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */,
 				D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */,
@@ -1169,6 +1179,8 @@
 				655BF5EF16C1052D00B22299 /* StorageTools.m in Sources */,
 				D47FFB8816E53FE900B9FD90 /* ThumbFetcher.m in Sources */,
 				0456EE8C170CF328008AF00A /* NavigationController.m in Sources */,
+				044A0C3C170F6504003395DD /* GradientButton.m in Sources */,
+				3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

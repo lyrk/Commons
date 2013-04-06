@@ -13,6 +13,7 @@
 #import "DetailTableViewController.h"
 #import "MWI18N/MWI18N.h"
 #import "Reachability.h"
+#import "SettingsViewController.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -105,7 +106,6 @@
     opaqueView.frame = self.view.bounds;
 }
 
-
 -(void)reachabilityChange:(NSNotification*)note {
     Reachability * reach = [note object];
     NetworkStatus netStatus = [reach currentReachabilityStatus];
@@ -127,6 +127,9 @@
     
     // hide the standard toolbar?
     [self.navigationController setToolbarHidden:YES animated:YES];
+
+	// Reveal the nav bar now that the login page is no longer showing (it's supressed on the login page)
+	[self.navigationController setNavigationBarHidden:NO animated:animated];
 
     // Update collectionview cell size for iPhone/iPod, in case orientation changed while we were away
     [self.collectionView.collectionViewLayout invalidateLayout];
@@ -344,16 +347,50 @@
     }];
 }
 
+- (IBAction)settingsButtonPushed:(id)sender {
+	
+	NSLog(@"Settings Button Pushed");
+	
+	[UIView animateWithDuration:0.2
+						  delay:0.0
+						options:UIViewAnimationOptionTransitionNone
+					 animations:^{
+
+						 // Spin and enlarge the settings button briefly up tapping it
+						 self.settingsButton.transform = CGAffineTransformRotate(CGAffineTransformMakeScale(1.8, 1.8), DEGREES_TO_RADIANS(180));
+
+					 }
+					 completion:^(BOOL finished){
+
+						 // Reset the settings button transform
+						 self.settingsButton.transform = CGAffineTransformIdentity;
+						 
+						 // Push the settings view controller on to the nav controller now that the little animation is done
+						 SettingsViewController *settingsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+						 [self.navigationController pushViewController:settingsVC animated:YES];
+
+					 }];
+}
+
 - (IBAction)addMediaButtonPushed:(id)sender {
     
     [self animateTakeAndChoosePhotoButtons];
 
 }
 
+- (void)cancelButtonPushed:(id)sender {
+    
+    CommonsApp *app = [CommonsApp singleton];
+    [app cancelCurrentUpload];
+    
+    [self.navigationItem setRightBarButtonItem:self.uploadButton animated:YES];
+    self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
+}
+
 - (void)animateTakeAndChoosePhotoButtons {
     
     // Animates the take and choose photo buttons from their storyboard location to the location of the add media button
-    // and vice-versa. 
+    // and vice-versa.
     
     // Remember the pre-animation location so the buttons may be returned to them
     CGPoint takePhotoButtonOriginalCenter;
@@ -472,16 +509,6 @@
     // This is needed because the button animation code relies on the storyboard button locations
     // and these button locations are changed by when the device rotates
     return (!buttonAnimationInProgress);
-}
-
-
-- (void)cancelButtonPushed:(id)sender {
-    
-    CommonsApp *app = [CommonsApp singleton];
-    [app cancelCurrentUpload];
-    
-    [self.navigationItem setRightBarButtonItem:self.uploadButton animated:YES];
-    self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
 }
 
 #pragma mark - NSFetchedResultsController Delegate Methods
