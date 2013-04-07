@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Gusta"
+        ]
+    },
     "contribs-title": "Meus envios",
     "contribs-settings-button": "Configura\u00e7\u00f5es",
     "contribs-upload-button": "Envios",
@@ -28,10 +33,5 @@
     "details-description-placeholder": "Requerido",
     "details-license-label": "Licen\u00e7a",
     "web-open-in": "Abrir em $1",
-    "web-cancel": "Cancelar",
-    "@metadata": {
-        "authors": [
-            "Gusta"
-        ]
-    }
+    "web-cancel": "Cancelar"
 }

@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Simon Shek"
+        ]
+    },
     "contribs-title": "\u6211\u7684\u4e0a\u8f09",
     "contribs-settings-button": "\u8a2d\u5b9a",
     "contribs-upload-button": "\u4e0a\u8f09",
@@ -28,10 +33,5 @@
     "details-description-placeholder": "\u5fc5\u9808",
     "details-license-label": "\u6388\u6b0a",
     "web-open-in": "\u5728$1\u4e2d\u6253\u958b",
-    "web-cancel": "\u53d6\u6d88",
-    "@metadata": {
-        "authors": [
-            "Simon Shek"
-        ]
-    }
+    "web-cancel": "\u53d6\u6d88"
 }

@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Aalam"
+        ]
+    },
     "contribs-title": "\u0a2e\u0a47\u0a30\u0a47 \u0a05\u0a71\u0a2a\u0a32\u0a4b\u0a21",
     "contribs-settings-button": "\u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17",
     "contribs-upload-button": "\u0a05\u0a71\u0a2a\u0a32\u0a4b\u0a21",
@@ -28,10 +33,5 @@
     "details-description-placeholder": "\u0a32\u0a4b\u0a5c\u0a40\u0a26\u0a3e",
     "details-license-label": "\u0a32\u0a3e\u0a08\u0a38\u0a48\u0a02\u0a38",
     "web-open-in": "$1 \u0a35\u0a3f\u0a71\u0a1a \u0a16\u0a4b\u0a32\u0a4d\u0a39\u0a4b",
-    "web-cancel": "\u0a30\u0a71\u0a26 \u0a15\u0a30\u0a4b",
-    "@metadata": {
-        "authors": [
-            "Aalam"
-        ]
-    }
+    "web-cancel": "\u0a30\u0a71\u0a26 \u0a15\u0a30\u0a4b"
 }

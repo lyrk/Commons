@@ -1,7 +1,8 @@
 {
     "@metadata": {
         "authors": [
-            "Beta16"
+            "Beta16",
+            "Wim b"
         ]
     },
     "contribs-title": "I miei caricamenti",
@@ -21,6 +22,7 @@
     "settings-title": "Impostazioni",
     "settings-username-placeholder": "Nome utente",
     "settings-password-placeholder": "Password",
+    "settings-debug-label": "Modalit\u00e0 di debug",
     "settings-debug-detail": "Caricamento su $1",
     "details-title": "Dettagli",
     "details-upload-button": "Carica",
@@ -29,5 +31,6 @@
     "details-description-label": "Descrizione",
     "details-description-placeholder": "Obbligatorio",
     "details-license-label": "Licenza",
+    "web-open-in": "Apri in $1",
     "web-cancel": "Annulla"
 }
