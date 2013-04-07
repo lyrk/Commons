@@ -1,0 +1,37 @@
+{
+    "contribs-title": "Meus envios",
+    "contribs-settings-button": "Configura\u00e7\u00f5es",
+    "contribs-upload-button": "Envios",
+    "contribs-photo-library-button": "Imagens",
+    "contribs-state-queued": "Em espera",
+    "contribs-state-uploading": "Enviando",
+    "contribs-refresh": "Puxe para atualizar",
+    "error-upload-failed": "Envio falhou!",
+    "error-dismiss": "Ignorar",
+    "error-nologin-title": "Ah n\u00e3o!",
+    "error-nologin-text": "Voc\u00ea precisa se autentificar antes de enviar imagens",
+    "error-bad-password-title": "Erro de autentifica\u00e7\u00e3o",
+    "error-bad-password": "Usu\u00e1rio ou senha errados",
+    "reltime-minutes": "$1 minutos atr\u00e1s",
+    "reltime-hours": "$1 hora atr\u00e1s",
+    "reltime-days": "$1 dia atr\u00e1s",
+    "settings-title": "Configura\u00e7\u00f5es",
+    "settings-username-placeholder": "Nome de usu\u00e1rio",
+    "settings-password-placeholder": "Senha",
+    "settings-debug-label": "Modo de depura\u00e7\u00e3o",
+    "settings-debug-detail": "Enviando para $1",
+    "details-title": "Detalhes",
+    "details-upload-button": "Envio",
+    "details-title-label": "T\u00edtulo",
+    "details-title-placeholder": "\u00danico, t\u00edtulo descritivo",
+    "details-description-label": "Descri\u00e7\u00e3o",
+    "details-description-placeholder": "Requerido",
+    "details-license-label": "Licen\u00e7a",
+    "web-open-in": "Abrir em $1",
+    "web-cancel": "Cancelar",
+    "@metadata": {
+        "authors": [
+            "Gusta"
+        ]
+    }
+}

@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Minisarm"
+        ]
+    },
     "contribs-title": "\u00cenc\u0103rc\u0103rile mele",
     "contribs-settings-button": "Set\u0103ri",
     "contribs-upload-button": "\u00cenc\u0103rcare",
@@ -28,10 +33,5 @@
     "details-description-placeholder": "Necesar",
     "details-license-label": "Licen\u021b\u0103",
     "web-open-in": "Deschide cu $1",
-    "web-cancel": "Revocare",
-    "@metadata": {
-        "authors": [
-            "Minisarm"
-        ]
-    }
+    "web-cancel": "Revocare"
 }

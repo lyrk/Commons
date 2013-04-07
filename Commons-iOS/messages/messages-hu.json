@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Dj"
+        ]
+    },
     "contribs-title": "Felt\u00f6lt\u00e9seim",
     "contribs-settings-button": "Be\u00e1ll\u00edt\u00e1sok",
     "contribs-upload-button": "Felt\u00f6lt\u00e9s",
@@ -27,10 +32,5 @@
     "details-description-placeholder": "Sz\u00fcks\u00e9ges",
     "details-license-label": "Licenc",
     "web-open-in": "Megnyit\u00e1s $1-ban",
-    "web-cancel": "M\u00e9gsem",
-    "@metadata": {
-        "authors": [
-            "Dj"
-        ]
-    }
+    "web-cancel": "M\u00e9gsem"
 }

@@ -1,7 +1,18 @@
 {
+    "@metadata": {
+        "authors": [
+            "Chrumps",
+            "Woytecr"
+        ]
+    },
     "contribs-settings-button": "Ustawienia",
     "contribs-photo-library-button": "Zdj\u0119cia",
+    "error-dismiss": "Odrzu\u0107",
     "error-bad-password-title": "B\u0142\u0105d logowania",
+    "error-bad-password": "B\u0142\u0119dna nazwa u\u017cytkownika lub has\u0142o",
+    "reltime-minutes": "$1 minut temu",
+    "reltime-hours": "$1 godzin temu",
+    "reltime-days": "$1 dni temu",
     "settings-title": "Ustawienia",
     "settings-username-placeholder": "Nazwa u\u017cytkownika",
     "settings-password-placeholder": "Has\u0142o",
@@ -13,10 +24,5 @@
     "details-description-label": "Opis",
     "details-description-placeholder": "Wymagane",
     "details-license-label": "Licencja",
-    "web-cancel": "Anuluj",
-    "@metadata": {
-        "authors": [
-            "Woytecr"
-        ]
-    }
+    "web-cancel": "Anuluj"
 }

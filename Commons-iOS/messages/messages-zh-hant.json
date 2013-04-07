@@ -1,0 +1,37 @@
+{
+    "contribs-title": "\u6211\u7684\u4e0a\u8f09",
+    "contribs-settings-button": "\u8a2d\u5b9a",
+    "contribs-upload-button": "\u4e0a\u8f09",
+    "contribs-photo-library-button": "\u7167\u7247",
+    "contribs-state-queued": "\u968a\u5217",
+    "contribs-state-uploading": "\u4e0a\u8f09\u4e2d",
+    "contribs-refresh": "\u4e0b\u62c9\u66f4\u65b0",
+    "error-upload-failed": "\u4e0a\u50b3\u5931\u6557 \uff01",
+    "error-dismiss": "\u53d6\u6d88",
+    "error-nologin-title": "\u5509\u5440 \uff01",
+    "error-nologin-text": "\u60a8\u9700\u8981\u767b\u5165\u624d\u80fd\u4e0a\u8f09\u7167\u7247",
+    "error-bad-password-title": "\u767b\u5165\u932f\u8aa4",
+    "error-bad-password": "\u7528\u6236\u540d\u6216\u5bc6\u78bc\u932f\u8aa4",
+    "reltime-minutes": "$1\u5206\u9418\u524d",
+    "reltime-hours": "$1\u5c0f\u6642\u524d",
+    "reltime-days": "$1\u5929\u524d",
+    "settings-title": "\u8a2d\u5b9a",
+    "settings-username-placeholder": "\u7528\u6236\u540d",
+    "settings-password-placeholder": "\u5bc6\u78bc",
+    "settings-debug-label": "\u5075\u932f\u6a21\u5f0f",
+    "settings-debug-detail": "\u6b63\u5728\u4e0a\u50b3\u5230$1",
+    "details-title": "\u8a73\u7d30\u8cc7\u8a0a",
+    "details-upload-button": "\u4e0a\u8f09",
+    "details-title-label": "\u6a19\u984c",
+    "details-title-placeholder": "\u552f\u4e00\u7684\u3001 \u63cf\u8ff0\u6027\u6a19\u984c",
+    "details-description-label": "\u63cf\u8ff0",
+    "details-description-placeholder": "\u5fc5\u9808",
+    "details-license-label": "\u6388\u6b0a",
+    "web-open-in": "\u5728$1\u4e2d\u6253\u958b",
+    "web-cancel": "\u53d6\u6d88",
+    "@metadata": {
+        "authors": [
+            "Simon Shek"
+        ]
+    }
+}

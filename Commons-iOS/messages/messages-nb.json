@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Nghtwlkr"
+        ]
+    },
     "contribs-title": "Mine opplastinger",
     "contribs-settings-button": "Innstillinger",
     "contribs-upload-button": "Last opp",
@@ -28,10 +33,5 @@
     "details-description-placeholder": "P\u00e5krevd",
     "details-license-label": "Lisens",
     "web-open-in": "\u00c5pne med $1",
-    "web-cancel": "Avbryt",
-    "@metadata": {
-        "authors": [
-            "Nghtwlkr"
-        ]
-    }
+    "web-cancel": "Avbryt"
 }

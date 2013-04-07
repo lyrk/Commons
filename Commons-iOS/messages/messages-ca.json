@@ -1,4 +1,10 @@
 {
+    "@metadata": {
+        "authors": [
+            "Pginer",
+            "Toniher"
+        ]
+    },
     "contribs-title": "Les meves c\u00e0rregues",
     "contribs-settings-button": "Par\u00e0metres",
     "contribs-upload-button": "Carrega",
@@ -28,11 +34,5 @@
     "details-description-placeholder": "Necessari",
     "details-license-label": "Llic\u00e8ncia",
     "web-open-in": "Obre-ho al $1",
-    "web-cancel": "Cancel\u00b7la",
-    "@metadata": {
-        "authors": [
-            "Pginer",
-            "Toniher"
-        ]
-    }
+    "web-cancel": "Cancel\u00b7la"
 }

@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Minh Nguyen"
+        ]
+    },
     "contribs-title": "T\u1eadp tin t\u00f4i t\u1ea3i l\u00ean",
     "contribs-settings-button": "T\u00f9y ch\u1ecdn",
     "contribs-upload-button": "T\u1ea3i l\u00ean",
@@ -28,10 +33,5 @@
     "details-description-placeholder": "B\u1eaft bu\u1ed9c",
     "details-license-label": "Gi\u1ea5y ph\u00e9p",
     "web-open-in": "M\u1edf trong $1",
-    "web-cancel": "H\u1ee7y b\u1ecf",
-    "@metadata": {
-        "authors": [
-            "Minh Nguyen"
-        ]
-    }
+    "web-cancel": "H\u1ee7y b\u1ecf"
 }
