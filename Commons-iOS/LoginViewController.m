@@ -15,6 +15,8 @@
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
 
+// This is the size reduction of the logo when the device is rotated to
+// landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
 #define LOGO_SCALE_NON_IPAD_LANDSCAPE 0.43
 
 @interface LoginViewController ()
@@ -47,8 +49,8 @@
 	// Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
-	// Get gradent login button color
-	[_loginButton useGreenConfirmStyle];
+	// Set gradient login button color
+	[self.loginButton useWhiteStyle];
 	
     // l10n
     self.navigationItem.title = [MWMessage forKey:@"settings-title"].text;
@@ -117,7 +119,7 @@
 						 if (
 							 (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
 							 &&
-							 UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)
+							 UIInterfaceOrientationIsLandscape(self.interfaceOrientation)
 							 ){
 							 _logoImageView.transform = CGAffineTransformMakeScale(LOGO_SCALE_NON_IPAD_LANDSCAPE, LOGO_SCALE_NON_IPAD_LANDSCAPE);
 						 }else{
@@ -157,10 +159,10 @@
 	// logo up a bit in this case (the container center and the logo center get swapped when the keyboard is
 	// revealed and pushing the logo up a bit makes the login container more fully fill the space above the
 	// top of the keyboard - especially important on non-iPads)
-	if (
+    if (
 		(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
 		&&
-		UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)
+		UIInterfaceOrientationIsLandscape(self.interfaceOrientation)
 	){
 		_logoImageView.transform = CGAffineTransformMakeScale(LOGO_SCALE_NON_IPAD_LANDSCAPE, LOGO_SCALE_NON_IPAD_LANDSCAPE);
 		_logoImageView.center = CGPointMake(_logoImageView.center.x, _logoImageView.center.y - 15);
