@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		040860BB17136FC300D3290B /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 040860BA17136FC300D3290B /* CoreImage.framework */; };
+		040860BE1713939200D3290B /* GrayscaleImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040860BD1713939200D3290B /* GrayscaleImageView.m */; };
 		044A0C3C170F6504003395DD /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044A0C3B170F6504003395DD /* GradientButton.m */; };
 		0456EE8C170CF328008AF00A /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0456EE8B170CF328008AF00A /* NavigationController.m */; };
 		1F7C6BFA16BEEEF300B7C558 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */; };
@@ -245,6 +247,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		040860BA17136FC300D3290B /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		040860BC1713939100D3290B /* GrayscaleImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrayscaleImageView.h; sourceTree = "<group>"; };
+		040860BD1713939200D3290B /* GrayscaleImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrayscaleImageView.m; sourceTree = "<group>"; };
 		044A0C3A170F6504003395DD /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
 		044A0C3B170F6504003395DD /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientButton.m; sourceTree = "<group>"; };
 		0456EE8A170CF328008AF00A /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
@@ -476,6 +481,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040860BB17136FC300D3290B /* CoreImage.framework in Frameworks */,
 				D400C36D16DD8C030059F6A7 /* ImageIO.framework in Frameworks */,
 				1F7C6BFA16BEEEF300B7C558 /* SystemConfiguration.framework in Frameworks */,
 				65CA697516BFCE3300839D09 /* QuartzCore.framework in Frameworks */,
@@ -556,7 +562,6 @@
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
-				D400C36C16DD8C030059F6A7 /* ImageIO.framework */,
 				D40CE3D616BB398A00E63B27 /* Commons-logo-72@2x.png */,
 				D40CE3D416BB398700E63B27 /* Commons-logo-72.png */,
 				D40CE3D216BB391500E63B27 /* Default-Landscape@2x~ipad.png */,
@@ -586,6 +591,8 @@
 		D408616F169B760800D6ACB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				040860BA17136FC300D3290B /* CoreImage.framework */,
+				D400C36C16DD8C030059F6A7 /* ImageIO.framework */,
 				1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */,
 				65CA697416BFCE3300839D09 /* QuartzCore.framework */,
 				65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */,
@@ -729,6 +736,8 @@
 				3067546E170FF9D900A4BD8F /* SettingsViewController.m */,
 				305BC7681710BD3300B2CC01 /* LoadingIndicator.h */,
 				305BC7691710BD3300B2CC01 /* LoadingIndicator.m */,
+				040860BC1713939100D3290B /* GrayscaleImageView.h */,
+				040860BD1713939200D3290B /* GrayscaleImageView.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1187,6 +1196,7 @@
 				044A0C3C170F6504003395DD /* GradientButton.m in Sources */,
 				3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */,
 				305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */,
+				040860BE1713939200D3290B /* GrayscaleImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

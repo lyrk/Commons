@@ -14,10 +14,14 @@
 #import "GradientButton.h"
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
+#import "GrayscaleImageView.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
-#define LOGO_SCALE_NON_IPAD_LANDSCAPE 0.43
+#define LOGO_SCALE_NON_IPAD_LANDSCAPE 0.53
+
+#define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 @interface LoginViewController ()
 
@@ -30,6 +34,7 @@
 {
 
     UITapGestureRecognizer *tapRecognizer;
+    CGPoint originalInfoContainerCenter;
 
 }
 
@@ -45,6 +50,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    originalInfoContainerCenter = CGPointZero;
 
 	// Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -70,27 +77,37 @@
     
     //hide keyboard when anywhere else is tapped
 	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-	[self.view addGestureRecognizer:tapRecognizer];
+	[self.view addGestureRecognizer:tapRecognizer]; 
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification
 {
-	// When the keyboard is revealed swap the logo and login containers so the keyboard doesn't occlude
+	// When the keyboard is revealed move the login container to the logo position so the keyboard doesn't occlude
 	// the login text boxes and login button
-	// Shrink and Fade the logo out when doing so for a nice transistion and to focus attention on the
+	// Enlarge and Fade the logo partially out when doing so for a nice transistion and to focus attention on the
 	// login process while the keyboard is visible
 	[UIView animateWithDuration:0.2
 						  delay:0.0
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
-						 // Swap logo and login container positions
-						 CGPoint logoCenter = _logoImageView.center;
-						 _logoImageView.center = _loginInfoContainer.center;
-						 _loginInfoContainer.center = logoCenter;
+                         
+                         // Remember where the login info container had been so it can be moved back here when the keyboard is hidden
+                         originalInfoContainerCenter = _loginInfoContainer.center;
+                         
+						 // Move login container to logo position
+						 _loginInfoContainer.center = _logoImageView.center;
 						 
-						 // Shrink and Fade out the logo
-						 _logoImageView.transform = CGAffineTransformMakeScale(0.1, 0.1);
-						 _logoImageView.alpha = 0.0;
+						 // Enlarge and partially fade out the logo
+                         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+                             _logoImageView.transform = CGAffineTransformMakeScale(1.5, 1.5);
+                         }else{
+                             _logoImageView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+                         }
+                         
+						 _logoImageView.alpha = 0.08;
+                         
+                         [_logoImageView toGrayscale];
+                         
 					 }
 					 completion:^(BOOL finished){
 						 
@@ -99,23 +116,21 @@
 
 - (void)hideKeyboard
 {
-	// When hiding the keyboard, the logo and login container need to swap positions back to the way
-	// they were on the storyboard before the keyboard was shown
+	// When hiding the keyboard, the login container needs be moved back to its storyboard
+    // position (where it was before the keyboard was shown)
 	[UIView animateWithDuration:0.2
 						  delay:0.0
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
-						 // If the positions were not swapped don't swap them back!
-						 if (_logoImageView.center.y < _loginInfoContainer.center.y) return;
+
+						 // Reset the login container position
+						 _loginInfoContainer.center = originalInfoContainerCenter;
 						 
-						 // Perform the position swap
-						 CGPoint logoCenter = _logoImageView.center;
-						 _logoImageView.center = _loginInfoContainer.center;
-						 _loginInfoContainer.center = logoCenter;
-						 
-						 // Restore the logo alpha and scale to pre-swap settings
+						 // Restore the logo alpha and scale as well
 						 _logoImageView.alpha = 1.0;
 						 
+                        [_logoImageView toColor];
+                         
 						 if (
 							 (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
 							 &&
@@ -155,6 +170,9 @@
 	_logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height / 3.3);
 	_loginInfoContainer.center = CGPointMake(self.view.center.x, (self.view.frame.size.height / 2.8) * 2.0);
 
+    // Ensure originalInfoContainerCenter has new _loginInfoContainer.center value
+    originalInfoContainerCenter = _loginInfoContainer.center;
+    
 	// Shrink the logo a bit when the device is held in landscape if the device is not an ipad, also push the
 	// logo up a bit in this case (the container center and the logo center get swapped when the keyboard is
 	// revealed and pushing the logo up a bit makes the login container more fully fill the space above the
