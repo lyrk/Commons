@@ -198,8 +198,12 @@
 	
 }
 
+-(void)viewDidDisappear:(BOOL)animated{
+    [self hideKeyboard];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
-	
+	   
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
 								   initWithTitle: [MWMessage forKey:@"login-title"].text
 								   style: UIBarButtonItemStyleBordered
