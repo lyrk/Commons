@@ -33,5 +33,7 @@
     "details-license-label": "License",
     
     "web-open-in": "Open in $1",
-    "web-cancel": "Cancel"
+    "web-cancel": "Cancel",
+
+    "login-title": "Account"
 }

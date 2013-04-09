@@ -60,7 +60,7 @@
 	[self.loginButton useWhiteStyle];
 	
     // l10n
-    self.navigationItem.title = [MWMessage forKey:@"settings-title"].text;
+    self.navigationItem.title = [MWMessage forKey:@"login-title"].text;
     self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
     self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
 
@@ -201,7 +201,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
 	
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
-								   initWithTitle: @"Accounts"
+								   initWithTitle: [MWMessage forKey:@"login-title"].text
 								   style: UIBarButtonItemStyleBordered
 								   target:nil action: nil];
 	
