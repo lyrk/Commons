@@ -524,6 +524,12 @@
 		655BF5EC16C104CD00B22299 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				305BC7681710BD3300B2CC01 /* LoadingIndicator.h */,
+				305BC7691710BD3300B2CC01 /* LoadingIndicator.m */,
+				040860BC1713939100D3290B /* GrayscaleImageView.h */,
+				040860BD1713939200D3290B /* GrayscaleImageView.m */,
+				044A0C3A170F6504003395DD /* GradientButton.h */,
+				044A0C3B170F6504003395DD /* GradientButton.m */,
 				655BF5ED16C1052D00B22299 /* StorageTools.h */,
 				655BF5EE16C1052D00B22299 /* StorageTools.m */,
 				D4B83E2016BC950900ABAF94 /* BrowserHelper.h */,
@@ -730,14 +736,8 @@
 				D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */,
 				0456EE8A170CF328008AF00A /* NavigationController.h */,
 				0456EE8B170CF328008AF00A /* NavigationController.m */,
-				044A0C3A170F6504003395DD /* GradientButton.h */,
-				044A0C3B170F6504003395DD /* GradientButton.m */,
 				3067546D170FF9D800A4BD8F /* SettingsViewController.h */,
 				3067546E170FF9D900A4BD8F /* SettingsViewController.m */,
-				305BC7681710BD3300B2CC01 /* LoadingIndicator.h */,
-				305BC7691710BD3300B2CC01 /* LoadingIndicator.m */,
-				040860BC1713939100D3290B /* GrayscaleImageView.h */,
-				040860BD1713939200D3290B /* GrayscaleImageView.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
