@@ -261,7 +261,7 @@
 }
 
 - (IBAction)uploadButtonPushed:(id)sender {
-    MyUploadsViewController *controller = [self.navigationController.viewControllers objectAtIndex:0];
+    MyUploadsViewController *controller = [self.navigationController.viewControllers objectAtIndex:1];
     if ([controller respondsToSelector:@selector(uploadButtonPushed:)]) {
         [controller performSelector:@selector(uploadButtonPushed:) withObject:controller.uploadButton];
     }

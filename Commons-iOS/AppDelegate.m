@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "CommonsApp.h"
 #import "Reachability.h"
+#import "LoadingIndicator.h"
 
 @implementation AppDelegate
 
@@ -49,6 +50,8 @@
     }
     */
 
+	_loadingIndicator = [[LoadingIndicator alloc] initWithFrame:_window.bounds];
+	[_window addSubview: _loadingIndicator];
     
     return YES;
 }
