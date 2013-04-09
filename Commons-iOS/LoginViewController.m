@@ -71,8 +71,8 @@
 
     // Keyboard show/hide listeners to adjust scroll view
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidShow:)
-                                                 name:UIKeyboardDidShowNotification
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
                                                object:nil];
     
     //hide keyboard when anywhere else is tapped
@@ -80,7 +80,7 @@
 	[self.view addGestureRecognizer:tapRecognizer]; 
 }
 
-- (void)keyboardDidShow:(NSNotification *)notification
+- (void)keyboardWillShow:(NSNotification *)notification
 {
 	// When the keyboard is revealed move the login container to the logo position so the keyboard doesn't occlude
 	// the login text boxes and login button
