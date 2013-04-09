@@ -35,5 +35,7 @@
     "web-open-in": "Open in $1",
     "web-cancel": "Cancel",
 
-    "login-title": "Account"
+    "login-title": "Account",
+    "login-button": "Login"
+
 }

@@ -63,7 +63,8 @@
     self.navigationItem.title = [MWMessage forKey:@"login-title"].text;
     self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
     self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
-
+    [self.loginButton setTitle:[MWMessage forKey:@"login-button"].text forState:UIControlStateNormal];
+    
 	// Do any additional setup after loading the view.
     CommonsApp *app = CommonsApp.singleton;
     self.usernameField.text = app.username;
