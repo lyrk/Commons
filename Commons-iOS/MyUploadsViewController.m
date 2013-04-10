@@ -650,6 +650,10 @@
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     
+    NSString *indexPosition = [NSString stringWithFormat:@"%d", indexPath.item + 1];
+    cell.indexLabel.text = indexPosition;
+    // fixme indexPosition doesn't always update when we add new items
+
     NSString *title = record.title;
 
     if (cell.title && [cell.title isEqual:title]) {

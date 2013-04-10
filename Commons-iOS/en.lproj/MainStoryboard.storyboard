@@ -106,6 +106,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="B7S-Xb-Ggh">
+                                                    <rect key="frame" x="172" y="130" width="137" height="69"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="60"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" id="XOQ-vH-P1a">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -141,6 +148,7 @@
                                         <size key="customSize" width="320" height="240"/>
                                         <connections>
                                             <outlet property="image" destination="XOQ-vH-P1a" id="ODq-Px-xkj"/>
+                                            <outlet property="indexLabel" destination="B7S-Xb-Ggh" id="hIw-tw-wEJ"/>
                                             <outlet property="infoBox" destination="okD-fs-BOe" id="qDq-MR-MbT"/>
                                             <outlet property="progressBar" destination="7Uq-lr-dsu" id="kRb-fM-NSo"/>
                                             <outlet property="statusLabel" destination="6oN-oL-8y2" id="dNy-RZ-XEQ"/>
@@ -634,6 +642,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageListCell.h"/>
             <relationships>
                 <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="indexLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="infoBox" candidateClass="UIView"/>
                 <relationship kind="outlet" name="progressBar" candidateClass="UIProgressView"/>
                 <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
@@ -651,7 +660,7 @@
         <class className="LoginViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
             <relationships>
-                <relationship kind="action" name="pushedDoneButton:"/>
+                <relationship kind="action" name="pushedLoginButton:"/>
                 <relationship kind="outlet" name="loginButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="loginInfoContainer" candidateClass="UIView"/>
                 <relationship kind="outlet" name="logoImageView" candidateClass="GrayscaleImageView"/>
