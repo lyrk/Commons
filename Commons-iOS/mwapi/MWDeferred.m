@@ -15,6 +15,7 @@
     BOOL isDone_;
     BOOL isResolved_;
     BOOL isRejected_;
+    id result_;
 }
 @end
 
@@ -27,6 +28,10 @@
         doneCallbacks_ = [[NSMutableArray alloc] init];
         failCallbacks_ = [[NSMutableArray alloc] init];
         progressCallbacks_ = [[NSMutableArray alloc] init];
+        isDone_ = NO;
+        isResolved_ = NO;
+        isRejected_ = NO;
+        result_ = nil;
     }
     return self;
 }
@@ -40,19 +45,28 @@
 - (void)done:(MWPromiseBlock)doneCallback
 {
     if (doneCallback) {
-        [doneCallbacks_ addObject:doneCallback];
+        if (!isDone_) {
+            [doneCallbacks_ addObject:doneCallback];
+        } else if (isResolved_) {
+            doneCallback(result_);
+        }
     }
 }
 
 - (void)fail:(MWPromiseBlock)failCallback
 {
     if (failCallback) {
-        [failCallbacks_ addObject:failCallback];
+        if (!isDone_) {
+            [failCallbacks_ addObject:failCallback];
+        } else if (isRejected_) {
+            failCallback(result_);
+        }
     }
 }
 
 - (void)progress:(MWPromiseBlock)progressCallback
 {
+    // fixme does this need to call if we're already done? probably not.
     if (progressCallback) {
         [progressCallbacks_ addObject:progressCallback];
     }
@@ -90,6 +104,10 @@
 
 - (void)reject:(id)arg
 {
+    isDone_ = YES;
+    isResolved_ = NO;
+    isRejected_ = YES;
+    result_ = arg;
     for (MWPromiseBlock block in failCallbacks_) {
         block(arg);
     }
@@ -97,6 +115,10 @@
 
 - (void)resolve:(id)arg
 {
+    isDone_ = YES;
+    isResolved_ = YES;
+    isRejected_ = NO;
+    result_ = arg;
     for (MWPromiseBlock block in doneCallbacks_) {
         block(arg);
     }

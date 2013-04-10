@@ -33,15 +33,23 @@
 
 - (MWPromise *)fetchThumbnail:(NSString *)filename size:(CGSize)size
 {
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+
     NSString *sizeKey = [NSString stringWithFormat:@"%dx%d", (int)size.width, (int)size.height];
     NSString *key = [NSString stringWithFormat:@"%@-%@", sizeKey, filename];
+    
+    UIImage *image = [self cachedThumbForKey:key];
+    if (image) {
+        [deferred resolve:image];
+        return deferred.promise;
+    }
+
     NSDictionary *entry = requestsByKey_[key];
     if (entry) {
         // We're already requesting this one... piggyback the existing request.
         return ((MWDeferred *)entry[@"deferred"]).promise;
     }
 
-    MWDeferred *deferred = [[MWDeferred alloc] init];
     entry = @{
               @"key": key,
               @"filename": filename,
@@ -79,6 +87,25 @@
     }
     
     return deferred.promise;
+}
+
+- (UIImage *)cachedThumbForKey:(NSString *)key
+{
+    CommonsApp *app = [CommonsApp singleton];
+    NSString *thumbPath = [app thumbPath:key];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:thumbPath]) {
+        return [UIImage imageWithContentsOfFile:thumbPath];
+    } else {
+        return nil;
+    }
+}
+
+- (void)cacheImageData:(NSData *)data forKey:(NSString *)key
+{
+    CommonsApp *app = [CommonsApp singleton];
+    NSString *thumbPath = [app thumbPath:key];
+    [data writeToFile:thumbPath atomically:YES];
 }
 
 - (MWPromise *)fetchQueuedThumbnails
@@ -151,9 +178,11 @@
     NSURL *thumbnailURL = urlsByKey_[key];
     
     if (thumbnailURL) {
-        MWPromise *fetchImage = [app fetchImageURL:thumbnailURL];
-        [fetchImage done:^(UIImage *image) {
+        MWPromise *fetchImage = [app fetchDataURL:thumbnailURL];
+        [fetchImage done:^(NSData *data) {
+            [self cacheImageData:data forKey:key];
             [requestsByKey_ removeObjectForKey:key];
+            UIImage *image = [UIImage imageWithData:data scale:1.0];
             [fetchDeferred resolve:image];
         }];
         [fetchImage fail:^(NSError *error) {

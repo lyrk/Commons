@@ -679,14 +679,13 @@ static CommonsApp *singleton_;
 /**
  * Will make use of NSURL's default caching handlers
  */
-- (MWPromise *)fetchImageURL:(NSURL *)url
+- (MWPromise *)fetchDataURL:(NSURL *)url
 {
     MWDeferred *deferred = [[MWDeferred alloc] init];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
     void (^done)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *data, NSError *error) {
         if (error == nil) {
-            UIImage *image = [UIImage imageWithData:data];
-            [deferred resolve:image];
+            [deferred resolve:data];
         } else {
             [deferred reject:error];
         }
@@ -694,6 +693,23 @@ static CommonsApp *singleton_;
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:[NSOperationQueue mainQueue]
                            completionHandler:done];
+    return deferred.promise;
+}
+
+/**
+ * Will make use of NSURL's default caching handlers
+ */
+- (MWPromise *)fetchImageURL:(NSURL *)url
+{
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+    MWPromise *fetch = [self fetchDataURL:url];
+    [fetch done:^(NSData *data) {
+        UIImage *image = [UIImage imageWithData:data scale:1.0];
+        [deferred resolve:image];
+    }];
+    [fetch fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
     return deferred.promise;
 }
 

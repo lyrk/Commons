@@ -34,9 +34,11 @@
 
 - (NSString *)documentRootPath;
 - (NSString *)filePath:(NSString *)fileName;
+- (NSString *)thumbPath:(NSString *)fileName;
 - (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
 
 - (MWPromise *)loadImage:(NSString *)fileName fileType:(NSString *)fileType;
+- (MWPromise *)fetchDataURL:(NSURL *)url;
 - (MWPromise *)fetchImageURL:(NSURL *)url;
 - (MWPromise *)fetchWikiImage:(NSString *)title size:(CGSize)size;
 
