@@ -20,6 +20,9 @@
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
 #define LOGO_SCALE_NON_IPAD_LANDSCAPE 0.53
 
+// This is the extra distance the login container is moved when the keyboard is revealed
+#define LOGIN_CONTAINER_VERTICAL_OFFSET -30.0
+
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
@@ -100,8 +103,12 @@
                          // Remember where the login info container had been so it can be moved back here when the keyboard is hidden
                          originalInfoContainerCenter = _loginInfoContainer.center;
                          
-						 // Move login container to logo position
-						 _loginInfoContainer.center = _logoImageView.center;
+                        // Prevents the keyboard from covering any of the login container contents, not needed on iPad
+                        // Most useful on non-iPads in landscape
+                        float yOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0 : LOGIN_CONTAINER_VERTICAL_OFFSET;
+                         
+						 // Move login container to logo position (plus a slight vertical offset)
+						 _loginInfoContainer.center = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
 						 
 						 // Enlarge and partially fade out the logo
                          if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
@@ -173,26 +180,21 @@
 -(void)viewWillLayoutSubviews{
 	// Position the logo and the login containers centered horizontally and at about one-third and two-thirds
 	// the way down the screen vertically respectively
-	_logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height / 3.3);
-	_loginInfoContainer.center = CGPointMake(self.view.center.x, (self.view.frame.size.height / 2.8) * 2.0);
+	_logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height / 3.0);
+	_loginInfoContainer.center = CGPointMake(self.view.center.x, (self.view.frame.size.height / 2.6) * 2.0);
 
     // Ensure originalInfoContainerCenter has new _loginInfoContainer.center value
     originalInfoContainerCenter = _loginInfoContainer.center;
     
-	// Shrink the logo a bit when the device is held in landscape if the device is not an ipad, also push the
-	// logo up a bit in this case (the container center and the logo center get swapped when the keyboard is
-	// revealed and pushing the logo up a bit makes the login container more fully fill the space above the
-	// top of the keyboard - especially important on non-iPads)
+	// Shrink the logo a bit when the device is held in landscape if the device is not an ipad
     if (
 		(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
 		&&
 		UIInterfaceOrientationIsLandscape(self.interfaceOrientation)
 	){
 		_logoImageView.transform = CGAffineTransformMakeScale(LOGO_SCALE_NON_IPAD_LANDSCAPE, LOGO_SCALE_NON_IPAD_LANDSCAPE);
-		_logoImageView.center = CGPointMake(_logoImageView.center.x, _logoImageView.center.y - 15);
 	}else{
 		_logoImageView.transform = CGAffineTransformIdentity;
-		_logoImageView.center = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + 15);
 	}
 	
 }
