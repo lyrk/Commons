@@ -46,4 +46,6 @@
 
 - (void)cancelCurrentRequest;
 
+- (NSString *)formatTimestamp:(NSDate *)timestamp;
+
 @end

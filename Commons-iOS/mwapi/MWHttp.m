@@ -65,6 +65,7 @@
         // JSON deserialization failure
         [deferred_ resolve:error];
     } else if (result[@"error"]) {
+        NSLog(@"%@", result);
         // Generic error result from the API.
         NSDictionary *info = @{
                                @"MW error code": result[@"error"][@"code"],

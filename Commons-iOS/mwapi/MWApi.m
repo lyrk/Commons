@@ -189,4 +189,16 @@
     return [self makeRequest:request];
 }
 
+- (NSString *)formatTimestamp:(NSDate *)timestamp
+{
+    NSCalendar *gregorian = [[NSCalendar alloc]
+                             initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit |
+                                                          NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit)
+                                                fromDate:timestamp];
+    return [NSString stringWithFormat:@"%04d%02d%02d%02d%02d%02d",
+            components.year, components.month, components.day,
+            components.hour, components.minute, components.second];
+}
+
 @end

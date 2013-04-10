@@ -804,23 +804,36 @@ static CommonsApp *singleton_;
 - (MWPromise *)refreshHistory
 {
     MWDeferred *deferred = [[MWDeferred alloc] init];
-    MWApi *api = [self startApi];
-    MWPromise *req = [api getRequest: @{
-        @"action": @"query",
-        @"list": @"logevents",
-        @"leaction": @"upload/upload",
-        @"leprop": @"title|timestamp",
-        @"leuser": self.username,
-        @"lelimit": @"500"
-    }];
-    [req done:^(NSDictionary *result) {
-        NSFetchedResultsController *records = [self fetchUploadRecords];
-        for (FileUpload *oldRecord in records.fetchedObjects) {
-            if (oldRecord.complete.boolValue) {
-                [self deleteUploadRecord:oldRecord];
+
+    // Find the latest entry
+    // fixme do this more efficiently
+    NSDate *latest = nil;
+    NSFetchedResultsController *records = [self fetchUploadRecords];
+    for (FileUpload *oldRecord in records.fetchedObjects) {
+        if (oldRecord.complete.boolValue) {
+            if (latest == nil || [latest compare:oldRecord.created] == NSOrderedAscending) {
+                latest = oldRecord.created;
             }
         }
-        records = nil;
+    }
+
+    // Ask the API for any new changes
+    MWApi *api = [self startApi];
+    NSMutableDictionary *params = [@{
+                                    @"action": @"query",
+                                    @"list": @"logevents",
+                                    @"leaction": @"upload/upload",
+                                    @"leprop": @"title|timestamp",
+                                    @"leuser": self.username,
+                                    @"lelimit": @"500",
+                                    @"ledir": @"newer"
+                                    } mutableCopy];
+    if (latest) {
+        params[@"lestart"] = [api formatTimestamp:latest];
+    }
+
+    MWPromise *req = [api getRequest:params];
+    [req done:^(NSDictionary *result) {
        
         /*
          {
@@ -856,10 +869,29 @@ static CommonsApp *singleton_;
                 [self saveData];
             })();
              */
+            
+            NSString *title = [self cleanupTitle:logevent[@"title"]];
+            BOOL skip = NO;
+
+            // fixme do this more efficiently
+            // check for dupes
+            for (FileUpload *oldRecord in records.fetchedObjects) {
+                if (oldRecord.complete.boolValue) {
+                    if ([oldRecord.title isEqualToString:title]) {
+                        skip = YES;
+                        break;
+                    }
+                }
+            }
+            if (skip) {
+                NSLog(@"Skipping known record for %@", title);
+                continue;
+            }
+            
             FileUpload *record = [self createUploadRecord];
             record.complete = @YES;
             
-            record.title = [self cleanupTitle:logevent[@"title"]];
+            record.title = title;
             record.progress = @1.0f;
             record.created = [self decodeDate:logevent[@"timestamp"]];
             

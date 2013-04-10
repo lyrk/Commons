@@ -256,6 +256,7 @@
 - (IBAction)deleteButtonPushed:(id)sender {
     CommonsApp *app = CommonsApp.singleton;
     [app deleteUploadRecord:self.selectedRecord];
+    [app saveData];
     self.selectedRecord = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
