@@ -20,6 +20,6 @@
 @property (weak, nonatomic) IBOutlet GrayscaleImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UIView *loginInfoContainer;
 
-- (IBAction)pushedDoneButton:(id)sender;
+- (IBAction)pushedLoginButton:(id)sender;
 
 @end
