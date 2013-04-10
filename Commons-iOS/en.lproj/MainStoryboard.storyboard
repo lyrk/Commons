@@ -55,7 +55,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="pushedDoneButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="TYR-sP-Ivx"/>
+                                                    <action selector="pushedLoginButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="P46-F7-d1O"/>
                                                 </connections>
                                             </button>
                                         </subviews>

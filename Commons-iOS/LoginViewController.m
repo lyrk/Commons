@@ -26,6 +26,8 @@
 @interface LoginViewController ()
 
 - (void)hideKeyboard;
+- (void)showMyUploadsVC;
+
 @property (weak, nonatomic) AppDelegate *appDelegate;
 
 @end
@@ -35,14 +37,17 @@
 
     UITapGestureRecognizer *tapRecognizer;
     CGPoint originalInfoContainerCenter;
+    
+    // Only skip the login screen on initial load
+    bool allowSkippingToMyUploads;
 
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithCoder:(NSCoder *)decoder
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    if (self = [super initWithCoder:decoder])
+    {
+        allowSkippingToMyUploads = YES;
     }
     return self;
 }
@@ -192,6 +197,20 @@
 	
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    
+    // If user credentials previously validated send them directly to their uploads
+    if (allowSkippingToMyUploads) {
+        allowSkippingToMyUploads = NO;
+        CommonsApp *app = CommonsApp.singleton;
+        if ([app.username length] && [app.password length]){
+            [self showMyUploadsVC];
+        }
+    }
+    
+    [super viewDidAppear:animated];
+}
+
 -(void)viewWillAppear:(BOOL)animated{
 
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
@@ -220,17 +239,19 @@
     [super viewWillDisappear:animated];
 }
 
-- (IBAction)pushedDoneButton:(id)sender {
-   
-	// Block for pushing the MyUploads view controller on to the navigation controller (used when login
-	// credentials have been authenticated)
-	void(^showMyUploadsVC)(void) = ^{
-		MyUploadsViewController *myUploadsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
-		[self.navigationController pushViewController:myUploadsVC animated:YES];
-	};
+-(void)showMyUploadsVC{
+    // For pushing the MyUploads view controller on to the navigation controller (used when login
+    // credentials have been authenticated)
+    MyUploadsViewController *myUploadsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
+    [self.navigationController pushViewController:myUploadsVC animated:YES];
+}
+
+- (IBAction)pushedLoginButton:(id)sender {
 
     CommonsApp *app = CommonsApp.singleton;
     
+    allowSkippingToMyUploads = NO;
+
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
 
@@ -285,7 +306,7 @@
                 // Dismiss view
                 
 				//login success!
-				showMyUploadsVC();
+				[self showMyUploadsVC];
                 
             } else {
                 // Credentials invalid
@@ -330,7 +351,7 @@
         // Dismiss view
                
 		//login success!
-		showMyUploadsVC();
+        [self showMyUploadsVC];
     }
 }
 
