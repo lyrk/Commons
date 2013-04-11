@@ -294,6 +294,36 @@ static CommonsApp *singleton_;
     }
 }
 
+- (void)deleteAllRecords
+{
+    // Tear down CoreData so we can quickly delete the database.
+    // Deleting hundreds of entries one by one is ssllooww.
+    self.context = nil;
+
+    // Quickly delete all stored files...
+    NSString *root = [self documentRootPath];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    bool(^delete)(NSString *) = ^bool(NSString *path) {
+        NSString *fullPath = [root stringByAppendingString:path];
+        if ([fm fileExistsAtPath:fullPath]) {
+            NSError *err;
+            return [fm removeItemAtPath:fullPath error:&err];
+        }
+        return NO;
+    };
+    
+    // Delete the "queued" and "thumbs" folders
+    delete(@"/queued");
+    delete(@"/thumbs");
+    
+    // Delete the "uploads.sqlite" file
+    delete(@"/uploads.sqlite");
+
+    // Files/dirs will be recreated in setupData.
+    [self setupData];
+}
+
 - (FileUpload *)createUploadRecord
 {
     return [NSEntityDescription insertNewObjectForEntityForName:@"FileUpload" inManagedObjectContext:self.context];

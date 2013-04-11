@@ -64,5 +64,6 @@
 - (NSDate *)decodeDate:(NSString *)str;
 
 - (void)log:(NSString *)schemaName event:(NSDictionary *)event;
+- (void)deleteAllRecords;
 
 @end

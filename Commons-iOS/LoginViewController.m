@@ -303,6 +303,7 @@
                 app.username = username;
                 app.password = password;
                 [app saveCredentials];
+                [app deleteAllRecords];
                 [app refreshHistory];
                 
                 // Dismiss view
@@ -321,6 +322,7 @@
                 app.username = @"";
                 app.password = @"";
                 [app saveCredentials];
+                [app deleteAllRecords];
                 
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-bad-password-title"].text
                                                                     message:[MWMessage forKey:@"error-bad-password"].text
