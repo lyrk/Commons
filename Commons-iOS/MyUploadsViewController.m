@@ -65,7 +65,7 @@
     self.uploadButton.title = [MWMessage forKey:@"contribs-upload-button"].text;
     //self.choosePhotoButton.title = [MWMessage forKey:@"contribs-photo-library-button"].text; // fixme set accessibility title
     
-    if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+    if ([self hasCamera]) {
         // Camera is available
     } else {
         // Clicking 'take photo' in simulator *will* crash, so disable the button.
@@ -98,6 +98,11 @@
     // This view is used to fade out the background when the take and choose photo buttons are revealed
     opaqueView = [[UIView alloc] init];
     opaqueView.backgroundColor = [UIColor clearColor];
+}
+
+-(BOOL)hasCamera
+{
+    return [UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera];
 }
 
 -(void)viewWillLayoutSubviews
@@ -442,7 +447,7 @@
                              
                          }
                          completion:^(BOOL finished){
-                             self.takePhotoButton.enabled = YES;
+                             self.takePhotoButton.enabled = [self hasCamera];
                              self.choosePhotoButton.enabled = YES;
                              buttonAnimationInProgress = NO;
 
