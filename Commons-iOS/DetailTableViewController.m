@@ -127,7 +127,7 @@
     UIButton *hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [hideKeyboardButton addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchDown];
     [hideKeyboardButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [hideKeyboardButton setTitle:@"Hide Keyboard" forState:UIControlStateNormal];
+    [hideKeyboardButton setTitle:[MWMessage forKey:@"details-hide-keyboard"].text forState:UIControlStateNormal];
     hideKeyboardButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
     self.descriptionTextView.inputAccessoryView = hideKeyboardButton;
     
