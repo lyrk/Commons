@@ -16,15 +16,17 @@
 
 @interface DetailTableViewController ()
 
+    - (void)hideKeyboard;
+
 @end
 
 @implementation DetailTableViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithCoder:(NSCoder *)coder
 {
-    self = [super initWithStyle:style];
+    self = [super initWithCoder:coder];
     if (self) {
-        // Custom initialization
+
     }
     return self;
 }
@@ -40,7 +42,7 @@
     self.title = [MWMessage forKey:@"details-title"].text;
     self.uploadButton.title = [MWMessage forKey:@"details-upload-button"].text;
     self.titleLabel.text = [MWMessage forKey:@"details-title-label"].text;
-    self.titleTextField.placeholder = [MWMessage forKey:@"details-title-placeholder"].text;
+    self.titleTextField.placeholder = [@" " stringByAppendingString:[MWMessage forKey:@"details-title-placeholder"].text];
     self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
     self.descriptionPlaceholder.text = [MWMessage forKey:@"details-description-placeholder"].text;
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
@@ -154,6 +156,39 @@
      */
 }
 
+#pragma mark - Repositioning for keyboard appearance
+
+- (void)hideKeyboard
+{
+	// Dismisses the keyboard
+	[self.titleTextField resignFirstResponder];
+	[self.descriptionTextView resignFirstResponder];
+}
+
+-(void)viewWillLayoutSubviews
+{
+    // Add a little padding to the bottom of the table view so it can be scrolled up a bit when the
+    // keyboard is shown
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, self.view.frame.size.height / 2.0, 0);
+    [self.tableView setContentInset:edgeInsets];
+    [self.tableView setScrollIndicatorInsets:edgeInsets];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    // When the title box receives focus scroll it to the top of the table view to ensure the keyboard
+    // isn't hiding it
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    // When the description box receives focus scroll it to the top of the table view to ensure the keyboard
+    // isn't hiding it
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
 
 #pragma mark -
 
