@@ -135,6 +135,14 @@
 	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
 	[self.view addGestureRecognizer:tapRecognizer];
     tapRecognizer.cancelsTouchesInView = NO;
+    
+    // Make taps to title or description labels cause their respective text boxes to receive focus
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnTitleTextField)];
+    self.titleLabel.userInteractionEnabled = YES;
+    [self.titleLabel addGestureRecognizer:tapGesture];
+    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
+    self.descriptionLabel.userInteractionEnabled = YES;
+    [self.descriptionLabel addGestureRecognizer:tapGesture];
 }
 
 - (void)updateUploadButton
@@ -178,6 +186,17 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+#pragma mark - Focus to box when title or description label tapped
+- (void)focusOnTitleTextField
+{
+    [self.titleTextField becomeFirstResponder];
+}
+
+- (void)focusOnDescriptionTextView
+{
+    [self.descriptionTextView becomeFirstResponder];
 }
 
 #pragma mark - Repositioning for keyboard appearance
