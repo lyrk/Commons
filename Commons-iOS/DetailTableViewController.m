@@ -140,11 +140,11 @@
     
     // Make taps to title or description labels cause their respective text boxes to receive focus
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnTitleTextField)];
-    self.titleLabel.userInteractionEnabled = YES;
-    [self.titleLabel addGestureRecognizer:tapGesture];
+    [self.titleCell addGestureRecognizer:tapGesture];
+    
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
-    self.descriptionLabel.userInteractionEnabled = YES;
-    [self.descriptionLabel addGestureRecognizer:tapGesture];
+    [self.descCell addGestureRecognizer:tapGesture];
+    
 }
 
 - (void)updateUploadButton
