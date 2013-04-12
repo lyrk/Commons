@@ -77,12 +77,6 @@
     CommonsApp *app = CommonsApp.singleton;
     self.usernameField.text = app.username;
     self.passwordField.text = app.password;
-
-    // Keyboard show/hide listeners to adjust scroll view
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
     
     //hide keyboard when anywhere else is tapped
 	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
@@ -210,6 +204,14 @@
         }
     }
     
+    // Enable keyboard show listener only while this view controller's view is visible (this observer is removed
+    // in viewDidDisappear. When we didn't remove it in viewDidDisappear this view controller was receiving
+    // notifications even when its view wasn't even visible!)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
     [super viewDidAppear:animated];
 }
 
@@ -221,6 +223,10 @@
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
+
+    // Disables keyboard show listener when this view controller's view is not visible
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+
     [self hideKeyboard];
 }
 
