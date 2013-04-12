@@ -127,9 +127,15 @@
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
         UIButton *hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [hideKeyboardButton addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchDown];
-        [hideKeyboardButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+
+        [hideKeyboardButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [hideKeyboardButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
+        hideKeyboardButton.backgroundColor = [UIColor colorWithRed:0.56 green:0.59 blue:0.63 alpha:0.95];
+        [hideKeyboardButton.titleLabel setShadowColor:[UIColor blackColor]];
+        [hideKeyboardButton.titleLabel setShadowOffset: CGSizeMake(0, -1)];
+        
         [hideKeyboardButton setTitle:[MWMessage forKey:@"details-hide-keyboard"].text forState:UIControlStateNormal];
-        hideKeyboardButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+        hideKeyboardButton.frame = CGRectMake(80.0, 210.0, 160.0, 28.0);
         self.descriptionTextView.inputAccessoryView = hideKeyboardButton;
     }
     
