@@ -458,6 +458,7 @@
                         <outlet property="ccByImage" destination="5K9-ea-Ir7" id="bc2-cO-e4t"/>
                         <outlet property="ccSaImage" destination="hHJ-fo-oLs" id="ua7-xz-C57"/>
                         <outlet property="deleteButton" destination="iM5-hd-Jq4" id="D1H-hA-sAU"/>
+                        <outlet property="descCell" destination="VLk-MK-sI2" id="C2I-oA-VaK"/>
                         <outlet property="descriptionLabel" destination="v2k-6J-v5G" id="iuU-VI-tCn"/>
                         <outlet property="descriptionPlaceholder" destination="Azd-ug-G3G" id="NiV-FB-Fmy"/>
                         <outlet property="descriptionTextView" destination="ucL-2U-rnz" id="gR2-E9-5x4"/>
@@ -465,6 +466,7 @@
                         <outlet property="imageSpinner" destination="EeR-Re-MP4" id="XGR-D2-TO9"/>
                         <outlet property="licenseLabel" destination="OON-Tn-rfy" id="PKM-MV-Hpp"/>
                         <outlet property="licenseNameLabel" destination="nJ1-xo-ZrE" id="oAc-rM-3xA"/>
+                        <outlet property="titleCell" destination="2fU-w6-OKq" id="pmO-zp-UM6"/>
                         <outlet property="titleLabel" destination="ugf-zU-lfz" id="UBL-QE-yzo"/>
                         <outlet property="titleTextField" destination="V0c-wd-2eA" id="jDg-9F-Bth"/>
                         <outlet property="uploadButton" destination="Rto-Ar-uoA" id="P1C-xf-4bX"/>

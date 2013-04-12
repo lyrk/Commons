@@ -124,12 +124,20 @@
     // keyboard is visible). Did this so multi-line descriptions could still be entered *and* the
     // keyboard could still be dismissed (otherwise the "return" button would have to be made into a
     // "Done" button which would mean line breaks could not be entered)
-    UIButton *hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [hideKeyboardButton addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchDown];
-    [hideKeyboardButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [hideKeyboardButton setTitle:[MWMessage forKey:@"details-hide-keyboard"].text forState:UIControlStateNormal];
-    hideKeyboardButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
-    self.descriptionTextView.inputAccessoryView = hideKeyboardButton;
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
+        UIButton *hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [hideKeyboardButton addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchDown];
+
+        [hideKeyboardButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [hideKeyboardButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
+        hideKeyboardButton.backgroundColor = [UIColor colorWithRed:0.56 green:0.59 blue:0.63 alpha:0.95];
+        [hideKeyboardButton.titleLabel setShadowColor:[UIColor blackColor]];
+        [hideKeyboardButton.titleLabel setShadowOffset: CGSizeMake(0, -1)];
+        
+        [hideKeyboardButton setTitle:[MWMessage forKey:@"details-hide-keyboard"].text forState:UIControlStateNormal];
+        hideKeyboardButton.frame = CGRectMake(80.0, 210.0, 160.0, 28.0);
+        self.descriptionTextView.inputAccessoryView = hideKeyboardButton;
+    }
     
     // Hide keyboard when anywhere else is tapped
 	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
@@ -138,11 +146,11 @@
     
     // Make taps to title or description labels cause their respective text boxes to receive focus
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnTitleTextField)];
-    self.titleLabel.userInteractionEnabled = YES;
-    [self.titleLabel addGestureRecognizer:tapGesture];
+    [self.titleCell addGestureRecognizer:tapGesture];
+    
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
-    self.descriptionLabel.userInteractionEnabled = YES;
-    [self.descriptionLabel addGestureRecognizer:tapGesture];
+    [self.descCell addGestureRecognizer:tapGesture];
+    
 }
 
 - (void)updateUploadButton

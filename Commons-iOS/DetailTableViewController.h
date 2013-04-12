@@ -25,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *licenseNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *ccByImage;
 @property (weak, nonatomic) IBOutlet UIImageView *ccSaImage;
+@property (weak, nonatomic) IBOutlet UITableViewCell *titleCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *descCell;
 
 @property (strong, nonatomic) FileUpload *selectedRecord;
 
