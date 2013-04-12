@@ -138,6 +138,10 @@
 
     // Update collectionview cell size for iPhone/iPod, in case orientation changed while we were away
     [self.collectionView.collectionViewLayout invalidateLayout];
+    
+    // Ensure the iPad image picker will appear (without this if a picture is picked, then you back up and
+    // to pick another one it won't let you)
+    self.popover = nil;
 }
 
 - (void)didReceiveMemoryWarning

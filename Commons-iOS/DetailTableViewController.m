@@ -16,15 +16,21 @@
 
 @interface DetailTableViewController ()
 
+    - (void)hideKeyboard;
+
 @end
 
-@implementation DetailTableViewController
+@implementation DetailTableViewController{
+    
+    UITapGestureRecognizer *tapRecognizer;
 
-- (id)initWithStyle:(UITableViewStyle)style
+}
+
+- (id)initWithCoder:(NSCoder *)coder
 {
-    self = [super initWithStyle:style];
+    self = [super initWithCoder:coder];
     if (self) {
-        // Custom initialization
+
     }
     return self;
 }
@@ -40,7 +46,7 @@
     self.title = [MWMessage forKey:@"details-title"].text;
     self.uploadButton.title = [MWMessage forKey:@"details-upload-button"].text;
     self.titleLabel.text = [MWMessage forKey:@"details-title-label"].text;
-    self.titleTextField.placeholder = [MWMessage forKey:@"details-title-placeholder"].text;
+    self.titleTextField.placeholder = [@" " stringByAppendingString:[MWMessage forKey:@"details-title-placeholder"].text];
     self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
     self.descriptionPlaceholder.text = [MWMessage forKey:@"details-description-placeholder"].text;
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
@@ -109,6 +115,34 @@
     // Set delegates so we know when fields change...
     self.titleTextField.delegate = self;
     self.descriptionTextView.delegate = self;
+    
+    // Make the title text box keyboard "Done" button dismiss the keyboard
+    [self.titleTextField setReturnKeyType:UIReturnKeyDone];
+    [self.titleTextField addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventEditingDidEndOnExit];
+    
+    // Add a "hide keyboard" button above the keyboard (when the description box has the focus and the
+    // keyboard is visible). Did this so multi-line descriptions could still be entered *and* the
+    // keyboard could still be dismissed (otherwise the "return" button would have to be made into a
+    // "Done" button which would mean line breaks could not be entered)
+    UIButton *hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [hideKeyboardButton addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchDown];
+    [hideKeyboardButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [hideKeyboardButton setTitle:[MWMessage forKey:@"details-hide-keyboard"].text forState:UIControlStateNormal];
+    hideKeyboardButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    self.descriptionTextView.inputAccessoryView = hideKeyboardButton;
+    
+    // Hide keyboard when anywhere else is tapped
+	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+	[self.view addGestureRecognizer:tapRecognizer];
+    tapRecognizer.cancelsTouchesInView = NO;
+    
+    // Make taps to title or description labels cause their respective text boxes to receive focus
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnTitleTextField)];
+    self.titleLabel.userInteractionEnabled = YES;
+    [self.titleLabel addGestureRecognizer:tapGesture];
+    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
+    self.descriptionLabel.userInteractionEnabled = YES;
+    [self.descriptionLabel addGestureRecognizer:tapGesture];
 }
 
 - (void)updateUploadButton
@@ -154,6 +188,50 @@
      */
 }
 
+#pragma mark - Focus to box when title or description label tapped
+- (void)focusOnTitleTextField
+{
+    [self.titleTextField becomeFirstResponder];
+}
+
+- (void)focusOnDescriptionTextView
+{
+    [self.descriptionTextView becomeFirstResponder];
+}
+
+#pragma mark - Repositioning for keyboard appearance
+
+- (void)hideKeyboard
+{
+	// Dismisses the keyboard
+	[self.titleTextField resignFirstResponder];
+	[self.descriptionTextView resignFirstResponder];
+}
+
+-(void)viewWillLayoutSubviews
+{
+    // Add a little padding to the bottom of the table view so it can be scrolled up a bit when the
+    // keyboard is shown
+    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, self.view.frame.size.height / 2.0, 0);
+    [self.tableView setContentInset:edgeInsets];
+    [self.tableView setScrollIndicatorInsets:edgeInsets];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    // When the title box receives focus scroll it to the top of the table view to ensure the keyboard
+    // isn't hiding it
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    // When the description box receives focus scroll it to the top of the table view to ensure the keyboard
+    // isn't hiding it
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
 
 #pragma mark -
 
