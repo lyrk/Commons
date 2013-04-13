@@ -37,6 +37,14 @@
     "web-cancel": "Cancel",
 
     "login-title": "Account",
-    "login-button": "Login"
+    "login-button": "Login",
+    
+    "about-title": "About",
+    "about-app-version-label": "Version $1",
+    "about-source-button": "Source",
+    "about-license-button": "License",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Bug Tracker",
+    "about-contributors-button": "Contributors"
 
 }
