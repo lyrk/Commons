@@ -1,0 +1,26 @@
+{
+    "contribs-settings-button": "Asetukset",
+    "contribs-photo-library-button": "Kuvat",
+    "contribs-state-queued": "Jonossa",
+    "contribs-refresh": "P\u00e4ivit\u00e4 vet\u00e4m\u00e4ll\u00e4",
+    "error-bad-password-title": "Kirjautumisvirhe",
+    "error-bad-password": "Virheellinen k\u00e4ytt\u00e4j\u00e4tunnus tai salasana",
+    "reltime-minutes": "$1 min sitten",
+    "reltime-hours": "$1 tuntia sitten",
+    "reltime-days": "$1 p\u00e4iv\u00e4\u00e4 sitten",
+    "settings-title": "Asetukset",
+    "settings-username-placeholder": "K\u00e4ytt\u00e4j\u00e4tunnus",
+    "settings-password-placeholder": "Salasana",
+    "details-title-label": "Otsikko",
+    "details-title-placeholder": "Yksil\u00f6iv\u00e4, kuvaava otsikko",
+    "details-description-label": "Kuvaus",
+    "details-license-label": "Lisenssi",
+    "web-open-in": "Avaa selaimessa $1",
+    "@metadata": {
+        "authors": [
+            "Lliehu",
+            "Nike",
+            "Silvonen"
+        ]
+    }
+}

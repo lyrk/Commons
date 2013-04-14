@@ -37,5 +37,4 @@
     "web-cancel": "Button text for cancel button.\n{{Identical|Cancel}}",
     "login-title": "Title for the button that brings the user back to the login page. Note that PLURAL will be supported, but is not yet.",
     "login-button": "Button text for the login page's login button."
-
 }

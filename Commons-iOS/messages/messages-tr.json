@@ -1,0 +1,35 @@
+{
+    "contribs-title": "Y\u00fcklemelerim",
+    "contribs-settings-button": "Ayarlar",
+    "contribs-upload-button": "Y\u00fckle",
+    "contribs-photo-library-button": "Foto\u011fraflar",
+    "contribs-state-queued": "S\u0131rada",
+    "contribs-state-uploading": "Y\u00fckleniyor",
+    "contribs-refresh": "Yenilemek i\u00e7in \u00e7ekin",
+    "error-upload-failed": "Y\u00fckleme ba\u015far\u0131s\u0131z!",
+    "error-nologin-title": "Hay aksi!",
+    "error-nologin-text": "Foto\u011fraf y\u00fckleyebilmek i\u00e7in \u00f6nce oturum a\u00e7mal\u0131s\u0131n\u0131z.",
+    "error-bad-password-title": "Oturum a\u00e7ma hatas\u0131",
+    "error-bad-password": "Hatal\u0131 kullan\u0131c\u0131 ad\u0131 ya da parola",
+    "reltime-minutes": "$1 dakika \u00f6nce",
+    "reltime-hours": "$1 saat \u00f6nce",
+    "reltime-days": "$1 g\u00fcn \u00f6nce",
+    "settings-title": "Ayarlar",
+    "settings-username-placeholder": "Kullan\u0131c\u0131 ad\u0131",
+    "settings-password-placeholder": "Parola",
+    "settings-debug-label": "Hata ay\u0131klama modu",
+    "details-title": "Ayr\u0131nt\u0131lar",
+    "details-upload-button": "Y\u00fckle",
+    "details-title-label": "Ba\u015fl\u0131k",
+    "details-title-placeholder": "Benzersiz, a\u00e7\u0131klay\u0131c\u0131 bir ba\u015fl\u0131k",
+    "details-description-label": "A\u00e7\u0131klama",
+    "details-description-placeholder": "Gerekli",
+    "details-license-label": "Lisans",
+    "web-open-in": "$1 \u00fczerinde a\u00e7",
+    "web-cancel": "\u0130ptal",
+    "@metadata": {
+        "authors": [
+            "Emperyan"
+        ]
+    }
+}

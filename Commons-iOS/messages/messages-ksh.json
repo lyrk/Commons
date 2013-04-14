@@ -1,0 +1,37 @@
+{
+    "contribs-title": "S\u00e4llver huhjelaade",
+    "contribs-settings-button": "Enscht\u00e4llonge",
+    "contribs-upload-button": "Huhlaade",
+    "contribs-photo-library-button": "Fottos",
+    "contribs-state-queued": "En de Schlang aam waade",
+    "contribs-state-uploading": "Ben am Huhlaade \u2026",
+    "contribs-refresh": "Trick zom neu Aanzeije",
+    "error-upload-failed": "Et Huhlade es don\u00e4vve jejange!",
+    "error-dismiss": "Maach fott, ha_sch jel\u00e4sse",
+    "error-nologin-title": "D\u00e4!",
+    "error-nologin-text": "Do mo\u00df ald enjelogg sin, domet De Belder huhlaade kanns.",
+    "error-bad-password-title": "F\u00e4hler beim Enlogge",
+    "error-bad-password": "Et Pa\u00dfwoot udder der Naame wohre verkiehrt.",
+    "reltime-minutes": "{{PLURAL:$1|Ein Menutt|$1 Menutte|Kein Menutt}} her",
+    "reltime-hours": "{{PLURAL:$1|En Schtond|$1 Schtonde|Kein Schtond}} her",
+    "reltime-days": "{{PLURAL:$1|Eine Daach|$1 D\u00e4\u00e4sch|Keine Daach}} her",
+    "settings-title": "Enscht\u00e4llonge",
+    "settings-username-placeholder": "Metmaacher_Naame",
+    "settings-password-placeholder": "Et Pa\u00dfwoot",
+    "settings-debug-label": "Blo\u00df U\u00dfprobeere",
+    "settings-debug-detail": "Noh {{GRAMMAR:Dat|{{ucfirst:$1}}}} huh laade",
+    "details-title": "Einzelheite",
+    "details-upload-button": "Loh\u00df Jonn!",
+    "details-title-label": "T\u0117ttel",
+    "details-title-placeholder": "Ene eindeutije Tittel, s\u00e4ht j\u00e4t \u00f6vver die Dattei",
+    "details-description-label": "Wat en d\u00e4 Datei dren e\u00df",
+    "details-description-placeholder": "N\u00fc\u00fcdesch",
+    "details-license-label": "L\u0117z\u00e4nz",
+    "web-open-in": "Met $1 opmaache",
+    "web-cancel": "Oph\u00fcre",
+    "@metadata": {
+        "authors": [
+            "Purodha"
+        ]
+    }
+}

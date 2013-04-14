@@ -2,12 +2,21 @@
     "@metadata": {
         "authors": [
             "Chrumps",
+            "Ty221",
             "Woytecr"
         ]
     },
+    "contribs-title": "My przes\u0142ane pliki",
     "contribs-settings-button": "Ustawienia",
+    "contribs-upload-button": "Prze\u015blij",
     "contribs-photo-library-button": "Zdj\u0119cia",
+    "contribs-state-queued": "W kolejce",
+    "contribs-state-uploading": "Wysy\u0142anie",
+    "contribs-refresh": "Poci\u0105gnij aby od\u015bwie\u017cy\u0107",
+    "error-upload-failed": "Wysy\u0142anie zakonczone pora\u017ck\u0105 !",
     "error-dismiss": "Odrzu\u0107",
+    "error-nologin-title": "Uh oh !",
+    "error-nologin-text": "Musisz si\u0119 zalogowa\u0107,  zanim b\u0119dziesz m\u00f3g\u0142 wysy\u0142a\u0107 zdj\u0119cia",
     "error-bad-password-title": "B\u0142\u0105d logowania",
     "error-bad-password": "B\u0142\u0119dna nazwa u\u017cytkownika lub has\u0142o",
     "reltime-minutes": "$1 minut temu",
@@ -21,8 +30,10 @@
     "details-title": "Szczeg\u00f3\u0142y",
     "details-upload-button": "Prze\u015blij",
     "details-title-label": "Tytu\u0142",
+    "details-title-placeholder": "Unikalny,  opisowy tytu\u0142",
     "details-description-label": "Opis",
     "details-description-placeholder": "Wymagane",
     "details-license-label": "Licencja",
+    "web-open-in": "Otw\u00f3rz w $1",
     "web-cancel": "Anuluj"
 }

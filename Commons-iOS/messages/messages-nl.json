@@ -32,6 +32,9 @@
     "details-description-label": "Beschrijving",
     "details-description-placeholder": "Vereist",
     "details-license-label": "Licentie",
+    "details-hide-keyboard": "Toetsenbord verbergen",
     "web-open-in": "Openen in $1",
-    "web-cancel": "Annuleren"
+    "web-cancel": "Annuleren",
+    "login-title": "Gebruiker",
+    "login-button": "Aanmelden"
 }

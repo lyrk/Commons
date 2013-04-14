@@ -2,7 +2,8 @@
     "@metadata": {
         "authors": [
             "440hercios",
-            "Pginer"
+            "Pginer",
+            "Vivaelcelta"
         ]
     },
     "contribs-title": "Mis subidas",
@@ -21,6 +22,18 @@
     "reltime-minutes": "$1 minutos atr\u00e1s",
     "reltime-hours": "hace $1 horas",
     "reltime-days": "hace $1 d\u00edas",
+    "settings-title": "Configuraciones",
+    "settings-username-placeholder": "Nombre de usuario",
     "settings-password-placeholder": "Contrase\u00f1a",
-    "settings-debug-label": "Modo de depuraci\u00f3n"
+    "settings-debug-label": "Modo de depuraci\u00f3n",
+    "settings-debug-detail": "Subiendo en $1",
+    "details-title": "Detalles",
+    "details-upload-button": "Subir",
+    "details-title-label": "T\u00edtulo",
+    "details-title-placeholder": "T\u00edtulo \u00fanico y descriptivo",
+    "details-description-label": "Descripci\u00f3n",
+    "details-description-placeholder": "Obligatorio",
+    "details-license-label": "Licencia",
+    "web-open-in": "Abrir en $1",
+    "web-cancel": "Cancelar"
 }
