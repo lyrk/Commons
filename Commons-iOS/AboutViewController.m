@@ -14,7 +14,7 @@
 #define URL_SOURCE         @"https://github.com/wikimedia/Commons-iOS"
 #define URL_LICENSE        @"https://raw.github.com/wikimedia/Commons-iOS/master/COPYING"
 #define URL_BUGS           @"https://bugzilla.wikimedia.org/buglist.cgi?product=Commons%20App"
-#define URL_COMMONS        @"http://en.wikipedia.org/wiki/Special:NewFiles"
+#define URL_COMMONS        @"https://commons.wikimedia.org"
 #define URL_CONTRIBUTORS   @"https://github.com/wikimedia/Commons-iOS/contributors"
 
 @interface AboutViewController ()
@@ -76,10 +76,9 @@
     [self.appNameLabel setText:appDisplayName];
 
     // Set the app version label
-    //NSString *version = [infoDictionary objectForKey:@"CFBundleVersion"];
     NSString *shortVersionString = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    NSMutableString *versionText = [NSMutableString stringWithString:[MWMessage forKey:@"about-app-version-label"].text];
-    [versionText replaceOccurrencesOfString:@"$1" withString:shortVersionString options:nil range:NSMakeRange(0, [versionText length])];
+    NSString *versionText = [MWMessage forKey:@"about-app-version-label" param:shortVersionString].text;
+    
     [self.appVersionLabel setText:versionText];
     
     // If initial orientation is landscape (non-iPad) scroll down a bit so you see more than just the logo
