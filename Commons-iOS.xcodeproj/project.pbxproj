@@ -162,6 +162,15 @@
 		D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
 		D471635316F3D54F00962205 /* messages-nl.json in Resources */ = {isa = PBXBuildFile; fileRef = D471635216F3D54F00962205 /* messages-nl.json */; };
+		D475B28E171C750D00AA81C9 /* messages-fi.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B285171C750D00AA81C9 /* messages-fi.json */; };
+		D475B28F171C750D00AA81C9 /* messages-ksh.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B286171C750D00AA81C9 /* messages-ksh.json */; };
+		D475B290171C750D00AA81C9 /* messages-pa.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B287171C750D00AA81C9 /* messages-pa.json */; };
+		D475B291171C750D00AA81C9 /* messages-pt-br.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B288171C750D00AA81C9 /* messages-pt-br.json */; };
+		D475B292171C750D00AA81C9 /* messages-te.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B289171C750D00AA81C9 /* messages-te.json */; };
+		D475B293171C750D00AA81C9 /* messages-tr.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B28A171C750D00AA81C9 /* messages-tr.json */; };
+		D475B294171C750D00AA81C9 /* messages-uk.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B28B171C750D00AA81C9 /* messages-uk.json */; };
+		D475B295171C750D00AA81C9 /* messages-ur.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B28C171C750D00AA81C9 /* messages-ur.json */; };
+		D475B296171C750D00AA81C9 /* messages-zh-hant.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B28D171C750D00AA81C9 /* messages-zh-hant.json */; };
 		D47FFB8816E53FE900B9FD90 /* ThumbFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = D47FFB8716E53FE900B9FD90 /* ThumbFetcher.m */; };
 		D48555A516CD804900ED60B1 /* add_image.png in Resources */ = {isa = PBXBuildFile; fileRef = D485559D16CD804900ED60B1 /* add_image.png */; };
 		D48555A616CD804900ED60B1 /* add_image@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D485559E16CD804900ED60B1 /* add_image@2x.png */; };
@@ -344,6 +353,15 @@
 		D450A0F716B366E200D1D1E2 /* FileUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUpload.h; sourceTree = "<group>"; };
 		D450A0F816B366E200D1D1E2 /* FileUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUpload.m; sourceTree = "<group>"; };
 		D471635216F3D54F00962205 /* messages-nl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-nl.json"; path = "messages/messages-nl.json"; sourceTree = "<group>"; };
+		D475B285171C750D00AA81C9 /* messages-fi.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-fi.json"; path = "messages/messages-fi.json"; sourceTree = "<group>"; };
+		D475B286171C750D00AA81C9 /* messages-ksh.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ksh.json"; path = "messages/messages-ksh.json"; sourceTree = "<group>"; };
+		D475B287171C750D00AA81C9 /* messages-pa.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-pa.json"; path = "messages/messages-pa.json"; sourceTree = "<group>"; };
+		D475B288171C750D00AA81C9 /* messages-pt-br.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-pt-br.json"; path = "messages/messages-pt-br.json"; sourceTree = "<group>"; };
+		D475B289171C750D00AA81C9 /* messages-te.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-te.json"; path = "messages/messages-te.json"; sourceTree = "<group>"; };
+		D475B28A171C750D00AA81C9 /* messages-tr.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-tr.json"; path = "messages/messages-tr.json"; sourceTree = "<group>"; };
+		D475B28B171C750D00AA81C9 /* messages-uk.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-uk.json"; path = "messages/messages-uk.json"; sourceTree = "<group>"; };
+		D475B28C171C750D00AA81C9 /* messages-ur.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ur.json"; path = "messages/messages-ur.json"; sourceTree = "<group>"; };
+		D475B28D171C750D00AA81C9 /* messages-zh-hant.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-zh-hant.json"; path = "messages/messages-zh-hant.json"; sourceTree = "<group>"; };
 		D47FFB8616E53FE900B9FD90 /* ThumbFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThumbFetcher.h; sourceTree = "<group>"; };
 		D47FFB8716E53FE900B9FD90 /* ThumbFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThumbFetcher.m; sourceTree = "<group>"; };
 		D485559D16CD804900ED60B1 /* add_image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_image.png; sourceTree = "<group>"; };
@@ -765,6 +783,15 @@
 		D4E0384D16C463D300330A7F /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				D475B285171C750D00AA81C9 /* messages-fi.json */,
+				D475B286171C750D00AA81C9 /* messages-ksh.json */,
+				D475B287171C750D00AA81C9 /* messages-pa.json */,
+				D475B288171C750D00AA81C9 /* messages-pt-br.json */,
+				D475B289171C750D00AA81C9 /* messages-te.json */,
+				D475B28A171C750D00AA81C9 /* messages-tr.json */,
+				D475B28B171C750D00AA81C9 /* messages-uk.json */,
+				D475B28C171C750D00AA81C9 /* messages-ur.json */,
+				D475B28D171C750D00AA81C9 /* messages-zh-hant.json */,
 				D4DE80DE170A3761005F7580 /* messages-ca.json */,
 				D4DE80DF170A3761005F7580 /* messages-fa.json */,
 				D4DE80E0170A3761005F7580 /* messages-hu.json */,
@@ -1045,6 +1072,15 @@
 				D4DE80EB170A3761005F7580 /* messages-pl.json in Resources */,
 				D4DE80EC170A3761005F7580 /* messages-ro.json in Resources */,
 				D4DE80ED170A3761005F7580 /* messages-vi.json in Resources */,
+				D475B28E171C750D00AA81C9 /* messages-fi.json in Resources */,
+				D475B28F171C750D00AA81C9 /* messages-ksh.json in Resources */,
+				D475B290171C750D00AA81C9 /* messages-pa.json in Resources */,
+				D475B291171C750D00AA81C9 /* messages-pt-br.json in Resources */,
+				D475B292171C750D00AA81C9 /* messages-te.json in Resources */,
+				D475B293171C750D00AA81C9 /* messages-tr.json in Resources */,
+				D475B294171C750D00AA81C9 /* messages-uk.json in Resources */,
+				D475B295171C750D00AA81C9 /* messages-ur.json in Resources */,
+				D475B296171C750D00AA81C9 /* messages-zh-hant.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
