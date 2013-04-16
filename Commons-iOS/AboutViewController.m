@@ -138,49 +138,56 @@
     [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+
+-(IBAction)openURLinExternalBrowser:(id)sender
 {
-    // Detect which button was tapped and set url for the embedded UIWebview being segued to accordingly
+    // Detect which button was tapped and open its URL in external browser
     
     // Ensure the button doesn't remain in highlighted state
     if ([sender isKindOfClass:[UIButton class]]) {
         [sender setHighlighted:NO];
     }
     
-    // Determine the target url based on which button was tapped. (Nice as it doesn't rely on segue IDs - less
-    // storyboard maintenance required.)
+    // Determine the target url based on which button was tapped
+    
+    NSString *urlStr = nil;
+    
     if (sender == self.commonsButton) {
 
-        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_COMMONS]];
+        urlStr = URL_COMMONS;
 
     }else if (sender == self.bugsButton) {
         
-        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_BUGS]];
+        urlStr = URL_BUGS;
 
     }else if (sender == self.privacyButton) {
 
-        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_PRIVACY]];
+        urlStr = URL_PRIVACY;
 
     }else if (sender == self.thisAppContributorsButton) {
 
-        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_THIS_APP_CONTRIBUTORS]];
+        urlStr = URL_THIS_APP_CONTRIBUTORS;
 
     }else if (sender == self.thisAppSourceButton) {
 
-        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_THIS_APP_SOURCE]];
+        urlStr = URL_THIS_APP_SOURCE;
     
     }else if (sender == self.thisAppLicenseButton) {
 
-        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_THIS_APP_LICENSE]];
+        urlStr = URL_THIS_APP_LICENSE;
     
     }else if (sender == self.gradientButtonSourceButton) {
 
-        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_GRADIENT_BUTTON_SOURCE]];
+        urlStr = URL_GRADIENT_BUTTON_SOURCE;
     
     }else if (sender == self.gradientButtonLicenseButton) {
 
-        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_GRADIENT_BUTTON_LICENSE]];
+        urlStr = URL_GRADIENT_BUTTON_LICENSE;
     }
+    
+    // Go to the URL if one was set
+    if (urlStr) [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated

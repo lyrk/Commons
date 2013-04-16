@@ -50,7 +50,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="wx9-WY-6j8" kind="push" id="M0Y-Lb-Ix7"/>
+                                                    <action selector="openURLinExternalBrowser:" destination="pQy-cE-L1A" eventType="touchUpInside" id="4oA-Jo-JTF"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="TXW-A0-e3p" customClass="GradientButton">
@@ -65,7 +65,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="wx9-WY-6j8" kind="push" id="H0X-M7-V1v"/>
+                                                    <action selector="openURLinExternalBrowser:" destination="pQy-cE-L1A" eventType="touchUpInside" id="ZlG-2l-fjw"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Kre-rl-jh6" customClass="GradientButton">
@@ -80,7 +80,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="wx9-WY-6j8" kind="push" id="LoS-j8-q0t"/>
+                                                    <action selector="openURLinExternalBrowser:" destination="pQy-cE-L1A" eventType="touchUpInside" id="kye-AT-Kvp"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="ftG-E8-UKc" customClass="GradientButton">
@@ -121,7 +121,7 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="wx9-WY-6j8" kind="push" id="9UA-5W-KKP"/>
+                                                            <action selector="openURLinExternalBrowser:" destination="pQy-cE-L1A" eventType="touchUpInside" id="Far-CI-yt9"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rK2-dn-oLQ">
@@ -136,7 +136,7 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="wx9-WY-6j8" kind="push" id="PvA-rX-3c9"/>
+                                                            <action selector="openURLinExternalBrowser:" destination="pQy-cE-L1A" eventType="touchUpInside" id="wdw-Hg-kcZ"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7zM-si-Jwa">
@@ -151,7 +151,7 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="wx9-WY-6j8" kind="push" id="XSw-0Z-YhJ"/>
+                                                            <action selector="openURLinExternalBrowser:" destination="pQy-cE-L1A" eventType="touchUpInside" id="7Ii-AL-5xz"/>
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Jeff LaMarche's Gradient UIButton:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="oP6-Ir-zpI">
@@ -173,7 +173,7 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="wx9-WY-6j8" kind="push" id="7Tz-ts-FUt"/>
+                                                            <action selector="openURLinExternalBrowser:" destination="pQy-cE-L1A" eventType="touchUpInside" id="2Za-cS-YIc"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Mf0-p2-Ami">
@@ -188,7 +188,7 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="wx9-WY-6j8" kind="push" id="qT4-Xz-6ge"/>
+                                                            <action selector="openURLinExternalBrowser:" destination="pQy-cE-L1A" eventType="touchUpInside" id="cCP-Yo-9Uh"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -870,6 +870,7 @@
         <class className="AboutViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/AboutViewController.h"/>
             <relationships>
+                <relationship kind="action" name="openURLinExternalBrowser:"/>
                 <relationship kind="action" name="sourceButtonTap:"/>
                 <relationship kind="outlet" name="aboutContainer" candidateClass="UIView"/>
                 <relationship kind="outlet" name="appNameLabel" candidateClass="UILabel"/>
@@ -1011,7 +1012,7 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="LvN-Sf-9dY"/>
         <segue reference="N5A-C3-Xff"/>
-        <segue reference="qT4-Xz-6ge"/>
     </inferredMetricsTieBreakers>
 </document>

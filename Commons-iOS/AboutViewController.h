@@ -32,5 +32,6 @@
 @property (weak, nonatomic) IBOutlet UIView *sourceDetailsContainer;
 
 -(IBAction)sourceButtonTap:(id)sender;
+-(IBAction)openURLinExternalBrowser:(id)sender;
 
 @end
