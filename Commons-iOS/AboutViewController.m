@@ -3,23 +3,31 @@
 //  Commons-iOS
 //
 //  Created by Monte Hurd on 4/12/13.
-//  Copyright (c) 2013 Wikimedia. All rights reserved.
-//
 
 #import "AboutViewController.h"
 #import "MWI18N/MWI18N.h"
 #import "GradientButton.h"
+#import "WebViewController.h"
 
-// URLs for the about page buttons
-#define URL_SOURCE         @"https://github.com/wikimedia/Commons-iOS"
-#define URL_LICENSE        @"https://raw.github.com/wikimedia/Commons-iOS/master/COPYING"
-#define URL_BUGS           @"https://bugzilla.wikimedia.org/buglist.cgi?product=Commons%20App"
-#define URL_COMMONS        @"https://commons.wikimedia.org"
-#define URL_CONTRIBUTORS   @"https://github.com/wikimedia/Commons-iOS/contributors"
+#pragma mark - URLs for the About page buttons.
+
+#define URL_COMMONS                 @"https://commons.wikimedia.org"
+#define URL_BUGS                    @"https://bugzilla.wikimedia.org/buglist.cgi?product=Commons%20App"
+#define URL_PRIVACY                 @"https://commons.wikimedia.org/wiki/Commons:Privacy_policy"
+
+#define URL_THIS_APP_SOURCE         @"https://github.com/wikimedia/Commons-iOS"
+#define URL_THIS_APP_LICENSE        @"https://raw.github.com/wikimedia/Commons-iOS/master/COPYING"
+#define URL_THIS_APP_CONTRIBUTORS   @"https://github.com/wikimedia/Commons-iOS/contributors"
+
+#define URL_GRADIENT_BUTTON_SOURCE  @"https://code.google.com/p/iphonegradientbuttons/"
+#define URL_GRADIENT_BUTTON_LICENSE @"http://opensource.org/licenses/mit-license.php"
 
 @interface AboutViewController ()
 
-- (void)scrollByMultiplier:(float)multiplier;
+- (void)toggleSourceDetailsContainerVisibility;
+- (void)scrollToBottomOfAboutContainer;
+- (void)scrollToTopOfAboutContainer;
+- (void)scrollToShowSourceButton;
 
 @end
 
@@ -38,35 +46,44 @@
 {
     [super viewDidLoad];
 
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
-        // When rotating to landscape on non-iPads the page is going to need to be scrolled up a bit (so
-        // more than just the logo is visible). To provide a scroll margin (to make scrolling possible) the
-        // scrollView's contentSize height must be a bit larger than the scrollView's height
-        self.scrollView.contentSize = CGSizeMake(
-                                                 self.scrollView.frame.size.width,
-                                                 self.scrollView.frame.size.height * 1.2
-                                                 );
-    }else{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
         // On iPads add a little space above the logo to better center the scrollView
         UIEdgeInsets edgeInsets = UIEdgeInsetsMake(100, 0, 0, 0);
         [self.scrollView setContentInset:edgeInsets];
         [self.scrollView setScrollIndicatorInsets:edgeInsets];
     }
 
+    // Set the content size of the scrollView
+    self.scrollView.contentSize = self.aboutContainer.frame.size;
+
     // Set gradient button color scheme
     [self.sourceButton useBlackActionSheetStyle];
-    [self.licenseButton useBlackActionSheetStyle];
     [self.commonsButton useBlackActionSheetStyle];
     [self.bugsButton useBlackActionSheetStyle];
-    [self.contributorsButton useBlackActionSheetStyle];
+    [self.privacyButton useBlackActionSheetStyle];
+
+    // Ensure button text doesn't get clipped if i18n is long string
+    self.sourceButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.commonsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.bugsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.privacyButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     
-    // i18n
+    // i18n for the main buttons
     self.title = [MWMessage forKey:@"about-title"].text;
-    [self.sourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
-    [self.licenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
     [self.commonsButton setTitle:[MWMessage forKey:@"about-commons-button"].text forState:UIControlStateNormal];
     [self.bugsButton setTitle:[MWMessage forKey:@"about-bugs-button"].text forState:UIControlStateNormal];
-    [self.contributorsButton setTitle:[MWMessage forKey:@"about-contributors-button"].text forState:UIControlStateNormal];
+    [self.privacyButton setTitle:[MWMessage forKey:@"about-privacy-button"].text forState:UIControlStateNormal];
+    [self.sourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
+    
+    // i18n for the sub-items under the Source button
+    [self.thisAppLabel setText:[MWMessage forKey:@"about-source-this-app-title"].text];
+    [self.thisAppContributorsButton setTitle:[MWMessage forKey:@"about-source-this-app-contributors"].text forState:UIControlStateNormal];
+    [self.thisAppSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
+    [self.thisAppLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
+
+    [self.gradientButtonsLabel setText:[MWMessage forKey:@"about-source-gradient-title"].text];
+    [self.gradientButtonSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
+    [self.gradientButtonLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
     
     // Get bundle info dict for its app name and version settings
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
@@ -81,60 +98,142 @@
     
     [self.appVersionLabel setText:versionText];
     
-    // If initial orientation is landscape (non-iPad) scroll down a bit so you see more than just the logo
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-            [self scrollByMultiplier:1.2];
-        }
-    }
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+-(void)viewDidLayoutSubviews
 {
-    // Scroll down a bit when rotating to landscape otherwise all you see is the logo and the user may not know to scroll
-    // down. Don't scroll at all on iPads though
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
-        if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
-            // Rotating to landscape so scroll down a bit so you see more than just the logo
-            [self scrollByMultiplier:1.2];
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        // If orientation is landscape...
+        if(self.sourceDetailsContainer.alpha == 0.0){
+            // If the source details container is not visible just scroll to show the source button
+            [self scrollToShowSourceButton];
         }else{
-            // Rotating to portrait so scroll back up
-            [self scrollByMultiplier:0.0];
+            // Else the source details are visible so scroll all the way to the bottom so all of the details may be seen
+            [self scrollToBottomOfAboutContainer];
         }
+    }else{
+        // If orientation is portrait just scroll to the top
+        [self scrollToTopOfAboutContainer];
     }
 }
 
-- (IBAction)openSource:(id)sender
+-(void)scrollToShowSourceButton
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL_SOURCE]];
+    CGRect rect = self.sourceButton.frame;
+    // Sdd just a bit of padding so the button bottom comes to sit a bit above the bottom of the screen
+    rect.size.height += 10;
+    [self.scrollView scrollRectToVisible:rect animated:YES];
 }
 
-- (IBAction)openLicense:(id)sender
+-(void)scrollToBottomOfAboutContainer
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL_LICENSE]];
+    // A UIView called scrollFooter has been placed at the bottom of aboutContainer to make it easy to scroll
+    // to the bottom of the aboutContainer
+    [self.scrollView scrollRectToVisible:self.scrollFooter.frame animated:YES];
 }
 
-- (IBAction)openCommons:(id)sender
+-(void)scrollToTopOfAboutContainer
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL_COMMONS]];
+    // A UIView called scrollHeader has been placed at the top of aboutContainer to make it easy to scroll
+    // to the top of the aboutContainer
+    [self.scrollView scrollRectToVisible:self.scrollHeader.frame animated:YES];
 }
 
-- (IBAction)openBugs:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL_BUGS]];
+    // Detect which button was tapped and set url for the embedded UIWebview being segued to accordingly
+    
+    // Ensure the button doesn't remain in highlighted state
+    if ([sender isKindOfClass:[UIButton class]]) {
+        [sender setHighlighted:NO];
+    }
+    
+    // Determine the target url based on which button was tapped. (Nice as it doesn't rely on segue IDs - less
+    // storyboard maintenance required.)
+    if (sender == self.commonsButton) {
+
+        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_COMMONS]];
+
+    }else if (sender == self.bugsButton) {
+        
+        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_BUGS]];
+
+    }else if (sender == self.privacyButton) {
+
+        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_PRIVACY]];
+
+    }else if (sender == self.thisAppContributorsButton) {
+
+        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_THIS_APP_CONTRIBUTORS]];
+
+    }else if (sender == self.thisAppSourceButton) {
+
+        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_THIS_APP_SOURCE]];
+    
+    }else if (sender == self.thisAppLicenseButton) {
+
+        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_THIS_APP_LICENSE]];
+    
+    }else if (sender == self.gradientButtonSourceButton) {
+
+        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_GRADIENT_BUTTON_SOURCE]];
+    
+    }else if (sender == self.gradientButtonLicenseButton) {
+
+        [[segue destinationViewController] setTargetURL:[NSURL URLWithString:URL_GRADIENT_BUTTON_LICENSE]];
+    }
 }
 
-- (IBAction)openContributors:(id)sender
+-(void)viewWillAppear:(BOOL)animated
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL_CONTRIBUTORS]];
+    // Hide the bottom toolbar which appears when a button pushes to the UIWebview page (otherwise when
+    // you come back to the About page the bottom toolbar is still there)
+    [self.navigationController setToolbarHidden:YES animated:NO];
 }
 
-- (void)scrollByMultiplier:(float)multiplier
+-(void)toggleSourceDetailsContainerVisibility
 {
-    CGRect frame = self.scrollView.frame;
-    frame.origin.y = frame.size.height * multiplier;
-    frame.origin.x = 0;
-    [self.scrollView scrollRectToVisible:frame animated: NO];    
+    CGRect sourceDetailsContainerStoryboardFrame = self.sourceDetailsContainer.frame;
+    
+    // This offset determines how far the details container will be moved up or down during the show or hide
+    float offscreenFrameOffset = 110.0;
+    
+    if(self.sourceDetailsContainer.alpha == 0.0){
+        // If the container is presently hidden, nudge it off the bottom of the screen so the show animation
+        // can slide it back up into place. Nice as it's all relative to the container's storyboard position
+        // so storyboard adjustments won't break the animation as movement is relative
+        self.sourceDetailsContainer.frame = CGRectOffset(self.sourceDetailsContainer.frame, 0.0, offscreenFrameOffset);
+    }
+    
+    [UIView animateWithDuration:0.25
+						  delay:0.0
+						options:UIViewAnimationOptionTransitionNone
+					 animations:^{
+                         if(self.sourceDetailsContainer.alpha == 1.0){
+                             // If container is visible fade out alpha and move it offscreen
+                             self.sourceDetailsContainer.alpha = 0.0;
+                             self.sourceDetailsContainer.frame = CGRectOffset(self.sourceDetailsContainer.frame, 0.0, offscreenFrameOffset);
+                         }else{
+                             // If container is hidden fade in alpha and move it onscreen
+                             self.sourceDetailsContainer.alpha = 1.0;
+                             self.sourceDetailsContainer.frame = sourceDetailsContainerStoryboardFrame;
+
+                             // Ensure the newly revealed sourceDetailsContainer is entirely on-screen
+                             [self scrollToBottomOfAboutContainer];
+                         }
+					 }
+					 completion:^(BOOL finished){
+                         // When done with either show or hide put the container back so everything is where it was and
+                         // everything's in a good state for next toggle animation
+                         self.sourceDetailsContainer.frame = sourceDetailsContainerStoryboardFrame;
+					 }];
+}
+
+-(IBAction)sourceButtonTap:(id)sender
+{
+    [self.sourceButton setHighlighted:NO];
+    
+    [self toggleSourceDetailsContainerVisibility];
 }
 
 - (void)didReceiveMemoryWarning

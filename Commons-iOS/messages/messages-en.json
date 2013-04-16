@@ -41,10 +41,15 @@
     
     "about-title": "About",
     "about-app-version-label": "Version $1",
-    "about-source-button": "Source",
-    "about-license-button": "License",
     "about-commons-button": "Wikimedia Commons",
     "about-bugs-button": "Bug Tracker",
-    "about-contributors-button": "Contributors"
+    "about-privacy-button": "Privacy Policy",
+    "about-source-button": "Source",
+
+    "about-source-this-app-title": "This App (iOS):",
+    "about-source-this-app-contributors": "Contributors",
+    "about-license-button": "License",
+
+    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:"
 
 }
