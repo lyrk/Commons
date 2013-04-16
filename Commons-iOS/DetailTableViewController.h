@@ -27,10 +27,12 @@
 @property (weak, nonatomic) IBOutlet UIImageView *ccSaImage;
 @property (weak, nonatomic) IBOutlet UITableViewCell *titleCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *descCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *licenseCell;
 
 @property (strong, nonatomic) FileUpload *selectedRecord;
 
 - (IBAction)deleteButtonPushed:(id)sender;
 - (IBAction)uploadButtonPushed:(id)sender;
+- (IBAction)openWikiPageButtonPushed:(id)sender;
 
 @end
