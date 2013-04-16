@@ -119,24 +119,23 @@
 
 -(void)scrollToShowSourceButton
 {
-    CGRect rect = self.sourceButton.frame;
-    // Sdd just a bit of padding so the button bottom comes to sit a bit above the bottom of the screen
-    rect.size.height += 10;
-    [self.scrollView scrollRectToVisible:rect animated:YES];
+    // Add just a bit of padding so the button bottom comes to sit a bit above the bottom of the screen
+    [self.scrollView scrollRectToVisible:CGRectOffset(self.sourceButton.frame, 0.0, 10) animated:YES];
 }
 
 -(void)scrollToBottomOfAboutContainer
 {
-    // A UIView called scrollFooter has been placed at the bottom of aboutContainer to make it easy to scroll
-    // to the bottom of the aboutContainer
-    [self.scrollView scrollRectToVisible:self.scrollFooter.frame animated:YES];
+    // Scroll to the bottom of the aboutContainer. OK to use self.scrollView.contentSize as it is set
+    // to self.aboutContainer.frame.size in the viewDidLoad
+    // (The rect passed to scrollRectToVisible must have its origin.y be less than self.scrollView.contentSize.height
+    // or it won't scroll, hence the "- 1")
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
 }
 
 -(void)scrollToTopOfAboutContainer
 {
-    // A UIView called scrollHeader has been placed at the top of aboutContainer to make it easy to scroll
-    // to the top of the aboutContainer
-    [self.scrollView scrollRectToVisible:self.scrollHeader.frame animated:YES];
+    // Scroll to the top of the aboutContainer
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender

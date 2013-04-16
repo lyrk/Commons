@@ -194,16 +194,6 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             </view>
-                                            <view hidden="YES" contentMode="scaleToFill" id="cfb-hs-yHP" userLabel="Scroll Header">
-                                                <rect key="frame" x="-1" y="-1" width="320" height="8"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            </view>
-                                            <view hidden="YES" contentMode="scaleToFill" id="dC1-WO-rOp" userLabel="Scroll Footer">
-                                                <rect key="frame" x="0.0" y="690" width="320" height="8"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
@@ -224,8 +214,6 @@
                         <outlet property="gradientButtonSourceButton" destination="l4K-56-ENO" id="tVH-TP-9Uh"/>
                         <outlet property="gradientButtonsLabel" destination="oP6-Ir-zpI" id="siU-uJ-vZz"/>
                         <outlet property="privacyButton" destination="Kre-rl-jh6" id="zbh-Cs-IOm"/>
-                        <outlet property="scrollFooter" destination="dC1-WO-rOp" id="NIw-fp-vxf"/>
-                        <outlet property="scrollHeader" destination="cfb-hs-yHP" id="hAW-Ho-beL"/>
                         <outlet property="scrollView" destination="7ZH-jX-SFv" id="589-Da-gSj"/>
                         <outlet property="sourceButton" destination="ftG-E8-UKc" id="aZy-aR-WTA"/>
                         <outlet property="sourceDetailsContainer" destination="wYm-NR-odc" id="S7r-a1-o7h"/>
@@ -892,8 +880,6 @@
                 <relationship kind="outlet" name="gradientButtonSourceButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="gradientButtonsLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="privacyButton" candidateClass="GradientButton"/>
-                <relationship kind="outlet" name="scrollFooter" candidateClass="UIView"/>
-                <relationship kind="outlet" name="scrollHeader" candidateClass="UIView"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="sourceButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="sourceDetailsContainer" candidateClass="UIView"/>
@@ -1000,9 +986,6 @@
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="WebViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WebViewController.h"/>
