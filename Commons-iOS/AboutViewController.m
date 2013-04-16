@@ -7,7 +7,6 @@
 #import "AboutViewController.h"
 #import "MWI18N/MWI18N.h"
 #import "GradientButton.h"
-#import "WebViewController.h"
 
 #pragma mark - URLs for the About page buttons.
 

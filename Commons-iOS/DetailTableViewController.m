@@ -8,7 +8,6 @@
 
 #import "DetailTableViewController.h"
 #import "CommonsApp.h"
-#import "WebViewController.h"
 #import "ImageScrollViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MWI18N/MWMessage.h"
