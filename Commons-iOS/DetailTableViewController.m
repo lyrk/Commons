@@ -17,6 +17,7 @@
 @interface DetailTableViewController ()
 
     - (void)hideKeyboard;
+    - (void)openLicense;
 
 @end
 
@@ -150,6 +151,9 @@
     
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
     [self.descCell addGestureRecognizer:tapGesture];
+
+    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openLicense)];
+    [self.licenseCell addGestureRecognizer:tapGesture];
     
 }
 
@@ -243,24 +247,28 @@
 
 #pragma mark -
 
-- (void)popViewControllerAnimated {
+- (void)popViewControllerAnimated
+{
     
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)openLicense
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://creativecommons.org/licenses/by-sa/3.0/"]];
+}
+
+- (IBAction)openWikiPageButtonPushed:(id)sender
+{
+    if (self.selectedRecord) {
+        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
+        [[UIApplication sharedApplication] openURL:[CommonsApp.singleton URLForWikiPage:pageTitle]];
+    }
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"OpenPageSegue"]) {
-        if (self.selectedRecord) {
-            WebViewController *view = [segue destinationViewController];
-            NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
-            view.targetURL = [CommonsApp.singleton URLForWikiPage:pageTitle];
-        }
-    } else if ([segue.identifier isEqualToString:@"OpenLicenseSegue"]) {
-        WebViewController *view = [segue destinationViewController];
-        // fixme use the proper link for data
-        view.targetURL = [NSURL URLWithString:@"https://creativecommons.org/licenses/by-sa/3.0/"];
-    } else if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
+    if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
         
         if (self.selectedRecord) {
             
