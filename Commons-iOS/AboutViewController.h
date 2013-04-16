@@ -31,9 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIView *aboutContainer;
 @property (weak, nonatomic) IBOutlet UIView *sourceDetailsContainer;
 
-@property (weak, nonatomic) IBOutlet UIView *scrollHeader;
-@property (weak, nonatomic) IBOutlet UIView *scrollFooter;
-
 -(IBAction)sourceButtonTap:(id)sender;
+-(IBAction)openURLinExternalBrowser:(id)sender;
 
 @end
