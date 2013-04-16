@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04023FED1718B13A00165309 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04023FEC1718B13A00165309 /* AboutViewController.m */; };
 		040860BB17136FC300D3290B /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 040860BA17136FC300D3290B /* CoreImage.framework */; };
 		040860BE1713939200D3290B /* GrayscaleImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040860BD1713939200D3290B /* GrayscaleImageView.m */; };
 		044A0C3C170F6504003395DD /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044A0C3B170F6504003395DD /* GradientButton.m */; };
@@ -256,6 +257,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04023FEB1718B13A00165309 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		04023FEC1718B13A00165309 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		040860BA17136FC300D3290B /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		040860BC1713939100D3290B /* GrayscaleImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrayscaleImageView.h; sourceTree = "<group>"; };
 		040860BD1713939200D3290B /* GrayscaleImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrayscaleImageView.m; sourceTree = "<group>"; };
@@ -742,6 +745,8 @@
 				D4086180169B760800D6ACB0 /* AppDelegate.m */,
 				D450A0DF16B347BE00D1D1E2 /* LoginViewController.h */,
 				D450A0E016B347BE00D1D1E2 /* LoginViewController.m */,
+				04023FEB1718B13A00165309 /* AboutViewController.h */,
+				04023FEC1718B13A00165309 /* AboutViewController.m */,
 				D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */,
 				D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */,
 				D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */,
@@ -1233,6 +1238,7 @@
 				3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */,
 				305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */,
 				040860BE1713939200D3290B /* GrayscaleImageView.m in Sources */,
+				04023FED1718B13A00165309 /* AboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -37,6 +37,19 @@
     "web-cancel": "Cancel",
 
     "login-title": "Account",
-    "login-button": "Login"
+    "login-button": "Login",
+    
+    "about-title": "About",
+    "about-app-version-label": "Version $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Bug Tracker",
+    "about-privacy-button": "Privacy Policy",
+    "about-source-button": "Source",
+
+    "about-source-this-app-title": "This App (iOS):",
+    "about-source-this-app-contributors": "Contributors",
+    "about-license-button": "License",
+
+    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:"
 
 }
