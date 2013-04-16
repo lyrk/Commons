@@ -32,10 +32,20 @@ static MWMessageStore *store_;
     return [store_ fetchMessage:key];
 }
 
+// Take an iOS locale string and turn it into one of ours.
+// Warning: not always idempotent!
 + (NSString *)filterLanguage:(NSString *)language
 {
     // Force to lowercase to fix eg 'zh-Hans' -> 'zh-hans'
-    return [language lowercaseString];
+    NSString *filtered = [language lowercaseString];
+    
+    // Some awful special cases :)
+    if ([language isEqualToString:@"pt-pt"]) {
+        filtered = @"pt";
+    } else if ([language isEqualToString:@"pt"]) {
+        filtered = @"pt-br";
+    }
+    return filtered;
 }
 
 @end
