@@ -64,6 +64,9 @@
 }
 
 - (void)receivedUINavigationControllerDidShowViewControllerNotification:(NSNotification *)notification {
+    // This is a convenient place to observe which view controller has just been pushed onto the
+    // navigation controller's stack. The previously visible view controller can also be determined
+    // here for logic dependent on that
     
     if ([notification.object isKindOfClass:[UINavigationController class]]) {
         
@@ -99,7 +102,6 @@
         }
     }
 }
-
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
