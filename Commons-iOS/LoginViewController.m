@@ -195,15 +195,6 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     
-    // If user credentials previously validated send them directly to their uploads
-    if (allowSkippingToMyUploads) {
-        allowSkippingToMyUploads = NO;
-        CommonsApp *app = CommonsApp.singleton;
-        if ([app.username length] && [app.password length]){
-            [self showMyUploadsVC];
-        }
-    }
-    
     // Enable keyboard show listener only while this view controller's view is visible (this observer is removed
     // in viewDidDisappear. When we didn't remove it in viewDidDisappear this view controller was receiving
     // notifications even when its view wasn't even visible!)

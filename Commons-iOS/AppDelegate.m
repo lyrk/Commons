@@ -10,6 +10,8 @@
 #import "CommonsApp.h"
 #import "Reachability.h"
 #import "LoadingIndicator.h"
+#import "MyUploadsViewController.h"
+#import "LoginViewController.h"
 
 @implementation AppDelegate
 
@@ -17,6 +19,11 @@
 {
     // Override point for customization after application launch.
 
+    // Listen for changes to which view controllers are on the navigation controller stack
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedUINavigationControllerDidShowViewControllerNotification:)
+                                                 name:@"UINavigationControllerDidShowViewControllerNotification"
+                                               object:nil];
     
     // allocate a reachability object
     Reachability* reach = [Reachability reachabilityWithHostname:@"www.commons.wikimedia.org"];
@@ -55,6 +62,44 @@
     
     return YES;
 }
+
+- (void)receivedUINavigationControllerDidShowViewControllerNotification:(NSNotification *)notification {
+    
+    if ([notification.object isKindOfClass:[UINavigationController class]]) {
+        
+        NSDictionary *userInfo = [notification userInfo];
+        UIViewController * fromVc = [userInfo objectForKey:@"UINavigationControllerLastVisibleViewController"];
+        UIViewController * toVc = [userInfo objectForKey:@"UINavigationControllerNextVisibleViewController"];
+        //NSLog(@"Switching from %@ to %@", [fromVc class], [toVc class]);
+        
+        // Get the nav controller
+        UINavigationController *navController = ([self.window.rootViewController isKindOfClass:[UINavigationController class]])
+        ?
+        (UINavigationController *) self.window.rootViewController
+        :
+        nil
+        ;
+
+        if (!navController) return;
+        
+        // From here it shold be safe to make adjustments to the view controllers on the navController's stack
+        
+        // Potentially send user directly to MyUploadsViewController
+        // Only do so when the app starts (fromVC will be nil and toVc will be LoginViewController)
+        if ((fromVc == nil) && ([toVc isKindOfClass:[LoginViewController class]])) {
+            
+            // Check credentials
+            CommonsApp *app = CommonsApp.singleton;
+            if ([app.username length] && [app.password length]){
+                
+                // Only skip to MyUploadsViewController if credentials found
+                MyUploadsViewController *myUploadsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
+                [navController pushViewController:myUploadsVC animated:NO];
+            }
+        }
+    }
+}
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
