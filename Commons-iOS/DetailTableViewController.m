@@ -18,7 +18,6 @@
 @interface DetailTableViewController ()
 
     - (void)hideKeyboard;
-    - (void)openLicense;
 
 @end
 
@@ -152,9 +151,6 @@
     
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
     [self.descCell addGestureRecognizer:tapGesture];
-
-    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openLicense)];
-    [self.licenseCell addGestureRecognizer:tapGesture];
     
 }
 
