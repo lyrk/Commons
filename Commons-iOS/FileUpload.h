@@ -13,6 +13,7 @@
 
 @interface FileUpload : NSManagedObject
 
+@property (nonatomic, retain) NSString * categories;
 @property (nonatomic, retain) NSNumber * complete;
 @property (nonatomic, retain) NSDate * created;
 @property (nonatomic, retain) NSString * desc;
@@ -27,5 +28,6 @@
 - (NSString *)prettySize;
 - (MWPromise *)fetchThumbnail;
 - (BOOL)isReadyForUpload;
+- (NSArray *)categoryList;
 
 @end

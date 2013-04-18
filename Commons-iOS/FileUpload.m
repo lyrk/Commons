@@ -11,6 +11,7 @@
 
 @implementation FileUpload
 
+@dynamic categories;
 @dynamic complete;
 @dynamic created;
 @dynamic desc;
@@ -62,6 +63,15 @@
     return self.complete.boolValue == NO &&
            self.title.length > 0 &&
            self.desc.length > 0;
+}
+
+- (NSArray *)categoryList
+{
+    if (self.categories == nil) {
+        return @[];
+    } else {
+        return [self.categories componentsSeparatedByString: @"|"];
+    }
 }
 
 @end

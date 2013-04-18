@@ -315,8 +315,12 @@ static CommonsApp *singleton_;
     NSLog(@"data path: %@", dataPath);
     NSURL *url = [NSURL fileURLWithPath:dataPath];
     
+    NSDictionary *options = @{
+                              NSMigratePersistentStoresAutomaticallyOption: @YES,
+                              NSInferMappingModelAutomaticallyOption: @YES
+                              };
     NSError *error;
-    if ([persistentStoreCoordinator addPersistentStoreWithType: NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) {
+    if ([persistentStoreCoordinator addPersistentStoreWithType: NSSQLiteStoreType configuration:nil URL:url options:options error:&error]) {
         NSLog(@"Created persistent store.");
     } else {
         NSLog(@"Error creating persistent store coordinator: %@", error.localizedFailureReason);

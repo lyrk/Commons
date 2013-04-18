@@ -424,6 +424,7 @@
 		D4C5B4181720966C00C40532 /* LicenseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseTableViewController.m; sourceTree = "<group>"; };
 		D4C5B41A1720A3D700C40532 /* CategoryListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryListTableViewController.h; sourceTree = "<group>"; };
 		D4C5B41B1720A3D700C40532 /* CategoryListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryListTableViewController.m; sourceTree = "<group>"; };
+		D4C5B4201720BCD700C40532 /* FileUpload 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FileUpload 2.xcdatamodel"; sourceTree = "<group>"; };
 		D4D0E1E9169BA5E2003047A8 /* MWHttp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWHttp.m; path = mwapi/MWHttp.m; sourceTree = "<group>"; };
 		D4D0E1EA169BA5E2003047A8 /* MWApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApi.m; path = mwapi/MWApi.m; sourceTree = "<group>"; };
 		D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiMultipartRequestBuilder.m; path = mwapi/MWApiMultipartRequestBuilder.m; sourceTree = "<group>"; };
@@ -1576,9 +1577,10 @@
 		D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D4C5B4201720BCD700C40532 /* FileUpload 2.xcdatamodel */,
 				D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */,
 			);
-			currentVersion = D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */;
+			currentVersion = D4C5B4201720BCD700C40532 /* FileUpload 2.xcdatamodel */;
 			path = FileUpload.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
