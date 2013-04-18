@@ -7,12 +7,16 @@
 //
 
 #import "LicenseTableViewController.h"
+#import "MWI18N.h"
 
 @interface LicenseTableViewController ()
 
 @end
 
 @implementation LicenseTableViewController
+
+#define TABLESECTION_LICENSE 0
+#define TABLESECTION_MORE    1
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -26,6 +30,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.title = [MWMessage forKey:@"license-title"].text;
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -42,15 +48,34 @@
 
 
 
+#pragma mark - Table view data source
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == TABLESECTION_LICENSE) {
+        return [MWMessage forKey:@"license-intro"].text;
+    } else if (section == TABLESECTION_MORE) {
+        return [MWMessage forKey:@"license-details-intro"].text;
+    }
+    return @"";
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // todo: add support for multiple license variants :)
-    
-    // set a checkmark on the selected item...
-    // todo ^
-    
+    NSInteger section = [indexPath indexAtPosition:0];
+
+    if (section == TABLESECTION_LICENSE) {
+        // todo: add support for multiple license variants :)
+        
+        // set a checkmark on the selected item...
+        // todo ^
+    } else if (section == TABLESECTION_MORE) {
+        NSString *link = [MWMessage forKey:@"license-details-url"].text;
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
+    }
+
     // ... then deselect the item in the table.
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

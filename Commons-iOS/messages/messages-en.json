@@ -55,6 +55,11 @@
     "about-source-this-app-contributors": "Contributors",
     "about-license-button": "License",
 
-    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:"
+    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:",
+
+    "license-title": "License",
+    "license-intro": "You agree to license your upload under the selected terms:",
+    "license-details-intro": "More information",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing"
 
 }
