@@ -185,6 +185,7 @@
 		D48FA3251725A1AA0039F254 /* messages-en-ca.json in Resources */ = {isa = PBXBuildFile; fileRef = D48FA3231725A1AA0039F254 /* messages-en-ca.json */; };
 		D48FA3261725A1AA0039F254 /* messages-ml.json in Resources */ = {isa = PBXBuildFile; fileRef = D48FA3241725A1AA0039F254 /* messages-ml.json */; };
 		D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
+		D4B1CDFD1721E248008E1B31 /* CategorySearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B1CDFC1721E248008E1B31 /* CategorySearchTableViewController.m */; };
 		D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		D4C037101700C38100AA2537 /* messages-af.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F21700C38000AA2537 /* messages-af.json */; };
 		D4C037111700C38100AA2537 /* messages-ar.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F31700C38000AA2537 /* messages-ar.json */; };
@@ -383,6 +384,8 @@
 		D48FA3241725A1AA0039F254 /* messages-ml.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ml.json"; path = "messages/messages-ml.json"; sourceTree = "<group>"; };
 		D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewController.h; sourceTree = "<group>"; };
 		D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewController.m; sourceTree = "<group>"; };
+		D4B1CDFB1721E248008E1B31 /* CategorySearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySearchTableViewController.h; sourceTree = "<group>"; };
+		D4B1CDFC1721E248008E1B31 /* CategorySearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySearchTableViewController.m; sourceTree = "<group>"; };
 		D4B83E2016BC950900ABAF94 /* BrowserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserHelper.h; sourceTree = "<group>"; };
 		D4B83E2116BC950900ABAF94 /* BrowserHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserHelper.m; sourceTree = "<group>"; };
 		D4C036F21700C38000AA2537 /* messages-af.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-af.json"; path = "messages/messages-af.json"; sourceTree = "<group>"; };
@@ -424,7 +427,7 @@
 		D4C5B4181720966C00C40532 /* LicenseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseTableViewController.m; sourceTree = "<group>"; };
 		D4C5B41A1720A3D700C40532 /* CategoryListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryListTableViewController.h; sourceTree = "<group>"; };
 		D4C5B41B1720A3D700C40532 /* CategoryListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryListTableViewController.m; sourceTree = "<group>"; };
-		D4C5B4201720BCD700C40532 /* FileUpload 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FileUpload 2.xcdatamodel"; sourceTree = "<group>"; };
+		D4C5B4201720BCD700C40532 /* FileUpload 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FileUpload 2.xcdatamodel"; sourceTree = "<group>"; };
 		D4D0E1E9169BA5E2003047A8 /* MWHttp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWHttp.m; path = mwapi/MWHttp.m; sourceTree = "<group>"; };
 		D4D0E1EA169BA5E2003047A8 /* MWApi.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApi.m; path = mwapi/MWApi.m; sourceTree = "<group>"; };
 		D4D0E1EB169BA5E2003047A8 /* MWApiMultipartRequestBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MWApiMultipartRequestBuilder.m; path = mwapi/MWApiMultipartRequestBuilder.m; sourceTree = "<group>"; };
@@ -769,6 +772,8 @@
 				D4C5B4181720966C00C40532 /* LicenseTableViewController.m */,
 				D4C5B41A1720A3D700C40532 /* CategoryListTableViewController.h */,
 				D4C5B41B1720A3D700C40532 /* CategoryListTableViewController.m */,
+				D4B1CDFB1721E248008E1B31 /* CategorySearchTableViewController.h */,
+				D4B1CDFC1721E248008E1B31 /* CategorySearchTableViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1250,6 +1255,7 @@
 				04023FED1718B13A00165309 /* AboutViewController.m in Sources */,
 				D4C5B4191720966C00C40532 /* LicenseTableViewController.m in Sources */,
 				D4C5B41C1720A3D700C40532 /* CategoryListTableViewController.m in Sources */,
+				D4B1CDFD1721E248008E1B31 /* CategorySearchTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -787,10 +787,10 @@
             </objects>
             <point key="canvasLocation" x="465" y="2044"/>
         </scene>
-        <!--Table View Controller - Add category-->
+        <!--Category Search Table View Controller - Add category-->
         <scene sceneID="pQt-gg-EkQ">
             <objects>
-                <tableViewController id="wdV-pe-EgK" sceneMemberID="viewController">
+                <tableViewController id="wdV-pe-EgK" customClass="CategorySearchTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="p2R-Ck-7B8">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -830,6 +830,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Add category" id="QFt-XP-aPt"/>
                     <connections>
+                        <outlet property="searchBar" destination="Wei-1B-LRi" id="Y7M-9b-cV3"/>
                         <outlet property="searchDisplayController" destination="xQ2-7v-VGr" id="tOE-gl-Gsf"/>
                     </connections>
                 </tableViewController>
@@ -1158,6 +1159,12 @@
         </class>
         <class className="CategoryListTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoryListTableViewController.h"/>
+        </class>
+        <class className="CategorySearchTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CategorySearchTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+            </relationships>
         </class>
         <class className="DetailTableViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/DetailTableViewController.h"/>
