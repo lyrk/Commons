@@ -52,6 +52,7 @@
     self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
     self.descriptionPlaceholder.text = [MWMessage forKey:@"details-description-placeholder"].text;
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
+    self.categoryLabel.text = [MWMessage forKey:@"details-category-label"].text;
 
     // Load up the selected record
     FileUpload *record = self.selectedRecord;
@@ -61,6 +62,8 @@
         self.descriptionTextView.text = record.desc;
         self.descriptionPlaceholder.hidden = (record.desc.length > 0);
         self.imageSpinner.hidden = NO;
+
+        self.categoryListLabel.text = [self categoryShortList];
 
         MWPromise *thumb = [record fetchThumbnail];
         [thumb done:^(UIImage *image) {
@@ -153,6 +156,17 @@
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
     [self.descCell addGestureRecognizer:tapGesture];
     
+}
+
+- (NSString *)categoryShortList
+{
+    // Assume the list will be cropped off in the label if it's long. :)
+    NSArray *cats = self.selectedRecord.categoryList;
+    if (cats.count == 0) {
+        return [MWMessage forKey:@"details-category-select"].text;
+    } else {
+        return [cats componentsJoinedByString:@", "];
+    }
 }
 
 - (void)updateUploadButton
@@ -302,11 +316,7 @@
         
     } else if ([segue.identifier isEqualToString:@"CategoryListSegue"]) {
         CategoryListTableViewController *view = [segue destinationViewController];
-        //view.categoryList = self.selectedRecord.categoryList;
-        view.categoryList = [[NSMutableArray alloc] init];
-        view.categoryList[0] = @"Foo";
-        view.categoryList[1] = @"Bar";
-        view.categoryList[2] = @"Baz";
+        view.categoryList = [self.selectedRecord.categoryList mutableCopy];
     }
     
 }

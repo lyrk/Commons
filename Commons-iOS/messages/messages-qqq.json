@@ -38,6 +38,8 @@
     "details-description-placeholder": "Placeholder text for description input field on photo details.\n{{Identical|Required}}",
     "details-license-label": "Label for license selector/display field on photo details.\n{{Identical|License}}",
     "details-hide-keyboard": "Button text for hiding the image description keyboard on the image Details page",
+    "details-category-label": "Label for category selector fiel on the image Details page. Next to this is a short list of selected categories.",
+    "details-category-select": "Placeholder for category short list on image detail page when no categories are present. Should be short and encourage tapping to open the category selector.",
     "web-open-in": "Button text for opening web page in a given browser. Parameters:\n* $1 - the application name such as 'Safari' or 'Opera'",
     "web-cancel": "Button text for cancel button.\n{{Identical|Cancel}}",
     "login-title": "Title for the button that brings the user back to the login page. Note that PLURAL will be supported, but is not yet.\n{{Identical|Account}}",

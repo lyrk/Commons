@@ -28,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell *titleCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *descCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *licenseCell;
+@property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
+@property (weak, nonatomic) IBOutlet UILabel *categoryListLabel;
 
 @property (strong, nonatomic) FileUpload *selectedRecord;
 

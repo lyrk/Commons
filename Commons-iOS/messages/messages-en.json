@@ -37,6 +37,8 @@
     "details-description-placeholder": "Required",
     "details-license-label": "License",
     "details-hide-keyboard": "Hide Keyboard",
+    "details-category-label": "Categories",
+    "details-category-select": "Select...",
     
     "web-open-in": "Open in $1",
     "web-cancel": "Cancel",
