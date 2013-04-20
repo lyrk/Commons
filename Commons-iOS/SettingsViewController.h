@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UIViewController
+@interface SettingsViewController : UIViewController <UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *debugModeLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *debugModeSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *uploadTargetLabel;
+@property (weak, nonatomic) IBOutlet UIButton *openInButton;
 
 - (IBAction)debugSwitchPushed:(id)sender;
+- (IBAction)chooseBrowserButtonPushed:(id)sender;
 
 @end
