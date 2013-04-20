@@ -7,6 +7,7 @@
 #import "AboutViewController.h"
 #import "MWI18N/MWI18N.h"
 #import "GradientButton.h"
+#import "CommonsApp.h"
 
 #pragma mark - URLs for the About page buttons.
 
@@ -20,8 +21,10 @@
 
 #define URL_GRADIENT_BUTTON_SOURCE  @"https://code.google.com/p/iphonegradientbuttons/"
 #define URL_GRADIENT_BUTTON_LICENSE @"http://opensource.org/licenses/mit-license.php"
-
-@interface AboutViewController ()
+ 
+@interface AboutViewController (){
+    CommonsApp *app;
+}
 
 - (void)toggleSourceDetailsContainerVisibility;
 - (void)scrollToBottomOfAboutContainer;
@@ -36,7 +39,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-
+        app = CommonsApp.singleton;
     }
     return self;
 }
@@ -183,10 +186,9 @@
 
         urlStr = URL_GRADIENT_BUTTON_LICENSE;
     }
-    
-    // Go to the URL if one was set
-    if (urlStr) [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
 
+    // Open the url in the user's preferred browser
+    if (urlStr) [app openURLWithDefaultBrowser:[NSURL URLWithString:urlStr]];    
 }
 
 -(void)viewWillAppear:(BOOL)animated

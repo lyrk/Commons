@@ -21,7 +21,9 @@
     "settings-title": "Settings",
     "settings-username-placeholder": "Username",
     "settings-password-placeholder": "Password",
-    "settings-debug-label": "Debug mode",
+    "settings-debug-label": "Debug Mode:",
+    "settings-open-links-label": "Open Links With:",
+    "settings-browsers-detected": "The following browsers were detected.",
     "settings-debug-detail": "Uploading to $1",
     
     "details-title": "Details",

@@ -509,8 +509,8 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="nfQ-ke-R0b" userLabel="Debug Info Container">
-                                <rect key="frame" x="24" y="180" width="272" height="56"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="24" y="65" width="272" height="56"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="D2R-xI-JC0">
                                         <rect key="frame" x="195" y="0.0" width="79" height="27"/>
@@ -519,7 +519,7 @@
                                             <action selector="debugSwitchPushed:" destination="GD7-mm-woa" eventType="valueChanged" id="JxQ-ms-b9c"/>
                                         </connections>
                                     </switch>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Debug Mode:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e0C-pi-hIm">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Debug Mode:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="e0C-pi-hIm">
                                         <rect key="frame" x="0.0" y="3" width="187" height="21"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -536,28 +536,44 @@
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qyt-MN-5Dd">
-                                <rect key="frame" x="0.0" y="300" width="320" height="44"/>
+                            <view contentMode="scaleToFill" id="L20-SL-UMS" userLabel="External Browser Container">
+                                <rect key="frame" x="0.0" y="129" width="320" height="66"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="Open in Safari">
-                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <state key="highlighted">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="chooseBrowserButtonPushed:" destination="GD7-mm-woa" eventType="touchUpInside" id="AmS-zQ-Up5"/>
-                                </connections>
-                            </button>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qyt-MN-5Dd" customClass="GradientButton">
+                                        <rect key="frame" x="197" y="17" width="103" height="33"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <state key="normal" title="Safari">
+                                            <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <state key="highlighted">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="chooseBrowserButtonPushed:" destination="GD7-mm-woa" eventType="touchUpInside" id="AmS-zQ-Up5"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Open Links With:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="80h-CY-QOf">
+                                        <rect key="frame" x="22" y="22" width="167" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="debugModeLabel" destination="e0C-pi-hIm" id="lRc-6o-pOh"/>
                         <outlet property="debugModeSwitch" destination="D2R-xI-JC0" id="iHE-iB-pXC"/>
                         <outlet property="openInButton" destination="qyt-MN-5Dd" id="0Xn-O2-o1U"/>
+                        <outlet property="openInLabel" destination="80h-CY-QOf" id="Uzd-Al-fHH"/>
                         <outlet property="uploadTargetLabel" destination="EYT-1W-SJu" id="GTl-d2-bGG"/>
                     </connections>
                 </viewController>
@@ -992,7 +1008,8 @@
                 <relationship kind="action" name="debugSwitchPushed:"/>
                 <relationship kind="outlet" name="debugModeLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="debugModeSwitch" candidateClass="UISwitch"/>
-                <relationship kind="outlet" name="openInButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="openInButton" candidateClass="GradientButton"/>
+                <relationship kind="outlet" name="openInLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="uploadTargetLabel" candidateClass="UILabel"/>
             </relationships>
         </class>

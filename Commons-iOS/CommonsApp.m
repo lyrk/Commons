@@ -1059,4 +1059,37 @@ static CommonsApp *singleton_;
     [self.eventLog log:schemaName event:dict];
 }
 
+- (void)openURLWithDefaultBrowser:(NSURL *)url
+{
+    // Get the scheme used to open links in the user's preferred browser
+    NSString *desiredBrowserScheme = [[NSUserDefaults standardUserDefaults] objectForKey:@"DefaultExternalBrowserScheme"];
+
+    // Double check that the preferred browser choice still exists on the device - if not reset to Safari
+    if (![[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:[NSString stringWithFormat:@"%@://", desiredBrowserScheme]]]) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"Safari" forKey:@"DefaultExternalBrowser"];
+        desiredBrowserScheme = @"http";
+        [[NSUserDefaults standardUserDefaults] setObject:desiredBrowserScheme forKey:@"DefaultExternalBrowserScheme"];
+    }
+    
+    // If the url is https adjust the desiredBrowserScheme accordingly - luckily they all seem to just have "s" appended to the
+    // end of the scheme
+    NSLog(@"URL SCHEME %@", url.scheme);
+    if ([url.scheme isEqualToString:@"https"]) {
+        desiredBrowserScheme = [NSString stringWithFormat:@"%@s", desiredBrowserScheme];
+    }
+    NSLog(@"DESIRED SCHEME %@", desiredBrowserScheme);
+    
+    // Now rebuild the url so it uses the desiredBrowserScheme
+    NSString *urlWithoutScheme = [url absoluteString];
+    NSInteger colon = [urlWithoutScheme rangeOfString:@":"].location;
+    if (colon != NSNotFound) {
+        urlWithoutScheme = [urlWithoutScheme substringFromIndex:colon];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", desiredBrowserScheme, urlWithoutScheme]];
+        NSLog(@"URL WITH DESIRED SCHEME = %@", url.absoluteString);
+    }
+    
+    // And open the url - should open in desired browser now
+    [[UIApplication sharedApplication] openURL:url];
+}
+
 @end

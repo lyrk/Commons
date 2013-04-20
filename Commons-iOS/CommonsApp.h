@@ -66,4 +66,6 @@
 - (void)log:(NSString *)schemaName event:(NSDictionary *)event;
 - (void)deleteAllRecords;
 
+- (void)openURLWithDefaultBrowser:(NSURL *)url;
+
 @end
