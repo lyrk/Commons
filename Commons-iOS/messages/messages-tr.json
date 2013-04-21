@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Emperyan"
+        ]
+    },
     "contribs-title": "Y\u00fcklemelerim",
     "contribs-settings-button": "Ayarlar",
     "contribs-upload-button": "Y\u00fckle",
@@ -26,10 +31,5 @@
     "details-description-placeholder": "Gerekli",
     "details-license-label": "Lisans",
     "web-open-in": "$1 \u00fczerinde a\u00e7",
-    "web-cancel": "\u0130ptal",
-    "@metadata": {
-        "authors": [
-            "Emperyan"
-        ]
-    }
+    "web-cancel": "\u0130ptal"
 }

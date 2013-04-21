@@ -36,5 +36,15 @@
     "web-open-in": "Openen in $1",
     "web-cancel": "Annuleren",
     "login-title": "Gebruiker",
-    "login-button": "Aanmelden"
+    "login-button": "Aanmelden",
+    "about-title": "Over\ufffd",
+    "about-app-version-label": "Versie $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Bugtracker",
+    "about-privacy-button": "Privacybeleid",
+    "about-source-button": "Bron",
+    "about-source-this-app-title": "Deze App (iOS):",
+    "about-source-this-app-contributors": "Bijdragers",
+    "about-license-button": "Licentie",
+    "about-source-gradient-title": "Gradient UIButton van Jeff LaMarche:"
 }

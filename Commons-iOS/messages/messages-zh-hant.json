@@ -32,6 +32,9 @@
     "details-description-label": "\u63cf\u8ff0",
     "details-description-placeholder": "\u5fc5\u9808",
     "details-license-label": "\u6388\u6b0a",
+    "details-hide-keyboard": "\u96b1\u85cf\u9375\u76e4",
     "web-open-in": "\u5728$1\u4e2d\u6253\u958b",
-    "web-cancel": "\u53d6\u6d88"
+    "web-cancel": "\u53d6\u6d88",
+    "login-title": "\u7528\u6236",
+    "login-button": "\u767b\u5165"
 }

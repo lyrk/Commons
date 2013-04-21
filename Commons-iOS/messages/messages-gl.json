@@ -32,6 +32,9 @@
     "details-description-label": "Descrici\u00f3n",
     "details-description-placeholder": "Obrigatorio",
     "details-license-label": "Licenza",
+    "details-hide-keyboard": "Agochar o teclado",
     "web-open-in": "Abrir en $1",
-    "web-cancel": "Cancelar"
+    "web-cancel": "Cancelar",
+    "login-title": "Conta",
+    "login-button": "Rexistro"
 }

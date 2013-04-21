@@ -1,4 +1,11 @@
 {
+    "@metadata": {
+        "authors": [
+            "Lliehu",
+            "Nike",
+            "Silvonen"
+        ]
+    },
     "contribs-settings-button": "Asetukset",
     "contribs-photo-library-button": "Kuvat",
     "contribs-state-queued": "Jonossa",
@@ -15,12 +22,5 @@
     "details-title-placeholder": "Yksil\u00f6iv\u00e4, kuvaava otsikko",
     "details-description-label": "Kuvaus",
     "details-license-label": "Lisenssi",
-    "web-open-in": "Avaa selaimessa $1",
-    "@metadata": {
-        "authors": [
-            "Lliehu",
-            "Nike",
-            "Silvonen"
-        ]
-    }
+    "web-open-in": "Avaa selaimessa $1"
 }

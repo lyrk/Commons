@@ -35,5 +35,6 @@
     "details-description-placeholder": "Wymagane",
     "details-license-label": "Licencja",
     "web-open-in": "Otw\u00f3rz w $1",
-    "web-cancel": "Anuluj"
+    "web-cancel": "Anuluj",
+    "login-title": "Konto"
 }

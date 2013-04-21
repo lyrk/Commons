@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Purodha"
+        ]
+    },
     "contribs-title": "S\u00e4llver huhjelaade",
     "contribs-settings-button": "Enscht\u00e4llonge",
     "contribs-upload-button": "Huhlaade",
@@ -27,11 +32,9 @@
     "details-description-label": "Wat en d\u00e4 Datei dren e\u00df",
     "details-description-placeholder": "N\u00fc\u00fcdesch",
     "details-license-label": "L\u0117z\u00e4nz",
+    "details-hide-keyboard": "Tastatur verschteische",
     "web-open-in": "Met $1 opmaache",
     "web-cancel": "Oph\u00fcre",
-    "@metadata": {
-        "authors": [
-            "Purodha"
-        ]
-    }
+    "login-title": "Zohjang",
+    "login-button": "Enlogge"
 }

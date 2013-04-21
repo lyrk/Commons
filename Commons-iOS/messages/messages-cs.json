@@ -1,7 +1,8 @@
 {
     "@metadata": {
         "authors": [
-            "Chmee2"
+            "Chmee2",
+            "Mormegil"
         ]
     },
     "contribs-title": "Moje obr\u00e1zky",
@@ -10,12 +11,16 @@
     "contribs-photo-library-button": "Fotografie",
     "contribs-state-queued": "Ve front\u011b",
     "contribs-state-uploading": "Na\u010d\u00edt\u00e1n\u00ed",
+    "contribs-refresh": "Sta\u017een\u00edm aktualizovat",
     "error-upload-failed": "Nahr\u00e1v\u00e1n\u00ed se nezda\u0159ilo!",
     "error-dismiss": "Zav\u0159\u00edt",
     "error-nologin-title": "Ach ne!",
     "error-nologin-text": "Mus\u00edte se p\u0159ihl\u00e1sit, ne\u017e m\u016f\u017eete nahr\u00e1t fotografie",
     "error-bad-password-title": "Chyba p\u0159i p\u0159ihla\u0161ov\u00e1n\u00ed",
     "error-bad-password": "\u0160patn\u00e9 u\u017eivatelsk\u00e9 jm\u00e9no nebo heslo",
+    "reltime-minutes": "P\u0159ed $1 minutami",
+    "reltime-hours": "P\u0159ed $1 hodinami",
+    "reltime-days": "P\u0159ed $1 dny",
     "settings-title": "Nastaven\u00ed",
     "settings-username-placeholder": "U\u017eivatelsk\u00e9 jm\u00e9no",
     "settings-password-placeholder": "Heslo",
@@ -28,6 +33,9 @@
     "details-description-label": "Popis",
     "details-description-placeholder": "Po\u017eadovan\u00e9",
     "details-license-label": "Licence",
+    "details-hide-keyboard": "Skr\u00fdt kl\u00e1vesnici",
     "web-open-in": "Otev\u0159\u00edt v $1",
-    "web-cancel": "Zru\u0161it"
+    "web-cancel": "Zru\u0161it",
+    "login-title": "\u00da\u010det",
+    "login-button": "P\u0159ihl\u00e1\u0161en\u00ed"
 }

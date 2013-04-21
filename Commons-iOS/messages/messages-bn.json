@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Aftab1995",
             "Leemon2010"
         ]
     },
@@ -33,5 +34,7 @@
     "details-description-placeholder": "\u09aa\u09cd\u09b0\u09af\u09bc\u09cb\u099c\u09a8\u09c0\u09af\u09bc",
     "details-license-label": "\u09b2\u09be\u0987\u09b8\u09c7\u09a8\u09cd\u09b8",
     "web-open-in": "$1 \u098f \u0996\u09c1\u09b2\u09c1\u09a8",
-    "web-cancel": "\u09ac\u09be\u09a4\u09bf\u09b2"
+    "web-cancel": "\u09ac\u09be\u09a4\u09bf\u09b2",
+    "login-title": "\u0985\u09cd\u09af\u09be\u0995\u09be\u0989\u09a8\u09cd\u099f",
+    "login-button": "\u09aa\u09cd\u09b0\u09ac\u09c7\u09b6"
 }

@@ -32,6 +32,9 @@
     "details-description-label": "Beschreibung",
     "details-description-placeholder": "Erforderlich",
     "details-license-label": "Lizenz",
+    "details-hide-keyboard": "Tastatur ausblenden",
     "web-open-in": "In $1 \u00f6ffnen",
-    "web-cancel": "Abbrechen"
+    "web-cancel": "Abbrechen",
+    "login-title": "Konto",
+    "login-button": "Anmelden"
 }

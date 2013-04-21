@@ -32,6 +32,9 @@
     "details-description-label": "\uc124\uba85",
     "details-description-placeholder": "\ud544\uc218",
     "details-license-label": "\ub77c\uc774\uc120\uc2a4",
+    "details-hide-keyboard": "\ud0a4\ubcf4\ub4dc \uc228\uae30\uae30",
     "web-open-in": "$1(\uc73c)\ub85c \uc5f4\uae30",
-    "web-cancel": "\ucde8\uc18c"
+    "web-cancel": "\ucde8\uc18c",
+    "login-title": "\uacc4\uc815",
+    "login-button": "\ub85c\uadf8\uc778"
 }

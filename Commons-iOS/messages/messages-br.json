@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Fohanno",
+            "Fulup",
             "Y-M D"
         ]
     },
@@ -33,6 +34,9 @@
     "details-description-label": "Deskrivadur",
     "details-description-placeholder": "Rekis",
     "details-license-label": "Aotre-implijout",
+    "details-hide-keyboard": "Kuzhat ar c'hlavier",
     "web-open-in": "Digeri\u00f1 e $1",
-    "web-cancel": "Nulla\u00f1"
+    "web-cancel": "Nulla\u00f1",
+    "login-title": "Kont",
+    "login-button": "Kevrea\u00f1"
 }

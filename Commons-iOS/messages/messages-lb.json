@@ -32,6 +32,9 @@
     "details-description-label": "Beschreiwung",
     "details-description-placeholder": "Obligatoresch",
     "details-license-label": "Lizenz",
+    "details-hide-keyboard": "Tastatur verstoppen",
     "web-open-in": "Mat $1 opmaachen",
-    "web-cancel": "Ofbriechen"
+    "web-cancel": "Ofbriechen",
+    "login-title": "Kont",
+    "login-button": "Aloggen"
 }

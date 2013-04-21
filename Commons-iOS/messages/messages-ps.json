@@ -31,6 +31,9 @@
     "details-description-label": "\u0685\u0631\u06ab\u0646\u062f\u0648\u0646\u0647",
     "details-description-placeholder": "\u0627\u0693\u064a\u0646 \u0645\u0627\u0644\u0648\u0645\u0627\u062a",
     "details-license-label": "\u0645\u0646\u069a\u062a\u0644\u064a\u06a9",
+    "details-hide-keyboard": "\u0644\u064a\u06a9\u062f\u0693\u0647 \u067e\u067c\u0648\u0644",
     "web-open-in": "\u067e\u0647 $1 \u06a9\u06d0 \u067e\u0631\u0627\u0646\u064a\u0633\u062a\u0644",
-    "web-cancel": "\u0646\u0627\u06ab\u0627\u0631\u0644"
+    "web-cancel": "\u0646\u0627\u06ab\u0627\u0631\u0644",
+    "login-title": "\u06ab\u06bc\u0648\u0646",
+    "login-button": "\u0646\u0646\u0648\u062a\u0644"
 }

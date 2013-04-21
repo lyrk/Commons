@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Fader",
             "WikiPhoenix"
         ]
     },
@@ -32,6 +33,12 @@
     "details-description-label": "Beskrivning",
     "details-description-placeholder": "N\u00f6dv\u00e4ndig",
     "details-license-label": "Licens",
+    "details-hide-keyboard": "D\u00f6lj tangentbord",
     "web-open-in": "\u00d6ppna med $1",
-    "web-cancel": "Avbryt"
+    "web-cancel": "Avbryt",
+    "login-title": "Konto",
+    "login-button": "Logga in",
+    "about-title": "Om",
+    "about-app-version-label": "Version $1",
+    "about-commons-button": "Wikimedia Commons"
 }

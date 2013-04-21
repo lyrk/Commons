@@ -1,7 +1,8 @@
 {
     "@metadata": {
         "authors": [
-            "Gomoko"
+            "Gomoko",
+            "Metroitendo"
         ]
     },
     "contribs-title": "Mes t\u00e9l\u00e9chargements",
@@ -32,6 +33,9 @@
     "details-description-label": "Description",
     "details-description-placeholder": "Obligatoire",
     "details-license-label": "Licence",
+    "details-hide-keyboard": "Masquer le clavier",
     "web-open-in": "Ouvert en $1",
-    "web-cancel": "Annuler"
+    "web-cancel": "Annuler",
+    "login-title": "Compte",
+    "login-button": "Se connecter"
 }

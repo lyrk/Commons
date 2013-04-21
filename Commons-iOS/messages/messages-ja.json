@@ -33,6 +33,9 @@
     "details-description-label": "\u8aac\u660e",
     "details-description-placeholder": "\u5fc5\u9808",
     "details-license-label": "\u30e9\u30a4\u30bb\u30f3\u30b9",
+    "details-hide-keyboard": "\u30ad\u30fc\u30dc\u30fc\u30c9\u3092\u96a0\u3059",
     "web-open-in": "$1 \u3067\u958b\u304f",
-    "web-cancel": "\u30ad\u30e3\u30f3\u30bb\u30eb"
+    "web-cancel": "\u30ad\u30e3\u30f3\u30bb\u30eb",
+    "login-title": "\u30a2\u30ab\u30a6\u30f3\u30c8",
+    "login-button": "\u30ed\u30b0\u30a4\u30f3"
 }
