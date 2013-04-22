@@ -488,6 +488,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="aboutButton" destination="TeK-jG-kNu" id="OG4-dK-kgV"/>
                         <outlet property="addMediaButton" destination="vMt-yt-DPQ" id="tI6-GT-dmu"/>
                         <outlet property="choosePhotoButton" destination="Vaw-aE-DoK" id="GHc-Zk-KSC"/>
                         <outlet property="collectionView" destination="C6f-pH-iVT" id="1Wm-oE-YLv"/>
@@ -1046,6 +1047,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="N5A-C3-Xff"/>
+        <segue reference="YWa-ZO-9K3"/>
     </inferredMetricsTieBreakers>
 </document>

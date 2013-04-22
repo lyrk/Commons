@@ -98,6 +98,17 @@
     // This view is used to fade out the background when the take and choose photo buttons are revealed
     opaqueView = [[UIView alloc] init];
     opaqueView.backgroundColor = [UIColor clearColor];
+    
+    // Make the About and Settings buttons stand out better against light colors
+    self.settingsButton.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.settingsButton.layer.shadowOpacity = 1.0;
+    self.settingsButton.layer.shadowRadius = 4;
+    self.settingsButton.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+    
+    self.aboutButton.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.aboutButton.layer.shadowOpacity = 1.0;
+    self.aboutButton.layer.shadowRadius = 4;
+    self.aboutButton.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
 }
 
 -(BOOL)hasCamera
