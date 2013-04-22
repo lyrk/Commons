@@ -4,4 +4,4 @@ Currently builds only for iOS 6.0 or later.
 
 Code implementing the MediaWiki web API is in the mwapi/ subdirectory.
 
-Code is currently under GNU GPL v2; see the file COPYING for details.
+Code is currently under Apache License 2.0; see the file COPYING for details.
