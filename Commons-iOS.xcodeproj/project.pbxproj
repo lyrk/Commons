@@ -184,6 +184,8 @@
 		D485AA6D1706525900D555ED /* toolbar-view.png in Resources */ = {isa = PBXBuildFile; fileRef = D485AA6B1706525900D555ED /* toolbar-view.png */; };
 		D485AA6E1706525900D555ED /* toolbar-view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D485AA6C1706525900D555ED /* toolbar-view@2x.png */; };
 		D4896B5116B5C97D009A35FA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */; };
+		D48FA3251725A1AA0039F254 /* messages-en-ca.json in Resources */ = {isa = PBXBuildFile; fileRef = D48FA3231725A1AA0039F254 /* messages-en-ca.json */; };
+		D48FA3261725A1AA0039F254 /* messages-ml.json in Resources */ = {isa = PBXBuildFile; fileRef = D48FA3241725A1AA0039F254 /* messages-ml.json */; };
 		D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
 		D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
@@ -378,6 +380,8 @@
 		D485AA6B1706525900D555ED /* toolbar-view.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-view.png"; sourceTree = "<group>"; };
 		D485AA6C1706525900D555ED /* toolbar-view@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "toolbar-view@2x.png"; sourceTree = "<group>"; };
 		D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		D48FA3231725A1AA0039F254 /* messages-en-ca.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-en-ca.json"; path = "messages/messages-en-ca.json"; sourceTree = "<group>"; };
+		D48FA3241725A1AA0039F254 /* messages-ml.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ml.json"; path = "messages/messages-ml.json"; sourceTree = "<group>"; };
 		D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewController.h; sourceTree = "<group>"; };
 		D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewController.m; sourceTree = "<group>"; };
 		D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
@@ -788,6 +792,8 @@
 		D4E0384D16C463D300330A7F /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				D48FA3231725A1AA0039F254 /* messages-en-ca.json */,
+				D48FA3241725A1AA0039F254 /* messages-ml.json */,
 				D475B285171C750D00AA81C9 /* messages-fi.json */,
 				D475B286171C750D00AA81C9 /* messages-ksh.json */,
 				D475B287171C750D00AA81C9 /* messages-pa.json */,
@@ -1086,6 +1092,8 @@
 				D475B294171C750D00AA81C9 /* messages-uk.json in Resources */,
 				D475B295171C750D00AA81C9 /* messages-ur.json in Resources */,
 				D475B296171C750D00AA81C9 /* messages-zh-hant.json in Resources */,
+				D48FA3251725A1AA0039F254 /* messages-en-ca.json in Resources */,
+				D48FA3261725A1AA0039F254 /* messages-ml.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
