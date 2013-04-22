@@ -1071,8 +1071,8 @@ static CommonsApp *singleton_;
         [[NSUserDefaults standardUserDefaults] setObject:desiredBrowserScheme forKey:@"DefaultExternalBrowserScheme"];
     }
     
-    // If the url is https adjust the desiredBrowserScheme accordingly - luckily they all seem to just have "s" appended to the
-    // end of the scheme
+    // If the url is https adjust the desiredBrowserScheme accordingly - luckily they all seem
+    // to just have "s" appended to the end of the scheme (except Dolphin, ahhh!)
     NSLog(@"URL SCHEME %@", url.scheme);
     if ([url.scheme isEqualToString:@"https"]) {
         desiredBrowserScheme = [NSString stringWithFormat:@"%@s", desiredBrowserScheme];

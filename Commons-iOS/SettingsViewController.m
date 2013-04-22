@@ -42,6 +42,9 @@
     self.navigationItem.title = [MWMessage forKey:@"settings-title"].text;
     self.openInLabel.text = [MWMessage forKey:@"settings-open-links-label"].text;
     
+    self.openInButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.openInLabel.adjustsFontSizeToFitWidth = YES;
+    
     self.debugModeSwitch.on = app.debugMode;
     [self setDebugModeLabel];
 	
