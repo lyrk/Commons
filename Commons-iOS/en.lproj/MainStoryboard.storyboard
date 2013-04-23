@@ -801,65 +801,6 @@
             </objects>
             <point key="canvasLocation" x="927" y="1109"/>
         </scene>
-        <!--Web View Controller - site-->
-        <scene sceneID="hV5-yL-clO">
-            <objects>
-                <viewController id="wx9-WY-6j8" customClass="WebViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="1cH-cL-YOZ">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" scalesPageToFit="YES" id="AdI-fV-Ske">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="delegate" destination="wx9-WY-6j8" id="tLu-lh-ek6"/>
-                                </connections>
-                            </webView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems>
-                        <barButtonItem image="toolbar-back.png" style="plain" id="2Jw-tS-QQ2">
-                            <connections>
-                                <action selector="backButtonPushed:" destination="wx9-WY-6j8" id="EkT-Ba-q3V"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="xv9-Om-cc9"/>
-                        <barButtonItem style="plain" systemItem="refresh" id="aDO-T6-imc">
-                            <connections>
-                                <action selector="refreshButtonPushed:" destination="wx9-WY-6j8" id="IWT-ci-ezT"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="gMJ-lQ-HQt"/>
-                        <barButtonItem image="toolbar-forward.png" style="plain" id="kJu-Pf-zGN">
-                            <connections>
-                                <action selector="forwardButtonPushed:" destination="wx9-WY-6j8" id="3J8-5g-KfG"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem style="plain" systemItem="flexibleSpace" id="n8U-cW-Ghk"/>
-                        <barButtonItem style="plain" systemItem="action" id="5tx-pm-FMc">
-                            <connections>
-                                <action selector="actionButtonPushed:" destination="wx9-WY-6j8" id="4Ld-WF-j3k"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" title="site" id="lYW-ac-t8Y"/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics" barStyle="blackTranslucent"/>
-                    <connections>
-                        <outlet property="actionButton" destination="5tx-pm-FMc" id="2vo-Cq-TKB"/>
-                        <outlet property="backButton" destination="2Jw-tS-QQ2" id="bK4-ZY-A2a"/>
-                        <outlet property="forwardButton" destination="kJu-Pf-zGN" id="r32-ke-gjh"/>
-                        <outlet property="refreshButton" destination="aDO-T6-imc" id="MhF-vT-LbA"/>
-                        <outlet property="titleNavItem" destination="lYW-ac-t8Y" id="WFa-nV-bRh"/>
-                        <outlet property="webView" destination="AdI-fV-Ske" id="j09-at-CHB"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8wD-J6-S9Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="927" y="506"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="QIr-ce-0cf">
             <objects>
@@ -892,8 +833,6 @@
         <image name="gallery.png" width="30" height="25"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="30" height="30"/>
-        <image name="toolbar-back.png" width="24" height="24"/>
-        <image name="toolbar-forward.png" width="24" height="24"/>
         <image name="toolbar-view.png" width="32" height="32"/>
     </resources>
     <classes>
@@ -1031,6 +970,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="YWa-ZO-9K3"/>
+        <segue reference="N5A-C3-Xff"/>
     </inferredMetricsTieBreakers>
 </document>
