@@ -76,7 +76,6 @@
 		65C4D58016CCE3550077E0A2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
 		65C4D58116CCE3550077E0A2 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* LoginViewController.m */; };
 		65C4D58216CCE3550077E0A2 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
-		65C4D58316CCE3550077E0A2 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		65C4D58416CCE3550077E0A2 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
 		65C4D58516CCE3550077E0A2 /* ImageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281216C19C4D00BC3ABE /* ImageListCell.m */; };
 		65C4D58616CCE3550077E0A2 /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
@@ -97,7 +96,6 @@
 		65CA698716C05B9700839D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
 		65CA698916C05B9700839D09 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* LoginViewController.m */; };
 		65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
-		65CA698C16C05B9700839D09 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
 		65CA698E16C05B9700839D09 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
 		65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
@@ -185,7 +183,6 @@
 		D485AA6E1706525900D555ED /* toolbar-view@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D485AA6C1706525900D555ED /* toolbar-view@2x.png */; };
 		D4896B5116B5C97D009A35FA /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */; };
 		D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
-		D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */; };
 		D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		D4C037101700C38100AA2537 /* messages-af.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F21700C38000AA2537 /* messages-af.json */; };
 		D4C037111700C38100AA2537 /* messages-ar.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F31700C38000AA2537 /* messages-ar.json */; };
@@ -380,8 +377,6 @@
 		D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewController.h; sourceTree = "<group>"; };
 		D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewController.m; sourceTree = "<group>"; };
-		D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
-		D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		D4B83E2016BC950900ABAF94 /* BrowserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserHelper.h; sourceTree = "<group>"; };
 		D4B83E2116BC950900ABAF94 /* BrowserHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrowserHelper.m; sourceTree = "<group>"; };
 		D4C036F21700C38000AA2537 /* messages-af.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-af.json"; path = "messages/messages-af.json"; sourceTree = "<group>"; };
@@ -749,8 +744,6 @@
 				04023FEC1718B13A00165309 /* AboutViewController.m */,
 				D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */,
 				D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */,
-				D4B83E1D16BC8B3F00ABAF94 /* WebViewController.h */,
-				D4B83E1E16BC8B4000ABAF94 /* WebViewController.m */,
 				DC606FBD16BF28FA006EFA5C /* ImageScrollViewController.h */,
 				DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */,
 				D41D281116C19C4D00BC3ABE /* ImageListCell.h */,
@@ -1137,7 +1130,6 @@
 				65CA699216C05BD500839D09 /* main.m in Sources */,
 				65CA699116C05BC300839D09 /* FileUpload.xcdatamodeld in Sources */,
 				65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */,
-				65CA698C16C05B9700839D09 /* WebViewController.m in Sources */,
 				65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */,
 				65CA698E16C05B9700839D09 /* FileUpload.m in Sources */,
 				65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */,
@@ -1186,7 +1178,6 @@
 				65C4D58016CCE3550077E0A2 /* AppDelegate.m in Sources */,
 				65C4D58116CCE3550077E0A2 /* LoginViewController.m in Sources */,
 				65C4D58216CCE3550077E0A2 /* DetailTableViewController.m in Sources */,
-				65C4D58316CCE3550077E0A2 /* WebViewController.m in Sources */,
 				65C4D58416CCE3550077E0A2 /* ImageScrollViewController.m in Sources */,
 				65C4D58516CCE3550077E0A2 /* ImageListCell.m in Sources */,
 				65C4D58616CCE3550077E0A2 /* MyUploadsViewController.m in Sources */,
@@ -1220,7 +1211,6 @@
 				D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */,
 				D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */,
 				DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */,
-				D4B83E1F16BC8B4000ABAF94 /* WebViewController.m in Sources */,
 				D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */,
 				DC606FBF16BF28FA006EFA5C /* ImageScrollViewController.m in Sources */,
 				D41D281316C19C4D00BC3ABE /* ImageListCell.m in Sources */,

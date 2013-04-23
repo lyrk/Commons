@@ -10,7 +10,7 @@
 #import <ImageIO/ImageIO.h>
 #import <sys/utsname.h>
 #import "MWI18N/MWI18N.h"
-
+#import "BrowserHelper.h"
 #import "CommonsApp.h"
 
 @implementation CommonsApp
@@ -1061,32 +1061,17 @@ static CommonsApp *singleton_;
 
 - (void)openURLWithDefaultBrowser:(NSURL *)url
 {
-    // Get the scheme used to open links in the user's preferred browser
-    NSString *desiredBrowserScheme = [[NSUserDefaults standardUserDefaults] objectForKey:@"DefaultExternalBrowserScheme"];
-
+    BrowserHelper *browserHelper = [[BrowserHelper alloc] init];
+    NSString *desiredBrowserName = [[NSUserDefaults standardUserDefaults] objectForKey:@"DefaultExternalBrowser"];
+    
     // Double check that the preferred browser choice still exists on the device - if not reset to Safari
-    if (![[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:[NSString stringWithFormat:@"%@://", desiredBrowserScheme]]]) {
+    if (![browserHelper isBrowserInstalled:desiredBrowserName]) {
         [[NSUserDefaults standardUserDefaults] setObject:@"Safari" forKey:@"DefaultExternalBrowser"];
-        desiredBrowserScheme = @"http";
-        [[NSUserDefaults standardUserDefaults] setObject:desiredBrowserScheme forKey:@"DefaultExternalBrowserScheme"];
+        desiredBrowserName = @"Safari";
     }
-    
-    // If the url is https adjust the desiredBrowserScheme accordingly - luckily they all seem
-    // to just have "s" appended to the end of the scheme (except Dolphin, ahhh!)
-    NSLog(@"URL SCHEME %@", url.scheme);
-    if ([url.scheme isEqualToString:@"https"]) {
-        desiredBrowserScheme = [NSString stringWithFormat:@"%@s", desiredBrowserScheme];
-    }
-    NSLog(@"DESIRED SCHEME %@", desiredBrowserScheme);
-    
-    // Now rebuild the url so it uses the desiredBrowserScheme
-    NSString *urlWithoutScheme = [url absoluteString];
-    NSInteger colon = [urlWithoutScheme rangeOfString:@":"].location;
-    if (colon != NSNotFound) {
-        urlWithoutScheme = [urlWithoutScheme substringFromIndex:colon];
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", desiredBrowserScheme, urlWithoutScheme]];
-        NSLog(@"URL WITH DESIRED SCHEME = %@", url.absoluteString);
-    }
+
+    // Get url with formatting required to open in desired browser
+    url = [browserHelper formatURL:url forBrowser:desiredBrowserName];
     
     // And open the url - should open in desired browser now
     [[UIApplication sharedApplication] openURL:url];

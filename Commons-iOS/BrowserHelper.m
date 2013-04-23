@@ -3,135 +3,105 @@
 //  Commons-iOS
 //
 //  Created by Brion on 2/1/13.
-//  Copyright (c) 2013 Wikimedia. All rights reserved.
-//
 
 #import "BrowserHelper.h"
-#import "MWI18N/MWMessage.h"
+
+@interface BrowserHelper ()
+
+- (void)populateBrowserSettings;
+
+@end
 
 @implementation BrowserHelper
+{
+    NSMutableDictionary *browserSettings;
+}
 
-- (id)initWithURL:(NSURL *)url
+- (id)init
 {
     self = [super init];
     if (self) {
-        [self buildActionSheet:url];
+        browserSettings = [[NSMutableDictionary alloc] init];
+        [self populateBrowserSettings];
     }
     return self;
 }
 
-- (NSString *)openInString:(NSString *)browser
-{
-    return [MWMessage forKey:@"web-open-in" param:browser].text;
-}
-
-- (NSString *)cancelString
-{
-    return [MWMessage forKey:@"web-cancel"].text;
-}
-
-- (void)buildActionSheet:(NSURL *)url
-{
-    UIApplication *app = [UIApplication sharedApplication];
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                         destructiveButtonTitle:nil
-                                              otherButtonTitles:nil];
-    NSMutableArray *buttons = [[NSMutableArray alloc] init];
+- (void)populateBrowserSettings
+{    
+    // To open URLs in specific browsers the urls must be formatted according to a scheme specific to
+    // that browser. These schemes are not consistent between browsers. The "browserSettings"
+    // dictionary lets us specify, for each browser, which url scheme keywords are used with which
+    // protocols (by setting "httpScheme", "httpsScheme" or even "ftpScheme" key-value pairs). The
+    // formatting can also be specified by setting the "urlFormat" key-value pair.
+    browserSettings[@"Chrome"] =    @{
+                                      @"httpScheme":@"googlechrome",
+                                      @"httpsScheme":@"googlechromes",
+                                      @"urlFormat": @"[scheme]://[url]"
+                                      };
     
-    int safariIndex = [sheet addButtonWithTitle:[self openInString:@"Safari"]];
-    buttons[safariIndex] = url;
+    browserSettings[@"Dolphin"] =   @{
+                                      @"httpScheme":@"dolphin",
+                                      @"httpsScheme":@"dolphin",
+                                      @"urlFormat": @"[scheme]://[proto]://[url]"
+                                      };
 
-    NSURL *chromeURL = [self chromeURL:url];
-    if ([app canOpenURL:chromeURL]) {
-        int chromeIndex = [sheet addButtonWithTitle:[self openInString:@"Chrome"]];
-        buttons[chromeIndex] = chromeURL;
+    browserSettings[@"Opera"] =     @{
+                                      @"httpScheme":@"ohttp",
+                                      @"httpsScheme":@"ohttps",
+                                      @"urlFormat": @"[scheme]://[url]"
+                                      };
+    
+    browserSettings[@"Safari"] =    @{
+                                      @"httpScheme":@"http",
+                                      @"httpsScheme":@"https",
+                                      @"urlFormat": @"[scheme]://[url]"
+                                      };
+}
+
+-(bool)isBrowserInstalled:(NSString *)browserName
+{
+    if (![browserSettings objectForKey:browserName]) return NO;
+    
+    return ([[UIApplication sharedApplication] canOpenURL: [self formatURL:[NSURL URLWithString:@"http://"] forBrowser:browserName]]);
+}
+    
+-(NSArray *)getInstalledSupportedBrowserNames
+{
+    // Get array of just the installed supported browsers
+    NSArray *browsers = [[browserSettings allKeys] filteredArrayUsingPredicate: [NSPredicate predicateWithBlock: ^BOOL(id obj, NSDictionary *bind){
+        return [self isBrowserInstalled:(NSString *)obj];
+    }]];
+        
+    // Return the array of installed browser names, but sort it first
+    return [browsers sortedArrayUsingComparator:^(NSString* a, NSString* b) {
+        return [a compare:b options:nil];
+    }];
+}
+
+- (NSURL *)formatURL:(NSURL*) urlWithProtocol forBrowser:(NSString *)browser
+{   // Returns url formatted for opening in specified browser. Assumes the url
+    // it is passed includes protocol
+
+    NSString *urlStr = [urlWithProtocol absoluteString];
+    NSDictionary *settings = [browserSettings objectForKey:browser];
+    NSInteger colonPosition = [urlStr rangeOfString:@"://"].location;
+    NSString *urlStrNoProtocol, *protocol = nil;
+    if (colonPosition != NSNotFound){
+        urlStrNoProtocol = [urlStr substringFromIndex:colonPosition + 3];
+        protocol = [urlStr substringToIndex:colonPosition];
     }
     
-    NSURL *operaURL = [self operaURL:url];
-    if ([app canOpenURL:operaURL]) {
-        int operaIndex = [sheet addButtonWithTitle:[self openInString:@"Opera"]];
-        buttons[operaIndex] = operaURL;
+    NSString *urlFormat = settings[@"urlFormat"];
+    NSString *settingsScheme = [protocol stringByAppendingString:@"Scheme"];
+    if ([settings objectForKey:settingsScheme]) {
+        urlFormat = [urlFormat stringByReplacingOccurrencesOfString:@"[scheme]" withString:settings[settingsScheme]];
     }
     
-    NSURL *dolphinURL = [self dolphinURL:url];
-    if ([app canOpenURL:dolphinURL]) {
-        int dolphinIndex = [sheet addButtonWithTitle:[self openInString:@"Dolphin"]];
-        buttons[dolphinIndex] = dolphinURL;
-    }
+    urlFormat = [urlFormat stringByReplacingOccurrencesOfString:@"[url]" withString:urlStrNoProtocol];
+    urlFormat = [urlFormat stringByReplacingOccurrencesOfString:@"[proto]" withString:protocol];
     
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
-        // Just tap outside to dismiss on iPad...
-        int cancelIndex = [sheet addButtonWithTitle:[self cancelString]];
-        sheet.cancelButtonIndex = cancelIndex;
-    }
-    
-    self.browserButtons = buttons;
-    self.actionSheet = sheet;
-}
-
-- (NSURL *)chromeURL:(NSURL *)url
-{
-    NSString *proto = url.scheme;
-    if ([proto isEqualToString:@"http"]) {
-        return [[NSURL alloc] initWithScheme:@"googlechrome" host:url.host path:url.path];
-    } else if ([proto isEqualToString:@"https"]) {
-        return [[NSURL alloc] initWithScheme:@"googlechromes" host:url.host path:url.path];
-    } else {
-        // kaboom
-        return nil;
-    }
-}
-
-- (NSURL *)operaURL:(NSURL *)url
-{
-    NSString *proto = url.scheme;
-    if ([proto isEqualToString:@"http"]) {
-        return [[NSURL alloc] initWithScheme:@"ohttp" host:url.host path:url.path];
-    } else if ([proto isEqualToString:@"https"]) {
-        return [[NSURL alloc] initWithScheme:@"ohttps" host:url.host path:url.path];
-    } else {
-        // kaboom
-        return nil;
-    }
-}
-
-- (NSURL *)dolphinURL:(NSURL *)url
-{
-    NSString *urlStr = [url description];
-    return [NSURL URLWithString:[@"dolphin://" stringByAppendingString:urlStr]];
-}
-
-- (void)showFromBarButtonItem:(UIBarButtonItem *)item onCompletion:(void(^)())block
-{
-    self.onCompletion = [block copy];
-    [self.actionSheet showFromBarButtonItem:item animated:YES];
-}
-
-- (void)showInView:(UIView *)view onCompletion:(void(^)())block
-{
-    self.onCompletion = [block copy];
-    [self.actionSheet showInView:view];
-}
-
-#pragma mark UIActionSheetDelegate methods
-
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex < self.browserButtons.count) {
-        NSURL *url = self.browserButtons[buttonIndex];
-        [UIApplication.sharedApplication openURL:url];
-    }
-}
-
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
-{
-    void (^onCompletion)() = self.onCompletion;
-    self.browserButtons = nil;
-    self.actionSheet = nil;
-    self.onCompletion = nil;
-    onCompletion();
+    return [NSURL URLWithString:urlFormat];
 }
 
 @end

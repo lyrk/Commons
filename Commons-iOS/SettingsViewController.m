@@ -9,10 +9,9 @@
 #import "mwapi/MWApi.h"
 #import "MWI18N/MWMessage.h"
 #import "GradientButton.h"
+#import "BrowserHelper.h"
 
-@interface SettingsViewController (){
-    NSMutableArray *browserSchemes;
-}
+@interface SettingsViewController ()
 
 -(NSString *)getSelectedBrowserName;
 -(void)updateOpenInButtonTitle;
@@ -26,7 +25,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        browserSchemes = [[NSMutableArray alloc] init];
+
     }
     return self;
 }
@@ -105,19 +104,13 @@
                                          destructiveButtonTitle:nil
                                               otherButtonTitles:nil];
     
-    // Block for adding browser buttons to the action sheet
-    void(^addBrowserButton)() = ^(NSString *browserName, NSString *scheme){
-        if ([[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:[NSString stringWithFormat:@"%@://", scheme]]]) {
-            NSInteger index = [sheet addButtonWithTitle:browserName];
-            [browserSchemes insertObject:scheme atIndex:index];
-        }
-    };
+    BrowserHelper *browserHelper = [[BrowserHelper alloc] init];
+    NSArray *supportedBrowserNames = [browserHelper getInstalledSupportedBrowserNames];
 
-    // Browsers to check for
-    addBrowserButton(@"Chrome", @"googlechrome");
-    //addBrowserButton(@"Dolphin", @"dolphin"); //dolphin doesn't support https scheme from external device???
-    addBrowserButton(@"Opera", @"ohttp");
-    addBrowserButton(@"Safari", @"http");
+    // Add supported browser buttons to the action sheet
+    for (NSString *browserName in supportedBrowserNames) {
+        [sheet addButtonWithTitle:browserName];
+    }
     
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
         // Just tap outside to dismiss on iPad...
@@ -137,11 +130,6 @@
 
     // Save the browser selection w/NSUserDefaults so it can be easily checked by openURLWithDefaultBrowser
     [[NSUserDefaults standardUserDefaults] setObject:[actionSheet buttonTitleAtIndex:buttonIndex] forKey:@"DefaultExternalBrowser"];
-
-    // Also save the scheme so openURLWithDefaultBrowser can verify that the selected browser is still on the device
-    // because the user may have deleted it since making their selection. When this happens openURLWithDefaultBrowser
-    // will switch back to Safari
-    [[NSUserDefaults standardUserDefaults] setObject:[browserSchemes objectAtIndex:buttonIndex] forKey:@"DefaultExternalBrowserScheme"];
 
     [[NSUserDefaults standardUserDefaults] synchronize];
 
