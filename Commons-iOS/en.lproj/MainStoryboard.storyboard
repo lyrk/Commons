@@ -892,6 +892,8 @@
         <image name="gallery.png" width="30" height="25"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="30" height="30"/>
+        <image name="toolbar-back.png" width="24" height="24"/>
+        <image name="toolbar-forward.png" width="24" height="24"/>
         <image name="toolbar-view.png" width="32" height="32"/>
     </resources>
     <classes>
