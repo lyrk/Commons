@@ -23,7 +23,7 @@
     "settings-password-placeholder": "Password",
     "settings-debug-label": "Debug Mode:",
     "settings-open-links-label": "Open Links With:",
-    "settings-browsers-detected": "The following browsers were detected.",
+    "settings-open-links-only-safari": "No other supported browsers are installed.",
     "settings-debug-detail": "Uploading to $1",
     
     "details-title": "Details",

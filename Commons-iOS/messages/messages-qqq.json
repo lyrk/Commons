@@ -25,7 +25,7 @@
     "settings-password-placeholder": "Placeholder text for password field in settings.\n{{Identical|Password}}",
     "settings-debug-label": "Label for debug mode switch in settings (switches between uploading to Commons and to a test site)",
     "settings-open-links-label": "Label for button which lets user choose which browser will be used to open external links",
-    "settings-browsers-detected": "Label for action sheet which lists the browers installed on the device",
+    "settings-open-links-only-safari": "Message for alert which appears if Open Links Safari button is tapped and Safari is only browser on the device",
     "settings-debug-detail": "Label indicating which site photos will be uploaded to. Parameters:\n* $1 - a domain name such as commons.wikimedia.org",
     "details-title": "Title for photo details screen.\n{{Identical|Details}}",
     "details-upload-button": "Button text for button to begin uploading the selected photo.\n{{Identical|Upload}}",

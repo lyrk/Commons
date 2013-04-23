@@ -7,15 +7,16 @@
 #import <UIKit/UIKit.h>
 
 @class GradientButton;
-@interface SettingsViewController : UIViewController <UIActionSheetDelegate>
+@interface SettingsViewController : UIViewController <UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *debugModeLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *debugModeSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *uploadTargetLabel;
-@property (weak, nonatomic) IBOutlet GradientButton *openInButton;
 @property (weak, nonatomic) IBOutlet UILabel *openInLabel;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *settingsContainer;
+@property (weak, nonatomic) IBOutlet UITableView *browsersTableView;
 
 - (IBAction)debugSwitchPushed:(id)sender;
-- (IBAction)chooseBrowserButtonPushed:(id)sender;
 
 @end
