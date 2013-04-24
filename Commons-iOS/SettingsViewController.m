@@ -88,7 +88,6 @@
     // Make the browser choice appear at the top of the list when the view appears
     if (installedSupportedBrowserNames.count > 1) {
         NSString *defaultExternalBrowser = app.defaultExternalBrowser;
-        if (defaultExternalBrowser == nil) defaultExternalBrowser = @"Safari";
         NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames indexOfObject:defaultExternalBrowser];
         if (selectedBrowserIndex != NSNotFound) {
             [installedSupportedBrowserNames exchangeObjectAtIndex:0 withObjectAtIndex:selectedBrowserIndex];
@@ -98,12 +97,9 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    // Determine the preferred browser
-    NSString *defaultExternalBrowser = (app.defaultExternalBrowser == nil) ? @"Safari" : app.defaultExternalBrowser;
-
     // Make the table view highlight the cell for the DefaultExternalBrowser choice
     for (UITableViewCell *cell in self.browsersTableView.visibleCells) {
-        if ([cell.textLabel.text isEqualToString:defaultExternalBrowser]) {
+        if ([cell.textLabel.text isEqualToString:app.defaultExternalBrowser]) {
             NSIndexPath *indexPath = [self.browsersTableView indexPathForCell:cell];
             [self.browsersTableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:0];
             break;
