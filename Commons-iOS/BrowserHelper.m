@@ -69,8 +69,8 @@
 -(NSArray *)getInstalledSupportedBrowserNames
 {
     // Get array of just the installed supported browsers
-    NSArray *browsers = [[browserSettings allKeys] filteredArrayUsingPredicate: [NSPredicate predicateWithBlock: ^BOOL(id obj, NSDictionary *bind){
-        return [self isBrowserInstalled:(NSString *)obj];
+    NSArray *browsers = [[browserSettings allKeys] filteredArrayUsingPredicate: [NSPredicate predicateWithBlock: ^BOOL(NSString *browserName, NSDictionary *bind){
+        return [self isBrowserInstalled:browserName];
     }]];
         
     // Return the array of installed browser names, but sort it first
