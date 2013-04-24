@@ -90,7 +90,12 @@
         NSString *defaultExternalBrowser = app.defaultExternalBrowser;
         NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames indexOfObject:defaultExternalBrowser];
         if (selectedBrowserIndex != NSNotFound) {
-            [installedSupportedBrowserNames exchangeObjectAtIndex:0 withObjectAtIndex:selectedBrowserIndex];
+            // Remove the selected browser from the array and re-add it to the front of
+            // the array. Was swapping the selected entry with the first entry but this caused
+            // the alpha sort of the items after the first to be messed up
+            NSString *selectedBrowser = [installedSupportedBrowserNames objectAtIndex:selectedBrowserIndex];
+            [installedSupportedBrowserNames removeObjectAtIndex:selectedBrowserIndex];
+            [installedSupportedBrowserNames insertObject:selectedBrowser atIndex:0];
         }
     }
 }
