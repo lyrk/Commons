@@ -64,6 +64,7 @@
 - (NSDate *)decodeDate:(NSString *)str;
 
 - (void)log:(NSString *)schemaName event:(NSDictionary *)event;
+- (void)log:(NSString *)schemaName event:(NSDictionary *)event override:(BOOL)override;
 - (void)deleteAllRecords;
 
 - (void)openURLWithDefaultBrowser:(NSURL *)url;

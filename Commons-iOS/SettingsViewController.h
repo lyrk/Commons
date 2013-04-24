@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UIView *settingsContainer;
 @property (weak, nonatomic) IBOutlet UITableView *browsersTableView;
 @property (weak, nonatomic) IBOutlet UISwitch *trackingSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *trackingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *trackingDetailsLabel;
 
 - (IBAction)debugSwitchPushed:(id)sender;
 

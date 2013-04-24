@@ -460,7 +460,7 @@ static CommonsApp *singleton_;
            
            // Failure block
            [upload fail:^(NSError *error) {
-               [self.eventLog log:@"MobileAppUploadAttempts" event:@{
+               [self log:@"MobileAppUploadAttempts" event:@{
                     @"source": record.source,
                     @"filename": fileName,
                     @"result": MW_ERROR_CODE(error),
@@ -470,7 +470,7 @@ static CommonsApp *singleton_;
                [deferred reject:error];
            }];
        } else {
-           [self.eventLog log:@"MobileAppLoginAttempts" event:@{
+           [self log:@"MobileAppLoginAttempts" event:@{
                 @"source": @"launcher", // fixme?
                 @"result": loginResult[@"login"][@"result"] // and/or data[error][code]?
             }];
@@ -1051,6 +1051,18 @@ static CommonsApp *singleton_;
  */
 - (void)log:(NSString *)schemaName event:(NSDictionary *)event
 {
+    // Log respecting the user's tracking preference
+    [self log:schemaName event:event override:NO];
+}
+
+- (void)log:(NSString *)schemaName event:(NSDictionary *)event override:(BOOL)override
+{
+    BOOL tracking = [[NSUserDefaults standardUserDefaults] boolForKey:@"Tracking"];
+
+    // Don't track if tracking is NO, unless override is YES. override was added so logging
+    // opt-in and outs can be tracked
+    if (!(tracking || override)) return;
+    
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:event];
     UIDevice *device = [UIDevice currentDevice];
     if (dict[@"username"] == nil) {

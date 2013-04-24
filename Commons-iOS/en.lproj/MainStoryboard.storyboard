@@ -517,26 +517,54 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
+                                            <view contentMode="scaleToFill" id="roS-hG-Dqv" userLabel="Tracking Container">
+                                                <rect key="frame" x="0.0" y="32.5" width="320" height="76"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <subviews>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Usage Reports:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tOO-Oe-hxg">
+                                                        <rect key="frame" x="9" y="4" width="189" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="GI3-tl-U7j" userLabel="Tracking Switch">
+                                                        <rect key="frame" x="206" y="1" width="79" height="27"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                                        <connections>
+                                                            <action selector="loggingSwitchPushed:" destination="GD7-mm-woa" eventType="valueChanged" id="xZP-Gm-mQ6"/>
+                                                        </connections>
+                                                    </switch>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Send usage reports to Wikimedia to help us improve the app" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="SZo-q4-tcy">
+                                                        <rect key="frame" x="52" y="22" width="216" height="53"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            </view>
                                             <view contentMode="scaleToFill" id="nfQ-ke-R0b" userLabel="Debug Info Container">
-                                                <rect key="frame" x="24" y="85" width="272" height="56"/>
+                                                <rect key="frame" x="0.0" y="122" width="320" height="56"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="D2R-xI-JC0" userLabel="Debug Switch">
-                                                        <rect key="frame" x="187" y="0.0" width="79" height="27"/>
+                                                        <rect key="frame" x="207" y="0.0" width="79" height="27"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                         <connections>
                                                             <action selector="debugSwitchPushed:" destination="GD7-mm-woa" eventType="valueChanged" id="JxQ-ms-b9c"/>
                                                         </connections>
                                                     </switch>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Debug Mode:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="e0C-pi-hIm">
-                                                        <rect key="frame" x="0.0" y="3" width="187" height="21"/>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Debug Mode:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="e0C-pi-hIm">
+                                                        <rect key="frame" x="9" y="3" width="189" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Uploading to test.wikipedia.org" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EYT-1W-SJu">
-                                                        <rect key="frame" x="0.0" y="29" width="272" height="21"/>
+                                                        <rect key="frame" x="24" y="30" width="272" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -546,7 +574,7 @@
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="L20-SL-UMS" userLabel="External Browser Container">
-                                                <rect key="frame" x="0.0" y="149" width="320" height="230"/>
+                                                <rect key="frame" x="0.0" y="191" width="320" height="230"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Open Links With:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="80h-CY-QOf">
@@ -580,27 +608,6 @@
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" id="roS-hG-Dqv" userLabel="Tracking Container">
-                                                <rect key="frame" x="24" y="20" width="272" height="53"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <subviews>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Metrics Tracking:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tOO-Oe-hxg">
-                                                        <rect key="frame" x="0.0" y="16" width="172" height="21"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="GI3-tl-U7j" userLabel="Tracking Switch">
-                                                        <rect key="frame" x="186" y="13" width="79" height="27"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                        <connections>
-                                                            <action selector="loggingSwitchPushed:" destination="GD7-mm-woa" eventType="valueChanged" id="xZP-Gm-mQ6"/>
-                                                        </connections>
-                                                    </switch>
-                                                </subviews>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
@@ -617,6 +624,8 @@
                         <outlet property="openInLabel" destination="80h-CY-QOf" id="Uzd-Al-fHH"/>
                         <outlet property="scrollView" destination="8Ub-kI-Lsv" id="FFJ-jY-IXE"/>
                         <outlet property="settingsContainer" destination="88b-ga-lLw" id="Lk7-Nj-AoV"/>
+                        <outlet property="trackingDetailsLabel" destination="SZo-q4-tcy" id="P4e-ej-0qH"/>
+                        <outlet property="trackingLabel" destination="tOO-Oe-hxg" id="O17-uE-E3m"/>
                         <outlet property="trackingSwitch" destination="GI3-tl-U7j" id="c9W-eD-8Le"/>
                         <outlet property="uploadTargetLabel" destination="EYT-1W-SJu" id="GTl-d2-bGG"/>
                     </connections>
@@ -995,6 +1004,9 @@
                 <relationship kind="outlet" name="openInLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="settingsContainer" candidateClass="UIView"/>
+                <relationship kind="outlet" name="trackingDetailsLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="trackingLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="trackingSwitch" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="uploadTargetLabel" candidateClass="UILabel"/>
             </relationships>
         </class>

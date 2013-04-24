@@ -57,6 +57,8 @@
 	self.debugModeLabel.text = [MWMessage forKey:@"settings-debug-label"].text;
     self.navigationItem.title = [MWMessage forKey:@"settings-title"].text;
     self.openInLabel.text = [MWMessage forKey:@"settings-open-links-label"].text;
+    self.trackingLabel.text = [MWMessage forKey:@"settings-usage-reports-label"].text;
+    self.trackingDetailsLabel.text = [MWMessage forKey:@"settings-usage-reports-description"].text;
     
     self.openInLabel.adjustsFontSizeToFitWidth = YES;
     
@@ -241,15 +243,11 @@
 
 - (IBAction)loggingSwitchPushed:(id)sender
 {
-    // Temporarily enable logging regardless of the switch so the change itself can be logged
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Tracking"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
     // Log the logging preference change
     CommonsApp *app = CommonsApp.singleton;
 	[app log:@"MobileAppTrackingChange" event:@{
         @"state": self.trackingSwitch.on ? @YES : @NO
-    }];
+    } override:YES];
     
     // Now set logging according to switch
     [[NSUserDefaults standardUserDefaults] setBool:self.trackingSwitch.on forKey:@"Tracking"];
