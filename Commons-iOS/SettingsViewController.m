@@ -23,18 +23,17 @@
     NSMutableArray *installedSupportedBrowserNames;
     BrowserHelper *browserHelper;
     CommonsApp *app;
-
 }
 
 -(void)moveOpenInLabelBesideSelectedBrowserCell;
 -(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius;
+-(void)moveSelectedBrowserToTop;
 
 @end
 
 #pragma mark - Init
 
 @implementation SettingsViewController
-
 
 - (id)initWithCoder:(NSCoder *)coder
 {
@@ -43,6 +42,7 @@
         
         browserHelper = [[BrowserHelper alloc] init];
         app = CommonsApp.singleton;
+        installedSupportedBrowserNames = nil;
 
     }
     return self;
@@ -80,26 +80,6 @@
     self.trackingSwitch.on = app.trackingEnabled;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    // Get array of supported browsers which are installed on the device
-    installedSupportedBrowserNames = [NSMutableArray arrayWithArray:[browserHelper getInstalledSupportedBrowserNames]];
-    
-    // Make the browser choice appear at the top of the list when the view appears
-    if (installedSupportedBrowserNames.count > 1) {
-        NSString *defaultExternalBrowser = app.defaultExternalBrowser;
-        NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames indexOfObject:defaultExternalBrowser];
-        if (selectedBrowserIndex != NSNotFound) {
-            // Remove the selected browser from the array and re-add it to the front of
-            // the array. Was swapping the selected entry with the first entry but this caused
-            // the alpha sort of the items after the first to be messed up
-            NSString *selectedBrowser = [installedSupportedBrowserNames objectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames removeObjectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames insertObject:selectedBrowser atIndex:0];
-        }
-    }
-}
-
 -(void)viewDidAppear:(BOOL)animated
 {
     // Make the table view highlight the cell for the DefaultExternalBrowser choice
@@ -115,6 +95,9 @@
     
     // Round just the top left and bottom left corners of openInLabel
     [self roundCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft ofView:self.openInLabel toRadius:10.0];
+    
+    [super viewDidAppear:animated];
+
 }
 
 - (void)viewDidUnload {
@@ -145,6 +128,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    // Moved the initialization of installedSupportedBrowserNames to "tableView:numberOfRowsInSection:"
+    // because it's former location in "viewWillAppear:" didn't always execute before
+    // "tableView:numberOfRowsInSection:".
+    // See the following for more details: http://stackoverflow.com/a/6391136/135557
+ 
+    // Get array of supported browsers which are installed on the device
+    installedSupportedBrowserNames = [NSMutableArray arrayWithArray:[browserHelper getInstalledSupportedBrowserNames]];
+
+    [self moveSelectedBrowserToTop];
+    
     return [installedSupportedBrowserNames count];
 }
 
@@ -216,6 +209,24 @@
 					 completion:^(BOOL finished){
                          
                      }];
+}
+
+- (void)moveSelectedBrowserToTop
+{
+    // Make the user's browser choice appear at the top of the list when the view appears by moving
+    // their choice to the front of the installedSupportedBrowserNames array
+    if (installedSupportedBrowserNames.count > 1) {
+        NSString *defaultExternalBrowser = app.defaultExternalBrowser;
+        NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames indexOfObject:defaultExternalBrowser];
+        if (selectedBrowserIndex != NSNotFound) {
+            // Remove the selected browser from the array and re-add it to the front of
+            // the array. Was swapping the selected entry with the first entry but this caused
+            // the alpha sort of the items after the first to be messed up
+            NSString *selectedBrowser = [installedSupportedBrowserNames objectAtIndex:selectedBrowserIndex];
+            [installedSupportedBrowserNames removeObjectAtIndex:selectedBrowserIndex];
+            [installedSupportedBrowserNames insertObject:selectedBrowser atIndex:0];
+        }
+    }
 }
 
 #pragma mark - Debug Switch
