@@ -51,6 +51,10 @@ static CommonsApp *singleton_;
     [self.eventLog setSchema:@"MobileAppUploadAttempts" meta:@{
         @"revision": @5334329
     }];
+    [self.eventLog setSchema:@"MobileAppTrackingChange" meta:@{
+        @"revision": @5412592
+    }];
+    
     [self updateLogOptions];
     
     self.thumbFetcher = [[ThumbFetcher alloc] init];

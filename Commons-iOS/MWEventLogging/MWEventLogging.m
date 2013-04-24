@@ -55,6 +55,9 @@
 
 - (MWPromise *)log:(NSString *)schemaName event:(NSDictionary *)event
 {
+    BOOL tracking = [[NSUserDefaults standardUserDefaults] boolForKey:@"Tracking"];
+    if (!tracking) return nil;
+    
     return [self dispatch:[self encapsulate:schemaName event:event]];
 }
 

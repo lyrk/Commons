@@ -72,6 +72,10 @@
     
     // Set the content size of the scrollView
     self.scrollView.contentSize = self.settingsContainer.frame.size;
+    
+    // Make settings switch reflect any saved value
+    BOOL tracking = [[NSUserDefaults standardUserDefaults] boolForKey:@"Tracking"];
+    self.trackingSwitch.on = tracking;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -193,7 +197,7 @@
 					 animations:^{
 
 					     self.openInLabel.backgroundColor = [UIColor lightGrayColor];
-                         
+
                          // Account for browsersTableView's contentOffset
                          float cellY = [self.browsersTableView rectForRowAtIndexPath:self.browsersTableView.indexPathForSelectedRow].origin.y;
 
@@ -231,6 +235,25 @@
         target = URL_DEBUG_MODE_TARGET_COMMONS;
     }
     self.uploadTargetLabel.text = [MWMessage forKey:@"settings-debug-detail" params:@[target]].text;
+}
+
+#pragma mark - Logging Switch
+
+- (IBAction)loggingSwitchPushed:(id)sender
+{
+    // Temporarily enable logging regardless of the switch so the change itself can be logged
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"Tracking"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    // Log the logging preference change
+    CommonsApp *app = CommonsApp.singleton;
+	[app log:@"MobileAppTrackingChange" event:@{
+        @"state": self.trackingSwitch.on ? @YES : @NO
+    }];
+    
+    // Now set logging according to switch
+    [[NSUserDefaults standardUserDefaults] setBool:self.trackingSwitch.on forKey:@"Tracking"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - Memory

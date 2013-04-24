@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *settingsContainer;
 @property (weak, nonatomic) IBOutlet UITableView *browsersTableView;
+@property (weak, nonatomic) IBOutlet UISwitch *trackingSwitch;
 
 - (IBAction)debugSwitchPushed:(id)sender;
 
