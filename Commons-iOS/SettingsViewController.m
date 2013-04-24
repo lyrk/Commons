@@ -22,6 +22,8 @@
 {
     NSMutableArray *installedSupportedBrowserNames;
     BrowserHelper *browserHelper;
+    CommonsApp *app;
+
 }
 
 -(void)moveOpenInLabelBesideSelectedBrowserCell;
@@ -40,7 +42,8 @@
     if (self) {
         
         browserHelper = [[BrowserHelper alloc] init];
-        
+        app = CommonsApp.singleton;
+
     }
     return self;
 }
@@ -52,8 +55,6 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 	
-	CommonsApp *app = CommonsApp.singleton;
-
 	self.debugModeLabel.text = [MWMessage forKey:@"settings-debug-label"].text;
     self.navigationItem.title = [MWMessage forKey:@"settings-title"].text;
     self.openInLabel.text = [MWMessage forKey:@"settings-open-links-label"].text;
@@ -76,8 +77,7 @@
     self.scrollView.contentSize = self.settingsContainer.frame.size;
     
     // Make settings switch reflect any saved value
-    BOOL tracking = [[NSUserDefaults standardUserDefaults] boolForKey:@"Tracking"];
-    self.trackingSwitch.on = tracking;
+    self.trackingSwitch.on = app.trackingEnabled;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -87,7 +87,7 @@
     
     // Make the browser choice appear at the top of the list when the view appears
     if (installedSupportedBrowserNames.count > 1) {
-        NSString *defaultExternalBrowser = [[NSUserDefaults standardUserDefaults] objectForKey:@"DefaultExternalBrowser"];
+        NSString *defaultExternalBrowser = app.defaultExternalBrowser;
         if (defaultExternalBrowser == nil) defaultExternalBrowser = @"Safari";
         NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames indexOfObject:defaultExternalBrowser];
         if (selectedBrowserIndex != NSNotFound) {
@@ -99,8 +99,7 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     // Determine the preferred browser
-    NSString *defaultExternalBrowser = [[NSUserDefaults standardUserDefaults] objectForKey:@"DefaultExternalBrowser"];
-    if (defaultExternalBrowser == nil) defaultExternalBrowser = @"Safari";
+    NSString *defaultExternalBrowser = (app.defaultExternalBrowser == nil) ? @"Safari" : app.defaultExternalBrowser;
 
     // Make the table view highlight the cell for the DefaultExternalBrowser choice
     for (UITableViewCell *cell in self.browsersTableView.visibleCells) {
@@ -173,7 +172,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [self.browsersTableView cellForRowAtIndexPath:indexPath];
-    [[NSUserDefaults standardUserDefaults] setObject:cell.textLabel.text forKey:@"DefaultExternalBrowser"];
+    app.defaultExternalBrowser = cell.textLabel.text;
     
     [self moveOpenInLabelBesideSelectedBrowserCell];
 
@@ -222,7 +221,6 @@
 
 - (IBAction)debugSwitchPushed:(id)sender
 {
-    CommonsApp *app = CommonsApp.singleton;
     app.debugMode = self.debugModeSwitch.on;
     [self setDebugModeLabel];
     [app refreshHistory];
@@ -231,7 +229,7 @@
 - (void)setDebugModeLabel
 {
     NSString *target;
-    if (CommonsApp.singleton.debugMode) {
+    if (app.debugMode) {
         target = URL_DEBUG_MODE_TARGET_TESTING;
     } else {
         target = URL_DEBUG_MODE_TARGET_COMMONS;
@@ -244,14 +242,12 @@
 - (IBAction)loggingSwitchPushed:(id)sender
 {
     // Log the logging preference change
-    CommonsApp *app = CommonsApp.singleton;
 	[app log:@"MobileAppTrackingChange" event:@{
         @"state": self.trackingSwitch.on ? @YES : @NO
     } override:YES];
     
     // Now set logging according to switch
-    [[NSUserDefaults standardUserDefaults] setBool:self.trackingSwitch.on forKey:@"Tracking"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    app.trackingEnabled = self.trackingSwitch.on;
 }
 
 #pragma mark - Memory

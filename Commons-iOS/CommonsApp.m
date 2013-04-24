@@ -87,8 +87,30 @@ static CommonsApp *singleton_;
     return NSBundle.mainBundle.infoDictionary[(NSString*)kCFBundleVersionKey];
 }
 
-- (BOOL)debugMode {
-    
+- (BOOL)trackingEnabled
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"Tracking"];
+}
+
+- (void)setTrackingEnabled:(BOOL)value
+{
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:@"Tracking"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)defaultExternalBrowser
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"DefaultExternalBrowser"];
+}
+
+- (void)setDefaultExternalBrowser:(NSString *)value
+{
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"DefaultExternalBrowser"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)debugMode
+{
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"DebugMode"];
 }
 
@@ -1057,11 +1079,9 @@ static CommonsApp *singleton_;
 
 - (void)log:(NSString *)schemaName event:(NSDictionary *)event override:(BOOL)override
 {
-    BOOL tracking = [[NSUserDefaults standardUserDefaults] boolForKey:@"Tracking"];
-
     // Don't track if tracking is NO, unless override is YES. override was added so logging
     // opt-in and outs can be tracked
-    if (!(tracking || override)) return;
+    if (!(self.trackingEnabled || override)) return;
     
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:event];
     UIDevice *device = [UIDevice currentDevice];
@@ -1078,11 +1098,11 @@ static CommonsApp *singleton_;
 - (void)openURLWithDefaultBrowser:(NSURL *)url
 {
     BrowserHelper *browserHelper = [[BrowserHelper alloc] init];
-    NSString *desiredBrowserName = [[NSUserDefaults standardUserDefaults] objectForKey:@"DefaultExternalBrowser"];
+    NSString *desiredBrowserName = self.defaultExternalBrowser;
     
     // Double check that the preferred browser choice still exists on the device - if not reset to Safari
     if (![browserHelper isBrowserInstalled:desiredBrowserName]) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"Safari" forKey:@"DefaultExternalBrowser"];
+        self.defaultExternalBrowser = @"Safari";
         desiredBrowserName = @"Safari";
     }
 

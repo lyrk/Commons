@@ -23,6 +23,8 @@
 @property (strong, nonatomic) MWApi *currentUploadOp;
 @property (strong, nonatomic) MWEventLogging *eventLog;
 @property (strong, nonatomic) ThumbFetcher *thumbFetcher;
+@property (nonatomic) BOOL trackingEnabled;
+@property (copy, nonatomic) NSString* defaultExternalBrowser;
 
 + (CommonsApp *)singleton;
 
