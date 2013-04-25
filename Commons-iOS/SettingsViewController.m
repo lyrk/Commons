@@ -25,7 +25,7 @@
     CommonsApp *app;
 }
 
--(void)moveOpenInLabelBesideSelectedBrowserCell;
+-(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell;
 -(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius;
 -(void)moveSelectedBrowserToTop;
 
@@ -44,6 +44,11 @@
         app = CommonsApp.singleton;
         installedSupportedBrowserNames = nil;
 
+        // Listen for UIApplicationDidBecomeActiveNotification
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(receivedUIApplicationDidBecomeActiveNotification:)
+                                                     name:@"UIApplicationDidBecomeActiveNotification"
+                                                   object:nil];
     }
     return self;
 }
@@ -82,22 +87,10 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    // Make the table view highlight the cell for the DefaultExternalBrowser choice
-    for (UITableViewCell *cell in self.browsersTableView.visibleCells) {
-        if ([cell.textLabel.text isEqualToString:app.defaultExternalBrowser]) {
-            NSIndexPath *indexPath = [self.browsersTableView indexPathForCell:cell];
-            [self.browsersTableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:0];
-            break;
-        }
-    }
-    
-    [self moveOpenInLabelBesideSelectedBrowserCell];
-    
     // Round just the top left and bottom left corners of openInLabel
     [self roundCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft ofView:self.openInLabel toRadius:10.0];
     
     [super viewDidAppear:animated];
-
 }
 
 - (void)viewDidUnload {
@@ -134,11 +127,31 @@
     // See the following for more details: http://stackoverflow.com/a/6391136/135557
  
     // Get array of supported browsers which are installed on the device
-    installedSupportedBrowserNames = [NSMutableArray arrayWithArray:[browserHelper getInstalledSupportedBrowserNames]];
+    installedSupportedBrowserNames = [[browserHelper getInstalledSupportedBrowserNames] mutableCopy];
 
     [self moveSelectedBrowserToTop];
     
     return [installedSupportedBrowserNames count];
+}
+
+- (void)receivedUIApplicationDidBecomeActiveNotification:(NSNotification *)notification
+{
+    // Ensure response to UIApplicationDidBecomeActiveNotification's only if this view is visible
+    if(self.navigationController.topViewController == self){
+
+        // Update the list of browsers in case the user deleted one while the app was suspended
+        installedSupportedBrowserNames = [[browserHelper getInstalledSupportedBrowserNames] mutableCopy];
+        
+        [self moveSelectedBrowserToTop];
+              
+        [self.browsersTableView reloadData];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([cell.textLabel.text isEqualToString:app.defaultExternalBrowser]) cell.selected = YES;
+    
+    [self moveOpenInLabelBesideSelectedBrowserCell:cell];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -165,10 +178,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [self.browsersTableView cellForRowAtIndexPath:indexPath];
-    app.defaultExternalBrowser = cell.textLabel.text;
+    UITableViewCell *selectedCell = [self.browsersTableView cellForRowAtIndexPath:indexPath];
+    app.defaultExternalBrowser = selectedCell.textLabel.text;
     
-    [self moveOpenInLabelBesideSelectedBrowserCell];
+    // Ensure previous selection highlighting turns off. Not sure why this is needed...
+    for (UITableViewCell *cell in self.browsersTableView.visibleCells) {
+        if (cell != selectedCell) cell.selected = NO;
+    }
+    
+    [self moveOpenInLabelBesideSelectedBrowserCell:selectedCell];
 
     // If only Safari is installed and the user taps "Safari" remind them why they're not seeing other browsers
     if ([installedSupportedBrowserNames count] == 1) {
@@ -182,7 +200,7 @@
     }
 }
 
--(void)moveOpenInLabelBesideSelectedBrowserCell
+-(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell
 {
     // Animate the openInLabel from its present vertical position to a position vertically
     // aligned with browsersTableView's selected cell
@@ -200,7 +218,7 @@
                          cellY += self.browsersTableView.frame.origin.y;
                          
                          // Determine cell height so label can be made to be same height
-                         float cellHeight = [self.browsersTableView cellForRowAtIndexPath:self.browsersTableView.indexPathForSelectedRow].frame.size.height;
+                         float cellHeight = cell.frame.size.height;
                          
                          // Set label frame shifting it into the same vertical position as the selected cell
                          // Also make the label the same height as the cell

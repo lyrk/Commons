@@ -41,6 +41,12 @@ static CommonsApp *singleton_;
 
 - (void)initializeApp
 {
+    // Listen for UIApplicationDidBecomeActiveNotification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedUIApplicationDidBecomeActiveNotification:)
+                                                 name:@"UIApplicationDidBecomeActiveNotification"
+                                               object:nil];
+    
     NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
     [MWI18N setLanguage:language];
 
@@ -68,6 +74,16 @@ static CommonsApp *singleton_;
     [self setupData];
     if ([self.username length] != 0) { // @todo handle lack of upload records
         [self fetchUploadRecords];
+    }
+}
+
+- (void)receivedUIApplicationDidBecomeActiveNotification:(NSNotification *)notification
+{
+    // When the app is activated ensure defaultExternalBrowser reflects any app deletions
+    // which occured while the app was suspended
+    BrowserHelper *browserHelper = [[BrowserHelper alloc] init];
+    if (![browserHelper isBrowserInstalled:self.defaultExternalBrowser]) {
+        self.defaultExternalBrowser = @"Safari";
     }
 }
 
