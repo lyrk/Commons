@@ -74,7 +74,7 @@
                                @"MW error code": result[@"error"][@"code"],
                                @"MW error info": result[@"error"][@"info"]
                              };
-        error = [NSError errorWithDomain:@"MediaWiki API" code:MW_ERROR_CONNECTION_FAIL userInfo:info];
+        error = [NSError errorWithDomain:@"MediaWiki API" code:MW_ERROR_API userInfo:info];
         [deferred_ reject:error];
     } else {
         // Non-error result. Doesn't necessarily mean success -- check the documentation

@@ -11,9 +11,9 @@
 #import "MWHttp.h"
 #import "MWDeferred.h"
 
-#define MW_ERROR_CONNECTION_FAIL    100
-#define MW_ERROR_IMAGE_FETCH        200
-#define MW_ERROR_UPLOAD_CANCEL      300
+#define MW_ERROR_API            100
+#define MW_ERROR_IMAGE_FETCH    200
+#define MW_ERROR_UPLOAD_CANCEL  300
 
 @interface MWApi : NSObject{
 
