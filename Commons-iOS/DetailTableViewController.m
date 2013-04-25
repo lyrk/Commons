@@ -12,7 +12,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
-#import "CategoryListTableViewController.h"
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
@@ -44,6 +43,9 @@
 {
     [super viewDidLoad];
     
+    [self.tableView registerNib:[UINib nibWithNibName:@"CategoryCell" bundle:nil] forCellReuseIdentifier:@"CategoryCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"AddCategoryCell" bundle:nil] forCellReuseIdentifier:@"AddCategoryCell"];
+    
     // l10n
     self.title = [MWMessage forKey:@"details-title"].text;
     self.uploadButton.title = [MWMessage forKey:@"details-upload-button"].text;
@@ -58,6 +60,7 @@
     FileUpload *record = self.selectedRecord;
     
     if (record != nil) {
+        self.categoryList = [record.categoryList mutableCopy];
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
         self.descriptionPlaceholder.hidden = (record.desc.length > 0);
@@ -189,6 +192,93 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    if (self.selectedRecord.complete.boolValue) {
+        // hide the categories section for now...
+        // fixme: look up categories and make them viewable/editable
+        return 1;
+    } else {
+        return 2;
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
+        // Fall through to static section handling...
+        return [super tableView:tableView numberOfRowsInSection:section];
+    } else if (section == 1) {
+        // Add one cell for the add button!
+        return self.categoryList.count + 1;
+    } else {
+        return 0;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        // Fall through to static section handling...
+        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    } else if (indexPath.section == 1) {
+        // Categories
+        UITableViewCell *cell;
+        if (indexPath.row < self.categoryList.count) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryListCell" forIndexPath:indexPath];
+            cell.textLabel.text = self.categoryList[indexPath.row];
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"AddCategoryCell" forIndexPath:indexPath];
+        }
+        return cell;
+    } else {
+        // no exist!
+        return nil;
+    }
+}
+
+/*
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+ return YES;
+ }
+ */
+
+/*
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ if (editingStyle == UITableViewCellEditingStyleDelete) {
+ // Delete the row from the data source
+ [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+ }
+ else if (editingStyle == UITableViewCellEditingStyleInsert) {
+ // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+ }
+ }
+ */
+
+/*
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+ */
+
+/*
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return YES;
+ }
+ */
+
 #pragma mark - Table view delegate
 
 // hack to hide table cells
@@ -203,13 +293,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    if (indexPath.section == 0) {
+        // Static section already handled by storyboard segues.
+    } else if (indexPath.section == 1) {
+        if (indexPath.row == self.categoryList.count) {
+            // 'Add category...' cell button
+            // Segue isn't connected due to nib fun. :P
+            [self performSegueWithIdentifier: @"AddCategorySegue" sender: self];
+        }
+    }
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1 && indexPath.row < self.categoryList.count) {
+        NSString *cat = self.categoryList[indexPath.row];
+        NSString *encCat = [cat stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *link = [NSString stringWithFormat:@"https://commons.m.wikimedia.org/wiki/Category:%@", encCat];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
+    }
 }
 
 #pragma mark - Focus to box when title or description label tapped
@@ -314,9 +416,6 @@
             
         }
         
-    } else if ([segue.identifier isEqualToString:@"CategoryListSegue"]) {
-        CategoryListTableViewController *view = [segue destinationViewController];
-        view.categoryList = [self.selectedRecord.categoryList mutableCopy];
     }
     
 }
