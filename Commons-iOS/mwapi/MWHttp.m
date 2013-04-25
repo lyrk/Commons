@@ -8,7 +8,7 @@
 
 #import "MWHttp.h"
 #import "MWNetworkActivityIndicatorManager.h"
-
+#import "MWApi.h"
 
 @implementation MWHttp
 
@@ -42,6 +42,9 @@
 - (void)cancel {
     [connection_ cancel];
     
+    NSError *error = [NSError errorWithDomain:@"MediaWiki API" code:MW_ERROR_UPLOAD_CANCEL userInfo:@{}];
+    [deferred_ reject:error];
+    
     [[MWNetworkActivityIndicatorManager sharedManager] hide];
 }
 
@@ -71,7 +74,7 @@
                                @"MW error code": result[@"error"][@"code"],
                                @"MW error info": result[@"error"][@"info"]
                              };
-        error = [NSError errorWithDomain:@"MediaWiki API" code:100 userInfo:info];
+        error = [NSError errorWithDomain:@"MediaWiki API" code:MW_ERROR_CONNECTION_FAIL userInfo:info];
         [deferred_ reject:error];
     } else {
         // Non-error result. Doesn't necessarily mean success -- check the documentation

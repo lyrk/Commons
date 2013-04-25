@@ -8,6 +8,7 @@
     "contribs-refresh": "Pull to refresh",
     
     "error-upload-failed": "Upload failed!",
+    "error-upload-cancelled": "Upload cancelled",
     "error-dismiss": "Dismiss",
     "error-nologin-title": "Uh oh!",
     "error-nologin-text": "You need to login before you can upload photos",

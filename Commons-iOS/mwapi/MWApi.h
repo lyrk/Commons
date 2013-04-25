@@ -11,8 +11,9 @@
 #import "MWHttp.h"
 #import "MWDeferred.h"
 
-#define MW_ERROR_CODE(x) ([(x).domain isEqualToString:@"MediaWiki API"] ? (x).userInfo[@"MW error code"] : @"network")
-#define MW_ERROR_INFO(x) ([(x).domain isEqualToString:@"MediaWiki API"] ? (x).userInfo[@"MW error info"] : (x).description)
+#define MW_ERROR_CONNECTION_FAIL    100
+#define MW_ERROR_IMAGE_FETCH        200
+#define MW_ERROR_UPLOAD_CANCEL      300
 
 @interface MWApi : NSObject{
 
@@ -47,5 +48,8 @@
 - (void)cancelCurrentRequest;
 
 - (NSString *)formatTimestamp:(NSDate *)timestamp;
+
++ (NSString *)getResultForError:(NSError*)error;
++ (NSString *)getMessageForError:(NSError*)error;
 
 @end
