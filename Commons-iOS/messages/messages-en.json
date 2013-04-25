@@ -21,8 +21,12 @@
     "settings-title": "Settings",
     "settings-username-placeholder": "Username",
     "settings-password-placeholder": "Password",
-    "settings-debug-label": "Debug mode",
+    "settings-debug-label": "Debug Mode:",
+    "settings-open-links-label": "Open Links With:",
+    "settings-open-links-only-safari": "No other supported browsers are installed.",
     "settings-debug-detail": "Uploading to $1",
+    "settings-usage-reports-label": "Usage Reports:",
+    "settings-usage-reports-description": "Send usage reports to Wikimedia to help us improve the app.",
     
     "details-title": "Details",
     "details-upload-button": "Upload",

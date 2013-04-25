@@ -10,7 +10,7 @@
 #import <ImageIO/ImageIO.h>
 #import <sys/utsname.h>
 #import "MWI18N/MWI18N.h"
-
+#import "BrowserHelper.h"
 #import "CommonsApp.h"
 
 @implementation CommonsApp
@@ -41,6 +41,12 @@ static CommonsApp *singleton_;
 
 - (void)initializeApp
 {
+    // Listen for UIApplicationDidBecomeActiveNotification
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedUIApplicationDidBecomeActiveNotification:)
+                                                 name:@"UIApplicationDidBecomeActiveNotification"
+                                               object:nil];
+    
     NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
     [MWI18N setLanguage:language];
 
@@ -51,6 +57,10 @@ static CommonsApp *singleton_;
     [self.eventLog setSchema:@"MobileAppUploadAttempts" meta:@{
         @"revision": @5334329
     }];
+    [self.eventLog setSchema:@"MobileAppTrackingChange" meta:@{
+        @"revision": @5412592
+    }];
+    
     [self updateLogOptions];
     
     self.thumbFetcher = [[ThumbFetcher alloc] init];
@@ -64,6 +74,16 @@ static CommonsApp *singleton_;
     [self setupData];
     if ([self.username length] != 0) { // @todo handle lack of upload records
         [self fetchUploadRecords];
+    }
+}
+
+- (void)receivedUIApplicationDidBecomeActiveNotification:(NSNotification *)notification
+{
+    // When the app is activated ensure defaultExternalBrowser reflects any app deletions
+    // which occured while the app was suspended
+    BrowserHelper *browserHelper = [[BrowserHelper alloc] init];
+    if (![browserHelper isBrowserInstalled:self.defaultExternalBrowser]) {
+        self.defaultExternalBrowser = @"Safari";
     }
 }
 
@@ -83,8 +103,30 @@ static CommonsApp *singleton_;
     return NSBundle.mainBundle.infoDictionary[(NSString*)kCFBundleVersionKey];
 }
 
-- (BOOL)debugMode {
-    
+- (BOOL)trackingEnabled
+{
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"Tracking"];
+}
+
+- (void)setTrackingEnabled:(BOOL)value
+{
+    [[NSUserDefaults standardUserDefaults] setBool:value forKey:@"Tracking"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)defaultExternalBrowser
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"DefaultExternalBrowser"];
+}
+
+- (void)setDefaultExternalBrowser:(NSString *)value
+{
+    [[NSUserDefaults standardUserDefaults] setObject:value forKey:@"DefaultExternalBrowser"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL)debugMode
+{
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"DebugMode"];
 }
 
@@ -456,7 +498,7 @@ static CommonsApp *singleton_;
            
            // Failure block
            [upload fail:^(NSError *error) {
-               [self.eventLog log:@"MobileAppUploadAttempts" event:@{
+               [self log:@"MobileAppUploadAttempts" event:@{
                     @"source": record.source,
                     @"filename": fileName,
                     @"result": MW_ERROR_CODE(error),
@@ -466,7 +508,7 @@ static CommonsApp *singleton_;
                [deferred reject:error];
            }];
        } else {
-           [self.eventLog log:@"MobileAppLoginAttempts" event:@{
+           [self log:@"MobileAppLoginAttempts" event:@{
                 @"source": @"launcher", // fixme?
                 @"result": loginResult[@"login"][@"result"] // and/or data[error][code]?
             }];
@@ -1047,6 +1089,16 @@ static CommonsApp *singleton_;
  */
 - (void)log:(NSString *)schemaName event:(NSDictionary *)event
 {
+    // Log respecting the user's tracking preference
+    [self log:schemaName event:event override:NO];
+}
+
+- (void)log:(NSString *)schemaName event:(NSDictionary *)event override:(BOOL)override
+{
+    // Don't track if tracking is NO, unless override is YES. override was added so logging
+    // opt-in and outs can be tracked
+    if (!(self.trackingEnabled || override)) return;
+    
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithDictionary:event];
     UIDevice *device = [UIDevice currentDevice];
     if (dict[@"username"] == nil) {
@@ -1057,6 +1109,24 @@ static CommonsApp *singleton_;
     dict[@"appversion"] = [@"iOS/" stringByAppendingString:self.version];
 
     [self.eventLog log:schemaName event:dict];
+}
+
+- (void)openURLWithDefaultBrowser:(NSURL *)url
+{
+    BrowserHelper *browserHelper = [[BrowserHelper alloc] init];
+    NSString *desiredBrowserName = self.defaultExternalBrowser;
+    
+    // Double check that the preferred browser choice still exists on the device - if not reset to Safari
+    if (![browserHelper isBrowserInstalled:desiredBrowserName]) {
+        self.defaultExternalBrowser = @"Safari";
+        desiredBrowserName = @"Safari";
+    }
+
+    // Get url with formatting required to open in desired browser
+    url = [browserHelper formatURL:url forBrowser:desiredBrowserName];
+    
+    // And open the url - should open in desired browser now
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 @end

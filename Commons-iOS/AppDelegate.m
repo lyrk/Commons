@@ -19,6 +19,14 @@
 {
     // Override point for customization after application launch.
 
+    // Register default default values.
+    // See: http://stackoverflow.com/a/5397647/135557
+    NSDictionary *userDefaultsDefaults = @{
+                                           @"Tracking": @YES,
+                                           @"DefaultExternalBrowser": @"Safari"
+                                        };
+    [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
+    
     // Listen for changes to which view controllers are on the navigation controller stack
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedUINavigationControllerDidShowViewControllerNotification:)
@@ -43,7 +51,7 @@
     
     [reach startNotifier];
     
-    [CommonsApp.singleton initializeApp];
+    //[CommonsApp.singleton initializeApp];
 
     CommonsApp *app = CommonsApp.singleton;
     [app initializeApp];

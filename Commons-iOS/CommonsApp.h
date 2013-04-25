@@ -23,6 +23,8 @@
 @property (strong, nonatomic) MWApi *currentUploadOp;
 @property (strong, nonatomic) MWEventLogging *eventLog;
 @property (strong, nonatomic) ThumbFetcher *thumbFetcher;
+@property (nonatomic) BOOL trackingEnabled;
+@property (copy, nonatomic) NSString* defaultExternalBrowser;
 
 + (CommonsApp *)singleton;
 
@@ -64,6 +66,9 @@
 - (NSDate *)decodeDate:(NSString *)str;
 
 - (void)log:(NSString *)schemaName event:(NSDictionary *)event;
+- (void)log:(NSString *)schemaName event:(NSDictionary *)event override:(BOOL)override;
 - (void)deleteAllRecords;
+
+- (void)openURLWithDefaultBrowser:(NSURL *)url;
 
 @end

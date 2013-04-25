@@ -13,6 +13,8 @@
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
 
+#define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
+
 @interface DetailTableViewController ()
 
     - (void)hideKeyboard;
@@ -254,14 +256,14 @@
 
 - (void)openLicense
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://creativecommons.org/licenses/by-sa/3.0/"]];
+    [CommonsApp.singleton openURLWithDefaultBrowser:[NSURL URLWithString:URL_IMAGE_LICENSE]];
 }
 
 - (IBAction)openWikiPageButtonPushed:(id)sender
 {
     if (self.selectedRecord) {
         NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
-        [[UIApplication sharedApplication] openURL:[CommonsApp.singleton URLForWikiPage:pageTitle]];
+        [CommonsApp.singleton openURLWithDefaultBrowser:[CommonsApp.singleton URLForWikiPage:pageTitle]];
     }
 }
 
