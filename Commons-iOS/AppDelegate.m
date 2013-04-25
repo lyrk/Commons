@@ -51,7 +51,7 @@
     
     [reach startNotifier];
     
-    [CommonsApp.singleton initializeApp];
+    //[CommonsApp.singleton initializeApp];
 
     CommonsApp *app = CommonsApp.singleton;
     [app initializeApp];
