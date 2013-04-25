@@ -201,4 +201,23 @@
             components.hour, components.minute, components.second];
 }
 
++ (NSString *)getResultForError:(NSError*)error
+{
+    if ([error.domain isEqualToString:@"MediaWiki API"]) {
+        switch (error.code) {
+            case MW_ERROR_UPLOAD_CANCEL:
+                return @"cancelled";
+            default:
+                return error.userInfo[@"MW error code"];
+        }
+    }else{
+        return @"network";
+    }
+}
+
++ (NSString *)getMessageForError:(NSError*)error
+{
+    return ([error.domain isEqualToString:@"MediaWiki API"] ? error.userInfo[@"MW error info"] : error.localizedDescription);
+}
+
 @end

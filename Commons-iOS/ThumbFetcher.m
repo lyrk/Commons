@@ -190,7 +190,7 @@
             [fetchDeferred reject:error];
         }];
     } else {
-        NSError *error = [NSError errorWithDomain:@"MediaWiki" code:200 userInfo:@{}];
+        NSError *error = [NSError errorWithDomain:@"MediaWiki" code:MW_ERROR_IMAGE_FETCH userInfo:@{}];
         [fetchDeferred reject:error];
     }
 }

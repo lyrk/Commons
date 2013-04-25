@@ -501,7 +501,7 @@ static CommonsApp *singleton_;
                [self log:@"MobileAppUploadAttempts" event:@{
                     @"source": record.source,
                     @"filename": fileName,
-                    @"result": MW_ERROR_CODE(error),
+                    @"result": [MWApi getResultForError:error],
                     @"multiple": @NO
                 }];
                record.progress = @0.0f;
@@ -517,7 +517,7 @@ static CommonsApp *singleton_;
     [login fail:^(NSError *err) {
         [self log:@"MobileAppLoginAttempts" event:@{
             @"source": @"launcher", // fixme?
-            @"result": MW_ERROR_CODE(err)
+            @"result": [MWApi getResultForError:err]
         }];
         [deferred reject:err];
     }];
