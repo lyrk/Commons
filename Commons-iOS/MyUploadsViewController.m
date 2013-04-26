@@ -29,7 +29,8 @@
     UIView *opaqueView;
 }
 
-- (void) animateTakeAndChoosePhotoButtons;
+- (void)animateTakeAndChoosePhotoButtons;
+- (void)refreshImages;
 
 @end
 
@@ -367,11 +368,31 @@
     }
 }
 
-- (IBAction)refreshButtonPushed:(id)sender {
+- (void)refreshImages {
+    // Cause the images to be refreshed and the refresh control title to be updated to
+    // say "Refreshing..." during said refreshiness
+    
     MWPromise *refresh = [CommonsApp.singleton refreshHistory];
+    
+    // Make refresh control say "Refreshing..."
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refreshing"].text];
     [refresh done:^(id arg) {
         [self.refreshControl endRefreshing];
+        
+        // Wait just a second before switching back to the "Pull to refresh" text so the refresh control has
+        // time to hide itself first. Otherwise it just looks a bit odd to see it flash to the "Pull to
+        // refresh" text just before it hides.
+        int64_t delayInSeconds = 1.0;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+            // Executed on the main queue after delay
+            self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
+        });
+        
     }];
+}
+
+- (IBAction)refreshButtonPushed:(id)sender {
+    [self refreshImages];
 }
 
 - (IBAction)settingsButtonPushed:(id)sender {
@@ -652,6 +673,17 @@
 {
     if (self.fetchedResultsController != nil) {
         NSLog(@"rows: %d objects", self.fetchedResultsController.fetchedObjects.count);
+       
+        // If you delete the app and reinstall it, your username/password may remain on the keychain.
+        // Result is that we bypass login screen but don't trigger a refresh -- and we see zero items.
+        // Refreshes here if zero items.
+        if (self.fetchedResultsController.fetchedObjects.count == 0) {
+            // Force the refresh spinner to start
+            [self.refreshControl beginRefreshing];
+
+            [self refreshImages];
+        }
+        
         return self.fetchedResultsController.fetchedObjects.count;
     } else {
         return 0;
