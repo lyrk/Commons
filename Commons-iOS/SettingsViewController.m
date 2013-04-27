@@ -117,6 +117,37 @@
     view.layer.mask = maskLayer;
 }
 
+-(void)viewDidLayoutSubviews
+{
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        // If orientation is landscape...
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+            [self scrollToBottomOfSettingsContainer];
+        }else{
+            [self scrollToBottomOfDebugInfoContainer];
+        }
+    }else{
+        // If orientation is portrait just scroll to the top
+        [self scrollToTopOfSettingsContainer];
+    }
+}
+
+-(void)scrollToBottomOfDebugInfoContainer
+{
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.debugInfoContainer.frame.origin.y + self.debugInfoContainer.frame.size.height + 10, 1, 1) animated:YES];
+}
+
+-(void)scrollToBottomOfSettingsContainer
+{
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
+}
+
+-(void)scrollToTopOfSettingsContainer
+{
+    // Scroll to the top of the settingsContainer
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+}
+
 #pragma mark - Browser Selection Table View
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
