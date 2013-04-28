@@ -31,5 +31,11 @@
     "details-description-placeholder": "Gerekli",
     "details-license-label": "Lisans",
     "web-open-in": "$1 \u00fczerinde a\u00e7",
-    "web-cancel": "\u0130ptal"
+    "web-cancel": "\u0130ptal",
+    "about-commons-button": "Wikimedia Commons",
+    "about-privacy-button": "Gizlilik Politikas\u0131",
+    "about-source-button": "Kaynak",
+    "about-source-this-app-title": "Bu Uygulama (iOS):",
+    "about-source-this-app-contributors": "Katk\u0131da bulunanlar",
+    "about-license-button": "Lisans"
 }

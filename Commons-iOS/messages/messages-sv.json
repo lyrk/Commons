@@ -40,5 +40,12 @@
     "login-button": "Logga in",
     "about-title": "Om",
     "about-app-version-label": "Version $1",
-    "about-commons-button": "Wikimedia Commons"
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Buggsp\u00e5rare",
+    "about-privacy-button": "Integritetspolicy",
+    "about-source-button": "K\u00e4lla",
+    "about-source-this-app-title": "Denna app (iOS):",
+    "about-source-this-app-contributors": "Bidragsgivare",
+    "about-license-button": "Licens",
+    "about-source-gradient-title": "Jeff LaMarches Gradient UIButton:"
 }

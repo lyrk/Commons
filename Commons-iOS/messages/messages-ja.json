@@ -37,5 +37,13 @@
     "web-open-in": "$1 \u3067\u958b\u304f",
     "web-cancel": "\u30ad\u30e3\u30f3\u30bb\u30eb",
     "login-title": "\u30a2\u30ab\u30a6\u30f3\u30c8",
-    "login-button": "\u30ed\u30b0\u30a4\u30f3"
+    "login-button": "\u30ed\u30b0\u30a4\u30f3",
+    "about-title": "\u3053\u306e\u30a2\u30d7\u30ea\u306b\u3064\u3044\u3066",
+    "about-app-version-label": "\u30d0\u30fc\u30b8\u30e7\u30f3 $1",
+    "about-commons-button": "\u30a6\u30a3\u30ad\u30e1\u30c7\u30a3\u30a2\u30fb\u30b3\u30e2\u30f3\u30ba",
+    "about-privacy-button": "\u30d7\u30e9\u30a4\u30d0\u30b7\u30fc\u30fb\u30dd\u30ea\u30b7\u30fc",
+    "about-source-button": "\u30bd\u30fc\u30b9",
+    "about-source-this-app-title": "\u3053\u306e App (iOS):",
+    "about-source-this-app-contributors": "\u8ca2\u732e\u8005",
+    "about-license-button": "\u30e9\u30a4\u30bb\u30f3\u30b9"
 }

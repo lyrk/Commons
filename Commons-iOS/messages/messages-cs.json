@@ -37,5 +37,15 @@
     "web-open-in": "Otev\u0159\u00edt v $1",
     "web-cancel": "Zru\u0161it",
     "login-title": "\u00da\u010det",
-    "login-button": "P\u0159ihl\u00e1\u0161en\u00ed"
+    "login-button": "P\u0159ihl\u00e1\u0161en\u00ed",
+    "about-title": "O aplikaci",
+    "about-app-version-label": "Verze $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Sledov\u00e1n\u00ed chyb",
+    "about-privacy-button": "Ochrana osobn\u00edch \u00fadaj\u016f",
+    "about-source-button": "Zdrojov\u00fd k\u00f3d",
+    "about-source-this-app-title": "Tato aplikace (iOS):",
+    "about-source-this-app-contributors": "P\u0159isp\u011bvatel\u00e9",
+    "about-license-button": "Licence",
+    "about-source-gradient-title": "Gradient UIButton od Jeffa LaMarche:"
 }

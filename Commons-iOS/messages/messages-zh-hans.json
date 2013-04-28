@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Hydra",
+            "Kuailong",
             "Yfdyh000"
         ]
     },
@@ -37,5 +38,15 @@
     "web-open-in": "\u5728 $1 \u4e2d\u6253\u5f00",
     "web-cancel": "\u53d6\u6d88",
     "login-title": "\u8d26\u6237",
-    "login-button": "\u767b\u5165"
+    "login-button": "\u767b\u5165",
+    "about-title": "\u5173\u4e8e",
+    "about-app-version-label": "\u7248\u672c\u53f7\uff1a$1",
+    "about-commons-button": "\u7ef4\u57fa\u5171\u4eab\u8d44\u6e90",
+    "about-bugs-button": "\u6f0f\u6d1e\u62a5\u544a",
+    "about-privacy-button": "\u9690\u79c1\u653f\u7b56",
+    "about-source-button": "\u6e90\u7801",
+    "about-source-this-app-title": "\u672c\u5e94\u7528\u7a0b\u5e8f\uff08iOS\uff09\uff1a",
+    "about-source-this-app-contributors": "\u8d21\u732e\u8005",
+    "about-license-button": "\u6388\u6743\u534f\u8bae",
+    "about-source-gradient-title": "Jeff LaMarche\u7684\u6e10\u53d8\u754c\u9762\u6309\u94ae\uff1a"
 }

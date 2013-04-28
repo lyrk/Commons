@@ -36,5 +36,15 @@
     "web-open-in": "Mat $1 opmaachen",
     "web-cancel": "Ofbriechen",
     "login-title": "Kont",
-    "login-button": "Aloggen"
+    "login-button": "Aloggen",
+    "about-title": "Iwwer",
+    "about-app-version-label": "Versioun $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Suivi vun de Feeler",
+    "about-privacy-button": "Dateschutz",
+    "about-source-button": "Quell",
+    "about-source-this-app-title": "D\u00ebs App (iOS]:",
+    "about-source-this-app-contributors": "Auteuren",
+    "about-license-button": "Lizenz",
+    "about-source-gradient-title": "UIButton vum Jeff LaMarche"
 }
