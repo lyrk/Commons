@@ -376,7 +376,7 @@
     
     // Make refresh control say "Refreshing..."
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refreshing"].text];
-    [refresh done:^(id arg) {
+    [refresh always:^(id arg) {
         [self.refreshControl endRefreshing];
         
         // Wait just a second before switching back to the "Pull to refresh" text so the refresh control has
