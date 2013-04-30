@@ -12,7 +12,6 @@
 
 @interface MyUploadsViewController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource,UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) UIPopoverController *popover;

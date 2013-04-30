@@ -20,6 +20,9 @@
 @property (copy, nonatomic) NSString *password;
 @property (nonatomic) BOOL debugMode;
 @property (strong, nonatomic) NSManagedObjectContext *context;
+
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+
 @property (strong, nonatomic) MWApi *currentUploadOp;
 @property (strong, nonatomic) MWEventLogging *eventLog;
 @property (strong, nonatomic) ThumbFetcher *thumbFetcher;
@@ -45,7 +48,7 @@
 - (MWPromise *)fetchWikiImage:(NSString *)title size:(CGSize)size;
 
 - (void)saveData;
-- (NSFetchedResultsController *)fetchUploadRecords;
+- (void)fetchUploadRecords;
 - (FileUpload *)createUploadRecord;
 - (FileUpload *)firstUploadRecord;
 
