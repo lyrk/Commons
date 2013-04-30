@@ -36,11 +36,11 @@
 
 @implementation MyUploadsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
-        // Custom initialization
+        
     }
     return self;
 }
@@ -76,8 +76,8 @@
     self.choosePhotoButton.hidden = YES;
     
     CommonsApp *app = [CommonsApp singleton];
-    self.fetchedResultsController = [app fetchUploadRecords];
-    self.fetchedResultsController.delegate = self;
+    [app fetchUploadRecords];
+    app.fetchedResultsController.delegate = self;
     
     if (app.username == nil || [app.username isEqualToString:@""]) {
         [self performSegueWithIdentifier:@"SettingsSegue" sender:self];
@@ -139,6 +139,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+  
+    // When the debug mode is toggled the fetchedResultsController.delegate was getting blasted for some reason
+    // This resets it
+    [CommonsApp singleton].fetchedResultsController.delegate = self;
     
     self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
     
@@ -168,7 +172,6 @@
     [self setChoosePhotoButton:nil];
     [self setTakePhotoButton:nil];
 
-    [self setFetchedResultsController:nil];
     self.popover = nil;
     self.selectedRecord = nil;
 
@@ -265,7 +268,7 @@
     if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
         // User is logged in
         
-        if ([self.fetchedResultsController.fetchedObjects count] > 0) {
+        if ([app.fetchedResultsController.fetchedObjects count] > 0) {
             
             [self.navigationItem setRightBarButtonItem:[self cancelButton] animated:YES];
             
@@ -636,7 +639,8 @@
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    CommonsApp *app = [CommonsApp singleton];
+    FileUpload *record = (FileUpload *)[app.fetchedResultsController objectAtIndexPath:indexPath];
     self.selectedRecord = record;
     return YES;
 }
@@ -671,20 +675,22 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (self.fetchedResultsController != nil) {
-        NSLog(@"rows: %d objects", self.fetchedResultsController.fetchedObjects.count);
+    CommonsApp *app = [CommonsApp singleton];
+
+    if (app.fetchedResultsController != nil) {
+        NSLog(@"rows: %d objects", app.fetchedResultsController.fetchedObjects.count);
        
         // If you delete the app and reinstall it, your username/password may remain on the keychain.
         // Result is that we bypass login screen but don't trigger a refresh -- and we see zero items.
         // Refreshes here if zero items.
-        if (self.fetchedResultsController.fetchedObjects.count == 0) {
+        if (app.fetchedResultsController.fetchedObjects.count == 0) {
             // Force the refresh spinner to start
             [self.refreshControl beginRefreshing];
 
             [self refreshImages];
         }
         
-        return self.fetchedResultsController.fetchedObjects.count;
+        return app.fetchedResultsController.fetchedObjects.count;
     } else {
         return 0;
     }
@@ -707,7 +713,7 @@
  */
 - (void)configureCell:(ImageListCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     CommonsApp *app = CommonsApp.singleton;
-    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    FileUpload *record = (FileUpload *)[app.fetchedResultsController objectAtIndexPath:indexPath];
     
     NSString *indexPosition = [NSString stringWithFormat:@"%d", indexPath.item + 1];
     cell.indexLabel.text = indexPosition;

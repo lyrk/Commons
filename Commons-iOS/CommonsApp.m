@@ -13,7 +13,9 @@
 #import "BrowserHelper.h"
 #import "CommonsApp.h"
 
-@implementation CommonsApp
+@implementation CommonsApp{
+    NSPersistentStore *persistentStore;
+}
 
 static CommonsApp *singleton_;
 
@@ -22,6 +24,16 @@ static CommonsApp *singleton_;
     static dispatch_once_t once;
     dispatch_once(&once, ^{ singleton_ = [[CommonsApp alloc] init]; });
     return singleton_;
+}
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.fetchedResultsController = nil;
+        persistentStore = nil;
+    }
+    return self;
 }
 
 - (NSString *)machineName
@@ -316,7 +328,9 @@ static CommonsApp *singleton_;
     NSURL *url = [NSURL fileURLWithPath:dataPath];
     
     NSError *error;
-    if ([persistentStoreCoordinator addPersistentStoreWithType: NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) {
+    
+    persistentStore = [persistentStoreCoordinator addPersistentStoreWithType: NSSQLiteStoreType configuration:nil URL:url options:nil error:&error];
+    if (persistentStore) {
         NSLog(@"Created persistent store.");
     } else {
         NSLog(@"Error creating persistent store coordinator: %@", error.localizedFailureReason);
@@ -337,11 +351,7 @@ static CommonsApp *singleton_;
 }
 
 - (void)deleteAllRecords
-{
-    // Tear down CoreData so we can quickly delete the database.
-    // Deleting hundreds of entries one by one is ssllooww.
-    self.context = nil;
-
+{    
     // Quickly delete all stored files...
     NSString *root = [self documentRootPath];
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -362,8 +372,16 @@ static CommonsApp *singleton_;
     // Delete the "uploads.sqlite" file
     delete(@"/uploads.sqlite");
 
-    // Files/dirs will be recreated in setupData.
+    // Remove the CoreData persistent store and delete its file
+    NSError *error = nil;
+    [self.context.persistentStoreCoordinator removePersistentStore:persistentStore error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:persistentStore.URL.path error:&error];
+
+    // Recreate the files/dirs and remake the persistent store
     [self setupData];
+    
+    // Reattach the fetchedResultsController to the persistantStore
+    [self fetchUploadRecords];
 }
 
 - (FileUpload *)createUploadRecord
@@ -371,30 +389,29 @@ static CommonsApp *singleton_;
     return [NSEntityDescription insertNewObjectForEntityForName:@"FileUpload" inManagedObjectContext:self.context];
 }
 
-- (NSFetchedResultsController *)fetchUploadRecords
+- (void)fetchUploadRecords
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:NO selector:nil];
     fetchRequest.sortDescriptors = @[sortDescriptor];
     
+    [self.context setPropagatesDeletesAtEndOfEvent:YES];
+    
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"FileUpload"
                                               inManagedObjectContext:self.context];
     [fetchRequest setEntity:entity];
 
-    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                                  managedObjectContext:self.context
                                                                                    sectionNameKeyPath:nil
                                                                                             cacheName:nil];
     NSError *error = nil;
-    [controller performFetch:&error];
-
-    return controller;
+    [self.fetchedResultsController performFetch:&error];
 }
 
 - (FileUpload *)firstUploadRecord
 {
-    NSFetchedResultsController *controller = [self fetchUploadRecords];
-    NSArray *objs = controller.fetchedObjects;
+    NSArray *objs = self.fetchedResultsController.fetchedObjects;
     for (FileUpload *record in objs) {
         if (record.isReadyForUpload) {
             return record;
@@ -896,8 +913,7 @@ static CommonsApp *singleton_;
     // Find the latest entry
     // fixme do this more efficiently
     NSDate *latest = nil;
-    NSFetchedResultsController *records = [self fetchUploadRecords];
-    for (FileUpload *oldRecord in records.fetchedObjects) {
+    for (FileUpload *oldRecord in self.fetchedResultsController.fetchedObjects) {
         if (oldRecord.complete.boolValue) {
             if (latest == nil || [latest compare:oldRecord.created] == NSOrderedAscending) {
                 latest = oldRecord.created;
@@ -963,7 +979,7 @@ static CommonsApp *singleton_;
 
             // fixme do this more efficiently
             // check for dupes
-            for (FileUpload *oldRecord in records.fetchedObjects) {
+            for (FileUpload *oldRecord in self.fetchedResultsController.fetchedObjects) {
                 if (oldRecord.complete.boolValue) {
                     if ([oldRecord.title isEqualToString:title]) {
                         skip = YES;
