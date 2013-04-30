@@ -250,6 +250,7 @@
 		D4E0385C16C47B6C00330A7F /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
 		D4E0385D16C47B6C00330A7F /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
 		D4E0385E16C47B6C00330A7F /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
+		D4E94E43172EBBBB0034CA6D /* messages-rif.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E94E42172EBBBB0034CA6D /* messages-rif.json */; };
 		DC0F63DF16BBB73F0017E63C /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC0F63DE16BBB73F0017E63C /* defaults.plist */; };
 		DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
 		DC606FBF16BF28FA006EFA5C /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
@@ -440,6 +441,7 @@
 		D4E0385216C46FDD00330A7F /* MWI18N.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWI18N.h; path = MWI18N/MWI18N.h; sourceTree = "<group>"; };
 		D4E0385316C46FDD00330A7F /* MWI18N.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWI18N.m; path = MWI18N/MWI18N.m; sourceTree = "<group>"; };
 		D4E0385B16C47B6C00330A7F /* messages-qqq.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-qqq.json"; path = "messages/messages-qqq.json"; sourceTree = "<group>"; };
+		D4E94E42172EBBBB0034CA6D /* messages-rif.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-rif.json"; path = "messages/messages-rif.json"; sourceTree = "<group>"; };
 		DC0F63DE16BBB73F0017E63C /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 		DC2CB56516B9BD420047977E /* MWNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWNetworkActivityIndicatorManager.h; path = mwapi/MWNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWNetworkActivityIndicatorManager.m; path = mwapi/MWNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
@@ -785,58 +787,59 @@
 		D4E0384D16C463D300330A7F /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				D48FA3231725A1AA0039F254 /* messages-en-ca.json */,
-				D48FA3241725A1AA0039F254 /* messages-ml.json */,
-				D475B285171C750D00AA81C9 /* messages-fi.json */,
-				D475B286171C750D00AA81C9 /* messages-ksh.json */,
-				D475B287171C750D00AA81C9 /* messages-pa.json */,
-				D475B288171C750D00AA81C9 /* messages-pt-br.json */,
-				D475B289171C750D00AA81C9 /* messages-te.json */,
-				D475B28A171C750D00AA81C9 /* messages-tr.json */,
-				D475B28B171C750D00AA81C9 /* messages-uk.json */,
-				D475B28C171C750D00AA81C9 /* messages-ur.json */,
-				D475B28D171C750D00AA81C9 /* messages-zh-hant.json */,
-				D4DE80DE170A3761005F7580 /* messages-ca.json */,
-				D4DE80DF170A3761005F7580 /* messages-fa.json */,
-				D4DE80E0170A3761005F7580 /* messages-hu.json */,
-				D4DE80E1170A3761005F7580 /* messages-lez.json */,
-				D4DE80E2170A3761005F7580 /* messages-nb.json */,
-				D4DE80E3170A3761005F7580 /* messages-pl.json */,
-				D4DE80E4170A3761005F7580 /* messages-ro.json */,
-				D4DE80E5170A3761005F7580 /* messages-vi.json */,
 				D4C036F21700C38000AA2537 /* messages-af.json */,
 				D4C036F31700C38000AA2537 /* messages-ar.json */,
 				D4C036F41700C38000AA2537 /* messages-ast.json */,
 				D4C036F51700C38000AA2537 /* messages-be-tarask.json */,
 				D4C036F61700C38000AA2537 /* messages-bn.json */,
 				D4C036F71700C38000AA2537 /* messages-br.json */,
+				D4DE80DE170A3761005F7580 /* messages-ca.json */,
 				D4C036F81700C38000AA2537 /* messages-cs.json */,
 				D4C036F91700C38000AA2537 /* messages-de.json */,
 				D4C036FA1700C38000AA2537 /* messages-diq.json */,
 				D4C036FB1700C38000AA2537 /* messages-dsb.json */,
+				D48FA3231725A1AA0039F254 /* messages-en-ca.json */,
+				D4E0384916C463C700330A7F /* messages-en.json */,
 				D4C036FC1700C38000AA2537 /* messages-eo.json */,
 				D4C036FD1700C38000AA2537 /* messages-es.json */,
+				D4DE80DF170A3761005F7580 /* messages-fa.json */,
+				D475B285171C750D00AA81C9 /* messages-fi.json */,
 				D4C036FE1700C38000AA2537 /* messages-fo.json */,
 				D4C036FF1700C38000AA2537 /* messages-fr.json */,
 				D4C037001700C38000AA2537 /* messages-gl.json */,
 				D4C037011700C38000AA2537 /* messages-he.json */,
 				D4C037021700C38000AA2537 /* messages-hsb.json */,
+				D4DE80E0170A3761005F7580 /* messages-hu.json */,
 				D4C037031700C38000AA2537 /* messages-ia.json */,
 				D4C037041700C38000AA2537 /* messages-it.json */,
 				D4C037051700C38000AA2537 /* messages-ja.json */,
 				D4C037061700C38000AA2537 /* messages-km.json */,
 				D4C037071700C38000AA2537 /* messages-ko.json */,
+				D475B286171C750D00AA81C9 /* messages-ksh.json */,
 				D4C037081700C38000AA2537 /* messages-lb.json */,
+				D4DE80E1170A3761005F7580 /* messages-lez.json */,
 				D4C037091700C38000AA2537 /* messages-mk.json */,
+				D48FA3241725A1AA0039F254 /* messages-ml.json */,
 				D4C0370A1700C38000AA2537 /* messages-ms.json */,
+				D4DE80E2170A3761005F7580 /* messages-nb.json */,
+				D471635216F3D54F00962205 /* messages-nl.json */,
+				D475B287171C750D00AA81C9 /* messages-pa.json */,
+				D4DE80E3170A3761005F7580 /* messages-pl.json */,
 				D4C0370B1700C38000AA2537 /* messages-ps.json */,
+				D475B288171C750D00AA81C9 /* messages-pt-br.json */,
+				D4E0385B16C47B6C00330A7F /* messages-qqq.json */,
+				D4E94E42172EBBBB0034CA6D /* messages-rif.json */,
+				D4DE80E4170A3761005F7580 /* messages-ro.json */,
 				D4C0370C1700C38000AA2537 /* messages-ru.json */,
 				D4C0370D1700C38000AA2537 /* messages-sr-ec.json */,
 				D4C0370E1700C38000AA2537 /* messages-sv.json */,
+				D475B289171C750D00AA81C9 /* messages-te.json */,
+				D475B28A171C750D00AA81C9 /* messages-tr.json */,
+				D475B28B171C750D00AA81C9 /* messages-uk.json */,
+				D475B28C171C750D00AA81C9 /* messages-ur.json */,
+				D4DE80E5170A3761005F7580 /* messages-vi.json */,
 				D4C0370F1700C38100AA2537 /* messages-zh-hans.json */,
-				D471635216F3D54F00962205 /* messages-nl.json */,
-				D4E0384916C463C700330A7F /* messages-en.json */,
-				D4E0385B16C47B6C00330A7F /* messages-qqq.json */,
+				D475B28D171C750D00AA81C9 /* messages-zh-hant.json */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -1087,6 +1090,7 @@
 				D475B296171C750D00AA81C9 /* messages-zh-hant.json in Resources */,
 				D48FA3251725A1AA0039F254 /* messages-en-ca.json in Resources */,
 				D48FA3261725A1AA0039F254 /* messages-ml.json in Resources */,
+				D4E94E43172EBBBB0034CA6D /* messages-rif.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
