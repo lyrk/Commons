@@ -43,6 +43,7 @@
 
     if (self.complete.boolValue) {
         float resolution = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? THUMBNAIL_RESOLUTION_IPAD : THUMBNAIL_RESOLUTION_NON_IPAD;
+        resolution *= [[UIScreen mainScreen] scale];
         CGSize size = CGSizeMake(resolution, resolution);
         fetch = [app fetchWikiImage:self.title size:size];
     } else {
