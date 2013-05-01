@@ -726,12 +726,18 @@ static CommonsApp *singleton_;
             [deferred reject:err];
         }];
     } else {
-        // dispatch to the event loop
-        [NSOperationQueue.mainQueue addOperationWithBlock:^() {
-            // fixme can we background decoding?
+        // Read image on a background thread
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^(void) {
+            
             UIImage *image = [UIImage imageWithContentsOfFile:[self filePath:fileName]];
-            [deferred resolve:image];
-        }];
+            
+            // Then resolve on the main thread
+            dispatch_sync(dispatch_get_main_queue(), ^(void) {
+                
+                [deferred resolve:image];
+                
+            });
+        });
     }
     return deferred.promise;
 }
