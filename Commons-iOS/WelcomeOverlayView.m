@@ -33,6 +33,10 @@
 
 -(void) showMessage:(WelcomeMessage) msg
 {
+    // Make the message fade in, but only do so if a different message is to be shown
+    // otherwise it flickers
+    if (message != msg) self.messageLabel.alpha = 0.0;
+    
     switch (msg) {
         case WELCOME_MESSAGE_WELCOME:
             // "No Uploads Found..." message
@@ -53,6 +57,19 @@
             self.hidden = YES;
             break;
     }
+    
+    // Fade in the message
+    if (message != msg) {
+        [UIView animateWithDuration:0.25
+                              delay:0.0
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             self.messageLabel.alpha = 1.0;
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }
+    
     message = msg;
     
     // Animate the drawing of the lines
