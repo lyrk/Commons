@@ -468,6 +468,9 @@
 
 - (IBAction)addMediaButtonPushed:(id)sender {
     
+    // Ensure the toggle can't be toggled again until any animation from a previous toggle has completed
+    if (buttonAnimationInProgress) return;
+    
     [self animateTakeAndChoosePhotoButtons];
 
     // Ensure the welcome overlay remains above the opaqueView
