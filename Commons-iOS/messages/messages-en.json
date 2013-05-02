@@ -56,6 +56,9 @@
     "about-source-this-app-contributors": "Contributors",
     "about-license-button": "License",
 
-    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:"
+    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:",
+    
+    "welcome-no-images-message": "No Images Found\nUse the Button Below to\nTake or Choose Photos",
+    "welcome-take-or-choose-message": "Take or Choose a Photo"
 
 }

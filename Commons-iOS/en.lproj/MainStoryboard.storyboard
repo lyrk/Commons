@@ -475,6 +475,29 @@
                                     <segue destination="pQy-cE-L1A" kind="push" id="YWa-ZO-9K3"/>
                                 </connections>
                             </button>
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" id="YPu-ML-rkl" customClass="WelcomeOverlayView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4xO-hX-THU" userLabel="Welcome Label">
+                                        <rect key="frame" x="35" y="35" width="250" height="200"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <string key="text">No images found.
+Use the button below
+to take or choose photos.</string>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="addMediaButton" destination="vMt-yt-DPQ" id="H6g-Db-yYD"/>
+                                    <outlet property="choosePhotoButton" destination="Vaw-aE-DoK" id="9Bv-yr-SCZ"/>
+                                    <outlet property="messageLabel" destination="4xO-hX-THU" id="N93-pm-YPW"/>
+                                    <outlet property="takePhotoButton" destination="YkX-Ws-keA" id="iGy-J5-Eb0"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -495,6 +518,7 @@
                         <outlet property="settingsButton" destination="H5i-2T-Kng" id="cSG-1G-erf"/>
                         <outlet property="takePhotoButton" destination="YkX-Ws-keA" id="AW3-Fd-YVl"/>
                         <outlet property="uploadButton" destination="a9S-L8-gKd" id="ggX-ws-anf"/>
+                        <outlet property="welcomeOverlayView" destination="YPu-ML-rkl" id="uti-sU-b5O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Ld-l7-aRA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -994,6 +1018,7 @@
                 <relationship kind="outlet" name="settingsButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="takePhotoButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="uploadButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="welcomeOverlayView" candidateClass="WelcomeOverlayView"/>
             </relationships>
         </class>
         <class className="NavigationController" superclassName="UINavigationController">
@@ -1003,7 +1028,9 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
             <relationships>
                 <relationship kind="action" name="debugSwitchPushed:"/>
+                <relationship kind="action" name="loggingSwitchPushed:"/>
                 <relationship kind="outlet" name="browsersTableView" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="debugInfoContainer" candidateClass="UIView"/>
                 <relationship kind="outlet" name="debugModeLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="debugModeSwitch" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="openInLabel" candidateClass="UILabel"/>
@@ -1024,6 +1051,18 @@
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
+        <class className="WelcomeOverlayView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WelcomeOverlayView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="addMediaButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="choosePhotoButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="messageLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="takePhotoButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -1031,6 +1070,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="N5A-C3-Xff"/>
+        <segue reference="YWa-ZO-9K3"/>
     </inferredMetricsTieBreakers>
 </document>

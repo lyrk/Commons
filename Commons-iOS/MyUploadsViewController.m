@@ -14,6 +14,7 @@
 #import "MWI18N/MWI18N.h"
 #import "Reachability.h"
 #import "SettingsViewController.h"
+#import "WelcomeOverlayView.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -27,6 +28,7 @@
     UITapGestureRecognizer *tapRecognizer;
     bool buttonAnimationInProgress;
     UIView *opaqueView;
+    NSUInteger thumbnailCount;
 }
 
 - (void)animateTakeAndChoosePhotoButtons;
@@ -36,18 +38,38 @@
 
 @implementation MyUploadsViewController
 
-- (id)init
+- (id)initWithCoder:(NSCoder *)coder
 {
-    self = [super init];
+    self = [super initWithCoder:coder];
     if (self) {
-        
+        thumbnailCount = 0;
     }
     return self;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (thumbnailCount != 0){
+        // Ensure welcome message is hidden if the user has images
+        [self.welcomeOverlayView showMessage:NONE];
+    }else{
+        // Else show the message if a refresh is not in progress
+        if (!self.refreshControl.isRefreshing){
+            [self.welcomeOverlayView showMessage:WELCOME];
+        }
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Shift the messageLabel down a bit on iPads
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        self.welcomeOverlayView.messageLabel.frame = CGRectOffset(self.welcomeOverlayView.messageLabel.frame, 0.0, 240.0);
+    }
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -119,8 +141,17 @@
 
 -(void)viewWillLayoutSubviews
 {
+    [super viewWillLayoutSubviews];
+    
     // Make sure when the device is rotated that the opaqueView changes dimensions accordingly
     opaqueView.frame = self.view.bounds;
+
+    // UIViews don't have access to self.interfaceOrientation, this gets around that so the
+    // welcomeOverlayView can adjust its custom drawing when it needs to
+    self.welcomeOverlayView.interfaceOrientation = self.interfaceOrientation;
+
+    // Ensure welcome overlay redraws if device orientation is changed
+    [self.welcomeOverlayView setNeedsDisplay];
 }
 
 -(void)reachabilityChange:(NSNotification*)note {
@@ -158,6 +189,12 @@
     // Ensure the iPad image picker will appear (without this if a picture is picked, then you back up and
     // to pick another one it won't let you)
     self.popover = nil;
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    // Prevent the overlay message from flickering as the view disappears
+    [self.welcomeOverlayView showMessage:NONE];
 }
 
 - (void)didReceiveMemoryWarning
@@ -391,6 +428,13 @@
             self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
         });
         
+        // Now that the refresh is done it is known whether there are images, so show the welcome message if needed
+        if (thumbnailCount == 0) {
+            [self.welcomeOverlayView showMessage:WELCOME];
+        }else{
+            [self.welcomeOverlayView showMessage:NONE];
+        }
+        
     }];
 }
 
@@ -427,6 +471,8 @@
     
     [self animateTakeAndChoosePhotoButtons];
 
+    // Ensure the welcome overlay remains above the opaqueView
+    [self.view bringSubviewToFront:self.welcomeOverlayView];
 }
 
 - (void)cancelButtonPushed:(id)sender {
@@ -496,9 +542,19 @@
                              self.takePhotoButton.enabled = [self hasCamera];
                              self.choosePhotoButton.enabled = YES;
                              buttonAnimationInProgress = NO;
-
+                             
+                             // Now that the addMediaButton was tapped, change the welcome message to
+                             // describe the take and choose photo buttons. Only do so if the user has
+                             // no images
+                             if(thumbnailCount == 0){
+                                 [self.welcomeOverlayView showMessage:CHOOSE_OR_TAKE];
+                             }
                          }];
     }else{
+        
+        // Assuming a user with no images may need a little prompting, show a welcome message
+        if(thumbnailCount == 0) [self.welcomeOverlayView showMessage:WELCOME];
+        
         // Run the "hide buttons" animation, essentially unwinding the animations above
         takePhotoButtonOriginalCenter = self.takePhotoButton.center;
         choosePhotoButtonOriginalCenter = self.choosePhotoButton.center;
@@ -676,7 +732,8 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     CommonsApp *app = [CommonsApp singleton];
-
+    NSUInteger count = 0;
+    
     if (app.fetchedResultsController != nil) {
         NSLog(@"rows: %d objects", app.fetchedResultsController.fetchedObjects.count);
        
@@ -689,11 +746,14 @@
 
             [self refreshImages];
         }
-        
-        return app.fetchedResultsController.fetchedObjects.count;
+        count = app.fetchedResultsController.fetchedObjects.count;
     } else {
-        return 0;
+        count = 0;
     }
+    
+    thumbnailCount = count;
+
+    return count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
