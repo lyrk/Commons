@@ -429,7 +429,11 @@
         
         // Now that the refresh is done it is known whether there are images, so show the welcome message if needed
         if (thumbnailCount == 0) {
-            [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
+            if (self.takePhotoButton.hidden) {
+                [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
+            }else{
+                [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHOOSE_OR_TAKE];
+            }
         }else{
             [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
         }
