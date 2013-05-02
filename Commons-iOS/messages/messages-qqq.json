@@ -53,7 +53,8 @@
     "about-source-this-app-contributors": "Title for contributors link for this app.\n{{Identical|Contributor}}",
     "about-license-button": "Title for license link for this app.\n{{Identical|License}}",
     "about-source-gradient-title": "Title for source section for the gradient button code",
-    "welcome-no-images-message": "Message presented to users when there are no images associated with their account",
-    "welcome-take-or-choose-message": "Message presented to users with no images when they tap the add image button"
+    "welcome-no-images-message": "Message presented to users when there are no uploads associated with their account",
+    "welcome-take-or-choose-message": "Message presented to users with no images when they tap the add image button",
+    "welcome-checking-message": "Message presented to users when initially retrieving list of their previous uploads"
 
 }

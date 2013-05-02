@@ -26,13 +26,18 @@
 {
     switch (msg) {
         case WELCOME:
-            // "No Images Found..." message
+            // "No Uploads Found..." message
             self.messageLabel.text = [MWMessage forKey:@"welcome-no-images-message"].text;
             self.hidden = NO;
             break;
         case CHOOSE_OR_TAKE:
             // "Take or Choose a Photo" message
             self.messageLabel.text = [MWMessage forKey:@"welcome-take-or-choose-message"].text;
+            self.hidden = NO;
+            break;
+        case CHECKING:
+            // "Checking for Previous Uploads" message
+            self.messageLabel.text = [MWMessage forKey:@"welcome-checking-message"].text;
             self.hidden = NO;
             break;
         default:
@@ -58,6 +63,7 @@ float lerp(float v0, float v1, float t)
     
     // If no message is being shown there's no need to draw anything
     if (message == NONE) return;
+    if (message == CHECKING) return;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:0.5].CGColor);

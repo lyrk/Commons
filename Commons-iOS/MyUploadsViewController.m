@@ -58,6 +58,8 @@
         // Else show the message if a refresh is not in progress
         if (!self.refreshControl.isRefreshing){
             [self.welcomeOverlayView showMessage:WELCOME];
+        }else{
+            [self.welcomeOverlayView showMessage:CHECKING];
         }
     }
 }

@@ -9,7 +9,8 @@
 typedef enum {
 	NONE = 0,
 	WELCOME = 1,
-	CHOOSE_OR_TAKE = 2
+	CHOOSE_OR_TAKE = 2,
+    CHECKING = 3
 } WelcomeMessage;
 
 @interface WelcomeOverlayView : UIView
