@@ -53,13 +53,13 @@
     
     if (thumbnailCount != 0){
         // Ensure welcome message is hidden if the user has images
-        [self.welcomeOverlayView showMessage:NONE];
+        [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
     }else{
         // Else show the message if a refresh is not in progress
         if (!self.refreshControl.isRefreshing){
-            [self.welcomeOverlayView showMessage:WELCOME];
+            [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
         }else{
-            [self.welcomeOverlayView showMessage:CHECKING];
+            [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHECKING];
         }
     }
 }
@@ -151,9 +151,6 @@
     // UIViews don't have access to self.interfaceOrientation, this gets around that so the
     // welcomeOverlayView can adjust its custom drawing when it needs to
     self.welcomeOverlayView.interfaceOrientation = self.interfaceOrientation;
-
-    // Ensure welcome overlay redraws if device orientation is changed
-    [self.welcomeOverlayView setNeedsDisplay];
 }
 
 -(void)reachabilityChange:(NSNotification*)note {
@@ -196,7 +193,7 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     // Prevent the overlay message from flickering as the view disappears
-    [self.welcomeOverlayView showMessage:NONE];
+    [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
 }
 
 - (void)didReceiveMemoryWarning
@@ -432,9 +429,9 @@
         
         // Now that the refresh is done it is known whether there are images, so show the welcome message if needed
         if (thumbnailCount == 0) {
-            [self.welcomeOverlayView showMessage:WELCOME];
+            [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
         }else{
-            [self.welcomeOverlayView showMessage:NONE];
+            [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
         }
         
     }];
@@ -549,13 +546,13 @@
                              // describe the take and choose photo buttons. Only do so if the user has
                              // no images
                              if(thumbnailCount == 0){
-                                 [self.welcomeOverlayView showMessage:CHOOSE_OR_TAKE];
+                                 [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHOOSE_OR_TAKE];
                              }
                          }];
     }else{
         
         // Assuming a user with no images may need a little prompting, show a welcome message
-        if(thumbnailCount == 0) [self.welcomeOverlayView showMessage:WELCOME];
+        if(thumbnailCount == 0) [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
         
         // Run the "hide buttons" animation, essentially unwinding the animations above
         takePhotoButtonOriginalCenter = self.takePhotoButton.center;
@@ -831,10 +828,19 @@
     }
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    // Clear out the lines as they are invalid for the new orientation
+    [self.welcomeOverlayView clearLines];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     // Update collectionview cell size for iPhone/iPod
     [self.collectionView.collectionViewLayout invalidateLayout];
+
+    // Update the lines for the new orientation
+    [self.welcomeOverlayView animateLines];
 }
 
 #pragma mark UIScrollViewDelegate methods

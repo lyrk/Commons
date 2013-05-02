@@ -7,10 +7,10 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
-	NONE = 0,
-	WELCOME = 1,
-	CHOOSE_OR_TAKE = 2,
-    CHECKING = 3
+	WELCOME_MESSAGE_NONE = 0,
+	WELCOME_MESSAGE_WELCOME = 1,
+	WELCOME_MESSAGE_CHOOSE_OR_TAKE = 2,
+    WELCOME_MESSAGE_CHECKING = 3
 } WelcomeMessage;
 
 @interface WelcomeOverlayView : UIView
@@ -24,5 +24,8 @@ typedef enum {
 @property(nonatomic) UIInterfaceOrientation interfaceOrientation;
 
 -(void) showMessage:(WelcomeMessage) msg;
+
+-(void) animateLines;
+-(void) clearLines;
 
 @end
