@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "FrigidNinja"
+        ]
+    },
     "contribs-title": "My uploads",
     "contribs-settings-button": "Settings",
     "contribs-upload-button": "Upload",
@@ -31,10 +36,5 @@
     "web-open-in": "Open in $1",
     "web-cancel": "Cancel",
     "login-title": "Account",
-    "login-button": "Login",
-    "@metadata": {
-        "authors": [
-            "FrigidNinja"
-        ]
-    }
+    "login-button": "Login"
 }

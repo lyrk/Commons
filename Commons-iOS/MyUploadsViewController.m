@@ -14,6 +14,7 @@
 #import "MWI18N/MWI18N.h"
 #import "Reachability.h"
 #import "SettingsViewController.h"
+#import "WelcomeOverlayView.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -27,26 +28,50 @@
     UITapGestureRecognizer *tapRecognizer;
     bool buttonAnimationInProgress;
     UIView *opaqueView;
+    NSUInteger thumbnailCount;
 }
 
-- (void) animateTakeAndChoosePhotoButtons;
+- (void)animateTakeAndChoosePhotoButtons;
+- (void)refreshImages;
 
 @end
 
 @implementation MyUploadsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithCoder:(NSCoder *)coder
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithCoder:coder];
     if (self) {
-        // Custom initialization
+        thumbnailCount = 0;
     }
     return self;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (thumbnailCount != 0){
+        // Ensure welcome message is hidden if the user has images
+        [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
+    }else{
+        // Else show the message if a refresh is not in progress
+        if (!self.refreshControl.isRefreshing){
+            [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
+        }else{
+            [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHECKING];
+        }
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Shift the messageLabel down a bit on iPads
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        self.welcomeOverlayView.messageLabel.frame = CGRectOffset(self.welcomeOverlayView.messageLabel.frame, 0.0, 240.0);
+    }
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -75,8 +100,8 @@
     self.choosePhotoButton.hidden = YES;
     
     CommonsApp *app = [CommonsApp singleton];
-    self.fetchedResultsController = [app fetchUploadRecords];
-    self.fetchedResultsController.delegate = self;
+    [app fetchUploadRecords];
+    app.fetchedResultsController.delegate = self;
     
     if (app.username == nil || [app.username isEqualToString:@""]) {
         [self performSegueWithIdentifier:@"SettingsSegue" sender:self];
@@ -118,8 +143,14 @@
 
 -(void)viewWillLayoutSubviews
 {
+    [super viewWillLayoutSubviews];
+    
     // Make sure when the device is rotated that the opaqueView changes dimensions accordingly
     opaqueView.frame = self.view.bounds;
+
+    // UIViews don't have access to self.interfaceOrientation, this gets around that so the
+    // welcomeOverlayView can adjust its custom drawing when it needs to
+    self.welcomeOverlayView.interfaceOrientation = self.interfaceOrientation;
 }
 
 -(void)reachabilityChange:(NSNotification*)note {
@@ -138,6 +169,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+  
+    // When the debug mode is toggled the fetchedResultsController.delegate was getting blasted for some reason
+    // This resets it
+    [CommonsApp singleton].fetchedResultsController.delegate = self;
     
     self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;
     
@@ -155,6 +190,12 @@
     self.popover = nil;
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    // Prevent the overlay message from flickering as the view disappears
+    [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -167,7 +208,6 @@
     [self setChoosePhotoButton:nil];
     [self setTakePhotoButton:nil];
 
-    [self setFetchedResultsController:nil];
     self.popover = nil;
     self.selectedRecord = nil;
 
@@ -264,7 +304,7 @@
     if (![app.username isEqualToString:@""] && ![app.password isEqualToString:@""]) {
         // User is logged in
         
-        if ([self.fetchedResultsController.fetchedObjects count] > 0) {
+        if ([app.fetchedResultsController.fetchedObjects count] > 0) {
             
             [self.navigationItem setRightBarButtonItem:[self cancelButton] animated:YES];
             
@@ -367,11 +407,42 @@
     }
 }
 
-- (IBAction)refreshButtonPushed:(id)sender {
+- (void)refreshImages {
+    // Cause the images to be refreshed and the refresh control title to be updated to
+    // say "Refreshing..." during said refreshiness
+    
     MWPromise *refresh = [CommonsApp.singleton refreshHistory];
-    [refresh done:^(id arg) {
+    
+    // Make refresh control say "Refreshing..."
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refreshing"].text];
+    [refresh always:^(id arg) {
         [self.refreshControl endRefreshing];
+        
+        // Wait just a second before switching back to the "Pull to refresh" text so the refresh control has
+        // time to hide itself first. Otherwise it just looks a bit odd to see it flash to the "Pull to
+        // refresh" text just before it hides.
+        int64_t delayInSeconds = 1.0;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+            // Executed on the main queue after delay
+            self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
+        });
+        
+        // Now that the refresh is done it is known whether there are images, so show the welcome message if needed
+        if (thumbnailCount == 0) {
+            if (self.takePhotoButton.hidden) {
+                [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
+            }else{
+                [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHOOSE_OR_TAKE];
+            }
+        }else{
+            [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
+        }
+        
     }];
+}
+
+- (IBAction)refreshButtonPushed:(id)sender {
+    [self refreshImages];
 }
 
 - (IBAction)settingsButtonPushed:(id)sender {
@@ -401,8 +472,13 @@
 
 - (IBAction)addMediaButtonPushed:(id)sender {
     
+    // Ensure the toggle can't be toggled again until any animation from a previous toggle has completed
+    if (buttonAnimationInProgress) return;
+    
     [self animateTakeAndChoosePhotoButtons];
 
+    // Ensure the welcome overlay remains above the opaqueView
+    [self.view bringSubviewToFront:self.welcomeOverlayView];
 }
 
 - (void)cancelButtonPushed:(id)sender {
@@ -472,9 +548,19 @@
                              self.takePhotoButton.enabled = [self hasCamera];
                              self.choosePhotoButton.enabled = YES;
                              buttonAnimationInProgress = NO;
-
+                             
+                             // Now that the addMediaButton was tapped, change the welcome message to
+                             // describe the take and choose photo buttons. Only do so if the user has
+                             // no images
+                             if(thumbnailCount == 0){
+                                 [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHOOSE_OR_TAKE];
+                             }
                          }];
     }else{
+        
+        // Assuming a user with no images may need a little prompting, show a welcome message
+        if(thumbnailCount == 0) [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
+        
         // Run the "hide buttons" animation, essentially unwinding the animations above
         takePhotoButtonOriginalCenter = self.takePhotoButton.center;
         choosePhotoButtonOriginalCenter = self.choosePhotoButton.center;
@@ -615,7 +701,8 @@
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    CommonsApp *app = [CommonsApp singleton];
+    FileUpload *record = (FileUpload *)[app.fetchedResultsController objectAtIndexPath:indexPath];
     self.selectedRecord = record;
     return YES;
 }
@@ -650,12 +737,29 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    if (self.fetchedResultsController != nil) {
-        NSLog(@"rows: %d objects", self.fetchedResultsController.fetchedObjects.count);
-        return self.fetchedResultsController.fetchedObjects.count;
+    CommonsApp *app = [CommonsApp singleton];
+    NSUInteger count = 0;
+    
+    if (app.fetchedResultsController != nil) {
+        NSLog(@"rows: %d objects", app.fetchedResultsController.fetchedObjects.count);
+       
+        // If you delete the app and reinstall it, your username/password may remain on the keychain.
+        // Result is that we bypass login screen but don't trigger a refresh -- and we see zero items.
+        // Refreshes here if zero items.
+        if (app.fetchedResultsController.fetchedObjects.count == 0) {
+            // Force the refresh spinner to start
+            [self.refreshControl beginRefreshing];
+
+            [self refreshImages];
+        }
+        count = app.fetchedResultsController.fetchedObjects.count;
     } else {
-        return 0;
+        count = 0;
     }
+    
+    thumbnailCount = count;
+
+    return count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -675,7 +779,7 @@
  */
 - (void)configureCell:(ImageListCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     CommonsApp *app = CommonsApp.singleton;
-    FileUpload *record = (FileUpload *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+    FileUpload *record = (FileUpload *)[app.fetchedResultsController objectAtIndexPath:indexPath];
     
     NSString *indexPosition = [NSString stringWithFormat:@"%d", indexPath.item + 1];
     cell.indexLabel.text = indexPosition;
@@ -694,13 +798,16 @@
         cell.image.image = nil;
         [fetchThumb done:^(UIImage *image) {
             if ([cell.title isEqualToString:title]) {
-                // provide a smooth image transition
-                CATransition *transition = [CATransition animation];
-                transition.duration = 0.25f;
-                transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-                transition.type = kCATransitionFade;
-                [cell.image.layer addAnimation:transition forKey:nil];
-
+                
+                if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
+                    // Smooth transition (disabled on iPad for better performance - iPad shows many more images at once)
+                    CATransition *transition = [CATransition animation];
+                    transition.duration = 0.10f;
+                    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+                    transition.type = kCATransitionFade;
+                    [cell.image.layer addAnimation:transition forKey:nil];
+                }
+                
                 cell.image.image = image;
             }
         }];
@@ -728,10 +835,19 @@
     }
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    // Clear out the lines as they are invalid for the new orientation
+    [self.welcomeOverlayView clearLines];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     // Update collectionview cell size for iPhone/iPod
     [self.collectionView.collectionViewLayout invalidateLayout];
+
+    // Update the lines for the new orientation
+    [self.welcomeOverlayView animateLines];
 }
 
 #pragma mark UIScrollViewDelegate methods

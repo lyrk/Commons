@@ -36,5 +36,15 @@
     "web-open-in": "\u5728$1\u4e2d\u6253\u958b",
     "web-cancel": "\u53d6\u6d88",
     "login-title": "\u7528\u6236",
-    "login-button": "\u767b\u5165"
+    "login-button": "\u767b\u5165",
+    "about-title": "\u95dc\u65bc",
+    "about-app-version-label": "\u7248\u672c $1",
+    "about-commons-button": "\u7dad\u57fa\u5171\u4eab\u8cc7\u6e90",
+    "about-bugs-button": "\u7a0b\u5f0f\u932f\u8aa4\u8ddf\u8e2a\u5de5\u5177",
+    "about-privacy-button": "\u96b1\u79c1\u653f\u7b56",
+    "about-source-button": "\u4f86\u6e90",
+    "about-source-this-app-title": "\u6b64iOS\u7a0b\u5f0f\uff1a",
+    "about-source-this-app-contributors": "\u8ca2\u737b\u8005",
+    "about-license-button": "\u6388\u6b0a",
+    "about-source-gradient-title": "Jeff LaMarche\u7684\u6f38\u8b8aUI\u6309\u9215\uff1a"
 }

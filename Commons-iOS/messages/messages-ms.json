@@ -32,6 +32,19 @@
     "details-description-label": "Keterangan",
     "details-description-placeholder": "Wajib",
     "details-license-label": "Lesen",
+    "details-hide-keyboard": "Sorokkan Papan Kekunci",
     "web-open-in": "Buka di $1",
-    "web-cancel": "Batalkan"
+    "web-cancel": "Batalkan",
+    "login-title": "Akaun",
+    "login-button": "Log masuk",
+    "about-title": "Perihal",
+    "about-app-version-label": "Versi $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Pengesan Pepijat",
+    "about-privacy-button": "Dasar Privasi",
+    "about-source-button": "Sumber",
+    "about-source-this-app-title": "Aplikasi Ini (iOS):",
+    "about-source-this-app-contributors": "Penyumbang",
+    "about-license-button": "Lesen",
+    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:"
 }

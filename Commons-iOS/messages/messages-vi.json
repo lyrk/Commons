@@ -33,9 +33,19 @@
     "details-description-label": "Mi\u00eau t\u1ea3",
     "details-description-placeholder": "B\u1eaft bu\u1ed9c",
     "details-license-label": "Gi\u1ea5y ph\u00e9p",
-    "details-hide-keyboard": "\u1ea8n b\u00e0n ph\u00edm",
+    "details-hide-keyboard": "\u1ea8n B\u00e0n ph\u00edm",
     "web-open-in": "M\u1edf trong $1",
     "web-cancel": "H\u1ee7y b\u1ecf",
     "login-title": "T\u00e0i kho\u1ea3n",
-    "login-button": "\u0110\u0103ng nh\u1eadp"
+    "login-button": "\u0110\u0103ng nh\u1eadp",
+    "about-title": "Gi\u1edbi thi\u1ec7u",
+    "about-app-version-label": "Phi\u00ean b\u1ea3n $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Trang B\u00e1o c\u00e1o L\u1ed7i",
+    "about-privacy-button": "Quy \u0111\u1ecbnh Quy\u1ec1n Ri\u00eang t\u01b0",
+    "about-source-button": "M\u00e3 ngu\u1ed3n",
+    "about-source-this-app-title": "\u1ee8ng d\u1ee5ng n\u00e0y (iOS):",
+    "about-source-this-app-contributors": "Nh\u1eefng Ng\u01b0\u1eddi \u0110\u00f3ng g\u00f3p",
+    "about-license-button": "Gi\u1ea5y ph\u00e9p",
+    "about-source-gradient-title": "Gradient UIButton c\u1ee7a Jeff LaMarche"
 }

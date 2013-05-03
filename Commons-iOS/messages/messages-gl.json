@@ -36,5 +36,14 @@
     "web-open-in": "Abrir en $1",
     "web-cancel": "Cancelar",
     "login-title": "Conta",
-    "login-button": "Rexistro"
+    "login-button": "Rexistro",
+    "about-title": "Acerca de",
+    "about-app-version-label": "Versi\u00f3n $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Seguimento de erros",
+    "about-privacy-button": "Pol\u00edtica de protecci\u00f3n de datos",
+    "about-source-button": "Fonte",
+    "about-source-this-app-title": "Esta aplicaci\u00f3n (iOS):",
+    "about-source-this-app-contributors": "Colaboradores",
+    "about-license-button": "Licenza"
 }

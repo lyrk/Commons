@@ -36,5 +36,14 @@
     "web-open-in": "Met $1 opmaache",
     "web-cancel": "Oph\u00fcre",
     "login-title": "Zohjang",
-    "login-button": "Enlogge"
+    "login-button": "Enlogge",
+    "about-title": "\u00d6vver dat Projramm heh",
+    "about-app-version-label": "V\u00e4sjohn $1",
+    "about-commons-button": "Wikkimedija Commons",
+    "about-bugs-button": "F\u00e4hler m\u00e4lde",
+    "about-privacy-button": "R\u00e4\u00e4jelle f\u00f6r der Daateschotz un de Jeheimhaldong",
+    "about-source-button": "Projramm-Qw\u00e4ll",
+    "about-source-this-app-title": "Heh dat Projramm (iOS):",
+    "about-source-this-app-contributors": "Schriiver",
+    "about-license-button": "Lez\u00e4nz"
 }

@@ -10,6 +10,9 @@
 #import "MWI18N/MWMessage.h"
 #import "BrowserHelper.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MyUploadsViewController.h"
+#import "AppDelegate.h"
+#import "LoadingIndicator.h"
 
 #pragma mark - Defines
 
@@ -28,6 +31,9 @@
 -(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell;
 -(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius;
 -(void)moveSelectedBrowserToTop;
+-(MyUploadsViewController *) getMyUploadsViewController;
+
+@property (weak, nonatomic) AppDelegate *appDelegate;
 
 @end
 
@@ -59,7 +65,10 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-	
+	    
+    // Get the app delegate so the loading indicator may be accessed
+	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
 	self.debugModeLabel.text = [MWMessage forKey:@"settings-debug-label"].text;
     self.navigationItem.title = [MWMessage forKey:@"settings-title"].text;
     self.openInLabel.text = [MWMessage forKey:@"settings-open-links-label"].text;
@@ -115,6 +124,37 @@
     
     // Set the newly created shape layer as the mask for the image view's layer
     view.layer.mask = maskLayer;
+}
+
+-(void)viewDidLayoutSubviews
+{
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
+        // If orientation is landscape...
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+            [self scrollToBottomOfSettingsContainer];
+        }else{
+            [self scrollToBottomOfDebugInfoContainer];
+        }
+    }else{
+        // If orientation is portrait just scroll to the top
+        [self scrollToTopOfSettingsContainer];
+    }
+}
+
+-(void)scrollToBottomOfDebugInfoContainer
+{
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.debugInfoContainer.frame.origin.y + self.debugInfoContainer.frame.size.height + 10, 1, 1) animated:YES];
+}
+
+-(void)scrollToBottomOfSettingsContainer
+{
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
+}
+
+-(void)scrollToTopOfSettingsContainer
+{
+    // Scroll to the top of the settingsContainer
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 
 #pragma mark - Browser Selection Table View
@@ -249,11 +289,49 @@
 
 #pragma mark - Debug Switch
 
+-(MyUploadsViewController *) getMyUploadsViewController
+{
+    for (UIViewController *vc in self.navigationController.viewControllers) {
+        if ([vc isMemberOfClass:[MyUploadsViewController class]]) {
+            return (MyUploadsViewController *)vc;
+        }
+    }
+    return nil;
+}
+
 - (IBAction)debugSwitchPushed:(id)sender
 {
     app.debugMode = self.debugModeSwitch.on;
     [self setDebugModeLabel];
-    [app refreshHistory];
+    
+    [app deleteAllRecords];
+
+    // Show the loading indicator wheel
+    // Needed because the user may have a large list of images and if they back up to the MyUploads page
+    // before the data is in place for the MyUploads page it will crash
+    [self.appDelegate.loadingIndicator show];
+    
+    MWPromise *refresh = [app refreshHistory];
+    [refresh always:^(id arg) {
+        // Show the loading indicator wheel
+        [self.appDelegate.loadingIndicator hide];
+        
+        // Reset the fetchedResultsController delegate
+        app.fetchedResultsController.delegate = [self getMyUploadsViewController];
+    }];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    MyUploadsViewController *myUploadsViewController = [self getMyUploadsViewController];
+    
+    [app fetchUploadRecords];
+    
+    [myUploadsViewController.collectionView reloadData];
+    
+    [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)setDebugModeLabel

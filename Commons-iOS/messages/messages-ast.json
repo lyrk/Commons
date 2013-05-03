@@ -36,5 +36,15 @@
     "web-open-in": "Abrir en $1",
     "web-cancel": "Encaboxar",
     "login-title": "Cuenta",
-    "login-button": "Entrar"
+    "login-button": "Entrar",
+    "about-title": "Tocante a",
+    "about-app-version-label": "Versi\u00f3n $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Siguimientu de fallos",
+    "about-privacy-button": "Pol\u00edtica de proteici\u00f3n de datos",
+    "about-source-button": "Fonte",
+    "about-source-this-app-title": "Esta App (iOS):",
+    "about-source-this-app-contributors": "Collaboradores",
+    "about-license-button": "Llicencia",
+    "about-source-gradient-title": "UIButton dil\u00edu de Jeff LaMarche:"
 }

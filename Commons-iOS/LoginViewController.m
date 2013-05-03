@@ -301,12 +301,12 @@
                 app.password = password;
                 [app saveCredentials];
                 [app deleteAllRecords];
-                [app refreshHistory];
                 
-                // Dismiss view
-                
-				//login success!
-				[self showMyUploadsVC];
+                MWPromise *refresh = [app refreshHistory];
+                [refresh always:^(id arg) {
+                    // Login success! Show MyUploads view
+                    [self showMyUploadsVC];
+                }];
                 
             } else {
                 // Credentials invalid

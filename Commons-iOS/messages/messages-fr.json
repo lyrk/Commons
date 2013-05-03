@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Gomoko",
+            "Jean-Fr\u00e9d\u00e9ric",
             "Metroitendo"
         ]
     },
@@ -12,7 +13,7 @@
     "contribs-state-queued": "En file d\u2019attente",
     "contribs-state-uploading": "T\u00e9l\u00e9chargement en cours",
     "contribs-refresh": "Tirer pour rafra\u00eechir",
-    "error-upload-failed": "\u00c9chec du t\u00e9l\u00e9chargement!",
+    "error-upload-failed": "\u00c9chec du t\u00e9l\u00e9chargement !",
     "error-dismiss": "Rejeter",
     "error-nologin-title": "Oh oh !",
     "error-nologin-text": "Vous devez vous connecter avant de pouvoir t\u00e9l\u00e9charger des photos",
@@ -37,5 +38,15 @@
     "web-open-in": "Ouvert en $1",
     "web-cancel": "Annuler",
     "login-title": "Compte",
-    "login-button": "Se connecter"
+    "login-button": "Se connecter",
+    "about-title": "\u00c0 propos",
+    "about-app-version-label": "Version $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Suivi des probl\u00e8mes",
+    "about-privacy-button": "Politique de confidentialit\u00e9",
+    "about-source-button": "Source",
+    "about-source-this-app-title": "Cette application (iOS) :",
+    "about-source-this-app-contributors": "Contributeurs",
+    "about-license-button": "Licence",
+    "about-source-gradient-title": "UIButton inclin\u00e9 de Jeff LaMarche :"
 }

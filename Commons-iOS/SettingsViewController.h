@@ -11,6 +11,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *debugModeLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *debugModeSwitch;
+@property (weak, nonatomic) IBOutlet UIView *debugInfoContainer;
 @property (weak, nonatomic) IBOutlet UILabel *uploadTargetLabel;
 @property (weak, nonatomic) IBOutlet UILabel *openInLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;

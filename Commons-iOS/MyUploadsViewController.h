@@ -10,9 +10,10 @@
 #import <CoreData/CoreData.h>
 #import "FileUpload.h"
 
+@class WelcomeOverlayView;
+
 @interface MyUploadsViewController : UIViewController <UINavigationControllerDelegate,UIImagePickerControllerDelegate, NSFetchedResultsControllerDelegate, UIPopoverControllerDelegate, UICollectionViewDelegate, UICollectionViewDataSource,UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 @property (strong, nonatomic) UIPopoverController *popover;
@@ -24,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *takePhotoButton;
 @property (weak, nonatomic) IBOutlet UIButton *choosePhotoButton;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet WelcomeOverlayView *welcomeOverlayView;
 
 - (IBAction)choosePhotoButtonPushed:(id)sender;
 - (IBAction)takePhotoButtonPushed:(id)sender;

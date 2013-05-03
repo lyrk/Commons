@@ -6,6 +6,7 @@
     "contribs-state-queued": "Queued",
     "contribs-state-uploading": "Uploading",
     "contribs-refresh": "Pull to refresh",
+    "contribs-refreshing": "Refreshing...",
     
     "error-upload-failed": "Upload failed!",
     "error-upload-cancelled": "Upload cancelled",
@@ -58,6 +59,10 @@
     "about-license-button": "License",
 
     "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:",
+
+    "welcome-no-images-message": "No Uploads Found\nUse the Button Below to\nTake or Choose Photos",
+    "welcome-take-or-choose-message": "Take or Choose a Photo",
+    "welcome-checking-message": "Checking for Previous\nUploads",
 
     "license-title": "License",
     "license-intro": "You agree to license your upload under the selected terms:",

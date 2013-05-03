@@ -23,6 +23,9 @@
 @dynamic thumbnailURL;
 @dynamic fileSize;
 
+#define THUMBNAIL_RESOLUTION_IPAD 256.0f
+#define THUMBNAIL_RESOLUTION_NON_IPAD 320.0f
+
 - (NSString *)prettySize
 {
     float megs = (float)self.fileSize.integerValue / (1024.0f * 1024.0f);
@@ -40,7 +43,9 @@
     MWPromise *fetch;
 
     if (self.complete.boolValue) {
-        CGSize size = CGSizeMake(640.0f, 640.0f); // hmm
+        float resolution = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? THUMBNAIL_RESOLUTION_IPAD : THUMBNAIL_RESOLUTION_NON_IPAD;
+        resolution *= [[UIScreen mainScreen] scale];
+        CGSize size = CGSizeMake(resolution, resolution);
         fetch = [app fetchWikiImage:self.title size:size];
     } else {
         // Use the pre-uploaded file as the medium thumbnail

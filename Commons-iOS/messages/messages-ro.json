@@ -32,6 +32,19 @@
     "details-description-label": "Descriere",
     "details-description-placeholder": "Necesar",
     "details-license-label": "Licen\u021b\u0103",
+    "details-hide-keyboard": "Ascunde tastatura",
     "web-open-in": "Deschide cu $1",
-    "web-cancel": "Revocare"
+    "web-cancel": "Revocare",
+    "login-title": "Cont",
+    "login-button": "Autentificare",
+    "about-title": "Despre",
+    "about-app-version-label": "Versiunea $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Urm\u0103ritor de erori",
+    "about-privacy-button": "Politica de confiden\u021bialitate",
+    "about-source-button": "Surs\u0103",
+    "about-source-this-app-title": "Aceast\u0103 aplica\u021bie (iOS):",
+    "about-source-this-app-contributors": "Contribuitori",
+    "about-license-button": "Licen\u021b\u0103",
+    "about-source-gradient-title": "UIButton-ul \u00een degrade al lui Jeff LaMarche:"
 }
