@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CommonsApp.h"
 
 @interface CategorySearchTableViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property (strong) MWApi *api;
+@property (strong) NSArray *categories;
 
 @end

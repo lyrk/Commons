@@ -8,6 +8,8 @@
 
 #import "CategorySearchTableViewController.h"
 
+#define SEARCH_CATS_LIMIT 25
+
 @interface CategorySearchTableViewController ()
 
 @end
@@ -26,7 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -44,24 +46,33 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
+    if (section == 0) {
+        if (self.categories) {
+            return self.categories.count;
+        }
+    }
     return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    [tableView registerClass: [UITableViewCell class] forCellReuseIdentifier: @"CatSelectorCell"];
+    
+    static NSString *CellIdentifier = @"CatSelectorCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+    if (indexPath.section == 0) {
+        NSString *cat = self.categories[indexPath.row];
+        cell.textLabel.text = cat;
+    }
     
     return cell;
 }
@@ -116,6 +127,41 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+#pragma mark - Search bar delegate
+
+//- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+-(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchText
+{
+    CommonsApp *app = CommonsApp.singleton;
+
+    // cancel live search
+    if (self.api != nil) {
+        [self.api cancelCurrentRequest];
+    }
+
+    self.api = [app startApi];
+    MWPromise *fetch = [self.api getRequest:@{
+        @"action": @"query",
+        @"list": @"allcategories",
+        @"acprefix": searchText,
+        @"aclimit": @SEARCH_CATS_LIMIT
+    }];
+    [fetch done:^(NSDictionary *result) {
+        NSMutableArray *categories = [[NSMutableArray alloc] init];
+        if (result[@"query"]) {
+            for (NSDictionary *entry in result[@"query"][@"allcategories"]) {
+                NSString *cat = entry[@"*"]; // yay crappy result formats
+                [categories addObject:cat];
+            }
+        }
+        NSLog(@"%@", categories);
+        self.categories = [NSArray arrayWithArray:categories];
+        [self.tableView reloadData];
+        [self.searchDisplayController.searchResultsTableView reloadData];
+    }];
+    return NO; // async...
 }
 
 @end

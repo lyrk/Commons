@@ -762,16 +762,16 @@ to take or choose photos.</string>
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="Wei-1B-LRi">
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Search categories" id="0kF-Fh-Cbc">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <textInputTraits key="textInputTraits"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             <connections>
-                                <outlet property="delegate" destination="wdV-pe-EgK" id="xwA-gp-Syb"/>
+                                <outlet property="delegate" destination="wdV-pe-EgK" id="plF-EO-R8g"/>
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategorySelectorCell" textLabel="nOA-cR-Gwf" style="IBUITableViewCellStyleDefault" id="2z7-6z-YdF">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="CategorySelectorCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CatSelectorCell" textLabel="nOA-cR-Gwf" style="IBUITableViewCellStyleDefault" id="2z7-6z-YdF">
                                 <rect key="frame" x="0.0" y="66" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -797,18 +797,18 @@ to take or choose photos.</string>
                     </tableView>
                     <navigationItem key="navigationItem" title="Add category" id="QFt-XP-aPt"/>
                     <connections>
-                        <outlet property="searchBar" destination="Wei-1B-LRi" id="Y7M-9b-cV3"/>
-                        <outlet property="searchDisplayController" destination="xQ2-7v-VGr" id="tOE-gl-Gsf"/>
+                        <outlet property="searchBar" destination="0kF-Fh-Cbc" id="P6U-GE-bkP"/>
+                        <outlet property="searchDisplayController" destination="bnS-51-jmn" id="87V-a8-Dgv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GIU-jN-YY4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="xQ2-7v-VGr">
+                <searchDisplayController id="bnS-51-jmn">
                     <connections>
-                        <outlet property="delegate" destination="wdV-pe-EgK" id="KbI-xQ-hfX"/>
-                        <outlet property="searchBar" destination="Wei-1B-LRi" id="XeK-ba-6Tl"/>
-                        <outlet property="searchContentsController" destination="wdV-pe-EgK" id="JGS-7V-67N"/>
-                        <outlet property="searchResultsDataSource" destination="wdV-pe-EgK" id="yCQ-s6-Mp6"/>
-                        <outlet property="searchResultsDelegate" destination="wdV-pe-EgK" id="QDE-Ec-9rx"/>
+                        <outlet property="delegate" destination="wdV-pe-EgK" id="byd-TE-aGQ"/>
+                        <outlet property="searchBar" destination="0kF-Fh-Cbc" id="r1R-qV-c2a"/>
+                        <outlet property="searchContentsController" destination="wdV-pe-EgK" id="IrG-jh-iWX"/>
+                        <outlet property="searchResultsDataSource" destination="wdV-pe-EgK" id="wFM-yT-b1C"/>
+                        <outlet property="searchResultsDelegate" destination="wdV-pe-EgK" id="y6y-EP-y0t"/>
                     </connections>
                 </searchDisplayController>
             </objects>
@@ -1141,6 +1141,7 @@ to take or choose photos.</string>
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CategorySearchTableViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
+                <relationship kind="outlet" name="searchDisplayController" candidateClass="UISearchDisplayController"/>
             </relationships>
         </class>
         <class className="DetailTableViewController" superclassName="UITableViewController">
