@@ -186,6 +186,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
+    self.categoryList = [self.selectedRecord.categoryList mutableCopy];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning

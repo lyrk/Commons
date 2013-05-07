@@ -34,7 +34,6 @@
     
     UINib *cellNib = [UINib nibWithNibName:@"CategoryCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"CategoryCell"];
-    [self.searchDisplayController.searchResultsTableView registerNib:cellNib forCellReuseIdentifier:@"CategoryCell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -127,9 +126,14 @@
     }
 }
 
-#pragma mark - Search bar delegate
+#pragma mark - Search display controller delegate
 
-//- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
+{
+    UINib *cellNib = [UINib nibWithNibName:@"CategoryCell" bundle:nil];
+    [tableView registerNib:cellNib forCellReuseIdentifier:@"CategoryCell"];
+}
+
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchText
 {
     CommonsApp *app = CommonsApp.singleton;
