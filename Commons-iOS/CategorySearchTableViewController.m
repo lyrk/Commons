@@ -153,6 +153,8 @@
         [self.api cancelCurrentRequest];
     }
 
+    // fixme: this search is case-sensitive, which is an issue!
+    // it also turns up categories that should be empty... not sure how to best improve this.
     self.api = [app startApi];
     MWPromise *fetch = [self.api getRequest:@{
         @"action": @"query",
