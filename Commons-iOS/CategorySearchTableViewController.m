@@ -34,6 +34,10 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+    UINib *cellNib = [UINib nibWithNibName:@"CategoryCell" bundle:nil];
+    [self.tableView registerNib:cellNib forCellReuseIdentifier:@"CategoryCell"];
+    [self.searchDisplayController.searchResultsTableView registerNib:cellNib forCellReuseIdentifier:@"CategoryCell"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -63,9 +67,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView registerClass: [UITableViewCell class] forCellReuseIdentifier: @"CatSelectorCell"];
-    
-    static NSString *CellIdentifier = @"CatSelectorCell";
+    static NSString *CellIdentifier = @"CategoryCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
@@ -127,6 +129,16 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0 && indexPath.row < self.categories.count) {
+        NSString *cat = self.categories[indexPath.row];
+        NSString *encCat = [cat stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *link = [NSString stringWithFormat:@"https://commons.m.wikimedia.org/wiki/Category:%@", encCat];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
+    }
 }
 
 #pragma mark - Search bar delegate

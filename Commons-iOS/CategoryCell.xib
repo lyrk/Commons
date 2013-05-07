@@ -95,7 +95,6 @@
 				<reference key="NSNextKeyView" ref="790834041"/>
 				<string key="IBUIRestorationIdentifier"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-				<int key="IBUISelectionStyle">0</int>
 				<int key="IBUIAccessoryType">2</int>
 				<bool key="IBUIHidesAccessoryWhenEditing">NO</bool>
 				<int key="IBUIIndentationLevel">1</int>
