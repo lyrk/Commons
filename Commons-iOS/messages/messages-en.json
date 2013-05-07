@@ -67,6 +67,13 @@
     "license-title": "License",
     "license-intro": "You agree to license your upload under the selected terms:",
     "license-details-intro": "More information",
-    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing"
+    "license-details-label": "Read about licensing",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing",
 
+    "catdetail-title": "Category",
+    "catdetail-intro": "Categories help make your images more discoverable on Wikimedia Commons.",
+    "catdetail-remove-label": "Remove \"$1\"",
+    "catdetail-info-intro": "More information",
+    "catdetail-info-label": "Read about categories",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
 }

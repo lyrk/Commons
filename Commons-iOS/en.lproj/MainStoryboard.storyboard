@@ -752,7 +752,76 @@ to take or choose photos.</string>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RC4-Hr-xvk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="943" y="1756"/>
+            <point key="canvasLocation" x="1073" y="1758"/>
+        </scene>
+        <!--Category Detail Table View Controller - Category-->
+        <scene sceneID="RaT-cO-bUz">
+            <objects>
+                <tableViewController id="AjB-Cd-w2F" customClass="CategoryDetailTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="singleLineEtched" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="a5x-nr-cnE">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection headerTitle="Categories help make your images more discoverable on Wikimedia Commons." id="EEU-pe-xWl">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="1Ns-qr-BcF" style="IBUITableViewCellStyleDefault" id="rpy-Zr-JiE">
+                                        <rect key="frame" x="0.0" y="88" width="320" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Remove &quot;$1&quot;" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1Ns-qr-BcF">
+                                                    <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection headerTitle="More information" id="JuV-W8-1bX">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="gLL-eN-7We" style="IBUITableViewCellStyleDefault" id="8eA-1v-OGo">
+                                        <rect key="frame" x="0.0" y="180" width="320" height="46"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Read about categories" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gLL-eN-7We">
+                                                    <rect key="frame" x="10" y="0.0" width="280" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="AjB-Cd-w2F" id="wwm-Dl-dWf"/>
+                            <outlet property="delegate" destination="AjB-Cd-w2F" id="5xw-Po-KAb"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Category" id="DDN-Ci-cqL"/>
+                    <connections>
+                        <outlet property="moreLabel" destination="gLL-eN-7We" id="dZ5-2q-uHg"/>
+                        <outlet property="removeLabel" destination="1Ns-qr-BcF" id="sZc-cZ-riT"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cZD-IK-q1z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="248" y="2025"/>
         </scene>
         <!--Category Search Table View Controller - Add category-->
         <scene sceneID="pQt-gg-EkQ">
@@ -812,7 +881,7 @@ to take or choose photos.</string>
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="558" y="2023"/>
+            <point key="canvasLocation" x="688" y="2025"/>
         </scene>
         <!--Detail Table View Controller - Photo Details-->
         <scene sceneID="unP-Te-9L6">
@@ -960,6 +1029,9 @@ to take or choose photos.</string>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <segue destination="AjB-Cd-w2F" kind="push" identifier="CategoryDetailSegue" id="Mnw-bG-qcR"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" restorationIdentifier="" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="AddCategoryCell" textLabel="Ra7-lk-ega" style="IBUITableViewCellStyleDefault" id="rW4-8P-HH7">
                                         <rect key="frame" x="0.0" y="643" width="320" height="45"/>
@@ -1135,6 +1207,13 @@ to take or choose photos.</string>
                 <relationship kind="outlet" name="thisAppLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="thisAppLicenseButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="thisAppSourceButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="CategoryDetailTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/CategoryDetailTableViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="moreLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="removeLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="CategorySearchTableViewController" superclassName="UITableViewController">

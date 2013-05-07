@@ -72,7 +72,7 @@
 
 - (NSArray *)categoryList
 {
-    if (self.categories == nil) {
+    if (self.categories == nil || self.categories.length == 0) {
         return @[];
     } else {
         return [self.categories componentsSeparatedByString: @"|"];

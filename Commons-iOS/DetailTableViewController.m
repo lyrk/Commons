@@ -13,6 +13,7 @@
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
 #import "CategorySearchTableViewController.h"
+#import "CategoryDetailTableViewController.h"
 
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
@@ -298,7 +299,10 @@
     if (indexPath.section == 0) {
         // Static section already handled by storyboard segues.
     } else if (indexPath.section == 1) {
-        if (indexPath.row == self.categoryList.count) {
+        if (indexPath.row < self.categoryList.count) {
+            // Segue isn't connected due to nib fun. :P
+            [self performSegueWithIdentifier: @"CategoryDetailSegue" sender: self];
+        } else {
             // 'Add category...' cell button
             // Segue isn't connected due to nib fun. :P
             [self performSegueWithIdentifier: @"AddCategorySegue" sender: self];
@@ -422,6 +426,12 @@
         if (self.selectedRecord) {
             CategorySearchTableViewController *view = [segue destinationViewController];
             view.selectedRecord = self.selectedRecord;
+        }
+    } else if ([segue.identifier isEqualToString:@"CategoryDetailSegue"]) {
+        if (self.selectedRecord) {
+            CategoryDetailTableViewController *view = [segue destinationViewController];
+            view.selectedRecord = self.selectedRecord;
+            view.category = self.categoryList[self.tableView.indexPathForSelectedRow.row];
         }
     }
     
