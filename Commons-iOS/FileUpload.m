@@ -79,4 +79,40 @@
     }
 }
 
+- (void)addCategory:(NSString *)category
+{
+    NSMutableArray *cats = [self.categoryList mutableCopy];
+    BOOL alreadyHave = NO;
+
+    for (NSString *cat in cats) {
+        if ([cat isEqualToString:category]) {
+            alreadyHave = YES;
+        }
+    }
+    
+    if (!alreadyHave) {
+        [cats addObject:category];
+        self.categories = [cats componentsJoinedByString:@"|"];
+    }
+}
+
+- (void)removeCategory:(NSString *)category
+{
+    NSMutableArray *cats = [self.categoryList mutableCopy];
+    NSInteger index = -1;
+    
+    for (NSInteger i = 0; i < cats.count; i++) {
+        NSString *cat = cats[i];
+        if ([cat isEqualToString:category]) {
+            index = i;
+        }
+    }
+    
+    if (index > -1) {
+        [cats removeObjectAtIndex:index];
+        self.categories = [cats componentsJoinedByString:@"|"];
+    }
+}
+
+
 @end

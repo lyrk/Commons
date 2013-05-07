@@ -30,4 +30,7 @@
 - (BOOL)isReadyForUpload;
 - (NSArray *)categoryList;
 
+- (void)addCategory:(NSString *)category;
+- (void)removeCategory:(NSString *)category;
+
 @end

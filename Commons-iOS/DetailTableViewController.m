@@ -12,6 +12,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
+#import "CategorySearchTableViewController.h"
+
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
@@ -228,10 +230,10 @@
         // Categories
         UITableViewCell *cell;
         if (indexPath.row < self.categoryList.count) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryListCell" forIndexPath:indexPath];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
             cell.textLabel.text = self.categoryList[indexPath.row];
         } else {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"AddCategoryCell" forIndexPath:indexPath];
+            cell = [tableView dequeueReusableCellWithIdentifier:@"AddCategoryCell"];
         }
         return cell;
     } else {
@@ -240,44 +242,39 @@
     }
 }
 
-/*
  // Override to support conditional editing of the table view.
  - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
  {
  // Return NO if you do not want the specified item to be editable.
- return YES;
+     return NO;
  }
- */
 
-/*
  // Override to support editing the table view.
  - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
  {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
  }
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
 
-/*
  // Override to support rearranging the table view.
  - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
  {
  }
- */
 
-/*
  // Override to support conditional rearranging of the table view.
  - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
  {
  // Return NO if you do not want the item to be re-orderable.
- return YES;
+ return NO;
  }
- */
+
+
+// must overload this or the static table handling explodes in cats dynamic section
+-(int)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
+    }
+    return 5;
+}
 
 #pragma mark - Table view delegate
 
@@ -287,6 +284,9 @@
     if (indexPath.section == 0 && indexPath.item >= 2 && self.selectedRecord && self.selectedRecord.complete.boolValue) {
         // fixme: when we extract description and license for done files, stop hiding
         return 0;
+    }
+    if (indexPath.section == 1) {
+        return 44; // ????? hack
     }
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
@@ -416,6 +416,11 @@
             
         }
         
+    } else if ([segue.identifier isEqualToString:@"AddCategorySegue"]) {
+        if (self.selectedRecord) {
+            CategorySearchTableViewController *view = [segue destinationViewController];
+            view.selectedRecord = self.selectedRecord;
+        }
     }
     
 }

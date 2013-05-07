@@ -13,6 +13,8 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (strong) MWApi *api;
-@property (strong) NSArray *categories;
+@property (strong) NSArray *recentCats;
+@property (strong) NSArray *searchCats;
+@property (strong) FileUpload *selectedRecord;
 
 @end
