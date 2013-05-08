@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "FileUpload.h"
+#import "Category.h"
 #import "mwapi/MWApi.h"
 #import "MWEventLogging/MWEventLogging.h"
 #import "ThumbFetcher.h"
@@ -19,9 +20,10 @@
 @property (copy, nonatomic) NSString *username;
 @property (copy, nonatomic) NSString *password;
 @property (nonatomic) BOOL debugMode;
-@property (strong, nonatomic) NSManagedObjectContext *context;
 
+@property (strong, nonatomic) NSManagedObjectContext *context;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSFetchedResultsController *categoryResultsController;
 
 @property (strong, nonatomic) MWApi *currentUploadOp;
 @property (strong, nonatomic) MWEventLogging *eventLog;
@@ -51,6 +53,10 @@
 - (void)fetchUploadRecords;
 - (FileUpload *)createUploadRecord;
 - (FileUpload *)firstUploadRecord;
+- (NSArray *)recentCategories;
+- (Category *)lookupCategory:(NSString *)name;
+- (Category *)createCategory:(NSString *)name;
+- (void)updateCategory:(NSString *)name;
 
 - (MWApi *)startApi;
 - (NSString *)wikiURLBase;

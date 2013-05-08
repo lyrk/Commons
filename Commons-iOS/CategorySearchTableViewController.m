@@ -28,10 +28,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.recentCats = @[@"San Francisco", @"Test", @"Zimbabwe"]; // todo store recent cats
+
+    self.recentCats = [self recentCategories]; // don't need a live view, it won't change while we're viewing
     self.searchCats = @[];
-    
+
     UINib *cellNib = [UINib nibWithNibName:@"CategoryCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"CategoryCell"];
 }
@@ -40,6 +40,20 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+/**
+ * Return list of categories as a list of name strings
+ */
+- (NSArray *)recentCategories
+{
+    CommonsApp *app = CommonsApp.singleton;
+    NSArray *cats = [app recentCategories]; // array of Category objects
+    NSMutableArray *names = [[NSMutableArray alloc] init];
+    for (Category *cat in cats) {
+        [names addObject:cat.name];
+    }
+    return [NSArray arrayWithArray:names];
 }
 
 #pragma mark - Table view data source
@@ -103,6 +117,7 @@
     if (indexPath.section == 0) {
         NSString *cat = cats[indexPath.row];
         [self.selectedRecord addCategory:cat];
+        [CommonsApp.singleton updateCategory:cat];
         [CommonsApp.singleton saveData];
 
         [self.navigationController popViewControllerAnimated:YES];
