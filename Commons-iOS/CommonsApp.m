@@ -443,7 +443,10 @@ static CommonsApp *singleton_;
                                                                               cacheName:nil];
     NSError *error = nil;
     [fetchedResultsController performFetch:&error];
-    
+    if (error) {
+        NSLog(@"%@", error);
+    }
+
     return fetchedResultsController;
 }
 
@@ -472,7 +475,7 @@ static CommonsApp *singleton_;
         NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO selector:nil];
         fetchRequest.sortDescriptors = @[sortDescriptor];
         fetchRequest.fetchLimit = 1;
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name=\"%@\"", name];
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name=%@", name];
     }];
     
     NSArray *objs = fetchedResultsController.fetchedObjects;
