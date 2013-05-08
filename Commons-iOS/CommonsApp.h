@@ -12,6 +12,7 @@
 #import "mwapi/MWApi.h"
 #import "MWEventLogging/MWEventLogging.h"
 #import "ThumbFetcher.h"
+#import "SpeedGovernor.h"
 
 @interface CommonsApp : NSObject
 
@@ -28,6 +29,9 @@
 @property (strong, nonatomic) ThumbFetcher *thumbFetcher;
 @property (nonatomic) BOOL trackingEnabled;
 @property (copy, nonatomic) NSString* defaultExternalBrowser;
+
+@property (strong, nonatomic) NSOperationQueue *fetchDataURLQueue;
+@property (strong, nonatomic) SpeedGovernor *speedGovernor;
 
 + (CommonsApp *)singleton;
 

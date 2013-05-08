@@ -15,6 +15,7 @@
 #import "Reachability.h"
 #import "SettingsViewController.h"
 #import "WelcomeOverlayView.h"
+#import "FetchImageOperation.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -29,10 +30,14 @@
     bool buttonAnimationInProgress;
     UIView *opaqueView;
     NSUInteger thumbnailCount;
+    //NSOperationQueue *fetchThumbQueue;
 }
 
 - (void)animateTakeAndChoosePhotoButtons;
 - (void)refreshImages;
+- (BOOL)isOpCellOnScreen:(FetchImageOperation *)op;
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
+- (void)raiseDowloadPriorityForImagesOfOnscreenCells;
 
 @end
 
@@ -43,6 +48,12 @@
     self = [super initWithCoder:coder];
     if (self) {
         thumbnailCount = 0;
+        //fetchThumbQueue = [[NSOperationQueue alloc] init];
+
+        CommonsApp *app = [CommonsApp singleton];
+        
+        // Observe changes to the number of items in the fetch queue
+        [app.fetchDataURLQueue addObserver:self forKeyPath:@"operationCount" options:0 context:NULL];
     }
     return self;
 }
@@ -224,6 +235,53 @@
         DetailTableViewController *view = [segue destinationViewController];
         view.selectedRecord = self.selectedRecord;
     }
+}
+
+#pragma mark - Thumb Download Prioritization
+
+- (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    // When the number of operations in fetchDataURLQueue changes make the download operations
+    // for images of on-screen cells jump to front of the queue - makes interface seem MUCH
+    // snappier
+    CommonsApp *app = [CommonsApp singleton];
+    if (object == app.fetchDataURLQueue && [keyPath isEqualToString:@"operationCount"]) {
+        [self raiseDowloadPriorityForImagesOfOnscreenCells];
+    }else{
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+- (void)raiseDowloadPriorityForImagesOfOnscreenCells
+{
+    CommonsApp *app = [CommonsApp singleton];
+    if (app.fetchDataURLQueue.operationCount > 0) {
+        for (FetchImageOperation *op in app.fetchDataURLQueue.operations) {
+            if ([self isOpCellOnScreen:op]){
+                NSLog(@"SET HIGH FOR %@", op.url);
+                [op setQueuePriority:NSOperationQueuePriorityHigh];
+            }else{
+                [op setQueuePriority:NSOperationQueuePriorityNormal];
+            }
+        }
+    }
+}
+
+- (BOOL)isOpCellOnScreen:(FetchImageOperation *)op
+{
+    // Should find better way to determine a cell's file - below it's using the title from the FileUpload record
+    
+    CommonsApp *app = CommonsApp.singleton;
+    for (NSIndexPath *indexPath in [self.collectionView indexPathsForVisibleItems]) {
+        FileUpload *record = (FileUpload *)[app.fetchedResultsController objectAtIndexPath:indexPath];
+        
+        // The title has had its underscores replaces with spaces, so to match the title to the url
+        // the url must do the same
+        NSString *urlNoUnderscore = [[op.url path] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+        
+        if ([urlNoUnderscore hasSuffix:record.title]) return YES;
+    }
+    return NO;
 }
 
 #pragma mark - Image Picker Controller Delegate Methods
@@ -793,12 +851,20 @@
     } else {
         // Save the title for future checks...
         cell.title = title;
-
-        MWPromise *fetchThumb = [record fetchThumbnail];
+        
         cell.image.image = nil;
+        
+        // Using fetchThumbQueue below eliminates the last bit of jitter when scrolling through a large image set, but
+        // it's causing strange intermittent (threading related?) errors - commented for now until it can be further debugged...
+        
+        // Fetch the thumbnail on a background thread
+        //[fetchThumbQueue addOperationWithBlock:^{
+        MWPromise *fetchThumb = [record fetchThumbnail];
+        
         [fetchThumb done:^(UIImage *image) {
+            // Now that the thumbnail has been fetched use it - do so on the main thread
+            //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
             if ([cell.title isEqualToString:title]) {
-                
                 if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
                     // Smooth transition (disabled on iPad for better performance - iPad shows many more images at once)
                     CATransition *transition = [CATransition animation];
@@ -807,13 +873,16 @@
                     transition.type = kCATransitionFade;
                     [cell.image.layer addAnimation:transition forKey:nil];
                 }
-                
                 cell.image.image = image;
             }
+            //}];
         }];
         [fetchThumb fail:^(NSError *error) {
+            //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
             NSLog(@"failed to load thumbnail");
+            //}];
         }];
+        //}];
     }
     if (record.complete.boolValue) {
         // Old upload, already complete.
