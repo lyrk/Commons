@@ -552,8 +552,9 @@ static CommonsApp *singleton_;
                        @"{{self|cc-by-sa-3.0}}\n"
                        @"\n"
                        @"{{Uploaded from Mobile|platform=iOS|version=%@}}\n"
-                       @"{{subst:unc}}";
-    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], self.version];
+                       @"%@";
+    NSString *cats = [self formatCategories:record];
+    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], self.version, cats];
     return desc;
 }
 
@@ -593,6 +594,17 @@ static CommonsApp *singleton_;
         return [self decodeExifDate:dateStr];
     } else {
         return nil;
+    }
+}
+
+- (NSString *)formatCategories:(FileUpload *)record
+{
+    NSArray *cats = record.categoryList;
+    if (cats.count == 0) {
+        return @"{{subst:unc}}";
+    } else {
+        return [NSString stringWithFormat: @"[[Category:%@]]",
+                [cats componentsJoinedByString:@"]]\n[[Category:"]];
     }
 }
 
