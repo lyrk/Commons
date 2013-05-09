@@ -31,6 +31,7 @@ static CommonsApp *singleton_;
     self = [super init];
     if (self) {
         self.fetchedResultsController = nil;
+        self.categoryResultsController = nil;
         persistentStore = nil;
     }
     return self;
@@ -327,9 +328,12 @@ static CommonsApp *singleton_;
     NSLog(@"data path: %@", dataPath);
     NSURL *url = [NSURL fileURLWithPath:dataPath];
     
-    NSError *error;
-    
-    persistentStore = [persistentStoreCoordinator addPersistentStoreWithType: NSSQLiteStoreType configuration:nil URL:url options:nil error:&error];
+    NSDictionary *options = @{
+                              NSMigratePersistentStoresAutomaticallyOption: @YES,
+                              NSInferMappingModelAutomaticallyOption: @YES
+                              };
+    NSError *error;    
+    persistentStore = [persistentStoreCoordinator addPersistentStoreWithType: NSSQLiteStoreType configuration:nil URL:url options:options error:&error];
     if (persistentStore) {
         NSLog(@"Created persistent store.");
     } else {
@@ -418,6 +422,93 @@ static CommonsApp *singleton_;
         }
     }
     return nil;
+}
+
+/**
+ * Private method to set up a fetch on stored recent categories
+ */
+- (NSFetchedResultsController *)fetchCategories:(void(^)(NSFetchRequest*))block
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Category"
+                                              inManagedObjectContext:self.context];
+    fetchRequest.entity = entity;
+    
+    block(fetchRequest);
+    
+    NSFetchedResultsController *fetchedResultsController;
+    fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+                                                                   managedObjectContext:self.context
+                                                                     sectionNameKeyPath:nil
+                                                                              cacheName:nil];
+    NSError *error = nil;
+    [fetchedResultsController performFetch:&error];
+    if (error) {
+        NSLog(@"%@", error);
+    }
+
+    return fetchedResultsController;
+}
+
+/**
+ * Return a number of recently used categories in an array
+ */
+- (NSArray *)recentCategories;
+{
+    NSFetchedResultsController *fetchedResultsController;
+    fetchedResultsController = [self fetchCategories: ^(NSFetchRequest *fetchRequest) {
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"lastUsed" ascending:NO selector:nil];
+        fetchRequest.sortDescriptors = @[sortDescriptor];
+        fetchRequest.fetchLimit = 25;
+    }];
+    
+    return fetchedResultsController.fetchedObjects;
+}
+
+/**
+ * Look up a specific category, if it's recorded, or nil.
+ */
+- (Category *)lookupCategory:(NSString *)name;
+{
+    NSFetchedResultsController *fetchedResultsController;
+    fetchedResultsController = [self fetchCategories: ^(NSFetchRequest *fetchRequest) {
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:NO selector:nil];
+        fetchRequest.sortDescriptors = @[sortDescriptor];
+        fetchRequest.fetchLimit = 1;
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name=%@", name];
+    }];
+    
+    NSArray *objs = fetchedResultsController.fetchedObjects;
+    if (objs.count) {
+        return objs[0];
+    } else {
+        return nil;
+    }
+}
+
+/**
+ * Create a new category record
+ */
+- (Category *)createCategory:(NSString *)name;
+{
+    Category *cat = [NSEntityDescription insertNewObjectForEntityForName:@"Category" inManagedObjectContext:self.context];
+    cat.name = name;
+    cat.lastUsed = NSDate.distantPast;
+    cat.timesUsed = @0;
+    return cat;
+}
+
+/**
+ * Update (creating if necessary) the last-used data for a category record
+ */
+- (void)updateCategory:(NSString *)name;
+{
+    Category *cat = [self lookupCategory:name];
+    if (cat == nil) {
+        cat = [self createCategory:name];
+    }
+    [cat incTimedUsed];
+    [self saveData];
 }
 
 - (MWApi *)startApi
@@ -549,8 +640,9 @@ static CommonsApp *singleton_;
                        @"{{self|cc-by-sa-3.0}}\n"
                        @"\n"
                        @"{{Uploaded from Mobile|platform=iOS|version=%@}}\n"
-                       @"{{subst:unc}}";
-    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], self.version];
+                       @"%@";
+    NSString *cats = [self formatCategories:record];
+    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], self.version, cats];
     return desc;
 }
 
@@ -590,6 +682,17 @@ static CommonsApp *singleton_;
         return [self decodeExifDate:dateStr];
     } else {
         return nil;
+    }
+}
+
+- (NSString *)formatCategories:(FileUpload *)record
+{
+    NSArray *cats = record.categoryList;
+    if (cats.count == 0) {
+        return @"{{subst:unc}}";
+    } else {
+        return [NSString stringWithFormat: @"[[Category:%@]]",
+                [cats componentsJoinedByString:@"]]\n[[Category:"]];
     }
 }
 

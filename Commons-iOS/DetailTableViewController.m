@@ -12,13 +12,15 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
+#import "CategorySearchTableViewController.h"
+#import "CategoryDetailTableViewController.h"
+
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
 @interface DetailTableViewController ()
 
     - (void)hideKeyboard;
-    - (void)openLicense;
 
 @end
 
@@ -44,6 +46,9 @@
 {
     [super viewDidLoad];
     
+    [self.tableView registerNib:[UINib nibWithNibName:@"CategoryCell" bundle:nil] forCellReuseIdentifier:@"CategoryCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"AddCategoryCell" bundle:nil] forCellReuseIdentifier:@"AddCategoryCell"];
+    
     // l10n
     self.title = [MWMessage forKey:@"details-title"].text;
     self.uploadButton.title = [MWMessage forKey:@"details-upload-button"].text;
@@ -52,15 +57,19 @@
     self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
     self.descriptionPlaceholder.text = [MWMessage forKey:@"details-description-placeholder"].text;
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
+    self.categoryLabel.text = [MWMessage forKey:@"details-category-label"].text;
 
     // Load up the selected record
     FileUpload *record = self.selectedRecord;
     
     if (record != nil) {
+        self.categoryList = [record.categoryList mutableCopy];
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
         self.descriptionPlaceholder.hidden = (record.desc.length > 0);
         self.imageSpinner.hidden = NO;
+
+        self.categoryListLabel.text = [self categoryShortList];
 
         MWPromise *thumb = [record fetchThumbnail];
         [thumb done:^(UIImage *image) {
@@ -152,10 +161,18 @@
     
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
     [self.descCell addGestureRecognizer:tapGesture];
-
-    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openLicense)];
-    [self.licenseCell addGestureRecognizer:tapGesture];
     
+}
+
+- (NSString *)categoryShortList
+{
+    // Assume the list will be cropped off in the label if it's long. :)
+    NSArray *cats = self.selectedRecord.categoryList;
+    if (cats.count == 0) {
+        return [MWMessage forKey:@"details-category-select"].text;
+    } else {
+        return [cats componentsJoinedByString:@", "];
+    }
 }
 
 - (void)updateUploadButton
@@ -170,12 +187,96 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO animated:YES];
+    self.categoryList = [self.selectedRecord.categoryList mutableCopy];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    if (self.selectedRecord.complete.boolValue) {
+        // hide the categories section for now...
+        // fixme: look up categories and make them viewable/editable
+        return 1;
+    } else {
+        return 2;
+    }
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == 0) {
+        // Fall through to static section handling...
+        return [super tableView:tableView numberOfRowsInSection:section];
+    } else if (section == 1) {
+        // Add one cell for the add button!
+        return self.categoryList.count + 1;
+    } else {
+        return 0;
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        // Fall through to static section handling...
+        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    } else if (indexPath.section == 1) {
+        // Categories
+        UITableViewCell *cell;
+        if (indexPath.row < self.categoryList.count) {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
+            cell.textLabel.text = self.categoryList[indexPath.row];
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"AddCategoryCell"];
+        }
+        return cell;
+    } else {
+        // no exist!
+        return nil;
+    }
+}
+
+ // Override to support conditional editing of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the specified item to be editable.
+     return NO;
+ }
+
+ // Override to support editing the table view.
+ - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ }
+
+ // Override to support rearranging the table view.
+ - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+ {
+ }
+
+ // Override to support conditional rearranging of the table view.
+ - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+ {
+ // Return NO if you do not want the item to be re-orderable.
+ return NO;
+ }
+
+
+// must overload this or the static table handling explodes in cats dynamic section
+-(int)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
+    }
+    return 5;
 }
 
 #pragma mark - Table view delegate
@@ -187,18 +288,36 @@
         // fixme: when we extract description and license for done files, stop hiding
         return 0;
     }
+    if (indexPath.section == 1) {
+        return 44; // ????? hack
+    }
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    if (indexPath.section == 0) {
+        // Static section already handled by storyboard segues.
+    } else if (indexPath.section == 1) {
+        if (indexPath.row < self.categoryList.count) {
+            // Segue isn't connected due to nib fun. :P
+            [self performSegueWithIdentifier: @"CategoryDetailSegue" sender: self];
+        } else {
+            // 'Add category...' cell button
+            // Segue isn't connected due to nib fun. :P
+            [self performSegueWithIdentifier: @"AddCategorySegue" sender: self];
+        }
+    }
+}
+
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1 && indexPath.row < self.categoryList.count) {
+        NSString *cat = self.categoryList[indexPath.row];
+        NSString *encCat = [cat stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *link = [NSString stringWithFormat:@"https://commons.m.wikimedia.org/wiki/Category:%@", encCat];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
+    }
 }
 
 #pragma mark - Focus to box when title or description label tapped
@@ -303,6 +422,17 @@
             
         }
         
+    } else if ([segue.identifier isEqualToString:@"AddCategorySegue"]) {
+        if (self.selectedRecord) {
+            CategorySearchTableViewController *view = [segue destinationViewController];
+            view.selectedRecord = self.selectedRecord;
+        }
+    } else if ([segue.identifier isEqualToString:@"CategoryDetailSegue"]) {
+        if (self.selectedRecord) {
+            CategoryDetailTableViewController *view = [segue destinationViewController];
+            view.selectedRecord = self.selectedRecord;
+            view.category = self.categoryList[self.tableView.indexPathForSelectedRow.row];
+        }
     }
     
 }

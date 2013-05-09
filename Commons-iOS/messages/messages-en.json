@@ -38,6 +38,8 @@
     "details-description-placeholder": "Required",
     "details-license-label": "License",
     "details-hide-keyboard": "Hide Keyboard",
+    "details-category-label": "Categories",
+    "details-category-select": "Select...",
     
     "web-open-in": "Open in $1",
     "web-cancel": "Cancel",
@@ -57,9 +59,21 @@
     "about-license-button": "License",
 
     "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:",
-    
+
     "welcome-no-images-message": "No Uploads Found\nUse the Button Below to\nTake or Choose Photos",
     "welcome-take-or-choose-message": "Take or Choose a Photo",
-    "welcome-checking-message": "Checking for Previous\nUploads"
+    "welcome-checking-message": "Checking for Previous\nUploads",
 
+    "license-title": "License",
+    "license-intro": "You agree to license your upload under the selected terms:",
+    "license-details-intro": "More information",
+    "license-details-label": "Read about licensing",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing",
+
+    "catdetail-title": "Category",
+    "catdetail-intro": "Categories help make your images more discoverable on Wikimedia Commons.",
+    "catdetail-remove-label": "Remove \"$1\"",
+    "catdetail-info-intro": "More information",
+    "catdetail-info-label": "Read about categories",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
 }
