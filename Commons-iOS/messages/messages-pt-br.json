@@ -1,7 +1,8 @@
 {
     "@metadata": {
         "authors": [
-            "Gusta"
+            "Gusta",
+            "Luckas"
         ]
     },
     "contribs-title": "Meus envios",
@@ -11,6 +12,7 @@
     "contribs-state-queued": "Em espera",
     "contribs-state-uploading": "Enviando",
     "contribs-refresh": "Puxe para atualizar",
+    "contribs-refreshing": "Atualizando...",
     "error-upload-failed": "Envio falhou!",
     "error-dismiss": "Ignorar",
     "error-nologin-title": "Ah n\u00e3o!",
@@ -23,7 +25,7 @@
     "settings-title": "Configura\u00e7\u00f5es",
     "settings-username-placeholder": "Nome de usu\u00e1rio",
     "settings-password-placeholder": "Senha",
-    "settings-debug-label": "Modo de depura\u00e7\u00e3o",
+    "settings-debug-label": "Modo de depura\u00e7\u00e3o:",
     "settings-debug-detail": "Enviando para $1",
     "details-title": "Detalhes",
     "details-upload-button": "Envio",
@@ -33,5 +35,13 @@
     "details-description-placeholder": "Requerido",
     "details-license-label": "Licen\u00e7a",
     "web-open-in": "Abrir em $1",
-    "web-cancel": "Cancelar"
+    "web-cancel": "Cancelar",
+    "login-title": "Conta",
+    "about-title": "Sobre",
+    "about-app-version-label": "Vers\u00e3o $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-privacy-button": "Pol\u00edtica de privacidade",
+    "about-source-button": "Fonte",
+    "about-source-this-app-contributors": "Colaboradores",
+    "about-license-button": "Licen\u00e7a"
 }

@@ -52,5 +52,8 @@
     "about-source-this-app-title": "Deze App (iOS):",
     "about-source-this-app-contributors": "Bijdragers",
     "about-license-button": "Licentie",
-    "about-source-gradient-title": "Gradient UIButton van Jeff LaMarche:"
+    "about-source-gradient-title": "Gradient UIButton van Jeff LaMarche:",
+    "welcome-no-images-message": "Geen uploads aangetroffen\nGebruik de knop om foto's\nte nemen of te kiezen",
+    "welcome-take-or-choose-message": "Foto maken of kiezen",
+    "welcome-checking-message": "Controleren op\neerdere uploads"
 }

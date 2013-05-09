@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Syphax Amaynu"
+        ]
+    },
     "contribs-title": "\u2d4e\u2d49\u2d4f \u2d59\u2d59\u2d49\u2d37\u2d3c\u2d56",
     "contribs-settings-button": "\u2d49\u2d59\u2d3b\u2d4f\u2d3c\u2d30\u2d54\u2d4f",
     "contribs-upload-button": "\u2d30\u2d59\u2d49\u2d37\u2d3c",
@@ -35,10 +40,5 @@
     "about-bugs-button": "\u2d30\u2d4e\u2d59\u2d37\u2d3c\u2d30\u2d54 \u2d4f \u2d30\u2d33\u2d30\u2d54",
     "about-privacy-button": "\u2d4d\u2d45\u2d53\u2d59\u2d53\u2d59\u2d62\u2d30",
     "about-source-button": "\u2d4e\u2d30\u2d4f\u2d49\u2d59",
-    "about-source-this-app-contributors": "\u2d49\u2d5b\u2d54\u2d49\u2d5b\u2d4f",
-    "@metadata": {
-        "authors": [
-            "Syphax Amaynu"
-        ]
-    }
+    "about-source-this-app-contributors": "\u2d49\u2d5b\u2d54\u2d49\u2d5b\u2d4f"
 }

@@ -52,5 +52,8 @@
     "about-source-this-app-title": "Diese App (iOS):",
     "about-source-this-app-contributors": "Mitwirkende",
     "about-license-button": "Lizenz",
-    "about-source-gradient-title": "Farbverlaufsschaltfl\u00e4chen von Jeff LaMarche:"
+    "about-source-gradient-title": "Farbverlaufsschaltfl\u00e4chen von Jeff LaMarche:",
+    "welcome-no-images-message": "Keine Uploads gefunden. Verwende den Button unten, um Fotos aufzunehmen oder auszuw\u00e4hlen.",
+    "welcome-take-or-choose-message": "Foto aufnehmen oder ausw\u00e4hlen",
+    "welcome-checking-message": "Pr\u00fcfung auf fr\u00fchere Uploads"
 }

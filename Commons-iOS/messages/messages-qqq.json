@@ -56,5 +56,4 @@
     "welcome-no-images-message": "Message presented to users when there are no uploads associated with their account",
     "welcome-take-or-choose-message": "Message presented to users with no images when they tap the add image button",
     "welcome-checking-message": "Message presented to users when initially retrieving list of their previous uploads"
-
 }

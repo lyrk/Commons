@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Laaknor",
             "Nghtwlkr"
         ]
     },
@@ -11,7 +12,9 @@
     "contribs-state-queued": "I k\u00f8",
     "contribs-state-uploading": "Laster opp",
     "contribs-refresh": "Dra for \u00e5 oppdatere",
+    "contribs-refreshing": "Oppdaterer...",
     "error-upload-failed": "Opplasting mislyktes",
+    "error-upload-cancelled": "Opplastning avbrutt",
     "error-dismiss": "Lukk",
     "error-nologin-title": "Ups!",
     "error-nologin-text": "Du m\u00e5 logge inn f\u00f8r du kan laste opp bilder",
@@ -23,8 +26,12 @@
     "settings-title": "Innstillinger",
     "settings-username-placeholder": "Brukernavn",
     "settings-password-placeholder": "Passord",
-    "settings-debug-label": "Feils\u00f8kingsmodus",
+    "settings-debug-label": "Feils\u00f8kingsmodus:",
+    "settings-open-links-label": "\u00c5pne lenker med:",
+    "settings-open-links-only-safari": "Ingen andre st\u00f8ttede nettlesere er installert.",
     "settings-debug-detail": "Laster opp til $1",
+    "settings-usage-reports-label": "Bruksrapporter:",
+    "settings-usage-reports-description": "Send bruksrapporter til Wikimedia for \u00e5 hjelpe oss med \u00e5 forbedre denne appen.",
     "details-title": "Detaljer",
     "details-upload-button": "Last opp",
     "details-title-label": "Tittel",
@@ -32,6 +39,19 @@
     "details-description-label": "Beskrivelse",
     "details-description-placeholder": "P\u00e5krevd",
     "details-license-label": "Lisens",
+    "details-hide-keyboard": "Skjul tastatur",
     "web-open-in": "\u00c5pne med $1",
-    "web-cancel": "Avbryt"
+    "web-cancel": "Avbryt",
+    "login-title": "Konto",
+    "login-button": "Logg inn",
+    "about-title": "Om",
+    "about-app-version-label": "Versjon $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-bugs-button": "Feilrapportering",
+    "about-privacy-button": "Personvernpolicy",
+    "about-source-button": "Kilde",
+    "about-source-this-app-title": "Denne appen (iOS):",
+    "about-source-this-app-contributors": "Bidragsytere",
+    "about-license-button": "Lisens",
+    "about-source-gradient-title": "Jeff LaMarches graduerende UIKnapp:"
 }

@@ -11,7 +11,9 @@
     "contribs-state-queued": "Na cola",
     "contribs-state-uploading": "Cargando",
     "contribs-refresh": "Tire para refrescar",
+    "contribs-refreshing": "Refrescando...",
     "error-upload-failed": "Erro durante a carga!",
+    "error-upload-cancelled": "Carga cancelada",
     "error-dismiss": "Agochar",
     "error-nologin-title": "Vaites!",
     "error-nologin-text": "Ten que acceder ao sistema para poder cargar fotos",
@@ -23,8 +25,12 @@
     "settings-title": "Configuraci\u00f3ns",
     "settings-username-placeholder": "Nome de usuario",
     "settings-password-placeholder": "Contrasinal",
-    "settings-debug-label": "Modo de depuraci\u00f3n",
+    "settings-debug-label": "Modo de depuraci\u00f3n:",
+    "settings-open-links-label": "Abrir as ligaz\u00f3ns con:",
+    "settings-open-links-only-safari": "Non hai instalado ning\u00fan outro navegador.",
     "settings-debug-detail": "Cargando en $1",
+    "settings-usage-reports-label": "Informes de uso:",
+    "settings-usage-reports-description": "Enviar informes de uso \u00e1 Wikimedia para axudar a mellorar a aplicaci\u00f3n.",
     "details-title": "Detalles",
     "details-upload-button": "Cargar",
     "details-title-label": "T\u00edtulo",
@@ -45,5 +51,6 @@
     "about-source-button": "Fonte",
     "about-source-this-app-title": "Esta aplicaci\u00f3n (iOS):",
     "about-source-this-app-contributors": "Colaboradores",
-    "about-license-button": "Licenza"
+    "about-license-button": "Licenza",
+    "about-source-gradient-title": "Gradient UIButton de Jeff LaMarche:"
 }
