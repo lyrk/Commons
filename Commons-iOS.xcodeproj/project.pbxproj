@@ -141,6 +141,14 @@
 		D40CE3DF16BB542300E63B27 /* fileicon-svg.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3DD16BB542200E63B27 /* fileicon-svg.png */; };
 		D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */; };
 		D41B99F516B1CEB50045BEB5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41B99F416B1CEB50045BEB5 /* CoreData.framework */; };
+		D41BFA52173C26A100472EC7 /* messages-cy.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA4A173C26A100472EC7 /* messages-cy.json */; };
+		D41BFA53173C26A100472EC7 /* messages-da.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA4B173C26A100472EC7 /* messages-da.json */; };
+		D41BFA54173C26A100472EC7 /* messages-hak.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA4C173C26A100472EC7 /* messages-hak.json */; };
+		D41BFA55173C26A100472EC7 /* messages-la.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA4D173C26A100472EC7 /* messages-la.json */; };
+		D41BFA56173C26A100472EC7 /* messages-lt.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA4E173C26A100472EC7 /* messages-lt.json */; };
+		D41BFA57173C26A100472EC7 /* messages-lv.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA4F173C26A100472EC7 /* messages-lv.json */; };
+		D41BFA58173C26A100472EC7 /* messages-pt.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA50173C26A100472EC7 /* messages-pt.json */; };
+		D41BFA59173C26A100472EC7 /* messages-ta.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA51173C26A100472EC7 /* messages-ta.json */; };
 		D41D280D16C18C9F00BC3ABE /* cc-by.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280916C18C9F00BC3ABE /* cc-by.png */; };
 		D41D280E16C18C9F00BC3ABE /* cc-by@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280A16C18C9F00BC3ABE /* cc-by@2x.png */; };
 		D41D280F16C18C9F00BC3ABE /* cc-sa.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280B16C18C9F00BC3ABE /* cc-sa.png */; };
@@ -330,6 +338,14 @@
 		D40CE3DD16BB542200E63B27 /* fileicon-svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fileicon-svg.png"; sourceTree = "<group>"; };
 		D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FileUpload.xcdatamodel; sourceTree = "<group>"; };
 		D41B99F416B1CEB50045BEB5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		D41BFA4A173C26A100472EC7 /* messages-cy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-cy.json"; path = "messages/messages-cy.json"; sourceTree = "<group>"; };
+		D41BFA4B173C26A100472EC7 /* messages-da.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-da.json"; path = "messages/messages-da.json"; sourceTree = "<group>"; };
+		D41BFA4C173C26A100472EC7 /* messages-hak.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-hak.json"; path = "messages/messages-hak.json"; sourceTree = "<group>"; };
+		D41BFA4D173C26A100472EC7 /* messages-la.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-la.json"; path = "messages/messages-la.json"; sourceTree = "<group>"; };
+		D41BFA4E173C26A100472EC7 /* messages-lt.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-lt.json"; path = "messages/messages-lt.json"; sourceTree = "<group>"; };
+		D41BFA4F173C26A100472EC7 /* messages-lv.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-lv.json"; path = "messages/messages-lv.json"; sourceTree = "<group>"; };
+		D41BFA50173C26A100472EC7 /* messages-pt.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-pt.json"; path = "messages/messages-pt.json"; sourceTree = "<group>"; };
+		D41BFA51173C26A100472EC7 /* messages-ta.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ta.json"; path = "messages/messages-ta.json"; sourceTree = "<group>"; };
 		D41D280916C18C9F00BC3ABE /* cc-by.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by.png"; sourceTree = "<group>"; };
 		D41D280A16C18C9F00BC3ABE /* cc-by@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by@2x.png"; sourceTree = "<group>"; };
 		D41D280B16C18C9F00BC3ABE /* cc-sa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa.png"; sourceTree = "<group>"; };
@@ -793,6 +809,14 @@
 			isa = PBXGroup;
 			children = (
 				D4C036F21700C38000AA2537 /* messages-af.json */,
+				D41BFA4A173C26A100472EC7 /* messages-cy.json */,
+				D41BFA4B173C26A100472EC7 /* messages-da.json */,
+				D41BFA4C173C26A100472EC7 /* messages-hak.json */,
+				D41BFA4D173C26A100472EC7 /* messages-la.json */,
+				D41BFA4E173C26A100472EC7 /* messages-lt.json */,
+				D41BFA4F173C26A100472EC7 /* messages-lv.json */,
+				D41BFA50173C26A100472EC7 /* messages-pt.json */,
+				D41BFA51173C26A100472EC7 /* messages-ta.json */,
 				D4C036F31700C38000AA2537 /* messages-ar.json */,
 				D4C036F41700C38000AA2537 /* messages-ast.json */,
 				D4C036F51700C38000AA2537 /* messages-be-tarask.json */,
@@ -1096,6 +1120,14 @@
 				D48FA3251725A1AA0039F254 /* messages-en-ca.json in Resources */,
 				D48FA3261725A1AA0039F254 /* messages-ml.json in Resources */,
 				D4E94E43172EBBBB0034CA6D /* messages-rif.json in Resources */,
+				D41BFA52173C26A100472EC7 /* messages-cy.json in Resources */,
+				D41BFA53173C26A100472EC7 /* messages-da.json in Resources */,
+				D41BFA54173C26A100472EC7 /* messages-hak.json in Resources */,
+				D41BFA55173C26A100472EC7 /* messages-la.json in Resources */,
+				D41BFA56173C26A100472EC7 /* messages-lt.json in Resources */,
+				D41BFA57173C26A100472EC7 /* messages-lv.json in Resources */,
+				D41BFA58173C26A100472EC7 /* messages-pt.json in Resources */,
+				D41BFA59173C26A100472EC7 /* messages-ta.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
