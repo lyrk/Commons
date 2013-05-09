@@ -45,6 +45,10 @@
     if (self.complete.boolValue) {
         float resolution = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? THUMBNAIL_RESOLUTION_IPAD : THUMBNAIL_RESOLUTION_NON_IPAD;
         resolution *= [[UIScreen mainScreen] scale];
+        
+        // Ask the speedGovernor what image resolution mulitiplier is suited to the current connection speed
+        resolution *= app.speedGovernor.imageResolutionMultiplier;
+        
         CGSize size = CGSizeMake(resolution, resolution);
         fetch = [app fetchWikiImage:self.title size:size];
     } else {

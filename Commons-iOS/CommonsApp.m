@@ -12,6 +12,7 @@
 #import "MWI18N/MWI18N.h"
 #import "BrowserHelper.h"
 #import "CommonsApp.h"
+#import "FetchImageOperation.h"
 
 @implementation CommonsApp{
     NSPersistentStore *persistentStore;
@@ -33,6 +34,11 @@ static CommonsApp *singleton_;
         self.fetchedResultsController = nil;
         self.categoryResultsController = nil;
         persistentStore = nil;
+        self.fetchDataURLQueue = [[NSOperationQueue alloc] init];
+        self.speedGovernor = [[SpeedGovernor alloc] init];
+        
+        // Start with "1" - later the speedGovernor will be asked if it's ok to increase this
+        self.fetchDataURLQueue.maxConcurrentOperationCount = 1;
     }
     return self;
 }
@@ -880,17 +886,32 @@ static CommonsApp *singleton_;
 - (MWPromise *)fetchDataURL:(NSURL *)url
 {
     MWDeferred *deferred = [[MWDeferred alloc] init];
-    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
-    void (^done)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *data, NSError *error) {
-        if (error == nil) {
-            [deferred resolve:data];
-        } else {
-            [deferred reject:error];
-        }
+    void (^done)(NSURLResponse*, NSData*, NSError*, NSTimeInterval) = ^(NSURLResponse *response, NSData *data, NSError *error, NSTimeInterval downloadDuration) {
+        // The FetchImageOperation happens on a background thread, so this callback needs to
+        // be tossed back onto the main thread
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            
+            if (error == nil) {  
+                // Let the speedGovernor know how long this download too so it can adjust its properties
+                [self.speedGovernor reportDownloadDuration:downloadDuration];
+                
+                // Ask the speedGovernor how many concurrent downloads are suited to the current connection speed
+                self.fetchDataURLQueue.maxConcurrentOperationCount = self.speedGovernor.maxConcurrentOperationCount;
+                
+                // NSLog(@"self.fetchDataURLQueue.maxConcurrentOperationCount = %d", self.fetchDataURLQueue.maxConcurrentOperationCount);
+                
+                [deferred resolve:data];
+            } else {
+                [deferred reject:error];
+            }
+        }];
     };
-    [NSURLConnection sendAsynchronousRequest:request
-                                       queue:[NSOperationQueue mainQueue]
-                           completionHandler:done];
+    
+    FetchImageOperation *fetchOperation = [[FetchImageOperation alloc] initWithURL:url];
+    fetchOperation.completionHandler = done;
+
+    [self.fetchDataURLQueue addOperation:fetchOperation];
+
     return deferred.promise;
 }
 
