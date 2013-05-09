@@ -394,8 +394,14 @@
             
             ImageScrollViewController *view = [segue destinationViewController];
             
+            CGFloat square;
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                square = 2048.0f; // we got a big screen!
+            } else {
+                square = 1024.0f;
+            }
             CGFloat density = [UIScreen mainScreen].scale;
-            CGSize size = CGSizeMake(1024.0f * density, 1024.0f * density);
+            CGSize size = CGSizeMake(square * density, square * density);
             
             FileUpload *record = self.selectedRecord;
             if (record != nil) {
