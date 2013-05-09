@@ -301,6 +301,9 @@
 
 - (IBAction)debugSwitchPushed:(id)sender
 {
+    // Cancel any fetches as they won't be relevant
+    [app.fetchDataURLQueue cancelAllOperations];
+    
     app.debugMode = self.debugModeSwitch.on;
     [self setDebugModeLabel];
     
