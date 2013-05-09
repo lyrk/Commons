@@ -241,7 +241,7 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    // Don't take action on observations if the view controller's view is now longer visible
+    // Don't take action on observations if the view controller's view is no longer visible
     if (self.navigationController.topViewController != self) return;
     
     // When the number of operations in fetchDataURLQueue changes make the download operations
