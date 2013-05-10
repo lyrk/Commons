@@ -66,6 +66,7 @@
     */
 
 	_loadingIndicator = [[LoadingIndicator alloc] initWithFrame:_window.bounds];
+    _loadingIndicator.window = _window;
 	[_window addSubview: _loadingIndicator];
     
     return YES;

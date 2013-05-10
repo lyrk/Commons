@@ -6,7 +6,6 @@
 //
 
 #import "LoadingIndicator.h"
-//#import "AppDelegate.h"
 
 @interface LoadingIndicator()
 
@@ -14,8 +13,8 @@
 
 @implementation LoadingIndicator{
 	CGPoint origCenter;
-	CGRect origFrame;
 	UIActivityIndicatorViewStyle origUIActivityIndicatorViewStyle;
+    UIView *opaqueView;
 }
 
 #pragma mark -
@@ -33,8 +32,7 @@
 				
 		// Save off orig size/position/style in case we change any of these before showing (will restore them upon hide)
 		origCenter = self.center;
-		origFrame = self.frame;
-		origUIActivityIndicatorViewStyle = self.activityIndicatorViewStyle;		
+		origUIActivityIndicatorViewStyle = self.activityIndicatorViewStyle;
 	}
 	return self;
 }
@@ -44,10 +42,18 @@
 	self.activityIndicatorViewStyle	= UIActivityIndicatorViewStyleWhiteLarge;
 	self.color = [UIColor blackColor];
 
-	// Make the loading indicator block touch events
-	[[UIApplication sharedApplication] beginIgnoringInteractionEvents];
-	
-	// Make sure the indicator isn't covered up!
+    // Make the loading indicator block touch events using a mostly transparent view
+    // (created here each time so it accounts for present screen dimensions)
+    opaqueView = [[UIView alloc] initWithFrame:self.window.bounds];
+    opaqueView.userInteractionEnabled = YES; // "YES" so touches terminate with it
+
+    opaqueView.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.25];
+    [self.window addSubview:opaqueView];
+    
+    // Move the opaque view in front of everything except the spinner
+    [opaqueView.superview bringSubviewToFront:opaqueView];
+    
+	// Make sure the spinning indicator isn't covered up!
 	[self.superview bringSubviewToFront:self];
 		
 	self.hidden = NO;
@@ -56,13 +62,12 @@
 
 -(void)hide{
 	// Make the loading indicator no longer block touch events
-	[[UIApplication sharedApplication] endIgnoringInteractionEvents];
-	
+    [opaqueView removeFromSuperview];
+    
 	self.hidden = YES;
 	[self stopAnimating];
 	
 	self.center = origCenter;
-	self.frame = origFrame;
 	self.activityIndicatorViewStyle = origUIActivityIndicatorViewStyle;
 }
 

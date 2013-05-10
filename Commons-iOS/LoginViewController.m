@@ -286,9 +286,6 @@
                                         andPassword:password];
         [login done:^(NSDictionary *loginResult) {
             
-			// Hide the loading indicator wheel
-			[self.appDelegate.loadingIndicator hide];
-			
             if (mwapi.isLoggedIn) {
                 // Credentials verified
                 [app log:@"MobileAppLoginAttempts" event:@{
@@ -343,6 +340,10 @@
             [alertView show];
         }];
         
+        [login always:^(NSDictionary *loginResult) {
+			// Hide the loading indicator wheel
+			[self.appDelegate.loadingIndicator hide];
+        }];
     }
     else {
     // Credentials have not been changed
