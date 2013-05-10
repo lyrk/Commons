@@ -49,11 +49,6 @@
     if (self) {
         thumbnailCount = 0;
         //fetchThumbQueue = [[NSOperationQueue alloc] init];
-
-        CommonsApp *app = [CommonsApp singleton];
-        
-        // Observe changes to the number of items in the fetch queue
-        [app.fetchDataURLQueue addObserver:self forKeyPath:@"operationCount" options:0 context:NULL];
     }
     return self;
 }
@@ -73,6 +68,12 @@
             [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHECKING];
         }
     }
+    
+    // Observe changes to the number of items in the fetch queue
+    // (only observe operationCount while this view controller's view is onscreen - remove
+    // self as observer in viewWillDisappear)
+    CommonsApp *app = [CommonsApp singleton];
+    [app.fetchDataURLQueue addObserver:self forKeyPath:@"operationCount" options:0 context:NULL];
 }
 
 - (void)viewDidLoad
@@ -203,6 +204,11 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    // No longer observe changes to the number of items in the fetch queue
+    // (only observe operationCount while this view controller's view is onscreen)
+    CommonsApp *app = [CommonsApp singleton];
+    [app.fetchDataURLQueue removeObserver:self forKeyPath:@"operationCount"];
+
     // Prevent the overlay message from flickering as the view disappears
     [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
 }
