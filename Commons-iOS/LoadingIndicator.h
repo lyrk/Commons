@@ -12,6 +12,8 @@
 
 }
 
+@property (weak, nonatomic) UIWindow *window;
+
 -(void)show;
 -(void)hide;
 
