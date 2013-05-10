@@ -299,7 +299,7 @@
                 [app saveCredentials];
                 [app deleteAllRecords];
                 
-                MWPromise *refresh = [app refreshHistory];
+                MWPromise *refresh = [app refreshHistoryWithFailureAlert:YES];
                 [refresh always:^(id arg) {
                     // Login success! Show MyUploads view
                     [self showMyUploadsVC];

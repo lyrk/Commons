@@ -478,7 +478,7 @@
     // Cause the images to be refreshed and the refresh control title to be updated to
     // say "Refreshing..." during said refreshiness
     
-    MWPromise *refresh = [CommonsApp.singleton refreshHistory];
+    MWPromise *refresh = [CommonsApp.singleton refreshHistoryWithFailureAlert:YES];
     
     // Make refresh control say "Refreshing..."
     self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refreshing"].text];

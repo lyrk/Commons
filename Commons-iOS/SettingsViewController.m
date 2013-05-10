@@ -314,7 +314,7 @@
     // before the data is in place for the MyUploads page it will crash
     [self.appDelegate.loadingIndicator show];
     
-    MWPromise *refresh = [app refreshHistory];
+    MWPromise *refresh = [app refreshHistoryWithFailureAlert:NO];
     [refresh always:^(id arg) {
         // Show the loading indicator wheel
         [self.appDelegate.loadingIndicator hide];
