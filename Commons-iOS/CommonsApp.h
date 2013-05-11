@@ -83,5 +83,6 @@
 - (void)deleteAllRecords;
 
 - (void)openURLWithDefaultBrowser:(NSURL *)url;
+- (CGSize)getFullSizedImageSize;
 
 @end

@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
 @property (weak, nonatomic) IBOutlet UILabel *licenseLabel;
 @property (weak, nonatomic) IBOutlet UILabel *licenseNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *ccByImage;
@@ -34,8 +35,11 @@
 @property (strong, nonatomic) FileUpload *selectedRecord;
 @property (strong, nonatomic) NSMutableArray *categoryList;
 
+@property (nonatomic, strong) UIActivityViewController *shareActivityViewController;
+
 - (IBAction)deleteButtonPushed:(id)sender;
 - (IBAction)uploadButtonPushed:(id)sender;
 - (IBAction)openWikiPageButtonPushed:(id)sender;
+- (IBAction)shareButtonPushed:(id)sender;
 
 @end
