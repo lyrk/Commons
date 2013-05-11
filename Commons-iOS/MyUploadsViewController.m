@@ -204,11 +204,19 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+    
     // No longer observe changes to the number of items in the fetch queue
     // (only observe operationCount while this view controller's view is onscreen)
     CommonsApp *app = [CommonsApp singleton];
-    [app.fetchDataURLQueue removeObserver:self forKeyPath:@"operationCount"];
-
+    
+    // Approach recommended by: http://stackoverflow.com/a/6714561/135557
+    @try{
+        [app.fetchDataURLQueue removeObserver:self forKeyPath:@"operationCount"];
+    }@catch(id anException){
+        NSLog(@"THE OBSERVER WASN'T REGISTERED!");
+    }
+    
     // Prevent the overlay message from flickering as the view disappears
     [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
 }
