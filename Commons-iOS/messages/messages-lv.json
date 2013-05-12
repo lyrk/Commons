@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Admresdeserv."
+        ]
+    },
     "contribs-title": "Manas augsupielades",
     "contribs-settings-button": "Iestat\u012bjumi",
     "contribs-upload-button": "Aug\u0161upiel\u0101d\u0113t",
@@ -38,10 +43,5 @@
     "about-source-button": "Avots",
     "about-source-this-app-title": "Si applikacija (iOS):",
     "about-source-this-app-contributors": "Atbalst\u012bt\u0101ji",
-    "about-license-button": "Licence",
-    "@metadata": {
-        "authors": [
-            "Admresdeserv."
-        ]
-    }
+    "about-license-button": "Licence"
 }

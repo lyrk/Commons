@@ -52,5 +52,8 @@
     "about-source-this-app-title": "D\u00ebs App (iOS]:",
     "about-source-this-app-contributors": "Auteuren",
     "about-license-button": "Lizenz",
-    "about-source-gradient-title": "UIButton vum Jeff LaMarche"
+    "about-source-gradient-title": "UIButton vum Jeff LaMarche",
+    "welcome-no-images-message": "Eng Eropgeluede Fichiere fonnt\n\nBenotzt de Kn\u00e4ppchen hei dr\u00ebnner fir Fotoen ze maachen oder erauszesichen",
+    "welcome-take-or-choose-message": "Eng Foto maachen oder eraussichen",
+    "welcome-checking-message": "Vireg Eropgeluede Fichieren nokucken"
 }

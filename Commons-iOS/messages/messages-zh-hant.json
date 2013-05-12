@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Justincheng12345",
             "Simon Shek"
         ]
     },
@@ -52,5 +53,8 @@
     "about-source-this-app-title": "\u6b64iOS\u7a0b\u5f0f\uff1a",
     "about-source-this-app-contributors": "\u8ca2\u737b\u8005",
     "about-license-button": "\u6388\u6b0a",
-    "about-source-gradient-title": "Jeff LaMarche\u7684\u6f38\u8b8aUI\u6309\u9215\uff1a"
+    "about-source-gradient-title": "Jeff LaMarche\u7684\u6f38\u8b8aUI\u6309\u9215\uff1a",
+    "welcome-no-images-message": "\u5c1a\u672a\u767c\u73fe\u4e0a\u50b3\n\u4f7f\u7528\u4e0b\u65b9\u6309\u9215\u4ee5\n\u9078\u64c7\u6216\u5373\u6642\u62cd\u7167",
+    "welcome-take-or-choose-message": "\u9078\u64c7\u4e00\u5f35\u7167\u7247\u6216\u5373\u6642\u62cd\u7167",
+    "welcome-checking-message": "\u6aa2\u67e5\u4e0a\u6b21\u4e0a\u50b3"
 }

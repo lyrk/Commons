@@ -39,6 +39,8 @@
     "details-description-placeholder": "Vereist",
     "details-license-label": "Licentie",
     "details-hide-keyboard": "Toetsenbord verbergen",
+    "details-category-label": "Categorie\u00ebn",
+    "details-category-select": "Selecteer...",
     "web-open-in": "Openen in $1",
     "web-cancel": "Annuleren",
     "login-title": "Gebruiker",
@@ -55,5 +57,15 @@
     "about-source-gradient-title": "Gradient UIButton van Jeff LaMarche:",
     "welcome-no-images-message": "Geen uploads aangetroffen\nGebruik de knop om foto's\nte nemen of te kiezen",
     "welcome-take-or-choose-message": "Foto maken of kiezen",
-    "welcome-checking-message": "Controleren op\neerdere uploads"
+    "welcome-checking-message": "Controleren op\neerdere uploads",
+    "license-title": "Licentie",
+    "license-intro": "U gaat ermee akkoord uw upload de volgende licentie heeft:",
+    "license-details-intro": "Meer informatie",
+    "license-details-label": "Lezen over licenties",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing",
+    "catdetail-title": "Categorie",
+    "catdetail-remove-label": "\"$1\" verwijderen",
+    "catdetail-info-intro": "Meer informatie",
+    "catdetail-info-label": "Lezen over categorie\u00ebn",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
 }

@@ -52,5 +52,8 @@
     "about-source-this-app-title": "Esta aplicaci\u00f3n (iOS):",
     "about-source-this-app-contributors": "Colaboradores",
     "about-license-button": "Licenza",
-    "about-source-gradient-title": "Gradient UIButton de Jeff LaMarche:"
+    "about-source-gradient-title": "Gradient UIButton de Jeff LaMarche:",
+    "welcome-no-images-message": "Non se atopou ningunha carga.\nUse o bot\u00f3n inferior para\ntomar ou elixir fotos.",
+    "welcome-take-or-choose-message": "Tomar ou elixir unha foto",
+    "welcome-checking-message": "Comprobando as cargas\nanteriores"
 }

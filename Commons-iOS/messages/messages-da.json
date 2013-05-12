@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "HenrikKbh"
+        ]
+    },
     "contribs-title": "Mine uploads",
     "contribs-settings-button": "Indstillinger",
     "contribs-upload-button": "Upload",
@@ -47,10 +52,5 @@
     "about-source-this-app-title": "Denne App (iOS):",
     "about-source-this-app-contributors": "Bidragsydere",
     "about-license-button": "Tilladelse",
-    "about-source-gradient-title": "Jeff LaMarche's graduerende UIKnap:",
-    "@metadata": {
-        "authors": [
-            "HenrikKbh"
-        ]
-    }
+    "about-source-gradient-title": "Jeff LaMarche's graduerende UIKnap:"
 }

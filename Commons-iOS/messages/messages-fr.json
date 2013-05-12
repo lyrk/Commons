@@ -54,5 +54,8 @@
     "about-source-this-app-title": "Cette application (iOS) :",
     "about-source-this-app-contributors": "Contributeurs",
     "about-license-button": "Licence",
-    "about-source-gradient-title": "UIButton inclin\u00e9 de Jeff LaMarche :"
+    "about-source-gradient-title": "UIButton inclin\u00e9 de Jeff LaMarche :",
+    "welcome-no-images-message": "Aucun t\u00e9l\u00e9chargement trouv\u00e9\nUtilisez le bouton ci-dessous pour\nprendre ou choisir des photos",
+    "welcome-take-or-choose-message": "Prendre ou choisir une photo",
+    "welcome-checking-message": "V\u00e9rifier les t\u00e9l\u00e9chargements\npr\u00e9c\u00e9dents"
 }

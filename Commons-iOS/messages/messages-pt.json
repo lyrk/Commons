@@ -1,4 +1,10 @@
 {
+    "@metadata": {
+        "authors": [
+            "Gusta",
+            "Luckas"
+        ]
+    },
     "contribs-title": "Meus carregamentos",
     "contribs-settings-button": "Defini\u00e7\u00f5es",
     "contribs-photo-library-button": "Imagens",
@@ -24,11 +30,5 @@
     "about-privacy-button": "Pol\u00edtica de privacidade",
     "about-source-button": "Fonte",
     "about-source-this-app-contributors": "Contribuidores",
-    "about-license-button": "Licen\u00e7a",
-    "@metadata": {
-        "authors": [
-            "Gusta",
-            "Luckas"
-        ]
-    }
+    "about-license-button": "Licen\u00e7a"
 }

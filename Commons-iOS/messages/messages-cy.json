@@ -1,4 +1,10 @@
 {
+    "@metadata": {
+        "authors": [
+            "Lloffiwr",
+            "Robin Owain"
+        ]
+    },
     "contribs-title": "Ffeiliau rwyf wedi'u huwchlwytho",
     "contribs-settings-button": "Dewisiadau",
     "contribs-upload-button": "Uwchlwytho",
@@ -48,9 +54,7 @@
     "about-source-this-app-contributors": "Cyfrannwyr",
     "about-license-button": "Trwydded",
     "about-source-gradient-title": "BotwmUI \"Gradient\" Jeff LaMarche",
-    "@metadata": {
-        "authors": [
-            "Robin Owain"
-        ]
-    }
+    "welcome-no-images-message": "Dim Uwchlwythiadau i'w Cael.\nPwyswch y Botwm Isod i\nDynnu Lluniau neu eu Dewis.",
+    "welcome-take-or-choose-message": "Tynnu Llun neu Ddewis Llun",
+    "welcome-checking-message": "Wrthi'n Chwilio am Uwchlwythiadau Cynt"
 }

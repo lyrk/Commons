@@ -53,5 +53,7 @@
     "about-source-this-app-title": "Denna app (iOS):",
     "about-source-this-app-contributors": "Bidragsgivare",
     "about-license-button": "Licens",
-    "about-source-gradient-title": "Jeff LaMarches Gradient UIButton:"
+    "about-source-gradient-title": "Jeff LaMarches Gradient UIButton:",
+    "welcome-no-images-message": "Ingen uppladdningar hittades\nAnv\u00e4nd knappen nedan f\u00f6r att\nkn\u00e4ppa eller v\u00e4lja bilder",
+    "welcome-take-or-choose-message": "Kn\u00e4pp eller v\u00e4lja ett foto"
 }

@@ -59,5 +59,4 @@
     "welcome-take-or-choose-message": "Message presented to users with no images when they tap the add image button",
     "welcome-checking-message": "Message presented to users when initially retrieving list of their previous uploads",
     "license-details-url": "URL to local language mobile version of https://commons.m.wikimedia.org/wiki/Commons:Licensing"
-
 }

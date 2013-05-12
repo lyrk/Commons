@@ -1,4 +1,10 @@
 {
+    "@metadata": {
+        "authors": [
+            "Autokrator",
+            "UV"
+        ]
+    },
     "contribs-title": "Fasciculi mei impositi",
     "contribs-settings-button": "Praeferentiae",
     "contribs-upload-button": "Fasciculum imponere",
@@ -44,11 +50,5 @@
     "about-source-button": "Fons",
     "about-source-this-app-contributors": "Conlatores",
     "about-license-button": "Licentia",
-    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:",
-    "@metadata": {
-        "authors": [
-            "Autokrator",
-            "UV"
-        ]
-    }
+    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:"
 }

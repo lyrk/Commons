@@ -52,5 +52,8 @@
     "about-source-this-app-title": "Aceast\u0103 aplica\u021bie (iOS):",
     "about-source-this-app-contributors": "Contribuitori",
     "about-license-button": "Licen\u021b\u0103",
-    "about-source-gradient-title": "UIButton-ul \u00een degrade al lui Jeff LaMarche:"
+    "about-source-gradient-title": "UIButton-ul \u00een degrade al lui Jeff LaMarche:",
+    "welcome-no-images-message": "Nicio \u00eenc\u0103rcare g\u0103sit\u0103\nFolosi\u021bi butonul de mai jos pentru\na face sau alege fotografii",
+    "welcome-take-or-choose-message": "Face\u021bi sau alege\u021bi o fotografie",
+    "welcome-checking-message": "Se caut\u0103 \u00eenc\u0103rc\u0103ri anterioare"
 }

@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Eitvys200"
+        ]
+    },
     "contribs-settings-button": "Nustatymai",
     "contribs-upload-button": "\u012ekelti",
     "contribs-photo-library-button": "Nuotraukos",
@@ -41,10 +46,5 @@
     "about-source-button": "\u0160altinis",
     "about-source-this-app-title": "\u0160i Program\u0117l\u0117 (iOS):",
     "about-source-this-app-contributors": "Autoriai",
-    "about-license-button": "Licencija",
-    "@metadata": {
-        "authors": [
-            "Eitvys200"
-        ]
-    }
+    "about-license-button": "Licencija"
 }

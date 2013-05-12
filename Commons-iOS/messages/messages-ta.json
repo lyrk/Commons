@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Sank"
+        ]
+    },
     "contribs-title": "\u0b8e\u0ba9\u0ba4\u0bc1 \u0baa\u0ba4\u0bbf\u0bb5\u0bc7\u0bb1\u0bcd\u0bb1\u0b99\u0bcd\u0b95\u0bb3\u0bcd",
     "contribs-settings-button": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bcd\u0b95\u0bb3\u0bcd",
     "contribs-upload-button": "\u0baa\u0ba4\u0bbf\u0bb5\u0bc7\u0bb1\u0bcd\u0bb1\u0bc1",
@@ -38,10 +43,5 @@
     "about-bugs-button": "\u0bb5\u0bb4\u0bc1 \u0ba8\u0bcb\u0b95\u0bcd\u0b95\u0bb0\u0bcd",
     "about-source-button": "\u0bae\u0bc2\u0bb2\u0bae\u0bcd",
     "about-source-this-app-contributors": "\u0baa\u0b99\u0bcd\u0b95\u0bb3\u0bbf\u0baa\u0bcd\u0baa\u0bbe\u0bb3\u0bb0\u0bcd\u0b95\u0bb3\u0bcd",
-    "about-license-button": "\u0b89\u0bb0\u0bbf\u0bae\u0bae\u0bcd",
-    "@metadata": {
-        "authors": [
-            "Sank"
-        ]
-    }
+    "about-license-button": "\u0b89\u0bb0\u0bbf\u0bae\u0bae\u0bcd"
 }

@@ -1,5 +1,11 @@
 {
-    "contribs-title": "\u4ebb\u5393\u5605\u4e0a\u8f09",
+    "@metadata": {
+        "authors": [
+            "Anson2812",
+            "Jetlag"
+        ]
+    },
+    "contribs-title": "\ud840\ude8e\u5605\u4e0a\u8f09",
     "contribs-settings-button": "\u8a2d\u5b9a",
     "contribs-upload-button": "\u4e0a\u8f09",
     "contribs-photo-library-button": "\u76f8\u7247",
@@ -22,7 +28,7 @@
     "settings-password-placeholder": "\u5bc6\u78bc",
     "settings-debug-label": "\u5075\u932f\u6a21\u5f0f\uff1a",
     "settings-open-links-label": "\u4f7f\u7528\u4ee5\u4e0b\u65b9\u5f0f\u6253\u958b\u93c8\u63a5\uff1a",
-    "settings-open-links-only-safari": "\u7121\u5b89\u88dd\u5176\u4ed6\u652f\u6301\u5605\u700f\u89bd\u5668\u3002",
+    "settings-open-links-only-safari": "\u7121\u5b89\u88dd\u5176\u4ed6\u652f\u6301\u4e2a\u700f\u89bd\u5668\u3002",
     "settings-debug-detail": "\u6b63\u5728\u4e0a\u50b3\u5230$1",
     "settings-usage-reports-label": "\u4f7f\u7528\u5831\u544a\uff1a",
     "settings-usage-reports-description": "\u5411\u7dad\u57fa\u5a92\u9ad4\u767c\u9001\u4f7f\u7528\u5831\u544a\uff0c\u5e6b\u52a9\u543e\u515c\u6539\u9032\u9087\u96bb\u61c9\u7528",
@@ -47,11 +53,8 @@
     "about-source-this-app-title": "\u9087\u96bbiOS\u61c9\u7528\uff1a",
     "about-source-this-app-contributors": "\u8ca2\u737b\u8005",
     "about-license-button": "\u6388\u6b0a",
-    "about-source-gradient-title": "Jeff LaMarche\u5605\u6f38\u8b8aUI\u6309\u9215\uff1a",
-    "@metadata": {
-        "authors": [
-            "Anson2812",
-            "Jetlag"
-        ]
-    }
+    "about-source-gradient-title": "Jeff LaMarche\u4e2a\u6f38\u8b8aUI\u6309\u9215\uff1a",
+    "welcome-no-images-message": "\u7121\u5c0b\u5230\u4e0a\u8f09\u4e2a\u6587\u4ef6\n\u8acb\u4f7f\u7528\u4e0b\u80cc\u4e2a\u6309\u9375\n\u4f86\u9078\u53d6\u5716\u7247",
+    "welcome-take-or-choose-message": "\u9078\u53d6\u5716\u7247",
+    "welcome-checking-message": "\u67e5\u770b\u5f80\u64fa\u4e2a\u4e0a\u8f09"
 }

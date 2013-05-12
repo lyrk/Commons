@@ -13,7 +13,7 @@
     "contribs-state-uploading": "Laster opp",
     "contribs-refresh": "Dra for \u00e5 oppdatere",
     "contribs-refreshing": "Oppdaterer...",
-    "error-upload-failed": "Opplasting mislyktes",
+    "error-upload-failed": "Opplasting mislyktes!",
     "error-upload-cancelled": "Opplastning avbrutt",
     "error-dismiss": "Lukk",
     "error-nologin-title": "Ups!",
@@ -53,5 +53,8 @@
     "about-source-this-app-title": "Denne appen (iOS):",
     "about-source-this-app-contributors": "Bidragsytere",
     "about-license-button": "Lisens",
-    "about-source-gradient-title": "Jeff LaMarches graduerende UIKnapp:"
+    "about-source-gradient-title": "Jeff LaMarches graduerende UIKnapp:",
+    "welcome-no-images-message": "Ingen opplastninger funnet. Bruk knappen under for \u00e5 ta eller velge bilder",
+    "welcome-take-or-choose-message": "Ta eller velg et bilde",
+    "welcome-checking-message": "Sjekker for tidligere opplastninger"
 }
