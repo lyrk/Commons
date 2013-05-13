@@ -14,13 +14,16 @@
 #import "MyUploadsViewController.h"
 #import "CategorySearchTableViewController.h"
 #import "CategoryDetailTableViewController.h"
-
+#import "AppDelegate.h"
+#import "LoadingIndicator.h"
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
 @interface DetailTableViewController ()
 
-    - (void)hideKeyboard;
+@property (weak, nonatomic) AppDelegate *appDelegate;
+
+- (void)hideKeyboard;
 
 @end
 
@@ -46,6 +49,9 @@
 {
     [super viewDidLoad];
     
+    // Get the app delegate so the loading indicator may be accessed
+	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+
     [self.tableView registerNib:[UINib nibWithNibName:@"CategoryCell" bundle:nil] forCellReuseIdentifier:@"CategoryCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"AddCategoryCell" bundle:nil] forCellReuseIdentifier:@"AddCategoryCell"];
     
@@ -118,6 +124,7 @@
             self.ccSaImage.hidden = NO;
 
             [self updateUploadButton];
+            [self updateShareButton];
         }
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
@@ -181,6 +188,15 @@
     if (record != nil && !record.complete.boolValue) {
         self.uploadButton.enabled = record.title.length > 0 &&
                                     record.desc.length > 0;
+    }
+}
+
+- (void)updateShareButton
+{
+    FileUpload *record = self.selectedRecord;
+    if (record != nil && !record.complete.boolValue) {
+        self.shareButton.enabled = record.title.length > 0 &&
+        record.desc.length > 0;
     }
 }
 
@@ -386,6 +402,50 @@
     }
 }
 
+- (IBAction)shareButtonPushed:(id)sender
+{
+    FileUpload *record = self.selectedRecord;
+    if (record == nil) {
+        NSLog(@"No image to share. No record.");
+        return;
+    }
+    
+    if (!record.complete.boolValue) {
+        NSLog(@"No image to share. Not complete.");
+        return;
+    }
+    
+    // Could display more than just the loading indicator at this point - could
+    // display message saying "Retrieving full resolution image for sharing" or
+    // something similar
+    [self.appDelegate.loadingIndicator show];
+        
+    // Fetch cached or internet image at standard size...
+    MWPromise *fetch = [CommonsApp.singleton fetchWikiImage:record.title size:[CommonsApp.singleton getFullSizedImageSize]];
+    
+    [fetch done:^(UIImage *image) {
+
+        // Get the wiki url for the image
+        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
+        NSURL *wikiUrl = [CommonsApp.singleton URLForWikiPage:pageTitle];
+        
+        // Present the sharing interface for the image itself and its wiki url
+        self.shareActivityViewController = [[UIActivityViewController alloc]
+                                            initWithActivityItems:@[image, wikiUrl]
+                                            applicationActivities:nil
+                                            ];
+        [self presentViewController:self.shareActivityViewController animated:YES completion:^{
+            [self.appDelegate.loadingIndicator hide];
+        }];
+    }];
+    [fetch fail:^(NSError *error) {
+        NSLog(@"Failed to obtain image for sharing: %@", [error localizedDescription]);
+    }];
+    [fetch always:^(id obj) {
+        [self.appDelegate.loadingIndicator hide];
+    }];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
@@ -394,14 +454,7 @@
             
             ImageScrollViewController *view = [segue destinationViewController];
             
-            CGFloat square;
-            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-                square = 2048.0f; // we got a big screen!
-            } else {
-                square = 1024.0f;
-            }
-            CGFloat density = [UIScreen mainScreen].scale;
-            CGSize size = CGSizeMake(square * density, square * density);
+            CGSize size = [CommonsApp.singleton getFullSizedImageSize];
             
             FileUpload *record = self.selectedRecord;
             if (record != nil) {

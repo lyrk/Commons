@@ -1277,4 +1277,17 @@ static CommonsApp *singleton_;
     [[UIApplication sharedApplication] openURL:url];
 }
 
+-(CGSize)getFullSizedImageSize
+{
+    CGFloat square;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        square = 2048.0f; // we got a big screen!
+    } else {
+        square = 1024.0f;
+    }
+    CGFloat density = [UIScreen mainScreen].scale;
+    CGSize size = CGSizeMake(square * density, square * density);
+    return size;
+}
+
 @end
