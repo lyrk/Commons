@@ -1036,7 +1036,7 @@ static CommonsApp *singleton_;
     return fileName;
 }
 
-- (MWPromise *)refreshHistory
+- (MWPromise *)refreshHistoryWithFailureAlert:(BOOL)showFailureAlert;
 {
     MWDeferred *deferred = [[MWDeferred alloc] init];
 
@@ -1137,13 +1137,15 @@ static CommonsApp *singleton_;
     }];
     [req fail:^(NSError *error) {
         NSLog(@"Failed to refresh history: %@", [error localizedDescription]);
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Refresh failed!"
-                                                            message:[error localizedDescription]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Dismiss"
-                                                  otherButtonTitles:nil];
-        [alertView show];
+        if (showFailureAlert) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Refresh failed!"
+                                                                message:[error localizedDescription]
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Dismiss"
+                                                      otherButtonTitles:nil];
+            
+            [alertView show];
+        }
         [deferred reject:error];
     }];
     return [deferred promise];

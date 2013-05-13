@@ -71,7 +71,7 @@
 - (MWPromise *)prepareImage:(NSDictionary *)info from:(NSString *)source;
 - (void)deleteUploadRecord:(FileUpload *)record;
 
-- (MWPromise *)refreshHistory;
+- (MWPromise *)refreshHistoryWithFailureAlert:(BOOL)showFailureAlert;
 
 - (NSString *)cleanupTitle:(NSString *)title;
 
