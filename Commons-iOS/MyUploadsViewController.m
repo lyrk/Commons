@@ -274,6 +274,11 @@
     CommonsApp *app = [CommonsApp singleton];
     if (app.fetchDataURLQueue.operationCount > 0) {
         for (FetchImageOperation *op in app.fetchDataURLQueue.operations) {
+            
+            // If the op is already running (or is finished) ignore it as adjusting the
+            // priority at that point wouldn't really matter
+            if (op.isExecuting || op.isCancelled || op.isFinished) continue;
+            
             if ([self isOpCellOnScreen:op]){
                 NSLog(@"SET HIGH FOR %@", op.url);
                 [op setQueuePriority:NSOperationQueuePriorityHigh];
@@ -288,13 +293,13 @@
 {
     // Should find better way to determine a cell's file - below it's using the title from the FileUpload record
     
+    // The title has had its underscores replaces with spaces, so to match the title to the url
+    // the url must do the same
+    NSString *urlNoUnderscore = [[op.url path] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+
     CommonsApp *app = CommonsApp.singleton;
     for (NSIndexPath *indexPath in [self.collectionView indexPathsForVisibleItems]) {
         FileUpload *record = (FileUpload *)[app.fetchedResultsController objectAtIndexPath:indexPath];
-        
-        // The title has had its underscores replaces with spaces, so to match the title to the url
-        // the url must do the same
-        NSString *urlNoUnderscore = [[op.url path] stringByReplacingOccurrencesOfString:@"_" withString:@" "];
         
         if ([urlNoUnderscore hasSuffix:record.title]) return YES;
     }
