@@ -7,6 +7,7 @@
 //
 
 #import "ImageListCell.h"
+#import "ProgressView.h"
 
 @implementation ImageListCell
 

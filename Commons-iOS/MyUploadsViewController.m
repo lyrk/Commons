@@ -16,6 +16,7 @@
 #import "SettingsViewController.h"
 #import "WelcomeOverlayView.h"
 #import "FetchImageOperation.h"
+#import "ProgressView.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -864,7 +865,11 @@
     // fixme indexPosition doesn't always update when we add new items
 
     NSString *title = record.title;
-
+    
+    // Reset the download progress bar (the cell.infoBox) to reflect any previous progress
+    cell.infoBox.progressNormal = (record.fetchThumbnailProgress.floatValue != 1.0f) ? record.fetchThumbnailProgress.floatValue : 0.0f;
+    [cell.infoBox setNeedsDisplay];
+    
     if (cell.title && [cell.title isEqual:title]) {
         // Image should already be loaded.
         NSLog(@"already loaded a title");
@@ -897,8 +902,27 @@
                     });
                 }
             }];
+    
             [fetchThumb fail:^(NSError *error) {
                 NSLog(@"failed to load thumbnail");
+            }];
+        
+            [fetchThumb progress:^(NSDictionary *dict) {
+                if ([cell.title isEqualToString:title]) {
+                    dispatch_async(dispatch_get_main_queue(), ^(void) {
+                        
+                        // Make the download progress bar (the cell.infoBox) reflect new progress
+                        NSNumber *bytesReceived = dict[@"received"];
+                        NSNumber *bytesTotal = dict[@"total"];
+                        
+                        if (bytesTotal.floatValue == 0.0f) return;
+                        
+                        float progress = (bytesReceived.floatValue / bytesTotal.floatValue);
+                        
+                        // Animate the download progress bar from its current progressNormal to progress
+                        [cell.infoBox animateProgress:progress];
+                    });
+                }
             }];
         });
     }
