@@ -56,6 +56,10 @@
         fetch = [app loadImage:self.localFile
                       fileType:self.fileType];
     }
+
+    [fetch progress:^(id arg) {
+        [deferred notify:arg];
+    }];
     
     [fetch done:^(UIImage *image) {
         [deferred resolve:image];

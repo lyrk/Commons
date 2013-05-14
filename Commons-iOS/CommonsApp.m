@@ -910,6 +910,11 @@ static CommonsApp *singleton_;
     FetchImageOperation *fetchOperation = [[FetchImageOperation alloc] initWithURL:url];
     fetchOperation.completionHandler = done;
 
+    void (^progressed)(float, float) = ^(float total, float received){
+        [deferred notify:@{@"total": @(total), @"received": @(received)}];
+    };
+    fetchOperation.progressHandler = progressed;
+    
     [self.fetchDataURLQueue addOperation:fetchOperation];
 
     return deferred.promise;

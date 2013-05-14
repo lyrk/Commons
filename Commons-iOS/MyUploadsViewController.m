@@ -16,6 +16,7 @@
 #import "SettingsViewController.h"
 #import "WelcomeOverlayView.h"
 #import "FetchImageOperation.h"
+#import "ProgressView.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -867,6 +868,10 @@
 
     NSString *title = record.title;
 
+    // Reset the download progress bar
+    cell.infoBox.progressNormal = 0.0f;
+    [cell.infoBox setNeedsDisplay];
+    
     if (cell.title && [cell.title isEqual:title]) {
         // Image should already be loaded.
         NSLog(@"already loaded a title");
@@ -904,6 +909,22 @@
             NSLog(@"failed to load thumbnail");
             //}];
         }];
+        
+        [fetchThumb progress:^(NSDictionary *dict) {
+            if ([cell.title isEqualToString:title]) {
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    
+                    NSNumber *bytesReceived = dict[@"received"];
+                    NSNumber *bytesTotal = dict[@"total"];
+                    
+                    float progress = (bytesReceived.floatValue / bytesTotal.floatValue);
+                    
+                    // Animate the download progress bar from its current progressNormal to progress
+                    [self animateProgress:progress forProgressView:cell.infoBox];
+                });
+            }
+        }];
+        
         //}];
     }
     if (record.complete.boolValue) {
@@ -924,6 +945,29 @@
             cell.progressBar.progress = record.progress.floatValue;
         }
     }
+}
+
+- (void)animateProgress:(float)progress forProgressView:(ProgressView *)progressView
+{
+    // Smooth the download progress bar advance by drawing a number of intermediate states between its current progressNormal and the value passed to the method via the "progress" parameter
+    float lastProgress = progressView.progressNormal;
+    if ((progress > 0) && (progress > lastProgress)) {
+        float delay = 0.010;
+        int frames = 15;
+        float diffProgress = progress - lastProgress;
+        for (int i = 0; i < frames + 1; i++) {
+            float intermediateProgress = lastProgress + (diffProgress * (i * (1.0 / frames)));
+            dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, NSEC_PER_SEC * (delay * i));
+            dispatch_after(delayTime, dispatch_get_main_queue(), ^(void){
+                progressView.progressNormal = (intermediateProgress == 1.0) ? 0.0 : intermediateProgress;
+                [progressView setNeedsDisplay];
+            });
+        }
+    }else{
+        progressView.progressNormal = 0;
+        [progressView setNeedsDisplay];
+    }
+    NSLog(@"Image Download Progress = %f", progress);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

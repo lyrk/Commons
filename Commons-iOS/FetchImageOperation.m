@@ -5,7 +5,9 @@
 
 #import "FetchImageOperation.h"
 
-@interface FetchImageOperation()
+@interface FetchImageOperation(){
+    int expectedContentLength_;
+}
 
 - (NSError *)getErrorWithMessage:(NSString *)msg code:(NSInteger)code;
 
@@ -36,6 +38,7 @@
         self.response = nil;
         self.connection = nil;
         self.completionHandler = nil;
+        self.progressHandler = nil;
         self.doneInterval = 0;
         self.startInterval = 0;
         [self setQueuePriority:NSOperationQueuePriorityNormal];
@@ -55,6 +58,7 @@
 	self.error = nil;
     self.response = nil;
     self.completionHandler = nil;
+    self.progressHandler = nil;
 }
 
 #pragma mark -
@@ -161,6 +165,8 @@
 // The connection failed
 - (void)connection:(NSURLConnection*)connection didFailWithError:(NSError*)error
 {
+    if (self.progressHandler != nil) self.progressHandler(expectedContentLength_, [self.data length]);
+
 	// Check if the operation has been cancelled
 	if([self isCancelled]) {
 		[self cancelled];
@@ -181,11 +187,15 @@
 		return;
 	}	
 	[self.data appendData:data];
+    
+    if (self.progressHandler != nil) self.progressHandler(expectedContentLength_, [self.data length]);
 }
 
 // Initial response
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
+    expectedContentLength_ = [response expectedContentLength];
+
 	// Check if the operation has been cancelled
 	if([self isCancelled]) {
 		[self cancelled];
