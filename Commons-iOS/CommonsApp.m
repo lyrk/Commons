@@ -547,9 +547,80 @@ static CommonsApp *singleton_;
             stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 }
 
+- (MWPromise *)checkFileName:(NSString *)fileName
+{
+    return [self checkFileName:fileName trySequence:1];
+}
+
+- (MWPromise *)checkFileName:(NSString *)fileName trySequence:(NSInteger)sequenceNumber
+{
+    NSString *sequenceFileName;
+    if (sequenceNumber <= 1) {
+        sequenceFileName = [@"File:" stringByAppendingString:fileName];
+    } else {
+        NSArray *parts = [fileName componentsSeparatedByString:@"."];
+        NSString *extension = parts[parts.count - 1];
+        NSString *baseName = [[parts subarrayWithRange:NSMakeRange(0, parts.count - 1)] componentsJoinedByString:@"."];
+        
+        sequenceFileName = [NSString stringWithFormat:@"File:%@ %d.%@", baseName, sequenceNumber, extension];
+    }
+    NSLog(@"checkFilename: %@", sequenceFileName);
+    
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+    
+    MWApi *api = [self startApi];
+    MWPromise *check = [api getRequest:@{
+                        @"action": @"query",
+                        @"prop": @"imageinfo",
+                        @"titles": sequenceFileName,
+    }];
+    [check done:^(NSDictionary *result) {
+        NSDictionary *pages = result[@"query"][@"pages"];
+        NSDictionary *page;
+        for (NSString *pageId in pages) {
+            page = pages[pageId];
+        }
+        if (page == nil) {
+            // this shouldn't happen
+            // but we'll just hope the file is clear
+            [deferred resolve:sequenceFileName];
+        } else {
+            if (page[@"imageinfo"] == nil) {
+                // no image!
+                [deferred resolve:sequenceFileName];
+            } else {
+                MWPromise *nextCheck = [self checkFileName:fileName trySequence:sequenceNumber+1];
+                [nextCheck pipe:deferred];
+            }
+        }
+    }];
+    [check fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
+    
+    return deferred.promise;
+}
+
 - (MWPromise *)beginUpload:(FileUpload *)record
 {
     NSString *fileName = [self filenameForTitle:record.title type:record.fileType];
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+    
+    MWPromise *nameCheck = [self checkFileName:fileName];
+    [nameCheck done:^(NSString *clearFileName) {
+        MWPromise *upload = [self beginUploadProper:record fileName:clearFileName];
+        [upload pipe:deferred];
+    }];
+    [nameCheck fail:^(NSError *err) {
+        [deferred reject:err];
+    }];
+    
+    
+    return deferred.promise;
+}
+
+- (MWPromise *)beginUploadProper:(FileUpload *)record fileName:(NSString *)fileName
+{
     NSString *filePath = [self filePath:record.localFile];
     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
     
