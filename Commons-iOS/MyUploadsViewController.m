@@ -30,7 +30,6 @@
     bool buttonAnimationInProgress;
     UIView *opaqueView;
     NSUInteger thumbnailCount;
-    //NSOperationQueue *fetchThumbQueue;
 }
 
 - (void)animateTakeAndChoosePhotoButtons;
@@ -48,7 +47,6 @@
     self = [super initWithCoder:coder];
     if (self) {
         thumbnailCount = 0;
-        //fetchThumbQueue = [[NSOperationQueue alloc] init];
     }
     return self;
 }
@@ -876,35 +874,33 @@
         
         cell.image.image = nil;
         
-        // Using fetchThumbQueue below eliminates the last bit of jitter when scrolling through a large image set, but
-        // it's causing strange intermittent (threading related?) errors - commented for now until it can be further debugged...
-        
-        // Fetch the thumbnail on a background thread
-        //[fetchThumbQueue addOperationWithBlock:^{
-        MWPromise *fetchThumb = [record fetchThumbnail];
-        
-        [fetchThumb done:^(UIImage *image) {
-            // Now that the thumbnail has been fetched use it - do so on the main thread
-            //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            if ([cell.title isEqualToString:title]) {
-                if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
-                    // Smooth transition (disabled on iPad for better performance - iPad shows many more images at once)
-                    CATransition *transition = [CATransition animation];
-                    transition.duration = 0.10f;
-                    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-                    transition.type = kCATransitionFade;
-                    [cell.image.layer addAnimation:transition forKey:nil];
+        // Load Image for cell.
+        // If you quickly scrolled through a large image set - especially on iPad - you'd get jitter
+        // mostly caused by loading image from file system blocking the main thread. So dispatch_async
+        // loading of the image eliminates most of the remaining fast-scroll jitter.
+        // (See: http://stackoverflow.com/a/5574667/135557 for more info)
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
+            MWPromise *fetchThumb = [record fetchThumbnail];
+            [fetchThumb done:^(UIImage *image) {
+                if ([cell.title isEqualToString:title]) {
+                    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
+                        // Smooth transition (disabled on iPad for better performance - iPad shows many more images at once)
+                        CATransition *transition = [CATransition animation];
+                        transition.duration = 0.10f;
+                        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+                        transition.type = kCATransitionFade;
+                        [cell.image.layer addAnimation:transition forKey:nil];
+                    }
+                    // Also invoke the image setter asynchronously
+                    dispatch_async(dispatch_get_main_queue(), ^(void) {
+                        cell.image.image = image;
+                    });
                 }
-                cell.image.image = image;
-            }
-            //}];
-        }];
-        [fetchThumb fail:^(NSError *error) {
-            //[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            NSLog(@"failed to load thumbnail");
-            //}];
-        }];
-        //}];
+            }];
+            [fetchThumb fail:^(NSError *error) {
+                NSLog(@"failed to load thumbnail");
+            }];
+        });
     }
     if (record.complete.boolValue) {
         // Old upload, already complete.

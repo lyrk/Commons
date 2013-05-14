@@ -77,55 +77,61 @@
 
         self.categoryListLabel.text = [self categoryShortList];
 
-        MWPromise *thumb = [record fetchThumbnail];
-        [thumb done:^(UIImage *image) {
-            self.imageSpinner.hidden = YES;
-            self.imagePreview.image = image;
-        }];
-        [thumb fail:^(NSError *error) {
-            NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
-            self.imageSpinner.hidden = YES;
-        }];
-
-        if (record.complete.boolValue) {
-            // Completed upload...
-            self.titleTextField.enabled = NO;
-            self.descriptionTextView.editable = NO;
-            self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
-            self.actionButton.enabled = YES; // open link or share on the web
-            self.uploadButton.enabled = NO; // fixme either hide or replace with action button?
+        dispatch_async(dispatch_get_main_queue(), ^(void) {
             
-            // fixme: load description from wiki page
-            self.descriptionLabel.hidden = YES;
-            self.descriptionTextView.hidden = YES;
-            self.descriptionPlaceholder.hidden = YES;
-
-            // fixme: load license info from wiki page
-            self.licenseLabel.hidden = YES;
-            self.licenseNameLabel.hidden = YES;
-            self.ccByImage.hidden = YES;
-            self.ccSaImage.hidden = YES;
-
-            // either use HTML http://commons.wikimedia.org/wiki/Commons:Machine-readable_data
-            // or pick apart the standard templates
-        } else {
-            // Locally queued file...
-            self.titleTextField.enabled = YES;
-            self.descriptionTextView.editable = YES;
-            self.deleteButton.enabled = (record.progress.floatValue == 0.0f); // don't allow delete _during_ upload
-            self.actionButton.enabled = NO;
-
-            self.descriptionLabel.hidden = NO;
-            self.descriptionTextView.hidden = NO;
-            self.descriptionPlaceholder.hidden = (record.desc.length > 0);
-            self.licenseLabel.hidden = NO;
-            self.licenseNameLabel.hidden = NO;
-            self.ccByImage.hidden = NO;
-            self.ccSaImage.hidden = NO;
-
-            [self updateUploadButton];
-            [self updateShareButton];
-        }
+            MWPromise *thumb = [record fetchThumbnail];
+            
+            [thumb done:^(UIImage *image) {
+                self.imageSpinner.hidden = YES;
+                self.imagePreview.image = image;
+            }];
+            [thumb fail:^(NSError *error) {
+                NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
+                self.imageSpinner.hidden = YES;
+            }];
+            
+            if (record.complete.boolValue) {
+                // Completed upload...
+                self.titleTextField.enabled = NO;
+                self.descriptionTextView.editable = NO;
+                self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
+                self.actionButton.enabled = YES; // open link or share on the web
+                self.uploadButton.enabled = NO; // fixme either hide or replace with action button?
+                
+                // fixme: load description from wiki page
+                self.descriptionLabel.hidden = YES;
+                self.descriptionTextView.hidden = YES;
+                self.descriptionPlaceholder.hidden = YES;
+                
+                // fixme: load license info from wiki page
+                self.licenseLabel.hidden = YES;
+                self.licenseNameLabel.hidden = YES;
+                self.ccByImage.hidden = YES;
+                self.ccSaImage.hidden = YES;
+                
+                // either use HTML http://commons.wikimedia.org/wiki/Commons:Machine-readable_data
+                // or pick apart the standard templates
+            } else {
+                // Locally queued file...
+                self.titleTextField.enabled = YES;
+                self.descriptionTextView.editable = YES;
+                self.deleteButton.enabled = (record.progress.floatValue == 0.0f); // don't allow delete _during_ upload
+                self.actionButton.enabled = NO;
+                
+                self.descriptionLabel.hidden = NO;
+                self.descriptionTextView.hidden = NO;
+                self.descriptionPlaceholder.hidden = (record.desc.length > 0);
+                self.licenseLabel.hidden = NO;
+                self.licenseNameLabel.hidden = NO;
+                self.ccByImage.hidden = NO;
+                self.ccSaImage.hidden = NO;
+                
+                [self updateUploadButton];
+                [self updateShareButton];
+            }
+            
+        });
+    
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
     }
@@ -461,22 +467,27 @@
                 
                 view.title = record.title;
                 
-                MWPromise *fetch;
-                if (record.complete.boolValue) {
-                    // Fetch cached or internet image at standard size...
-                    fetch = [CommonsApp.singleton fetchWikiImage:record.title size:size];
-                } else {
-                    // Load the local file...
-                    fetch = [record fetchThumbnail];
-                }
-                [fetch done:^(UIImage *image) {
-                    [view setImage:image];
-                }];
-                [fetch fail:^(NSError *error) {
-                    NSLog(@"Failed to download image: %@", [error localizedDescription]);
-                    // Pop back after a second if image failed to download
-                    [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
-                }];
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    
+                    MWPromise *fetch;
+                    if (record.complete.boolValue) {
+                        // Fetch cached or internet image at standard size...
+                        fetch = [CommonsApp.singleton fetchWikiImage:record.title size:size];
+                    } else {
+                        // Load the local file...
+                        fetch = [record fetchThumbnail];
+                    }
+                    [fetch done:^(UIImage *image) {
+                        [view setImage:image];
+                    }];
+                    [fetch fail:^(NSError *error) {
+                        NSLog(@"Failed to download image: %@", [error localizedDescription]);
+                        // Pop back after a second if image failed to download
+                        [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
+                    }];
+                    
+                });
+
             }
             
         }
