@@ -10,4 +10,6 @@
 
 @property (nonatomic) CGFloat progressNormal;
 
+- (void)animateProgress:(float)progress;
+
 @end

@@ -25,6 +25,8 @@
 @property (nonatomic, retain) NSString * thumbnailURL;
 @property (nonatomic, retain) NSNumber * fileSize;
 
+@property (nonatomic, retain) NSNumber * fetchThumbnailProgress;
+
 - (NSString *)prettySize;
 - (MWPromise *)fetchThumbnail;
 - (BOOL)isReadyForUpload;
