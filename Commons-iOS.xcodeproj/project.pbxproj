@@ -15,6 +15,7 @@
 		0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C864173B3D3800C2D03B /* SpeedGovernor.m */; };
 		0456EE8C170CF328008AF00A /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0456EE8B170CF328008AF00A /* NavigationController.m */; };
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
+		04C27B191741C24200B1942F /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B181741C24200B1942F /* ProgressView.m */; };
 		1F7C6BFA16BEEEF300B7C558 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */; };
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
 		305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 305BC7691710BD3300B2CC01 /* LoadingIndicator.m */; };
@@ -289,6 +290,8 @@
 		0456EE8B170CF328008AF00A /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		0478F8E71731B5E9007D4531 /* WelcomeOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeOverlayView.h; sourceTree = "<group>"; };
 		0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeOverlayView.m; sourceTree = "<group>"; };
+		04C27B171741C24200B1942F /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
+		04C27B181741C24200B1942F /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		1F7C6BF616BEEE4D00B7C558 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1F7C6BF716BEEE4D00B7C558 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -595,6 +598,8 @@
 				040860BD1713939200D3290B /* GrayscaleImageView.m */,
 				044A0C3A170F6504003395DD /* GradientButton.h */,
 				044A0C3B170F6504003395DD /* GradientButton.m */,
+				04C27B171741C24200B1942F /* ProgressView.h */,
+				04C27B181741C24200B1942F /* ProgressView.m */,
 				655BF5ED16C1052D00B22299 /* StorageTools.h */,
 				655BF5EE16C1052D00B22299 /* StorageTools.m */,
 				D4B83E2016BC950900ABAF94 /* BrowserHelper.h */,
@@ -1325,6 +1330,7 @@
 				D41BFA49173AF2CA00472EC7 /* Category.m in Sources */,
 				0451C8621739A2CC00C2D03B /* FetchImageOperation.m in Sources */,
 				0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */,
+				04C27B191741C24200B1942F /* ProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

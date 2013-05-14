@@ -189,6 +189,9 @@
             [requestsByKey_ removeObjectForKey:key];
             [fetchDeferred reject:error];
         }];
+        [fetchImage progress:^(id arg) {
+            [fetchDeferred notify:arg];
+        }];
     } else {
         NSError *error = [NSError errorWithDomain:@"MediaWiki" code:MW_ERROR_IMAGE_FETCH userInfo:@{}];
         [fetchDeferred reject:error];

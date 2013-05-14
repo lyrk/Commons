@@ -23,8 +23,17 @@
 @dynamic thumbnailURL;
 @dynamic fileSize;
 
+@synthesize fetchThumbnailProgress;
+
 #define THUMBNAIL_RESOLUTION_IPAD 256.0f
 #define THUMBNAIL_RESOLUTION_NON_IPAD 320.0f
+
+- (id)initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context{
+    
+    self.fetchThumbnailProgress = @0.0f;
+    
+    return [super initWithEntity:entity insertIntoManagedObjectContext:context];
+}
 
 - (NSString *)prettySize
 {
@@ -56,6 +65,22 @@
         fetch = [app loadImage:self.localFile
                       fileType:self.fileType];
     }
+
+    [fetch progress:^(NSDictionary *dict) {
+        // Set fetchThumbnailProgress so it can be queried to determine how much progress was previously made
+        // (this is needed, for example, when a cell appears and partially downloads, but then the cell goes
+        // off-screen, then back on-screen. When it comes back on-screen there may be a period of time before
+        // new progress is reported. Having this fetchThumbnailProgress value lets us make the progress
+        // indicator display the previous progress even before it gets another progress callback)
+        NSNumber *bytesReceived = dict[@"received"];
+        NSNumber *bytesTotal = dict[@"total"];
+        
+        if (bytesTotal.floatValue > 0.0f) {
+            self.fetchThumbnailProgress = @(bytesReceived.floatValue / bytesTotal.floatValue);
+        }
+        
+        [deferred notify:dict];
+    }];
     
     [fetch done:^(UIImage *image) {
         [deferred resolve:image];
