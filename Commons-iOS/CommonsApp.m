@@ -1114,8 +1114,6 @@ static CommonsApp *singleton_;
 
 - (MWPromise *)refreshHistoryWithFailureAlert:(BOOL)showFailureAlert;
 {
-    MWDeferred *deferred = [[MWDeferred alloc] init];
-
     // Find the latest entry
     // fixme do this more efficiently
     NSDate *latest = nil;
@@ -1127,19 +1125,31 @@ static CommonsApp *singleton_;
         }
     }
 
+    MWApi *api = [self startApi];
+    
+    NSString *formattedDateString = (latest) ? [api formatTimestamp:latest] : nil;
+
+    return [self refreshHistoryWithFailureAlert:showFailureAlert fromTimeStamp:formattedDateString];
+}
+
+- (MWPromise *)refreshHistoryWithFailureAlert:(BOOL)showFailureAlert fromTimeStamp:(NSString *)timestamp
+{
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+    
     // Ask the API for any new changes
     MWApi *api = [self startApi];
     NSMutableDictionary *params = [@{
-                                    @"action": @"query",
-                                    @"list": @"logevents",
-                                    @"leaction": @"upload/upload",
-                                    @"leprop": @"title|timestamp",
-                                    @"leuser": self.username,
-                                    @"lelimit": @"500",
-                                    @"ledir": @"newer"
-                                    } mutableCopy];
-    if (latest) {
-        params[@"lestart"] = [api formatTimestamp:latest];
+                                   @"action": @"query",
+                                   @"list": @"logevents",
+                                   @"leaction": @"upload/upload",
+                                   @"leprop": @"title|timestamp",
+                                   @"leuser": self.username,
+                                   @"lelimit": @"100",  // @"500",
+                                   @"ledir": @"newer"
+                                   } mutableCopy];
+
+    if (timestamp) {
+        params[@"lestart"] = timestamp;
     }
 
     MWPromise *req = [api getRequest:params];
@@ -1209,7 +1219,15 @@ static CommonsApp *singleton_;
             
             [self saveData];
         }
-        [deferred resolve:nil];
+
+        NSString *continueTimestamp = result[@"query-continue"][@"logevents"][@"lestart"];
+        
+        if (continueTimestamp) {
+            MWPromise *next = [self refreshHistoryWithFailureAlert:showFailureAlert fromTimeStamp:continueTimestamp];
+            [next pipe:deferred];
+        }else{
+            [deferred resolve:nil];
+        }
     }];
     [req fail:^(NSError *error) {
         NSLog(@"Failed to refresh history: %@", [error localizedDescription]);
