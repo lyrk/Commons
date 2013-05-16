@@ -14,5 +14,6 @@
 
 + (void)setLanguage:(NSString *)language;
 + (NSString *)fetchMessage:(NSString *)key inLanguage:(NSString *)language;
++ (NSString *)filterLanguage:(NSString *)language;
 
 @end
