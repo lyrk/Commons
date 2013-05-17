@@ -73,6 +73,10 @@
     self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
     [self.loginButton setTitle:[MWMessage forKey:@"login-button"].text forState:UIControlStateNormal];
     
+    // Disable auto-correct on login boxes
+    self.usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
+    
 	// Do any additional setup after loading the view.
     CommonsApp *app = CommonsApp.singleton;
     self.usernameField.text = app.username;
