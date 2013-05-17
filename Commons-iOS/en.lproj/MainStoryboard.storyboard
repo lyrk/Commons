@@ -373,10 +373,6 @@
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <progressView opaque="NO" contentMode="scaleToFill" progress="0.5" id="7Uq-lr-dsu">
-                                                            <rect key="frame" x="0.0" y="35" width="320" height="9"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                        </progressView>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
                                                 </view>
@@ -388,7 +384,6 @@
                                             <outlet property="image" destination="XOQ-vH-P1a" id="ODq-Px-xkj"/>
                                             <outlet property="indexLabel" destination="B7S-Xb-Ggh" id="hIw-tw-wEJ"/>
                                             <outlet property="infoBox" destination="okD-fs-BOe" id="qDq-MR-MbT"/>
-                                            <outlet property="progressBar" destination="7Uq-lr-dsu" id="kRb-fM-NSo"/>
                                             <outlet property="statusLabel" destination="6oN-oL-8y2" id="dNy-RZ-XEQ"/>
                                             <outlet property="titleLabel" destination="t14-R2-Kf0" id="8eA-7X-PbQ"/>
                                             <segue destination="epi-E0-AsP" kind="push" identifier="DetailSegue" id="80O-WZ-gMr"/>
@@ -1271,7 +1266,6 @@ to take or choose photos.</string>
                 <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="indexLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="infoBox" candidateClass="ProgressView"/>
-                <relationship kind="outlet" name="progressBar" candidateClass="UIProgressView"/>
                 <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
             </relationships>
