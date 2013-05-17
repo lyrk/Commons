@@ -930,20 +930,21 @@
         // Old upload, already complete.
         cell.titleLabel.text = record.title;
         cell.statusLabel.text = @"";
-        cell.progressBar.hidden = YES;
+        cell.infoBox.progressNormal = 0.0f;
     } else {
         // Queued upload, not yet complete.
         // We have local data & progress info.
         cell.titleLabel.text = record.title;
         if (record.progress.floatValue == 0.0f) {
-            cell.progressBar.hidden = YES;
+            cell.infoBox.progressNormal = 0.0f;
             cell.statusLabel.text = [MWMessage forKey:@"contribs-state-queued"].text;
         } else {
-            cell.progressBar.hidden = NO;
             cell.statusLabel.text = [MWMessage forKey:@"contribs-state-uploading"].text;
-            cell.progressBar.progress = record.progress.floatValue;
+            cell.infoBox.progressNormal = record.progress.floatValue;
         }
     }
+    // Update infobox to reflect changes to its progressNormal
+    [cell.infoBox setNeedsDisplay];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
