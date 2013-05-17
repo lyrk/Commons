@@ -16,10 +16,14 @@
 #import "CategoryDetailTableViewController.h"
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
+#import "DescriptionParser.h"
+#import "MWI18N.h"
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
-@interface DetailTableViewController ()
+@interface DetailTableViewController (){
+    DescriptionParser *descriptionParser;
+}
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 
@@ -37,7 +41,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-
+        descriptionParser = [[DescriptionParser alloc] init];
     }
     return self;
 }
@@ -65,6 +69,9 @@
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
     self.categoryLabel.text = [MWMessage forKey:@"details-category-label"].text;
 
+    // Make spinner visible against the white background
+    self.imageSpinner.color = [UIColor blackColor];
+    
     // Load up the selected record
     FileUpload *record = self.selectedRecord;
     
@@ -76,6 +83,15 @@
         self.imageSpinner.hidden = NO;
 
         self.categoryListLabel.text = [self categoryShortList];
+
+        // Get categories and description
+        if (record.complete.boolValue) {
+            self.descriptionTextView.text = [MWMessage forKey:@"details-description-loading"].text;
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                [self getPreviouslySavedDescriptionForRecord:record];
+                [self getPreviouslySavedCategoriesForRecord:record];
+            });
+        }
 
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             
@@ -98,10 +114,12 @@
                 self.actionButton.enabled = YES; // open link or share on the web
                 self.uploadButton.enabled = NO; // fixme either hide or replace with action button?
                 
-                // fixme: load description from wiki page
-                self.descriptionLabel.hidden = YES;
-                self.descriptionTextView.hidden = YES;
                 self.descriptionPlaceholder.hidden = YES;
+
+                // Make description read-only for now
+                self.descriptionTextView.userInteractionEnabled = NO;
+                self.descriptionTextView.hidden = NO;
+                self.descriptionLabel.hidden = NO;
                 
                 // fixme: load license info from wiki page
                 self.licenseLabel.hidden = YES;
@@ -148,7 +166,11 @@
     // keyboard is visible). Did this so multi-line descriptions could still be entered *and* the
     // keyboard could still be dismissed (otherwise the "return" button would have to be made into a
     // "Done" button which would mean line breaks could not be entered)
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
+    
+    // Note: Only show the "hide keyboard" button for new images as existing image descriptions are
+    // read-only for now
+
+    if ((!record.complete.boolValue) && (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)){
         UIButton *hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [hideKeyboardButton addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchDown];
 
@@ -224,23 +246,28 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    if (self.selectedRecord.complete.boolValue) {
-        // hide the categories section for now...
-        // fixme: look up categories and make them viewable/editable
-        return 1;
-    } else {
-        return 2;
-    }
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
+        // Hide only the license row if viewing details of already-uploaded image
+        if (self.selectedRecord.complete.boolValue) {
+            // Hide description row if none found
+            return (self.descriptionTextView.text.length == 0) ? 2 : 3;
+        }
         // Fall through to static section handling...
         return [super tableView:tableView numberOfRowsInSection:section];
     } else if (section == 1) {
+        if (self.selectedRecord.complete.boolValue) {
+            // If no categories show one cell so it can contain "Loading..." message, else hide the add button
+            // for already uploaded images as categories are read-only for them for now
+            return (self.categoryList.count == 0) ? 1 : self.categoryList.count;
+        }
         // Add one cell for the add button!
         return self.categoryList.count + 1;
+    
     } else {
         return 0;
     }
@@ -254,8 +281,27 @@
     } else if (indexPath.section == 1) {
         // Categories
         UITableViewCell *cell;
+        
+        if (self.selectedRecord.complete.boolValue) {
+            // Show "Loading..." row if no categories
+            if(self.categoryList.count == 0){
+                cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.userInteractionEnabled = NO;
+                cell.textLabel.text = [MWMessage forKey:@"details-category-loading"].text;
+                return cell;
+            }
+        }
+        
         if (indexPath.row < self.categoryList.count) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
+            
+            // Make categories read-only for now
+            if (self.selectedRecord.complete.boolValue) {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.userInteractionEnabled = NO;
+            }
+            
             cell.textLabel.text = self.categoryList[indexPath.row];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"AddCategoryCell"];
@@ -307,8 +353,14 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0 && indexPath.item >= 2 && self.selectedRecord && self.selectedRecord.complete.boolValue) {
-        // fixme: when we extract description and license for done files, stop hiding
-        return 0;
+        if (self.selectedRecord.complete.boolValue) {
+            // Resize description cell according to the retrieved description's text height
+            // From: http://stackoverflow.com/a/2487402/135557
+            CGRect frame = self.descriptionTextView.frame;
+            frame.size.height = self.descriptionTextView.contentSize.height;
+            self.descriptionTextView.frame = frame;
+            return frame.size.height + frame.origin.y + 8.0f;
+        }
     }
     if (indexPath.section == 1) {
         return 44; // ????? hack
@@ -562,6 +614,107 @@
         [controller performSelector:@selector(uploadButtonPushed:) withObject:controller.uploadButton];
     }
     [self popViewControllerAnimated];
+}
+
+#pragma mark - Description and Category retrieval
+
+- (void)getPreviouslySavedCategoriesForRecord:(FileUpload *)record
+{
+    NSMutableArray *previouslySavedCategories = [[NSMutableArray alloc] init];
+    CommonsApp *app = CommonsApp.singleton;
+    MWApi *api = [app startApi];
+    NSMutableDictionary *params = [@{
+                                   @"action": @"query",
+                                   @"prop": @"categories",
+                                   @"clshow": @"!hidden",
+                                   @"titles": [@"File:" stringByAppendingString:record.title],
+                                   // @"titles": [@"File:" stringByAppendingString:@"2011-08-01 10-31-42 Switzerland Segl-Maria.jpg"],
+                                   } mutableCopy];
+    
+    MWPromise *req = [api getRequest:params];
+    
+    // While retrieving categories should change the "Add category..." text to say "Getting categories" or some such,
+    // then in "always:" callback change it back to "Add category..."
+    
+    [req done:^(NSDictionary *result) {
+        for (NSString *page in result[@"query"][@"pages"]) {
+            for (NSDictionary *category in result[@"query"][@"pages"][page][@"categories"]) {
+                NSMutableString *categoryTitle = [category[@"title"] mutableCopy];
+                
+                // Remove "Category:" prefix from category title
+                NSError *error = NULL;
+                NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^Category:" options:NSRegularExpressionCaseInsensitive error:&error];
+                [regex replaceMatchesInString:categoryTitle options:0 range:NSMakeRange(0, [categoryTitle length]) withTemplate:@""];
+                
+                [previouslySavedCategories addObject:categoryTitle];
+            }
+        }
+        
+        if (self.selectedRecord.complete.boolValue) {
+            if(previouslySavedCategories.count == 0) [previouslySavedCategories addObject:[MWMessage forKey:@"details-category-none-found"].text];
+        }
+        
+        // Make interface use the new category list
+        self.categoryList = previouslySavedCategories;
+        self.selectedRecord.categories = [self.categoryList componentsJoinedByString:@"|"];
+        self.categoryListLabel.text = [self categoryShortList];
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)getPreviouslySavedDescriptionForRecord:(FileUpload *)record
+{
+    CommonsApp *app = CommonsApp.singleton;
+    MWApi *api = [app startApi];
+    NSMutableDictionary *params = [@{
+                                   @"action": @"query",
+                                   @"prop": @"revisions",
+                                   @"rvprop": @"content",
+                                   @"rvparse": @"1",
+                                   @"rvlimit": @"1",
+                                   @"rvgeneratexml": @"1",
+                                   @"titles": [@"File:" stringByAppendingString:record.title],
+                                   
+                                   // Uncomment to test image w/multiple descriptions - see console for output (comment out the line above when doing so)
+                                   // @"titles": [@"File:" stringByAppendingString:@"2011-08-01 10-31-42 Switzerland Segl-Maria.jpg"],
+                                   
+                                   } mutableCopy];
+    
+    MWPromise *req = [api getRequest:params];
+    
+    __weak UITextView *weakDescriptionTextView = self.descriptionTextView;
+    __weak UITableView *weakTableView = self.tableView;
+    
+    [req done:^(NSDictionary *result) {
+        for (NSString *page in result[@"query"][@"pages"]) {
+            for (NSDictionary *category in result[@"query"][@"pages"][page][@"revisions"]) {
+                //NSMutableString *pageHTML = [category[@"*"] mutableCopy];
+                
+                descriptionParser.xml = category[@"parsetree"];
+                descriptionParser.done = ^(NSDictionary *descriptions){
+                    
+                    //for (NSString *description in descriptions) {
+                    //    NSLog(@"[%@] description = %@", description, descriptions[description]);
+                    //}
+                    
+                    // Show description for locale
+                    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+                    language = [MWI18N filterLanguage:language];
+                    weakDescriptionTextView.text = ([descriptions objectForKey:language]) ? descriptions[language] : descriptions[@"en"];
+                    // reloadData so description cell can be resized according to the retrieved description's text height
+                    [weakTableView reloadData];
+                    
+                };
+                [descriptionParser parse];
+            }
+        }
+    }];
+    
+    [req always:^(NSDictionary *result) {
+        if ([weakDescriptionTextView.text isEqualToString: [MWMessage forKey:@"details-description-loading"].text]){
+            weakDescriptionTextView.text = [MWMessage forKey:@"details-description-none-found"].text;
+        }
+    }];
 }
 
 @end
