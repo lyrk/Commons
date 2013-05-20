@@ -32,6 +32,8 @@
 - (void)showMyUploadsVC;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
+@property (strong, nonatomic) NSString *trimmedUsername;
+@property (strong, nonatomic) NSString *trimmedPassword;
 
 @end
 
@@ -95,12 +97,22 @@
     [self disableLoginButtonIfNoCredentials];
 }
 
+-(NSString *) getTrimmedUsername{
+    // Returns trimmed version of the username as it *presently exists* in the usernameField UITextField
+    return [CommonsApp.singleton getTrimmedString:self.usernameField.text];
+}
+
+-(NSString *) getTrimmedPassword{
+    // Returns trimmed version of the password as it *presently exists* in the passwordField UITextField
+    return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
+}
+
 - (void)disableLoginButtonIfNoCredentials
 {
     if(
-        ([self.usernameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0)
+       (self.trimmedUsername.length == 0)
             ||
-        ([self.passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0)
+       (self.trimmedPassword.length == 0)
       )
     {
         [self.loginButton setEnabled:NO];
@@ -280,15 +292,11 @@
     
     allowSkippingToMyUploads = NO;
 
-    NSString *username = self.usernameField.text;
-    NSString *password = self.passwordField.text;
-
 	// Trim leading and trailing white space from user name and password. This is so the isEqualToString:@"" check below
 	// will cause the login to be validated (previously if login info was blank it fell past the credential validation
 	// check and crashed)
-	username = [username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	password = [password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
+    NSString *username = self.trimmedUsername;
+    NSString *password = self.trimmedPassword;
     
     // Only update & validate user credentials if they have been changed
     if (
