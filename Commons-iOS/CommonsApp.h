@@ -84,5 +84,6 @@
 
 - (void)openURLWithDefaultBrowser:(NSURL *)url;
 - (CGSize)getFullSizedImageSize;
+- (NSString *)getTrimmedString:(NSString *)string;
 
 @end

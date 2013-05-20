@@ -1384,4 +1384,9 @@ static CommonsApp *singleton_;
     return size;
 }
 
+- (NSString *)getTrimmedString:(NSString *)string
+{
+    return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
 @end

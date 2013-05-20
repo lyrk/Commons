@@ -32,6 +32,8 @@
 - (void)showMyUploadsVC;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
+@property (strong, nonatomic) NSString *trimmedUsername;
+@property (strong, nonatomic) NSString *trimmedPassword;
 
 @end
 
@@ -77,6 +79,12 @@
     self.usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
     
+    // Gray out the login button if no credentials
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.usernameField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.passwordField];
+    
+    [self.loginButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    
 	// Do any additional setup after loading the view.
     CommonsApp *app = CommonsApp.singleton;
     self.usernameField.text = app.username;
@@ -84,7 +92,36 @@
     
     //hide keyboard when anywhere else is tapped
 	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-	[self.view addGestureRecognizer:tapRecognizer]; 
+	[self.view addGestureRecognizer:tapRecognizer];
+    
+    [self disableLoginButtonIfNoCredentials];
+}
+
+-(NSString *) getTrimmedUsername{
+    // Returns trimmed version of the username as it *presently exists* in the usernameField UITextField
+    return [CommonsApp.singleton getTrimmedString:self.usernameField.text];
+}
+
+-(NSString *) getTrimmedPassword{
+    // Returns trimmed version of the password as it *presently exists* in the passwordField UITextField
+    return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
+}
+
+- (void)disableLoginButtonIfNoCredentials
+{
+    if(
+       (self.trimmedUsername.length == 0)
+            ||
+       (self.trimmedPassword.length == 0)
+      )
+    {
+        [self.loginButton setEnabled:NO];
+        self.loginButton.strokeColor = [UIColor grayColor];
+        
+    }else{
+        [self.loginButton setEnabled:YES];
+        self.loginButton.strokeColor = [UIColor blackColor];
+    }
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
@@ -255,15 +292,11 @@
     
     allowSkippingToMyUploads = NO;
 
-    NSString *username = self.usernameField.text;
-    NSString *password = self.passwordField.text;
-
 	// Trim leading and trailing white space from user name and password. This is so the isEqualToString:@"" check below
 	// will cause the login to be validated (previously if login info was blank it fell past the credential validation
 	// check and crashed)
-	username = [username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-	password = [password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
+    NSString *username = self.trimmedUsername;
+    NSString *password = self.trimmedPassword;
     
     // Only update & validate user credentials if they have been changed
     if (
