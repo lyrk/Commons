@@ -866,9 +866,11 @@
 
     NSString *title = record.title;
     
-    // Reset the download progress bar (the cell.infoBox) to reflect any previous progress
-    cell.infoBox.progressNormal = (record.fetchThumbnailProgress.floatValue != 1.0f) ? record.fetchThumbnailProgress.floatValue : 0.0f;
-    [cell.infoBox setNeedsDisplay];
+    if (record.complete.boolValue) {
+        // Reset the download progress bar (the cell.infoBox) to reflect any previous progress
+        cell.infoBox.progressNormal = (record.fetchThumbnailProgress.floatValue != 1.0f) ? record.fetchThumbnailProgress.floatValue : 0.0f;
+        [cell.infoBox setNeedsDisplay];
+    }
     
     if (cell.title && [cell.title isEqual:title]) {
         // Image should already be loaded.
@@ -940,7 +942,8 @@
             cell.statusLabel.text = [MWMessage forKey:@"contribs-state-queued"].text;
         } else {
             cell.statusLabel.text = [MWMessage forKey:@"contribs-state-uploading"].text;
-            cell.infoBox.progressNormal = record.progress.floatValue;
+            // Animate the download progress bar from its current progressNormal to progress
+            [cell.infoBox animateProgress:record.progress.floatValue];
         }
     }
     // Update infobox to reflect changes to its progressNormal
