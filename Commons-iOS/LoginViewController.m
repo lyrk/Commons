@@ -77,6 +77,12 @@
     self.usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
     
+    // Gray out the login button if no credentials
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.usernameField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.passwordField];
+    
+    [self.loginButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    
 	// Do any additional setup after loading the view.
     CommonsApp *app = CommonsApp.singleton;
     self.usernameField.text = app.username;
@@ -84,7 +90,26 @@
     
     //hide keyboard when anywhere else is tapped
 	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-	[self.view addGestureRecognizer:tapRecognizer]; 
+	[self.view addGestureRecognizer:tapRecognizer];
+    
+    [self disableLoginButtonIfNoCredentials];
+}
+
+- (void)disableLoginButtonIfNoCredentials
+{
+    if(
+        ([self.usernameField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0)
+            ||
+        ([self.passwordField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0)
+      )
+    {
+        [self.loginButton setEnabled:NO];
+        self.loginButton.strokeColor = [UIColor grayColor];
+        
+    }else{
+        [self.loginButton setEnabled:YES];
+        self.loginButton.strokeColor = [UIColor blackColor];
+    }
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
