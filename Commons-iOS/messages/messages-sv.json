@@ -40,6 +40,8 @@
     "details-description-placeholder": "N\u00f6dv\u00e4ndig",
     "details-license-label": "Licens",
     "details-hide-keyboard": "D\u00f6lj tangentbord",
+    "details-category-label": "Kategorier",
+    "details-category-select": "V\u00e4lj...",
     "web-open-in": "\u00d6ppna med $1",
     "web-cancel": "Avbryt",
     "login-title": "Konto",
@@ -55,5 +57,17 @@
     "about-license-button": "Licens",
     "about-source-gradient-title": "Jeff LaMarches Gradient UIButton:",
     "welcome-no-images-message": "Ingen uppladdningar hittades\nAnv\u00e4nd knappen nedan f\u00f6r att\nkn\u00e4ppa eller v\u00e4lja bilder",
-    "welcome-take-or-choose-message": "Kn\u00e4pp eller v\u00e4lja ett foto"
+    "welcome-take-or-choose-message": "Kn\u00e4pp eller v\u00e4lja ett foto",
+    "welcome-checking-message": "Kollar efter tidigare\nuppladdningar",
+    "license-title": "Licens",
+    "license-intro": "Du samtycker till att licensiera din uppladdning under valda villkor:",
+    "license-details-intro": "Mer information",
+    "license-details-label": "L\u00e4s om licensiering",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing",
+    "catdetail-title": "Kategori",
+    "catdetail-intro": "Kategorier hj\u00e4lper dig att g\u00f6ra dina bilder mer synliga p\u00e5 Wikimedia Commons.",
+    "catdetail-remove-label": "Ta bort \"$1\"",
+    "catdetail-info-intro": "Mer information",
+    "catdetail-info-label": "L\u00e4s om kategorier",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
 }

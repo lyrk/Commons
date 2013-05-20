@@ -39,6 +39,8 @@
     "details-description-placeholder": "Erforderlich",
     "details-license-label": "Lizenz",
     "details-hide-keyboard": "Tastatur ausblenden",
+    "details-category-label": "Kategorien",
+    "details-category-select": "Ausw\u00e4hlen \u2026",
     "web-open-in": "In $1 \u00f6ffnen",
     "web-cancel": "Abbrechen",
     "login-title": "Konto",
@@ -55,5 +57,16 @@
     "about-source-gradient-title": "Farbverlaufsschaltfl\u00e4chen von Jeff LaMarche:",
     "welcome-no-images-message": "Keine Uploads gefunden. Verwende den Button unten, um Fotos aufzunehmen oder auszuw\u00e4hlen.",
     "welcome-take-or-choose-message": "Foto aufnehmen oder ausw\u00e4hlen",
-    "welcome-checking-message": "Pr\u00fcfung auf fr\u00fchere Uploads"
+    "welcome-checking-message": "Pr\u00fcfung auf fr\u00fchere Uploads",
+    "license-title": "Lizenz",
+    "license-intro": "Du stimmst der Lizenzierung deines Uploads unter den ausgew\u00e4hlten Bedingungen zu:",
+    "license-details-intro": "Mehr Informationen",
+    "license-details-label": "Mehr \u00fcber Lizenzierung erfahren",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Lizenzen",
+    "catdetail-title": "Kategorie",
+    "catdetail-intro": "Kategorien helfen dabei, deine Bilder auf Wikimedia Commons auffindbarer zu machen.",
+    "catdetail-remove-label": "\u201e$1\u201c entfernen",
+    "catdetail-info-intro": "Mehr Informationen",
+    "catdetail-info-label": "Mehr \u00fcber Kategorien erfahren",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Kategorien"
 }

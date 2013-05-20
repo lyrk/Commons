@@ -41,6 +41,8 @@
     "details-description-placeholder": "Obligatoire",
     "details-license-label": "Licence",
     "details-hide-keyboard": "Masquer le clavier",
+    "details-category-label": "Cat\u00e9gories",
+    "details-category-select": "S\u00e9lectionnez\u2026",
     "web-open-in": "Ouvert en $1",
     "web-cancel": "Annuler",
     "login-title": "Compte",
@@ -57,5 +59,16 @@
     "about-source-gradient-title": "UIButton inclin\u00e9 de Jeff LaMarche :",
     "welcome-no-images-message": "Aucun t\u00e9l\u00e9chargement trouv\u00e9\nUtilisez le bouton ci-dessous pour\nprendre ou choisir des photos",
     "welcome-take-or-choose-message": "Prendre ou choisir une photo",
-    "welcome-checking-message": "V\u00e9rifier les t\u00e9l\u00e9chargements\npr\u00e9c\u00e9dents"
+    "welcome-checking-message": "V\u00e9rifier les t\u00e9l\u00e9chargements\npr\u00e9c\u00e9dents",
+    "license-title": "Licence",
+    "license-intro": "Vous acceptez d\u2019autoriser votre t\u00e9l\u00e9chargement d\u2019apr\u00e8s les conditions s\u00e9lectionn\u00e9es :",
+    "license-details-intro": "Plus d\u2019information",
+    "license-details-label": "Lire \u00e0 propos des licences",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing",
+    "catdetail-title": "Cat\u00e9gorie",
+    "catdetail-intro": "Les cat\u00e9gories peuvent rendre vos images plus faciles \u00e0 trouver sur Communs de Wikim\u00e9dia.",
+    "catdetail-remove-label": "Supprimer \u00ab\u202f$1\u202f\u00bb",
+    "catdetail-info-intro": "Plus d\u2019information",
+    "catdetail-info-label": "Lire \u00e0 propos des cat\u00e9gories",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
 }

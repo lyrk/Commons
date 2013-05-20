@@ -2,7 +2,8 @@
     "@metadata": {
         "authors": [
             "Pginer",
-            "Toniher"
+            "Toniher",
+            "XVEC"
         ]
     },
     "contribs-title": "Les meves c\u00e0rregues",
@@ -40,6 +41,8 @@
     "details-description-placeholder": "Necessari",
     "details-license-label": "Llic\u00e8ncia",
     "details-hide-keyboard": "Amaga el teclat",
+    "details-category-label": "Categories",
+    "details-category-select": "Selecciona...",
     "web-open-in": "Obre-ho al $1",
     "web-cancel": "Cancel\u00b7la",
     "login-title": "Compte",
@@ -53,5 +56,19 @@
     "about-source-this-app-title": "Aquesta aplicaci\u00f3 (iOS):",
     "about-source-this-app-contributors": "Col\u00b7laboradors",
     "about-license-button": "Llic\u00e8ncia",
-    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:"
+    "about-source-gradient-title": "Jeff LaMarche's Gradient UIButton:",
+    "welcome-no-images-message": "No s'han trobat c\u00e0rregues\nUtilitzeu el bot\u00f3 d'aqu\u00ed sota per fer o escollir fotos",
+    "welcome-take-or-choose-message": "Fes o escull una fotografia",
+    "welcome-checking-message": "Comprovant l'exist\u00e8ncia de c\u00e0rregues anteriors",
+    "license-title": "Llic\u00e8ncia",
+    "license-intro": "Esteu d'acord a concedir una llic\u00e8ncia a la vostra c\u00e0rrega sota els termes i condicions seleccionats:",
+    "license-details-intro": "M\u00e9s informaci\u00f3",
+    "license-details-label": "Apr\u00e8n-ne m\u00e9s sobre les llic\u00e8ncies i la seva concessi\u00f3",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing",
+    "catdetail-title": "Categoria",
+    "catdetail-intro": "Les categories us ajuden a fer les vostres imatges m\u00e9s descobribles a Wikimedia Commons.",
+    "catdetail-remove-label": "Elimina \"$1\"",
+    "catdetail-info-intro": "M\u00e9s informaci\u00f3",
+    "catdetail-info-label": "Apr\u00e8n-ne m\u00e9s sobre les categories",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
 }

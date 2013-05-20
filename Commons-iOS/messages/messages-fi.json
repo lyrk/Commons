@@ -38,6 +38,8 @@
     "details-description-placeholder": "Vaadittu",
     "details-license-label": "Lisenssi",
     "details-hide-keyboard": "Piilota n\u00e4pp\u00e4imist\u00f6",
+    "details-category-label": "Luokat",
+    "details-category-select": "Valitse...",
     "web-open-in": "Avaa selaimessa $1",
     "web-cancel": "Peru",
     "login-title": "Tili",
@@ -50,5 +52,14 @@
     "about-source-button": "L\u00e4hde",
     "about-source-this-app-title": "T\u00e4m\u00e4 sovellus (iOS):",
     "about-source-this-app-contributors": "Tekij\u00e4t",
-    "about-license-button": "Lisenssi"
+    "about-license-button": "Lisenssi",
+    "welcome-take-or-choose-message": "Ota tai valitse valokuva",
+    "license-title": "Lisenssi",
+    "license-intro": "Hyv\u00e4ksyt tallennuksen valittujen ehtojen mukaisesti:",
+    "license-details-intro": "Lis\u00e4tietoja",
+    "license-details-label": "Lis\u00e4\u00e4 lisensseist\u00e4",
+    "catdetail-title": "Luokka",
+    "catdetail-intro": "Luokkien avulla kuvasi voidaan l\u00f6yt\u00e4\u00e4 Wikimedia Commonsista.",
+    "catdetail-remove-label": "Poista $1",
+    "catdetail-info-intro": "Lis\u00e4tietoja"
 }

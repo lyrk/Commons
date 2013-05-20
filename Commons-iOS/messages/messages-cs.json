@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Chmee2",
+            "Jkjk",
             "Mormegil"
         ]
     },
@@ -40,6 +41,8 @@
     "details-description-placeholder": "Po\u017eadovan\u00e9",
     "details-license-label": "Licence",
     "details-hide-keyboard": "Skr\u00fdt kl\u00e1vesnici",
+    "details-category-label": "Kategorie",
+    "details-category-select": "Vybrat...",
     "web-open-in": "Otev\u0159\u00edt v $1",
     "web-cancel": "Zru\u0161it",
     "login-title": "\u00da\u010det",
@@ -53,5 +56,13 @@
     "about-source-this-app-title": "Tato aplikace (iOS):",
     "about-source-this-app-contributors": "P\u0159isp\u011bvatel\u00e9",
     "about-license-button": "Licence",
-    "about-source-gradient-title": "Gradient UIButton od Jeffa LaMarche:"
+    "about-source-gradient-title": "Gradient UIButton od Jeffa LaMarche:",
+    "welcome-take-or-choose-message": "Vyfo\u0165te nebo vyberte fotografii",
+    "license-title": "Licence",
+    "license-details-intro": "V\u00edce informac\u00ed",
+    "catdetail-title": "Kategorie",
+    "catdetail-intro": "Kategorie pomohou tomu, aby Va\u0161e obr\u00e1zky mohly b\u00fdt na Wikimedia Commons snadn\u011bji nalezeny.",
+    "catdetail-remove-label": "Odstranit \" $1 \"",
+    "catdetail-info-intro": "V\u00edce informac\u00ed",
+    "catdetail-info-label": "V\u00edce o kategori\u00edch"
 }

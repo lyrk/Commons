@@ -39,6 +39,8 @@
     "details-description-placeholder": "Obligatoresch",
     "details-license-label": "Lizenz",
     "details-hide-keyboard": "Tastatur verstoppen",
+    "details-category-label": "Kategorien",
+    "details-category-select": "Eraussichen...",
     "web-open-in": "Mat $1 opmaachen",
     "web-cancel": "Ofbriechen",
     "login-title": "Kont",
@@ -55,5 +57,16 @@
     "about-source-gradient-title": "UIButton vum Jeff LaMarche",
     "welcome-no-images-message": "Eng Eropgeluede Fichiere fonnt\n\nBenotzt de Kn\u00e4ppchen hei dr\u00ebnner fir Fotoen ze maachen oder erauszesichen",
     "welcome-take-or-choose-message": "Eng Foto maachen oder eraussichen",
-    "welcome-checking-message": "Vireg Eropgeluede Fichieren nokucken"
+    "welcome-checking-message": "Vireg Eropgeluede Fichieren nokucken",
+    "license-title": "Lizenz",
+    "license-intro": "Dir sidd d'accord fir d'Fichieren d\u00e9i Dir eroplued \u00ebnner den erausgesichte Bedingungen ze lizens\u00e9ieren:",
+    "license-details-intro": "M\u00e9i Informatiounen",
+    "license-details-label": "M\u00e9i Iwwer d'Lizenze w\u00ebssen",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing",
+    "catdetail-title": "Kategorie",
+    "catdetail-intro": "Kategorien h\u00ebllefen \u00c4r Biller m\u00e9i liicht op Wikimedia Commons er\u00ebmzefannen.",
+    "catdetail-remove-label": "\"$1\" ewechhuelen",
+    "catdetail-info-intro": "M\u00e9i Informatiounen",
+    "catdetail-info-label": "Liest m\u00e9i iwwer d'Kategorien",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
 }

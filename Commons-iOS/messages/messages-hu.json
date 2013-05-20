@@ -1,7 +1,8 @@
 {
     "@metadata": {
         "authors": [
-            "Dj"
+            "Dj",
+            "Tacsipacsi"
         ]
     },
     "contribs-title": "Felt\u00f6lt\u00e9seim",
@@ -42,5 +43,6 @@
     "about-privacy-button": "Adatv\u00e9delmi ir\u00e1nyelvek",
     "about-source-button": "Forr\u00e1s",
     "about-source-this-app-contributors": "K\u00f6zrem\u0171k\u00f6d\u0151k",
-    "about-license-button": "Licenc"
+    "about-license-button": "Licenc",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Kateg\u00f3ri\u00e1k"
 }

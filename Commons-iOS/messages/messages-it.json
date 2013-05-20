@@ -38,6 +38,8 @@
     "details-description-placeholder": "Obbligatorio",
     "details-license-label": "Licenza",
     "details-hide-keyboard": "Nascondi la tastiera",
+    "details-category-label": "Categorie",
+    "details-category-select": "Seleziona...",
     "web-open-in": "Apri in $1",
     "web-cancel": "Annulla",
     "login-button": "Entra",
@@ -48,5 +50,12 @@
     "about-source-button": "Codice sorgente",
     "about-source-this-app-title": "Questa App (iOS):",
     "about-source-this-app-contributors": "Autori",
-    "about-license-button": "Licenza"
+    "about-license-button": "Licenza",
+    "welcome-no-images-message": "Nessun caricamento trovato,\nusa il tasto qui sotto per\nscattare o scegliere una foto",
+    "welcome-take-or-choose-message": "Scatta o scegli una foto",
+    "license-title": "Licenza",
+    "license-details-intro": "Ulteriori informazioni",
+    "catdetail-title": "Categoria",
+    "catdetail-remove-label": "Rimuovi \"$1\"",
+    "catdetail-info-intro": "Ulteriori informazioni"
 }

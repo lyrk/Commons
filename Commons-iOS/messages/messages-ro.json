@@ -39,6 +39,8 @@
     "details-description-placeholder": "Necesar",
     "details-license-label": "Licen\u021b\u0103",
     "details-hide-keyboard": "Ascunde tastatura",
+    "details-category-label": "Categorii",
+    "details-category-select": "Selectare...",
     "web-open-in": "Deschide cu $1",
     "web-cancel": "Revocare",
     "login-title": "Cont",
@@ -55,5 +57,16 @@
     "about-source-gradient-title": "UIButton-ul \u00een degrade al lui Jeff LaMarche:",
     "welcome-no-images-message": "Nicio \u00eenc\u0103rcare g\u0103sit\u0103\nFolosi\u021bi butonul de mai jos pentru\na face sau alege fotografii",
     "welcome-take-or-choose-message": "Face\u021bi sau alege\u021bi o fotografie",
-    "welcome-checking-message": "Se caut\u0103 \u00eenc\u0103rc\u0103ri anterioare"
+    "welcome-checking-message": "Se caut\u0103 \u00eenc\u0103rc\u0103ri anterioare",
+    "license-title": "Licen\u021b\u0103",
+    "license-intro": "Sunte\u021bi de acord ca \u00eenc\u0103rcarea dumneavoastr\u0103 s\u0103 fie licen\u021biat\u0103 sub urm\u0103torii termeni:",
+    "license-details-intro": "Mai multe informa\u021bii",
+    "license-details-label": "Citi\u021bi despre licen\u021biere",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing",
+    "catdetail-title": "Categorie",
+    "catdetail-intro": "Categoriile permit ca imaginile dumneavoastr\u0103 de la Wikimedia Commons s\u0103 poat\u0103 fi g\u0103site mai u\u0219or.",
+    "catdetail-remove-label": "\u00cenl\u0103tur\u0103 \u201e$1\u201d",
+    "catdetail-info-intro": "Mai multe informa\u021bii",
+    "catdetail-info-label": "Citi\u021bi despre categorii",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
 }
