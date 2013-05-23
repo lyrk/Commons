@@ -70,8 +70,8 @@
         lerpLine_.removedOnCompletion = NO;
         [lerpLine_ drawLine];
     };
-    drawLerpLine(strikeBackgroundLine_, [UIColor colorWithRed:0.17 green:0.38 blue:0.59 alpha:1.0], 12.0f);
-    drawLerpLine(strikeForegroundLine_, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], 5.0f);
+    drawLerpLine(strikeBackgroundLine_, [UIColor colorWithRed:0.17 green:0.38 blue:0.59 alpha:1.0], 13.0f);
+    drawLerpLine(strikeForegroundLine_, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], 4.0f);
     
     [UIView animateWithDuration:0.33
 						  delay:0.11

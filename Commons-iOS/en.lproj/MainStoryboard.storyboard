@@ -1200,7 +1200,7 @@ to take or choose photos.</string>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" id="aE4-IZ-cjC">
-                                <rect key="frame" x="40" y="66" width="240" height="152"/>
+                                <rect key="frame" x="40" y="74" width="240" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -1208,7 +1208,7 @@ to take or choose photos.</string>
                                 </connections>
                             </containerView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="shg-Rq-9Cq">
-                                <rect key="frame" x="20" y="256" width="280" height="134"/>
+                                <rect key="frame" x="20" y="260" width="280" height="162"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="text">Wikimedia Commons is a gallery for Wikipedia.
 
@@ -1235,7 +1235,7 @@ Help Wikipedia articles come to life by uploading your photos here!</string>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hU7-u3-spc">
-                                <rect key="frame" x="20" y="269" width="280" height="182"/>
+                                <rect key="frame" x="20" y="256" width="280" height="202"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <string key="text">Upload photos you took yourself that can educate people around the world.
 
@@ -1245,7 +1245,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                                 <nil key="highlightedColor"/>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" id="vX7-lG-sSB">
-                                <rect key="frame" x="40" y="66" width="240" height="152"/>
+                                <rect key="frame" x="40" y="74" width="240" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -1325,7 +1325,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="You think you got it?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8uY-2H-lam">
-                                <rect key="frame" x="20" y="241" width="280" height="44"/>
+                                <rect key="frame" x="20" y="238" width="280" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1627,7 +1627,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="dbR-9g-yz2"/>
-        <segue reference="F72-2D-Gl0"/>
+        <segue reference="BjT-aI-DfZ"/>
+        <segue reference="yNY-cm-JEu"/>
     </inferredMetricsTieBreakers>
 </document>
