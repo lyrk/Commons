@@ -14,9 +14,18 @@
 		0451C8621739A2CC00C2D03B /* FetchImageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C8611739A2CC00C2D03B /* FetchImageOperation.m */; };
 		0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C864173B3D3800C2D03B /* SpeedGovernor.m */; };
 		0456EE8C170CF328008AF00A /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0456EE8B170CF328008AF00A /* NavigationController.m */; };
+		04739E05174DCAD200F32D13 /* GettingStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E04174DCAD200F32D13 /* GettingStartedViewController.m */; };
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
 		04C27B191741C24200B1942F /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B181741C24200B1942F /* ProgressView.m */; };
 		04C27B1C174452E800B1942F /* DescriptionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B1B174452E800B1942F /* DescriptionParser.m */; };
+		04C27B1F174B0B1E00B1942F /* MockBadPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B1E174B0B1D00B1942F /* MockBadPhotoViewController.m */; };
+		04C27B22174B0B4100B1942F /* MockPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B21174B0B4000B1942F /* MockPageViewController.m */; };
+		04C27B25174B0CE900B1942F /* MockPageBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B24174B0CE700B1942F /* MockPageBackgroundView.m */; };
+		04C27B2C174BE7E800B1942F /* GotItViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B2B174BE7E700B1942F /* GotItViewController.m */; };
+		04C27B30174BEACD00B1942F /* mockPageLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C27B2E174BEACD00B1942F /* mockPageLogo.png */; };
+		04C27B32174BEB9500B1942F /* mockPagePhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C27B31174BEB9500B1942F /* mockPagePhoto.png */; };
+		04C27B37174D44CC00B1942F /* CALerpLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B36174D44C900B1942F /* CALerpLine.m */; };
+		04C27B39174D78E200B1942F /* mockBadPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C27B38174D78E200B1942F /* mockBadPhoto.png */; };
 		1F7C6BFA16BEEEF300B7C558 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */; };
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
 		305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 305BC7691710BD3300B2CC01 /* LoadingIndicator.m */; };
@@ -289,12 +298,27 @@
 		0451C864173B3D3800C2D03B /* SpeedGovernor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SpeedGovernor.m; sourceTree = "<group>"; };
 		0456EE8A170CF328008AF00A /* NavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationController.h; sourceTree = "<group>"; };
 		0456EE8B170CF328008AF00A /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
+		04739E03174DCAD200F32D13 /* GettingStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GettingStartedViewController.h; sourceTree = "<group>"; };
+		04739E04174DCAD200F32D13 /* GettingStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GettingStartedViewController.m; sourceTree = "<group>"; };
 		0478F8E71731B5E9007D4531 /* WelcomeOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeOverlayView.h; sourceTree = "<group>"; };
 		0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeOverlayView.m; sourceTree = "<group>"; };
 		04C27B171741C24200B1942F /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		04C27B181741C24200B1942F /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		04C27B1A174452E700B1942F /* DescriptionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionParser.h; sourceTree = "<group>"; };
 		04C27B1B174452E800B1942F /* DescriptionParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescriptionParser.m; sourceTree = "<group>"; };
+		04C27B1D174B0B1C00B1942F /* MockBadPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockBadPhotoViewController.h; sourceTree = "<group>"; };
+		04C27B1E174B0B1D00B1942F /* MockBadPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockBadPhotoViewController.m; sourceTree = "<group>"; };
+		04C27B20174B0B3F00B1942F /* MockPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockPageViewController.h; sourceTree = "<group>"; };
+		04C27B21174B0B4000B1942F /* MockPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockPageViewController.m; sourceTree = "<group>"; };
+		04C27B23174B0CE700B1942F /* MockPageBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockPageBackgroundView.h; sourceTree = "<group>"; };
+		04C27B24174B0CE700B1942F /* MockPageBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockPageBackgroundView.m; sourceTree = "<group>"; };
+		04C27B2A174BE7E400B1942F /* GotItViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GotItViewController.h; sourceTree = "<group>"; };
+		04C27B2B174BE7E700B1942F /* GotItViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GotItViewController.m; sourceTree = "<group>"; };
+		04C27B2E174BEACD00B1942F /* mockPageLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mockPageLogo.png; sourceTree = "<group>"; };
+		04C27B31174BEB9500B1942F /* mockPagePhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mockPagePhoto.png; sourceTree = "<group>"; };
+		04C27B35174D44C800B1942F /* CALerpLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CALerpLine.h; sourceTree = "<group>"; };
+		04C27B36174D44C900B1942F /* CALerpLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CALerpLine.m; sourceTree = "<group>"; };
+		04C27B38174D78E200B1942F /* mockBadPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mockBadPhoto.png; sourceTree = "<group>"; };
 		1F7C6BF616BEEE4D00B7C558 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1F7C6BF716BEEE4D00B7C558 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -568,6 +592,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04739E02174DC9D800F32D13 /* Getting Started */ = {
+			isa = PBXGroup;
+			children = (
+				04739E03174DCAD200F32D13 /* GettingStartedViewController.h */,
+				04739E04174DCAD200F32D13 /* GettingStartedViewController.m */,
+				04C27B20174B0B3F00B1942F /* MockPageViewController.h */,
+				04C27B21174B0B4000B1942F /* MockPageViewController.m */,
+				04C27B23174B0CE700B1942F /* MockPageBackgroundView.h */,
+				04C27B24174B0CE700B1942F /* MockPageBackgroundView.m */,
+				04C27B1D174B0B1C00B1942F /* MockBadPhotoViewController.h */,
+				04C27B1E174B0B1D00B1942F /* MockBadPhotoViewController.m */,
+				04C27B2A174BE7E400B1942F /* GotItViewController.h */,
+				04C27B2B174BE7E700B1942F /* GotItViewController.m */,
+			);
+			name = "Getting Started";
+			sourceTree = "<group>";
+		};
 		65137D1716BE6999006FA9BD /* Testing-Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -595,6 +636,8 @@
 		655BF5EC16C104CD00B22299 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				04C27B35174D44C800B1942F /* CALerpLine.h */,
+				04C27B36174D44C900B1942F /* CALerpLine.m */,
 				04C27B1A174452E700B1942F /* DescriptionParser.h */,
 				04C27B1B174452E800B1942F /* DescriptionParser.m */,
 				305BC7681710BD3300B2CC01 /* LoadingIndicator.h */,
@@ -715,6 +758,9 @@
 		D4086177169B760800D6ACB0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				04C27B31174BEB9500B1942F /* mockPagePhoto.png */,
+				04C27B38174D78E200B1942F /* mockBadPhoto.png */,
+				04C27B2E174BEACD00B1942F /* mockPageLogo.png */,
 				D485AA6B1706525900D555ED /* toolbar-view.png */,
 				D485AA6C1706525900D555ED /* toolbar-view@2x.png */,
 				D4C0372E1700F29600AA2537 /* toolbar-back.png */,
@@ -829,6 +875,7 @@
 				0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */,
 				D4E325441739AA3000F7D278 /* CategoryDetailTableViewController.h */,
 				D4E325451739AA3000F7D278 /* CategoryDetailTableViewController.m */,
+				04739E02174DC9D800F32D13 /* Getting Started */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1178,6 +1225,9 @@
 				D41BFA57173C26A100472EC7 /* messages-lv.json in Resources */,
 				D41BFA58173C26A100472EC7 /* messages-pt.json in Resources */,
 				D41BFA59173C26A100472EC7 /* messages-ta.json in Resources */,
+				04C27B30174BEACD00B1942F /* mockPageLogo.png in Resources */,
+				04C27B32174BEB9500B1942F /* mockPagePhoto.png in Resources */,
+				04C27B39174D78E200B1942F /* mockBadPhoto.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1337,6 +1387,12 @@
 				0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */,
 				04C27B191741C24200B1942F /* ProgressView.m in Sources */,
 				04C27B1C174452E800B1942F /* DescriptionParser.m in Sources */,
+				04C27B1F174B0B1E00B1942F /* MockBadPhotoViewController.m in Sources */,
+				04C27B22174B0B4100B1942F /* MockPageViewController.m in Sources */,
+				04C27B25174B0CE900B1942F /* MockPageBackgroundView.m in Sources */,
+				04C27B2C174BE7E800B1942F /* GotItViewController.m in Sources */,
+				04C27B37174D44CC00B1942F /* CALerpLine.m in Sources */,
+				04739E05174DCAD200F32D13 /* GettingStartedViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

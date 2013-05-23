@@ -275,7 +275,7 @@
 										nil] forState:UIControlStateNormal];
 	
 	[self.navigationItem setBackBarButtonItem: backButton];
-	[self.navigationController setNavigationBarHidden:NO animated:animated];
+
     [super viewWillDisappear:animated];
 }
 
