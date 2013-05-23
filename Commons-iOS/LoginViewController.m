@@ -97,12 +97,12 @@
     [self disableLoginButtonIfNoCredentials];
 }
 
--(NSString *) getTrimmedUsername{
+-(NSString *) trimmedUsername{
     // Returns trimmed version of the username as it *presently exists* in the usernameField UITextField
     return [CommonsApp.singleton getTrimmedString:self.usernameField.text];
 }
 
--(NSString *) getTrimmedPassword{
+-(NSString *) trimmedPassword{
     // Returns trimmed version of the password as it *presently exists* in the passwordField UITextField
     return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
 }
