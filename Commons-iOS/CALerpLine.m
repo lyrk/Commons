@@ -70,6 +70,8 @@
     
     [self.view.layer addSublayer:self.pathLayer];
     
+    [self.pathLayer removeAllAnimations];
+
     // Allow the line to be drawn even if not being animated
     if (self.duration == 0.0f) return;
     
@@ -81,8 +83,6 @@
     pathAnimation.fillMode = self.fillMode;
     pathAnimation.removedOnCompletion = self.removedOnCompletion;
     [pathAnimation setBeginTime:CACurrentMediaTime() + self.delay];
-
-    [self.pathLayer removeAllAnimations];
     
     [self.pathLayer addAnimation:pathAnimation forKey:@"strokeEnd"];
 }

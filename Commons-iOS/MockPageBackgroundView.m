@@ -65,9 +65,7 @@
         [lerpLine drawLine];
     };
     
-    // The non-animation duration is set to a non-zero value because of a bug in CALerpLine preventing
-    // lines 2 and 3 from being redrawn longer after having been drawn shorter... weird!
-    float duration = (animation) ? 0.17f : 0.001f;
+    float duration = (animation) ? 0.17f : 0.0f;
     float to = (animation) ? 0.49f : 1.0f;
     float from = (animation) ? 1.0f : 0.0f;
     
