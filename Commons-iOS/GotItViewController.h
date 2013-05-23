@@ -11,6 +11,7 @@
 @property (strong, nonatomic) IBOutlet UIView *mockPageContainerView;
 @property (strong, nonatomic) IBOutlet UIView *mockBadPhotoContainerView;
 @property (strong, nonatomic) IBOutlet UIButton *yesButton;
+@property (strong, nonatomic) IBOutlet UILabel *gotItLabel;
 
 - (IBAction)yesButtonPushed:(id)sender;
 

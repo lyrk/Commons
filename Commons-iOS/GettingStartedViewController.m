@@ -11,6 +11,7 @@
     NSMutableArray *scrollViewControllers;
     UIScrollView *scrollView;
     int lastPageIndex;
+    UITapGestureRecognizer *tapRecognizer;
 }
 @end
 
@@ -30,7 +31,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
     scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     scrollView.delegate = self;
@@ -53,6 +53,15 @@
     [[NSNotificationCenter defaultCenter] addObserverForName:@"dismissModalView" object:nil queue:nil usingBlock:^(NSNotification *notification){
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
+    
+    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+	[self.view addGestureRecognizer:tapRecognizer];
+
+    [[UIPageControl appearance] setCurrentPageIndicatorTintColor:[UIColor colorWithRed:0.60 green:0.75 blue:0.83 alpha:0.9]];
+
+    [[UIPageControl appearance] setPageIndicatorTintColor:[UIColor colorWithRed:0.13 green:0.31 blue:0.49 alpha:0.8]];
+
+    self.pageControl.transform = CGAffineTransformMakeScale(1.5f, 1.5f);
     
     [self.view addSubview:scrollView];
 }
@@ -84,16 +93,29 @@
     [vc beginAppearanceTransition:YES animated:YES];
     [vc endAppearanceTransition];
     
+    [self.view bringSubviewToFront:self.pageControl];
+    
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView2
-{    
-    // Determine the current page
-    CGFloat pageWidth = scrollView2.frame.size.width;
-    int currentPageIndex = floor((scrollView2.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
-    NSLog(@"currentPageIndex = %d lastPageIndex = %d", currentPageIndex, lastPageIndex);
+{
+    self.pageControl.currentPage = [self getCurrentPageIndex];
+
+    [self triggerChildViewControllersAppearanceMethods];
+}
+
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView2
+{
+    self.pageControl.currentPage = [self getCurrentPageIndex];
+    
+    [self triggerChildViewControllersAppearanceMethods];
+}
+
+-(void)triggerChildViewControllersAppearanceMethods
+{
+    int currentPageIndex = [self getCurrentPageIndex];
     
     if (currentPageIndex == lastPageIndex) return;
     
@@ -106,7 +128,36 @@
     [vc beginAppearanceTransition:YES animated:YES];
     [vc endAppearanceTransition];
 
-    lastPageIndex = currentPageIndex;
+    lastPageIndex = currentPageIndex;    
+}
+
+-(int)getCurrentPageIndex
+{
+    CGFloat pageWidth = scrollView.frame.size.width;
+    return floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+}
+
+-(void)handleTap
+{
+    int nextPageIndex = self.pageControl.currentPage + 1;
+
+    if (nextPageIndex == 3) return;
+    
+    [self scrollToPage:nextPageIndex];
+}
+
+-(void)scrollToPage:(int)pageIndex
+{
+    if (pageIndex == [self getCurrentPageIndex]) return;
+    CGRect frame = scrollView.frame;
+    frame.origin.x = frame.size.width * pageIndex;
+    frame.origin.y = 0;
+    [scrollView scrollRectToVisible:frame animated:YES];    
+}
+
+- (void)changePage:(id)sender
+{
+    [self scrollToPage:self.pageControl.currentPage];
 }
 
 -(void)viewWillLayoutSubviews

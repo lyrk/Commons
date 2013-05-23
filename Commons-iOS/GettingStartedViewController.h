@@ -8,4 +8,8 @@
 
 @interface GettingStartedViewController : UIViewController <UIScrollViewDelegate>
 
+@property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
+
+- (IBAction)changePage:(id)sender;
+
 @end
