@@ -8,10 +8,10 @@
 #import "GotItViewController.h"
 
 @interface GettingStartedViewController (){
-    NSMutableArray *scrollViewControllers;
-    UIScrollView *scrollView;
-    int lastPageIndex;
-    UITapGestureRecognizer *tapRecognizer;
+    NSMutableArray *scrollViewControllers_;
+    UIScrollView *scrollView_;
+    int lastPageIndex_;
+    UITapGestureRecognizer *tapRecognizer_;
 }
 @end
 
@@ -21,9 +21,9 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        scrollViewControllers = [[NSMutableArray alloc] init];
-        scrollView = [[UIScrollView alloc] init];
-        lastPageIndex = 0;
+        scrollViewControllers_ = [[NSMutableArray alloc] init];
+        scrollView_ = [[UIScrollView alloc] init];
+        lastPageIndex_ = 0;
     }
     return self;
 }
@@ -32,21 +32,21 @@
 {
     [super viewDidLoad];
     
-    scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    scrollView.delegate = self;
-    scrollView.pagingEnabled = YES;
+    scrollView_.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    scrollView_.delegate = self;
+    scrollView_.pagingEnabled = YES;
     
     UIViewController *whatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"WhatIsCommonsViewController"];
-    [scrollViewControllers addObject:whatVC];
+    [scrollViewControllers_ addObject:whatVC];
     
     UIViewController *whatPhotosVC = [self.storyboard instantiateViewControllerWithIdentifier:@"WhatPhotosViewController"];
-    [scrollViewControllers addObject:whatPhotosVC];
+    [scrollViewControllers_ addObject:whatPhotosVC];
     
     UIViewController *gotItVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GotItViewController"];
-    [scrollViewControllers addObject:gotItVC];
+    [scrollViewControllers_ addObject:gotItVC];
 
-    for (UIViewController *vc in scrollViewControllers) {
-        [scrollView addSubview:vc.view];
+    for (UIViewController *vc in scrollViewControllers_) {
+        [scrollView_ addSubview:vc.view];
         [self addChildViewController:vc];
     }
 
@@ -54,8 +54,8 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }];
     
-    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
-	[self.view addGestureRecognizer:tapRecognizer];
+    tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+	[self.view addGestureRecognizer:tapRecognizer_];
 
     [[UIPageControl appearance] setCurrentPageIndicatorTintColor:[UIColor colorWithRed:0.60 green:0.75 blue:0.83 alpha:0.9]];
 
@@ -63,7 +63,7 @@
 
     self.pageControl.transform = CGAffineTransformMakeScale(1.5f, 1.5f);
     
-    [self.view addSubview:scrollView];
+    [self.view addSubview:scrollView_];
 }
 
 -(BOOL)shouldAutorotate
@@ -117,10 +117,10 @@
 {
     int currentPageIndex = [self getCurrentPageIndex];
     
-    if (currentPageIndex == lastPageIndex) return;
+    if (currentPageIndex == lastPageIndex_) return;
     
     UIViewController *vc = [self.childViewControllers objectAtIndex:currentPageIndex];
-    UIViewController *lastVc = [self.childViewControllers objectAtIndex:lastPageIndex];
+    UIViewController *lastVc = [self.childViewControllers objectAtIndex:lastPageIndex_];
     
     [lastVc beginAppearanceTransition:NO animated:YES];
     [lastVc endAppearanceTransition];
@@ -128,13 +128,13 @@
     [vc beginAppearanceTransition:YES animated:YES];
     [vc endAppearanceTransition];
 
-    lastPageIndex = currentPageIndex;    
+    lastPageIndex_ = currentPageIndex;
 }
 
 -(int)getCurrentPageIndex
 {
-    CGFloat pageWidth = scrollView.frame.size.width;
-    return floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
+    CGFloat pageWidth = scrollView_.frame.size.width;
+    return floor((scrollView_.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
 }
 
 -(void)handleTap
@@ -149,10 +149,10 @@
 -(void)scrollToPage:(int)pageIndex
 {
     if (pageIndex == [self getCurrentPageIndex]) return;
-    CGRect frame = scrollView.frame;
+    CGRect frame = scrollView_.frame;
     frame.origin.x = frame.size.width * pageIndex;
     frame.origin.y = 0;
-    [scrollView scrollRectToVisible:frame animated:YES];    
+    [scrollView_ scrollRectToVisible:frame animated:YES];    
 }
 
 - (void)changePage:(id)sender
@@ -165,14 +165,14 @@
     [super viewWillLayoutSubviews];
     
     int counter = 0;
-    for (UIViewController *vc in scrollViewControllers) {
-        CGRect frame = scrollView.frame;
+    for (UIViewController *vc in scrollViewControllers_) {
+        CGRect frame = scrollView_.frame;
         frame.origin.y = 0;
         frame.origin.x = frame.size.width * counter;
         vc.view.frame = frame;
         counter++;
     }
-    scrollView.contentSize = CGSizeMake(self.view.frame.size.width * 3, self.view.frame.size.height);
+    scrollView_.contentSize = CGSizeMake(self.view.frame.size.width * 3, self.view.frame.size.height);
 }
 
 - (void)didReceiveMemoryWarning

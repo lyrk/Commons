@@ -9,8 +9,8 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface MockPageViewController (){
-    CGRect mockPagePhotoIBFrame;
-    MockPageBackgroundView *backgroundView;
+    CGRect mockPagePhotoIBFrame_;
+    MockPageBackgroundView *backgroundView_;
 }
 @end
 
@@ -18,8 +18,8 @@
 
 - (void)viewDidLoad
 {
-    mockPagePhotoIBFrame = self.mockPagePhoto.frame;
-    backgroundView = (MockPageBackgroundView *)self.view;
+    mockPagePhotoIBFrame_ = self.mockPagePhoto.frame;
+    backgroundView_ = (MockPageBackgroundView *)self.view;
 
     [super viewDidLoad];
     
@@ -33,7 +33,7 @@
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
                          // Slide the photo in from off-screen right
-                         self.mockPagePhoto.frame = mockPagePhotoIBFrame;
+                         self.mockPagePhoto.frame = mockPagePhotoIBFrame_;
                          // Partial photo fade-in
                          self.mockPagePhoto.alpha = 0.5f;
 					 }
@@ -55,11 +55,11 @@
                                               [CATransaction setValue:[NSNumber numberWithFloat:0.17f] forKey:kCATransactionAnimationDuration];
 
                                               // It appears the color setting do need to repeat in verbose manner for animation to tween properly... iirc
-                                              backgroundView.lineOne.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
-                                              backgroundView.lineTwo.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
-                                              backgroundView.lineThree.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
-                                              backgroundView.lineFour.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
-                                              backgroundView.lineFive.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
+                                              backgroundView_.lineOne.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
+                                              backgroundView_.lineTwo.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
+                                              backgroundView_.lineThree.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
+                                              backgroundView_.lineFour.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
+                                              backgroundView_.lineFive.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
                                               [CATransaction commit];
                                               
                                               // Make the photo swell
@@ -83,13 +83,13 @@
 -(void) hidePhoto
 {
     // Move the photo off-screen right
-    self.mockPagePhoto.frame = CGRectOffset(mockPagePhotoIBFrame, 75.0f, 0.0f);
+    self.mockPagePhoto.frame = CGRectOffset(mockPagePhotoIBFrame_, 75.0f, 0.0f);
     self.mockPagePhoto.alpha = 0.0f;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [backgroundView drawLinesWithAnimation:YES];
+    [backgroundView_ drawLinesWithAnimation:YES];
     [self revealPhoto];
 }
 
@@ -104,8 +104,8 @@
     // Logo fade-in
     self.mockPageLogo.alpha = 1.0;
     
-    [backgroundView reset];
-    [backgroundView drawLinesWithAnimation:NO];
+    [backgroundView_ reset];
+    [backgroundView_ drawLinesWithAnimation:NO];
     
     [self hidePhoto];
 }

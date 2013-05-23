@@ -10,15 +10,15 @@
 
 @implementation MockPageBackgroundView
 {
-    CALerpLine *lerpLine;
-    UIColor *backgroundColorFromIB;
+    CALerpLine *lerpLine_;
+    UIColor *backgroundColorFromIB_;
 }
 
 - (id)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self) {
-        lerpLine = [[CALerpLine alloc] init];
+        lerpLine_ = [[CALerpLine alloc] init];
         self.lineOne = [CAShapeLayer layer];
         self.lineTwo = [CAShapeLayer layer];
         self.lineThree = [CAShapeLayer layer];
@@ -27,7 +27,7 @@
 
         // Prepare the view for the sawtooth bottom to be drawn
         // Respect the color choice from Interface Builder so color may be tweaked w/o code changes
-        backgroundColorFromIB = self.backgroundColor;
+        backgroundColorFromIB_ = self.backgroundColor;
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
     }
@@ -49,20 +49,20 @@
     
     // Block for drawing lines - nice place for common settings
     void(^drawLerpLine)(CAShapeLayer *, CGPoint, CGPoint, CFTimeInterval, float, float) = ^(CAShapeLayer *pathLayer, CGPoint startPoint, CGPoint endPoint, CFTimeInterval duration, float from, float to){
-        lerpLine.view = self;
-        lerpLine.pathLayer = pathLayer;
-        lerpLine.startPoint = startPoint;
-        lerpLine.endPoint = endPoint;
-        lerpLine.startOffset = 0.0f;
-        lerpLine.endOffset = 0.0f;
-        lerpLine.duration = duration;
-        lerpLine.from = from;
-        lerpLine.to = to;
-        lerpLine.fillMode = kCAFillModeForwards;
-        lerpLine.removedOnCompletion = NO;
-        lerpLine.delay = 0.30f;
-        lerpLine.lineWidth = 3.0f;
-        [lerpLine drawLine];
+        lerpLine_.view = self;
+        lerpLine_.pathLayer = pathLayer;
+        lerpLine_.startPoint = startPoint;
+        lerpLine_.endPoint = endPoint;
+        lerpLine_.startOffset = 0.0f;
+        lerpLine_.endOffset = 0.0f;
+        lerpLine_.duration = duration;
+        lerpLine_.from = from;
+        lerpLine_.to = to;
+        lerpLine_.fillMode = kCAFillModeForwards;
+        lerpLine_.removedOnCompletion = NO;
+        lerpLine_.delay = 0.30f;
+        lerpLine_.lineWidth = 3.0f;
+        [lerpLine_ drawLine];
     };
     
     float duration = (animation) ? 0.17f : 0.0f;
@@ -86,7 +86,7 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetBlendMode(context, kCGBlendModeClear);
-    [backgroundColorFromIB setFill];
+    [backgroundColorFromIB_ setFill];
     UIRectFill(rect);
     int teeth = 26;
     int slices = (teeth * 2) + 1;

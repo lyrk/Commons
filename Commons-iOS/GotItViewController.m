@@ -7,7 +7,7 @@
 #import "GotItViewController.h"
 
 @interface GotItViewController (){
-    UITapGestureRecognizer *tapRecognizer;
+    UITapGestureRecognizer *tapRecognizer_;
 }
 
 @end
@@ -22,8 +22,8 @@
     self.mockPageContainerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
     self.mockBadPhotoContainerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
 
-    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
-	[self.view addGestureRecognizer:tapRecognizer];
+    tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+	[self.view addGestureRecognizer:tapRecognizer_];
 }
 
 -(void)handleTap
