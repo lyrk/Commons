@@ -243,6 +243,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="AR2-z5-wAc" kind="modal" id="BNW-d1-kWU"/>
+                                </connections>
                             </button>
                             <view userInteractionEnabled="NO" contentMode="scaleToFill" id="YPu-ML-rkl" customClass="WelcomeOverlayView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
@@ -1581,6 +1584,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
             <relationships>
                 <relationship kind="action" name="debugSwitchPushed:"/>
+                <relationship kind="action" name="loggingSwitchPushed:"/>
                 <relationship kind="action" name="openURLinExternalBrowser:"/>
                 <relationship kind="action" name="sourceButtonTap:"/>
                 <relationship kind="outlet" name="appNameLabel" candidateClass="UILabel"/>
@@ -1622,9 +1626,6 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
-        </class>
         <class className="WelcomeOverlayView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WelcomeOverlayView.h"/>
             <relationships>
@@ -1654,7 +1655,8 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="F72-2D-Gl0"/>
         <segue reference="dbR-9g-yz2"/>
+        <segue reference="F72-2D-Gl0"/>
+        <segue reference="LQ8-N8-Tpg"/>
     </inferredMetricsTieBreakers>
 </document>
