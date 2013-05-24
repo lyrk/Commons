@@ -63,7 +63,10 @@
 
     [[UIPageControl appearance] setPageIndicatorTintColor:[UIColor colorWithRed:0.13 green:0.31 blue:0.49 alpha:0.8]];
 
-    self.pageControl.transform = CGAffineTransformMakeScale(1.5f, 1.5f);
+    // Scale the dots up if on a retina device (looks pixelated on lower density displays)
+    if ([UIScreen mainScreen].scale != 1.0f) {
+        self.pageControl.transform = CGAffineTransformMakeScale(1.5f, 1.5f);
+    }    
     
     [self.view addSubview:scrollView_];
 }
