@@ -79,5 +79,11 @@
     "catdetail-remove-label": "Remove \"$1\"",
     "catdetail-info-intro": "More information",
     "catdetail-info-label": "Read about categories",
-    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    
+    "getting-started-what-is-commons-label": "Wikimedia Commons is a gallery for Wikipedia.\n\nHelp Wikipedia articles come to life by uploading your photos here!",
+    "getting-started-what-photos-label": "Upload photos you took yourself that can educate people around the world.\n\nAvoid photos you found somewhere else on the Internet and photos of posters, book covers, or other copyright materials.",
+    "getting-started-got-it-label": "You think you got it?",
+    "getting-started-yes-button": "Yes!"
+
 }

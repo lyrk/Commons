@@ -1233,6 +1233,9 @@ Help Wikipedia articles come to life by uploading your photos here!</string>
                         <color key="backgroundColor" red="0.0" green="0.45948221457543981" blue="0.67330063868613144" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="XlZ-ix-2d5"/>
+                    <connections>
+                        <outlet property="whatIsCommonsLabel" destination="shg-Rq-9Cq" id="Hsc-e6-SQk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvL-hR-t7E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1270,6 +1273,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                     <navigationItem key="navigationItem" id="dDi-x9-WYh"/>
                     <connections>
                         <outlet property="mockBadPhotoContainerView" destination="vX7-lG-sSB" id="doQ-71-JZg"/>
+                        <outlet property="whatPhotosLabel" destination="hU7-u3-spc" id="VBW-0B-1wg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MLB-V3-Fd9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1657,11 +1661,15 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
         </class>
         <class className="WhatIsCommonsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WhatIsCommonsViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="whatIsCommonsLabel" candidateClass="UILabel"/>
+            </relationships>
         </class>
         <class className="WhatPhotosViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WhatPhotosViewController.h"/>
             <relationships>
                 <relationship kind="outlet" name="mockBadPhotoContainerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="whatPhotosLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
     </classes>
@@ -1671,7 +1679,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="F72-2D-Gl0"/>
-        <segue reference="dbR-9g-yz2"/>
+        <segue reference="yNY-cm-JEu"/>
+        <segue reference="BjT-aI-DfZ"/>
     </inferredMetricsTieBreakers>
 </document>

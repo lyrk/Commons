@@ -6,6 +6,7 @@
 
 #import "GotItViewController.h"
 #import "GettingStartedConstants.h"
+#import "MWI18N.h"
 
 @interface GotItViewController (){
     UITapGestureRecognizer *tapRecognizer_;
@@ -27,6 +28,9 @@
 
     tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
 	[self.view addGestureRecognizer:tapRecognizer_];
+    
+    self.gotItLabel.text = [MWMessage forKey:@"getting-started-got-it-label"].text;
+    [self.yesButton setTitle:[MWMessage forKey:@"getting-started-yes-button"].text forState:UIControlStateNormal];
 }
 
 -(void)handleTap

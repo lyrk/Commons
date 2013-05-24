@@ -6,6 +6,7 @@
 
 #import "WhatIsCommonsViewController.h"
 #import "GettingStartedConstants.h"
+#import "MWI18N.h"
 
 @interface WhatIsCommonsViewController ()
 
@@ -18,6 +19,8 @@
     [super viewDidLoad];
 
     self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
+    
+    self.whatIsCommonsLabel.text = [MWMessage forKey:@"getting-started-what-is-commons-label"].text;
 }
 
 - (void)didReceiveMemoryWarning

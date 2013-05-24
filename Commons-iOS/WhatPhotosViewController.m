@@ -6,6 +6,7 @@
 
 #import "WhatPhotosViewController.h"
 #import "GettingStartedConstants.h"
+#import "MWI18N.h"
 
 @interface WhatPhotosViewController ()
 
@@ -20,6 +21,8 @@
     self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
 
     self.mockBadPhotoContainerView.transform = CGAffineTransformMakeScale(0.88, 0.88);
+    
+    self.whatPhotosLabel.text = [MWMessage forKey:@"getting-started-what-photos-label"].text;
 }
 
 - (void)didReceiveMemoryWarning
