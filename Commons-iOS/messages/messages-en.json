@@ -29,6 +29,7 @@
     "settings-debug-detail": "Uploading to $1",
     "settings-usage-reports-label": "Usage Reports:",
     "settings-usage-reports-description": "Send usage reports to Wikimedia to help us improve the app.",
+    "settings-links-label": "Links:",
     
     "details-title": "Details",
     "details-upload-button": "Upload",
