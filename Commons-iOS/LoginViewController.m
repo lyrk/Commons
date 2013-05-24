@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
 #import "GrayscaleImageView.h"
+#import "GettingStartedViewController.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
@@ -244,7 +245,29 @@
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
     
+    // Automatically show the getting started pages, but only once and only if no credentials present
+    [self showGettingStartedAutomaticallyOnce];
+    
     [super viewDidAppear:animated];
+}
+
+-(void)showGettingStartedAutomaticallyOnce
+{
+    // Automatically show the getting started pages, but only once and only if no credentials present
+    if(
+       ([self trimmedUsername].length == 0)
+       &&
+       ([self trimmedPassword].length == 0)
+       &&
+       ![[NSUserDefaults standardUserDefaults] boolForKey:@"GettingStartedWasAutomaticallyShown"]
+       )
+    {
+        GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
+        [self presentViewController:gettingStartedVC animated:NO completion:nil];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GettingStartedWasAutomaticallyShown"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 -(void)viewWillAppear:(BOOL)animated{
