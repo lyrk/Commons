@@ -35,7 +35,6 @@
     
     self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
 
-    scrollView_.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     scrollView_.delegate = self;
     scrollView_.pagingEnabled = YES;
     
@@ -76,7 +75,7 @@
 
 -(NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationPortrait;
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -92,6 +91,8 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    scrollView_.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+
     UIViewController *vc = [[self childViewControllers] objectAtIndex:0];
     [vc beginAppearanceTransition:YES animated:YES];
     [vc endAppearanceTransition];

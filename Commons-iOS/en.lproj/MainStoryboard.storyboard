@@ -1352,7 +1352,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" id="GA3-em-MbC">
                                 <rect key="frame" x="-8" y="85" width="240" height="152"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="6G9-GW-Bdz" kind="embed" id="dbR-9g-yz2"/>
@@ -1360,7 +1360,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" id="783-3b-cvJ">
                                 <rect key="frame" x="119.5" y="84.5" width="240" height="152"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <segue destination="Ze1-nF-ZzL" kind="embed" id="F72-2D-Gl0"/>
@@ -1407,7 +1407,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="mockBadPhoto.png" id="hWA-DP-pKT">
                                 <rect key="frame" x="64" y="9" width="112" height="134"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" id="aJS-Xn-gHV" userLabel="Blend Backing">
                                 <rect key="frame" x="65" y="10" width="110" height="132"/>
@@ -1421,7 +1421,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="66l-rf-u41">
                                 <rect key="frame" x="64" y="9" width="112" height="134"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.52156865600000002" blue="0.66666668650000005" alpha="1" colorSpace="deviceRGB"/>
@@ -1650,6 +1650,9 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
         </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
+        </class>
         <class className="WelcomeOverlayView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WelcomeOverlayView.h"/>
             <relationships>
@@ -1679,7 +1682,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="yNY-cm-JEu"/>
-        <segue reference="BjT-aI-DfZ"/>
+        <segue reference="dbR-9g-yz2"/>
+        <segue reference="F72-2D-Gl0"/>
     </inferredMetricsTieBreakers>
 </document>
