@@ -1329,22 +1329,6 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <containerView opaque="NO" contentMode="scaleToFill" id="GA3-em-MbC">
-                                <rect key="frame" x="-8" y="85" width="240" height="152"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="6G9-GW-Bdz" kind="embed" id="dbR-9g-yz2"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" id="783-3b-cvJ">
-                                <rect key="frame" x="119.5" y="84.5" width="240" height="152"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <segue destination="Ze1-nF-ZzL" kind="embed" id="F72-2D-Gl0"/>
-                                </connections>
-                            </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ft2-DP-zYM">
                                 <rect key="frame" x="116" y="299" width="89" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1361,6 +1345,29 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                                     <action selector="yesButtonPushed:" destination="wv1-uI-zhe" eventType="touchUpInside" id="RNg-5B-sAJ"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" id="Yx5-ZO-nk1">
+                                <rect key="frame" x="0.0" y="84" width="320" height="152"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <containerView opaque="NO" contentMode="scaleToFill" id="GA3-em-MbC">
+                                        <rect key="frame" x="-8" y="0.0" width="240" height="152"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="6G9-GW-Bdz" kind="embed" id="dbR-9g-yz2"/>
+                                        </connections>
+                                    </containerView>
+                                    <containerView opaque="NO" contentMode="scaleToFill" id="783-3b-cvJ">
+                                        <rect key="frame" x="120" y="0.0" width="240" height="152"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="Ze1-nF-ZzL" kind="embed" id="F72-2D-Gl0"/>
+                                        </connections>
+                                    </containerView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.45882352941176469" blue="0.67450980392156867" alpha="1" colorSpace="deviceRGB"/>
                     </view>
@@ -1584,7 +1591,6 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
             <relationships>
                 <relationship kind="action" name="debugSwitchPushed:"/>
-                <relationship kind="action" name="loggingSwitchPushed:"/>
                 <relationship kind="action" name="openURLinExternalBrowser:"/>
                 <relationship kind="action" name="sourceButtonTap:"/>
                 <relationship kind="outlet" name="appNameLabel" candidateClass="UILabel"/>
