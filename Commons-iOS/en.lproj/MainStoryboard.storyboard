@@ -1197,9 +1197,9 @@ to take or choose photos.</string>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="shg-Rq-9Cq">
                                         <rect key="frame" x="43" y="164" width="234" height="162"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <string key="text">Wikimedia Commons is a gallery for Wikipedia.
+                                        <string key="text">Contribute your images. Help Wikipedia articles come to life!
 
-Help Wikipedia articles come to life by uploading your photos here!</string>
+Images on Wikipedia come from Wikimedia Commons.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -1248,11 +1248,11 @@ Help Wikipedia articles come to life by uploading your photos here!</string>
                                         </connections>
                                     </containerView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hU7-u3-spc">
-                                        <rect key="frame" x="27" y="160" width="266" height="199"/>
+                                        <rect key="frame" x="43" y="160" width="234" height="199"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <string key="text">Upload photos you took yourself that can educate people around the world.
+                                        <string key="text">Your images help educate people around the world.
 
-Avoid photos you found somewhere else on the Internet of photos of posters, book covers, or other copyright materials.</string>
+Avoid copyrighted materials you found from the Internet as well as images of posters, book covers, etc.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -1683,7 +1683,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="LQ8-N8-Tpg"/>
-        <segue reference="dbR-9g-yz2"/>
-        <segue reference="F72-2D-Gl0"/>
+        <segue reference="BjT-aI-DfZ"/>
+        <segue reference="yNY-cm-JEu"/>
     </inferredMetricsTieBreakers>
 </document>
