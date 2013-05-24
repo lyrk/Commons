@@ -6,6 +6,7 @@
 
 #import "GettingStartedViewController.h"
 #import "GotItViewController.h"
+#import "GettingStartedConstants.h"
 
 @interface GettingStartedViewController (){
     NSMutableArray *scrollViewControllers_;
@@ -32,6 +33,8 @@
 {
     [super viewDidLoad];
     
+    self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
+
     scrollView_.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     scrollView_.delegate = self;
     scrollView_.pagingEnabled = YES;

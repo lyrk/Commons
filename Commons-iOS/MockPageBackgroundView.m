@@ -7,11 +7,12 @@
 #import "MockPageBackgroundView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "CALerpLine.h"
+#import "GettingStartedConstants.h"
 
 @implementation MockPageBackgroundView
 {
     CALerpLine *lerpLine_;
-    UIColor *backgroundColorFromIB_;
+    UIColor *backgroundColor_;
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -26,8 +27,7 @@
         self.lineFive = [CAShapeLayer layer];
 
         // Prepare the view for the sawtooth bottom to be drawn
-        // Respect the color choice from Interface Builder so color may be tweaked w/o code changes
-        backgroundColorFromIB_ = self.backgroundColor;
+        backgroundColor_ = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_BACKGROUND]; 
         self.backgroundColor = [UIColor clearColor];
         self.opaque = NO;
     }
@@ -61,7 +61,7 @@
         lerpLine_.fillMode = kCAFillModeForwards;
         lerpLine_.removedOnCompletion = NO;
         lerpLine_.delay = 0.30f;
-        lerpLine_.lineWidth = 3.0f;
+        lerpLine_.lineWidth = GETTING_STARTED_MOCK_PAGE_LINE_WIDTH;
         [lerpLine_ drawLine];
     };
     
@@ -86,7 +86,7 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetBlendMode(context, kCGBlendModeClear);
-    [backgroundColorFromIB_ setFill];
+    [backgroundColor_ setFill];
     UIRectFill(rect);
     int teeth = 26;
     int slices = (teeth * 2) + 1;
@@ -97,7 +97,7 @@
     for (NSUInteger k = 0; k < slices - 2; k++)
     {
         float x = (sliceWidth * k) + marginOffset;
-        float y = (k % 2) ? self.bounds.size.height - 3.0f : self.bounds.size.height - 8.0f;
+        float y = (k % 2) ? self.bounds.size.height - 1.0f : self.bounds.size.height - 6.0f;
         CGContextAddLineToPoint(context, x, y);
     }
     CGContextAddLineToPoint(context, self.bounds.size.width, self.bounds.size.height);

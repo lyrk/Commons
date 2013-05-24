@@ -5,6 +5,7 @@
 //  Created by Monte Hurd on 5/21/13.
 
 #import "GotItViewController.h"
+#import "GettingStartedConstants.h"
 
 @interface GotItViewController (){
     UITapGestureRecognizer *tapRecognizer_;
@@ -17,7 +18,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
+    [self.yesButton setTitleColor:GETTING_STARTED_BG_COLOR forState:UIControlStateNormal];
     
     self.mockPageContainerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
     self.mockBadPhotoContainerView.transform = CGAffineTransformMakeScale(0.5, 0.5);

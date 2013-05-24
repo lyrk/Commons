@@ -7,6 +7,7 @@
 #import "MockBadPhotoViewController.h"
 #import "CALerpLine.h"
 #import <QuartzCore/QuartzCore.h>
+#import "GettingStartedConstants.h"
 
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
@@ -30,6 +31,14 @@
     [strikeBackgroundLine_ removeFromSuperlayer];
     self.mockBadPhoto.transform = CGAffineTransformIdentity;
     self.mockBadPhotoBackground.transform = CGAffineTransformIdentity;
+    self.blendBacking.transform = CGAffineTransformIdentity;
+    self.blendMiddle.transform = CGAffineTransformIdentity;
+}
+
+-(void)viewWillLayoutSubviews
+{
+    self.blendBacking.backgroundColor = GETTING_STARTED_BG_COLOR;
+    self.blendMiddle.backgroundColor = [UIColor whiteColor];    
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -51,6 +60,14 @@
     self.view.backgroundColor = [UIColor clearColor];
 
     self.mockBadPhotoBackground.image = self.mockBadPhoto.image;
+    self.blendMiddle.alpha = GETTING_STARTED_MOCK_BAD_PHOTO_ALPHA_FRONT;
+    
+    [self.view bringSubviewToFront:self.blendBacking];
+    [self.view bringSubviewToFront:self.blendMiddle];
+
+    self.blendBacking.hidden = NO;
+    self.blendMiddle.hidden = NO;
+    
     [self.view bringSubviewToFront:self.mockBadPhoto];
 }
 
@@ -70,7 +87,7 @@
         lerpLine_.removedOnCompletion = NO;
         [lerpLine_ drawLine];
     };
-    drawLerpLine(strikeBackgroundLine_, [UIColor colorWithRed:0.17 green:0.38 blue:0.59 alpha:1.0], 13.0f);
+    drawLerpLine(strikeBackgroundLine_, GETTING_STARTED_BG_COLOR, 13.0f);
     drawLerpLine(strikeForegroundLine_, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], 4.0f);
     
     [UIView animateWithDuration:0.33
@@ -79,34 +96,12 @@
 					 animations:^{
                          CGAffineTransform xf = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-10.0f));
                          self.mockBadPhotoBackground.transform = CGAffineTransformTranslate(xf, -10.0f, -23.0f);
-                         self.mockBadPhotoBackground.alpha = 0.2;
+                         self.mockBadPhotoBackground.alpha = GETTING_STARTED_MOCK_BAD_PHOTO_ALPHA_BACK;
                          self.mockBadPhoto.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(7.0f));
+                         self.blendBacking.transform = self.mockBadPhoto.transform;
+                         self.blendMiddle.transform = self.mockBadPhoto.transform;
 					 }
 					 completion:^(BOOL finished){
-                         
-                         return; // Comment for a little extra animation
-                         
-                         __block CGAffineTransform xf1 = self.mockBadPhoto.transform;
-                         __block CGAffineTransform xf2 = self.mockBadPhotoBackground.transform;
-                         __block CGAffineTransform xf3 = CGAffineTransformScale(xf1, 1.3, 1.3);
-                         __block CGAffineTransform xf4 = CGAffineTransformScale(xf2, 1.3, 1.3);
-                         
-                         xf3 = CGAffineTransformRotate(xf3, DEGREES_TO_RADIANS(10.0f));
-                         xf4 = CGAffineTransformRotate(xf4, DEGREES_TO_RADIANS(-10.0f));
-                         
-                         [UIView animateWithDuration:0.16
-                                               delay:0.0
-                                             options:UIViewAnimationTransitionNone
-                                          animations:^{
-                                              self.mockBadPhoto.transform = xf3;
-                                              self.mockBadPhotoBackground.transform = xf4;
-                                          }
-                                          completion:^(BOOL finished){
-                                              [UIView animateWithDuration:0.16 animations:^{
-                                                  self.mockBadPhoto.transform = xf1;
-                                                  self.mockBadPhotoBackground.transform = xf2;
-                                              }];
-                                          }];
 					 }];
 }
 

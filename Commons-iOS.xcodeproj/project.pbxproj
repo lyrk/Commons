@@ -15,6 +15,8 @@
 		0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C864173B3D3800C2D03B /* SpeedGovernor.m */; };
 		0456EE8C170CF328008AF00A /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0456EE8B170CF328008AF00A /* NavigationController.m */; };
 		04739E05174DCAD200F32D13 /* GettingStartedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E04174DCAD200F32D13 /* GettingStartedViewController.m */; };
+		04739E08174ECCDF00F32D13 /* WhatPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E07174ECCDF00F32D13 /* WhatPhotosViewController.m */; };
+		04739E0E174F0D3600F32D13 /* WhatIsCommonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */; };
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
 		04C27B191741C24200B1942F /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B181741C24200B1942F /* ProgressView.m */; };
 		04C27B1C174452E800B1942F /* DescriptionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B1B174452E800B1942F /* DescriptionParser.m */; };
@@ -300,6 +302,11 @@
 		0456EE8B170CF328008AF00A /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		04739E03174DCAD200F32D13 /* GettingStartedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GettingStartedViewController.h; sourceTree = "<group>"; };
 		04739E04174DCAD200F32D13 /* GettingStartedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GettingStartedViewController.m; sourceTree = "<group>"; };
+		04739E06174ECCDE00F32D13 /* WhatPhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhatPhotosViewController.h; sourceTree = "<group>"; };
+		04739E07174ECCDF00F32D13 /* WhatPhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhatPhotosViewController.m; sourceTree = "<group>"; };
+		04739E0B174EE6EC00F32D13 /* GettingStartedConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GettingStartedConstants.h; sourceTree = "<group>"; };
+		04739E0C174F0D3400F32D13 /* WhatIsCommonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhatIsCommonsViewController.h; sourceTree = "<group>"; };
+		04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhatIsCommonsViewController.m; sourceTree = "<group>"; };
 		0478F8E71731B5E9007D4531 /* WelcomeOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeOverlayView.h; sourceTree = "<group>"; };
 		0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeOverlayView.m; sourceTree = "<group>"; };
 		04C27B171741C24200B1942F /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
@@ -595,16 +602,21 @@
 		04739E02174DC9D800F32D13 /* Getting Started */ = {
 			isa = PBXGroup;
 			children = (
+				04739E0B174EE6EC00F32D13 /* GettingStartedConstants.h */,
 				04739E03174DCAD200F32D13 /* GettingStartedViewController.h */,
 				04739E04174DCAD200F32D13 /* GettingStartedViewController.m */,
+				04739E0C174F0D3400F32D13 /* WhatIsCommonsViewController.h */,
+				04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */,
+				04739E06174ECCDE00F32D13 /* WhatPhotosViewController.h */,
+				04739E07174ECCDF00F32D13 /* WhatPhotosViewController.m */,
+				04C27B2A174BE7E400B1942F /* GotItViewController.h */,
+				04C27B2B174BE7E700B1942F /* GotItViewController.m */,
 				04C27B20174B0B3F00B1942F /* MockPageViewController.h */,
 				04C27B21174B0B4000B1942F /* MockPageViewController.m */,
 				04C27B23174B0CE700B1942F /* MockPageBackgroundView.h */,
 				04C27B24174B0CE700B1942F /* MockPageBackgroundView.m */,
 				04C27B1D174B0B1C00B1942F /* MockBadPhotoViewController.h */,
 				04C27B1E174B0B1D00B1942F /* MockBadPhotoViewController.m */,
-				04C27B2A174BE7E400B1942F /* GotItViewController.h */,
-				04C27B2B174BE7E700B1942F /* GotItViewController.m */,
 			);
 			name = "Getting Started";
 			sourceTree = "<group>";
@@ -1393,6 +1405,8 @@
 				04C27B2C174BE7E800B1942F /* GotItViewController.m in Sources */,
 				04C27B37174D44CC00B1942F /* CALerpLine.m in Sources */,
 				04739E05174DCAD200F32D13 /* GettingStartedViewController.m in Sources */,
+				04739E08174ECCDF00F32D13 /* WhatPhotosViewController.m in Sources */,
+				04739E0E174F0D3600F32D13 /* WhatIsCommonsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

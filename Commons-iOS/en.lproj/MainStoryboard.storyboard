@@ -1206,7 +1206,7 @@ to take or choose photos.</string>
         <!--What is Commons Controller-->
         <scene sceneID="QoF-GJ-9DJ">
             <objects>
-                <viewController storyboardIdentifier="WhatIsCommonsViewController" id="cs6-WZ-WPh" userLabel="What is Commons Controller" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WhatIsCommonsViewController" id="cs6-WZ-WPh" userLabel="What is Commons Controller" customClass="WhatIsCommonsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tu4-d8-oqM">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1241,7 +1241,7 @@ Help Wikipedia articles come to life by uploading your photos here!</string>
         <!--What Photos Controller-->
         <scene sceneID="KDg-Ek-jzw">
             <objects>
-                <viewController storyboardIdentifier="WhatPhotosViewController" id="o7D-kO-EgJ" userLabel="What Photos Controller" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WhatPhotosViewController" id="o7D-kO-EgJ" userLabel="What Photos Controller" customClass="WhatPhotosViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Cj4-tO-2C0">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1268,6 +1268,9 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                         <color key="backgroundColor" red="0.0" green="0.45948221459999999" blue="0.67330063870000001" alpha="1" colorSpace="deviceRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="dDi-x9-WYh"/>
+                    <connections>
+                        <outlet property="mockBadPhotoContainerView" destination="vX7-lG-sSB" id="doQ-71-JZg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MLB-V3-Fd9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1344,7 +1347,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                                 <nil key="highlightedColor"/>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" id="GA3-em-MbC">
-                                <rect key="frame" x="-11" y="85" width="240" height="152"/>
+                                <rect key="frame" x="-8" y="85" width="240" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -1352,7 +1355,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" id="783-3b-cvJ">
-                                <rect key="frame" x="122.5" y="84.5" width="240" height="152"/>
+                                <rect key="frame" x="119.5" y="84.5" width="240" height="152"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -1360,7 +1363,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                                 </connections>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ft2-DP-zYM">
-                                <rect key="frame" x="122" y="299" width="77" height="39"/>
+                                <rect key="frame" x="116" y="299" width="89" height="39"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.94039818549999998" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" size="button"/>
@@ -1399,11 +1402,21 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="mockBadPhoto.png" id="hWA-DP-pKT">
-                                <rect key="frame" x="53" y="9" width="134" height="134"/>
+                                <rect key="frame" x="64" y="9" width="112" height="134"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
+                            <view contentMode="scaleToFill" id="aJS-Xn-gHV" userLabel="Blend Backing">
+                                <rect key="frame" x="65" y="10" width="110" height="132"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.0" green="0.45882352939999999" blue="0.67450980390000004" alpha="1" colorSpace="deviceRGB"/>
+                            </view>
+                            <view opaque="NO" contentMode="scaleToFill" id="Xma-bP-1Z7" userLabel="Blend Middle">
+                                <rect key="frame" x="65" y="10" width="110" height="132"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" id="66l-rf-u41">
-                                <rect key="frame" x="53" y="9" width="134" height="134"/>
+                                <rect key="frame" x="64" y="9" width="112" height="134"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                         </subviews>
@@ -1412,6 +1425,8 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                     <toolbarItems/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="blendBacking" destination="aJS-Xn-gHV" id="GEk-7b-EJ8"/>
+                        <outlet property="blendMiddle" destination="Xma-bP-1Z7" id="bOe-Td-8Yk"/>
                         <outlet property="mockBadPhoto" destination="hWA-DP-pKT" id="E4k-te-MkP"/>
                         <outlet property="mockBadPhotoBackground" destination="66l-rf-u41" id="FJC-Om-X1N"/>
                     </connections>
@@ -1564,6 +1579,8 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
         <class className="MockBadPhotoViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/MockBadPhotoViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="blendBacking" candidateClass="UIView"/>
+                <relationship kind="outlet" name="blendMiddle" candidateClass="UIView"/>
                 <relationship kind="outlet" name="mockBadPhoto" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="mockBadPhotoBackground" candidateClass="UIImageView"/>
             </relationships>
@@ -1638,6 +1655,15 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
                 <relationship kind="outlet" name="takePhotoButton" candidateClass="UIButton"/>
             </relationships>
         </class>
+        <class className="WhatIsCommonsViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WhatIsCommonsViewController.h"/>
+        </class>
+        <class className="WhatPhotosViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/WhatPhotosViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mockBadPhotoContainerView" candidateClass="UIView"/>
+            </relationships>
+        </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -1645,7 +1671,7 @@ Avoid photos you found somewhere else on the Internet of photos of posters, book
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="yNY-cm-JEu"/>
-        <segue reference="BjT-aI-DfZ"/>
+        <segue reference="F72-2D-Gl0"/>
+        <segue reference="dbR-9g-yz2"/>
     </inferredMetricsTieBreakers>
 </document>

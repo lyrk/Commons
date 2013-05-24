@@ -7,6 +7,7 @@
 #import "MockPageViewController.h"
 #import "MockPageBackgroundView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "GettingStartedConstants.h"
 
 @interface MockPageViewController (){
     CGRect mockPagePhotoIBFrame_;
@@ -47,7 +48,7 @@
                                               self.mockPagePhoto.alpha = 1.0f;
 
                                               // Partial logo fade-out
-                                              self.mockPageLogo.alpha = 0.5;
+                                              self.mockPageLogo.alpha = GETTING_STARTED_MOCK_PAGE_ALPHA_LOGO;
 
                                               // Make the lines fade out at same rate as the logo
                                               [CATransaction begin];
@@ -55,11 +56,11 @@
                                               [CATransaction setValue:[NSNumber numberWithFloat:0.17f] forKey:kCATransactionAnimationDuration];
 
                                               // It appears the color setting do need to repeat in verbose manner for animation to tween properly... iirc
-                                              backgroundView_.lineOne.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
-                                              backgroundView_.lineTwo.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
-                                              backgroundView_.lineThree.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
-                                              backgroundView_.lineFour.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
-                                              backgroundView_.lineFive.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.5] CGColor];
+                                              backgroundView_.lineOne.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
+                                              backgroundView_.lineTwo.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
+                                              backgroundView_.lineThree.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
+                                              backgroundView_.lineFour.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
+                                              backgroundView_.lineFive.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
                                               [CATransaction commit];
                                               
                                               // Make the photo swell
