@@ -8,6 +8,7 @@
 
 @interface WhatIsCommonsViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UILabel *whatIsCommonsLabel;
+@property (strong, nonatomic) IBOutlet UILabel *contributeLabel;
+@property (strong, nonatomic) IBOutlet UILabel *imagesLabel;
 
 @end

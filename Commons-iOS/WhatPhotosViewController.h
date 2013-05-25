@@ -10,6 +10,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *mockBadPhotoContainerView;
 
-@property (strong, nonatomic) IBOutlet UILabel *whatPhotosLabel;
+@property (strong, nonatomic) IBOutlet UILabel *educateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *avoidLabel;
 
 @end

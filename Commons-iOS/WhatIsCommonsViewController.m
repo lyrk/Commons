@@ -20,7 +20,8 @@
 
     self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
     
-    self.whatIsCommonsLabel.text = [MWMessage forKey:@"getting-started-what-is-commons-label"].text;
+    self.contributeLabel.text = [MWMessage forKey:@"getting-started-what-is-commons-contribute-label"].text;
+    self.imagesLabel.text = [MWMessage forKey:@"getting-started-what-is-commons-images-label"].text;
 }
 
 - (void)didReceiveMemoryWarning

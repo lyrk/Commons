@@ -71,7 +71,11 @@
     "catdetail-info-intro": "{{Identical|More information}}",
     "getting-started-what-is-commons-label": "Message describing the purpose of Wikimedia Commons.",
     "getting-started-what-photos-label": "Message detailing what kinds of images should and should not be uploaded to Wikimedia Commons.",
+	"getting-started-what-is-commons-contribute-label": "Message inviting users to contribute their images.",
+	"getting-started-what-is-commons-images-label": "Message explaining that Wikipedia images Wikimedia Commons.",
+    "getting-started-what-photos-educate-label": "Message explaining the educational benefit of contributing images.",
+    "getting-started-what-photos-avoid-label": "Message explaining what kind of images not to submit.",
     "getting-started-got-it-label": "Message asking user if they understand what kinds of images to upload.",
     "getting-started-yes-button": "Button text for confirming the user understands what kinds of images to upload."
-
+ 
 }

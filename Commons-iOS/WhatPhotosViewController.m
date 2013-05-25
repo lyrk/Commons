@@ -21,8 +21,9 @@
     self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
 
     self.mockBadPhotoContainerView.transform = CGAffineTransformMakeScale(0.88, 0.88);
-    
-    self.whatPhotosLabel.text = [MWMessage forKey:@"getting-started-what-photos-label"].text;
+
+    self.educateLabel.text = [MWMessage forKey:@"getting-started-what-photos-educate-label"].text;
+    self.avoidLabel.text = [MWMessage forKey:@"getting-started-what-photos-avoid-label"].text;	
 }
 
 - (void)didReceiveMemoryWarning

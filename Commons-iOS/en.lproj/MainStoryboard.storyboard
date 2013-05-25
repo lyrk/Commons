@@ -1191,16 +1191,22 @@ to take or choose photos.</string>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="FnJ-bk-F4H" userLabel="Vertical Centering Container">
-                                <rect key="frame" x="0.0" y="67" width="320" height="326"/>
+                                <rect key="frame" x="0.0" y="55" width="320" height="350"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="shg-Rq-9Cq">
-                                        <rect key="frame" x="43" y="164" width="234" height="162"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="shg-Rq-9Cq" userLabel="Contribute Label">
+                                        <rect key="frame" x="10" y="184" width="300" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <string key="text">Contribute your images. Help Wikipedia articles come to life!
-
-Images on Wikipedia come from Wikimedia Commons.</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <string key="text">Contribute your images. 
+Help Wikipedia articles come to life!</string>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Images on Wikipedia come from   Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YpP-Ot-g5U" userLabel="Images Label">
+                                        <rect key="frame" x="18" y="246" width="284" height="66"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1220,7 +1226,8 @@ Images on Wikipedia come from Wikimedia Commons.</string>
                     </view>
                     <navigationItem key="navigationItem" id="XlZ-ix-2d5"/>
                     <connections>
-                        <outlet property="whatIsCommonsLabel" destination="shg-Rq-9Cq" id="Hsc-e6-SQk"/>
+                        <outlet property="contributeLabel" destination="shg-Rq-9Cq" id="5jV-aa-x1d"/>
+                        <outlet property="imagesLabel" destination="YpP-Ot-g5U" id="Tgu-5u-TdP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvL-hR-t7E" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1236,7 +1243,7 @@ Images on Wikipedia come from Wikimedia Commons.</string>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="FNe-S1-HBk" userLabel="Vertical Centering Container">
-                                <rect key="frame" x="0.0" y="51" width="320" height="359"/>
+                                <rect key="frame" x="0.0" y="55.5" width="320" height="350"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" id="vX7-lG-sSB">
@@ -1247,13 +1254,17 @@ Images on Wikipedia come from Wikimedia Commons.</string>
                                             <segue destination="Ze1-nF-ZzL" kind="embed" id="yNY-cm-JEu"/>
                                         </connections>
                                     </containerView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="9" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hU7-u3-spc">
-                                        <rect key="frame" x="43" y="160" width="234" height="199"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your images help educate people  around the world." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hU7-u3-spc" userLabel="Educate Label">
+                                        <rect key="frame" x="10" y="184" width="300" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <string key="text">Your images help educate people around the world.
-
-Avoid copyrighted materials you found from the Internet as well as images of posters, book covers, etc.</string>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Avoid copyrighted materials you found from the Internet as well as images of posters, book covers, etc." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wLT-cq-7UQ" userLabel="Avoid Label">
+                                        <rect key="frame" x="18" y="243" width="284" height="82"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1265,8 +1276,9 @@ Avoid copyrighted materials you found from the Internet as well as images of pos
                     </view>
                     <navigationItem key="navigationItem" id="dDi-x9-WYh"/>
                     <connections>
+                        <outlet property="avoidLabel" destination="wLT-cq-7UQ" id="03g-Jm-7xf"/>
+                        <outlet property="educateLabel" destination="hU7-u3-spc" id="doF-GQ-Kx9"/>
                         <outlet property="mockBadPhotoContainerView" destination="vX7-lG-sSB" id="doQ-71-JZg"/>
-                        <outlet property="whatPhotosLabel" destination="hU7-u3-spc" id="VBW-0B-1wg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MLB-V3-Fd9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1337,7 +1349,7 @@ Avoid copyrighted materials you found from the Internet as well as images of pos
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="71Q-b5-3HZ" userLabel="Vertical Centering Container">
-                                <rect key="frame" x="0.0" y="99" width="320" height="245"/>
+                                <rect key="frame" x="0.0" y="77" width="320" height="305"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="Yx5-ZO-nk1" userLabel="Containers Container">
@@ -1366,7 +1378,7 @@ Avoid copyrighted materials you found from the Internet as well as images of pos
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="You think you got it?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8uY-2H-lam">
                                         <rect key="frame" x="20" y="143" width="280" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -1665,14 +1677,16 @@ Avoid copyrighted materials you found from the Internet as well as images of pos
         <class className="WhatIsCommonsViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WhatIsCommonsViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="whatIsCommonsLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="contributeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="imagesLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="WhatPhotosViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WhatPhotosViewController.h"/>
             <relationships>
+                <relationship kind="outlet" name="avoidLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="educateLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="mockBadPhotoContainerView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="whatPhotosLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
     </classes>
@@ -1682,8 +1696,8 @@ Avoid copyrighted materials you found from the Internet as well as images of pos
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="dbR-9g-yz2"/>
+        <segue reference="F72-2D-Gl0"/>
         <segue reference="LQ8-N8-Tpg"/>
-        <segue reference="BjT-aI-DfZ"/>
-        <segue reference="yNY-cm-JEu"/>
     </inferredMetricsTieBreakers>
 </document>

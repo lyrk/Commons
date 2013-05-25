@@ -82,9 +82,12 @@
     "catdetail-info-label": "Read about categories",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
     
-    "getting-started-what-is-commons-label": "Contribute your images. Help Wikipedia articles come to life!\n\nImages on Wikipedia come from Wikimedia Commons.",
-    "getting-started-what-photos-label": "Your images help educate people around the world.\n\nAvoid copyrighted materials you found from the Internet as well as images of posters, book covers, etc.",
-    "getting-started-got-it-label": "You think you got it?",
+    "getting-started-what-is-commons-contribute-label": "Contribute your images.\nHelp Wikipedia articles come to life!",
+	"getting-started-what-is-commons-images-label": "Images on Wikipedia come from\nWikimedia Commons.",
+    "getting-started-what-photos-educate-label": "Your images help educate people\naround the world.",
+    "getting-started-what-photos-avoid-label": "Avoid copyrighted materials you found\nfrom the Internet as well as images of\nposters, book covers, etc.",
+	
+	"getting-started-got-it-label": "You think you got it?",
     "getting-started-yes-button": "Yes!"
 
 }
