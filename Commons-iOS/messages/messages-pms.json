@@ -1,4 +1,9 @@
 {
+    "@metadata": {
+        "authors": [
+            "Borich\u00e8t"
+        ]
+    },
     "contribs-title": "M\u00e8 cariagi",
     "contribs-settings-button": "Configurassion",
     "contribs-upload-button": "Cari\u00e9",
@@ -28,10 +33,5 @@
     "settings-usage-reports-description": "Mand\u00e9 ij rap\u00f2rt d'usagi a Wikimedia p\u00ebr giutene a amelior\u00e9 l'aplicassion",
     "details-title": "Detaj",
     "details-upload-button": "Cari\u00e9",
-    "details-title-label": "T\u00ectol",
-    "@metadata": {
-        "authors": [
-            "Borich\u00e8t"
-        ]
-    }
+    "details-title-label": "T\u00ectol"
 }

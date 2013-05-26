@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Dj",
+            "R-Joe",
             "Tacsipacsi"
         ]
     },
@@ -33,16 +34,27 @@
     "details-title-placeholder": "Egyedi, le\u00edr\u00f3 c\u00edm",
     "details-description-label": "Le\u00edr\u00e1s",
     "details-description-placeholder": "Sz\u00fcks\u00e9ges",
+    "details-description-loading": "Bet\u00f6lt\u00e9s...",
+    "details-description-none-found": "Nem Tal\u00e1lhat\u00f3 Le\u00edr\u00e1s",
     "details-license-label": "Licenc",
     "details-hide-keyboard": "Billenty\u0171zet elrejt\u00e9se",
+    "details-category-label": "Kateg\u00f3ri\u00e1k",
+    "details-category-select": "V\u00e1lasszon...",
+    "details-category-loading": "Bet\u00f6lt\u00e9s\u2026",
+    "details-category-none-found": "Nem Tal\u00e1lhat\u00f3 Kateg\u00f3ria",
     "web-open-in": "Megnyit\u00e1s $1-ban",
     "web-cancel": "M\u00e9gsem",
     "login-title": "Fi\u00f3k",
     "login-button": "Bejelentkez\u00e9s",
     "about-title": "N\u00e9vjegy",
+    "about-commons-button": "Wikimedia Commons",
     "about-privacy-button": "Adatv\u00e9delmi ir\u00e1nyelvek",
     "about-source-button": "Forr\u00e1s",
     "about-source-this-app-contributors": "K\u00f6zrem\u0171k\u00f6d\u0151k",
     "about-license-button": "Licenc",
+    "license-title": "Licenc",
+    "license-details-intro": "Tov\u00e1bbi inform\u00e1ci\u00f3",
+    "catdetail-title": "Kateg\u00f3ria",
+    "catdetail-info-intro": "Tov\u00e1bbi inform\u00e1ci\u00f3",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Kateg\u00f3ri\u00e1k"
 }
