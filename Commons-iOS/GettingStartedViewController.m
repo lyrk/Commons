@@ -13,6 +13,11 @@
     UIScrollView *scrollView_;
     int lastPageIndex_;
     UITapGestureRecognizer *tapRecognizer_;
+
+	// See: http://www.iosdevnotes.com/2011/03/uiscrollview-paging/ "Fixing the flashing" for
+	// explaination of how this "pageControlBeingUsed_" variable stops page control dot flicker
+	// when the page control is directly tapped
+	BOOL pageControlBeingUsed_;
 }
 @end
 
@@ -25,6 +30,7 @@
         scrollViewControllers_ = [[NSMutableArray alloc] init];
         scrollView_ = [[UIScrollView alloc] init];
         lastPageIndex_ = 0;
+		pageControlBeingUsed_ = NO;
     }
     return self;
 }
@@ -108,16 +114,24 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView2
 {
-    self.pageControl.currentPage = [self getCurrentPageIndex];
+    pageControlBeingUsed_ = NO;
 
     [self triggerChildViewControllersAppearanceMethods];
 }
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView2
-{
-    self.pageControl.currentPage = [self getCurrentPageIndex];
-    
+{    
     [self triggerChildViewControllersAppearanceMethods];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender
+{
+	if(pageControlBeingUsed_) return;
+    self.pageControl.currentPage = [self getCurrentPageIndex];
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    pageControlBeingUsed_ = NO;
 }
 
 -(void)triggerChildViewControllersAppearanceMethods
@@ -165,6 +179,7 @@
 - (void)changePage:(id)sender
 {
     [self scrollToPage:self.pageControl.currentPage];
+	pageControlBeingUsed_ = YES;
 }
 
 -(void)viewWillLayoutSubviews
