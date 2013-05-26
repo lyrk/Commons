@@ -7,6 +7,8 @@
 #import "WhatPhotosViewController.h"
 #import "GettingStartedConstants.h"
 #import "MWI18N.h"
+#import "UILabel+ResizeWithAttributes.h"
+#import "UIView+VerticalSpace.h"
 
 @interface WhatPhotosViewController ()
 
@@ -20,10 +22,33 @@
 
     self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
 
-    self.mockBadPhotoContainerView.transform = CGAffineTransformMakeScale(0.88, 0.88);
+	//self.mockBadPhotoContainerView.transform = CGAffineTransformMakeScale(0.88, 0.88);
 
     self.educateLabel.text = [MWMessage forKey:@"getting-started-what-photos-educate-label"].text;
-    self.avoidLabel.text = [MWMessage forKey:@"getting-started-what-photos-avoid-label"].text;	
+    self.avoidLabel.text = [MWMessage forKey:@"getting-started-what-photos-avoid-label"].text;
+	
+	// Style attributes for labels
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	paragraphStyle.alignment = NSTextAlignmentCenter;
+	paragraphStyle.lineSpacing = GETTING_STARTED_LABEL_LINE_SPACING;
+	paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+	
+	// Apply styled attributes to label resizing it to fit the newly styled text (regardless of i18n string length!)
+	[self.educateLabel resizeWithAttributes: @{
+					   NSFontAttributeName : [UIFont boldSystemFontOfSize:GETTING_STARTED_HEADING_FONT_SIZE],
+			 NSParagraphStyleAttributeName : paragraphStyle,
+			NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
+	 }];
+	
+	[self.avoidLabel resizeWithAttributes: @{
+					 NSFontAttributeName : [UIFont systemFontOfSize:GETTING_STARTED_SUB_HEADING_FONT_SIZE],
+		   NSParagraphStyleAttributeName : paragraphStyle,
+		  NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:0.9f]
+	 }];
+	
+	// Ensure constant spacing around the newly resized labels
+	[self.educateLabel moveBelowView:self.mockBadPhotoContainerView spacing:40.0f];
+	[self.avoidLabel moveBelowView:self.educateLabel spacing:22.0f];
 }
 
 - (void)didReceiveMemoryWarning

@@ -1197,13 +1197,16 @@ to take or choose photos.</string>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="shg-Rq-9Cq" userLabel="Contribute Label">
                                         <rect key="frame" x="10" y="184" width="300" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <string key="text">Contribute your images. 
+                                        <string key="text">Contribute your images.
+
 Help Wikipedia articles come to life!</string>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Images on Wikipedia come from   Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YpP-Ot-g5U" userLabel="Images Label">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Images on Wikipedia come from 
+
+Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YpP-Ot-g5U" userLabel="Images Label">
                                         <rect key="frame" x="18" y="246" width="284" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1226,6 +1229,7 @@ Help Wikipedia articles come to life!</string>
                     </view>
                     <navigationItem key="navigationItem" id="XlZ-ix-2d5"/>
                     <connections>
+                        <outlet property="containerView" destination="aE4-IZ-cjC" id="yMz-Lo-Ueu"/>
                         <outlet property="contributeLabel" destination="shg-Rq-9Cq" id="5jV-aa-x1d"/>
                         <outlet property="imagesLabel" destination="YpP-Ot-g5U" id="Tgu-5u-TdP"/>
                     </connections>
@@ -1254,7 +1258,9 @@ Help Wikipedia articles come to life!</string>
                                             <segue destination="Ze1-nF-ZzL" kind="embed" id="yNY-cm-JEu"/>
                                         </connections>
                                     </containerView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your images help educate people  around the world." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hU7-u3-spc" userLabel="Educate Label">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your images help educate people
+
+around the world." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hU7-u3-spc" userLabel="Educate Label">
                                         <rect key="frame" x="10" y="184" width="300" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1696,7 +1702,7 @@ Help Wikipedia articles come to life!</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="dbR-9g-yz2"/>
+        <segue reference="BjT-aI-DfZ"/>
         <segue reference="F72-2D-Gl0"/>
         <segue reference="LQ8-N8-Tpg"/>
     </inferredMetricsTieBreakers>

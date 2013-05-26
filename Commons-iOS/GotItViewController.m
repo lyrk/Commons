@@ -7,6 +7,8 @@
 #import "GotItViewController.h"
 #import "GettingStartedConstants.h"
 #import "MWI18N.h"
+#import "UILabel+ResizeWithAttributes.h"
+#import "UIView+VerticalSpace.h"
 
 @interface GotItViewController (){
     UITapGestureRecognizer *tapRecognizer_;
@@ -31,6 +33,23 @@
     
     self.gotItLabel.text = [MWMessage forKey:@"getting-started-got-it-label"].text;
     [self.yesButton setTitle:[MWMessage forKey:@"getting-started-yes-button"].text forState:UIControlStateNormal];
+	
+	// Style attributes for labels
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	paragraphStyle.alignment = NSTextAlignmentCenter;
+	paragraphStyle.lineSpacing = GETTING_STARTED_LABEL_LINE_SPACING;
+	paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+	
+	// Apply styled attributes to label resizing it to fit the newly styled text (regardless of i18n string length!)
+	[self.gotItLabel resizeWithAttributes: @{
+					 NSFontAttributeName : [UIFont boldSystemFontOfSize:GETTING_STARTED_HEADING_FONT_SIZE],
+		   NSParagraphStyleAttributeName : paragraphStyle,
+		  NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
+	 }];
+	
+	// Ensure constant spacing around the newly resized labels
+	[self.gotItLabel moveBelowView:self.mockBadPhotoContainerView spacing:40.0f];
+	[self.yesButton moveBelowView:self.gotItLabel spacing:22.0f];
 }
 
 -(void)handleTap
