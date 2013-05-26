@@ -10,5 +10,7 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *mockPagePhoto;
 @property (strong, nonatomic) IBOutlet UIImageView *mockPageLogo;
+@property (nonatomic) float animationDelay;
+@property (nonatomic) BOOL animationDelayOnce;
 
 @end

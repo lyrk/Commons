@@ -9,6 +9,8 @@
 #import "MWI18N.h"
 #import "UILabel+ResizeWithAttributes.h"
 #import "UIView+VerticalSpace.h"
+#import "MockPageViewController.h"
+#import "MockBadPhotoViewController.h"
 
 @interface GotItViewController (){
     UITapGestureRecognizer *tapRecognizer_;
@@ -77,6 +79,19 @@
                                           completion:^(BOOL finished){
                                           }];
                      }];
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{	// Adjust properties on embedded view's view controller
+	// Why a segue? See: http://stackoverflow.com/a/13279703
+	
+	if ([segue.identifier isEqualToString: @"GotIt_MockPage_Embed"]) {
+		MockPageViewController *mockPageVC = (MockPageViewController *) [segue destinationViewController];
+		mockPageVC.animationDelay = GETTING_STARTED_GOTIT_MOCKPAGE_ANIMATION_DELAY;
+	}else if ([segue.identifier isEqualToString: @"GotIt_MockBadPhoto_Embed"]) {
+			MockBadPhotoViewController *mockBadPhotoVC = (MockBadPhotoViewController *) [segue destinationViewController];
+			mockBadPhotoVC.animationDelay = GETTING_STARTED_GOTIT_MOCKBADPHOTO_ANIMATION_DELAY;
+	}
 }
 
 - (void)didReceiveMemoryWarning

@@ -10,6 +10,6 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *contributeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *imagesLabel;
-@property (strong, nonatomic) IBOutlet UIView *containerView;
+@property (strong, nonatomic) IBOutlet UIView *mockPageContainerView;
 
 @end

@@ -9,6 +9,7 @@
 #import "MWI18N.h"
 #import "UILabel+ResizeWithAttributes.h"
 #import "UIView+VerticalSpace.h"
+#import "MockBadPhotoViewController.h"
 
 @interface WhatPhotosViewController ()
 
@@ -49,6 +50,16 @@
 	// Ensure constant spacing around the newly resized labels
 	[self.educateLabel moveBelowView:self.mockBadPhotoContainerView spacing:40.0f];
 	[self.avoidLabel moveBelowView:self.educateLabel spacing:22.0f];
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{	// Adjust properties on embedded view's view controller
+	// Why a segue? See: http://stackoverflow.com/a/13279703
+	
+	if ([segue.identifier isEqualToString: @"WhatPhotos_MockBadPhoto_Embed"]) {
+		MockBadPhotoViewController *mockBadPhotoVC = (MockBadPhotoViewController *) [segue destinationViewController];
+		mockBadPhotoVC.animationDelay = GETTING_STARTED_WHATPHOTOS_MOCKBADPHOTO_ANIMATION_DELAY;
+	}
 }
 
 - (void)didReceiveMemoryWarning

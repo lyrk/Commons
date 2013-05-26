@@ -1204,9 +1204,7 @@ Help Wikipedia articles come to life!</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Images on Wikipedia come from 
-
-Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YpP-Ot-g5U" userLabel="Images Label">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Images on Wikipedia come from   Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YpP-Ot-g5U" userLabel="Images Label">
                                         <rect key="frame" x="18" y="246" width="284" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1218,7 +1216,7 @@ Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" number
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <segue destination="6G9-GW-Bdz" kind="embed" id="BjT-aI-DfZ"/>
+                                            <segue destination="6G9-GW-Bdz" kind="embed" identifier="WhatIsCommons_MockPage_Embed" id="BjT-aI-DfZ"/>
                                         </connections>
                                     </containerView>
                                 </subviews>
@@ -1229,9 +1227,9 @@ Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" number
                     </view>
                     <navigationItem key="navigationItem" id="XlZ-ix-2d5"/>
                     <connections>
-                        <outlet property="containerView" destination="aE4-IZ-cjC" id="yMz-Lo-Ueu"/>
                         <outlet property="contributeLabel" destination="shg-Rq-9Cq" id="5jV-aa-x1d"/>
                         <outlet property="imagesLabel" destination="YpP-Ot-g5U" id="Tgu-5u-TdP"/>
+                        <outlet property="mockPageContainerView" destination="aE4-IZ-cjC" id="Udz-FT-Xvo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvL-hR-t7E" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1255,12 +1253,10 @@ Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" number
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
-                                            <segue destination="Ze1-nF-ZzL" kind="embed" id="yNY-cm-JEu"/>
+                                            <segue destination="Ze1-nF-ZzL" kind="embed" identifier="WhatPhotos_MockBadPhoto_Embed" id="yNY-cm-JEu"/>
                                         </connections>
                                     </containerView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your images help educate people
-
-around the world." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hU7-u3-spc" userLabel="Educate Label">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your images help educate people  around the world." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hU7-u3-spc" userLabel="Educate Label">
                                         <rect key="frame" x="10" y="184" width="300" height="66"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1289,7 +1285,7 @@ around the world." textAlignment="center" lineBreakMode="tailTruncation" numberO
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MLB-V3-Fd9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1634" y="2904"/>
+            <point key="canvasLocation" x="-1634" y="2915"/>
         </scene>
         <!--Mock Page Controller-->
         <scene sceneID="vRd-DP-5ke">
@@ -1367,7 +1363,7 @@ around the world." textAlignment="center" lineBreakMode="tailTruncation" numberO
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
-                                                    <segue destination="6G9-GW-Bdz" kind="embed" id="dbR-9g-yz2"/>
+                                                    <segue destination="6G9-GW-Bdz" kind="embed" identifier="GotIt_MockPage_Embed" id="dbR-9g-yz2"/>
                                                 </connections>
                                             </containerView>
                                             <containerView opaque="NO" contentMode="scaleToFill" id="783-3b-cvJ">
@@ -1375,7 +1371,7 @@ around the world." textAlignment="center" lineBreakMode="tailTruncation" numberO
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <connections>
-                                                    <segue destination="Ze1-nF-ZzL" kind="embed" id="F72-2D-Gl0"/>
+                                                    <segue destination="Ze1-nF-ZzL" kind="embed" identifier="GotIt_MockBadPhoto_Embed" id="F72-2D-Gl0"/>
                                                 </connections>
                                             </containerView>
                                         </subviews>
@@ -1685,6 +1681,7 @@ around the world." textAlignment="center" lineBreakMode="tailTruncation" numberO
             <relationships>
                 <relationship kind="outlet" name="contributeLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="imagesLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mockPageContainerView" candidateClass="UIView"/>
             </relationships>
         </class>
         <class className="WhatPhotosViewController" superclassName="UIViewController">
@@ -1702,8 +1699,8 @@ around the world." textAlignment="center" lineBreakMode="tailTruncation" numberO
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="BjT-aI-DfZ"/>
         <segue reference="F72-2D-Gl0"/>
+        <segue reference="dbR-9g-yz2"/>
         <segue reference="LQ8-N8-Tpg"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -60,7 +60,7 @@
         lerpLine_.to = to;
         lerpLine_.fillMode = kCAFillModeForwards;
         lerpLine_.removedOnCompletion = NO;
-        lerpLine_.delay = 0.30f;
+        lerpLine_.delay = 0.0f;
         lerpLine_.lineWidth = GETTING_STARTED_MOCK_PAGE_LINE_WIDTH;
         [lerpLine_ drawLine];
     };

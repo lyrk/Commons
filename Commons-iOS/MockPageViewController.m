@@ -17,6 +17,16 @@
 
 @implementation MockPageViewController
 
+- (id)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+		self.animationDelay = 0.0f;
+		self.animationDelayOnce = NO;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     mockPagePhotoIBFrame_ = self.mockPagePhoto.frame;
@@ -30,7 +40,7 @@
 -(void) revealPhoto
 {    
     [UIView animateWithDuration:0.17f
-						  delay:0.35f
+						  delay:0.05f
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
                          // Slide the photo in from off-screen right
@@ -90,8 +100,11 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [backgroundView_ drawLinesWithAnimation:YES];
-    [self revealPhoto];
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.animationDelay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+		[backgroundView_ drawLinesWithAnimation:YES];
+		[self revealPhoto];
+		if (self.animationDelayOnce) self.animationDelay = 0.0f;
+	});
 }
 
 -(void)viewWillAppear:(BOOL)animated

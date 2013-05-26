@@ -9,6 +9,7 @@
 #import "MWI18N.h"
 #import "UILabel+ResizeWithAttributes.h"
 #import "UIView+VerticalSpace.h"
+#import "MockPageViewController.h"
 
 @interface WhatIsCommonsViewController ()
 
@@ -45,8 +46,19 @@
 	 }];
 	
 	// Ensure constant spacing around the newly resized labels
-	[self.contributeLabel moveBelowView:self.containerView spacing:40.0f];
+	[self.contributeLabel moveBelowView:self.mockPageContainerView spacing:40.0f];
 	[self.imagesLabel moveBelowView:self.contributeLabel spacing:22.0f];
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{	// Adjust properties on embedded view's view controller
+	// Why a segue? See: http://stackoverflow.com/a/13279703
+	
+	if ([segue.identifier isEqualToString: @"WhatIsCommons_MockPage_Embed"]) {
+		MockPageViewController *mockPageVC = (MockPageViewController *) [segue destinationViewController];
+		mockPageVC.animationDelay = GETTING_STARTED_WHATISCOMMONS_MOCKPAGE_ANIMATION_DELAY;
+		mockPageVC.animationDelayOnce = YES;
+	}
 }
 
 - (void)didReceiveMemoryWarning

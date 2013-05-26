@@ -48,6 +48,7 @@
         lerpLine_ = [[CALerpLine alloc] init];
         strikeForegroundLine_ = [CAShapeLayer layer];
         strikeBackgroundLine_ = [CAShapeLayer layer];
+		self.animationDelay = 0.0f;
     }
     return self;
 }
@@ -82,7 +83,7 @@
         lerpLine_.duration = 0.24f;
         lerpLine_.strokeColor = color;
         lerpLine_.lineWidth = lineWidth;
-        lerpLine_.delay = 0.66;
+        lerpLine_.delay = 0.55;
         lerpLine_.fillMode = kCAFillModeBackwards; // Needed for delayed draw
         lerpLine_.removedOnCompletion = NO;
         [lerpLine_ drawLine];
@@ -91,7 +92,7 @@
     drawLerpLine(strikeForegroundLine_, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], 4.0f);
     
     [UIView animateWithDuration:0.33
-						  delay:0.11
+						  delay:0.0
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
                          CGAffineTransform xf = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-10.0f));
@@ -107,7 +108,9 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self animateBadPhoto];
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, self.animationDelay * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+		[self animateBadPhoto];
+	});
 }
 
 - (void)didReceiveMemoryWarning
