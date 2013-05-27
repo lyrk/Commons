@@ -14,6 +14,7 @@
 
 @interface GotItViewController (){
     UITapGestureRecognizer *tapRecognizer_;
+    UITapGestureRecognizer *doubleTapRecognizer_;
 }
 
 @end
@@ -31,8 +32,13 @@
     self.mockBadPhotoContainerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
 
     tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+	tapRecognizer_.numberOfTapsRequired = 1;
 	[self.view addGestureRecognizer:tapRecognizer_];
-    
+
+	doubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
+	doubleTapRecognizer_.numberOfTapsRequired = 2;
+	[self.view addGestureRecognizer:doubleTapRecognizer_];
+
     self.gotItLabel.text = [MWMessage forKey:@"getting-started-got-it-label"].text;
     [self.yesButton setTitle:[MWMessage forKey:@"getting-started-yes-button"].text forState:UIControlStateNormal];
 	
@@ -57,6 +63,11 @@
 -(void)handleTap
 {
     [self drawAttentionToYesButton];
+}
+
+-(void)handleDoubleTap
+{
+    [self dismissModalView];
 }
 
 -(void)drawAttentionToYesButton
@@ -100,9 +111,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)yesButtonPushed:(id)sender
+- (void)dismissModalView
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"dismissModalView" object:nil userInfo:nil];
+}
+
+- (IBAction)yesButtonPushed:(id)sender
+{
+    [self dismissModalView];
 }
 
 @end
