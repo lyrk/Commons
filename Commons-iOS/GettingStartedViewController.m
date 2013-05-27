@@ -112,16 +112,18 @@
     [super viewWillAppear:animated];
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView2
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     pageControlBeingUsed_ = NO;
 
     [self triggerChildViewControllersAppearanceMethods];
 }
 
--(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView2
+-(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {    
     [self triggerChildViewControllersAppearanceMethods];
+	
+	self.pageControl.currentPage = [self getCurrentPageIndex];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)sender
@@ -169,6 +171,12 @@
 
 -(void)scrollToPage:(int)pageIndex
 {
+	// Prevent fast tapping from making the scroll view jump around
+	self.view.userInteractionEnabled = NO;
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+		self.view.userInteractionEnabled = YES;
+	});
+
     if (pageIndex == [self getCurrentPageIndex]) return;
     CGRect frame = scrollView_.frame;
     frame.origin.x = frame.size.width * pageIndex;
