@@ -8,7 +8,7 @@
 #import "GettingStartedConstants.h"
 #import "MWI18N.h"
 #import "UILabel+ResizeWithAttributes.h"
-#import "UIView+VerticalSpace.h"
+#import "UIView+Space.h"
 #import "MockPageViewController.h"
 
 @interface WhatIsCommonsViewController ()
@@ -23,9 +23,17 @@
 
     self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
     
+	// Scale the animation up for iPad
+	CGAffineTransform xf = CGAffineTransformMakeScale(GETTING_STARTED_WHATISCOMMONS_ANIMATION_SCALE, GETTING_STARTED_WHATISCOMMONS_ANIMATION_SCALE);
+	self.mockPageContainerView.transform = xf;
+	
     self.contributeLabel.text = [MWMessage forKey:@"getting-started-what-is-commons-contribute-label"].text;
     self.imagesLabel.text = [MWMessage forKey:@"getting-started-what-is-commons-images-label"].text;
-
+	
+	// Widen the labels for iPad
+	self.contributeLabel.frame = CGRectInset(self.contributeLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
+	self.imagesLabel.frame = CGRectInset(self.imagesLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
+	
 	// Style attributes for labels
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	paragraphStyle.alignment = NSTextAlignmentCenter;
@@ -46,8 +54,8 @@
 	 }];
 	
 	// Ensure constant spacing around the newly resized labels
-	[self.contributeLabel moveBelowView:self.mockPageContainerView spacing:40.0f];
-	[self.imagesLabel moveBelowView:self.contributeLabel spacing:22.0f];
+	[self.contributeLabel moveBelowView:self.mockPageContainerView spacing:GETTING_STARTED_SPACE_BELOW_ANIMATION];
+	[self.imagesLabel moveBelowView:self.contributeLabel spacing:GETTING_STARTED_SPACE_BELOW_HEADING];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

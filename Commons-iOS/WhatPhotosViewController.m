@@ -8,7 +8,7 @@
 #import "GettingStartedConstants.h"
 #import "MWI18N.h"
 #import "UILabel+ResizeWithAttributes.h"
-#import "UIView+VerticalSpace.h"
+#import "UIView+Space.h"
 #import "MockBadPhotoViewController.h"
 
 @interface WhatPhotosViewController ()
@@ -23,10 +23,16 @@
 
     self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
 
-	//self.mockBadPhotoContainerView.transform = CGAffineTransformMakeScale(0.88, 0.88);
+	// Scale the animation up for iPad
+	CGAffineTransform xf = CGAffineTransformMakeScale(GETTING_STARTED_WHATPHOTOS_ANIMATION_SCALE, GETTING_STARTED_WHATPHOTOS_ANIMATION_SCALE);
+	self.mockBadPhotoContainerView.transform = xf;
 
     self.educateLabel.text = [MWMessage forKey:@"getting-started-what-photos-educate-label"].text;
     self.avoidLabel.text = [MWMessage forKey:@"getting-started-what-photos-avoid-label"].text;
+	
+	// Widen the labels for iPad
+	self.educateLabel.frame = CGRectInset(self.educateLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
+	self.avoidLabel.frame = CGRectInset(self.avoidLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
 	
 	// Style attributes for labels
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -48,8 +54,8 @@
 	 }];
 	
 	// Ensure constant spacing around the newly resized labels
-	[self.educateLabel moveBelowView:self.mockBadPhotoContainerView spacing:40.0f];
-	[self.avoidLabel moveBelowView:self.educateLabel spacing:22.0f];
+	[self.educateLabel moveBelowView:self.mockBadPhotoContainerView spacing:GETTING_STARTED_SPACE_BELOW_ANIMATION];
+	[self.avoidLabel moveBelowView:self.educateLabel spacing:GETTING_STARTED_SPACE_BELOW_HEADING];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

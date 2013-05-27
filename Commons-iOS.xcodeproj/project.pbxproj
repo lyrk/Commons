@@ -32,7 +32,7 @@
 		305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 305BC7691710BD3300B2CC01 /* LoadingIndicator.m */; };
 		3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3067546E170FF9D900A4BD8F /* SettingsViewController.m */; };
 		30FA25D71751E3D90040292C /* UILabel+ResizeWithAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA25D61751E3D80040292C /* UILabel+ResizeWithAttributes.m */; };
-		30FA25DA1751E6390040292C /* UIView+VerticalSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA25D91751E6380040292C /* UIView+VerticalSpace.m */; };
+		30FA25DA1751E6390040292C /* UIView+Space.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA25D91751E6380040292C /* UIView+Space.m */; };
 		65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
 		65137CD816BE4C3B006FA9BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086172169B760800D6ACB0 /* Foundation.framework */; };
 		65137CF716BE4C8C006FA9BD /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */; };
@@ -334,8 +334,8 @@
 		3067546E170FF9D900A4BD8F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		30FA25D51751E3D80040292C /* UILabel+ResizeWithAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+ResizeWithAttributes.h"; sourceTree = "<group>"; };
 		30FA25D61751E3D80040292C /* UILabel+ResizeWithAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+ResizeWithAttributes.m"; sourceTree = "<group>"; };
-		30FA25D81751E6380040292C /* UIView+VerticalSpace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+VerticalSpace.h"; sourceTree = "<group>"; };
-		30FA25D91751E6380040292C /* UIView+VerticalSpace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+VerticalSpace.m"; sourceTree = "<group>"; };
+		30FA25D81751E6380040292C /* UIView+Space.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Space.h"; sourceTree = "<group>"; };
+		30FA25D91751E6380040292C /* UIView+Space.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Space.m"; sourceTree = "<group>"; };
 		65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Application-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -606,8 +606,8 @@
 			isa = PBXGroup;
 			children = (
 				04739E0B174EE6EC00F32D13 /* GettingStartedConstants.h */,
-				30FA25D81751E6380040292C /* UIView+VerticalSpace.h */,
-				30FA25D91751E6380040292C /* UIView+VerticalSpace.m */,
+				30FA25D81751E6380040292C /* UIView+Space.h */,
+				30FA25D91751E6380040292C /* UIView+Space.m */,
 				30FA25D51751E3D80040292C /* UILabel+ResizeWithAttributes.h */,
 				30FA25D61751E3D80040292C /* UILabel+ResizeWithAttributes.m */,
 				04739E03174DCAD200F32D13 /* GettingStartedViewController.h */,
@@ -1412,7 +1412,7 @@
 				04739E08174ECCDF00F32D13 /* WhatPhotosViewController.m in Sources */,
 				04739E0E174F0D3600F32D13 /* WhatIsCommonsViewController.m in Sources */,
 				30FA25D71751E3D90040292C /* UILabel+ResizeWithAttributes.m in Sources */,
-				30FA25DA1751E6390040292C /* UIView+VerticalSpace.m in Sources */,
+				30FA25DA1751E6390040292C /* UIView+Space.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

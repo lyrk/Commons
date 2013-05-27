@@ -8,7 +8,7 @@
 #import "GettingStartedConstants.h"
 #import "MWI18N.h"
 #import "UILabel+ResizeWithAttributes.h"
-#import "UIView+VerticalSpace.h"
+#import "UIView+Space.h"
 #import "MockPageViewController.h"
 #import "MockBadPhotoViewController.h"
 
@@ -28,9 +28,6 @@
     self.view.backgroundColor = GETTING_STARTED_BG_COLOR;
     [self.yesButton setTitleColor:GETTING_STARTED_BG_COLOR forState:UIControlStateNormal];
     
-    self.mockPageContainerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
-    self.mockBadPhotoContainerView.transform = CGAffineTransformMakeScale(0.5, 0.5);
-
     tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
 	tapRecognizer_.numberOfTapsRequired = 1;
 	[self.view addGestureRecognizer:tapRecognizer_];
@@ -41,6 +38,17 @@
 
     self.gotItLabel.text = [MWMessage forKey:@"getting-started-got-it-label"].text;
     [self.yesButton setTitle:[MWMessage forKey:@"getting-started-yes-button"].text forState:UIControlStateNormal];
+	
+	// Widen the label for iPad
+	self.gotItLabel.frame = CGRectInset(self.gotItLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
+
+	// Scale the animations up for iPad
+	CGAffineTransform xf = CGAffineTransformMakeScale(GETTING_STARTED_GOTIT_ANIMATIONS_SCALE, GETTING_STARTED_GOTIT_ANIMATIONS_SCALE);
+	self.mockPageContainerView.transform = xf;
+	self.mockBadPhotoContainerView.transform = xf;
+
+	// Ensure the scaled animations have sufficient space between them
+	[self.mockPageContainerView moveBesideView:self.mockBadPhotoContainerView spacing:GETTING_STARTED_GOTIT_ANIMATIONS_SPACE_BETWEEN];
 	
 	// Style attributes for labels
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -56,8 +64,8 @@
 	 }];
 	
 	// Ensure constant spacing around the newly resized labels
-	[self.gotItLabel moveBelowView:self.mockBadPhotoContainerView spacing:40.0f];
-	[self.yesButton moveBelowView:self.gotItLabel spacing:22.0f];
+	[self.gotItLabel moveBelowView:self.mockBadPhotoContainerView spacing:GETTING_STARTED_SPACE_BELOW_ANIMATION];
+	[self.yesButton moveBelowView:self.gotItLabel spacing:GETTING_STARTED_SPACE_BELOW_HEADING];
 }
 
 -(void)handleTap
