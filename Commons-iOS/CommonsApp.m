@@ -278,6 +278,34 @@ static CommonsApp *singleton_;
     }
 }
 
+// From: http://www.raywenderlich.com/6475/basic-security-in-ios-5-tutorial-part-1
+- (void)deleteItemFromKeychainWithIdentifier:(NSString *)identifier
+{
+    NSMutableDictionary *searchDictionary = [self setupSearchDirectoryForIdentifier:identifier];
+    CFDictionaryRef dictionary = (__bridge CFDictionaryRef)searchDictionary;
+    
+    //Delete.
+    SecItemDelete(dictionary);
+}
+
+// From: http://www.raywenderlich.com/6475/basic-security-in-ios-5-tutorial-part-1
+- (NSMutableDictionary *)setupSearchDirectoryForIdentifier:(NSString *)identifier {
+    
+    // Setup dictionary to access keychain.
+    NSMutableDictionary *searchDictionary = [[NSMutableDictionary alloc] init];
+    // Specify we are using a password (rather than a certificate, internet password, etc).
+    [searchDictionary setObject:(__bridge id)kSecClassGenericPassword forKey:(__bridge id)kSecClass];
+    // Uniquely identify this keychain accessor.
+    [searchDictionary setObject:[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"] forKey:(__bridge id)kSecAttrService];
+    
+    // Uniquely identify the account who will be accessing the keychain.
+    NSData *encodedIdentifier = [identifier dataUsingEncoding:NSUTF8StringEncoding];
+    [searchDictionary setObject:encodedIdentifier forKey:(__bridge id)kSecAttrGeneric];
+    [searchDictionary setObject:encodedIdentifier forKey:(__bridge id)kSecAttrAccount];
+    
+    return searchDictionary;
+}
+
 - (NSString *)documentRootPath
 {
     NSArray* documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -1387,6 +1415,12 @@ static CommonsApp *singleton_;
 - (NSString *)getTrimmedString:(NSString *)string
 {
     return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+- (void)clearKeychainCredentials
+{
+    [self deleteItemFromKeychainWithIdentifier:@"org.wikimedia.username"];
+    [self deleteItemFromKeychainWithIdentifier:@"org.wikimedia.password"];
 }
 
 @end

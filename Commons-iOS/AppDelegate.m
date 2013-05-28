@@ -105,6 +105,9 @@
             CommonsApp *app = CommonsApp.singleton;
             if ([app.username length] && [app.password length]){
                 
+                // Show the logout button
+                [(LoginViewController *)toVc showLogout:YES];
+                
                 // Only skip to MyUploadsViewController if credentials found
                 MyUploadsViewController *myUploadsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
                 [navController pushViewController:myUploadsVC animated:NO];

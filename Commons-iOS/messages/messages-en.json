@@ -50,8 +50,11 @@
     "web-cancel": "Cancel",
 
     "login-title": "Account",
+    "login-current-user-button": "Continue as: $1",
     "login-button": "Login",
     
+    "logout-button": "Logout",
+
     "about-title": "About",
     "about-app-version-label": "Version $1",
     "about-commons-button": "Wikimedia Commons",

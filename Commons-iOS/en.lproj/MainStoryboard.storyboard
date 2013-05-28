@@ -58,6 +58,36 @@
                                                     <action selector="pushedLoginButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="P46-F7-d1O"/>
                                                 </connections>
                                             </button>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="F4V-0d-xD2" customClass="GradientButton">
+                                                <rect key="frame" x="24" y="79" width="272" height="36"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="Logout">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="pushedLogoutButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="BcI-Ei-aZV"/>
+                                                </connections>
+                                            </button>
+                                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="nqX-iF-KDS" customClass="GradientButton">
+                                                <rect key="frame" x="24" y="19" width="272" height="36"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="Current User">
+                                                    <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="pushedCurrentUserButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="NbN-DJ-pdz"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
@@ -84,9 +114,11 @@
                     <navigationItem key="navigationItem" id="MAF-6i-vhW"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="currentUserButton" destination="nqX-iF-KDS" id="yX9-B9-5tw"/>
                         <outlet property="loginButton" destination="OYd-ZP-vjJ" id="8ad-5f-Qgj"/>
                         <outlet property="loginInfoContainer" destination="f9g-qG-jTX" id="NbQ-ca-Agn"/>
                         <outlet property="logoImageView" destination="Y6M-eQ-GLr" id="JMK-DT-Vsm"/>
+                        <outlet property="logoutButton" destination="F4V-0d-xD2" id="Rud-2v-JJv"/>
                         <outlet property="passwordField" destination="uZ2-XX-w6g" id="SpP-Zf-QJu"/>
                         <outlet property="scrollView" destination="1DZ-b7-b84" id="e4p-Up-j4G"/>
                         <outlet property="usernameField" destination="ce8-FB-OHg" id="Nza-A8-gcX"/>
@@ -1569,10 +1601,14 @@ Help Wikipedia articles come to life!</string>
         <class className="LoginViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
             <relationships>
+                <relationship kind="action" name="pushedCurrentUserButton:"/>
                 <relationship kind="action" name="pushedLoginButton:"/>
+                <relationship kind="action" name="pushedLogoutButton:"/>
+                <relationship kind="outlet" name="currentUserButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="loginButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="loginInfoContainer" candidateClass="UIView"/>
                 <relationship kind="outlet" name="logoImageView" candidateClass="GrayscaleImageView"/>
+                <relationship kind="outlet" name="logoutButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
@@ -1699,8 +1735,8 @@ Help Wikipedia articles come to life!</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="F72-2D-Gl0"/>
-        <segue reference="dbR-9g-yz2"/>
         <segue reference="LQ8-N8-Tpg"/>
+        <segue reference="F72-2D-Gl0"/>
+        <segue reference="BjT-aI-DfZ"/>
     </inferredMetricsTieBreakers>
 </document>

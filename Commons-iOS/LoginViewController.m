@@ -16,6 +16,7 @@
 #import "LoadingIndicator.h"
 #import "GrayscaleImageView.h"
 #import "GettingStartedViewController.h"
+#import "QuartzCore/QuartzCore.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
@@ -67,15 +68,18 @@
 	// Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
-	// Set gradient login button color
+	// Set gradient buttons color
 	[self.loginButton useWhiteStyle];
-	
+    [self.logoutButton useWhiteStyle];
+
     // l10n
     self.navigationItem.title = [MWMessage forKey:@"login-title"].text;
     self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
     self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
     [self.loginButton setTitle:[MWMessage forKey:@"login-button"].text forState:UIControlStateNormal];
-    
+
+    [self.logoutButton setTitle:[MWMessage forKey:@"logout-button"].text forState:UIControlStateNormal];
+
     // Disable auto-correct on login boxes
     self.usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -272,6 +276,13 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 
+    // Because tapping currentUserButton pushes a view controller onto the navigation controller stack
+    // the currentUserButton can shuffle offscreen before it completely finishes updating itself from
+    // its selected visual state to its unselected visual state. When this happens, when the view
+    // which was pushed gets popped, the currentUserButton can appear to be pushed - visually a bit
+    // more dark. setNeedsDisplay tells it to draw itself again
+    [self.currentUserButton setNeedsDisplay];
+    
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
 	
@@ -307,9 +318,113 @@
     // credentials have been authenticated)
     MyUploadsViewController *myUploadsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
     [self.navigationController pushViewController:myUploadsVC animated:YES];
+    
+    // Show logout elementes after slight delay. if the login page is sliding offscreen it looks odd
+    // to update its interface elements as it's sliding away - the delay fixes this
+    float delayInSeconds = 0.25;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        // Executed on the main queue after delay
+        [self showLogout:YES];
+    });
 }
 
-- (IBAction)pushedLoginButton:(id)sender {
+-(IBAction)pushedCurrentUserButton:(id)sender
+{
+    [self showMyUploadsVC];
+}
+
+-(void)showLogout:(BOOL)show
+{
+    self.logoutButton.hidden = !show;
+    self.currentUserButton.hidden = !show;
+    self.loginButton.hidden = show;
+    self.usernameField.hidden = show;
+    self.passwordField.hidden = show;
+
+    [self.currentUserButton setTitle:[MWMessage forKey:@"login-current-user-button" param:self.usernameField.text].text forState:UIControlStateNormal];
+    
+    // Size currentUserButton to fix whatever text it now contains
+    CGRect f = self.currentUserButton.frame;
+    CGSize s = [self.currentUserButton sizeThatFits:self.currentUserButton.frame.size];
+    // Add padding to right and left of re-sized currentUserButton's text
+    f.size.width = s.width + 40.0f;
+    // If resized currentUserButton is narrower than the logout button make it same width as logout button
+    f.size.width = (f.size.width < self.logoutButton.frame.size.width) ? self.logoutButton.frame.size.width : f.size.width;
+    self.currentUserButton.frame = f;
+    // Re-center currentUserButton above logout button
+    self.currentUserButton.center = CGPointMake(self.logoutButton.center.x, self.currentUserButton.center.y);
+    
+}
+
+-(void)revealLoginFieldsWithAnimation
+{
+    CGPoint origCurrentUserButtonCenter = self.currentUserButton.center;
+    self.logoutButton.layer.zPosition = self.currentUserButton.layer.zPosition + 1;
+    // Animate currentUserButton to slide down behind logoutButton
+    [UIView animateWithDuration:0.15f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.currentUserButton.center = self.logoutButton.center;
+                         self.currentUserButton.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                         // Now animate usernameField and passwordField sliding up
+                         self.currentUserButton.hidden = YES;
+                         self.currentUserButton.center = origCurrentUserButtonCenter;
+                         self.loginButton.alpha = 0.0f;
+                         self.usernameField.alpha = 0.0f;
+                         self.passwordField.alpha = 0.0f;
+                         self.loginButton.hidden = NO;
+                         self.usernameField.hidden = NO;
+                         self.passwordField.hidden = NO;
+                         CGRect origUsernameFieldFrame = self.usernameField.frame;
+                         CGRect origPasswordFieldFrame = self.passwordField.frame;
+                         float vOffset = self.loginButton.frame.origin.y - self.usernameField.frame.origin.y;
+                         self.usernameField.center = CGPointMake(self.usernameField.center.x, self.usernameField.center.y + vOffset);
+                         self.passwordField.center = CGPointMake(self.passwordField.center.x, self.passwordField.center.y + vOffset);
+                         [UIView animateWithDuration:0.15f
+                                               delay:0.0f
+                                             options:UIViewAnimationOptionTransitionNone
+                                          animations:^{
+                                              
+                                              self.usernameField.alpha = 1.0f;
+                                              self.passwordField.alpha = 1.0f;
+                                              
+                                              self.loginButton.alpha = 1.0f;
+                                              self.logoutButton.alpha = 0.0f;
+                                              
+                                              self.usernameField.frame = origUsernameFieldFrame;
+                                              self.passwordField.frame = origPasswordFieldFrame;
+                                          }
+                                          completion:^(BOOL finished){
+                                              // Reset logout state
+                                              [self showLogout:NO];
+                                              // Ensure login button isn't stuck drawn selected
+                                              [self.loginButton setNeedsDisplay];
+                                              // The logout button is hidden by now, but ensure it can be seen the next time it is animated
+                                              self.logoutButton.alpha = 1.0f;
+                                              self.currentUserButton.alpha = 1.0f;
+                                          }];
+                     }];
+}
+
+- (IBAction)pushedLogoutButton:(id)sender
+{
+    CommonsApp *app = CommonsApp.singleton;
+    [app.fetchDataURLQueue cancelAllOperations];
+    [app deleteAllRecords];
+    [app clearKeychainCredentials];
+    app.debugMode = NO;
+    self.usernameField.text = @"";
+    self.passwordField.text = @"";
+
+    [self revealLoginFieldsWithAnimation];
+}
+
+- (IBAction)pushedLoginButton:(id)sender
+{
 
     CommonsApp *app = CommonsApp.singleton;
     
