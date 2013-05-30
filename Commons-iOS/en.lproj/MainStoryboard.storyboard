@@ -330,7 +330,7 @@
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="C6f-pH-iVT">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="2" minimumInteritemSpacing="2" id="jyT-Ct-CGN">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="3" id="jyT-Ct-CGN">
                                     <size key="itemSize" width="320" height="240"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -344,7 +344,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="25" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="B7S-Xb-Ggh">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="B7S-Xb-Ggh" userLabel="Index Label">
                                                     <rect key="frame" x="172" y="130" width="137" height="69"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" name="Palatino-Roman" family="Palatino" pointSize="60"/>
@@ -359,17 +359,11 @@
                                                     <rect key="frame" x="0.0" y="196" width="320" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t14-R2-Kf0">
-                                                            <rect key="frame" x="9" y="11" width="243" height="21"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="t14-R2-Kf0">
+                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Queued" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="6oN-oL-8y2">
-                                                            <rect key="frame" x="44" y="11" width="267" height="21"/>
-                                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -384,7 +378,6 @@
                                             <outlet property="image" destination="XOQ-vH-P1a" id="ODq-Px-xkj"/>
                                             <outlet property="indexLabel" destination="B7S-Xb-Ggh" id="hIw-tw-wEJ"/>
                                             <outlet property="infoBox" destination="okD-fs-BOe" id="qDq-MR-MbT"/>
-                                            <outlet property="statusLabel" destination="6oN-oL-8y2" id="dNy-RZ-XEQ"/>
                                             <outlet property="titleLabel" destination="t14-R2-Kf0" id="8eA-7X-PbQ"/>
                                             <segue destination="epi-E0-AsP" kind="push" identifier="DetailSegue" id="80O-WZ-gMr"/>
                                         </connections>
@@ -1266,7 +1259,6 @@ to take or choose photos.</string>
                 <relationship kind="outlet" name="image" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="indexLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="infoBox" candidateClass="ProgressView"/>
-                <relationship kind="outlet" name="statusLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
             </relationships>
         </class>

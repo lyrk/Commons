@@ -795,14 +795,18 @@
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         // iPad: fit 3 across in portrait or 4 across landscape
-        return CGSizeMake(256.0f - 2.0f, 240.0f);
+        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            return CGSizeMake(256.0f - 3.0f, 240.0f);
+        } else {
+            return CGSizeMake(256.0f - 3.5f, 240.0f);
+        }
     } else {
         // iPhone/iPod: fit 1 across in portrait, 2 across in landscape
         CGSize screenSize = UIScreen.mainScreen.bounds.size;
         if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
             return CGSizeMake(screenSize.width, 240.0f);
         } else {
-            return CGSizeMake(screenSize.height / 2.0f - 1.0f, 240.0f);
+            return CGSizeMake(screenSize.height / 2.0f - 2.5f, 240.0f);
         }
     }
 }
@@ -860,17 +864,53 @@
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = (FileUpload *)[app.fetchedResultsController objectAtIndexPath:indexPath];
     
-    NSString *indexPosition = [NSString stringWithFormat:@"%d", indexPath.item + 1];
-    cell.indexLabel.text = indexPosition;
+    //NSString *indexPosition = [NSString stringWithFormat:@"%d", indexPath.item + 1];
+    //cell.indexLabel.text = indexPosition;
     // fixme indexPosition doesn't always update when we add new items
 
     NSString *title = record.title;
+    NSString *noExtFileName = [[record.title lastPathComponent] stringByDeletingPathExtension];
+    NSString *labelText = @"";
+    cell.titleLabel.text = @"";
+
+    //cell.infoBox.backgroundColor = [UIColor clearColor];
+
+    float progress = 0.0f;
     
     if (record.complete.boolValue) {
-        // Reset the download progress bar (the cell.infoBox) to reflect any previous progress
-        cell.infoBox.progressNormal = (record.fetchThumbnailProgress.floatValue != 1.0f) ? record.fetchThumbnailProgress.floatValue : 0.0f;
-        [cell.infoBox setNeedsDisplay];
+        // Old upload, already complete.
+        if ((record.fetchThumbnailProgress.floatValue > 0.0f) && (record.fetchThumbnailProgress.floatValue != 1.0f)) {
+            // Reset the download progress bar (the cell.infoBox) to reflect any previous progress
+            progress = record.fetchThumbnailProgress.floatValue;
+            // Make thumbnail title say "Downloading *filename*"
+            labelText = [MWMessage forKey:@"contribs-state-downloading" param:noExtFileName].text;
+        }else{
+            labelText = noExtFileName;
+        }
+    } else {
+        // Queued upload, not yet complete.
+        // We have local data & progress info.
+        if (record.progress.floatValue == 0.0f) {
+            // Make thumbnail title say "Queued *filename*"
+            labelText = [MWMessage forKey:@"contribs-state-queued" param:noExtFileName].text;
+        }else if (record.progress.floatValue == 1.0f) {
+            labelText = [MWMessage forKey:@"contribs-state-generating-thumb" param:noExtFileName].text;
+        } else {
+            // Make thumbnail title say "Uploading *filename*"
+            labelText = [MWMessage forKey:@"contribs-state-uploading" param:noExtFileName].text;
+        }
+        progress = record.progress.floatValue;
     }
+
+    // Set title label text and resize the label to fit no matter how much text there is
+    [cell resizeTitleLabelWithTitle:labelText fileName:noExtFileName];
+    //cell.titleLabel.text = labelText;
+        
+    // Do not animate this progress setting. It needs to directly jump to the proper progress
+    cell.infoBox.progressNormal = progress;
+    [cell.infoBox setNeedsDisplay];
+
+
     
     if (cell.title && [cell.title isEqual:title]) {
         // Image should already be loaded.
@@ -878,7 +918,9 @@
     } else {
         // Save the title for future checks...
         cell.title = title;
-        
+
+        //cell.image.contentMode = UIViewContentModeCenter;
+        //[cell showPlaceHolderImage];
         cell.image.image = nil;
         
         // Load Image for cell.
@@ -900,6 +942,7 @@
                     }
                     // Also invoke the image setter asynchronously
                     dispatch_async(dispatch_get_main_queue(), ^(void) {
+                        cell.image.contentMode = UIViewContentModeScaleAspectFill;
                         cell.image.image = image;
                     });
                 }
@@ -918,36 +961,38 @@
                         NSNumber *bytesTotal = dict[@"total"];
                         
                         if (bytesTotal.floatValue == 0.0f) return;
-                        
                         float progress = (bytesReceived.floatValue / bytesTotal.floatValue);
                         
-                        // Animate the download progress bar from its current progressNormal to progress
-                        [cell.infoBox animateProgress:progress];
+                        //NSLog(@"progress = %f", progress);
+                        NSString *noExtFileName = [[cell.title lastPathComponent] stringByDeletingPathExtension];
+                        NSString *labelText = @"";
+                        if (progress == 1.0f) {
+                            // Make thumbnail title say "*filename*"
+                            labelText = noExtFileName;
+                            //cell.infoBox.backgroundColor = [UIColor clearColor];
+                            progress = 0.0f;
+                        }else{
+                            // Make thumbnail title say "Downloading *filename*"
+                            labelText = [MWMessage forKey:@"contribs-state-downloading" param:noExtFileName].text;
+                        }
+                        
+                        // Set title label text and resize the label to fit no matter how much text there is
+                        [cell resizeTitleLabelWithTitle:labelText fileName:noExtFileName];
+                        //cell.titleLabel.text = labelText;
+                        
+                        // Could animate from current progressNormal to progress here. Problem with previous
+                        // attempt to do so was during fast scroll having animation timer firing after cell
+                        // was no longer showing the image it was when the firings were scheduled... figure
+                        // out how to properly ignore such out of sync updates before animating progress here
+                        cell.infoBox.progressNormal = progress;
+                        [cell.infoBox setNeedsDisplay];
                     });
                 }
             }];
+            // Don't do a fetch thumb "always:" callback here in order to change cell.titleLabel.text
+            // This is because the *upload image* code may also need to change cell.titleLabel.text
         });
     }
-    if (record.complete.boolValue) {
-        // Old upload, already complete.
-        cell.titleLabel.text = record.title;
-        cell.statusLabel.text = @"";
-        cell.infoBox.progressNormal = 0.0f;
-    } else {
-        // Queued upload, not yet complete.
-        // We have local data & progress info.
-        cell.titleLabel.text = record.title;
-        if (record.progress.floatValue == 0.0f) {
-            cell.infoBox.progressNormal = 0.0f;
-            cell.statusLabel.text = [MWMessage forKey:@"contribs-state-queued"].text;
-        } else {
-            cell.statusLabel.text = [MWMessage forKey:@"contribs-state-uploading"].text;
-            // Animate the download progress bar from its current progressNormal to progress
-            [cell.infoBox animateProgress:record.progress.floatValue];
-        }
-    }
-    // Update infobox to reflect changes to its progressNormal
-    [cell.infoBox setNeedsDisplay];
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -961,6 +1006,10 @@
     // Update collectionview cell size for iPhone/iPod
     [self.collectionView.collectionViewLayout invalidateLayout];
 
+    // Ensure cells are redrawn to account for the orientatiton change
+    // Not sure why invalidateLayout doesn't completely take care of this
+    //[self.collectionView reloadItemsAtIndexPaths:self.collectionView.indexPathsForVisibleItems];
+    
     // Update the lines for the new orientation
     [self.welcomeOverlayView animateLines];
 }
