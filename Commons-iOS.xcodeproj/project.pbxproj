@@ -17,6 +17,11 @@
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
 		04C27B191741C24200B1942F /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B181741C24200B1942F /* ProgressView.m */; };
 		04C27B1C174452E800B1942F /* DescriptionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B1B174452E800B1942F /* DescriptionParser.m */; };
+		04DC75631758682B00D92849 /* PictureOfTheDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC75621758682A00D92849 /* PictureOfTheDay.m */; };
+		04DC756617586EFF00D92849 /* PictureOfTheDayImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC756517586EFE00D92849 /* PictureOfTheDayImageView.m */; };
+		04DC756A1758837600D92849 /* Commons-logo-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC75691758837600D92849 /* Commons-logo-white.png */; };
+		04DC756F1758884200D92849 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC756E1758884200D92849 /* CustomTextField.m */; };
+		04DC757117593B0700D92849 /* Default-Pic-Of-Day.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04DC757017593B0600D92849 /* Default-Pic-Of-Day.jpg */; };
 		1F7C6BFA16BEEEF300B7C558 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */; };
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
 		305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 305BC7691710BD3300B2CC01 /* LoadingIndicator.m */; };
@@ -295,6 +300,14 @@
 		04C27B181741C24200B1942F /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		04C27B1A174452E700B1942F /* DescriptionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionParser.h; sourceTree = "<group>"; };
 		04C27B1B174452E800B1942F /* DescriptionParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescriptionParser.m; sourceTree = "<group>"; };
+		04DC75611758682900D92849 /* PictureOfTheDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfTheDay.h; sourceTree = "<group>"; };
+		04DC75621758682A00D92849 /* PictureOfTheDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfTheDay.m; sourceTree = "<group>"; };
+		04DC756417586EFE00D92849 /* PictureOfTheDayImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfTheDayImageView.h; sourceTree = "<group>"; };
+		04DC756517586EFE00D92849 /* PictureOfTheDayImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfTheDayImageView.m; sourceTree = "<group>"; };
+		04DC75691758837600D92849 /* Commons-logo-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-white.png"; sourceTree = "<group>"; };
+		04DC756D1758884100D92849 /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextField.h; sourceTree = "<group>"; };
+		04DC756E1758884200D92849 /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextField.m; sourceTree = "<group>"; };
+		04DC757017593B0600D92849 /* Default-Pic-Of-Day.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Default-Pic-Of-Day.jpg"; sourceTree = "<group>"; };
 		1F7C6BF616BEEE4D00B7C558 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1F7C6BF716BEEE4D00B7C558 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -595,6 +608,12 @@
 		655BF5EC16C104CD00B22299 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				04DC756D1758884100D92849 /* CustomTextField.h */,
+				04DC756E1758884200D92849 /* CustomTextField.m */,
+				04DC75611758682900D92849 /* PictureOfTheDay.h */,
+				04DC75621758682A00D92849 /* PictureOfTheDay.m */,
+				04DC756417586EFE00D92849 /* PictureOfTheDayImageView.h */,
+				04DC756517586EFE00D92849 /* PictureOfTheDayImageView.m */,
 				04C27B1A174452E700B1942F /* DescriptionParser.h */,
 				04C27B1B174452E800B1942F /* DescriptionParser.m */,
 				305BC7681710BD3300B2CC01 /* LoadingIndicator.h */,
@@ -715,6 +734,8 @@
 		D4086177169B760800D6ACB0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				04DC75691758837600D92849 /* Commons-logo-white.png */,
+				04DC757017593B0600D92849 /* Default-Pic-Of-Day.jpg */,
 				D485AA6B1706525900D555ED /* toolbar-view.png */,
 				D485AA6C1706525900D555ED /* toolbar-view@2x.png */,
 				D4C0372E1700F29600AA2537 /* toolbar-back.png */,
@@ -1178,6 +1199,8 @@
 				D41BFA57173C26A100472EC7 /* messages-lv.json in Resources */,
 				D41BFA58173C26A100472EC7 /* messages-pt.json in Resources */,
 				D41BFA59173C26A100472EC7 /* messages-ta.json in Resources */,
+				04DC756A1758837600D92849 /* Commons-logo-white.png in Resources */,
+				04DC757117593B0700D92849 /* Default-Pic-Of-Day.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1337,6 +1360,9 @@
 				0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */,
 				04C27B191741C24200B1942F /* ProgressView.m in Sources */,
 				04C27B1C174452E800B1942F /* DescriptionParser.m in Sources */,
+				04DC75631758682B00D92849 /* PictureOfTheDay.m in Sources */,
+				04DC756617586EFF00D92849 /* PictureOfTheDayImageView.m in Sources */,
+				04DC756F1758884200D92849 /* CustomTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,6 +15,8 @@
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
 #import "GrayscaleImageView.h"
+#import "PictureOfTheDay.h"
+#import "PictureOfTheDayImageView.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
@@ -26,7 +28,9 @@
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
-@interface LoginViewController ()
+@interface LoginViewController (){
+    PictureOfTheDay *pictureOfTheDayGetter_;
+}
 
 - (void)hideKeyboard;
 - (void)showMyUploadsVC;
@@ -53,6 +57,7 @@
     if (self = [super initWithCoder:decoder])
     {
         allowSkippingToMyUploads = YES;
+        pictureOfTheDayGetter_ = [[PictureOfTheDay alloc] init];
     }
     return self;
 }
@@ -95,6 +100,70 @@
 	[self.view addGestureRecognizer:tapRecognizer];
     
     [self disableLoginButtonIfNoCredentials];
+
+    // Set default picture of the day so there's something showing in case todays image isn't found
+    self.potdImageView.useFilter = NO;
+    self.potdImageView.image = [UIImage imageNamed:@"Default-Pic-Of-Day.jpg"];
+    
+    // Prepage callback block for getting picture of the day
+    __weak PictureOfTheDayImageView *weakPotdImageView = self.potdImageView;
+    pictureOfTheDayGetter_.done = ^(UIImage *image){
+        if (image) {
+            
+            [UIView transitionWithView:weakPotdImageView
+                              duration:1.2f
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:^{
+                                weakPotdImageView.useFilter = NO;
+                                weakPotdImageView.image = image;
+                            }completion:^(BOOL finished){
+                            }];            
+        }
+    };
+    
+    // Determine the resolution of the picture of the day to request
+    CGSize screenSize = UIScreen.mainScreen.bounds.size;
+    // For now leave scale at one - retina iPads would request too high a resolution otherwise
+    CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
+    
+    // Request the picture of the day
+    [pictureOfTheDayGetter_ getAtSize:CGSizeMake(screenSize.width * scale, screenSize.height * scale)];
+
+    // Make logo a bit larger on iPad
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        _logoImageView.frame = CGRectInset(_logoImageView.frame, -75.0f, -75.0f);
+    }
+    
+    _logoImageView.alpha = 1.0f;
+    _usernameField.alpha = 1.0f;
+    _passwordField.alpha = 1.0f;
+    _loginButton.alpha = 1.0f;
+    
+    // Add shadow behind the login text boxes and buttons so they stand out on light background
+    [LoginViewController applyShadowToView:self.loginInfoContainer];
+    [LoginViewController applyShadowToView:self.aboutButton];
+}
+
++ (void)applyShadowToView:(UIView *)view{
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0, 0);
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowRadius = 6.0;
+    view.clipsToBounds = NO;
+}
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    // Restrict login page orientation to portrait. Needed because the because
+    // the picture of the day looks weird on rotation otherwise.
+    // Also jarring if the getting started screen is shown as it forces portrait
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+-(BOOL)shouldAutorotate
+{
+    // Required for supportedInterfaceOrientations to be called
+    return YES;
 }
 
 -(NSString *) trimmedUsername{

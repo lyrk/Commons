@@ -5,6 +5,8 @@
 //  Created by Monte Hurd on 4/8/13.
 
 #import "GrayscaleImageView.h"
+#import "QuartzCore/CALayer.h"
+#import "LoginViewController.h"
 
 @implementation GrayscaleImageView
 {
@@ -22,6 +24,8 @@
         // used by the grayscale version of course)
         [self prepareGrayscaleImage];
 
+        // Add shadow behind the image so it stands out on light background
+        [LoginViewController applyShadowToView:self];
     }
     return self;
 }
@@ -47,7 +51,8 @@
     [colorMonochrome setValue: [CIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f] forKey: @"inputColor"];
     adjustedImage = [colorMonochrome outputImage];
 
-    /* Could easily add another filter. Example:
+    /*
+    //Could easily add another filter. Example:
     CIFilter *blurFilter = [CIFilter filterWithName:@"CIGaussianBlur"];
     [blurFilter setValue: adjustedImage forKey:@"inputImage"];
     [blurFilter setDefaults];
@@ -57,7 +62,11 @@
     
     // Save pointer to the grayscale version so "toGrayscale" method can quickly make use
     // of it
-    grayscaleImage = [[UIImage alloc] initWithCIImage: adjustedImage];
+    
+    //See: http://stackoverflow.com/a/15886422/135557
+    CGImageRef imageRef = [[CIContext contextWithOptions:nil] createCGImage:adjustedImage fromRect:adjustedImage.extent];
+    grayscaleImage = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
 }
 
 -(void) toColor

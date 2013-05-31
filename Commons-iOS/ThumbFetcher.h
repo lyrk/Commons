@@ -12,5 +12,7 @@
 @interface ThumbFetcher : NSObject
 
 - (MWPromise *)fetchThumbnail:(NSString *)filename size:(CGSize)size;
+- (UIImage *)cachedThumbForKey:(NSString *)key;
+- (void)cacheImageData:(NSData *)data forKey:(NSString *)key;
 
 @end

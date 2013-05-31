@@ -10,6 +10,7 @@
 
 @class GradientButton;
 @class GrayscaleImageView;
+@class PictureOfTheDayImageView;
 @interface LoginViewController : UIViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
@@ -19,7 +20,10 @@
 
 @property (weak, nonatomic) IBOutlet GrayscaleImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UIView *loginInfoContainer;
+@property (weak, nonatomic) IBOutlet PictureOfTheDayImageView *potdImageView;
+@property (weak, nonatomic) IBOutlet UIButton *aboutButton;
 
 - (IBAction)pushedLoginButton:(id)sender;
++ (void)applyShadowToView:(UIView *)view;
 
 @end
