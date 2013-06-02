@@ -30,7 +30,6 @@
 
 @interface LoginViewController ()
 
-- (void)hideKeyboard;
 - (void)showMyUploadsVC;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -43,6 +42,7 @@
 {
 
     UITapGestureRecognizer *tapRecognizer;
+    UITapGestureRecognizer *doubleTapRecognizer;
     CGPoint originalInfoContainerCenter;
     
     // Only skip the login screen on initial load
@@ -65,6 +65,9 @@
 
     originalInfoContainerCenter = CGPointZero;
 
+    // Remember where the login info container had been so it can be moved back here when the keyboard is hidden
+    originalInfoContainerCenter = _loginInfoContainer.center;
+    
 	// Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
@@ -85,8 +88,8 @@
     self.passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
     
     // Gray out the login button if no credentials
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.usernameField];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.passwordField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fadeLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.usernameField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fadeLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.passwordField];
     
     [self.loginButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     
@@ -96,10 +99,16 @@
     self.passwordField.text = app.password;
     
     //hide keyboard when anywhere else is tapped
-	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setTextInputFocusOnEmptyField)];
+    tapRecognizer.numberOfTapsRequired = 1;
 	[self.view addGestureRecognizer:tapRecognizer];
-    
-    [self disableLoginButtonIfNoCredentials];
+
+    doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap)];
+    doubleTapRecognizer.numberOfTapsRequired = 2;
+	[self.view addGestureRecognizer:doubleTapRecognizer];
+    doubleTapRecognizer.enabled = NO;
+
+    [self fadeLoginButtonIfNoCredentials];
 }
 
 -(NSString *) trimmedUsername{
@@ -112,21 +121,11 @@
     return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
 }
 
-- (void)disableLoginButtonIfNoCredentials
+- (void)fadeLoginButtonIfNoCredentials
 {
-    if(
-       (self.trimmedUsername.length == 0)
-            ||
-       (self.trimmedPassword.length == 0)
-      )
-    {
-        [self.loginButton setEnabled:NO];
-        self.loginButton.strokeColor = [UIColor grayColor];
-        
-    }else{
-        [self.loginButton setEnabled:YES];
-        self.loginButton.strokeColor = [UIColor blackColor];
-    }
+    [self.loginButton setTitleColor:
+     (!self.trimmedUsername.length || !self.trimmedPassword.length) ? [UIColor grayColor] : [UIColor blackColor]
+                           forState:UIControlStateNormal];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
@@ -139,10 +138,7 @@
 						  delay:0.0
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
-                         
-                         // Remember where the login info container had been so it can be moved back here when the keyboard is hidden
-                         originalInfoContainerCenter = _loginInfoContainer.center;
-                         
+
                         // Prevents the keyboard from covering any of the login container contents, not needed on iPad
                         // Most useful on non-iPads in landscape
                         float yOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0 : LOGIN_CONTAINER_VERTICAL_OFFSET;
@@ -167,9 +163,15 @@
 					 }];
 }
 
-- (void)hideKeyboard
+- (void)keyboardWillHide:(NSNotification *)notification
 {
-	// When hiding the keyboard, the login container needs be moved back to its storyboard
+    doubleTapRecognizer.enabled = NO;
+
+    [self animateLoginInfoContainerAndLogoBackToStoryboardLayout];
+}
+
+-(void)animateLoginInfoContainerAndLogoBackToStoryboardLayout{
+    // When hiding the keyboard, the login container needs be moved back to its storyboard
     // position (where it was before the keyboard was shown)
 	[UIView animateWithDuration:0.2
 						  delay:0.0
@@ -197,11 +199,6 @@
 					 completion:^(BOOL finished){
 						 
 					 }];
-	
-	// Dismisses the keyboard
-	[self.usernameField resignFirstResponder];
-	[self.passwordField resignFirstResponder];
-	
 }
 
 - (void)didReceiveMemoryWarning
@@ -239,6 +236,11 @@
 	
 }
 
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+    doubleTapRecognizer.enabled = YES;
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     
     // Enable keyboard show listener only while this view controller's view is visible (this observer is removed
@@ -248,6 +250,17 @@
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+
     
     // Automatically show the getting started pages, but only once and only if no credentials present
     [self showGettingStartedAutomaticallyOnce];
@@ -290,10 +303,16 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
 
-    // Disables keyboard show listener when this view controller's view is not visible
+    // Disables keyboard listeners when this view controller's view is not visible
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 
-    [self hideKeyboard];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+
+    // Ensure keyboard is hidden - sometimes it can hang around otherwise
+	[self.usernameField resignFirstResponder];
+	[self.passwordField resignFirstResponder];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -393,6 +412,9 @@
                                               self.passwordField.alpha = 1.0f;
                                               
                                               self.loginButton.alpha = 1.0f;
+                                              // If either username or password blank fade the login button
+                                              [self fadeLoginButtonIfNoCredentials];
+                                              
                                               self.logoutButton.alpha = 0.0f;
                                               
                                               self.usernameField.frame = origUsernameFieldFrame;
@@ -423,9 +445,45 @@
     [self revealLoginFieldsWithAnimation];
 }
 
+-(BOOL)setTextInputFocusOnEmptyField
+{
+    // Sets focus on first empty username or password field returning YES if it does so
+    // Returns no if no blank fields found
+    UITextField *textFieldInNeedOfInput = [self getTextFieldInNeedOfInput];
+    if (textFieldInNeedOfInput) {
+        [textFieldInNeedOfInput becomeFirstResponder];
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+-(void)doubleTap
+{
+    // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
+    [self.usernameField resignFirstResponder];
+	[self.passwordField resignFirstResponder];
+}
+
+-(UITextField *)getTextFieldInNeedOfInput
+{
+    // If neither username nor password, return username field
+    if(!self.trimmedUsername.length && !self.trimmedPassword.length) return self.usernameField;
+    
+    // If some username but no password return password field
+    if(self.trimmedUsername.length && !self.trimmedPassword.length) return self.passwordField;
+    
+    // If some password but no username return username field
+    if(!self.trimmedUsername.length && self.trimmedPassword.length) return self.usernameField;
+
+    return nil;
+}
+
 - (IBAction)pushedLoginButton:(id)sender
 {
-
+    // If username or password are blank set focus on the first one which is blank and return
+    if ([self setTextInputFocusOnEmptyField]) return;
+    
     CommonsApp *app = CommonsApp.singleton;
     
     allowSkippingToMyUploads = NO;
@@ -473,6 +531,8 @@
                 app.password = password;
                 [app saveCredentials];
                 [app deleteAllRecords];
+                
+                [self.passwordField resignFirstResponder];
                 
                 MWPromise *refresh = [app refreshHistoryWithFailureAlert:YES];
                 [refresh always:^(id arg) {
@@ -544,9 +604,14 @@
     UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
     if (nextResponder) {
         [nextResponder becomeFirstResponder];
-    } else {
+    } else if (textField != self.passwordField) {
         [textField resignFirstResponder];
     }
+    
+    if (textField == self.passwordField) {
+        [self pushedLoginButton:textField];
+    }
+
     return NO;
 }
 
