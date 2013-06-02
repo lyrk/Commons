@@ -103,6 +103,9 @@
             }];
             [thumb fail:^(NSError *error) {
                 NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
+            }];
+
+            [thumb always:^(id arg) {
                 self.imageSpinner.hidden = YES;
             }];
             
