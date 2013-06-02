@@ -887,7 +887,7 @@
         // loading of the image eliminates most of the remaining fast-scroll jitter.
         // (See: http://stackoverflow.com/a/5574667/135557 for more info)
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            MWPromise *fetchThumb = [record fetchThumbnail];
+            MWPromise *fetchThumb = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityNormal];
             [fetchThumb done:^(UIImage *image) {
                 if ([cell.title isEqualToString:title]) {
                     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
