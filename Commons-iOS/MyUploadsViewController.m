@@ -615,6 +615,9 @@
                              self.choosePhotoButton.hidden = NO;
                              buttonAnimationInProgress = YES;
 
+                             self.addMediaButton.transform = CGAffineTransformMakeScale(0.65f, 0.65f);
+                             self.addMediaButton.alpha = 0.25;
+                             
                              self.takePhotoButton.transform = CGAffineTransformIdentity;
                              self.choosePhotoButton.transform = CGAffineTransformIdentity;
                              
@@ -650,7 +653,10 @@
                             self.takePhotoButton.center = self.addMediaButton.center;
                             self.choosePhotoButton.center = self.addMediaButton.center;
                             buttonAnimationInProgress = YES;
-
+                             
+                            self.addMediaButton.transform = CGAffineTransformIdentity;
+                            self.addMediaButton.alpha = 1.0;
+                             
                             [opaqueView setAlpha:1.0];
                             opaqueView.backgroundColor = [UIColor clearColor];
                              
