@@ -11,6 +11,6 @@
 
 @interface ThumbFetcher : NSObject
 
-- (MWPromise *)fetchThumbnail:(NSString *)filename size:(CGSize)size;
+- (MWPromise *)fetchThumbnail:(NSString *)filename size:(CGSize)size withQueuePriority:(NSOperationQueuePriority)priority;
 
 @end

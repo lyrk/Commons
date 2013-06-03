@@ -982,7 +982,7 @@ static CommonsApp *singleton_;
 /**
  * Will make use of NSURL's default caching handlers
  */
-- (MWPromise *)fetchDataURL:(NSURL *)url
+- (MWPromise *)fetchDataURL:(NSURL *)url withQueuePriority:(NSOperationQueuePriority)priority
 {
     MWDeferred *deferred = [[MWDeferred alloc] init];
     void (^done)(NSURLResponse*, NSData*, NSError*, NSTimeInterval) = ^(NSURLResponse *response, NSData *data, NSError *error, NSTimeInterval downloadDuration) {
@@ -1007,6 +1007,7 @@ static CommonsApp *singleton_;
     };
     
     FetchImageOperation *fetchOperation = [[FetchImageOperation alloc] initWithURL:url];
+    [fetchOperation setQueuePriority:priority];
     fetchOperation.completionHandler = done;
 
     void (^progressed)(float, float) = ^(float total, float received){
@@ -1025,7 +1026,7 @@ static CommonsApp *singleton_;
 - (MWPromise *)fetchImageURL:(NSURL *)url
 {
     MWDeferred *deferred = [[MWDeferred alloc] init];
-    MWPromise *fetch = [self fetchDataURL:url];
+    MWPromise *fetch = [self fetchDataURL:url withQueuePriority:NSOperationQueuePriorityNormal];
     [fetch done:^(NSData *data) {
         UIImage *image = [UIImage imageWithData:data scale:1.0];
         [deferred resolve:image];
@@ -1039,9 +1040,9 @@ static CommonsApp *singleton_;
 /**
  * Won't make use of caching for the image metadata, but should for the actual file.
  */
-- (MWPromise *)fetchWikiImage:(NSString *)title size:(CGSize)size
+- (MWPromise *)fetchWikiImage:(NSString *)title size:(CGSize)size withQueuePriority:(NSOperationQueuePriority)priority
 {
-    return [self.thumbFetcher fetchThumbnail:title size:size];
+    return [self.thumbFetcher fetchThumbnail:title size:size withQueuePriority:priority];
 }
 
 - (void)deleteUploadRecord:(FileUpload *)record

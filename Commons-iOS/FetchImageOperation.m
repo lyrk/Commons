@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSURLResponse *response;
 @property (strong, nonatomic) NSMutableData *data;
 @property (strong, nonatomic) NSError *error;
+@property (nonatomic, assign, getter=isOperationStarted) BOOL operationStarted;
 
 @end
 
@@ -67,6 +68,8 @@
 // Convenience method to cancel URL connection if it still exists and finish up the operation.
 - (void)done
 {
+    if (![self isOperationStarted]) return;
+
     //NSLog(@"\n\nOperation Done!");
     
     self.doneInterval = [NSDate timeIntervalSinceReferenceDate];
@@ -76,37 +79,40 @@
         self.response = nil;
     }
     
-	if(self.connection) {
-		[self.connection cancel];
-		self.connection = nil;
-	}
-    
+    if(self.connection) {
+        [self.connection cancel];
+        // Don't nil self.connection here - it needs to call its delegates to wrap things up
+    }
+
     if (self.completionHandler != nil) {
         self.completionHandler(self.response, self.data, self.error, self.doneInterval - self.startInterval);
     }
-	
+
 	// Alert anyone that we are finished
 	[self willChangeValueForKey:@"isExecuting"];
 	[self willChangeValueForKey:@"isFinished"];
 	executing_ = NO;
 	finished_  = YES;
 	[self didChangeValueForKey:@"isFinished"];
-	[self didChangeValueForKey:@"isExecuting"];
-    
-    // Now safe for the thread to exit - needed because of the @autoreleasepool
-    // See: http://stackoverflow.com/a/1730053/135557 for more info
-    CFRunLoopStop(CFRunLoopGetCurrent());
+	[self didChangeValueForKey:@"isExecuting"];    
 }
 
 -(void)cancelled
 {
 	// Code for being cancelled    
-    self.error = [self getErrorWithMessage:@"Operation Cancelled" code:100];
+    self.error = [self getErrorWithMessage:[@"Operation Cancelled for:" stringByAppendingString:self.url.description] code:100];
 	[self done];
 }
 
+-(void)cancel
+{
+    [self cancelled];
+    [super cancel];
+}
+
 - (void)start{
-		
+    [self setOperationStarted:YES];  // See: http://stackoverflow.com/a/8152855/135557
+	
     if(finished_ || [self isCancelled]) {
 		[self cancelled];
 		return;
@@ -219,12 +225,14 @@
 	// Check if the operation has been cancelled
 	if([self isCancelled]) {
 		[self cancelled];
-		return;
-	}
-	else {
+	}else{
         // The response has been received - so self.data should be populated now
 		[self done]; 
 	}
+
+    // Now safe for the thread to exit - needed because of the @autoreleasepool
+    // See: http://stackoverflow.com/a/1730053/135557 for more info
+    CFRunLoopStop(CFRunLoopGetCurrent());
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {

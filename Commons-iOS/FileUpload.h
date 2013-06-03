@@ -28,7 +28,7 @@
 @property (nonatomic, retain) NSNumber * fetchThumbnailProgress;
 
 - (NSString *)prettySize;
-- (MWPromise *)fetchThumbnail;
+- (MWPromise *)fetchThumbnailWithQueuePriority:(NSOperationQueuePriority)priority;
 - (BOOL)isReadyForUpload;
 - (NSArray *)categoryList;
 

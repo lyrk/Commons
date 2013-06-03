@@ -49,9 +49,9 @@
 - (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
 
 - (MWPromise *)loadImage:(NSString *)fileName fileType:(NSString *)fileType;
-- (MWPromise *)fetchDataURL:(NSURL *)url;
+- (MWPromise *)fetchDataURL:(NSURL *)url withQueuePriority:(NSOperationQueuePriority)priority;
 - (MWPromise *)fetchImageURL:(NSURL *)url;
-- (MWPromise *)fetchWikiImage:(NSString *)title size:(CGSize)size;
+- (MWPromise *)fetchWikiImage:(NSString *)title size:(CGSize)size withQueuePriority:(NSOperationQueuePriority)priority;
 
 - (void)saveData;
 - (void)fetchUploadRecords;

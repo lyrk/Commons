@@ -31,7 +31,7 @@
     return self;
 }
 
-- (MWPromise *)fetchThumbnail:(NSString *)filename size:(CGSize)size
+- (MWPromise *)fetchThumbnail:(NSString *)filename size:(CGSize)size withQueuePriority:(NSOperationQueuePriority)priority
 {
     MWDeferred *deferred = [[MWDeferred alloc] init];
 
@@ -63,7 +63,7 @@
     NSURL *url = urlsByKey_[key];
     if (url) {
         // We already know the URL but haven't started fetching it.
-        [self fetchImageByKey:key];
+        [self fetchImageByKey:key withQueuePriority:priority];
         return deferred.promise;
     }
 
@@ -158,7 +158,7 @@
             if (thumbnailURL) {
                 urlsByKey_[key] = thumbnailURL;
             }
-            [self fetchImageByKey:key];
+            [self fetchImageByKey:key withQueuePriority:NSOperationQueuePriorityNormal];
         }
         [deferred resolve:result];
     }];
@@ -171,14 +171,14 @@
     return deferred.promise;
 }
 
-- (void)fetchImageByKey:(NSString *)key
+- (void)fetchImageByKey:(NSString *)key withQueuePriority:(NSOperationQueuePriority)priority
 {
     CommonsApp *app = CommonsApp.singleton;
     MWDeferred *fetchDeferred = requestsByKey_[key][@"deferred"];
     NSURL *thumbnailURL = urlsByKey_[key];
     
     if (thumbnailURL) {
-        MWPromise *fetchImage = [app fetchDataURL:thumbnailURL];
+        MWPromise *fetchImage = [app fetchDataURL:thumbnailURL withQueuePriority:priority];
         [fetchImage done:^(NSData *data) {
             [self cacheImageData:data forKey:key];
             [requestsByKey_ removeObjectForKey:key];

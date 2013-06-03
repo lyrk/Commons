@@ -16,5 +16,6 @@
 @property (nonatomic) NSTimeInterval initInterval;
 
 - (id)initWithURL:(NSURL*)url;
+- (void)cancel;
 
 @end

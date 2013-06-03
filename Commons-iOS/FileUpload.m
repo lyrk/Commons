@@ -45,7 +45,7 @@
  * Fetch the local or remote thumbnail saved for this record.
  * Sends a UIImage to the completion callback.
  */
-- (MWPromise *)fetchThumbnail
+- (MWPromise *)fetchThumbnailWithQueuePriority:(NSOperationQueuePriority)priority
 {
     CommonsApp *app = CommonsApp.singleton;;
     MWDeferred *deferred = [[MWDeferred alloc] init];
@@ -59,7 +59,7 @@
         resolution *= app.speedGovernor.imageResolutionMultiplier;
         
         CGSize size = CGSizeMake(resolution, resolution);
-        fetch = [app fetchWikiImage:self.title size:size];
+        fetch = [app fetchWikiImage:self.title size:size withQueuePriority:priority];
     } else {
         // Use the pre-uploaded file as the medium thumbnail
         fetch = [app loadImage:self.localFile

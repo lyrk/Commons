@@ -95,14 +95,17 @@
 
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             
-            MWPromise *thumb = [record fetchThumbnail];
-            
+            MWPromise *thumb = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityHigh];
+
             [thumb done:^(UIImage *image) {
                 self.imageSpinner.hidden = YES;
                 self.imagePreview.image = image;
             }];
             [thumb fail:^(NSError *error) {
                 NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
+            }];
+
+            [thumb always:^(id arg) {
                 self.imageSpinner.hidden = YES;
             }];
             
@@ -479,7 +482,7 @@
     [self.appDelegate.loadingIndicator show];
         
     // Fetch cached or internet image at standard size...
-    MWPromise *fetch = [CommonsApp.singleton fetchWikiImage:record.title size:[CommonsApp.singleton getFullSizedImageSize]];
+    MWPromise *fetch = [CommonsApp.singleton fetchWikiImage:record.title size:[CommonsApp.singleton getFullSizedImageSize] withQueuePriority:NSOperationQueuePriorityHigh];
     
     [fetch done:^(UIImage *image) {
 
@@ -524,10 +527,10 @@
                     MWPromise *fetch;
                     if (record.complete.boolValue) {
                         // Fetch cached or internet image at standard size...
-                        fetch = [CommonsApp.singleton fetchWikiImage:record.title size:size];
+                        fetch = [CommonsApp.singleton fetchWikiImage:record.title size:size withQueuePriority:NSOperationQueuePriorityVeryHigh];
                     } else {
                         // Load the local file...
-                        fetch = [record fetchThumbnail];
+                        fetch = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityVeryHigh];
                     }
                     [fetch done:^(UIImage *image) {
                         [view setImage:image];
