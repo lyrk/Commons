@@ -36,7 +36,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *urlStr = [NSString stringWithFormat:
-    @"http://en.wikipedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:POTD/%@&iiprop=url|size|comment|metadata|user|userid&format=json", [formatter stringFromDate:date]];
+    @"http://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:Potd/%@&iiprop=url|size|comment|metadata|user|userid&format=json", [formatter stringFromDate:date]];
     
     urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
