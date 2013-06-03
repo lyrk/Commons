@@ -30,6 +30,7 @@
 
 @interface LoginViewController (){
     PictureOfTheDay *pictureOfTheDayGetter_;
+    UIPanGestureRecognizer *panRecognizer_;
 }
 
 - (void)hideKeyboard;
@@ -114,7 +115,7 @@
                               duration:1.2f
                                options:UIViewAnimationOptionTransitionCrossDissolve
                             animations:^{
-                                weakPotdImageView.useFilter = NO;
+                                weakPotdImageView.useFilter = NO;                                
                                 weakPotdImageView.image = image;
                             }completion:^(BOOL finished){
                             }];            
@@ -122,7 +123,7 @@
     };
     
     // Determine the resolution of the picture of the day to request
-    CGSize screenSize = UIScreen.mainScreen.bounds.size;
+    CGSize screenSize = self.view.bounds.size;
     // For now leave scale at one - retina iPads would request too high a resolution otherwise
     CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
     
@@ -142,6 +143,73 @@
     // Add shadow behind the login text boxes and buttons so they stand out on light background
     [LoginViewController applyShadowToView:self.loginInfoContainer];
     [LoginViewController applyShadowToView:self.aboutButton];
+    
+    // Pan recognizer for the PotD
+    panRecognizer_ = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [self.view addGestureRecognizer:panRecognizer_];
+}
+
+-(CGSize)getAspectFilledImageSize:(UIImageView *)imageView
+{
+    // The imageView scales the image. This calculates now much
+    CGSize imgSize = imageView.image.size;
+    CGSize imgViewSize = imageView.frame.size;
+    CGFloat imgViewScale = fmaxf( imgViewSize.width / imgSize.width,
+                                  imgViewSize.height / imgSize.height);
+    // Apply scale for UIViewContentModeScaleAspectFill. From: http://stackoverflow.com/a/6857098
+    imgSize.width *= imgViewScale;
+    imgSize.height *= imgViewScale;
+    return imgSize;
+}
+
+
+-(void)handlePan:(UIPanGestureRecognizer*)recognizer;
+{
+    if (recognizer.state == UIGestureRecognizerStateChanged) {
+        // http://stackoverflow.com/a/4489848
+
+        CGPoint center = self.potdImageView.center;
+        CGPoint translation = [recognizer translationInView:recognizer.view];
+
+        CGSize imgViewSize = self.potdImageView.frame.size;
+        CGSize imgSize = [self getAspectFilledImageSize:self.potdImageView];
+        
+        if(imgSize.width > imgViewSize.width){
+            // Limit scroll to horizontal
+            translation.y = 0.0f;
+        }else{
+            // Limit scroll to vertical
+            translation.x = 0.0f;
+        }
+
+        center = CGPointMake(center.x + translation.x,
+                             center.y + translation.y);
+
+        self.potdImageView.center = center;
+        
+        // Ensure image boundaries not exceeded
+        if(imgSize.width > imgViewSize.width){
+            float b = imgSize.width / 2.0f;
+            if (center.x > b) {
+                center.x = b;
+                self.potdImageView.center = center;
+            }else if (center.x < -(b - imgViewSize.width)){
+                center.x = -(b - imgViewSize.width);
+                self.potdImageView.center = center;
+            }
+        }else{
+            float b = imgSize.height / 2.0f;
+            if (center.y > b) {
+                center.y = b;
+                self.potdImageView.center = center;
+            }else if (center.y < -(b - imgViewSize.height)){
+                center.y = -(b - imgViewSize.height);
+                self.potdImageView.center = center;
+            }
+        }
+        
+        [recognizer setTranslation:CGPointZero inView:recognizer.view];
+    }
 }
 
 + (void)applyShadowToView:(UIView *)view{
