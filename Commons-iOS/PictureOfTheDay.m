@@ -31,7 +31,10 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *urlStr = [NSString stringWithFormat:
-    @"http://en.wikipedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:POTD/%@&iiprop=url&format=json", [formatter stringFromDate:date]];
+    @"http://en.wikipedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:POTD/%@&iiprop=url|size|comment|metadata|user|userid&format=json", [formatter stringFromDate:date]];
+    
+    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    
     return [NSURL URLWithString:urlStr];
 }
 
@@ -62,17 +65,32 @@
         [self loadBundledDefaultPictureOfTheDay];
         return;
     }
+
+    NSString *user = [self getUserFromJson:json];
+    NSLog(@"PotD from User = %@", user);
+    
+    NSDictionary *metadata = [self getMetadataFromJson:json];
+    NSLog(@"PotD Metadata = %@", metadata);
+    //NSLog(@"PotD Camera Model = %@", metadata[@"Model"]);
+    
+    // Determine the height and width of the picture of the day from the json data
+    CGSize originalSize = [self getSizeFromJson:json];
+    
+    // Uncomment to simulate extreme panorama
+    //originalSize.width = originalSize.width * 3;
+    
+    // Examine the reported width and height of the image so its aspect ratio can be
+    // calculated to see if it's a good fit. If it's an extremely wide panorama (vertical
+    // or horizontal) then it is not
+    if (![self isAspectRatioOkForSize:CGSizeMake(originalSize.width, originalSize.height)]) {
+        // If extreme panorama use bundled image
+        [self loadBundledDefaultPictureOfTheDay];
+        return;
+    }
+    
+    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
     potdURL_ = [NSURL URLWithString:urlStr];
     //NSLog(@"potd json = %@", json);
-    
-    // Test with very wide image:
-    // (this should trigger isAspectRatioOkForSize: to return NO so the bundled image will be shown
-    // so to truly test how bad a crazy wide image looks force isAspectRatioOkForSize: to return YES)
-    // http://commons.wikimedia.org/wiki/File:Perth_CBD_from_Mill_Point.jpg
-    //potdURL_ = [NSURL URLWithString:@"/wikipedia/commons/e/e6/Perth_CBD_from_Mill_Point.jpg"];
-
-    // This image isn't so wide
-    //potdURL_ = [NSURL URLWithString:@"wikipedia/commons/b/b7/Honeymoon_Bay_Sunset_2.jpg"];
     
     NSString *filename = [[potdURL_ path] lastPathComponent];
     NSString *sizeKey = [NSString stringWithFormat:@"%dx%d", (int)size.width, (int)size.height];
@@ -88,37 +106,34 @@
             [self loadBundledDefaultPictureOfTheDay];
             return;
         }
-        MWApi *api = [app startApi];
         // Request the thumbnail be generated
-        MWPromise *fetch = [api getRequest:@{
-                             @"action": @"query",
-                             @"titles": [@"File:" stringByAppendingString:filename],
-                             @"prop": @"imageinfo",
-                             @"iiprop": @"timestamp|url",
-                             @"iiurlwidth": @((int)size.width),
-                             @"iiurlheight": @((int)size.height)
-                             }];
+        MWApi *api = [app startApi];
+        NSMutableDictionary *params = [@{
+                                   @"action": @"query",
+                                   @"titles": [@"File:" stringByAppendingString:filename],
+                                   @"prop": @"imageinfo",
+                                   @"iiprop": @"timestamp|url"
+                                   } mutableCopy];
+
+        // If the image is more wide than tall get thumb at screen height
+        if (originalSize.width > originalSize.height) {
+            params[@"iiurlheight"] = @((int)size.height);
+        }else{
+        // If the image is more tall than wide get thumb at screen width
+            params[@"iiurlwidth"] = @((int)size.width);
+        }
+        
+        MWPromise *fetch = [api getRequest:params];
         [fetch done:^(NSDictionary *result) {
             //NSLog(@"potd fetch = %@", result);
-            
-            // Examine the reported width and height of the image so its aspect ratio can be
-            // calculated to see if it's a good fit. If it's an extremely wide panorama it is not
-            NSString *potdWidth = nil;
-            NSString *potdHeight = nil;
-            [self enumerateJSON:result currentKey:nil findKey:@"thumbwidth" result:&potdWidth];
-            [self enumerateJSON:result currentKey:nil findKey:@"thumbheight" result:&potdHeight];
-            if (potdWidth && potdHeight) {
-                if (![self isAspectRatioOkForSize:CGSizeMake(potdWidth.floatValue, potdHeight.floatValue)]) {
-                    // If extreme panorama use bundled image
-                    [self loadBundledDefaultPictureOfTheDay];
-                    return;
-                }
-            }else{
-                // If size could not be determined use bundled image
-                [self loadBundledDefaultPictureOfTheDay];
-                return;
-            }
-            
+
+            /*
+            NSString *thumbWidth = nil;
+            NSString *thumbHeight = nil;
+            [self enumerateJSON:result currentKey:nil findKey:@"thumbwidth" result:&thumbWidth];
+            [self enumerateJSON:result currentKey:nil findKey:@"thumbheight" result:&thumbHeight];
+            */
+
             NSDictionary *pages = result[@"query"][@"pages"];
             for (NSString *pageId in pages) {
                 NSDictionary *page = pages[pageId];
@@ -147,6 +162,10 @@
 
 -(BOOL)isAspectRatioOkForSize:(CGSize)size
 {
+    // Avoid zero division errors
+    size.width += 0.00001f;
+    size.height += 0.00001f;
+    
     float r = size.width / size.height;
     if (r < 1.0f) r = 1.0f / r;
     // If the image is more than twice as wide as it is tall, or more than twice at tall as it is wide, then
@@ -182,6 +201,42 @@
             *result = (NSString *)object;
         }
     }
+}
+
+-(CGSize)getSizeFromJson:(NSDictionary *)json
+{
+    // Determine the height and width of the picture of the day from the json data
+    NSString *origHeight = nil;
+    NSString *origWidth = nil;
+    [self enumerateJSON:json currentKey:nil findKey:@"height" result:&origHeight];
+    [self enumerateJSON:json currentKey:nil findKey:@"width" result:&origWidth];
+    CGSize originalSize = CGSizeZero;
+    if (origHeight && origWidth) {
+        originalSize = CGSizeMake(origWidth.floatValue, origHeight.floatValue);
+    }
+    return originalSize;
+}
+
+-(NSString *)getUserFromJson:(NSDictionary *)json
+{
+    NSString *user = nil;
+    [self enumerateJSON:json currentKey:nil findKey:@"user" result:&user];
+    return user;
+}
+
+-(NSDictionary *)getMetadataFromJson:(NSDictionary *)json
+{
+    // As long as the structure is constant, could use this approach rather than "enumerateJSON:currentKey:findKey:result:" elsewhere
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+    @try{
+        NSArray *a = [[[json[@"query"][@"pages"] allValues] objectAtIndex:0][@"imageinfo"] objectAtIndex:0][@"metadata"];
+        for (NSDictionary* d in a) {
+            result[d[@"name"]] = d[@"value"];
+        }
+    }@catch(id anException){
+        NSLog(@"Unexpected JSON structure!");
+    }
+    return result;
 }
 
 @end
