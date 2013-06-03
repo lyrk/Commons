@@ -8,6 +8,9 @@
 #import "ThumbFetcher.h"
 #import "CommonsApp.h"
 
+#define POTD_DAYS_AGO 0
+#define POTD_MAX_W_H_RATIO 2.0f
+
 @implementation PictureOfTheDay{
     NSURL *potdURL_;
     UIImage *potdImage_;
@@ -28,12 +31,14 @@
 -(NSURL *)getJsonUrl
 {
     NSDate *date = [[NSDate alloc] init];
+    date = [date dateByAddingTimeInterval: -(86400.0 * POTD_DAYS_AGO)];
+    
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     NSString *urlStr = [NSString stringWithFormat:
     @"http://en.wikipedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:POTD/%@&iiprop=url|size|comment|metadata|user|userid&format=json", [formatter stringFromDate:date]];
     
-    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     return [NSURL URLWithString:urlStr];
 }
@@ -88,7 +93,7 @@
         return;
     }
     
-    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+    urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     potdURL_ = [NSURL URLWithString:urlStr];
     //NSLog(@"potd json = %@", json);
     
@@ -108,6 +113,10 @@
         }
         // Request the thumbnail be generated
         MWApi *api = [app startApi];
+        
+        // So it doesn't get double-encoded
+        filename = [filename stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
         NSMutableDictionary *params = [@{
                                    @"action": @"query",
                                    @"titles": [@"File:" stringByAppendingString:filename],
@@ -162,16 +171,23 @@
 
 -(BOOL)isAspectRatioOkForSize:(CGSize)size
 {
+    //return YES;
+    
     // Avoid zero division errors
     size.width += 0.00001f;
     size.height += 0.00001f;
     
     float r = size.width / size.height;
     if (r < 1.0f) r = 1.0f / r;
-    // If the image is more than twice as wide as it is tall, or more than twice at tall as it is wide, then
-    // its not ok to use because only a small part of the thumb will end up being onscreen because aspect fill
-    // is being used to ensure the entire background of the login view controller's view is filled with image
-    return (r > 2.0f) ? NO : YES;
+    // If the image is more than POTD_MAX_W_H_RATIO as wide as it is tall, or more than POTD_MAX_W_H_RATIO as
+    // tall as it is wide, then its not ok to use because only a small part of the thumb will end up being
+    // onscreen because aspect fill is being used to ensure the entire background of the login view
+    //controller's view is filled with image
+    BOOL result = (r > POTD_MAX_W_H_RATIO) ? NO : YES;
+    if (!result) {
+        NSLog(@"isAspectRatioOkForSize: Detected Extreme Panorama!");
+    }
+    return result;
 }
 
 -(void)loadBundledDefaultPictureOfTheDay
