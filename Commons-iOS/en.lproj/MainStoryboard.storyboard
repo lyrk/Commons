@@ -22,7 +22,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" id="f9g-qG-jTX" userLabel="Login Info Container">
-                                        <rect key="frame" x="0.0" y="268" width="320" height="119"/>
+                                        <rect key="frame" x="0.0" y="268" width="320" height="153"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" id="ce8-FB-OHg">
@@ -88,6 +88,21 @@
                                                     <action selector="pushedCurrentUserButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="NbN-DJ-pdz"/>
                                                 </connections>
                                             </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="3va-h9-QXe">
+                                                <rect key="frame" x="105" y="121" width="191" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <state key="normal" title="recover password">
+                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="pushedRecoverPasswordButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="EpO-fE-a0J"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </view>
@@ -120,6 +135,7 @@
                         <outlet property="logoImageView" destination="Y6M-eQ-GLr" id="JMK-DT-Vsm"/>
                         <outlet property="logoutButton" destination="F4V-0d-xD2" id="Rud-2v-JJv"/>
                         <outlet property="passwordField" destination="uZ2-XX-w6g" id="SpP-Zf-QJu"/>
+                        <outlet property="recoverPasswordButton" destination="3va-h9-QXe" id="SfO-QU-9r6"/>
                         <outlet property="scrollView" destination="1DZ-b7-b84" id="e4p-Up-j4G"/>
                         <outlet property="usernameField" destination="ce8-FB-OHg" id="Nza-A8-gcX"/>
                     </connections>
@@ -1604,12 +1620,14 @@ Help Wikipedia articles come to life!</string>
                 <relationship kind="action" name="pushedCurrentUserButton:"/>
                 <relationship kind="action" name="pushedLoginButton:"/>
                 <relationship kind="action" name="pushedLogoutButton:"/>
+                <relationship kind="action" name="pushedRecoverPasswordButton:"/>
                 <relationship kind="outlet" name="currentUserButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="loginButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="loginInfoContainer" candidateClass="UIView"/>
                 <relationship kind="outlet" name="logoImageView" candidateClass="GrayscaleImageView"/>
                 <relationship kind="outlet" name="logoutButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="recoverPasswordButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
             </relationships>
@@ -1702,6 +1720,9 @@ Help Wikipedia articles come to life!</string>
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
+        </class>
+        <class className="UICollectionViewLayout" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="WelcomeOverlayView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WelcomeOverlayView.h"/>

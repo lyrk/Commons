@@ -52,6 +52,7 @@
     "login-title": "Account",
     "login-current-user-button": "Continue as: $1",
     "login-button": "Login",
+    "login-recover-password-button": "recover password",
     
     "logout-button": "Logout",
 

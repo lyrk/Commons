@@ -28,6 +28,8 @@
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
+#define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
+
 @interface LoginViewController ()
 
 - (void)showMyUploadsVC;
@@ -82,6 +84,8 @@
     [self.loginButton setTitle:[MWMessage forKey:@"login-button"].text forState:UIControlStateNormal];
 
     [self.logoutButton setTitle:[MWMessage forKey:@"logout-button"].text forState:UIControlStateNormal];
+
+    [self.recoverPasswordButton setTitle:[MWMessage forKey:@"login-recover-password-button"].text forState:UIControlStateNormal];
 
     // Disable auto-correct on login boxes
     self.usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -352,6 +356,12 @@
     [self showMyUploadsVC];
 }
 
+-(IBAction)pushedRecoverPasswordButton:(id)sender
+{
+    CommonsApp *app = CommonsApp.singleton;
+    [app openURLWithDefaultBrowser:[NSURL URLWithString:RESET_PASSWORD_URL]];
+}
+
 -(void)showLogout:(BOOL)show
 {
     self.logoutButton.hidden = !show;
@@ -359,6 +369,7 @@
     self.loginButton.hidden = show;
     self.usernameField.hidden = show;
     self.passwordField.hidden = show;
+    self.recoverPasswordButton.hidden = show;
 
     [self.currentUserButton setTitle:[MWMessage forKey:@"login-current-user-button" param:self.usernameField.text].text forState:UIControlStateNormal];
     
@@ -395,9 +406,12 @@
                          self.loginButton.alpha = 0.0f;
                          self.usernameField.alpha = 0.0f;
                          self.passwordField.alpha = 0.0f;
+                         self.recoverPasswordButton.alpha = 0.0f;
                          self.loginButton.hidden = NO;
                          self.usernameField.hidden = NO;
                          self.passwordField.hidden = NO;
+                         self.recoverPasswordButton.hidden = NO;
+
                          CGRect origUsernameFieldFrame = self.usernameField.frame;
                          CGRect origPasswordFieldFrame = self.passwordField.frame;
                          float vOffset = self.loginButton.frame.origin.y - self.usernameField.frame.origin.y;
@@ -411,6 +425,7 @@
                                               self.usernameField.alpha = 1.0f;
                                               self.passwordField.alpha = 1.0f;
                                               
+                                              self.recoverPasswordButton.alpha = 1.0f;
                                               self.loginButton.alpha = 1.0f;
                                               // If either username or password blank fade the login button
                                               [self fadeLoginButtonIfNoCredentials];
