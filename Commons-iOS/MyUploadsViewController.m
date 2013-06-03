@@ -385,6 +385,10 @@
         
         if ([app.fetchedResultsController.fetchedObjects count] > 0) {
             
+            // Scroll to top so the thumb for the file being uploaded can be seen - as can its upload
+            // progress indicator
+            [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UICollectionViewScrollPositionTop animated:NO];
+
             [self.navigationItem setRightBarButtonItem:[self cancelButton] animated:YES];
             
             NSLog(@"Upload ye files!");
