@@ -16,6 +16,7 @@
 #import "LoadingIndicator.h"
 #import "GrayscaleImageView.h"
 #import "GettingStartedViewController.h"
+#import "QuartzCore/QuartzCore.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
@@ -27,9 +28,10 @@
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
+#define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
+
 @interface LoginViewController ()
 
-- (void)hideKeyboard;
 - (void)showMyUploadsVC;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -42,6 +44,7 @@
 {
 
     UITapGestureRecognizer *tapRecognizer;
+    UITapGestureRecognizer *doubleTapRecognizer;
     CGPoint originalInfoContainerCenter;
     
     // Only skip the login screen on initial load
@@ -64,25 +67,33 @@
 
     originalInfoContainerCenter = CGPointZero;
 
+    // Remember where the login info container had been so it can be moved back here when the keyboard is hidden
+    originalInfoContainerCenter = _loginInfoContainer.center;
+    
 	// Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
-	// Set gradient login button color
+	// Set gradient buttons color
 	[self.loginButton useWhiteStyle];
-	
+    [self.logoutButton useWhiteStyle];
+
     // l10n
     self.navigationItem.title = [MWMessage forKey:@"login-title"].text;
     self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
     self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
     [self.loginButton setTitle:[MWMessage forKey:@"login-button"].text forState:UIControlStateNormal];
-    
+
+    [self.logoutButton setTitle:[MWMessage forKey:@"logout-button"].text forState:UIControlStateNormal];
+
+    [self.recoverPasswordButton setTitle:[MWMessage forKey:@"login-recover-password-button"].text forState:UIControlStateNormal];
+
     // Disable auto-correct on login boxes
     self.usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
     self.passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
     
     // Gray out the login button if no credentials
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.usernameField];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disableLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.passwordField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fadeLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.usernameField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fadeLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.passwordField];
     
     [self.loginButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
     
@@ -92,10 +103,16 @@
     self.passwordField.text = app.password;
     
     //hide keyboard when anywhere else is tapped
-	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setTextInputFocusOnEmptyField)];
+    tapRecognizer.numberOfTapsRequired = 1;
 	[self.view addGestureRecognizer:tapRecognizer];
-    
-    [self disableLoginButtonIfNoCredentials];
+
+    doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap)];
+    doubleTapRecognizer.numberOfTapsRequired = 2;
+	[self.view addGestureRecognizer:doubleTapRecognizer];
+    doubleTapRecognizer.enabled = NO;
+
+    [self fadeLoginButtonIfNoCredentials];
 }
 
 -(NSString *) trimmedUsername{
@@ -108,21 +125,11 @@
     return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
 }
 
-- (void)disableLoginButtonIfNoCredentials
+- (void)fadeLoginButtonIfNoCredentials
 {
-    if(
-       (self.trimmedUsername.length == 0)
-            ||
-       (self.trimmedPassword.length == 0)
-      )
-    {
-        [self.loginButton setEnabled:NO];
-        self.loginButton.strokeColor = [UIColor grayColor];
-        
-    }else{
-        [self.loginButton setEnabled:YES];
-        self.loginButton.strokeColor = [UIColor blackColor];
-    }
+    [self.loginButton setTitleColor:
+     (!self.trimmedUsername.length || !self.trimmedPassword.length) ? [UIColor grayColor] : [UIColor blackColor]
+                           forState:UIControlStateNormal];
 }
 
 - (void)keyboardWillShow:(NSNotification *)notification
@@ -135,10 +142,7 @@
 						  delay:0.0
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
-                         
-                         // Remember where the login info container had been so it can be moved back here when the keyboard is hidden
-                         originalInfoContainerCenter = _loginInfoContainer.center;
-                         
+
                         // Prevents the keyboard from covering any of the login container contents, not needed on iPad
                         // Most useful on non-iPads in landscape
                         float yOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0 : LOGIN_CONTAINER_VERTICAL_OFFSET;
@@ -163,9 +167,15 @@
 					 }];
 }
 
-- (void)hideKeyboard
+- (void)keyboardWillHide:(NSNotification *)notification
 {
-	// When hiding the keyboard, the login container needs be moved back to its storyboard
+    doubleTapRecognizer.enabled = NO;
+
+    [self animateLoginInfoContainerAndLogoBackToStoryboardLayout];
+}
+
+-(void)animateLoginInfoContainerAndLogoBackToStoryboardLayout{
+    // When hiding the keyboard, the login container needs be moved back to its storyboard
     // position (where it was before the keyboard was shown)
 	[UIView animateWithDuration:0.2
 						  delay:0.0
@@ -193,11 +203,6 @@
 					 completion:^(BOOL finished){
 						 
 					 }];
-	
-	// Dismisses the keyboard
-	[self.usernameField resignFirstResponder];
-	[self.passwordField resignFirstResponder];
-	
 }
 
 - (void)didReceiveMemoryWarning
@@ -235,6 +240,11 @@
 	
 }
 
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+    doubleTapRecognizer.enabled = YES;
+}
+
 -(void)viewDidAppear:(BOOL)animated{
     
     // Enable keyboard show listener only while this view controller's view is visible (this observer is removed
@@ -244,6 +254,17 @@
                                              selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+
     
     // Automatically show the getting started pages, but only once and only if no credentials present
     [self showGettingStartedAutomaticallyOnce];
@@ -272,6 +293,13 @@
 
 -(void)viewWillAppear:(BOOL)animated{
 
+    // Because tapping currentUserButton pushes a view controller onto the navigation controller stack
+    // the currentUserButton can shuffle offscreen before it completely finishes updating itself from
+    // its selected visual state to its unselected visual state. When this happens, when the view
+    // which was pushed gets popped, the currentUserButton can appear to be pushed - visually a bit
+    // more dark. setNeedsDisplay tells it to draw itself again
+    [self.currentUserButton setNeedsDisplay];
+    
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
 	
@@ -279,10 +307,16 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
 
-    // Disables keyboard show listener when this view controller's view is not visible
+    // Disables keyboard listeners when this view controller's view is not visible
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 
-    [self hideKeyboard];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+
+    // Ensure keyboard is hidden - sometimes it can hang around otherwise
+	[self.usernameField resignFirstResponder];
+	[self.passwordField resignFirstResponder];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -307,10 +341,164 @@
     // credentials have been authenticated)
     MyUploadsViewController *myUploadsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
     [self.navigationController pushViewController:myUploadsVC animated:YES];
+    
+    // Show logout elementes after slight delay. if the login page is sliding offscreen it looks odd
+    // to update its interface elements as it's sliding away - the delay fixes this
+    float delayInSeconds = 0.25;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        // Executed on the main queue after delay
+        [self showLogout:YES];
+    });
 }
 
-- (IBAction)pushedLoginButton:(id)sender {
+-(IBAction)pushedCurrentUserButton:(id)sender
+{
+    [self showMyUploadsVC];
+}
 
+-(IBAction)pushedRecoverPasswordButton:(id)sender
+{
+    CommonsApp *app = CommonsApp.singleton;
+    [app openURLWithDefaultBrowser:[NSURL URLWithString:RESET_PASSWORD_URL]];
+}
+
+-(void)showLogout:(BOOL)show
+{
+    self.logoutButton.hidden = !show;
+    self.currentUserButton.hidden = !show;
+    self.loginButton.hidden = show;
+    self.usernameField.hidden = show;
+    self.passwordField.hidden = show;
+    self.recoverPasswordButton.hidden = show;
+
+    [self.currentUserButton setTitle:[MWMessage forKey:@"login-current-user-button" param:self.usernameField.text].text forState:UIControlStateNormal];
+    
+    // Size currentUserButton to fix whatever text it now contains
+    CGRect f = self.currentUserButton.frame;
+    CGSize s = [self.currentUserButton sizeThatFits:self.currentUserButton.frame.size];
+    // Add padding to right and left of re-sized currentUserButton's text
+    f.size.width = s.width + 40.0f;
+    // If resized currentUserButton is narrower than the logout button make it same width as logout button
+    f.size.width = (f.size.width < self.logoutButton.frame.size.width) ? self.logoutButton.frame.size.width : f.size.width;
+    self.currentUserButton.frame = f;
+    // Re-center currentUserButton above logout button
+    self.currentUserButton.center = CGPointMake(self.logoutButton.center.x, self.currentUserButton.center.y);
+    
+}
+
+-(void)revealLoginFieldsWithAnimation
+{
+    CGPoint origCurrentUserButtonCenter = self.currentUserButton.center;
+    self.logoutButton.layer.zPosition = self.currentUserButton.layer.zPosition + 1;
+    // Animate currentUserButton to slide down behind logoutButton
+    [UIView animateWithDuration:0.15f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.currentUserButton.center = self.logoutButton.center;
+                         self.currentUserButton.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                         // Now animate usernameField and passwordField sliding up
+                         self.currentUserButton.hidden = YES;
+                         self.currentUserButton.center = origCurrentUserButtonCenter;
+                         self.loginButton.alpha = 0.0f;
+                         self.usernameField.alpha = 0.0f;
+                         self.passwordField.alpha = 0.0f;
+                         self.recoverPasswordButton.alpha = 0.0f;
+                         self.loginButton.hidden = NO;
+                         self.usernameField.hidden = NO;
+                         self.passwordField.hidden = NO;
+                         self.recoverPasswordButton.hidden = NO;
+
+                         CGRect origUsernameFieldFrame = self.usernameField.frame;
+                         CGRect origPasswordFieldFrame = self.passwordField.frame;
+                         float vOffset = self.loginButton.frame.origin.y - self.usernameField.frame.origin.y;
+                         self.usernameField.center = CGPointMake(self.usernameField.center.x, self.usernameField.center.y + vOffset);
+                         self.passwordField.center = CGPointMake(self.passwordField.center.x, self.passwordField.center.y + vOffset);
+                         [UIView animateWithDuration:0.15f
+                                               delay:0.0f
+                                             options:UIViewAnimationOptionTransitionNone
+                                          animations:^{
+                                              
+                                              self.usernameField.alpha = 1.0f;
+                                              self.passwordField.alpha = 1.0f;
+                                              
+                                              self.recoverPasswordButton.alpha = 1.0f;
+                                              self.loginButton.alpha = 1.0f;
+                                              // If either username or password blank fade the login button
+                                              [self fadeLoginButtonIfNoCredentials];
+                                              
+                                              self.logoutButton.alpha = 0.0f;
+                                              
+                                              self.usernameField.frame = origUsernameFieldFrame;
+                                              self.passwordField.frame = origPasswordFieldFrame;
+                                          }
+                                          completion:^(BOOL finished){
+                                              // Reset logout state
+                                              [self showLogout:NO];
+                                              // Ensure login button isn't stuck drawn selected
+                                              [self.loginButton setNeedsDisplay];
+                                              // The logout button is hidden by now, but ensure it can be seen the next time it is animated
+                                              self.logoutButton.alpha = 1.0f;
+                                              self.currentUserButton.alpha = 1.0f;
+                                          }];
+                     }];
+}
+
+- (IBAction)pushedLogoutButton:(id)sender
+{
+    CommonsApp *app = CommonsApp.singleton;
+    [app.fetchDataURLQueue cancelAllOperations];
+    [app deleteAllRecords];
+    [app clearKeychainCredentials];
+    app.debugMode = NO;
+    self.usernameField.text = @"";
+    self.passwordField.text = @"";
+
+    [self revealLoginFieldsWithAnimation];
+}
+
+-(BOOL)setTextInputFocusOnEmptyField
+{
+    // Sets focus on first empty username or password field returning YES if it does so
+    // Returns no if no blank fields found
+    UITextField *textFieldInNeedOfInput = [self getTextFieldInNeedOfInput];
+    if (textFieldInNeedOfInput) {
+        [textFieldInNeedOfInput becomeFirstResponder];
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+-(void)doubleTap
+{
+    // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
+    [self.usernameField resignFirstResponder];
+	[self.passwordField resignFirstResponder];
+}
+
+-(UITextField *)getTextFieldInNeedOfInput
+{
+    // If neither username nor password, return username field
+    if(!self.trimmedUsername.length && !self.trimmedPassword.length) return self.usernameField;
+    
+    // If some username but no password return password field
+    if(self.trimmedUsername.length && !self.trimmedPassword.length) return self.passwordField;
+    
+    // If some password but no username return username field
+    if(!self.trimmedUsername.length && self.trimmedPassword.length) return self.usernameField;
+
+    return nil;
+}
+
+- (IBAction)pushedLoginButton:(id)sender
+{
+    // If username or password are blank set focus on the first one which is blank and return
+    if ([self setTextInputFocusOnEmptyField]) return;
+    
     CommonsApp *app = CommonsApp.singleton;
     
     allowSkippingToMyUploads = NO;
@@ -358,6 +546,8 @@
                 app.password = password;
                 [app saveCredentials];
                 [app deleteAllRecords];
+                
+                [self.passwordField resignFirstResponder];
                 
                 MWPromise *refresh = [app refreshHistoryWithFailureAlert:YES];
                 [refresh always:^(id arg) {
@@ -429,9 +619,14 @@
     UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
     if (nextResponder) {
         [nextResponder becomeFirstResponder];
-    } else {
+    } else if (textField != self.passwordField) {
         [textField resignFirstResponder];
     }
+    
+    if (textField == self.passwordField) {
+        [self pushedLoginButton:textField];
+    }
+
     return NO;
 }
 

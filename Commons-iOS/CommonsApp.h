@@ -86,4 +86,6 @@
 - (CGSize)getFullSizedImageSize;
 - (NSString *)getTrimmedString:(NSString *)string;
 
+- (void)clearKeychainCredentials;
+
 @end
