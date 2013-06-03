@@ -29,6 +29,7 @@
     "settings-debug-detail": "Uploading to $1",
     "settings-usage-reports-label": "Usage Reports:",
     "settings-usage-reports-description": "Send usage reports to Wikimedia to help us improve the app.",
+    "settings-links-label": "Links:",
     
     "details-title": "Details",
     "details-upload-button": "Upload",
@@ -79,5 +80,14 @@
     "catdetail-remove-label": "Remove \"$1\"",
     "catdetail-info-intro": "More information",
     "catdetail-info-label": "Read about categories",
-    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    
+    "getting-started-what-is-commons-contribute-label": "Contribute your images.\nHelp Wikipedia articles come to life!",
+	"getting-started-what-is-commons-images-label": "Images on Wikipedia come from\nWikimedia Commons.",
+    "getting-started-what-photos-educate-label": "Your images help educate people\naround the world.",
+    "getting-started-what-photos-avoid-label": "Avoid copyrighted materials you found\nfrom the Internet as well as images of\nposters, book covers, etc.",
+	
+	"getting-started-got-it-label": "You think you got it?",
+    "getting-started-yes-button": "Yes!"
+
 }
