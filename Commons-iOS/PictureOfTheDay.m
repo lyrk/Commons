@@ -5,43 +5,40 @@
 //  Created by Monte Hurd on 5/30/13.
 
 #import "PictureOfTheDay.h"
-#import "ThumbFetcher.h"
 #import "CommonsApp.h"
 
 #define POTD_DAYS_AGO 0
 #define POTD_MAX_W_H_RATIO 2.0f
 
-@implementation PictureOfTheDay{
-    ThumbFetcher *thumbFetcher_;
-}
+@implementation PictureOfTheDay
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        thumbFetcher_ = [[ThumbFetcher alloc] init];
+
     }
     return self;
 }
 
--(NSString *)potdCacheFileName
+-(NSString *)getDateString
 {
     NSDate *date = [[NSDate alloc] init];
     date = [date dateByAddingTimeInterval: -(86400.0 * POTD_DAYS_AGO)];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
-    return [NSString stringWithFormat:@"POTD-%@", [formatter stringFromDate:date]];
+    return [formatter stringFromDate:date];
+}
+
+-(NSString *)potdCacheFileName
+{    
+    return [NSString stringWithFormat:@"POTD-%@", [self getDateString]];
 }
 
 -(NSURL *)getJsonUrl
-{
-    NSDate *date = [[NSDate alloc] init];
-    date = [date dateByAddingTimeInterval: -(86400.0 * POTD_DAYS_AGO)];
-    
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
+{    
     NSString *urlStr = [NSString stringWithFormat:
-        @"http://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:Potd/%@&iiprop=url|size|comment|metadata|user|userid&format=json", [formatter stringFromDate:date]];
+        @"http://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:Potd/%@&iiprop=url|size|comment|metadata|user|userid&format=json", [self getDateString]];
     
     return [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
@@ -126,10 +123,11 @@
                 // Now request the generated thumbnail
                 MWPromise *fetchImage = [CommonsApp.singleton fetchDataURL:potdThumbnailURL];
                 [fetchImage done:^(NSData *data) {
-                    [thumbFetcher_ cacheImageData:data forKey:key];
-                    UIImage *image = [UIImage imageWithData:data scale:1.0];
-                    // Thumbnail retrieved. Yay! Use it.
-                    self.done(image);
+                    // Cache the image data
+                    NSDictionary *imageDataDict = @{@"image": data, @"user": user, @"metadata": metadata, @"date": [self getDateString]};
+                    [self cachePotdDict:imageDataDict forKey:key];
+                    // Make all of the image data available to the callback
+                    self.done(imageDataDict);
                 }];
                 [fetchImage fail:^(NSError *error) {
                 }];
@@ -138,11 +136,11 @@
             }
         }];
     };
-    
-    UIImage *image = [thumbFetcher_ cachedThumbForKey:[self potdCacheFileName]];
-    if (image) {
+
+    NSDictionary *cachedImageDataDict = [self cachedPotdDictForKey: [self potdCacheFileName]];
+    if (cachedImageDataDict) {
         // Cached image located. Use it.
-        self.done(image);
+        self.done(cachedImageDataDict);
     }else{
         // Get json data for today's picture asynchronously
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[self getJsonUrl]];
@@ -156,6 +154,24 @@
         retrievedJsonUrlData(nil, urlData, err);
         */
     }
+}
+
+- (NSDictionary *)cachedPotdDictForKey:(NSString *)key
+{
+    NSString *imgDataPath = [[CommonsApp singleton] thumbPath:key];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:imgDataPath]) {
+        NSData *data = [NSData dataWithContentsOfFile:imgDataPath options:nil error:nil];
+        return (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    } else {
+        return nil;
+    }
+}
+
+- (void)cachePotdDict:(NSDictionary *)dict forKey:(NSString *)key
+{
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
+    [data writeToFile:[[CommonsApp singleton] thumbPath:key] atomically:YES];
 }
 
 -(BOOL)isAspectRatioOkForSize:(CGSize)size

@@ -22,8 +22,10 @@
 @property (weak, nonatomic) IBOutlet UIView *loginInfoContainer;
 @property (weak, nonatomic) IBOutlet PictureOfTheDayImageView *potdImageView;
 @property (weak, nonatomic) IBOutlet UIButton *aboutButton;
+@property (weak, nonatomic) IBOutlet UIButton *attributionButton;
 
 - (IBAction)pushedLoginButton:(id)sender;
 + (void)applyShadowToView:(UIView *)view;
+- (IBAction)pushedAttributionButton:(id)sender;
 
 @end

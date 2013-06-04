@@ -8,7 +8,7 @@
 
 @interface PictureOfTheDay : NSObject
 
-@property (strong, nonatomic) void(^done)(UIImage *);
+@property (strong, nonatomic) void(^done)(NSDictionary *imageData);
 
 -(void)getAtSize:(CGSize)size;
 

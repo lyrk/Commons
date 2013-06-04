@@ -28,6 +28,9 @@
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
+#define BUNDLED_PIC_OF_DAY_USER @"JJ Harrison";
+#define BUNDLED_PIC_OF_DAY_DATE @"2013-05-24";
+
 @interface LoginViewController (){
     PictureOfTheDay *pictureOfTheDayGetter_;
 }
@@ -38,6 +41,8 @@
 @property (weak, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSString *trimmedUsername;
 @property (strong, nonatomic) NSString *trimmedPassword;
+@property (strong, nonatomic) NSString *pictureOfTheDayUser;
+@property (strong, nonatomic) NSString *pictureOfTheDayDateString;
 
 @end
 
@@ -58,6 +63,8 @@
     {
         allowSkippingToMyUploads = YES;
         pictureOfTheDayGetter_ = [[PictureOfTheDay alloc] init];
+        self.pictureOfTheDayUser = nil;
+        self.pictureOfTheDayDateString = nil;
     }
     return self;
 }
@@ -105,19 +112,31 @@
     self.potdImageView.useFilter = NO;
     self.potdImageView.image = [UIImage imageNamed:@"Default-Pic-Of-Day.jpg"];
     
-    // Prepage callback block for getting picture of the day
+    // Set defaults for bundled pic of day attribution data
+    self.pictureOfTheDayUser = BUNDLED_PIC_OF_DAY_USER;
+    self.pictureOfTheDayDateString = BUNDLED_PIC_OF_DAY_DATE;
+    
+    // Prepare callback block for getting picture of the day
     __weak PictureOfTheDayImageView *weakPotdImageView = self.potdImageView;
-    pictureOfTheDayGetter_.done = ^(UIImage *image){
-        if (image) {
-            
-            [UIView transitionWithView:weakPotdImageView
-                              duration:1.2f
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:^{
-                                weakPotdImageView.useFilter = NO;                                
-                                weakPotdImageView.image = image;
-                            }completion:^(BOOL finished){
-                            }];            
+    __weak LoginViewController *weakSelf = self;
+    pictureOfTheDayGetter_.done = ^(NSDictionary *dict){
+        if (dict) {
+            NSData *imageData = dict[@"image"];
+            if (imageData) {
+                UIImage *image = [UIImage imageWithData:imageData scale:1.0];
+
+                weakSelf.pictureOfTheDayUser = dict[@"user"];
+                weakSelf.pictureOfTheDayDateString = dict[@"date"];
+                
+                [UIView transitionWithView:weakPotdImageView
+                                  duration:1.2f
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    weakPotdImageView.useFilter = NO;
+                                    weakPotdImageView.image = image;
+                                }completion:^(BOOL finished){
+                                }];
+            }
         }
     };
     
@@ -142,6 +161,7 @@
     // Add shadow behind the login text boxes and buttons so they stand out on light background
     [LoginViewController applyShadowToView:self.loginInfoContainer];
     [LoginViewController applyShadowToView:self.aboutButton];    
+    [LoginViewController applyShadowToView:self.attributionButton];
 }
 
 + (void)applyShadowToView:(UIView *)view{
@@ -461,6 +481,13 @@
 		//login success!
         [self showMyUploadsVC];
     }
+}
+
+- (IBAction)pushedAttributionButton:(id)sender{
+
+    NSLog(@"pictureOfTheDayUser_ = %@", self.pictureOfTheDayUser);
+    NSLog(@"pictureOfTheDayDateString_ = %@", self.pictureOfTheDayDateString);
+    
 }
 
 #pragma mark - Text Field Delegate Methods
