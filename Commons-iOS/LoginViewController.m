@@ -19,6 +19,7 @@
 #import "QuartzCore/QuartzCore.h"
 #import "PictureOfTheDay.h"
 #import "PictureOfTheDayImageView.h"
+#import "UILabel+ResizeWithAttributes.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
@@ -715,22 +716,84 @@
         
         NSString *prettyDateString = [dateFormatter stringFromDate:date];
         
-        self.logoImageView.hidden = YES;
-        self.loginInfoContainer.hidden = YES;
-        self.aboutButton.hidden = YES;
         self.attributionLabel.hidden = NO;
-       
-        [LoginViewController applyShadowToView:self.attributionLabel];
+        [UIView animateWithDuration:0.2
+                              delay:0.0
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             self.logoImageView.alpha = 0.0f;
+                             self.loginInfoContainer.alpha = 0.0f;
+                             self.aboutButton.alpha = 0.0f;
+                             self.attributionLabel.alpha = 1.0f;
+                         }
+                         completion:^(BOOL finished){
+                             self.logoImageView.hidden = YES;
+                             self.loginInfoContainer.hidden = YES;
+                             self.aboutButton.hidden = YES;
+                         }];
         
+        NSString *picOfTheDayText = [MWMessage forKey:@"picture-of-day-label"].text;
+        NSString *picOfTheAuthorText = [MWMessage forKey:@"picture-of-day-author"].text;
         self.attributionLabel.text = [NSString stringWithFormat:
-                                      @"Picture of the Day\n%@\nAuthor: %@",
+                                      @"%@\n%@\n%@ %@",
+                                      picOfTheDayText,
                                       prettyDateString,
+                                      picOfTheAuthorText,
                                       self.pictureOfTheDayUser];
+
+        float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 38.0f : 15.0f;
+        float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 16.0f : 8.0f;
+        float backgroundPadding =   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 30.0f : 10.0f;
+        float bottomMargin =        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 27.0f : 16.0f;
+        
+        // Style attributes for labels
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.alignment = NSTextAlignmentCenter;
+        paragraphStyle.lineSpacing = lineSpacing;
+        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+        
+        // Apply styled attributes to label resizing it to fit the newly styled text (regardless of i18n string length!)
+        [self.attributionLabel resizeWithAttributes: @{
+                               NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
+                     NSParagraphStyleAttributeName : paragraphStyle,
+                    NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
+         }];
+        // Reposition the resized label to be just above the bottom of the screen
+        self.attributionLabel.frame = CGRectInset(self.attributionLabel.frame, -backgroundPadding, -backgroundPadding);
+        self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x,
+                                                   self.view.frame.size.height -
+                                                   (self.attributionLabel.frame.size.height / 2.0f) -
+                                                   bottomMargin
+                                                   );
+        
+        // Apply shadow to text (label is transparent now)
+        [LoginViewController applyShadowToView:self.attributionLabel];
+
+        self.attributionLabel.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.15f];
+
+        // Round label corners
+        self.attributionLabel.layer.cornerRadius = 10.0f;
+        self.attributionLabel.layer.masksToBounds = YES;
+        
+        tapRecognizer.enabled = NO;
     }else{
-        self.attributionLabel.hidden = YES;
+        tapRecognizer.enabled = YES;
+       
         self.logoImageView.hidden = NO;
         self.loginInfoContainer.hidden = NO;
         self.aboutButton.hidden = NO;
+        [UIView animateWithDuration:0.2
+                              delay:0.0
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             self.logoImageView.alpha = 1.0f;
+                             self.loginInfoContainer.alpha = 1.0f;
+                             self.aboutButton.alpha = 1.0f;
+                             self.attributionLabel.alpha = 0.0f;
+                         }
+                         completion:^(BOOL finished){
+                             self.attributionLabel.hidden = YES;
+                         }];
     }
     
     NSLog(@"pictureOfTheDayUser_ = %@", self.pictureOfTheDayUser);

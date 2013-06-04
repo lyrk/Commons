@@ -140,7 +140,7 @@
                                             <action selector="pushedAttributionButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="f4c-i9-FaF"/>
                                         </connections>
                                     </button>
-                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Picture of Day Attribution" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="9" id="w3i-fN-zp7" userLabel="Attribution Label">
+                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Picture of Day Attribution" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w3i-fN-zp7" userLabel="Attribution Label">
                                         <rect key="frame" x="41" y="373" width="238" height="75"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
