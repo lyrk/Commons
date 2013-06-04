@@ -118,11 +118,11 @@
     self.passwordField.text = app.password;
     
     //hide keyboard when anywhere else is tapped
-	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setTextInputFocusOnEmptyField)];
+	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
     tapRecognizer.numberOfTapsRequired = 1;
 	[self.view addGestureRecognizer:tapRecognizer];
 
-    doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap)];
+    doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
     doubleTapRecognizer.numberOfTapsRequired = 2;
 	[self.view addGestureRecognizer:doubleTapRecognizer];
     doubleTapRecognizer.enabled = NO;
@@ -566,7 +566,18 @@
     }
 }
 
--(void)doubleTap
+-(void)handleTap
+{
+    if (showingPictureOfTheDayAttribution_) {
+        [self hideAttributionLabel];
+        showingPictureOfTheDayAttribution_ = NO;
+        return;
+    }
+    
+    [self setTextInputFocusOnEmptyField];
+}
+
+-(void)handleDoubleTap
 {
     // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
     [self.usernameField resignFirstResponder];
@@ -702,102 +713,118 @@
 
 - (IBAction)pushedAttributionButton:(id)sender{
     showingPictureOfTheDayAttribution_ = !showingPictureOfTheDayAttribution_;
-    
+
     if (showingPictureOfTheDayAttribution_) {
-        
-        // Convert the date string to an NSDate
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSDate *date = [dateFormatter dateFromString:self.pictureOfTheDayDateString];
-        
-        // Now get nice readable date for current locale
-        NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMM" options:0 locale:[NSLocale currentLocale]];
-        [dateFormatter setDateFormat:formatString];
-        
-        NSString *prettyDateString = [dateFormatter stringFromDate:date];
-        
-        self.attributionLabel.hidden = NO;
-        [UIView animateWithDuration:0.2
-                              delay:0.0
-                            options:UIViewAnimationOptionTransitionNone
-                         animations:^{
-                             self.logoImageView.alpha = 0.0f;
-                             self.loginInfoContainer.alpha = 0.0f;
-                             self.aboutButton.alpha = 0.0f;
-                             self.attributionLabel.alpha = 1.0f;
-                         }
-                         completion:^(BOOL finished){
-                             self.logoImageView.hidden = YES;
-                             self.loginInfoContainer.hidden = YES;
-                             self.aboutButton.hidden = YES;
-                         }];
-        
-        NSString *picOfTheDayText = [MWMessage forKey:@"picture-of-day-label"].text;
-        NSString *picOfTheAuthorText = [MWMessage forKey:@"picture-of-day-author"].text;
-        self.attributionLabel.text = [NSString stringWithFormat:
-                                      @"%@\n%@\n%@ %@",
-                                      picOfTheDayText,
-                                      prettyDateString,
-                                      picOfTheAuthorText,
-                                      self.pictureOfTheDayUser];
-
-        float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 38.0f : 15.0f;
-        float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 16.0f : 8.0f;
-        float backgroundPadding =   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 30.0f : 10.0f;
-        float bottomMargin =        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 27.0f : 16.0f;
-        
-        // Style attributes for labels
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.alignment = NSTextAlignmentCenter;
-        paragraphStyle.lineSpacing = lineSpacing;
-        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-        
-        // Apply styled attributes to label resizing it to fit the newly styled text (regardless of i18n string length!)
-        [self.attributionLabel resizeWithAttributes: @{
-                               NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
-                     NSParagraphStyleAttributeName : paragraphStyle,
-                    NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
-         }];
-        // Reposition the resized label to be just above the bottom of the screen
-        self.attributionLabel.frame = CGRectInset(self.attributionLabel.frame, -backgroundPadding, -backgroundPadding);
-        self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x,
-                                                   self.view.frame.size.height -
-                                                   (self.attributionLabel.frame.size.height / 2.0f) -
-                                                   bottomMargin
-                                                   );
-        
-        // Apply shadow to text (label is transparent now)
-        [LoginViewController applyShadowToView:self.attributionLabel];
-
-        self.attributionLabel.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.15f];
-
-        // Round label corners
-        self.attributionLabel.layer.cornerRadius = 10.0f;
-        self.attributionLabel.layer.masksToBounds = YES;
-        
-        tapRecognizer.enabled = NO;
+        [self showAttributionLabel];
     }else{
-        tapRecognizer.enabled = YES;
-       
-        self.logoImageView.hidden = NO;
-        self.loginInfoContainer.hidden = NO;
-        self.aboutButton.hidden = NO;
-        [UIView animateWithDuration:0.2
-                              delay:0.0
-                            options:UIViewAnimationOptionTransitionNone
-                         animations:^{
-                             self.logoImageView.alpha = 1.0f;
-                             self.loginInfoContainer.alpha = 1.0f;
-                             self.aboutButton.alpha = 1.0f;
-                             self.attributionLabel.alpha = 0.0f;
-                         }
-                         completion:^(BOOL finished){
-                             self.attributionLabel.hidden = YES;
-                         }];
+        [self hideAttributionLabel];
     }
-    
+
     NSLog(@"pictureOfTheDayUser_ = %@", self.pictureOfTheDayUser);
     NSLog(@"pictureOfTheDayDateString_ = %@", self.pictureOfTheDayDateString);
+}
+
+-(void)showAttributionLabel
+{
+    // Convert the date string to an NSDate
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *date = [dateFormatter dateFromString:self.pictureOfTheDayDateString];
+    
+    // Now get nice readable date for current locale
+    NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMM" options:0 locale:[NSLocale currentLocale]];
+    [dateFormatter setDateFormat:formatString];
+    
+    NSString *prettyDateString = [dateFormatter stringFromDate:date];
+    NSString *picOfTheDayText = [MWMessage forKey:@"picture-of-day-label"].text;
+    NSString *picOfTheAuthorText = [MWMessage forKey:@"picture-of-day-author"].text;
+    self.attributionLabel.text = [NSString stringWithFormat:
+                                  @"%@\n%@\n%@ %@",
+                                  picOfTheDayText,
+                                  prettyDateString,
+                                  picOfTheAuthorText,
+                                  self.pictureOfTheDayUser];
+    
+    float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 38.0f : 15.0f;
+    float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 16.0f : 8.0f;
+    float backgroundPadding =   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 30.0f : 10.0f;
+    float bottomMargin =        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 27.0f : 16.0f;
+    
+    // Style attributes for labels
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineSpacing = lineSpacing;
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    // Apply styled attributes to label resizing it to fit the newly styled text (regardless of i18n string length!)
+    [self.attributionLabel resizeWithAttributes: @{
+                           NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
+                 NSParagraphStyleAttributeName : paragraphStyle,
+                NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
+     }];
+    // Reposition the resized label to be just above the bottom of the screen
+    self.attributionLabel.frame = CGRectInset(self.attributionLabel.frame, -backgroundPadding, -backgroundPadding);
+    self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x,
+                                               self.view.frame.size.height -
+                                               (self.attributionLabel.frame.size.height / 2.0f) -
+                                               bottomMargin
+                                               );
+    
+    self.attributionLabel.hidden = NO;
+    CGPoint prevCenter = self.attributionLabel.center;
+    
+    // Move attributionLabel off the bottom of the screen
+    self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x, self.attributionLabel.center.y + (self.view.frame.size.height - self.attributionLabel.frame.origin.y));
+    
+    [UIView animateWithDuration:0.2f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.logoImageView.alpha = 0.0f;
+                         self.loginInfoContainer.alpha = 0.0f;
+                         self.aboutButton.alpha = 0.0f;
+                         
+                         // Move attributionLabel back
+                         self.attributionLabel.center = prevCenter;
+                     }
+                     completion:^(BOOL finished){
+                         self.logoImageView.hidden = YES;
+                         self.loginInfoContainer.hidden = YES;
+                         self.aboutButton.hidden = YES;
+                     }];
+    
+    // Apply shadow to text (label is transparent now)
+    [LoginViewController applyShadowToView:self.attributionLabel];
+    
+    self.attributionLabel.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.15f];
+    
+    // Round label corners
+    self.attributionLabel.layer.cornerRadius = 10.0f;
+    self.attributionLabel.layer.masksToBounds = YES;
+}
+
+-(void)hideAttributionLabel
+{
+    self.logoImageView.hidden = NO;
+    self.loginInfoContainer.hidden = NO;
+    self.aboutButton.hidden = NO;
+    
+    CGPoint prevCenter = self.attributionLabel.center;
+    [UIView animateWithDuration:0.2f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.logoImageView.alpha = 1.0f;
+                         self.loginInfoContainer.alpha = 1.0f;
+                         self.aboutButton.alpha = 1.0f;
+                         // Move attributionLabel off the bottom of the screen
+                         self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x, self.attributionLabel.center.y + (self.view.frame.size.height - self.attributionLabel.frame.origin.y));
+                     }
+                     completion:^(BOOL finished){
+                         self.attributionLabel.hidden = YES;
+                         // Move attributionLabel back
+                         self.attributionLabel.center = prevCenter;
+                     }];
 }
 
 #pragma mark - Text Field Delegate Methods
