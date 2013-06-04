@@ -121,7 +121,7 @@
             NSURL *potdThumbnailURL = [NSURL URLWithString:[self getValueForKey:@"thumburl" fromJson:result]];
             if (potdThumbnailURL) {
                 // Now request the generated thumbnail
-                MWPromise *fetchImage = [CommonsApp.singleton fetchDataURL:potdThumbnailURL];
+                MWPromise *fetchImage = [CommonsApp.singleton fetchDataURL:potdThumbnailURL withQueuePriority:NSOperationQueuePriorityNormal];
                 [fetchImage done:^(NSData *data) {
                     // Cache the image data
                     NSDictionary *imageDataDict = @{@"image": data, @"user": user, @"metadata": metadata, @"date": [self getDateString]};

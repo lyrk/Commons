@@ -97,7 +97,7 @@
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <state key="normal" title="recover password">
-                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <state key="highlighted">
@@ -155,17 +155,17 @@
                     <navigationItem key="navigationItem" id="MAF-6i-vhW"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="currentUserButton" destination="nqX-iF-KDS" id="yX9-B9-5tw"/>
                         <outlet property="aboutButton" destination="2Lu-O3-Lg3" id="wKW-85-V5h"/>
                         <outlet property="attributionButton" destination="48y-Kx-4e5" id="1qG-1y-1Ov"/>
                         <outlet property="attributionLabel" destination="w3i-fN-zp7" id="7B6-Vf-fN5"/>
+                        <outlet property="currentUserButton" destination="nqX-iF-KDS" id="yX9-B9-5tw"/>
                         <outlet property="loginButton" destination="OYd-ZP-vjJ" id="8ad-5f-Qgj"/>
                         <outlet property="loginInfoContainer" destination="f9g-qG-jTX" id="NbQ-ca-Agn"/>
                         <outlet property="logoImageView" destination="Y6M-eQ-GLr" id="JMK-DT-Vsm"/>
                         <outlet property="logoutButton" destination="F4V-0d-xD2" id="Rud-2v-JJv"/>
                         <outlet property="passwordField" destination="uZ2-XX-w6g" id="SpP-Zf-QJu"/>
-                        <outlet property="recoverPasswordButton" destination="3va-h9-QXe" id="SfO-QU-9r6"/>
                         <outlet property="potdImageView" destination="wRv-eo-aen" id="F44-UF-bUJ"/>
+                        <outlet property="recoverPasswordButton" destination="3va-h9-QXe" id="SfO-QU-9r6"/>
                         <outlet property="scrollView" destination="1DZ-b7-b84" id="e4p-Up-j4G"/>
                         <outlet property="usernameField" destination="ce8-FB-OHg" id="Nza-A8-gcX"/>
                     </connections>
@@ -1644,19 +1644,22 @@ Help Wikipedia articles come to life!</string>
         <class className="LoginViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/LoginViewController.h"/>
             <relationships>
+                <relationship kind="action" name="pushedAttributionButton:"/>
                 <relationship kind="action" name="pushedCurrentUserButton:"/>
                 <relationship kind="action" name="pushedLoginButton:"/>
                 <relationship kind="action" name="pushedLogoutButton:"/>
                 <relationship kind="action" name="pushedRecoverPasswordButton:"/>
-                <relationship kind="outlet" name="currentUserButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="aboutButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="attributionButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="attributionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="currentUserButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="loginButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="loginInfoContainer" candidateClass="UIView"/>
                 <relationship kind="outlet" name="logoImageView" candidateClass="GrayscaleImageView"/>
                 <relationship kind="outlet" name="logoutButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
-                <relationship kind="outlet" name="recoverPasswordButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="potdImageView" candidateClass="PictureOfTheDayImageView"/>
+                <relationship kind="outlet" name="recoverPasswordButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="usernameField" candidateClass="UITextField"/>
             </relationships>
@@ -1752,9 +1755,6 @@ Help Wikipedia articles come to life!</string>
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>
-        </class>
-        <class className="UICollectionViewLayout" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewLayout.h"/>
         </class>
         <class className="WelcomeOverlayView" superclassName="UIView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/WelcomeOverlayView.h"/>

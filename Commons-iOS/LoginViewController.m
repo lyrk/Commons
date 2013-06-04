@@ -182,6 +182,7 @@
     [LoginViewController applyShadowToView:self.loginInfoContainer];
     [LoginViewController applyShadowToView:self.aboutButton];    
     [LoginViewController applyShadowToView:self.attributionButton];
+    [LoginViewController applyShadowToView:self.recoverPasswordButton];
 }
 
 + (void)applyShadowToView:(UIView *)view{
