@@ -318,6 +318,13 @@
                                             <action selector="pushedAttributionButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="f4c-i9-FaF"/>
                                         </connections>
                                     </button>
+                                    <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Picture of Day Attribution" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="9" id="w3i-fN-zp7" userLabel="Attribution Label">
+                                        <rect key="frame" x="41" y="373" width="238" height="75"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                             </scrollView>
                         </subviews>
@@ -328,6 +335,7 @@
                     <connections>
                         <outlet property="aboutButton" destination="2Lu-O3-Lg3" id="wKW-85-V5h"/>
                         <outlet property="attributionButton" destination="48y-Kx-4e5" id="1qG-1y-1Ov"/>
+                        <outlet property="attributionLabel" destination="w3i-fN-zp7" id="7B6-Vf-fN5"/>
                         <outlet property="loginButton" destination="OYd-ZP-vjJ" id="8ad-5f-Qgj"/>
                         <outlet property="loginInfoContainer" destination="f9g-qG-jTX" id="NbQ-ca-Agn"/>
                         <outlet property="logoImageView" destination="Y6M-eQ-GLr" id="JMK-DT-Vsm"/>

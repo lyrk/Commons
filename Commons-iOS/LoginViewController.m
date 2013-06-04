@@ -33,6 +33,7 @@
 
 @interface LoginViewController (){
     PictureOfTheDay *pictureOfTheDayGetter_;
+    BOOL showingPictureOfTheDayAttribution_;
 }
 
 - (void)hideKeyboard;
@@ -65,6 +66,7 @@
         pictureOfTheDayGetter_ = [[PictureOfTheDay alloc] init];
         self.pictureOfTheDayUser = nil;
         self.pictureOfTheDayDateString = nil;
+        showingPictureOfTheDayAttribution_ = NO;
     }
     return self;
 }
@@ -484,10 +486,41 @@
 }
 
 - (IBAction)pushedAttributionButton:(id)sender{
-
+    showingPictureOfTheDayAttribution_ = !showingPictureOfTheDayAttribution_;
+    
+    if (showingPictureOfTheDayAttribution_) {
+        
+        // Convert the date string to an NSDate
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate *date = [dateFormatter dateFromString:self.pictureOfTheDayDateString];
+        
+        // Now get nice readable date for current locale
+        NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMM" options:0 locale:[NSLocale currentLocale]];
+        [dateFormatter setDateFormat:formatString];
+        
+        NSString *prettyDateString = [dateFormatter stringFromDate:date];
+        
+        self.logoImageView.hidden = YES;
+        self.loginInfoContainer.hidden = YES;
+        self.aboutButton.hidden = YES;
+        self.attributionLabel.hidden = NO;
+       
+        [LoginViewController applyShadowToView:self.attributionLabel];
+        
+        self.attributionLabel.text = [NSString stringWithFormat:
+                                      @"Picture of the Day\n%@\nAuthor: %@",
+                                      prettyDateString,
+                                      self.pictureOfTheDayUser];
+    }else{
+        self.attributionLabel.hidden = YES;
+        self.logoImageView.hidden = NO;
+        self.loginInfoContainer.hidden = NO;
+        self.aboutButton.hidden = NO;
+    }
+    
     NSLog(@"pictureOfTheDayUser_ = %@", self.pictureOfTheDayUser);
     NSLog(@"pictureOfTheDayDateString_ = %@", self.pictureOfTheDayDateString);
-    
 }
 
 #pragma mark - Text Field Delegate Methods
