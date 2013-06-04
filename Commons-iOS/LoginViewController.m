@@ -17,6 +17,8 @@
 #import "GrayscaleImageView.h"
 #import "GettingStartedViewController.h"
 #import "QuartzCore/QuartzCore.h"
+#import "PictureOfTheDay.h"
+#import "PictureOfTheDayImageView.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
@@ -30,13 +32,21 @@
 
 #define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
 
-@interface LoginViewController ()
+#define BUNDLED_PIC_OF_DAY_USER @"JJ Harrison";
+#define BUNDLED_PIC_OF_DAY_DATE @"2013-05-24";
+
+@interface LoginViewController (){
+    PictureOfTheDay *pictureOfTheDayGetter_;
+    BOOL showingPictureOfTheDayAttribution_;
+}
 
 - (void)showMyUploadsVC;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSString *trimmedUsername;
 @property (strong, nonatomic) NSString *trimmedPassword;
+@property (strong, nonatomic) NSString *pictureOfTheDayUser;
+@property (strong, nonatomic) NSString *pictureOfTheDayDateString;
 
 @end
 
@@ -57,6 +67,10 @@
     if (self = [super initWithCoder:decoder])
     {
         allowSkippingToMyUploads = YES;
+        pictureOfTheDayGetter_ = [[PictureOfTheDay alloc] init];
+        self.pictureOfTheDayUser = nil;
+        self.pictureOfTheDayDateString = nil;
+        showingPictureOfTheDayAttribution_ = NO;
     }
     return self;
 }
@@ -113,6 +127,83 @@
     doubleTapRecognizer.enabled = NO;
 
     [self fadeLoginButtonIfNoCredentials];
+
+    // Set default picture of the day so there's something showing in case todays image isn't found
+    self.potdImageView.useFilter = NO;
+    self.potdImageView.image = [UIImage imageNamed:@"Default-Pic-Of-Day.jpg"];
+    
+    // Set defaults for bundled pic of day attribution data
+    self.pictureOfTheDayUser = BUNDLED_PIC_OF_DAY_USER;
+    self.pictureOfTheDayDateString = BUNDLED_PIC_OF_DAY_DATE;
+    
+    // Prepare callback block for getting picture of the day
+    __weak PictureOfTheDayImageView *weakPotdImageView = self.potdImageView;
+    __weak LoginViewController *weakSelf = self;
+    pictureOfTheDayGetter_.done = ^(NSDictionary *dict){
+        if (dict) {
+            NSData *imageData = dict[@"image"];
+            if (imageData) {
+                UIImage *image = [UIImage imageWithData:imageData scale:1.0];
+
+                weakSelf.pictureOfTheDayUser = dict[@"user"];
+                weakSelf.pictureOfTheDayDateString = dict[@"date"];
+                
+                [UIView transitionWithView:weakPotdImageView
+                                  duration:1.2f
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    weakPotdImageView.useFilter = NO;
+                                    weakPotdImageView.image = image;
+                                }completion:^(BOOL finished){
+                                }];
+            }
+        }
+    };
+    
+    // Determine the resolution of the picture of the day to request
+    CGSize screenSize = self.view.bounds.size;
+    // For now leave scale at one - retina iPads would request too high a resolution otherwise
+    CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
+    
+    // Request the picture of the day
+    [pictureOfTheDayGetter_ getAtSize:CGSizeMake(screenSize.width * scale, screenSize.height * scale)];
+
+    // Make logo a bit larger on iPad
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        _logoImageView.frame = CGRectInset(_logoImageView.frame, -75.0f, -75.0f);
+    }
+    
+    _logoImageView.alpha = 1.0f;
+    _usernameField.alpha = 1.0f;
+    _passwordField.alpha = 1.0f;
+    _loginButton.alpha = 1.0f;
+    
+    // Add shadow behind the login text boxes and buttons so they stand out on light background
+    [LoginViewController applyShadowToView:self.loginInfoContainer];
+    [LoginViewController applyShadowToView:self.aboutButton];    
+    [LoginViewController applyShadowToView:self.attributionButton];
+}
+
++ (void)applyShadowToView:(UIView *)view{
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0, 0);
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowRadius = 6.0;
+    view.clipsToBounds = NO;
+}
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    // Restrict login page orientation to portrait. Needed because the because
+    // the picture of the day looks weird on rotation otherwise.
+    // Also jarring if the getting started screen is shown as it forces portrait
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+-(BOOL)shouldAutorotate
+{
+    // Required for supportedInterfaceOrientations to be called
+    return YES;
 }
 
 -(NSString *) trimmedUsername{
@@ -605,6 +696,44 @@
 		//login success!
         [self showMyUploadsVC];
     }
+}
+
+- (IBAction)pushedAttributionButton:(id)sender{
+    showingPictureOfTheDayAttribution_ = !showingPictureOfTheDayAttribution_;
+    
+    if (showingPictureOfTheDayAttribution_) {
+        
+        // Convert the date string to an NSDate
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSDate *date = [dateFormatter dateFromString:self.pictureOfTheDayDateString];
+        
+        // Now get nice readable date for current locale
+        NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMM" options:0 locale:[NSLocale currentLocale]];
+        [dateFormatter setDateFormat:formatString];
+        
+        NSString *prettyDateString = [dateFormatter stringFromDate:date];
+        
+        self.logoImageView.hidden = YES;
+        self.loginInfoContainer.hidden = YES;
+        self.aboutButton.hidden = YES;
+        self.attributionLabel.hidden = NO;
+       
+        [LoginViewController applyShadowToView:self.attributionLabel];
+        
+        self.attributionLabel.text = [NSString stringWithFormat:
+                                      @"Picture of the Day\n%@\nAuthor: %@",
+                                      prettyDateString,
+                                      self.pictureOfTheDayUser];
+    }else{
+        self.attributionLabel.hidden = YES;
+        self.logoImageView.hidden = NO;
+        self.loginInfoContainer.hidden = NO;
+        self.aboutButton.hidden = NO;
+    }
+    
+    NSLog(@"pictureOfTheDayUser_ = %@", self.pictureOfTheDayUser);
+    NSLog(@"pictureOfTheDayDateString_ = %@", self.pictureOfTheDayDateString);
 }
 
 #pragma mark - Text Field Delegate Methods

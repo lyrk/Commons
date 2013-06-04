@@ -14,7 +14,11 @@
 {
     // Delegate the auto rotation decision to the top-most view controller
     // Nice as it allows the auto rotation decision to be made by the currently used view controller
-    return  [self.topViewController shouldAutorotate];
+    return [self.topViewController shouldAutorotate];
+}
+
+-(NSUInteger)supportedInterfaceOrientations{
+    return [self.topViewController supportedInterfaceOrientations];
 }
 
 @end
