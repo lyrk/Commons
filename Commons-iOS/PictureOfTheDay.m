@@ -12,15 +12,6 @@
 
 @implementation PictureOfTheDay
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-
-    }
-    return self;
-}
-
 -(NSString *)getDateString
 {
     NSDate *date = [[NSDate alloc] init];
@@ -80,25 +71,19 @@
         // calculated to see if it's a good fit. If it's an extremely wide panorama (vertical
         // or horizontal) then it is not
         if (![self isAspectRatioOkForSize:CGSizeMake(originalSize.width, originalSize.height)]) return;
-        
-        urlStr = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSURL *potdURL = [NSURL URLWithString:urlStr];
-        //NSLog(@"potd json = %@", json);
-        
-        NSString *filename = [[potdURL path] lastPathComponent];
-        NSString *key = [self potdCacheFileName];
+
+        NSString *filename = [self pageIdNodeFromJson:json][@"title"];
         
         if (!filename) return;
         
+        NSString *key = [self potdCacheFileName];
+
         // Request the thumbnail be generated
         MWApi *api = [CommonsApp.singleton startApi];
         
-        // So it doesn't get double-encoded
-        filename = [filename stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
         NSMutableDictionary *params = [@{
                                    @"action": @"query",
-                                   @"titles": [@"File:" stringByAppendingString:filename],
+                                   @"titles": filename,
                                    @"prop": @"imageinfo",
                                    @"iiprop": @"timestamp|url"
                                    } mutableCopy];
@@ -203,11 +188,16 @@
     return (origHeight && origWidth) ? CGSizeMake(origWidth.floatValue, origHeight.floatValue) : CGSizeZero;
 }
 
+-(id)pageIdNodeFromJson:(NSDictionary *)json
+{
+    return [[json[@"query"][@"pages"] allValues] objectAtIndex:0];
+}
+
 -(id)getValueForKey:(NSString *)key fromJson:(NSDictionary *)json
 {
     id result = nil;
     @try{
-        result = [[[json[@"query"][@"pages"] allValues] objectAtIndex:0][@"imageinfo"] objectAtIndex:0][key];
+        result = [[self pageIdNodeFromJson:json][@"imageinfo"] objectAtIndex:0][key];
     }@catch(id anException){
         NSLog(@"Unexpected JSON structure!");
     }
