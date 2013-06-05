@@ -9,6 +9,7 @@
 @interface PictureOfTheDay : NSObject
 
 @property (strong, nonatomic) void(^done)(NSDictionary *imageData);
+@property (strong, nonatomic) void(^fail)(NSError *err);
 @property (strong, nonatomic) NSString *dateString;
 
 -(void)getAtSize:(CGSize)size;

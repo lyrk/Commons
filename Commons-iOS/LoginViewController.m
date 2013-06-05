@@ -34,7 +34,7 @@
 #define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
 
 #define BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
-#define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 5.5f
+#define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 6.0f
 #define PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO 0 //0 for today, 1 for yesterday, -1 for tomorrow etc
 
 @interface LoginViewController (){
@@ -263,7 +263,13 @@
             }
         }
     };
-    
+
+    // Cycle through cached images even of there was problem downloading a new one
+    pictureOfTheDayGetter_.fail = ^(NSError *err){
+        NSLog(@"PictureOfTheDay Error: %@", err.description);
+        if(done) done();
+    };
+
     // Determine the resolution of the picture of the day to request
     CGSize screenSize = self.view.bounds.size;
     // For now leave scale at one - retina iPads would request too high a resolution otherwise

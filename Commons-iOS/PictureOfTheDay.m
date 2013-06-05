@@ -11,6 +11,17 @@
 
 @implementation PictureOfTheDay
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.fail = nil;
+        self.done = nil;
+        self.dateString = nil;
+    }
+    return self;
+}
+
 -(NSString *)getDateStringForDaysAgo:(int)daysAgo
 {
     NSDate *date = [[NSDate alloc] init];
@@ -33,18 +44,31 @@
     return [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
+- (NSError*)getErrorWithMessage:(NSString *)msg code:(NSInteger)code
+{
+    return [[NSError alloc] initWithDomain:@"PictureOfTheDay"
+                                      code:code
+                                  userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(msg, nil)}];
+}
+
 -(void)getAtSize:(CGSize)size;
 {
     // Retrieves thumbnail of the picture of the day. Caches it and use the cached file next time.
     void (^retrievedJsonUrlData)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *urlData, NSError *err) {
-        if (err) return;
+        if (err){
+            self.fail(err);
+            return;
+        }
         
         err = nil;
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:urlData options:kNilOptions error:&err];
-        if (err) return;
+        if (err){
+            self.fail(err);
+            return;
+        }
         
         if (!json.count){
-            NSLog(@"No json data received for the url above ^");
+            self.fail([self getErrorWithMessage:@"No json data received for the url above ^" code:700]);
             return;
         }
         
@@ -52,7 +76,7 @@
         NSString *urlStr = [self getValueForKey:@"url" fromJson:json];
         
         if (!urlStr) {
-            NSLog(@"Could not locate Picture of the Day URL.\nURL = %@", urlStr);
+            self.fail([self getErrorWithMessage:[@"Could not locate Picture of the Day URL.\nURL = " stringByAppendingString:urlStr] code:701]);
             return;
         }
         
@@ -74,12 +98,17 @@
         // Examine the reported width and height of the image so its aspect ratio can be
         // calculated to see if it's a good fit. If it's an extremely wide panorama (vertical
         // or horizontal) then it is not
-        if (![self isAspectRatioOkForSize:CGSizeMake(originalSize.width, originalSize.height)]) return;
-
+        if (![self isAspectRatioOkForSize:CGSizeMake(originalSize.width, originalSize.height)]){
+            self.fail([self getErrorWithMessage:@"isAspectRatioOkForSize: Detected Extreme Panorama!" code:702]);
+            return;
+        }
+        
         NSString *filename = [self pageIdNodeFromJson:json][@"title"];
         
-        if (!filename) return;
-        
+        if (!filename){
+            self.fail([self getErrorWithMessage:@"No file name found in json data" code:703]);
+            return;
+        }
         NSString *key = [self potdCacheFileName];
 
         // Request the thumbnail be generated
@@ -119,6 +148,7 @@
                     self.done(imageDataDict);
                 }];
                 [fetchImage fail:^(NSError *error) {
+                    self.fail(error);
                 }];
                 [fetchImage progress:^(id arg) {
                 }];
@@ -186,11 +216,7 @@
     // tall as it is wide, then its not ok to use because only a small part of the thumb will end up being
     // onscreen because aspect fill is being used to ensure the entire background of the login view
     //controller's view is filled with image
-    BOOL result = (r > POTD_MAX_W_H_RATIO) ? NO : YES;
-    if (!result) {
-        NSLog(@"isAspectRatioOkForSize: Detected Extreme Panorama!");
-    }
-    return result;
+    return (r > POTD_MAX_W_H_RATIO) ? NO : YES;
 }
 
 -(CGSize)getSizeFromJson:(NSDictionary *)json
