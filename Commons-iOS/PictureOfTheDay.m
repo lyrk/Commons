@@ -152,7 +152,7 @@
 
 - (NSDictionary *)cachedPotdDictForKey:(NSString *)key
 {
-    NSString *imgDataPath = [[CommonsApp singleton] thumbPath:key];
+    NSString *imgDataPath = [self potdPath:key];
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:imgDataPath]) {
         NSData *data = [NSData dataWithContentsOfFile:imgDataPath options:nil error:nil];
@@ -162,10 +162,15 @@
     }
 }
 
+- (NSString *)potdPath:(NSString *)fileName
+{
+    return [[[CommonsApp singleton] documentRootPath] stringByAppendingFormat:@"/potd/%@", fileName];
+}
+
 - (void)cachePotdDict:(NSDictionary *)dict forKey:(NSString *)key
 {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
-    [data writeToFile:[[CommonsApp singleton] thumbPath:key] atomically:YES];
+    [data writeToFile:[self potdPath:key] atomically:YES];
 }
 
 -(BOOL)isAspectRatioOkForSize:(CGSize)size

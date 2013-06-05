@@ -353,6 +353,7 @@ static CommonsApp *singleton_;
     // Create queued file & thumb storage directories
     [self ensureDirectory: [root stringByAppendingString:@"/queued"]];
     [self ensureDirectory: [root stringByAppendingString:@"/thumbs"]];
+    [self ensureDirectory: [root stringByAppendingString:@"/potd"]];
 
     // Initialize CoreData
     NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
