@@ -33,8 +33,16 @@
 
 #define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
 
+// Note: to change the bundled picture of the day simply remove the existing one from the
+// bundle, add the new one, then change is date to match the date from the newly bundled
+// file name (Nice thing about this approach is the code doesn't have to know anything
+// about a special-case file - it works normally with no extra checks)
 #define BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
+
+// Pic of day transition settings
 #define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 6.0f
+#define SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY 2.3f
+
 #define PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO 0 //0 for today, 1 for yesterday, -1 for tomorrow etc
 
 @interface LoginViewController (){
@@ -138,11 +146,8 @@
     [self fadeLoginButtonIfNoCredentials];
 
     self.potdImageView.useFilter = NO;
-    
-    // Note: to change the bundled picture of the day simply remove the existing one from the
-    // bundle, add the new one, then change is date to match the date from the newly bundled
-    // file name (Nice thing about this approach is the code doesn't have to know anything
-    // about a special-case file - it works normally with no extra checks)
+
+    // Ensure bundled pic of day is in cache
     NSString *defaultBundledPotdDateString = BUNDLED_PIC_OF_DAY_DATE;
     [self copyToCacheBundledPotdNamed:defaultBundledPotdDateString];
     
@@ -247,7 +252,7 @@
                 weakSelf.pictureOfTheDayDateString = dict[@"date"];
                 
                 [UIView transitionWithView:weakPotdImageView
-                                  duration:1.2f
+                                  duration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{
                                     weakPotdImageView.useFilter = NO;
