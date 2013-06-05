@@ -44,11 +44,16 @@
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:urlData options:kNilOptions error:&err];
         if (err) return;
         
+        if (!json.count){
+            NSLog(@"No json data received for the url above ^");
+            return;
+        }
+        
         // Find the potdURL in the json data
         NSString *urlStr = [self getValueForKey:@"url" fromJson:json];
         
         if (!urlStr) {
-            NSLog(@"Could not locate Picture of the Day URL.");
+            NSLog(@"Could not locate Picture of the Day URL.\nURL = %@", urlStr);
             return;
         }
         
@@ -128,7 +133,11 @@
         self.done(cachedImageDataDict);
     }else{
         // Get json data for today's picture asynchronously
-        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[self getJsonUrl]];
+        NSURL * url = [self getJsonUrl];
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+        
+        NSLog(@"Retrieving json data from url %@", url);
+        
         [NSURLConnection sendAsynchronousRequest:request
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:retrievedJsonUrlData];

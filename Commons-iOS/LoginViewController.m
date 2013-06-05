@@ -156,6 +156,10 @@
                                     weakPotdImageView.useFilter = NO;
                                     weakPotdImageView.image = image;
                                 }completion:^(BOOL finished){
+                                    // Update the attribution text
+                                    [weakSelf updateAttributionLabelText];
+                                    // Make the attribution label encompass the new attribution text
+                                    [weakSelf updateAttributionLabelFrame];
                                 }];
             }
         }
@@ -724,7 +728,7 @@
     NSLog(@"pictureOfTheDayDateString_ = %@", self.pictureOfTheDayDateString);
 }
 
--(void)showAttributionLabel
+-(void)updateAttributionLabelText
 {
     // Convert the date string to an NSDate
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -743,8 +747,12 @@
                                   picOfTheDayText,
                                   prettyDateString,
                                   picOfTheAuthorText,
-                                  self.pictureOfTheDayUser];
-    
+                                  self.pictureOfTheDayUser];    
+}
+
+-(void)updateAttributionLabelFrame
+{
+    // Ensure the label encompasses its text perfectly
     float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 38.0f : 15.0f;
     float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 16.0f : 8.0f;
     float backgroundPadding =   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 30.0f : 10.0f;
@@ -769,6 +777,14 @@
                                                (self.attributionLabel.frame.size.height / 2.0f) -
                                                bottomMargin
                                                );
+    
+}
+
+-(void)showAttributionLabel
+{
+    [self updateAttributionLabelText];
+    
+    [self updateAttributionLabelFrame];
     
     self.attributionLabel.hidden = NO;
     CGPoint prevCenter = self.attributionLabel.center;
