@@ -323,6 +323,11 @@ static CommonsApp *singleton_;
     return [[self documentRootPath] stringByAppendingFormat:@"/thumbs/%@", fileName];
 }
 
+- (NSString *)potdPath:(NSString *)fileName
+{
+    return [[self documentRootPath] stringByAppendingFormat:@"/potd/%@", fileName];
+}
+
 - (NSString *)thumbPath2x:(NSString *)fileName
 {
     return [[[self thumbPath:fileName] stringByDeletingPathExtension] stringByAppendingString:@"@2x.jpg"];
@@ -353,6 +358,7 @@ static CommonsApp *singleton_;
     // Create queued file & thumb storage directories
     [self ensureDirectory: [root stringByAppendingString:@"/queued"]];
     [self ensureDirectory: [root stringByAppendingString:@"/thumbs"]];
+    [self ensureDirectory: [root stringByAppendingString:@"/potd"]];
 
     // Initialize CoreData
     NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];

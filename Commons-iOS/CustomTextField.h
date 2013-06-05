@@ -1,0 +1,4 @@
+
+@interface CustomTextField : UITextField
+
+@end

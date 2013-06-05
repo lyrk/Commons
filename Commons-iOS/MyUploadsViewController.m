@@ -17,6 +17,7 @@
 #import "WelcomeOverlayView.h"
 #import "FetchImageOperation.h"
 #import "ProgressView.h"
+#import "LoginViewController.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -136,15 +137,8 @@
     opaqueView.backgroundColor = [UIColor clearColor];
     
     // Make the About and Settings buttons stand out better against light colors
-    self.settingsButton.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.settingsButton.layer.shadowOpacity = 1.0;
-    self.settingsButton.layer.shadowRadius = 4;
-    self.settingsButton.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-    
-    self.aboutButton.layer.shadowColor = [UIColor blackColor].CGColor;
-    self.aboutButton.layer.shadowOpacity = 1.0;
-    self.aboutButton.layer.shadowRadius = 4;
-    self.aboutButton.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+    [LoginViewController applyShadowToView:self.settingsButton];
+    [LoginViewController applyShadowToView:self.aboutButton];
 }
 
 -(BOOL)hasCamera

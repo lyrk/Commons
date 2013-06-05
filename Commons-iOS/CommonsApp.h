@@ -46,6 +46,7 @@
 - (NSString *)documentRootPath;
 - (NSString *)filePath:(NSString *)fileName;
 - (NSString *)thumbPath:(NSString *)fileName;
+- (NSString *)potdPath:(NSString *)fileName;
 - (NSString *)uniqueFilenameWithExtension:(NSString *)extension;
 
 - (MWPromise *)loadImage:(NSString *)fileName fileType:(NSString *)fileType;

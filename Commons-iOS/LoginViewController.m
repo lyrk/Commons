@@ -17,6 +17,9 @@
 #import "GrayscaleImageView.h"
 #import "GettingStartedViewController.h"
 #import "QuartzCore/QuartzCore.h"
+#import "PictureOfTheDay.h"
+#import "PictureOfTheDayImageView.h"
+#import "UILabel+ResizeWithAttributes.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
@@ -30,13 +33,33 @@
 
 #define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
 
-@interface LoginViewController ()
+// Note: to change the bundled picture of the day simply remove the existing one from the
+// bundle, add the new one, then change is date to match the date from the newly bundled
+// file name (Nice thing about this approach is the code doesn't have to know anything
+// about a special-case file - it works normally with no extra checks)
+#define BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
+
+// Pic of day transition settings
+#define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 6.0f
+#define SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY 2.3f
+
+#define PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO 0 //0 for today, 1 for yesterday, -1 for tomorrow etc
+
+@interface LoginViewController (){
+    PictureOfTheDay *pictureOfTheDayGetter_;
+    BOOL showingPictureOfTheDayAttribution_;
+    NSMutableArray *cachedPotdDateStrings_;
+    NSTimer *potdCycler_;
+    uint potdCylerIndex_;
+}
 
 - (void)showMyUploadsVC;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSString *trimmedUsername;
 @property (strong, nonatomic) NSString *trimmedPassword;
+@property (strong, nonatomic) NSString *pictureOfTheDayUser;
+@property (strong, nonatomic) NSString *pictureOfTheDayDateString;
 
 @end
 
@@ -57,6 +80,14 @@
     if (self = [super initWithCoder:decoder])
     {
         allowSkippingToMyUploads = YES;
+        pictureOfTheDayGetter_ = [[PictureOfTheDay alloc] init];
+        self.pictureOfTheDayUser = nil;
+        self.pictureOfTheDayDateString = nil;
+        showingPictureOfTheDayAttribution_ = NO;
+        cachedPotdDateStrings_ = [[NSMutableArray alloc] init];
+        self.potdImageView.image = nil;
+        potdCylerIndex_ = 0;
+        potdCycler_ = nil;
     }
     return self;
 }
@@ -103,16 +134,179 @@
     self.passwordField.text = app.password;
     
     //hide keyboard when anywhere else is tapped
-	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setTextInputFocusOnEmptyField)];
+	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
     tapRecognizer.numberOfTapsRequired = 1;
 	[self.view addGestureRecognizer:tapRecognizer];
 
-    doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap)];
+    doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
     doubleTapRecognizer.numberOfTapsRequired = 2;
 	[self.view addGestureRecognizer:doubleTapRecognizer];
     doubleTapRecognizer.enabled = NO;
 
     [self fadeLoginButtonIfNoCredentials];
+
+    self.potdImageView.useFilter = NO;
+
+    // Ensure bundled pic of day is in cache
+    NSString *defaultBundledPotdDateString = BUNDLED_PIC_OF_DAY_DATE;
+    [self copyToCacheBundledPotdNamed:defaultBundledPotdDateString];
+    
+    // Load default image to ensure something is showing even if no net connection
+    // (loads the copy of the bundled default potd which was copied to the cache)
+    [self getPictureOfTheDayForDateString:defaultBundledPotdDateString done:nil];
+    
+    // Make logo a bit larger on iPad
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        _logoImageView.frame = CGRectInset(_logoImageView.frame, -75.0f, -75.0f);
+    }
+    
+    _logoImageView.alpha = 1.0f;
+    _usernameField.alpha = 1.0f;
+    _passwordField.alpha = 1.0f;
+    _loginButton.alpha = 1.0f;
+    
+    // Add shadow behind the login text boxes and buttons so they stand out on light background
+    [LoginViewController applyShadowToView:self.loginInfoContainer];
+    [LoginViewController applyShadowToView:self.aboutButton];    
+    [LoginViewController applyShadowToView:self.attributionButton];
+    [LoginViewController applyShadowToView:self.recoverPasswordButton];
+}
+
+-(void)copyToCacheBundledPotdNamed:(NSString *)defaultBundledPotdDateString
+{
+    // Copy bundled default picture of the day to the cache (if it's not already there)
+    // so there's a pic of the day shows even if today's image can't download
+    NSString *defaultBundledPotdFileName = [@"POTD-" stringByAppendingString:defaultBundledPotdDateString];
+    NSString *defaultBundledPath = [[NSBundle mainBundle] pathForResource:defaultBundledPotdFileName ofType:nil];
+    if (defaultBundledPath){
+        //Bundled File Found! See: http://stackoverflow.com/a/7487235
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSString *cachePotdPath = [[CommonsApp singleton] potdPath:defaultBundledPotdFileName];
+        if (![fm fileExistsAtPath:cachePotdPath]) {
+            // Cached version of bundle file not found, so copy bundle file to cache!
+            [fm copyItemAtPath:defaultBundledPath toPath:cachePotdPath error:nil];
+        }
+    }
+  
+}
+
+-(void)loadArrayOfCachedPotdDateStrings
+{
+    [cachedPotdDateStrings_ removeAllObjects];
+    
+    // Get array cachedPotdDateStrings_ of cached potd date strings
+    NSArray *allFileInPotdFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[CommonsApp singleton] potdPath:@""] error:nil];
+    for (NSString *fileName in allFileInPotdFolder) {
+        if ([fileName hasPrefix:@"POTD-"]) {
+            NSString *dateString2 = [fileName substringWithRange:NSMakeRange(5, 10)];
+            [cachedPotdDateStrings_ addObject:dateString2];
+            //NSLog(@"date string = %@", dateString);
+        }
+    }
+
+}
+
+-(void)cycleNextCachedPotd
+{
+    if (cachedPotdDateStrings_.count < 2) return;
+
+    if (potdCylerIndex_ > (cachedPotdDateStrings_.count - 1)) potdCylerIndex_ = cachedPotdDateStrings_.count - 1;
+
+    NSString *dateString = cachedPotdDateStrings_[potdCylerIndex_];
+
+    [self getPictureOfTheDayForDateString:dateString done:nil];
+    
+    potdCylerIndex_ = (potdCylerIndex_ == (cachedPotdDateStrings_.count - 1)) ? 0 : potdCylerIndex_ + 1;
+}
+
+-(void)startPotdCyclerTimer
+{
+    if (potdCycler_ == nil){
+        potdCycler_ = [NSTimer scheduledTimerWithTimeInterval:SECONDS_TO_SHOW_EACH_PIC_OF_DAY target:self
+                                                     selector:@selector(cycleNextCachedPotd)
+                                                     userInfo:nil
+                                                      repeats:YES];
+    }
+}
+
+-(void)stopPotdCyclerTimer
+{
+    if (potdCycler_ != nil){
+        [potdCycler_ invalidate];
+        potdCycler_ = nil;
+    }
+}
+
+-(void)getPictureOfTheDayForDateString:(NSString *)dateString done:(void(^)(void)) done
+{
+    // Prepare callback block for getting picture of the day
+    __weak PictureOfTheDayImageView *weakPotdImageView = self.potdImageView;
+    __weak LoginViewController *weakSelf = self;
+    pictureOfTheDayGetter_.done = ^(NSDictionary *dict){
+        if (dict) {
+            NSData *imageData = dict[@"image"];
+            if (imageData) {
+                UIImage *image = [UIImage imageWithData:imageData scale:1.0];
+
+                weakSelf.pictureOfTheDayUser = dict[@"user"];
+                weakSelf.pictureOfTheDayDateString = dict[@"date"];
+                
+                [UIView transitionWithView:weakPotdImageView
+                                  duration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY
+                                   options:UIViewAnimationOptionTransitionCrossDissolve
+                                animations:^{
+                                    weakPotdImageView.useFilter = NO;
+                                    weakPotdImageView.image = image;
+                                }completion:^(BOOL finished){
+                                    // Update the attribution text
+                                    [weakSelf updateAttributionLabelText];
+                                    // Make the attribution label encompass the new attribution text
+                                    [weakSelf updateAttributionLabelFrame];
+                                    
+                                    if(done) done();
+                                }];
+            }
+        }
+    };
+
+    // Cycle through cached images even of there was problem downloading a new one
+    pictureOfTheDayGetter_.fail = ^(NSError *err){
+        NSLog(@"PictureOfTheDay Error: %@", err.description);
+        if(done) done();
+    };
+
+    // Determine the resolution of the picture of the day to request
+    CGSize screenSize = self.view.bounds.size;
+    // For now leave scale at one - retina iPads would request too high a resolution otherwise
+    CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
+    
+    // Configure the picture getter to get dateString's pic of the day
+    pictureOfTheDayGetter_.dateString = dateString;
+    
+    // Request the picture of the day
+    [pictureOfTheDayGetter_ getAtSize:CGSizeMake(screenSize.width * scale, screenSize.height * scale)];
+}
+
++ (void)applyShadowToView:(UIView *)view{
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0, 0);
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowRadius = 6.0;
+    view.clipsToBounds = NO;
+}
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    // Restrict login page orientation to portrait. Needed because the because
+    // the picture of the day looks weird on rotation otherwise.
+    // Also jarring if the getting started screen is shown as it forces portrait
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+-(BOOL)shouldAutorotate
+{
+    // Required for supportedInterfaceOrientations to be called
+    return YES;
 }
 
 -(NSString *) trimmedUsername{
@@ -303,6 +497,15 @@
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
 	
+    // The wikimedia picture of the day urls use yyy-MM-dd format - get such a string
+    NSString *dateString = [pictureOfTheDayGetter_ getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
+    // Download the current PotD!
+    [self getPictureOfTheDayForDateString:dateString done:^{
+        // Update array "cachedPotdDateStrings_" with all cached potd file date strings
+        [self loadArrayOfCachedPotdDateStrings];
+
+        [self startPotdCyclerTimer];
+    }];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -332,6 +535,8 @@
 										nil] forState:UIControlStateNormal];
 	
 	[self.navigationItem setBackBarButtonItem: backButton];
+
+    [self stopPotdCyclerTimer];
 
     [super viewWillDisappear:animated];
 }
@@ -473,7 +678,18 @@
     }
 }
 
--(void)doubleTap
+-(void)handleTap
+{
+    if (showingPictureOfTheDayAttribution_) {
+        [self hideAttributionLabel];
+        showingPictureOfTheDayAttribution_ = NO;
+        return;
+    }
+    
+    [self setTextInputFocusOnEmptyField];
+}
+
+-(void)handleDoubleTap
 {
     // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
     [self.usernameField resignFirstResponder];
@@ -605,6 +821,134 @@
 		//login success!
         [self showMyUploadsVC];
     }
+}
+
+- (IBAction)pushedAttributionButton:(id)sender{
+    showingPictureOfTheDayAttribution_ = !showingPictureOfTheDayAttribution_;
+
+    if (showingPictureOfTheDayAttribution_) {
+        [self showAttributionLabel];
+    }else{
+        [self hideAttributionLabel];
+    }
+
+    NSLog(@"pictureOfTheDayUser_ = %@", self.pictureOfTheDayUser);
+    NSLog(@"pictureOfTheDayDateString_ = %@", self.pictureOfTheDayDateString);
+}
+
+-(void)updateAttributionLabelText
+{
+    // Convert the date string to an NSDate
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSDate *date = [dateFormatter dateFromString:self.pictureOfTheDayDateString];
+    
+    // Now get nice readable date for current locale
+    NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMM" options:0 locale:[NSLocale currentLocale]];
+    [dateFormatter setDateFormat:formatString];
+    
+    NSString *prettyDateString = [dateFormatter stringFromDate:date];
+    NSString *picOfTheDayText = [MWMessage forKey:@"picture-of-day-label"].text;
+    NSString *picOfTheAuthorText = [MWMessage forKey:@"picture-of-day-author"].text;
+    self.attributionLabel.text = [NSString stringWithFormat:
+                                  @"%@\n%@\n%@ %@",
+                                  picOfTheDayText,
+                                  prettyDateString,
+                                  picOfTheAuthorText,
+                                  self.pictureOfTheDayUser];    
+}
+
+-(void)updateAttributionLabelFrame
+{
+    // Ensure the label encompasses its text perfectly
+    float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 38.0f : 15.0f;
+    float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 16.0f : 8.0f;
+    float backgroundPadding =   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 30.0f : 10.0f;
+    float bottomMargin =        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 27.0f : 16.0f;
+    
+    // Style attributes for labels
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineSpacing = lineSpacing;
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    // Apply styled attributes to label resizing it to fit the newly styled text (regardless of i18n string length!)
+    [self.attributionLabel resizeWithAttributes: @{
+                           NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
+                 NSParagraphStyleAttributeName : paragraphStyle,
+                NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
+     }];
+    // Reposition the resized label to be just above the bottom of the screen
+    self.attributionLabel.frame = CGRectInset(self.attributionLabel.frame, -backgroundPadding, -backgroundPadding);
+    self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x,
+                                               self.view.frame.size.height -
+                                               (self.attributionLabel.frame.size.height / 2.0f) -
+                                               bottomMargin
+                                               );
+    
+}
+
+-(void)showAttributionLabel
+{
+    [self updateAttributionLabelText];
+    
+    [self updateAttributionLabelFrame];
+    
+    self.attributionLabel.hidden = NO;
+    CGPoint prevCenter = self.attributionLabel.center;
+    
+    // Move attributionLabel off the bottom of the screen
+    self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x, self.attributionLabel.center.y + (self.view.frame.size.height - self.attributionLabel.frame.origin.y));
+    
+    [UIView animateWithDuration:0.2f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.logoImageView.alpha = 0.0f;
+                         self.loginInfoContainer.alpha = 0.0f;
+                         self.aboutButton.alpha = 0.0f;
+                         
+                         // Move attributionLabel back
+                         self.attributionLabel.center = prevCenter;
+                     }
+                     completion:^(BOOL finished){
+                         self.logoImageView.hidden = YES;
+                         self.loginInfoContainer.hidden = YES;
+                         self.aboutButton.hidden = YES;
+                     }];
+    
+    // Apply shadow to text (label is transparent now)
+    [LoginViewController applyShadowToView:self.attributionLabel];
+    
+    self.attributionLabel.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.15f];
+    
+    // Round label corners
+    self.attributionLabel.layer.cornerRadius = 10.0f;
+    self.attributionLabel.layer.masksToBounds = YES;
+}
+
+-(void)hideAttributionLabel
+{
+    self.logoImageView.hidden = NO;
+    self.loginInfoContainer.hidden = NO;
+    self.aboutButton.hidden = NO;
+    
+    CGPoint prevCenter = self.attributionLabel.center;
+    [UIView animateWithDuration:0.2f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.logoImageView.alpha = 1.0f;
+                         self.loginInfoContainer.alpha = 1.0f;
+                         self.aboutButton.alpha = 1.0f;
+                         // Move attributionLabel off the bottom of the screen
+                         self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x, self.attributionLabel.center.y + (self.view.frame.size.height - self.attributionLabel.frame.origin.y));
+                     }
+                     completion:^(BOOL finished){
+                         self.attributionLabel.hidden = YES;
+                         // Move attributionLabel back
+                         self.attributionLabel.center = prevCenter;
+                     }];
 }
 
 #pragma mark - Text Field Delegate Methods
