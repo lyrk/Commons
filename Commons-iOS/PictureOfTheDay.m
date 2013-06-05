@@ -7,15 +7,14 @@
 #import "PictureOfTheDay.h"
 #import "CommonsApp.h"
 
-#define POTD_DAYS_AGO 0
 #define POTD_MAX_W_H_RATIO 2.0f
 
 @implementation PictureOfTheDay
 
--(NSString *)getDateString
+-(NSString *)getDateStringForDaysAgo:(int)daysAgo
 {
     NSDate *date = [[NSDate alloc] init];
-    date = [date dateByAddingTimeInterval: -(86400.0 * POTD_DAYS_AGO)];
+    date = [date dateByAddingTimeInterval: -(86400.0 * daysAgo)];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     return [formatter stringFromDate:date];
@@ -23,13 +22,13 @@
 
 -(NSString *)potdCacheFileName
 {    
-    return [NSString stringWithFormat:@"POTD-%@", [self getDateString]];
+    return [NSString stringWithFormat:@"POTD-%@", self.dateString];
 }
 
 -(NSURL *)getJsonUrl
 {    
     NSString *urlStr = [NSString stringWithFormat:
-        @"http://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:Potd/%@&iiprop=url|size|comment|metadata|user|userid&format=json", [self getDateString]];
+        @"http://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:Potd/%@&iiprop=url|size|comment|metadata|user|userid&format=json", self.dateString];
     
     return [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
@@ -114,7 +113,7 @@
                 MWPromise *fetchImage = [CommonsApp.singleton fetchDataURL:potdThumbnailURL withQueuePriority:NSOperationQueuePriorityNormal];
                 [fetchImage done:^(NSData *data) {
                     // Cache the image data
-                    NSDictionary *imageDataDict = @{@"image": data, @"user": user, @"metadata": metadata, @"date": [self getDateString]};
+                    NSDictionary *imageDataDict = @{@"image": data, @"user": user, @"metadata": metadata, @"date": self.dateString};
                     [self cachePotdDict:imageDataDict forKey:key];
                     // Make all of the image data available to the callback
                     self.done(imageDataDict);

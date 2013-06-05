@@ -137,6 +137,30 @@
     self.pictureOfTheDayUser = BUNDLED_PIC_OF_DAY_USER;
     self.pictureOfTheDayDateString = BUNDLED_PIC_OF_DAY_DATE;
     
+    // The wikimedia picture of the day urls use yyy-MM-dd format - get such a string
+    NSString *dateString = [pictureOfTheDayGetter_ getDateStringForDaysAgo:0];
+    // Get the PotD!
+    [self getPictureOfTheDayForDateString:dateString];
+    
+    // Make logo a bit larger on iPad
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
+        _logoImageView.frame = CGRectInset(_logoImageView.frame, -75.0f, -75.0f);
+    }
+    
+    _logoImageView.alpha = 1.0f;
+    _usernameField.alpha = 1.0f;
+    _passwordField.alpha = 1.0f;
+    _loginButton.alpha = 1.0f;
+    
+    // Add shadow behind the login text boxes and buttons so they stand out on light background
+    [LoginViewController applyShadowToView:self.loginInfoContainer];
+    [LoginViewController applyShadowToView:self.aboutButton];    
+    [LoginViewController applyShadowToView:self.attributionButton];
+    [LoginViewController applyShadowToView:self.recoverPasswordButton];
+}
+
+-(void)getPictureOfTheDayForDateString:(NSString *)dateString
+{
     // Prepare callback block for getting picture of the day
     __weak PictureOfTheDayImageView *weakPotdImageView = self.potdImageView;
     __weak LoginViewController *weakSelf = self;
@@ -170,24 +194,11 @@
     // For now leave scale at one - retina iPads would request too high a resolution otherwise
     CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
     
+    // Configure the picture getter to get dateString's pic of the day
+    pictureOfTheDayGetter_.dateString = dateString;
+    
     // Request the picture of the day
     [pictureOfTheDayGetter_ getAtSize:CGSizeMake(screenSize.width * scale, screenSize.height * scale)];
-
-    // Make logo a bit larger on iPad
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-        _logoImageView.frame = CGRectInset(_logoImageView.frame, -75.0f, -75.0f);
-    }
-    
-    _logoImageView.alpha = 1.0f;
-    _usernameField.alpha = 1.0f;
-    _passwordField.alpha = 1.0f;
-    _loginButton.alpha = 1.0f;
-    
-    // Add shadow behind the login text boxes and buttons so they stand out on light background
-    [LoginViewController applyShadowToView:self.loginInfoContainer];
-    [LoginViewController applyShadowToView:self.aboutButton];    
-    [LoginViewController applyShadowToView:self.attributionButton];
-    [LoginViewController applyShadowToView:self.recoverPasswordButton];
 }
 
 + (void)applyShadowToView:(UIView *)view{
