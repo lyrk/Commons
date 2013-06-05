@@ -39,7 +39,7 @@
 -(NSURL *)getJsonUrl
 {    
     NSString *urlStr = [NSString stringWithFormat:
-        @"http://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:Potd/%@&iiprop=url|size|comment|metadata|user|userid&format=json", self.dateString];
+        @"https://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:Potd/%@&iiprop=url|size|comment|metadata|user|userid&format=json", self.dateString];
     
     return [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
