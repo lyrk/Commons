@@ -33,12 +33,16 @@
 
 #define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
 
-#define BUNDLED_PIC_OF_DAY_USER @"JJ Harrison";
-#define BUNDLED_PIC_OF_DAY_DATE @"2013-05-24";
+#define BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
+#define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 5.5f
+#define PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO 0 //0 for today, 1 for yesterday, -1 for tomorrow etc
 
 @interface LoginViewController (){
     PictureOfTheDay *pictureOfTheDayGetter_;
     BOOL showingPictureOfTheDayAttribution_;
+    NSMutableArray *cachedPotdDateStrings_;
+    NSTimer *potdCycler_;
+    uint potdCylerIndex_;
 }
 
 - (void)showMyUploadsVC;
@@ -72,6 +76,10 @@
         self.pictureOfTheDayUser = nil;
         self.pictureOfTheDayDateString = nil;
         showingPictureOfTheDayAttribution_ = NO;
+        cachedPotdDateStrings_ = [[NSMutableArray alloc] init];
+        self.potdImageView.image = nil;
+        potdCylerIndex_ = 0;
+        potdCycler_ = nil;
     }
     return self;
 }
@@ -129,18 +137,18 @@
 
     [self fadeLoginButtonIfNoCredentials];
 
-    // Set default picture of the day so there's something showing in case todays image isn't found
     self.potdImageView.useFilter = NO;
-    self.potdImageView.image = [UIImage imageNamed:@"Default-Pic-Of-Day.jpg"];
     
-    // Set defaults for bundled pic of day attribution data
-    self.pictureOfTheDayUser = BUNDLED_PIC_OF_DAY_USER;
-    self.pictureOfTheDayDateString = BUNDLED_PIC_OF_DAY_DATE;
+    // Note: to change the bundled picture of the day simply remove the existing one from the
+    // bundle, add the new one, then change is date to match the date from the newly bundled
+    // file name (Nice thing about this approach is the code doesn't have to know anything
+    // about a special-case file - it works normally with no extra checks)
+    NSString *defaultBundledPotdDateString = BUNDLED_PIC_OF_DAY_DATE;
+    [self copyToCacheBundledPotdNamed:defaultBundledPotdDateString];
     
-    // The wikimedia picture of the day urls use yyy-MM-dd format - get such a string
-    NSString *dateString = [pictureOfTheDayGetter_ getDateStringForDaysAgo:0];
-    // Get the PotD!
-    [self getPictureOfTheDayForDateString:dateString];
+    // Load default image to ensure something is showing even if no net connection
+    // (loads the copy of the bundled default potd which was copied to the cache)
+    [self getPictureOfTheDayForDateString:defaultBundledPotdDateString done:nil];
     
     // Make logo a bit larger on iPad
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
@@ -159,7 +167,72 @@
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
 }
 
--(void)getPictureOfTheDayForDateString:(NSString *)dateString
+-(void)copyToCacheBundledPotdNamed:(NSString *)defaultBundledPotdDateString
+{
+    // Copy bundled default picture of the day to the cache (if it's not already there)
+    // so there's a pic of the day shows even if today's image can't download
+    NSString *defaultBundledPotdFileName = [@"POTD-" stringByAppendingString:defaultBundledPotdDateString];
+    NSString *defaultBundledPath = [[NSBundle mainBundle] pathForResource:defaultBundledPotdFileName ofType:nil];
+    if (defaultBundledPath){
+        //Bundled File Found! See: http://stackoverflow.com/a/7487235
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSString *cachePotdPath = [[CommonsApp singleton] potdPath:defaultBundledPotdFileName];
+        if (![fm fileExistsAtPath:cachePotdPath]) {
+            // Cached version of bundle file not found, so copy bundle file to cache!
+            [fm copyItemAtPath:defaultBundledPath toPath:cachePotdPath error:nil];
+        }
+    }
+  
+}
+
+-(void)loadArrayOfCachedPotdDateStrings
+{
+    [cachedPotdDateStrings_ removeAllObjects];
+    
+    // Get array cachedPotdDateStrings_ of cached potd date strings
+    NSArray *allFileInPotdFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[CommonsApp singleton] potdPath:@""] error:nil];
+    for (NSString *fileName in allFileInPotdFolder) {
+        if ([fileName hasPrefix:@"POTD-"]) {
+            NSString *dateString2 = [fileName substringWithRange:NSMakeRange(5, 10)];
+            [cachedPotdDateStrings_ addObject:dateString2];
+            //NSLog(@"date string = %@", dateString);
+        }
+    }
+
+}
+
+-(void)cycleNextCachedPotd
+{
+    if (cachedPotdDateStrings_.count < 2) return;
+
+    if (potdCylerIndex_ > (cachedPotdDateStrings_.count - 1)) potdCylerIndex_ = cachedPotdDateStrings_.count - 1;
+
+    NSString *dateString = cachedPotdDateStrings_[potdCylerIndex_];
+
+    [self getPictureOfTheDayForDateString:dateString done:nil];
+    
+    potdCylerIndex_ = (potdCylerIndex_ == (cachedPotdDateStrings_.count - 1)) ? 0 : potdCylerIndex_ + 1;
+}
+
+-(void)startPotdCyclerTimer
+{
+    if (potdCycler_ == nil){
+        potdCycler_ = [NSTimer scheduledTimerWithTimeInterval:SECONDS_TO_SHOW_EACH_PIC_OF_DAY target:self
+                                                     selector:@selector(cycleNextCachedPotd)
+                                                     userInfo:nil
+                                                      repeats:YES];
+    }
+}
+
+-(void)stopPotdCyclerTimer
+{
+    if (potdCycler_ != nil){
+        [potdCycler_ invalidate];
+        potdCycler_ = nil;
+    }
+}
+
+-(void)getPictureOfTheDayForDateString:(NSString *)dateString done:(void(^)(void)) done
 {
     // Prepare callback block for getting picture of the day
     __weak PictureOfTheDayImageView *weakPotdImageView = self.potdImageView;
@@ -184,6 +257,8 @@
                                     [weakSelf updateAttributionLabelText];
                                     // Make the attribution label encompass the new attribution text
                                     [weakSelf updateAttributionLabelFrame];
+                                    
+                                    if(done) done();
                                 }];
             }
         }
@@ -411,6 +486,15 @@
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
 	
+    // The wikimedia picture of the day urls use yyy-MM-dd format - get such a string
+    NSString *dateString = [pictureOfTheDayGetter_ getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
+    // Download the current PotD!
+    [self getPictureOfTheDayForDateString:dateString done:^{
+        // Update array "cachedPotdDateStrings_" with all cached potd file date strings
+        [self loadArrayOfCachedPotdDateStrings];
+
+        [self startPotdCyclerTimer];
+    }];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -440,6 +524,8 @@
 										nil] forState:UIControlStateNormal];
 	
 	[self.navigationItem setBackBarButtonItem: backButton];
+
+    [self stopPotdCyclerTimer];
 
     [super viewWillDisappear:animated];
 }

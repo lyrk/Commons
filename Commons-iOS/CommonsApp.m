@@ -323,6 +323,11 @@ static CommonsApp *singleton_;
     return [[self documentRootPath] stringByAppendingFormat:@"/thumbs/%@", fileName];
 }
 
+- (NSString *)potdPath:(NSString *)fileName
+{
+    return [[self documentRootPath] stringByAppendingFormat:@"/potd/%@", fileName];
+}
+
 - (NSString *)thumbPath2x:(NSString *)fileName
 {
     return [[[self thumbPath:fileName] stringByDeletingPathExtension] stringByAppendingString:@"@2x.jpg"];
