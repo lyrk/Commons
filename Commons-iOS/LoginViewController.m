@@ -251,6 +251,31 @@
                 weakSelf.pictureOfTheDayUser = dict[@"user"];
                 weakSelf.pictureOfTheDayDateString = dict[@"date"];
                 
+                // Briefly hide the attribution label before updating it
+                [UIView animateWithDuration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY / 4.0
+                                      delay:0.0
+                                    options: UIViewAnimationCurveLinear
+                                 animations:^{
+                                     weakSelf.attributionLabel.alpha = 0.0f;
+                                 }
+                                 completion:^(BOOL finished){
+                                     // Update the attribution text
+                                     [weakSelf updateAttributionLabelText];
+                                     // Make the attribution label encompass the new attribution text
+                                     [weakSelf updateAttributionLabelFrame];
+
+                                     //Now show the updated attribution box
+                                     [UIView animateWithDuration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY / 3.0
+                                                           delay:0.0
+                                                         options: UIViewAnimationCurveLinear
+                                                      animations:^{
+                                                          weakSelf.attributionLabel.alpha = 1.0f;
+                                                      }
+                                                      completion:^(BOOL finished){                                                          
+                                                      }];
+                                 }];
+
+                // Transistion the picture of the day
                 [UIView transitionWithView:weakPotdImageView
                                   duration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY
                                    options:UIViewAnimationOptionTransitionCrossDissolve
@@ -258,11 +283,6 @@
                                     weakPotdImageView.useFilter = NO;
                                     weakPotdImageView.image = image;
                                 }completion:^(BOOL finished){
-                                    // Update the attribution text
-                                    [weakSelf updateAttributionLabelText];
-                                    // Make the attribution label encompass the new attribution text
-                                    [weakSelf updateAttributionLabelFrame];
-                                    
                                     if(done) done();
                                 }];
             }
