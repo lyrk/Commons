@@ -71,6 +71,7 @@
 
 @implementation LoginViewController
 {
+    UILongPressGestureRecognizer *longPressRecognizer;
 
     UITapGestureRecognizer *tapRecognizer;
     UITapGestureRecognizer *doubleTapRecognizer;
@@ -144,6 +145,10 @@
     tapRecognizer.numberOfTapsRequired = 1;
 	[self.view addGestureRecognizer:tapRecognizer];
 
+	longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
+    longPressRecognizer.minimumPressDuration = 1.0f;
+	[self.view addGestureRecognizer:longPressRecognizer];
+    
     doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
     doubleTapRecognizer.numberOfTapsRequired = 2;
 	[self.view addGestureRecognizer:doubleTapRecognizer];
@@ -719,6 +724,17 @@
     }
     
     [self setTextInputFocusOnEmptyField];
+}
+
+-(void)handleLongPress
+{
+    // Uncomment for presentation username/pwd auto entry
+    /*
+    self.usernameField.text = @"";
+	self.passwordField.text = @"";
+
+    [self fadeLoginButtonIfNoCredentials];
+    */
 }
 
 -(void)handleDoubleTap
