@@ -37,13 +37,18 @@
 // bundle, add the new one, then change is date to match the date from the newly bundled
 // file name (Nice thing about this approach is the code doesn't have to know anything
 // about a special-case file - it works normally with no extra checks)
-#define BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
+#define DEFAULT_BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
+
+#define BUNDLED_PIC_OF_DAY_DATES @[@"2013-05-24"]
 
 // Pic of day transition settings
 #define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 6.0f
 #define SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY 2.3f
 
 #define PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO 0 //0 for today, 1 for yesterday, -1 for tomorrow etc
+
+// Force the app to download and cache a particularly interesting picture of the day
+#define FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE nil //@"2013-05-24"
 
 @interface LoginViewController (){
     PictureOfTheDay *pictureOfTheDayGetter_;
@@ -148,12 +153,11 @@
     self.potdImageView.useFilter = NO;
 
     // Ensure bundled pic of day is in cache
-    NSString *defaultBundledPotdDateString = BUNDLED_PIC_OF_DAY_DATE;
-    [self copyToCacheBundledPotdNamed:defaultBundledPotdDateString];
+    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES];
     
     // Load default image to ensure something is showing even if no net connection
     // (loads the copy of the bundled default potd which was copied to the cache)
-    [self getPictureOfTheDayForDateString:defaultBundledPotdDateString done:nil];
+    [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
     
     // Make logo a bit larger on iPad
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
@@ -172,22 +176,23 @@
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
 }
 
--(void)copyToCacheBundledPotdNamed:(NSString *)defaultBundledPotdDateString
+-(void)copyToCacheBundledPotdsNamed:(NSArray *)defaultBundledPotdsDates
 {
-    // Copy bundled default picture of the day to the cache (if it's not already there)
-    // so there's a pic of the day shows even if today's image can't download
-    NSString *defaultBundledPotdFileName = [@"POTD-" stringByAppendingString:defaultBundledPotdDateString];
-    NSString *defaultBundledPath = [[NSBundle mainBundle] pathForResource:defaultBundledPotdFileName ofType:nil];
-    if (defaultBundledPath){
-        //Bundled File Found! See: http://stackoverflow.com/a/7487235
-        NSFileManager *fm = [NSFileManager defaultManager];
-        NSString *cachePotdPath = [[CommonsApp singleton] potdPath:defaultBundledPotdFileName];
-        if (![fm fileExistsAtPath:cachePotdPath]) {
-            // Cached version of bundle file not found, so copy bundle file to cache!
-            [fm copyItemAtPath:defaultBundledPath toPath:cachePotdPath error:nil];
+    for (NSString *bundledPotdDateString in defaultBundledPotdsDates) {
+        // Copy bundled default picture of the day to the cache (if it's not already there)
+        // so there's a pic of the day shows even if today's image can't download
+        NSString *defaultBundledPotdFileName = [@"POTD-" stringByAppendingString:bundledPotdDateString];
+        NSString *defaultBundledPath = [[NSBundle mainBundle] pathForResource:defaultBundledPotdFileName ofType:nil];
+        if (defaultBundledPath){
+            //Bundled File Found! See: http://stackoverflow.com/a/7487235
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSString *cachePotdPath = [[CommonsApp singleton] potdPath:defaultBundledPotdFileName];
+            if (![fm fileExistsAtPath:cachePotdPath]) {
+                // Cached version of bundle file not found, so copy bundle file to cache!
+                [fm copyItemAtPath:defaultBundledPath toPath:cachePotdPath error:nil];
+            }
         }
     }
-  
 }
 
 -(void)loadArrayOfCachedPotdDateStrings
@@ -519,6 +524,11 @@
 	
     // The wikimedia picture of the day urls use yyy-MM-dd format - get such a string
     NSString *dateString = [pictureOfTheDayGetter_ getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
+    
+    if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE != nil){
+        dateString = FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE;
+    }
+
     // Download the current PotD!
     [self getPictureOfTheDayForDateString:dateString done:^{
         // Update array "cachedPotdDateStrings_" with all cached potd file date strings
