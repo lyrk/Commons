@@ -72,7 +72,8 @@
 @implementation LoginViewController
 {
     UILongPressGestureRecognizer *longPressRecognizer;
-
+    UISwipeGestureRecognizer *swipeRecognizerUp;
+    UISwipeGestureRecognizer *swipeRecognizerDown;
     UITapGestureRecognizer *tapRecognizer;
     UITapGestureRecognizer *doubleTapRecognizer;
     CGPoint originalInfoContainerCenter;
@@ -149,6 +150,16 @@
     longPressRecognizer.minimumPressDuration = 1.0f;
 	[self.view addGestureRecognizer:longPressRecognizer];
     
+    swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUp)];
+    swipeRecognizerUp.numberOfTouchesRequired = 1;
+    swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
+	[self.view addGestureRecognizer:swipeRecognizerUp];
+
+    swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown)];
+    swipeRecognizerDown.numberOfTouchesRequired = 1;
+    swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
+	[self.view addGestureRecognizer:swipeRecognizerDown];
+
     doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
     doubleTapRecognizer.numberOfTapsRequired = 2;
 	[self.view addGestureRecognizer:doubleTapRecognizer];
@@ -726,6 +737,18 @@
     [self setTextInputFocusOnEmptyField];
 }
 
+-(void)handleSwipeUp
+{
+    if (showingPictureOfTheDayAttribution_) return;
+    [self setTextInputFocusOnEmptyField];
+}
+
+-(void)handleSwipeDown
+{
+    if (showingPictureOfTheDayAttribution_) return;
+    [self hideKeyboard];
+}
+
 -(void)handleLongPress
 {
     // Uncomment for presentation username/pwd auto entry
@@ -740,6 +763,11 @@
 -(void)handleDoubleTap
 {
     // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
+    [self hideKeyboard];
+}
+
+-(void)hideKeyboard
+{
     [self.usernameField resignFirstResponder];
 	[self.passwordField resignFirstResponder];
 }
