@@ -1267,7 +1267,7 @@ static CommonsApp *singleton_;
     [req fail:^(NSError *error) {
         NSLog(@"Failed to refresh history: %@", [error localizedDescription]);
         if (showFailureAlert) {
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Refresh failed!"
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"refresh-failed-alert"].text
                                                                 message:[error localizedDescription]
                                                                delegate:nil
                                                       cancelButtonTitle:@"Dismiss"
