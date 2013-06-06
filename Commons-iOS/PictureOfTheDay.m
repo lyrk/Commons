@@ -246,9 +246,11 @@
 -(NSDictionary *)getMetadataFromJson:(NSDictionary *)json
 {
     NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
-    NSArray *metadata = [self getValueForKey:@"metadata" fromJson:json];
-    for (NSDictionary* pair in metadata) {
-        result[pair[@"name"]] = pair[@"value"];
+    id metadata = [self getValueForKey:@"metadata" fromJson:json];
+    if (metadata && [metadata isMemberOfClass:[NSArray class]]) {
+        for (NSDictionary* pair in metadata) {
+            result[pair[@"name"]] = pair[@"value"];
+        }
     }
     return result;
 }
