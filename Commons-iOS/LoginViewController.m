@@ -39,7 +39,8 @@
 // about a special-case file - it works normally with no extra checks)
 #define DEFAULT_BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
 
-#define BUNDLED_PIC_OF_DAY_DATES @[@"2013-05-24"]
+// Change this to a plist later, but we're not bundling that many images
+#define BUNDLED_PIC_OF_DAY_DATES @"2007-06-15|2008-01-25|2008-11-14|2009-06-19|2010-05-24|2012-07-09|2013-02-24|2013-04-21|2013-04-29|2013-05-24|2013-06-04"
 
 // Pic of day transition settings
 #define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 6.0f
@@ -176,9 +177,10 @@
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
 }
 
--(void)copyToCacheBundledPotdsNamed:(NSArray *)defaultBundledPotdsDates
+-(void)copyToCacheBundledPotdsNamed:(NSString *)defaultBundledPotdsDates
 {
-    for (NSString *bundledPotdDateString in defaultBundledPotdsDates) {
+    NSArray *dates = [defaultBundledPotdsDates componentsSeparatedByString:@"|"];
+    for (NSString *bundledPotdDateString in dates) {
         // Copy bundled default picture of the day to the cache (if it's not already there)
         // so there's a pic of the day shows even if today's image can't download
         NSString *defaultBundledPotdFileName = [@"POTD-" stringByAppendingString:bundledPotdDateString];
