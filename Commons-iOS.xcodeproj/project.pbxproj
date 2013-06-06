@@ -45,6 +45,8 @@
 		04E6616617605228003F35AD /* POTD-2013-06-04 in Resources */ = {isa = PBXBuildFile; fileRef = 04E6615C17605228003F35AD /* POTD-2013-06-04 */; };
 		04E6616717605228003F35AD /* POTD-2013-02-24 in Resources */ = {isa = PBXBuildFile; fileRef = 04E6615D17605228003F35AD /* POTD-2013-02-24 */; };
 		04E6616817605228003F35AD /* POTD-2013-04-21 in Resources */ = {isa = PBXBuildFile; fileRef = 04E6615E17605228003F35AD /* POTD-2013-04-21 */; };
+		04E6617B17614AB0003F35AD /* copyleft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E6617917614AB0003F35AD /* copyleft@2x.png */; };
+		04E6617C17614AB0003F35AD /* copyleft.png in Resources */ = {isa = PBXBuildFile; fileRef = 04E6617A17614AB0003F35AD /* copyleft.png */; };
 		1F7C6BFA16BEEEF300B7C558 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */; };
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
 		305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 305BC7691710BD3300B2CC01 /* LoadingIndicator.m */; };
@@ -364,6 +366,8 @@
 		04E6615C17605228003F35AD /* POTD-2013-06-04 */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-06-04"; sourceTree = "<group>"; };
 		04E6615D17605228003F35AD /* POTD-2013-02-24 */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-02-24"; sourceTree = "<group>"; };
 		04E6615E17605228003F35AD /* POTD-2013-04-21 */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-21"; sourceTree = "<group>"; };
+		04E6617917614AB0003F35AD /* copyleft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "copyleft@2x.png"; sourceTree = "<group>"; };
+		04E6617A17614AB0003F35AD /* copyleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = copyleft.png; sourceTree = "<group>"; };
 		1F7C6BF616BEEE4D00B7C558 /* Reachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1F7C6BF716BEEE4D00B7C558 /* Reachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1F7C6BF916BEEEF300B7C558 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -822,6 +826,8 @@
 		D4086177169B760800D6ACB0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				04E6617917614AB0003F35AD /* copyleft@2x.png */,
+				04E6617A17614AB0003F35AD /* copyleft.png */,
 				04E6615517605228003F35AD /* POTD-2007-06-15 */,
 				04E6615617605228003F35AD /* POTD-2008-01-25 */,
 				04E6615917605228003F35AD /* POTD-2008-11-14 */,
@@ -1320,6 +1326,8 @@
 				04E6616617605228003F35AD /* POTD-2013-06-04 in Resources */,
 				04E6616717605228003F35AD /* POTD-2013-02-24 in Resources */,
 				04E6616817605228003F35AD /* POTD-2013-04-21 in Resources */,
+				04E6617B17614AB0003F35AD /* copyleft@2x.png in Resources */,
+				04E6617C17614AB0003F35AD /* copyleft.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
