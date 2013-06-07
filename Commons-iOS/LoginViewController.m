@@ -920,7 +920,7 @@
     NSDate *date = [dateFormatter dateFromString:self.pictureOfTheDayDateString];
     
     // Now get nice readable date for current locale
-    NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMM" options:0 locale:[NSLocale currentLocale]];
+    NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMMy" options:0 locale:[NSLocale currentLocale]];
     [dateFormatter setDateFormat:formatString];
     
     NSString *prettyDateString = [dateFormatter stringFromDate:date];
