@@ -74,6 +74,7 @@
     UILongPressGestureRecognizer *longPressRecognizer;
     UISwipeGestureRecognizer *swipeRecognizerUp;
     UISwipeGestureRecognizer *swipeRecognizerDown;
+    UISwipeGestureRecognizer *swipeRecognizerLeft;
     UITapGestureRecognizer *tapRecognizer;
     UITapGestureRecognizer *doubleTapRecognizer;
     CGPoint originalInfoContainerCenter;
@@ -159,6 +160,11 @@
     swipeRecognizerDown.numberOfTouchesRequired = 1;
     swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
 	[self.view addGestureRecognizer:swipeRecognizerDown];
+
+    swipeRecognizerLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft)];
+    swipeRecognizerLeft.numberOfTouchesRequired = 1;
+    swipeRecognizerLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+	[self.view addGestureRecognizer:swipeRecognizerLeft];
 
     doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
     doubleTapRecognizer.numberOfTapsRequired = 2;
@@ -747,6 +753,13 @@
 {
     if (showingPictureOfTheDayAttribution_) return;
     [self hideKeyboard];
+}
+
+-(void)handleSwipeLeft
+{
+    if (self.currentUserButton.hidden) return;
+    
+    [self showMyUploadsVC];
 }
 
 -(void)handleLongPress
