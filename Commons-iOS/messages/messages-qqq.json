@@ -81,5 +81,7 @@
     "getting-started-got-it-label": "Message asking user if they understand what kinds of images to upload.",
     "getting-started-yes-button": "Button text for confirming the user understands what kinds of images to upload.",
     "picture-of-day-label": "Label for Picture of the Day image on login page.",
-    "picture-of-day-author": "Label for author of Picture of the Day"
+    "picture-of-day-author": "Label for author of Picture of the Day",
+    "refresh-failed-alert": "Alert text for when refreshing of downloaded images fails."
+
 }
