@@ -36,6 +36,7 @@
     "details-title-placeholder": "Titolo descrittivo, univoco",
     "details-description-label": "Descrizione",
     "details-description-placeholder": "Obbligatorio",
+    "details-description-loading": "Caricamento..",
     "details-description-none-found": "Nessuna descrizione trovata",
     "details-license-label": "Licenza",
     "details-hide-keyboard": "Nascondi la tastiera",
@@ -58,7 +59,11 @@
     "welcome-take-or-choose-message": "Scatta o scegli una foto",
     "license-title": "Licenza",
     "license-details-intro": "Ulteriori informazioni",
+    "license-details-label": "Informazioni sulle licenze",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing/it",
     "catdetail-title": "Categoria",
     "catdetail-remove-label": "Rimuovi \"$1\"",
-    "catdetail-info-intro": "Ulteriori informazioni"
+    "catdetail-info-intro": "Ulteriori informazioni",
+    "catdetail-info-label": "Informazioni sulle categorie",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categorie"
 }

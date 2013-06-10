@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Danmichaelo",
             "Laaknor",
             "Nghtwlkr"
         ]
@@ -38,8 +39,14 @@
     "details-title-placeholder": "Unik, beskrivende tittel",
     "details-description-label": "Beskrivelse",
     "details-description-placeholder": "P\u00e5krevd",
+    "details-description-loading": "Laster...",
+    "details-description-none-found": "Ingen beskrivelse funnet",
     "details-license-label": "Lisens",
     "details-hide-keyboard": "Skjul tastatur",
+    "details-category-label": "Kategorier",
+    "details-category-select": "Velg...",
+    "details-category-loading": "Laster...",
+    "details-category-none-found": "Ingen kategorier funnet",
     "web-open-in": "\u00c5pne med $1",
     "web-cancel": "Avbryt",
     "login-title": "Konto",
@@ -56,5 +63,16 @@
     "about-source-gradient-title": "Jeff LaMarches graduerende UIKnapp:",
     "welcome-no-images-message": "Ingen opplastninger funnet. Bruk knappen under for \u00e5 ta eller velge bilder",
     "welcome-take-or-choose-message": "Ta eller velg et bilde",
-    "welcome-checking-message": "Sjekker for tidligere opplastninger"
+    "welcome-checking-message": "Sjekker for tidligere opplastninger",
+    "license-title": "Lisens",
+    "license-intro": "Du samtykker til \u00e5 lisensiere opplastingene dine under f\u00f8lgende vilk\u00e5r:",
+    "license-details-intro": "Mer informasjon",
+    "license-details-label": "Les om lisensiering",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing",
+    "catdetail-title": "Kategori",
+    "catdetail-intro": "Kategoreir gj\u00f8r bildene dine mer gjenfinnbare p\u00e5 Wikimedia Commons.",
+    "catdetail-remove-label": "Fjern \u00ab$1\u00bb",
+    "catdetail-info-intro": "Mer informasjon",
+    "catdetail-info-label": "Les om kategorier",
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
 }

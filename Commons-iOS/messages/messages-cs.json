@@ -43,6 +43,7 @@
     "details-hide-keyboard": "Skr\u00fdt kl\u00e1vesnici",
     "details-category-label": "Kategorie",
     "details-category-select": "Vybrat...",
+    "details-category-loading": "Na\u010d\u00edt\u00e1 se\u2026",
     "web-open-in": "Otev\u0159\u00edt v $1",
     "web-cancel": "Zru\u0161it",
     "login-title": "\u00da\u010det",
@@ -62,7 +63,7 @@
     "license-details-intro": "V\u00edce informac\u00ed",
     "catdetail-title": "Kategorie",
     "catdetail-intro": "Kategorie pomohou tomu, aby Va\u0161e obr\u00e1zky mohly b\u00fdt na Wikimedia Commons snadn\u011bji nalezeny.",
-    "catdetail-remove-label": "Odstranit \" $1 \"",
+    "catdetail-remove-label": "Odstranit \u201e$1\u201c",
     "catdetail-info-intro": "V\u00edce informac\u00ed",
     "catdetail-info-label": "V\u00edce o kategori\u00edch"
 }

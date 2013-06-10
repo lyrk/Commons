@@ -1,9 +1,11 @@
 {
     "@metadata": {
         "authors": [
-            "Eitvys200"
+            "Eitvys200",
+            "Mantak111"
         ]
     },
+    "contribs-title": "Mano \u012fk\u0117limai",
     "contribs-settings-button": "Nustatymai",
     "contribs-upload-button": "\u012ekelti",
     "contribs-photo-library-button": "Nuotraukos",
@@ -13,6 +15,7 @@
     "contribs-refreshing": "Atnaujinama...",
     "error-upload-failed": "\u012ek\u0117limas nepavyko",
     "error-upload-cancelled": "\u012ek\u0117limas at\u0161auktas",
+    "error-dismiss": "Atmesti",
     "error-nologin-title": "Uh oh!",
     "error-nologin-text": "Turite prisijungti prie\u0161 keldami nuotraukas",
     "error-bad-password-title": "Prisijungimo klaida",
@@ -33,18 +36,32 @@
     "details-title-placeholder": "Unikalus, apib\u016bdinantis pavadinimas",
     "details-description-label": "Apra\u0161ymas",
     "details-description-placeholder": "Privaloma",
+    "details-description-loading": "\u012ekraunama...",
+    "details-description-none-found": "Apra\u0161ymo nerasta",
     "details-license-label": "Licencija",
     "details-hide-keyboard": "Sl\u0117pti klaviat\u016br\u0105",
+    "details-category-label": "Kategorijos",
+    "details-category-select": "Pasirinkite...",
+    "details-category-loading": "\u012ekraunama...",
+    "details-category-none-found": "Kategorij\u0173 nerasta",
     "web-open-in": "Atidaryti su $1",
     "web-cancel": "At\u0161aukti",
     "login-title": "Paskyra",
     "login-button": "Prisijungti",
     "about-title": "Apie",
     "about-app-version-label": "Versija $1",
+    "about-commons-button": "Vikiteka",
     "about-bugs-button": "Klaid\u0173 Seklys",
     "about-privacy-button": "Privatumo Politika",
     "about-source-button": "\u0160altinis",
     "about-source-this-app-title": "\u0160i Program\u0117l\u0117 (iOS):",
     "about-source-this-app-contributors": "Autoriai",
-    "about-license-button": "Licencija"
+    "about-license-button": "Licencija",
+    "welcome-take-or-choose-message": "Nufotografuokite ar pasirinkite nuotrauk\u0105",
+    "license-title": "Licencija",
+    "license-details-intro": "Daugiau informacijos",
+    "license-details-label": "Skaityti apie licencijavim\u0105",
+    "catdetail-title": "Kategorija",
+    "catdetail-info-intro": "Daugiau informacijos",
+    "catdetail-info-label": "Skaityti apie kategorijas"
 }

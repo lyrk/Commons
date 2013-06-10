@@ -1,15 +1,16 @@
 {
     "@metadata": {
         "authors": [
-            "Metalhead64"
+            "Metalhead64",
+            "Se4598"
         ]
     },
     "contribs-title": "Meine hochgeladenen Dateien",
     "contribs-settings-button": "Einstellungen",
     "contribs-upload-button": "Hochladen",
     "contribs-photo-library-button": "Fotos",
-    "contribs-state-queued": "In der Warteschlange",
-    "contribs-state-uploading": "Lade hoch",
+    "contribs-state-queued": "\u201e$1\u201c in der Warteschlange",
+    "contribs-state-uploading": "\u201e$1\u201c wird hochgeladen",
     "contribs-refresh": "Ziehen zum Aktualisieren",
     "contribs-refreshing": "Aktualisiere \u2026",
     "error-upload-failed": "Hochladen fehlgeschlagen!",
@@ -31,6 +32,7 @@
     "settings-debug-detail": "Auf $1 hochladen",
     "settings-usage-reports-label": "Nutzungsberichte:",
     "settings-usage-reports-description": "Nutzungsberichte an Wikimedia senden, um zur Verbesserung der App beizutragen.",
+    "settings-links-label": "Links:",
     "details-title": "Einzelheiten",
     "details-upload-button": "Hochladen",
     "details-title-label": "Titel",
@@ -48,7 +50,10 @@
     "web-open-in": "In $1 \u00f6ffnen",
     "web-cancel": "Abbrechen",
     "login-title": "Konto",
+    "login-current-user-button": "Weitermachen als: $1",
     "login-button": "Anmelden",
+    "login-recover-password-button": "Passwort wiederherstellen",
+    "logout-button": "Abmelden",
     "about-title": "\u00dcber",
     "about-app-version-label": "Version $1",
     "about-commons-button": "Wikimedia Commons",
@@ -72,5 +77,9 @@
     "catdetail-remove-label": "\u201e$1\u201c entfernen",
     "catdetail-info-intro": "Mehr Informationen",
     "catdetail-info-label": "Mehr \u00fcber Kategorien erfahren",
-    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Kategorien"
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Kategorien",
+    "getting-started-what-photos-educate-label": "Deine Bilder bilden Menschen\nauf der ganzen Welt.",
+    "getting-started-yes-button": "Ja!",
+    "picture-of-day-label": "Wikimedia Commons\nBild des Tages",
+    "picture-of-day-author": "Autor:"
 }
