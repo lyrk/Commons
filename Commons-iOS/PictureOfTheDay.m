@@ -80,13 +80,6 @@
             return;
         }
         
-        NSString *user = [self getValueForKey:@"user" fromJson:json];
-        NSLog(@"PotD from User = %@", user);
-        
-        NSDictionary *metadata = [self getMetadataFromJson:json];
-        NSLog(@"PotD Metadata = %@", metadata);
-        //NSLog(@"PotD Camera Model = %@", metadata[@"Model"]);
-        
         // Determine the height and width of the picture of the day from the json data
         // (The size needs to be know before the thumb is requested because the thumb needs
         // to be sized to best fit the present device screen dimensions)
@@ -141,11 +134,17 @@
                 // Now request the generated thumbnail
                 MWPromise *fetchImage = [CommonsApp.singleton fetchDataURL:potdThumbnailURL withQueuePriority:NSOperationQueuePriorityNormal];
                 [fetchImage done:^(NSData *data) {
+
+                    // Get data to cache with image data
+                    // (If further information is to be cached, "getDataToCacheFromJson:" would be a nice place to do so)
+                    NSMutableDictionary *dataToCache = [self getDataToCacheFromJson:json];
+
                     // Cache the image data
-                    NSDictionary *imageDataDict = @{@"image": data, @"user": user, @"metadata": metadata, @"date": self.dateString};
-                    [self cachePotdDict:imageDataDict forKey:key];
+                    dataToCache[@"image"] = data;
+
+                    [self cachePotdDict:dataToCache forKey:key];
                     // Make all of the image data available to the callback
-                    self.done(imageDataDict);
+                    self.done(dataToCache);
                 }];
                 [fetchImage fail:^(NSError *error) {
                     self.fail(error);
@@ -177,6 +176,36 @@
         retrievedJsonUrlData(nil, urlData, err);
         */
     }
+}
+
+-(NSMutableDictionary *)getDataToCacheFromJson:(NSDictionary *)json
+{
+    NSMutableDictionary *dataToCache = [[NSMutableDictionary alloc] init];
+    
+    // Clean up the metadata so its key values pairs are dictionary key value pairs
+    NSDictionary *metadata = [self getMetadataFromJson:json];
+    
+    NSLog(@"PotD Metadata = %@", metadata);
+    //NSLog(@"PotD Camera Model = %@", metadata[@"Model"]);
+
+    dataToCache[@"metadata"] = metadata;
+    dataToCache[@"date"] = self.dateString;
+
+    // Cache all children of imageinfo not just metadata
+    // (metadata is cached separately as it gets cleaned by "getMetadataFromJson:")
+    for (NSString *key in [[self pageIdNodeFromJson:json][@"imageinfo"] objectAtIndex:0]) {
+        if ([key isEqualToString:@"metadata"]) continue;
+        //NSLog(@"KEY in imageinfo = %@", key);
+        dataToCache[key] = [[self pageIdNodeFromJson:json][@"imageinfo"] objectAtIndex:0][key];
+    }
+
+    // Cache all siblings of imageinfo
+    for (NSString *key in [self pageIdNodeFromJson:json]) {
+        if ([key isEqualToString:@"imageinfo"]) continue;
+        //NSLog(@"KEY imageinfo sibling = %@", key);
+        dataToCache[key] = [self pageIdNodeFromJson:json][key];
+    }
+    return dataToCache;
 }
 
 - (NSDictionary *)cachedPotdDictForKey:(NSString *)key
@@ -247,7 +276,7 @@
 {
     NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
     id metadata = [self getValueForKey:@"metadata" fromJson:json];
-    if (metadata && [metadata isMemberOfClass:[NSArray class]]) {
+    if (metadata && ![metadata isMemberOfClass:[NSNull class]]) {
         for (NSDictionary* pair in metadata) {
             result[pair[@"name"]] = pair[@"value"];
         }

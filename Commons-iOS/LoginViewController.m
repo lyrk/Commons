@@ -40,7 +40,7 @@
 #define DEFAULT_BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
 
 // Change this to a plist later, but we're not bundling that many images
-#define BUNDLED_PIC_OF_DAY_DATES @"2007-06-15|2008-01-25|2008-11-14|2009-06-19|2010-05-24|2012-07-09|2013-02-24|2013-04-21|2013-04-29|2013-05-24|2013-06-04"
+#define BUNDLED_PIC_OF_DAY_DATES @"2007-06-15|2008-01-25|2008-11-14|2009-06-19|2010-05-24|2012-07-08|2013-02-24|2013-04-21|2013-04-29|2013-05-24|2013-06-04"
 
 // Pic of day transition settings
 #define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 6.0f
@@ -71,7 +71,10 @@
 
 @implementation LoginViewController
 {
-
+    UILongPressGestureRecognizer *longPressRecognizer;
+    UISwipeGestureRecognizer *swipeRecognizerUp;
+    UISwipeGestureRecognizer *swipeRecognizerDown;
+    UISwipeGestureRecognizer *swipeRecognizerLeft;
     UITapGestureRecognizer *tapRecognizer;
     UITapGestureRecognizer *doubleTapRecognizer;
     CGPoint originalInfoContainerCenter;
@@ -143,6 +146,25 @@
 	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
     tapRecognizer.numberOfTapsRequired = 1;
 	[self.view addGestureRecognizer:tapRecognizer];
+
+	longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
+    longPressRecognizer.minimumPressDuration = 1.0f;
+	[self.view addGestureRecognizer:longPressRecognizer];
+    
+    swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUp)];
+    swipeRecognizerUp.numberOfTouchesRequired = 1;
+    swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
+	[self.view addGestureRecognizer:swipeRecognizerUp];
+
+    swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown)];
+    swipeRecognizerDown.numberOfTouchesRequired = 1;
+    swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
+	[self.view addGestureRecognizer:swipeRecognizerDown];
+
+    swipeRecognizerLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft)];
+    swipeRecognizerLeft.numberOfTouchesRequired = 1;
+    swipeRecognizerLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+	[self.view addGestureRecognizer:swipeRecognizerLeft];
 
     doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
     doubleTapRecognizer.numberOfTapsRequired = 2;
@@ -721,9 +743,44 @@
     [self setTextInputFocusOnEmptyField];
 }
 
+-(void)handleSwipeUp
+{
+    if (showingPictureOfTheDayAttribution_) return;
+    [self setTextInputFocusOnEmptyField];
+}
+
+-(void)handleSwipeDown
+{
+    if (showingPictureOfTheDayAttribution_) return;
+    [self hideKeyboard];
+}
+
+-(void)handleSwipeLeft
+{
+    if (self.currentUserButton.hidden) return;
+    
+    [self showMyUploadsVC];
+}
+
+-(void)handleLongPress
+{
+    // Uncomment for presentation username/pwd auto entry
+    /*
+    self.usernameField.text = @"";
+	self.passwordField.text = @"";
+
+    [self fadeLoginButtonIfNoCredentials];
+    */
+}
+
 -(void)handleDoubleTap
 {
     // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
+    [self hideKeyboard];
+}
+
+-(void)hideKeyboard
+{
     [self.usernameField resignFirstResponder];
 	[self.passwordField resignFirstResponder];
 }
@@ -876,7 +933,7 @@
     NSDate *date = [dateFormatter dateFromString:self.pictureOfTheDayDateString];
     
     // Now get nice readable date for current locale
-    NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMM" options:0 locale:[NSLocale currentLocale]];
+    NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMMy" options:0 locale:[NSLocale currentLocale]];
     [dateFormatter setDateFormat:formatString];
     
     NSString *prettyDateString = [dateFormatter stringFromDate:date];
