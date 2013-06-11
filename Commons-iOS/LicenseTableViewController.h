@@ -10,6 +10,7 @@
 
 @interface LicenseTableViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UIButton *ccBySaViewButton;
+@property (weak, nonatomic) IBOutlet UILabel *readAboutLicensingLabel;
 
 - (IBAction)pushLicenseButton:(id)sender;
 
