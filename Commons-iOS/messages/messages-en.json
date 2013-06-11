@@ -7,6 +7,7 @@
     "contribs-state-uploading": "$1 Uploading Photo",
     "contribs-state-downloading": "$1 Retrieving Thumbnail",
     "contribs-state-generating-thumb": "$1 Generating Thumbnail",
+    "contribs-untitled": "Untitled",
 
     "contribs-refresh": "Pull to refresh",
     "contribs-refreshing": "Refreshing...",

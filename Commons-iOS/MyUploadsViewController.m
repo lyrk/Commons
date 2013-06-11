@@ -874,6 +874,10 @@
 
     NSString *title = record.title;
     NSString *noExtFileName = [[record.title lastPathComponent] stringByDeletingPathExtension];
+    
+    // Title for queued images which have no title yet
+    if (noExtFileName.length == 0) noExtFileName = [MWMessage forKey:@"contribs-untitled"].text;
+    
     NSString *labelText = @"";
     cell.titleLabel.text = @"";
 

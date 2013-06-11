@@ -14,6 +14,7 @@
     "contribs-state-generating-thumb": "Label on currently-uploading photo items in contributions list view when their thumbnail is being generated on the server. Parameters:\n* $1 - image title.",
     "contribs-refresh": "Label appearing on 'pull-to-refresh' area above upload scroller view",
     "contribs-refreshing": "Message appearing on 'pull-to-refresh' area above upload scroller view when reloading images",
+    "contribs-untitled": "Title displayed for newly acquired images which have not a title yet.",
     "error-upload-failed": "Error message indicating that upload failed.\n{{Identical|Upload failed}}",
     "error-upload-cancelled": "Alert message indicating upload cancelled.",
     "error-dismiss": "Button text for dismissing error alert.\n{{Identical|Dismiss}}",
