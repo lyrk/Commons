@@ -560,6 +560,9 @@
     } else if ([segue.identifier isEqualToString:@"AddCategorySegue"]) {
         if (self.selectedRecord) {
             CategorySearchTableViewController *view = [segue destinationViewController];
+
+            view.title = [MWMessage forKey:@"catadd-title"].text;
+            
             view.selectedRecord = self.selectedRecord;
         }
     } else if ([segue.identifier isEqualToString:@"CategoryDetailSegue"]) {

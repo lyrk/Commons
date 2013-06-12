@@ -7,6 +7,7 @@
 //
 
 #import "CategorySearchTableViewController.h"
+#import "MWI18N.h"
 
 #define SEARCH_CATS_LIMIT 25
 
@@ -34,6 +35,8 @@
 
     UINib *cellNib = [UINib nibWithNibName:@"CategoryCell" bundle:nil];
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"CategoryCell"];
+        
+    [self.searchBar setPlaceholder:[MWMessage forKey:@"catadd-search-placeholder"].text];
 }
 
 - (void)didReceiveMemoryWarning

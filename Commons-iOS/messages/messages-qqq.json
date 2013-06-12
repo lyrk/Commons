@@ -75,6 +75,8 @@
     "catdetail-title": "{{Identical|Category}}",
     "catdetail-remove-label": "{{Identical|Remove}}",
     "catdetail-info-intro": "{{Identical|More information}}",
+    "catadd-title": "Add categories page title.",
+    "catadd-search-placeholder": "Add categories page search box placeholder text.",
     "getting-started-what-is-commons-contribute-label": "Message inviting users to contribute their images.",
     "getting-started-what-is-commons-images-label": "Message explaining that Wikipedia images Wikimedia Commons.",
     "getting-started-what-photos-educate-label": "Message explaining the educational benefit of contributing images.",

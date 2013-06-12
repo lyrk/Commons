@@ -90,6 +90,9 @@
     "catdetail-info-label": "Read about categories",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
     
+    "catadd-title": "Add category",
+    "catadd-search-placeholder": "Search categories",
+    
     "getting-started-what-is-commons-contribute-label": "Contribute your images.\nHelp Wikipedia articles come to life!",
 	"getting-started-what-is-commons-images-label": "Images on Wikipedia come from\nWikimedia Commons.",
     "getting-started-what-photos-educate-label": "Your images help educate people\naround the world.",
