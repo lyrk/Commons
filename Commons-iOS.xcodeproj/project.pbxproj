@@ -27,7 +27,7 @@
 		04C27B32174BEB9500B1942F /* mockPagePhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C27B31174BEB9500B1942F /* mockPagePhoto.png */; };
 		04C27B37174D44CC00B1942F /* CALerpLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B36174D44C900B1942F /* CALerpLine.m */; };
 		04C27B39174D78E200B1942F /* mockBadPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C27B38174D78E200B1942F /* mockBadPhoto.png */; };
-		04DC75631758682B00D92849 /* PictureOfTheDay.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC75621758682A00D92849 /* PictureOfTheDay.m */; };
+		04DC75631758682B00D92849 /* AspectFillThumbFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC75621758682A00D92849 /* AspectFillThumbFetcher.m */; };
 		04DC756617586EFF00D92849 /* PictureOfTheDayImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC756517586EFE00D92849 /* PictureOfTheDayImageView.m */; };
 		04DC756A1758837600D92849 /* Commons-logo-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC75691758837600D92849 /* Commons-logo-white.png */; };
 		04DC756F1758884200D92849 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC756E1758884200D92849 /* CustomTextField.m */; };
@@ -345,8 +345,8 @@
 		04C27B35174D44C800B1942F /* CALerpLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CALerpLine.h; sourceTree = "<group>"; };
 		04C27B36174D44C900B1942F /* CALerpLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CALerpLine.m; sourceTree = "<group>"; };
 		04C27B38174D78E200B1942F /* mockBadPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mockBadPhoto.png; sourceTree = "<group>"; };
-		04DC75611758682900D92849 /* PictureOfTheDay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfTheDay.h; sourceTree = "<group>"; };
-		04DC75621758682A00D92849 /* PictureOfTheDay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfTheDay.m; sourceTree = "<group>"; };
+		04DC75611758682900D92849 /* AspectFillThumbFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AspectFillThumbFetcher.h; sourceTree = "<group>"; };
+		04DC75621758682A00D92849 /* AspectFillThumbFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AspectFillThumbFetcher.m; sourceTree = "<group>"; };
 		04DC756417586EFE00D92849 /* PictureOfTheDayImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfTheDayImageView.h; sourceTree = "<group>"; };
 		04DC756517586EFE00D92849 /* PictureOfTheDayImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfTheDayImageView.m; sourceTree = "<group>"; };
 		04DC75691758837600D92849 /* Commons-logo-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-white.png"; sourceTree = "<group>"; };
@@ -702,8 +702,8 @@
 				04C27B36174D44C900B1942F /* CALerpLine.m */,
 				04DC756D1758884100D92849 /* CustomTextField.h */,
 				04DC756E1758884200D92849 /* CustomTextField.m */,
-				04DC75611758682900D92849 /* PictureOfTheDay.h */,
-				04DC75621758682A00D92849 /* PictureOfTheDay.m */,
+				04DC75611758682900D92849 /* AspectFillThumbFetcher.h */,
+				04DC75621758682A00D92849 /* AspectFillThumbFetcher.m */,
 				04DC756417586EFE00D92849 /* PictureOfTheDayImageView.h */,
 				04DC756517586EFE00D92849 /* PictureOfTheDayImageView.m */,
 				04C27B1A174452E700B1942F /* DescriptionParser.h */,
@@ -1496,7 +1496,7 @@
 				04739E0E174F0D3600F32D13 /* WhatIsCommonsViewController.m in Sources */,
 				30FA25D71751E3D90040292C /* UILabel+ResizeWithAttributes.m in Sources */,
 				30FA25DA1751E6390040292C /* UIView+Space.m in Sources */,
-				04DC75631758682B00D92849 /* PictureOfTheDay.m in Sources */,
+				04DC75631758682B00D92849 /* AspectFillThumbFetcher.m in Sources */,
 				04DC756617586EFF00D92849 /* PictureOfTheDayImageView.m in Sources */,
 				04DC756F1758884200D92849 /* CustomTextField.m in Sources */,
 			);

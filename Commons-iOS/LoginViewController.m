@@ -17,7 +17,7 @@
 #import "GrayscaleImageView.h"
 #import "GettingStartedViewController.h"
 #import "QuartzCore/QuartzCore.h"
-#import "PictureOfTheDay.h"
+#import "AspectFillThumbFetcher.h"
 #import "PictureOfTheDayImageView.h"
 #import "UILabel+ResizeWithAttributes.h"
 
@@ -52,7 +52,7 @@
 #define FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE nil //@"2013-05-24"
 
 @interface LoginViewController (){
-    PictureOfTheDay *pictureOfTheDayGetter_;
+    AspectFillThumbFetcher *pictureOfTheDayGetter_;
     BOOL showingPictureOfTheDayAttribution_;
     NSMutableArray *cachedPotdDateStrings_;
     NSTimer *potdCycler_;
@@ -89,7 +89,7 @@
     if (self = [super initWithCoder:decoder])
     {
         allowSkippingToMyUploads = YES;
-        pictureOfTheDayGetter_ = [[PictureOfTheDay alloc] init];
+        pictureOfTheDayGetter_ = [[AspectFillThumbFetcher alloc] init];
         self.pictureOfTheDayUser = nil;
         self.pictureOfTheDayDateString = nil;
         showingPictureOfTheDayAttribution_ = NO;
@@ -266,19 +266,36 @@
     }
 }
 
+-(NSString *)getDateStringForDaysAgo:(int)daysAgo
+{
+    NSDate *date = [[NSDate alloc] init];
+    date = [date dateByAddingTimeInterval: -(86400.0 * daysAgo)];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    return [formatter stringFromDate:date];
+}
+
 -(void)getPictureOfTheDayForDateString:(NSString *)dateString done:(void(^)(void)) done
 {
     // Prepare callback block for getting picture of the day
     __weak PictureOfTheDayImageView *weakPotdImageView = self.potdImageView;
     __weak LoginViewController *weakSelf = self;
-    pictureOfTheDayGetter_.done = ^(NSDictionary *dict){
+
+    // Determine the resolution of the picture of the day to request
+    CGSize screenSize = self.view.bounds.size;
+    // For now leave scale at one - retina iPads would request too high a resolution otherwise
+    CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
+    
+    MWPromise *fetch = [pictureOfTheDayGetter_ fetchPictureOfDay:dateString size:CGSizeMake(screenSize.width * scale, screenSize.height * scale) withQueuePriority:NSOperationQueuePriorityHigh];
+    
+    [fetch done:^(NSDictionary *dict) {
         if (dict) {
             NSData *imageData = dict[@"image"];
             if (imageData) {
                 UIImage *image = [UIImage imageWithData:imageData scale:1.0];
 
                 weakSelf.pictureOfTheDayUser = dict[@"user"];
-                weakSelf.pictureOfTheDayDateString = dict[@"date"];
+                weakSelf.pictureOfTheDayDateString = dict[@"potd_date"];
                 
                 // Briefly hide the attribution label before updating it
                 [UIView animateWithDuration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY / 4.0
@@ -316,24 +333,17 @@
                                 }];
             }
         }
-    };
+    }];
 
     // Cycle through cached images even of there was problem downloading a new one
-    pictureOfTheDayGetter_.fail = ^(NSError *err){
-        NSLog(@"PictureOfTheDay Error: %@", err.description);
+    [fetch fail:^(NSError *error) {
+        NSLog(@"PictureOfTheDay Error: %@", error.description);
         if(done) done();
-    };
+    }];
 
-    // Determine the resolution of the picture of the day to request
-    CGSize screenSize = self.view.bounds.size;
-    // For now leave scale at one - retina iPads would request too high a resolution otherwise
-    CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
-    
-    // Configure the picture getter to get dateString's pic of the day
-    pictureOfTheDayGetter_.dateString = dateString;
-    
-    // Request the picture of the day
-    [pictureOfTheDayGetter_ getAtSize:CGSizeMake(screenSize.width * scale, screenSize.height * scale)];
+    [fetch always:^(id obj) {
+
+    }];
 }
 
 + (void)applyShadowToView:(UIView *)view{
@@ -547,7 +557,7 @@
     [super viewWillAppear:animated];
 	
     // The wikimedia picture of the day urls use yyy-MM-dd format - get such a string
-    NSString *dateString = [pictureOfTheDayGetter_ getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
+    NSString *dateString = [self getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
     
     if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE != nil){
         dateString = FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE;

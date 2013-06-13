@@ -1,86 +1,144 @@
 //
-//  PictureOfTheDay.m
+//  AspectFillThumbFetcher.m
 //  Commons-iOS
 //
-//  Created by Monte Hurd on 5/30/13.
+//  Created by Monte Hurd on 6/12/13.
 
-#import "PictureOfTheDay.h"
+#import "AspectFillThumbFetcher.h"
 #import "CommonsApp.h"
+#import "MWPromise.h"
 
-#define POTD_MAX_W_H_RATIO 2.0f
+@interface AspectFillThumbFetcher ()
 
-@implementation PictureOfTheDay
+// Specifies just the url get "titles" setting which will be used to retrieve image data from the server.
+// eg: "File:filename.ext" or "Template:Potd/yyyy-MM-dd" for an image of the day
+@property (strong, nonatomic) NSString *getTitle;
+
+// Specifies just the url get "generator" setting which will be used when retrieving image data from the server.
+// eg: "images" for image of the day, "" otherwise
+@property (strong, nonatomic) NSString *getGenerator;
+
+// Extra key value pairs to be added to the image cache file data
+@property (strong, nonatomic) NSDictionary *extraDataToCache;
+
+// Name to be used for cache file
+@property (strong, nonatomic) NSString *cacheFileName;
+
+// Path in which to save (and check for) cache file for cacheFileName
+@property (strong, nonatomic) NSString *cachePath;
+
+// w/h *and* h/w ratio threshold beyond which image isn't retrieved. 0.0f for no check
+@property (nonatomic) float maxWidthHeightRatio;
+
+@end
+
+@implementation AspectFillThumbFetcher
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        self.fail = nil;
-        self.done = nil;
-        self.dateString = nil;
+        self.extraDataToCache = nil;
+        self.cacheFileName = nil;
+        self.cachePath = nil;
+        self.maxWidthHeightRatio = 0.0f;
+        self.getTitle = nil;
+        self.getGenerator = nil;
     }
     return self;
 }
 
--(NSString *)getDateStringForDaysAgo:(int)daysAgo
+- (MWPromise *)fetchThumbnail:(NSString *)filename size:(CGSize)size withQueuePriority:(NSOperationQueuePriority)priority;
 {
-    NSDate *date = [[NSDate alloc] init];
-    date = [date dateByAddingTimeInterval: -(86400.0 * daysAgo)];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    return [formatter stringFromDate:date];
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+    
+    self.cachePath = [[[CommonsApp singleton] documentRootPath] stringByAppendingFormat:@"/thumbs/"];
+    
+    self.extraDataToCache = nil;
+    
+    self.getTitle = [@"File:" stringByAppendingString:filename];
+    
+    self.getGenerator = @"";
+    
+    self.cacheFileName = [NSString stringWithFormat:@"%dx%d-%@", (uint)size.width, (uint)size.height, filename];
+    
+    self.maxWidthHeightRatio = 0.0f;
+    
+    [self getAtSize:size deferred:deferred];
+    
+    return deferred.promise;
 }
 
--(NSString *)potdCacheFileName
-{    
-    return [NSString stringWithFormat:@"POTD-%@", self.dateString];
+- (MWPromise *)fetchPictureOfDay:(NSString *)dateString size:(CGSize)size withQueuePriority:(NSOperationQueuePriority)priority
+{
+    MWDeferred *deferred = [[MWDeferred alloc] init];
+    
+    self.cachePath = [[[CommonsApp singleton] documentRootPath] stringByAppendingFormat:@"/potd/"];
+    
+    self.extraDataToCache = @{@"potd_date": dateString};
+    
+    self.getTitle = [@"Template:Potd/" stringByAppendingString:dateString];
+    
+    self.getGenerator = @"images";
+    
+    self.cacheFileName = [NSString stringWithFormat:@"POTD-%@", dateString];
+    
+    self.maxWidthHeightRatio = 2.0f;
+    
+    [self getAtSize:size deferred:deferred];
+    
+    return deferred.promise;
 }
 
 -(NSURL *)getJsonUrl
-{    
+{
     NSString *urlStr = [NSString stringWithFormat:
-        @"https://commons.wikimedia.org/w/api.php?action=query&generator=images&prop=imageinfo&titles=Template:Potd/%@&iiprop=url|size|comment|metadata|user|userid&format=json", self.dateString];
-    
+                        @"%@/w/api.php?action=query&prop=imageinfo&iiprop=url|size|comment|metadata|user|userid&format=json&titles=%@%@",
+                        [CommonsApp.singleton wikiURLBase],
+                        self.getTitle,
+                        (self.getGenerator.length > 0) ? [@"&generator=" stringByAppendingString:self.getGenerator] : @""
+                        ];
+
     return [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
 - (NSError*)getErrorWithMessage:(NSString *)msg code:(NSInteger)code
 {
-    return [[NSError alloc] initWithDomain:@"PictureOfTheDay"
+    return [[NSError alloc] initWithDomain:@"AspectFillThumbFetcher"
                                       code:code
                                   userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(msg, nil)}];
 }
 
--(void)getAtSize:(CGSize)size;
+-(void)getAtSize:(CGSize)size deferred:(MWDeferred*) deferred
 {
-    // Retrieves thumbnail of the picture of the day. Caches it and use the cached file next time.
+    // Retrieves thumbnail of the image. Caches it and use the cached file next time.
     void (^retrievedJsonUrlData)(NSURLResponse*, NSData*, NSError*) = ^(NSURLResponse *response, NSData *urlData, NSError *err) {
         if (err){
-            self.fail(err);
+            [deferred reject:err];
             return;
         }
         
         err = nil;
         NSDictionary *json = [NSJSONSerialization JSONObjectWithData:urlData options:kNilOptions error:&err];
         if (err){
-            self.fail(err);
+            [deferred reject:err];
             return;
         }
         
         if (!json.count){
-            self.fail([self getErrorWithMessage:@"No json data received for the url above ^" code:700]);
+            [deferred reject:[self getErrorWithMessage:@"No json data received for the url above ^" code:700]];
             return;
         }
         
-        // Find the potdURL in the json data
+        // Find the file URL in the json data
         NSString *urlStr = [self getValueForKey:@"url" fromJson:json];
         
         if (!urlStr) {
-            self.fail([self getErrorWithMessage:[@"Could not locate Picture of the Day URL.\nURL = " stringByAppendingString:urlStr] code:701]);
+            [deferred reject:[self getErrorWithMessage:[@"Could not locate image URL.\nURL = " stringByAppendingString:urlStr] code:701]];
             return;
         }
         
-        // Determine the height and width of the picture of the day from the json data
+        // Determine the height and width of the image from the json data
         // (The size needs to be know before the thumb is requested because the thumb needs
         // to be sized to best fit the present device screen dimensions)
         CGSize originalSize = [self getSizeFromJson:json];
@@ -92,17 +150,16 @@
         // calculated to see if it's a good fit. If it's an extremely wide panorama (vertical
         // or horizontal) then it is not
         if (![self isAspectRatioOkForSize:CGSizeMake(originalSize.width, originalSize.height)]){
-            self.fail([self getErrorWithMessage:@"isAspectRatioOkForSize: Detected Extreme Panorama!" code:702]);
+            [deferred reject:[self getErrorWithMessage:@"isAspectRatioOkForSize: Detected Extreme Panorama!" code:702]];
             return;
         }
         
         NSString *filename = [self pageIdNodeFromJson:json][@"title"];
         
         if (!filename){
-            self.fail([self getErrorWithMessage:@"No file name found in json data" code:703]);
+            [deferred reject:[self getErrorWithMessage:@"No file name found in json data" code:703]];
             return;
         }
-        NSString *key = [self potdCacheFileName];
 
         // Request the thumbnail be generated
         MWApi *api = [CommonsApp.singleton startApi];
@@ -124,15 +181,15 @@
         
         MWPromise *fetch = [api getRequest:params];
         [fetch done:^(NSDictionary *result) {
-            //NSLog(@"potd fetch = %@", result);
+            //NSLog(@"image fetch = %@", result);
             
             //NSString *thumbWidth = [self getValueForKey:@"thumbwidth" fromJson:result];
             //NSString *thumbHeight = [self getValueForKey:@"thumbheight" fromJson:result];
 
-            NSURL *potdThumbnailURL = [NSURL URLWithString:[self getValueForKey:@"thumburl" fromJson:result]];
-            if (potdThumbnailURL) {
+            NSURL *thumbURL = [NSURL URLWithString:[self getValueForKey:@"thumburl" fromJson:result]];
+            if (thumbURL) {
                 // Now request the generated thumbnail
-                MWPromise *fetchImage = [CommonsApp.singleton fetchDataURL:potdThumbnailURL withQueuePriority:NSOperationQueuePriorityNormal];
+                MWPromise *fetchImage = [CommonsApp.singleton fetchDataURL:thumbURL withQueuePriority:NSOperationQueuePriorityNormal];
                 [fetchImage done:^(NSData *data) {
 
                     // Get data to cache with image data
@@ -142,12 +199,16 @@
                     // Cache the image data
                     dataToCache[@"image"] = data;
 
-                    [self cachePotdDict:dataToCache forKey:key];
+                    [dataToCache addEntriesFromDictionary:self.extraDataToCache];
+                    
+                    [self cacheDict:dataToCache forKey:self.cacheFileName];
                     // Make all of the image data available to the callback
-                    self.done(dataToCache);
+                    [deferred resolve:dataToCache];
+
                 }];
                 [fetchImage fail:^(NSError *error) {
-                    self.fail(error);
+                    [deferred reject:error];
+
                 }];
                 [fetchImage progress:^(id arg) {
                 }];
@@ -155,12 +216,13 @@
         }];
     };
 
-    NSDictionary *cachedImageDataDict = [self cachedPotdDictForKey: [self potdCacheFileName]];
+    NSDictionary *cachedImageDataDict = [self cachedDictForKey: self.cacheFileName];
+
     if (cachedImageDataDict) {
         // Cached image located. Use it.
-        self.done(cachedImageDataDict);
+        [deferred resolve:cachedImageDataDict];
     }else{
-        // Get json data for today's picture asynchronously
+        // Get json data for image asynchronously
         NSURL * url = [self getJsonUrl];
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
         
@@ -170,7 +232,7 @@
                                            queue:[NSOperationQueue mainQueue]
                                completionHandler:retrievedJsonUrlData];
         /*
-        // Get json data for today's picture synchronously
+        // Get json data for image synchronously
         NSError *err = nil;
         NSData *urlData = [NSData dataWithContentsOfURL:[self getJsonUrl] options:nil error:&err];
         retrievedJsonUrlData(nil, urlData, err);
@@ -185,11 +247,10 @@
     // Clean up the metadata so its key values pairs are dictionary key value pairs
     NSDictionary *metadata = [self getMetadataFromJson:json];
     
-    NSLog(@"PotD Metadata = %@", metadata);
-    //NSLog(@"PotD Camera Model = %@", metadata[@"Model"]);
+    NSLog(@"Image Metadata = %@", metadata);
+    //NSLog(@"Camera Model = %@", metadata[@"Model"]);
 
     dataToCache[@"metadata"] = metadata;
-    dataToCache[@"date"] = self.dateString;
 
     // Cache all children of imageinfo not just metadata
     // (metadata is cached separately as it gets cleaned by "getMetadataFromJson:")
@@ -208,9 +269,9 @@
     return dataToCache;
 }
 
-- (NSDictionary *)cachedPotdDictForKey:(NSString *)key
+- (NSDictionary *)cachedDictForKey:(NSString *)key
 {
-    NSString *imgDataPath = [self potdPath:key];
+    NSString *imgDataPath = [self fullCacheFilePath:key];
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:imgDataPath]) {
         NSData *data = [NSData dataWithContentsOfFile:imgDataPath options:nil error:nil];
@@ -220,20 +281,31 @@
     }
 }
 
-- (NSString *)potdPath:(NSString *)fileName
+-(void)setCachePath:(NSString *)newCachePath
 {
-    return [[[CommonsApp singleton] documentRootPath] stringByAppendingFormat:@"/potd/%@", fileName];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if (![fm fileExistsAtPath:newCachePath]) {
+        NSError *err;
+        [fm createDirectoryAtPath:newCachePath withIntermediateDirectories:YES attributes:nil error:&err];
+    }
+    _cachePath = newCachePath;
 }
 
-- (void)cachePotdDict:(NSDictionary *)dict forKey:(NSString *)key
+- (NSString *)fullCacheFilePath:(NSString *)fileName
+{
+    return [self.cachePath stringByAppendingString:fileName];
+}
+
+- (void)cacheDict:(NSDictionary *)dict forKey:(NSString *)key
 {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
-    [data writeToFile:[self potdPath:key] atomically:YES];
+    [data writeToFile:[self fullCacheFilePath:key] atomically:YES];
 }
 
 -(BOOL)isAspectRatioOkForSize:(CGSize)size
 {
-    //return YES;
+    // If no ration specified then don't continue
+    if (self.maxWidthHeightRatio == 0.0f) return YES;
     
     // Avoid zero division errors
     size.width += 0.00001f;
@@ -241,16 +313,16 @@
     
     float r = size.width / size.height;
     if (r < 1.0f) r = 1.0f / r;
-    // If the image is more than POTD_MAX_W_H_RATIO as wide as it is tall, or more than POTD_MAX_W_H_RATIO as
+    // If the image is more than maxWidthHeightRatio as wide as it is tall, or more than maxWidthHeightRatio as
     // tall as it is wide, then its not ok to use because only a small part of the thumb will end up being
     // onscreen because aspect fill is being used to ensure the entire background of the login view
     //controller's view is filled with image
-    return (r > POTD_MAX_W_H_RATIO) ? NO : YES;
+    return (r > self.maxWidthHeightRatio) ? NO : YES;
 }
 
 -(CGSize)getSizeFromJson:(NSDictionary *)json
 {
-    // Determine the height and width of the picture of the day from the json data
+    // Determine the height and width of the image from the json data
     NSString *origHeight = [self getValueForKey:@"height" fromJson:json];
     NSString *origWidth = [self getValueForKey:@"width" fromJson:json];
     return (origHeight && origWidth) ? CGSizeMake(origWidth.floatValue, origHeight.floatValue) : CGSizeZero;
