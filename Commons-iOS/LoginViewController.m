@@ -202,9 +202,34 @@
     [LoginViewController applyShadowToView:self.attributionButton];
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
     
+    // The "cycle" callback below is invoked by pictureOfDayCycler_ to change which picture of the day is showing
     __weak LoginViewController *weakSelf = self;
+    __weak NSMutableArray *weakCachedPotdDateStrings_ = cachedPotdDateStrings_;
+    // todayDateString must be set *inside* cycle callback! it's used to see if midnight rolled around while the images
+    // were transitioning. if so it adds a date string for the new day to cachedPotdDateStrings_ so the new day's image
+    // will load (previously you had to leave the login page and go back to see the new day's image)
+    __block NSString *todayDateString = nil;
+    __weak PictureOfDayCycler *weakPictureOfDayCycler_ = pictureOfDayCycler_;
     pictureOfDayCycler_.cycle = ^(NSString *dateString){
-        [weakSelf getPictureOfTheDayForDateString:dateString done:nil];
+        // If today's date string is not in cachedPotdDateStrings_ (can happen if the login page is displaying and
+        // midnight occurs) add it so it will be downloaded.
+        todayDateString = [weakSelf getDateStringForDaysAgo:0];
+        if(![weakCachedPotdDateStrings_ containsObject:todayDateString]){
+            [weakCachedPotdDateStrings_ addObject:todayDateString];
+            // Stop the cycler while the new day's image is retrieved - otherwise the cycler moves on, then whenever
+            // the image is retrieved the callback is invoked causing it to display even if this happens in the middle
+            // of another image's cycle - this looks jarring, so stop cycling until new image is grabbed
+            [weakPictureOfDayCycler_ stop];
+            dateString = todayDateString;
+            //[weakPictureOfDayCycler_ moveIndexToEnd];
+        }
+        //NSLog(@"\n\nweakCachedPotdDateStrings_ = \n\n%@\n\n", weakCachedPotdDateStrings_);
+        [weakSelf getPictureOfTheDayForDateString:dateString done:^{
+            if ([dateString isEqualToString:todayDateString]) {
+                // If the cycler was stopped because midnight rolled around, restart it
+                [weakPictureOfDayCycler_ start];
+            }
+        }];
     };
 }
 
