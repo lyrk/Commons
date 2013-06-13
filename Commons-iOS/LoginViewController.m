@@ -226,15 +226,21 @@
     [cachedPotdDateStrings_ removeAllObjects];
     
     // Get array cachedPotdDateStrings_ of cached potd date strings
+    // Uses reverseObjectEnumerator so most recently downloaded images show first
     NSArray *allFileInPotdFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[CommonsApp singleton] potdPath:@""] error:nil];
-    for (NSString *fileName in allFileInPotdFolder) {
+    for (NSString *fileName in [allFileInPotdFolder reverseObjectEnumerator]) {
         if ([fileName hasPrefix:@"POTD-"]) {
             NSString *dateString2 = [fileName substringWithRange:NSMakeRange(5, 10)];
             [cachedPotdDateStrings_ addObject:dateString2];
-            //NSLog(@"date string = %@", dateString);
         }
     }
 
+    // Move the default bundled image to the end of the array so it doesn't show again
+    // until the other images have been cycled through
+    [cachedPotdDateStrings_ removeObject:DEFAULT_BUNDLED_PIC_OF_DAY_DATE];
+    [cachedPotdDateStrings_ addObject:DEFAULT_BUNDLED_PIC_OF_DAY_DATE];
+
+    //NSLog(@"\n\ncachedPotdDateStrings_ = \n\n%@\n\n", cachedPotdDateStrings_);
 }
 
 -(void)cycleNextCachedPotd
@@ -250,13 +256,31 @@
     potdCylerIndex_ = (potdCylerIndex_ == (cachedPotdDateStrings_.count - 1)) ? 0 : potdCylerIndex_ + 1;
 }
 
--(void)startPotdCyclerTimer
+-(void)cycleNextCachedPotdFirstTime
 {
+    [self cycleNextCachedPotd];
+    [self stopPotdCyclerTimer];
+
     if (potdCycler_ == nil){
-        potdCycler_ = [NSTimer scheduledTimerWithTimeInterval:SECONDS_TO_SHOW_EACH_PIC_OF_DAY target:self
+        potdCycler_ = [NSTimer scheduledTimerWithTimeInterval:(SECONDS_TO_SHOW_EACH_PIC_OF_DAY) target:self
                                                      selector:@selector(cycleNextCachedPotd)
                                                      userInfo:nil
-                                                      repeats:YES];
+                                                     repeats:YES];
+    }
+}
+
+-(void)startPotdCyclerTimer
+{
+    // Added initial call to "cycleNextCachedPotdFirstTime" on a shorter timer because the initial image isn't
+    // fading in from a previous image and thus *looks* like it's taking longer even thought it isn't. Since
+    // NSTimer can't have its timerInterval changed once it's been created the timer created in this method only
+    // fires once ("repeats:NO"). Then the timer kicked off by "cycleNextCachedPotdFirstTime" *does* repeat, but
+    // with the full "SECONDS_TO_SHOW_EACH_PIC_OF_DAY" interval
+    if (potdCycler_ == nil){
+        potdCycler_ = [NSTimer scheduledTimerWithTimeInterval:(SECONDS_TO_SHOW_EACH_PIC_OF_DAY - SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY) target:self
+                                                     selector:@selector(cycleNextCachedPotdFirstTime)
+                                                     userInfo:nil
+                                                     repeats:NO];
     }
 }
 
@@ -565,13 +589,19 @@
         dateString = FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE;
     }
 
-    // Download the current PotD!
-    [self getPictureOfTheDayForDateString:dateString done:^{
-        // Update array "cachedPotdDateStrings_" with all cached potd file date strings
-        [self loadArrayOfCachedPotdDateStrings];
-
+    // Populate array cachedPotdDateStrings_ with all cached potd file date strings
+    [self loadArrayOfCachedPotdDateStrings];
+    // If dateString not already in cachedPotdDateStrings_ 
+    if (![cachedPotdDateStrings_ containsObject:dateString]) {
+        // Download the current PotD!
+        [self getPictureOfTheDayForDateString:dateString done:^{
+            // Update "cachedPotdDateStrings_" so it contains date string for the newly downloaded file
+            [self loadArrayOfCachedPotdDateStrings];
+            [self startPotdCyclerTimer];
+        }];
+    }else{
         [self startPotdCyclerTimer];
-    }];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
