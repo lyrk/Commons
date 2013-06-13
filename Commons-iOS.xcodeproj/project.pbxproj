@@ -20,6 +20,7 @@
 		0417D9DF17695E4700081D8C /* POTD-2009-06-19.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D417695E4700081D8C /* POTD-2009-06-19.dict */; };
 		0417D9E017695E4700081D8C /* POTD-2013-04-21.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D517695E4700081D8C /* POTD-2013-04-21.dict */; };
 		0417D9E117695E4700081D8C /* POTD-2013-06-04.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D617695E4700081D8C /* POTD-2013-06-04.dict */; };
+		0417D9E417698AF200081D8C /* PictureOfDayCycler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E317698AF200081D8C /* PictureOfDayCycler.m */; };
 		044A0C3C170F6504003395DD /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044A0C3B170F6504003395DD /* GradientButton.m */; };
 		0451C8621739A2CC00C2D03B /* FetchImageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C8611739A2CC00C2D03B /* FetchImageOperation.m */; };
 		0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C864173B3D3800C2D03B /* SpeedGovernor.m */; };
@@ -322,6 +323,8 @@
 		0417D9D417695E4700081D8C /* POTD-2009-06-19.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2009-06-19.dict"; sourceTree = "<group>"; };
 		0417D9D517695E4700081D8C /* POTD-2013-04-21.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-21.dict"; sourceTree = "<group>"; };
 		0417D9D617695E4700081D8C /* POTD-2013-06-04.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-06-04.dict"; sourceTree = "<group>"; };
+		0417D9E217698AF200081D8C /* PictureOfDayCycler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfDayCycler.h; sourceTree = "<group>"; };
+		0417D9E317698AF200081D8C /* PictureOfDayCycler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfDayCycler.m; sourceTree = "<group>"; };
 		044A0C3A170F6504003395DD /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
 		044A0C3B170F6504003395DD /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientButton.m; sourceTree = "<group>"; };
 		0451C8601739A2CC00C2D03B /* FetchImageOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchImageOperation.h; sourceTree = "<group>"; };
@@ -698,6 +701,8 @@
 		655BF5EC16C104CD00B22299 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				0417D9E217698AF200081D8C /* PictureOfDayCycler.h */,
+				0417D9E317698AF200081D8C /* PictureOfDayCycler.m */,
 				04C27B35174D44C800B1942F /* CALerpLine.h */,
 				04C27B36174D44C900B1942F /* CALerpLine.m */,
 				04DC756D1758884100D92849 /* CustomTextField.h */,
@@ -1499,6 +1504,7 @@
 				04DC75631758682B00D92849 /* AspectFillThumbFetcher.m in Sources */,
 				04DC756617586EFF00D92849 /* PictureOfTheDayImageView.m in Sources */,
 				04DC756F1758884200D92849 /* CustomTextField.m in Sources */,
+				0417D9E417698AF200081D8C /* PictureOfDayCycler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

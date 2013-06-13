@@ -20,6 +20,7 @@
 #import "AspectFillThumbFetcher.h"
 #import "PictureOfTheDayImageView.h"
 #import "UILabel+ResizeWithAttributes.h"
+#import "PictureOfDayCycler.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
@@ -55,8 +56,6 @@
     AspectFillThumbFetcher *pictureOfTheDayGetter_;
     BOOL showingPictureOfTheDayAttribution_;
     NSMutableArray *cachedPotdDateStrings_;
-    NSTimer *potdCycler_;
-    uint potdCylerIndex_;
 }
 
 - (void)showMyUploadsVC;
@@ -81,7 +80,7 @@
     
     // Only skip the login screen on initial load
     bool allowSkippingToMyUploads;
-
+    PictureOfDayCycler *pictureOfDayCycler_;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -95,8 +94,11 @@
         showingPictureOfTheDayAttribution_ = NO;
         cachedPotdDateStrings_ = [[NSMutableArray alloc] init];
         self.potdImageView.image = nil;
-        potdCylerIndex_ = 0;
-        potdCycler_ = nil;
+        
+        pictureOfDayCycler_ = [[PictureOfDayCycler alloc] init];
+        pictureOfDayCycler_.dateStrings = cachedPotdDateStrings_;
+        pictureOfDayCycler_.transitionDuration = SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY;
+        pictureOfDayCycler_.displayInterval = SECONDS_TO_SHOW_EACH_PIC_OF_DAY;
     }
     return self;
 }
@@ -199,6 +201,11 @@
     [LoginViewController applyShadowToView:self.aboutButton];    
     [LoginViewController applyShadowToView:self.attributionButton];
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
+    
+    __weak LoginViewController *weakSelf = self;
+    pictureOfDayCycler_.cycle = ^(NSString *dateString){
+        [weakSelf getPictureOfTheDayForDateString:dateString done:nil];
+    };
 }
 
 -(void)copyToCacheBundledPotdsNamed:(NSString *)defaultBundledPotdsDates
@@ -243,55 +250,6 @@
     //NSLog(@"\n\ncachedPotdDateStrings_ = \n\n%@\n\n", cachedPotdDateStrings_);
 }
 
--(void)cycleNextCachedPotd
-{
-    if (cachedPotdDateStrings_.count < 2) return;
-
-    if (potdCylerIndex_ > (cachedPotdDateStrings_.count - 1)) potdCylerIndex_ = cachedPotdDateStrings_.count - 1;
-
-    NSString *dateString = cachedPotdDateStrings_[potdCylerIndex_];
-
-    [self getPictureOfTheDayForDateString:dateString done:nil];
-    
-    potdCylerIndex_ = (potdCylerIndex_ == (cachedPotdDateStrings_.count - 1)) ? 0 : potdCylerIndex_ + 1;
-}
-
--(void)cycleNextCachedPotdFirstTime
-{
-    [self cycleNextCachedPotd];
-    [self stopPotdCyclerTimer];
-
-    if (potdCycler_ == nil){
-        potdCycler_ = [NSTimer scheduledTimerWithTimeInterval:(SECONDS_TO_SHOW_EACH_PIC_OF_DAY) target:self
-                                                     selector:@selector(cycleNextCachedPotd)
-                                                     userInfo:nil
-                                                     repeats:YES];
-    }
-}
-
--(void)startPotdCyclerTimer
-{
-    // Added initial call to "cycleNextCachedPotdFirstTime" on a shorter timer because the initial image isn't
-    // fading in from a previous image and thus *looks* like it's taking longer even thought it isn't. Since
-    // NSTimer can't have its timerInterval changed once it's been created the timer created in this method only
-    // fires once ("repeats:NO"). Then the timer kicked off by "cycleNextCachedPotdFirstTime" *does* repeat, but
-    // with the full "SECONDS_TO_SHOW_EACH_PIC_OF_DAY" interval
-    if (potdCycler_ == nil){
-        potdCycler_ = [NSTimer scheduledTimerWithTimeInterval:(SECONDS_TO_SHOW_EACH_PIC_OF_DAY - SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY) target:self
-                                                     selector:@selector(cycleNextCachedPotdFirstTime)
-                                                     userInfo:nil
-                                                     repeats:NO];
-    }
-}
-
--(void)stopPotdCyclerTimer
-{
-    if (potdCycler_ != nil){
-        [potdCycler_ invalidate];
-        potdCycler_ = nil;
-    }
-}
-
 -(NSString *)getDateStringForDaysAgo:(int)daysAgo
 {
     NSDate *date = [[NSDate alloc] init];
@@ -324,7 +282,7 @@
                 weakSelf.pictureOfTheDayDateString = dict[@"potd_date"];
                 
                 // Briefly hide the attribution label before updating it
-                [UIView animateWithDuration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY / 4.0
+                [UIView animateWithDuration:pictureOfDayCycler_.transitionDuration / 4.0
                                       delay:0.0
                                     options: UIViewAnimationCurveLinear
                                  animations:^{
@@ -337,7 +295,7 @@
                                      [weakSelf updateAttributionLabelFrame];
 
                                      //Now show the updated attribution box
-                                     [UIView animateWithDuration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY / 3.0
+                                     [UIView animateWithDuration:pictureOfDayCycler_.transitionDuration / 3.0
                                                            delay:0.0
                                                          options: UIViewAnimationCurveLinear
                                                       animations:^{
@@ -349,7 +307,7 @@
 
                 // Transistion the picture of the day
                 [UIView transitionWithView:weakPotdImageView
-                                  duration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY
+                                  duration:pictureOfDayCycler_.transitionDuration
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{
                                     weakPotdImageView.useFilter = NO;
@@ -597,10 +555,10 @@
         [self getPictureOfTheDayForDateString:dateString done:^{
             // Update "cachedPotdDateStrings_" so it contains date string for the newly downloaded file
             [self loadArrayOfCachedPotdDateStrings];
-            [self startPotdCyclerTimer];
+            [pictureOfDayCycler_ start];
         }];
     }else{
-        [self startPotdCyclerTimer];
+        [pictureOfDayCycler_ start];
     }
 }
 
@@ -632,7 +590,7 @@
 	
 	[self.navigationItem setBackBarButtonItem: backButton];
 
-    [self stopPotdCyclerTimer];
+    [pictureOfDayCycler_ stop];
 
     [super viewWillDisappear:animated];
 }
