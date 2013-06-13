@@ -337,6 +337,13 @@
 }
 
 + (void)applyShadowToView:(UIView *)view{
+
+    // "shouldRasterize" improves shadow performance: http://stackoverflow.com/a/7867703/135557
+    // This is especially noticable on old 3.5 inch devices during pic of the day transitions
+    view.layer.shouldRasterize = YES;
+    view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+
+    // Apply shadow
     view.layer.shadowColor = [UIColor blackColor].CGColor;
     view.layer.shadowOffset = CGSizeMake(0, 0);
     view.layer.shadowOpacity = 1;
