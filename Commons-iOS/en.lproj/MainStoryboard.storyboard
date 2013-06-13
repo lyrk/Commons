@@ -793,6 +793,7 @@ to take or choose photos.</string>
                     <navigationItem key="navigationItem" title="License" id="VWA-AW-ZKM"/>
                     <connections>
                         <outlet property="ccBySaViewButton" destination="e2c-CU-pM8" id="jy1-Vb-Gwe"/>
+                        <outlet property="readAboutLicensingLabel" destination="OgD-AT-9RW" id="z7N-ed-BGs"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RC4-Hr-xvk" userLabel="First Responder" sceneMemberID="firstResponder"/>
