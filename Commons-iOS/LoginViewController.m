@@ -177,10 +177,12 @@
 
     // Ensure bundled pic of day is in cache
     [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES];
-    
-    // Load default image to ensure something is showing even if no net connection
-    // (loads the copy of the bundled default potd which was copied to the cache)
-    [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
+
+    if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE == nil){
+        // Load default image to ensure something is showing even if no net connection
+        // (loads the copy of the bundled default potd which was copied to the cache)
+        [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
+    }
     
     // Make logo a bit larger on iPad
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
@@ -205,7 +207,7 @@
     for (NSString *bundledPotdDateString in dates) {
         // Copy bundled default picture of the day to the cache (if it's not already there)
         // so there's a pic of the day shows even if today's image can't download
-        NSString *defaultBundledPotdFileName = [@"POTD-" stringByAppendingString:bundledPotdDateString];
+        NSString *defaultBundledPotdFileName = [NSString stringWithFormat:@"POTD-%@.dict", bundledPotdDateString];
         NSString *defaultBundledPath = [[NSBundle mainBundle] pathForResource:defaultBundledPotdFileName ofType:nil];
         if (defaultBundledPath){
             //Bundled File Found! See: http://stackoverflow.com/a/7487235
@@ -556,7 +558,7 @@
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
 	
-    // The wikimedia picture of the day urls use yyy-MM-dd format - get such a string
+    // The wikimedia picture of the day urls use yyyy-MM-dd format - get such a string
     NSString *dateString = [self getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
     
     if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE != nil){

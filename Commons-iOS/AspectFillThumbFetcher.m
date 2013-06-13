@@ -8,6 +8,8 @@
 #import "CommonsApp.h"
 #import "MWPromise.h"
 
+#pragma mark - Private
+
 @interface AspectFillThumbFetcher ()
 
 // Specifies just the url get "titles" setting which will be used to retrieve image data from the server.
@@ -32,6 +34,8 @@
 
 @end
 
+#pragma mark - Init
+
 @implementation AspectFillThumbFetcher
 
 - (id)init
@@ -47,6 +51,8 @@
     }
     return self;
 }
+
+#pragma mark - Convenience
 
 - (MWPromise *)fetchThumbnail:(NSString *)filename size:(CGSize)size withQueuePriority:(NSOperationQueuePriority)priority;
 {
@@ -90,6 +96,8 @@
     return deferred.promise;
 }
 
+#pragma mark - URL determination
+
 -(NSURL *)getJsonUrl
 {
     NSString *urlStr = [NSString stringWithFormat:
@@ -108,6 +116,8 @@
                                       code:code
                                   userInfo:@{NSLocalizedDescriptionKey: NSLocalizedString(msg, nil)}];
 }
+
+#pragma mark - Thumb retrieval
 
 -(void)getAtSize:(CGSize)size deferred:(MWDeferred*) deferred
 {
@@ -240,6 +250,8 @@
     }
 }
 
+#pragma mark - JSON
+
 -(NSMutableDictionary *)getDataToCacheFromJson:(NSDictionary *)json
 {
     NSMutableDictionary *dataToCache = [[NSMutableDictionary alloc] init];
@@ -267,57 +279,6 @@
         dataToCache[key] = [self pageIdNodeFromJson:json][key];
     }
     return dataToCache;
-}
-
-- (NSDictionary *)cachedDictForKey:(NSString *)key
-{
-    NSString *imgDataPath = [self fullCacheFilePath:key];
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:imgDataPath]) {
-        NSData *data = [NSData dataWithContentsOfFile:imgDataPath options:nil error:nil];
-        return (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    } else {
-        return nil;
-    }
-}
-
--(void)setCachePath:(NSString *)newCachePath
-{
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if (![fm fileExistsAtPath:newCachePath]) {
-        NSError *err;
-        [fm createDirectoryAtPath:newCachePath withIntermediateDirectories:YES attributes:nil error:&err];
-    }
-    _cachePath = newCachePath;
-}
-
-- (NSString *)fullCacheFilePath:(NSString *)fileName
-{
-    return [self.cachePath stringByAppendingString:fileName];
-}
-
-- (void)cacheDict:(NSDictionary *)dict forKey:(NSString *)key
-{
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
-    [data writeToFile:[self fullCacheFilePath:key] atomically:YES];
-}
-
--(BOOL)isAspectRatioOkForSize:(CGSize)size
-{
-    // If no ration specified then don't continue
-    if (self.maxWidthHeightRatio == 0.0f) return YES;
-    
-    // Avoid zero division errors
-    size.width += 0.00001f;
-    size.height += 0.00001f;
-    
-    float r = size.width / size.height;
-    if (r < 1.0f) r = 1.0f / r;
-    // If the image is more than maxWidthHeightRatio as wide as it is tall, or more than maxWidthHeightRatio as
-    // tall as it is wide, then its not ok to use because only a small part of the thumb will end up being
-    // onscreen because aspect fill is being used to ensure the entire background of the login view
-    //controller's view is filled with image
-    return (r > self.maxWidthHeightRatio) ? NO : YES;
 }
 
 -(CGSize)getSizeFromJson:(NSDictionary *)json
@@ -354,6 +315,61 @@
         }
     }
     return result;
+}
+
+#pragma mark - Caching
+
+- (NSDictionary *)cachedDictForKey:(NSString *)key
+{
+    NSString *imgDataPath = [self fullCacheFilePath:key];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:imgDataPath]) {
+        NSData *data = [NSData dataWithContentsOfFile:imgDataPath options:nil error:nil];
+        return (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    } else {
+        return nil;
+    }
+}
+
+-(void)setCachePath:(NSString *)newCachePath
+{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if (![fm fileExistsAtPath:newCachePath]) {
+        NSError *err;
+        [fm createDirectoryAtPath:newCachePath withIntermediateDirectories:YES attributes:nil error:&err];
+    }
+    _cachePath = newCachePath;
+}
+
+- (NSString *)fullCacheFilePath:(NSString *)fileName
+{
+    return [NSString stringWithFormat:@"%@%@.dict", self.cachePath, fileName];
+}
+
+- (void)cacheDict:(NSDictionary *)dict forKey:(NSString *)key
+{
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
+    [data writeToFile:[self fullCacheFilePath:key] atomically:YES];
+}
+
+#pragma mark - Extreme panorama detection
+
+-(BOOL)isAspectRatioOkForSize:(CGSize)size
+{
+    // If no ration specified then don't continue
+    if (self.maxWidthHeightRatio == 0.0f) return YES;
+    
+    // Avoid zero division errors
+    size.width += 0.00001f;
+    size.height += 0.00001f;
+    
+    float r = size.width / size.height;
+    if (r < 1.0f) r = 1.0f / r;
+    // If the image is more than maxWidthHeightRatio as wide as it is tall, or more than maxWidthHeightRatio as
+    // tall as it is wide, then its not ok to use because only a small part of the thumb will end up being
+    // onscreen because aspect fill is being used to ensure the entire background of the login view
+    //controller's view is filled with image
+    return (r > self.maxWidthHeightRatio) ? NO : YES;
 }
 
 @end
