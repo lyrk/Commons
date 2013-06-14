@@ -3,12 +3,13 @@
 //  Commons-iOS
 //
 //  Created by Felix Mo on 2013-02-03.
-//  Copyright (c) 2013 Wikimedia. All rights reserved.
-//
 
 
 #import "ImageScrollViewController.h"
+#include <math.h>
 
+#define FULL_SCREEN_IMAGE_MIN_ZOOM_SCALE 0.5f
+#define FULL_SCREEN_IMAGE_MAX_ZOOM_SCALE 5.0f
 
 // Private
 @interface ImageScrollViewController ()
@@ -16,12 +17,13 @@
 @property (nonatomic, strong) IBOutlet UIScrollView *imageScrollView;
 @property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
-@property (nonatomic, strong) NSTimer *controlsVisibilityTimer;
 
 @end
 
 
-@implementation ImageScrollViewController
+@implementation ImageScrollViewController{
+    float initialScale_;
+}
 
 
 #pragma mark - Property synthesizations
@@ -29,7 +31,6 @@
 @synthesize imageView;
 @synthesize imageScrollView;
 @synthesize image;
-@synthesize controlsVisibilityTimer;
 @synthesize activityIndicator;
 
 
@@ -42,45 +43,79 @@
     [self.activityIndicator stopAnimating];
     
     [self.imageView setImage:image];
+
+    [self centerScrollViewContents];
+
+    // Resize imageView to match new image size
+    [self sizeImageViewToItsImage];
     
-    CGRect imageViewFrame;
-    imageViewFrame.origin = CGPointZero;
-    imageViewFrame.size = self.image.size;
-    self.imageView.frame = imageViewFrame;
-    self.imageScrollView.contentSize = imageViewFrame.size;
-	
-	// Sizes
+    // And zoom so image fits
+    float scale = [self getScaleToMakeImageFullscreen];
+
+    if (scale < imageScrollView.minimumZoomScale) {
+        // Must adjust minimumZoomScale down or the image won't be able to be shrunken to fit
+        imageScrollView.minimumZoomScale = scale * 0.5;
+    }
+
+    [self.imageScrollView setZoomScale:scale animated:NO];
+
+    // Remember the scale so it can be easily returned to
+    initialScale_ = scale;
+}
+
+#pragma mark - Positioning
+
+-(float)getScaleToMakeImageFullscreen
+{
+    // Determine the scale adjustment required to make the imageView fit completely within the view
+    // (Note: this works because the imageView is sized to its image's size when its image is changed)
+    CGSize dst = self.view.frame.size;
+    CGSize src = self.imageView.frame.size;
+    float scale = fminf( dst.width/src.width, dst.height/src.height);
+
+    // Only do this in the case the image is larger than the view - otherwise images smaller than the view
+    // are scaled up giving the user a false impression
+    return (scale > 1.0f) ? 1.0f : scale;
+}
+
+-(void)sizeImageViewToItsImage
+{
+    // Sizes and keeps the previous center
+    CGPoint p = self.imageView.center;
+    CGRect f = self.imageView.frame;
+    f.size = image.size;
+    self.imageView.frame = f;
+    self.imageView.center = p;    
+}
+
+- (void)centerScrollViewContents {
+    // From: http://www.raywenderlich.com/10518/how-to-use-uiscrollview-to-scroll-and-zoom-content
     CGSize boundsSize = self.imageScrollView.bounds.size;
-    CGSize imageSize = self.imageView.frame.size;
+    CGRect contentsFrame = self.imageView.frame;
     
-    // Calculate min. scale
-    CGFloat xScale = boundsSize.width / imageSize.width;    // scale to fit the width of the image
-    CGFloat yScale = boundsSize.height / imageSize.height;  // scale to fit the height of the image
-    CGFloat minScale = MIN(xScale, yScale);                 // use the lesser of the two to fit the entire image in the view
-	
-	// If the image is smaller than the screen then show it at a min. scale of 1
-	if (xScale > 1.0f && yScale > 1.0f) {
-		minScale = 1.0f;
-	}
+    if (contentsFrame.size.width < boundsSize.width) {
+        contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0f;
+    } else {
+        contentsFrame.origin.x = 0.0f;
+    }
     
-	// Calculate max. scale
-	CGFloat maxScale = 1.0f;
-	if ([UIScreen instancesRespondToSelector:@selector(scale)]) {
-		maxScale = maxScale / [[UIScreen mainScreen] scale];
-	}
-	
-	// Set values
-	self.imageScrollView.maximumZoomScale = maxScale;
-	self.imageScrollView.minimumZoomScale = minScale;
-	self.imageScrollView.zoomScale = minScale;
+    if (contentsFrame.size.height < boundsSize.height) {
+        contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0f;
+    } else {
+        contentsFrame.origin.y = 0.0f;
+    }
+    
+    self.imageView.frame = contentsFrame;
 }
 
 
 #pragma mark - View lifecycle
 
-- (void)loadView
+- (void)viewDidLoad
 {
-    [super loadView];
+    [super viewDidLoad];
+    
+    initialScale_ = 1.0f;
     
     // Center activity indicator view
     CGRect bounds = [[UIScreen mainScreen] bounds];
@@ -90,7 +125,10 @@
     // Change the appearance of the status bar and navigation bar
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
-        
+
+    imageView.frame = self.view.frame;
+    imageView.backgroundColor = [UIColor blackColor];
+
     // Setup the scroll view
     imageScrollView.bouncesZoom = YES;
     imageScrollView.delegate = self;
@@ -98,6 +136,9 @@
     imageScrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     imageScrollView.showsHorizontalScrollIndicator = NO;
     imageScrollView.showsVerticalScrollIndicator = NO;
+    
+    self.imageScrollView.backgroundColor = [UIColor blackColor];
+    imageScrollView.frame = self.view.frame;
     
     // Add the imageView to the scrollView as subview
     [imageScrollView addSubview:imageView];
@@ -109,15 +150,24 @@
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
     [singleTap setNumberOfTapsRequired:1];
     [doubleTap setNumberOfTapsRequired:2];
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     
-    // Add the gesture recognizers to the image view
-    [imageView addGestureRecognizer:singleTap];
-    [imageView addGestureRecognizer:doubleTap];
+    // Add the gesture recognizers to the view
+    [self.view addGestureRecognizer:singleTap];
+    [self.view addGestureRecognizer:doubleTap];
+    [self.view addGestureRecognizer:swipeRight];
     
-    // Load the image if it's there
-    if (self.image) {
-        [self setImage:image];
-    }
+    [self.view bringSubviewToFront:activityIndicator];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    imageScrollView.minimumZoomScale = FULL_SCREEN_IMAGE_MIN_ZOOM_SCALE;
+    imageScrollView.maximumZoomScale = FULL_SCREEN_IMAGE_MAX_ZOOM_SCALE;
+    imageScrollView.zoomScale = 1.0f;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -129,35 +179,15 @@
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
     
-    [self setControlsHidden:NO animated:YES permanent:YES];
+    [self setControlsHidden:NO animated:YES];
 }
-
 
 #pragma mark - UIScrollView
 
-- (void)scrollViewDidZoom:(UIScrollView *)aScrollView {
-    
-    CGFloat offsetX = (imageScrollView.bounds.size.width > imageScrollView.contentSize.width) ? (imageScrollView.bounds.size.width - imageScrollView.contentSize.width) * 0.5f : 0.0f;
-    CGFloat offsetY = (imageScrollView.bounds.size.height > imageScrollView.contentSize.height) ? (imageScrollView.bounds.size.height - imageScrollView.contentSize.height) * 0.5f : 0.0f;
-    
-    imageView.center = CGPointMake(imageScrollView.contentSize.width * 0.5f + offsetX, imageScrollView.contentSize.height * 0.5f + offsetY);
+- (void)scrollViewDidZoom:(UIScrollView *)aScrollView {    
+    // The scroll view has zoomed, so we need to re-center the contents
+    [self centerScrollViewContents];
 }
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    
-	[self cancelControlHiding];
-}
-
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
-    
-	[self cancelControlHiding];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    
-	[self hideControlsAfterDelay];
-}
-
 
 #pragma mark - UIScrollViewDelegate methods
 
@@ -179,36 +209,20 @@
     
     // Cancel single tap
 	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-    
-    // Get touch location
-    CGPoint touchPoint = [gestureRecognizer locationInView:self.imageView];
-    
-    // Zoom
-	if (self.imageScrollView.zoomScale == self.imageScrollView.maximumZoomScale) {
-		
-		// Zoom out
-		[self.imageScrollView setZoomScale:self.imageScrollView.minimumZoomScale animated:YES];
-		
-	} else {
-		
-		// Zoom in
-		[self.imageScrollView zoomToRect:CGRectMake(touchPoint.x, touchPoint.y, 1.0f, 1.0f) animated:YES];
-		
-	}
-    
-    // Delay controls
-	[self hideControlsAfterDelay];
+
+    [self.imageScrollView setZoomScale:initialScale_ animated:YES];
+}
+
+- (void)handleSwipeRight:(UIGestureRecognizer *)gestureRecognizer {
+    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 
 #pragma mark - Control visibility
 
 // If permanent then timer to hide controls is not activated
-- (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated permanent:(BOOL)permanent {
+- (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated{
     
-    // Cancel any timers
-    [self cancelControlHiding];
-	
 	// Status bar and nav bar positioning
     if (self.wantsFullScreenLayout) {
         
@@ -246,30 +260,6 @@
 	if (animated) {
         [UIView commitAnimations];
     }
-	
-	// Control hiding timer; will cancel existing timer but only begin hiding if they are visible
-	if (!permanent) {
-        [self hideControlsAfterDelay];
-    }
-    
-}
-
-- (void)cancelControlHiding {
-    
-	// If a timer exists then cancel it
-	if (controlsVisibilityTimer) {
-		[controlsVisibilityTimer invalidate];
-		controlsVisibilityTimer = nil;
-	}
-}
-
-// Enable/disable control visiblity timer
-- (void)hideControlsAfterDelay {
-    
-	if (![self controlsHidden]) {
-        [self cancelControlHiding];
-		controlsVisibilityTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(hideControls) userInfo:nil repeats:NO];
-	}
 }
 
 - (BOOL)controlsHidden {
@@ -277,14 +267,9 @@
     return [UIApplication sharedApplication].isStatusBarHidden;
 }
 
-- (void)hideControls {
-    
-    [self setControlsHidden:YES animated:YES permanent:NO];
-}
-
 - (void)toggleControls {
     
-    [self setControlsHidden:![self controlsHidden] animated:YES permanent:NO];
+    [self setControlsHidden:![self controlsHidden] animated:YES];
 }
 
 @end
