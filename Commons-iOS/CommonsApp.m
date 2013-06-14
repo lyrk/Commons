@@ -1430,4 +1430,14 @@ static CommonsApp *singleton_;
     [self deleteItemFromKeychainWithIdentifier:@"org.wikimedia.password"];
 }
 
+-(void)resizeViewInPlace:(UIView *)view toSize:(CGSize)size
+{
+    // Resize view frame to size keeping it previous center
+    view.frame = CGRectInset(
+                               view.frame,
+                               -((size.width - CGRectGetWidth(view.frame)) / 2.0f),
+                               -((size.height - CGRectGetHeight(view.frame)) / 2.0f)
+                               );
+}
+
 @end
