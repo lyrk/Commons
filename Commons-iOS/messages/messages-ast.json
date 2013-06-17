@@ -8,8 +8,8 @@
     "contribs-settings-button": "Configuraci\u00f3n",
     "contribs-upload-button": "Xubir",
     "contribs-photo-library-button": "Fotos",
-    "contribs-state-queued": "En cola",
-    "contribs-state-uploading": "Xubiendo",
+    "contribs-state-queued": "$1 na cola",
+    "contribs-state-uploading": "Xubiendo la foto $1",
     "contribs-refresh": "Tirar pa refrescar",
     "contribs-refreshing": "Refrescando...",
     "error-upload-failed": "\u00a1Fall\u00f3 la xuba!",
@@ -49,6 +49,7 @@
     "web-cancel": "Encaboxar",
     "login-title": "Cuenta",
     "login-button": "Entrar",
+    "logout-button": "Salir",
     "about-title": "Tocante a",
     "about-app-version-label": "Versi\u00f3n $1",
     "about-commons-button": "Wikimedia Commons",
@@ -72,5 +73,6 @@
     "catdetail-remove-label": "Desaniciar \"$1\"",
     "catdetail-info-intro": "M\u00e1s informaci\u00f3n",
     "catdetail-info-label": "Lleer sobro les categor\u00edes",
-    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    "getting-started-what-is-commons-images-label": "Les imaxes de Wikipedia vienen de\nWikimedia Commons."
 }

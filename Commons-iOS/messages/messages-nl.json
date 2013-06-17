@@ -12,6 +12,7 @@
     "contribs-state-uploading": "$1 Bezig met uploaden",
     "contribs-state-downloading": "$1 Miniatuur aan het ophalen",
     "contribs-state-generating-thumb": "$1 Miniatuur aan het aanmaken",
+    "contribs-untitled": "Zonder titel",
     "contribs-refresh": "Sleep naar beneden",
     "contribs-refreshing": "Bezig met verversen...",
     "error-upload-failed": "Uploaden is mislukt",
@@ -79,6 +80,8 @@
     "catdetail-info-intro": "Meer informatie",
     "catdetail-info-label": "Lezen over categorie\u00ebn",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    "catadd-title": "Categorie toevoegen",
+    "catadd-search-placeholder": "Categorie\u00ebn zoeken",
     "getting-started-what-is-commons-contribute-label": "Draag uw afbeeldingen bij.\nHelp Wikipedia tot leven te laten komen!",
     "getting-started-what-is-commons-images-label": "Afbeeldingen op Wikipedia komen\nvan Wikimedia Commons",
     "getting-started-what-photos-educate-label": "Uw afbeeldingen helpen mensen uit\nde hele wereld wijzer te worden.",
@@ -86,5 +89,6 @@
     "getting-started-got-it-label": "Begrijpt u het?",
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nAfbeelding van de dag",
-    "picture-of-day-author": "Auteur:"
+    "picture-of-day-author": "Auteur:",
+    "refresh-failed-alert": "Vernieuwen mislukt!"
 }
