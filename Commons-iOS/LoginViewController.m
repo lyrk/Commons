@@ -231,6 +231,10 @@
             }
         }];
     };
+
+    // Increase hit area of buttons at the bottom of screen
+    [app resizeViewInPlace:self.aboutButton toSize:CGSizeMake(55, 55)];
+    [app resizeViewInPlace:self.attributionButton toSize:CGSizeMake(55, 55)];
 }
 
 -(void)copyToCacheBundledPotdsNamed:(NSString *)defaultBundledPotdsDates
