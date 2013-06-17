@@ -17,9 +17,10 @@
 #import "GrayscaleImageView.h"
 #import "GettingStartedViewController.h"
 #import "QuartzCore/QuartzCore.h"
-#import "PictureOfTheDay.h"
+#import "AspectFillThumbFetcher.h"
 #import "PictureOfTheDayImageView.h"
 #import "UILabel+ResizeWithAttributes.h"
+#import "PictureOfDayCycler.h"
 
 // This is the size reduction of the logo when the device is rotated to
 // landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
@@ -52,11 +53,9 @@
 #define FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE nil //@"2013-05-24"
 
 @interface LoginViewController (){
-    PictureOfTheDay *pictureOfTheDayGetter_;
+    AspectFillThumbFetcher *pictureOfTheDayGetter_;
     BOOL showingPictureOfTheDayAttribution_;
     NSMutableArray *cachedPotdDateStrings_;
-    NSTimer *potdCycler_;
-    uint potdCylerIndex_;
 }
 
 - (void)showMyUploadsVC;
@@ -81,7 +80,7 @@
     
     // Only skip the login screen on initial load
     bool allowSkippingToMyUploads;
-
+    PictureOfDayCycler *pictureOfDayCycler_;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -89,14 +88,17 @@
     if (self = [super initWithCoder:decoder])
     {
         allowSkippingToMyUploads = YES;
-        pictureOfTheDayGetter_ = [[PictureOfTheDay alloc] init];
+        pictureOfTheDayGetter_ = [[AspectFillThumbFetcher alloc] init];
         self.pictureOfTheDayUser = nil;
         self.pictureOfTheDayDateString = nil;
         showingPictureOfTheDayAttribution_ = NO;
         cachedPotdDateStrings_ = [[NSMutableArray alloc] init];
         self.potdImageView.image = nil;
-        potdCylerIndex_ = 0;
-        potdCycler_ = nil;
+        
+        pictureOfDayCycler_ = [[PictureOfDayCycler alloc] init];
+        pictureOfDayCycler_.dateStrings = cachedPotdDateStrings_;
+        pictureOfDayCycler_.transitionDuration = SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY;
+        pictureOfDayCycler_.displayInterval = SECONDS_TO_SHOW_EACH_PIC_OF_DAY;
     }
     return self;
 }
@@ -177,10 +179,12 @@
 
     // Ensure bundled pic of day is in cache
     [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES];
-    
-    // Load default image to ensure something is showing even if no net connection
-    // (loads the copy of the bundled default potd which was copied to the cache)
-    [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
+
+    if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE == nil){
+        // Load default image to ensure something is showing even if no net connection
+        // (loads the copy of the bundled default potd which was copied to the cache)
+        [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
+    }
     
     // Make logo a bit larger on iPad
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
@@ -197,6 +201,36 @@
     [LoginViewController applyShadowToView:self.aboutButton];    
     [LoginViewController applyShadowToView:self.attributionButton];
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
+    
+    // The "cycle" callback below is invoked by pictureOfDayCycler_ to change which picture of the day is showing
+    __weak LoginViewController *weakSelf = self;
+    __weak NSMutableArray *weakCachedPotdDateStrings_ = cachedPotdDateStrings_;
+    // todayDateString must be set *inside* cycle callback! it's used to see if midnight rolled around while the images
+    // were transitioning. if so it adds a date string for the new day to cachedPotdDateStrings_ so the new day's image
+    // will load (previously you had to leave the login page and go back to see the new day's image)
+    __block NSString *todayDateString = nil;
+    __weak PictureOfDayCycler *weakPictureOfDayCycler_ = pictureOfDayCycler_;
+    pictureOfDayCycler_.cycle = ^(NSString *dateString){
+        // If today's date string is not in cachedPotdDateStrings_ (can happen if the login page is displaying and
+        // midnight occurs) add it so it will be downloaded.
+        todayDateString = [weakSelf getDateStringForDaysAgo:0];
+        if(![weakCachedPotdDateStrings_ containsObject:todayDateString]){
+            [weakCachedPotdDateStrings_ addObject:todayDateString];
+            // Stop the cycler while the new day's image is retrieved - otherwise the cycler moves on, then whenever
+            // the image is retrieved the callback is invoked causing it to display even if this happens in the middle
+            // of another image's cycle - this looks jarring, so stop cycling until new image is grabbed
+            [weakPictureOfDayCycler_ stop];
+            dateString = todayDateString;
+            //[weakPictureOfDayCycler_ moveIndexToEnd];
+        }
+        //NSLog(@"\n\nweakCachedPotdDateStrings_ = \n\n%@\n\n", weakCachedPotdDateStrings_);
+        [weakSelf getPictureOfTheDayForDateString:dateString done:^{
+            if ([dateString isEqualToString:todayDateString]) {
+                // If the cycler was stopped because midnight rolled around, restart it
+                [weakPictureOfDayCycler_ start];
+            }
+        }];
+    };
 }
 
 -(void)copyToCacheBundledPotdsNamed:(NSString *)defaultBundledPotdsDates
@@ -205,7 +239,7 @@
     for (NSString *bundledPotdDateString in dates) {
         // Copy bundled default picture of the day to the cache (if it's not already there)
         // so there's a pic of the day shows even if today's image can't download
-        NSString *defaultBundledPotdFileName = [@"POTD-" stringByAppendingString:bundledPotdDateString];
+        NSString *defaultBundledPotdFileName = [NSString stringWithFormat:@"POTD-%@.dict", bundledPotdDateString];
         NSString *defaultBundledPath = [[NSBundle mainBundle] pathForResource:defaultBundledPotdFileName ofType:nil];
         if (defaultBundledPath){
             //Bundled File Found! See: http://stackoverflow.com/a/7487235
@@ -224,46 +258,30 @@
     [cachedPotdDateStrings_ removeAllObjects];
     
     // Get array cachedPotdDateStrings_ of cached potd date strings
+    // Uses reverseObjectEnumerator so most recently downloaded images show first
     NSArray *allFileInPotdFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[CommonsApp singleton] potdPath:@""] error:nil];
-    for (NSString *fileName in allFileInPotdFolder) {
+    for (NSString *fileName in [allFileInPotdFolder reverseObjectEnumerator]) {
         if ([fileName hasPrefix:@"POTD-"]) {
             NSString *dateString2 = [fileName substringWithRange:NSMakeRange(5, 10)];
             [cachedPotdDateStrings_ addObject:dateString2];
-            //NSLog(@"date string = %@", dateString);
         }
     }
 
+    // Move the default bundled image to the end of the array so it doesn't show again
+    // until the other images have been cycled through
+    [cachedPotdDateStrings_ removeObject:DEFAULT_BUNDLED_PIC_OF_DAY_DATE];
+    [cachedPotdDateStrings_ addObject:DEFAULT_BUNDLED_PIC_OF_DAY_DATE];
+
+    //NSLog(@"\n\ncachedPotdDateStrings_ = \n\n%@\n\n", cachedPotdDateStrings_);
 }
 
--(void)cycleNextCachedPotd
+-(NSString *)getDateStringForDaysAgo:(int)daysAgo
 {
-    if (cachedPotdDateStrings_.count < 2) return;
-
-    if (potdCylerIndex_ > (cachedPotdDateStrings_.count - 1)) potdCylerIndex_ = cachedPotdDateStrings_.count - 1;
-
-    NSString *dateString = cachedPotdDateStrings_[potdCylerIndex_];
-
-    [self getPictureOfTheDayForDateString:dateString done:nil];
-    
-    potdCylerIndex_ = (potdCylerIndex_ == (cachedPotdDateStrings_.count - 1)) ? 0 : potdCylerIndex_ + 1;
-}
-
--(void)startPotdCyclerTimer
-{
-    if (potdCycler_ == nil){
-        potdCycler_ = [NSTimer scheduledTimerWithTimeInterval:SECONDS_TO_SHOW_EACH_PIC_OF_DAY target:self
-                                                     selector:@selector(cycleNextCachedPotd)
-                                                     userInfo:nil
-                                                      repeats:YES];
-    }
-}
-
--(void)stopPotdCyclerTimer
-{
-    if (potdCycler_ != nil){
-        [potdCycler_ invalidate];
-        potdCycler_ = nil;
-    }
+    NSDate *date = [[NSDate alloc] init];
+    date = [date dateByAddingTimeInterval: -(86400.0 * daysAgo)];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    return [formatter stringFromDate:date];
 }
 
 -(void)getPictureOfTheDayForDateString:(NSString *)dateString done:(void(^)(void)) done
@@ -271,17 +289,25 @@
     // Prepare callback block for getting picture of the day
     __weak PictureOfTheDayImageView *weakPotdImageView = self.potdImageView;
     __weak LoginViewController *weakSelf = self;
-    pictureOfTheDayGetter_.done = ^(NSDictionary *dict){
+
+    // Determine the resolution of the picture of the day to request
+    CGSize screenSize = self.view.bounds.size;
+    // For now leave scale at one - retina iPads would request too high a resolution otherwise
+    CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
+    
+    MWPromise *fetch = [pictureOfTheDayGetter_ fetchPictureOfDay:dateString size:CGSizeMake(screenSize.width * scale, screenSize.height * scale) withQueuePriority:NSOperationQueuePriorityHigh];
+    
+    [fetch done:^(NSDictionary *dict) {
         if (dict) {
             NSData *imageData = dict[@"image"];
             if (imageData) {
                 UIImage *image = [UIImage imageWithData:imageData scale:1.0];
 
                 weakSelf.pictureOfTheDayUser = dict[@"user"];
-                weakSelf.pictureOfTheDayDateString = dict[@"date"];
+                weakSelf.pictureOfTheDayDateString = dict[@"potd_date"];
                 
                 // Briefly hide the attribution label before updating it
-                [UIView animateWithDuration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY / 4.0
+                [UIView animateWithDuration:pictureOfDayCycler_.transitionDuration / 4.0
                                       delay:0.0
                                     options: UIViewAnimationCurveLinear
                                  animations:^{
@@ -294,7 +320,7 @@
                                      [weakSelf updateAttributionLabelFrame];
 
                                      //Now show the updated attribution box
-                                     [UIView animateWithDuration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY / 3.0
+                                     [UIView animateWithDuration:pictureOfDayCycler_.transitionDuration / 3.0
                                                            delay:0.0
                                                          options: UIViewAnimationCurveLinear
                                                       animations:^{
@@ -306,7 +332,7 @@
 
                 // Transistion the picture of the day
                 [UIView transitionWithView:weakPotdImageView
-                                  duration:SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY
+                                  duration:pictureOfDayCycler_.transitionDuration
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{
                                     weakPotdImageView.useFilter = NO;
@@ -316,24 +342,17 @@
                                 }];
             }
         }
-    };
+    }];
 
     // Cycle through cached images even of there was problem downloading a new one
-    pictureOfTheDayGetter_.fail = ^(NSError *err){
-        NSLog(@"PictureOfTheDay Error: %@", err.description);
+    [fetch fail:^(NSError *error) {
+        NSLog(@"PictureOfTheDay Error: %@", error.description);
         if(done) done();
-    };
+    }];
 
-    // Determine the resolution of the picture of the day to request
-    CGSize screenSize = self.view.bounds.size;
-    // For now leave scale at one - retina iPads would request too high a resolution otherwise
-    CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
-    
-    // Configure the picture getter to get dateString's pic of the day
-    pictureOfTheDayGetter_.dateString = dateString;
-    
-    // Request the picture of the day
-    [pictureOfTheDayGetter_ getAtSize:CGSizeMake(screenSize.width * scale, screenSize.height * scale)];
+    [fetch always:^(id obj) {
+
+    }];
 }
 
 + (void)applyShadowToView:(UIView *)view{
@@ -553,20 +572,26 @@
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
 	
-    // The wikimedia picture of the day urls use yyy-MM-dd format - get such a string
-    NSString *dateString = [pictureOfTheDayGetter_ getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
+    // The wikimedia picture of the day urls use yyyy-MM-dd format - get such a string
+    NSString *dateString = [self getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
     
     if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE != nil){
         dateString = FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE;
     }
 
-    // Download the current PotD!
-    [self getPictureOfTheDayForDateString:dateString done:^{
-        // Update array "cachedPotdDateStrings_" with all cached potd file date strings
-        [self loadArrayOfCachedPotdDateStrings];
-
-        [self startPotdCyclerTimer];
-    }];
+    // Populate array cachedPotdDateStrings_ with all cached potd file date strings
+    [self loadArrayOfCachedPotdDateStrings];
+    // If dateString not already in cachedPotdDateStrings_ 
+    if (![cachedPotdDateStrings_ containsObject:dateString]) {
+        // Download the current PotD!
+        [self getPictureOfTheDayForDateString:dateString done:^{
+            // Update "cachedPotdDateStrings_" so it contains date string for the newly downloaded file
+            [self loadArrayOfCachedPotdDateStrings];
+            [pictureOfDayCycler_ start];
+        }];
+    }else{
+        [pictureOfDayCycler_ start];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -597,7 +622,7 @@
 	
 	[self.navigationItem setBackBarButtonItem: backButton];
 
-    [self stopPotdCyclerTimer];
+    [pictureOfDayCycler_ stop];
 
     [super viewWillDisappear:animated];
 }

@@ -18,6 +18,7 @@
 #import "LoadingIndicator.h"
 #import "DescriptionParser.h"
 #import "MWI18N.h"
+#import "AspectFillThumbFetcher.h"
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
@@ -524,9 +525,7 @@
         if (self.selectedRecord) {
             
             ImageScrollViewController *view = [segue destinationViewController];
-            
-            CGSize size = [CommonsApp.singleton getFullSizedImageSize];
-            
+
             FileUpload *record = self.selectedRecord;
             if (record != nil) {
                 
@@ -536,15 +535,30 @@
                     
                     MWPromise *fetch;
                     if (record.complete.boolValue) {
-                        // Fetch cached or internet image at standard size...
-                        fetch = [CommonsApp.singleton fetchWikiImage:record.title size:size withQueuePriority:NSOperationQueuePriorityVeryHigh];
+                        // Fetch cached or internet image at size to fit within self.view
+                        CGSize screenSize = self.view.bounds.size;
+                        AspectFillThumbFetcher *aspectFillThumbFetcher = [[AspectFillThumbFetcher alloc] init];
+                        fetch = [aspectFillThumbFetcher fetchThumbnail:record.title size:screenSize withQueuePriority:NSOperationQueuePriorityVeryHigh];
                     } else {
                         // Load the local file...
                         fetch = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityVeryHigh];
                     }
-                    [fetch done:^(UIImage *image) {
-                        [view setImage:image];
+
+                    [fetch done:^(id data) {
+                        // If a local file was loaded (from the "else" clause above) data will contain an image
+                        if([data isKindOfClass:[UIImage class]]){
+                            [view setImage:data];
+                        }else if([data isKindOfClass:[NSMutableDictionary class]]){
+                            // If image sized to fit within self.view was downloaded (from the "if" clause above)
+                            // data will contain a dict with an "image" entry
+                            NSData *imageData = data[@"image"];
+                            if (imageData){
+                                UIImage *image = [UIImage imageWithData:imageData scale:1.0];
+                                [view setImage:image];
+                            }
+                        }
                     }];
+                    
                     [fetch fail:^(NSError *error) {
                         NSLog(@"Failed to download image: %@", [error localizedDescription]);
                         // Pop back after a second if image failed to download
