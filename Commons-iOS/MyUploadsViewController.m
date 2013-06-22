@@ -18,6 +18,7 @@
 #import "FetchImageOperation.h"
 #import "ProgressView.h"
 #import "LoginViewController.h"
+#import "GalleryMultiSelectCollectionVC.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -469,6 +470,37 @@
     
     NSLog(@"Open gallery");
     pickerSource_ = @"gallery";
+    
+    [self presentGalleryPicker];
+}
+
+-(void)presentGalleryPicker
+{
+    //[self presentSingleImageGalleryPicker];
+    [self presentMultiImageGalleryPicker];
+}
+
+-(void)presentMultiImageGalleryPicker
+{
+    GalleryMultiSelectCollectionVC *galleryMultiSelectCollectionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GalleryMultiSelectCollectionVC"];
+    
+    galleryMultiSelectCollectionVC.didFinishPickingMediaWithInfo = ^(NSDictionary *info){
+        NSLog(@"picked: %@", info);
+        [CommonsApp.singleton prepareImage:info from:pickerSource_];
+        [self dismissViewControllerAnimated:YES completion:nil];
+        if (self.popover) {
+            [self.popover dismissPopoverAnimated:YES];
+        }
+        self.choosePhotoButton.hidden = YES;
+        self.takePhotoButton.hidden = YES;
+        self.uploadButton.enabled = YES;
+    };
+    
+    [self presentViewController:galleryMultiSelectCollectionVC animated:YES completion:^{}];    
+}
+
+-(void)presentSingleImageGalleryPicker
+{
     UIImagePickerController *picker = [[UIImagePickerController alloc] init];
     picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     picker.delegate = self;
