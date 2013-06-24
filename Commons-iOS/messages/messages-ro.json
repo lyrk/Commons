@@ -12,6 +12,7 @@
     "contribs-state-uploading": "Fotografia $1 se \u00eencarc\u0103",
     "contribs-state-downloading": "Se reg\u0103se\u0219te miniatura pentru $1",
     "contribs-state-generating-thumb": "Se genereaz\u0103 miniatura pentru $1",
+    "contribs-untitled": "F\u0103r\u0103 titlu",
     "contribs-refresh": "Trage\u021bi pentru a re\u00eemprosp\u0103ta",
     "contribs-refreshing": "Se reactualizeaz\u0103...",
     "error-upload-failed": "\u00cenc\u0103rcare e\u0219uat\u0103!",
@@ -79,6 +80,8 @@
     "catdetail-info-intro": "Mai multe informa\u021bii",
     "catdetail-info-label": "Citi\u021bi despre categorii",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    "catadd-title": "Ad\u0103ugare categorie",
+    "catadd-search-placeholder": "C\u0103utare categorii",
     "getting-started-what-is-commons-contribute-label": "Contribui\u021bi cu imagini personale.\nFace\u021bi ca articolele Wikipediei s\u0103 prind\u0103 via\u021b\u0103!",
     "getting-started-what-is-commons-images-label": "Imaginile de pe Wikipedia provin de la\nWikimedia Commons.",
     "getting-started-what-photos-educate-label": "Imaginile dumneavoastr\u0103 ajut\u0103 la educarea oamenilor\ndin \u00eentreaga lume.",
@@ -86,5 +89,6 @@
     "getting-started-got-it-label": "Crede\u021bi c\u0103 a\u021bi \u00een\u021beles?",
     "getting-started-yes-button": "Da!",
     "picture-of-day-label": "Fotografia zilei la\nWikimedia Commons",
-    "picture-of-day-author": "Autor:"
+    "picture-of-day-author": "Autor:",
+    "refresh-failed-alert": "Re\u00eemprosp\u0103tarea nu a reu\u0219it!"
 }

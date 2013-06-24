@@ -13,6 +13,7 @@
     "contribs-state-uploading": "\u5199\u771f $1 \u3092\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u4e2d",
     "contribs-state-downloading": "$1 \u306e\u7e2e\u5c0f\u7248\u3092\u53d6\u5f97\u4e2d",
     "contribs-state-generating-thumb": "$1 \u306e\u7e2e\u5c0f\u7248\u3092\u751f\u6210\u4e2d",
+    "contribs-untitled": "\u7121\u984c",
     "contribs-refresh": "\u5f15\u3063\u5f35\u3063\u3066\u66f4\u65b0",
     "contribs-refreshing": "\u66f4\u65b0\u4e2d...",
     "error-upload-failed": "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u306b\u5931\u6557\u3057\u307e\u3057\u305f",
@@ -75,7 +76,10 @@
     "catdetail-title": "\u30ab\u30c6\u30b4\u30ea",
     "catdetail-info-intro": "\u8a73\u7d30\u60c5\u5831",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:\u30ab\u30c6\u30b4\u30ea",
+    "catadd-title": "\u30ab\u30c6\u30b4\u30ea\u3092\u8ffd\u52a0",
+    "catadd-search-placeholder": "\u30ab\u30c6\u30b4\u30ea\u306e\u691c\u7d22",
     "getting-started-got-it-label": "\u3054\u7406\u89e3\u3044\u305f\u3060\u3051\u307e\u3057\u305f\u304b?",
     "getting-started-yes-button": "\u306f\u3044!",
-    "picture-of-day-author": "\u4f5c\u8005:"
+    "picture-of-day-author": "\u4f5c\u8005:",
+    "refresh-failed-alert": "\u66f4\u65b0\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f"
 }

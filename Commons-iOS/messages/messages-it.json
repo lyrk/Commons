@@ -14,6 +14,7 @@
     "contribs-state-uploading": "$1 (caricamento in corso...)",
     "contribs-state-downloading": "$1 (recupero dell'anteprima...)",
     "contribs-state-generating-thumb": "$1 (creazione dell'anteprima in corso...)",
+    "contribs-untitled": "Senza titolo",
     "contribs-refresh": "Trascina in basso per aggiornare",
     "contribs-refreshing": "Aggiornamento in corso...",
     "error-upload-failed": "Caricamento non riuscito",
@@ -81,6 +82,8 @@
     "catdetail-info-intro": "Ulteriori informazioni",
     "catdetail-info-label": "Informazioni sulle categorie",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categorie",
+    "catadd-title": "Aggiungi categoria",
+    "catadd-search-placeholder": "Cerca categorie",
     "getting-started-what-is-commons-contribute-label": "Contribuisci con le tue immagini.\nAiuta a rendere vive le voci di Wikipedia!",
     "getting-started-what-is-commons-images-label": "Le immagini su Wikipedia provengono da\nWikimedia Commons.",
     "getting-started-what-photos-educate-label": "Le tue immagini aiutano a educare persone\nin tutto il mondo.",
@@ -88,5 +91,6 @@
     "getting-started-got-it-label": "Pensi di aver capito?",
     "getting-started-yes-button": "S\u00ec!",
     "picture-of-day-label": "Immagine del giorno\ndi Wikimedia Commons",
-    "picture-of-day-author": "Autore:"
+    "picture-of-day-author": "Autore:",
+    "refresh-failed-alert": "Aggiornamento non riuscito!"
 }

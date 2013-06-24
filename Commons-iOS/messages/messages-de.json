@@ -13,6 +13,7 @@
     "contribs-state-uploading": "\u201e$1\u201c wird hochgeladen",
     "contribs-state-downloading": "Empfange Vorschaubild von \u201e$1\u201c",
     "contribs-state-generating-thumb": "Generiere Vorschaubild von \u201e$1\u201c",
+    "contribs-untitled": "Ohne Titel",
     "contribs-refresh": "Ziehen zum Aktualisieren",
     "contribs-refreshing": "Aktualisiere \u2026",
     "error-upload-failed": "Hochladen fehlgeschlagen!",
@@ -80,6 +81,8 @@
     "catdetail-info-intro": "Mehr Informationen",
     "catdetail-info-label": "Mehr \u00fcber Kategorien erfahren",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Kategorien",
+    "catadd-title": "Kategorie hinzuf\u00fcgen",
+    "catadd-search-placeholder": "Kategorien durchsuchen",
     "getting-started-what-is-commons-contribute-label": "Teile deine Bilder.\nErwecke Wikipedia-Artikel zum Leben!",
     "getting-started-what-is-commons-images-label": "Die Bilder auf Wikipedia kommen von\nWikimedia Commons.",
     "getting-started-what-photos-educate-label": "Deine Bilder bilden Menschen\nauf der ganzen Welt.",
@@ -87,5 +90,6 @@
     "getting-started-got-it-label": "Verstanden?",
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nBild des Tages",
-    "picture-of-day-author": "Autor:"
+    "picture-of-day-author": "Autor:",
+    "refresh-failed-alert": "Aktualisieren fehlgeschlagen!"
 }

@@ -12,6 +12,7 @@
     "contribs-state-uploading": "Gambar $1 Sedang Dimuat Naik",
     "contribs-state-downloading": "Menerima Lakaran Kenit $1",
     "contribs-state-generating-thumb": "Menghasilkn Lakaran Kenit $1",
+    "contribs-untitled": "Tanpa Tajuk",
     "contribs-refresh": "Tarik untuk kemas kini",
     "contribs-refreshing": "Memuat semula...",
     "error-upload-failed": "Muat naik gagal!",
@@ -79,6 +80,8 @@
     "catdetail-info-intro": "Maklumat lanjut",
     "catdetail-info-label": "Baca tentang kategori",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Kategori",
+    "catadd-title": "Tambahkan kategori",
+    "catadd-search-placeholder": "Cari dalam kategori",
     "getting-started-what-is-commons-contribute-label": "Sumbangkan gambar-gambar anda.\nHidupkan rencana-rencana di Wikipedia!",
     "getting-started-what-is-commons-images-label": "Gambar-gambar di Wikipedia datang dari Wikimedia Commons.",
     "getting-started-what-photos-educate-label": "Gambar-gambar anda akan membantu mendidik masyarakat seluruh dunia.",
@@ -86,5 +89,6 @@
     "getting-started-got-it-label": "Adakah anda faham?",
     "getting-started-yes-button": "Faham!",
     "picture-of-day-label": "Wikimedia Commons:\nGambar Hari Ini",
-    "picture-of-day-author": "Pengarang:"
+    "picture-of-day-author": "Pengarang:",
+    "refresh-failed-alert": "Muat Semula Gagal!"
 }

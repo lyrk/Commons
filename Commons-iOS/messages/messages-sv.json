@@ -14,6 +14,7 @@
     "contribs-state-uploading": "$1 Laddar upp foto",
     "contribs-state-downloading": "$1 H\u00e4mtar miniatyr",
     "contribs-state-generating-thumb": "$1 Genererar miniatyr",
+    "contribs-untitled": "Namnl\u00f6s",
     "contribs-refresh": "Dra f\u00f6r att uppdatera",
     "contribs-refreshing": "Uppdaterar...",
     "error-upload-failed": "Uppladdning misslyckades!",
@@ -81,6 +82,8 @@
     "catdetail-info-intro": "Mer information",
     "catdetail-info-label": "L\u00e4s om kategorier",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    "catadd-title": "L\u00e4gg till kategori",
+    "catadd-search-placeholder": "S\u00f6k kategorier",
     "getting-started-what-is-commons-contribute-label": "Bidra med dina bilder.\nHj\u00e4lp Wikipedia-artiklar att f\u00e5 liv!",
     "getting-started-what-is-commons-images-label": "Bilder p\u00e5 Wikipedia kommer fr\u00e5n\nWikimedia Commons.",
     "getting-started-what-photos-educate-label": "Dina bilder hj\u00e4lper till att utbilda\nm\u00e4nniskor runt om i v\u00e4rlden.",
@@ -88,5 +91,6 @@
     "getting-started-got-it-label": "Tror du att du f\u00f6rst\u00e5r?",
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nDagens bild",
-    "picture-of-day-author": "F\u00f6rfattare:"
+    "picture-of-day-author": "F\u00f6rfattare:",
+    "refresh-failed-alert": "Uppdatering misslyckades!"
 }

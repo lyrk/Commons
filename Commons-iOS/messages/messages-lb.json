@@ -10,7 +10,9 @@
     "contribs-photo-library-button": "Fotoen",
     "contribs-state-queued": "$1 an der Queue",
     "contribs-state-uploading": "$1 Foto eroplueden",
+    "contribs-state-downloading": "$1 Miniaturbild eroflueden",
     "contribs-state-generating-thumb": "$1 Miniaturbild g\u00ebtt gener\u00e9iert",
+    "contribs-untitled": "Ouni Titel",
     "contribs-refresh": "Dr\u00e9cke fir z'aktualis\u00e9ieren",
     "contribs-refreshing": "Aktualis\u00e9ieren...",
     "error-upload-failed": "Eroplueden huet net fonctionn\u00e9iert!",
@@ -78,9 +80,15 @@
     "catdetail-info-intro": "M\u00e9i Informatiounen",
     "catdetail-info-label": "Liest m\u00e9i iwwer d'Kategorien",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    "catadd-title": "Kategorie derb\u00e4isetzen",
+    "catadd-search-placeholder": "Kategorie sichen",
+    "getting-started-what-is-commons-contribute-label": "Maacht mat mat \u00c4re Biller. H\u00eblleft Wikipedia-Artikele m\u00e9i lieweg ze maachen!",
     "getting-started-what-is-commons-images-label": "Biller op Wikipedia komme vu Wikimedia Commons",
+    "getting-started-what-photos-educate-label": "\u00c4r Biller h\u00ebllefe Leit op der ganzer Welt ze form\u00e9ieren.",
+    "getting-started-what-photos-avoid-label": "Evit\u00e9iert Materialien d\u00e9i \u00ebnnert de Copyright falen an d\u00e9i Dir um Internet fonnt hutt, genee esou w\u00e9i Biller vu Pousteren, Bicher, asw.",
     "getting-started-got-it-label": "Dir mengt Dir huet et verstan?",
     "getting-started-yes-button": "Jo!",
     "picture-of-day-label": "Bild vum Dag",
-    "picture-of-day-author": "Auteur:"
+    "picture-of-day-author": "Auteur:",
+    "refresh-failed-alert": "Aktualisatioun huet net fonctionn\u00e9iert!"
 }

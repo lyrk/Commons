@@ -12,6 +12,7 @@
     "contribs-state-uploading": "Cargando a foto \"$1\"",
     "contribs-state-downloading": "Recuperando a miniatura de \"$1\"",
     "contribs-state-generating-thumb": "Xerando a miniatura de \"$1\"",
+    "contribs-untitled": "Sen t\u00edtulo",
     "contribs-refresh": "Tire para refrescar",
     "contribs-refreshing": "Refrescando...",
     "error-upload-failed": "Erro durante a carga!",
@@ -79,6 +80,8 @@
     "catdetail-info-intro": "M\u00e1is informaci\u00f3n",
     "catdetail-info-label": "Lea sobre as categor\u00edas",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    "catadd-title": "Engadir unha categor\u00eda",
+    "catadd-search-placeholder": "Procurar categor\u00edas",
     "getting-started-what-is-commons-contribute-label": "Achegue as s\u00faas imaxes.\nAxude a que os artigos da Wikipedia cobren vida!",
     "getting-started-what-is-commons-images-label": "As imaxes da Wikipedia ve\u00f1en da\nWikimedia Commons.",
     "getting-started-what-photos-educate-label": "As s\u00faas imaxes axudan a educar xente\nde todo o mundo.",
@@ -86,5 +89,6 @@
     "getting-started-got-it-label": "Entende como vai?",
     "getting-started-yes-button": "Si!",
     "picture-of-day-label": "Imaxe do d\u00eda da\nWikimedia Commons",
-    "picture-of-day-author": "Autor:"
+    "picture-of-day-author": "Autor:",
+    "refresh-failed-alert": "Erro ao refrescar!"
 }

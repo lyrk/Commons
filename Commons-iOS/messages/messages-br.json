@@ -27,6 +27,7 @@
     "settings-password-placeholder": "Ger-tremen",
     "settings-debug-label": "Mod dizreina\u00f1",
     "settings-debug-detail": "Kerga\u00f1 da $1",
+    "settings-links-label": "Liammo\u00f9",
     "details-title": "Munudo\u00f9",
     "details-upload-button": "Enporzhia\u00f1",
     "details-title-label": "Titl",
@@ -35,8 +36,16 @@
     "details-description-placeholder": "Rekis",
     "details-license-label": "Aotre-implijout",
     "details-hide-keyboard": "Kuzhat ar c'hlavier",
+    "details-category-label": "Rummado\u00f9",
     "web-open-in": "Digeri\u00f1 e $1",
     "web-cancel": "Nulla\u00f1",
     "login-title": "Kont",
-    "login-button": "Kevrea\u00f1"
+    "login-button": "Kevrea\u00f1",
+    "logout-button": "Digevrea\u00f1",
+    "about-title": "Diwar-benn",
+    "about-app-version-label": "Stumm $1",
+    "about-commons-button": "Wikimedia Commons",
+    "about-source-button": "Mammenn",
+    "about-license-button": "Aotre-implijout",
+    "catdetail-title": "Rummad"
 }
