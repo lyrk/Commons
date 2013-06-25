@@ -104,6 +104,9 @@
     "picture-of-day-label": "Wikimedia Commons\nPicture of the Day",
     "picture-of-day-author": "Author:",
     
-    "refresh-failed-alert": "Refresh Failed!"
+    "refresh-failed-alert": "Refresh Failed!",
+    
+    "gallery-cancel-button": "Cancel",
+    "gallery-album-title": "Albums"
 
 }

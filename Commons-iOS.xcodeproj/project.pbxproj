@@ -21,6 +21,8 @@
 		0417D9E017695E4700081D8C /* POTD-2013-04-21.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D517695E4700081D8C /* POTD-2013-04-21.dict */; };
 		0417D9E117695E4700081D8C /* POTD-2013-06-04.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D617695E4700081D8C /* POTD-2013-06-04.dict */; };
 		0417D9E417698AF200081D8C /* PictureOfDayCycler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E317698AF200081D8C /* PictureOfDayCycler.m */; };
+		0417D9EA176E666B00081D8C /* GalleryMultiSelectCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E9176E666B00081D8C /* GalleryMultiSelectCollectionVC.m */; };
+		0417D9F0176EB00100081D8C /* GalleryMultiSelectAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9EF176EB00100081D8C /* GalleryMultiSelectAlbumCell.m */; };
 		044A0C3C170F6504003395DD /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044A0C3B170F6504003395DD /* GradientButton.m */; };
 		0451C8621739A2CC00C2D03B /* FetchImageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C8611739A2CC00C2D03B /* FetchImageOperation.m */; };
 		0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C864173B3D3800C2D03B /* SpeedGovernor.m */; };
@@ -29,6 +31,7 @@
 		04739E08174ECCDF00F32D13 /* WhatPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E07174ECCDF00F32D13 /* WhatPhotosViewController.m */; };
 		04739E0E174F0D3600F32D13 /* WhatIsCommonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */; };
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
+		04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */; };
 		04C27B191741C24200B1942F /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B181741C24200B1942F /* ProgressView.m */; };
 		04C27B1C174452E800B1942F /* DescriptionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B1B174452E800B1942F /* DescriptionParser.m */; };
 		04C27B1F174B0B1E00B1942F /* MockBadPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B1E174B0B1D00B1942F /* MockBadPhotoViewController.m */; };
@@ -325,6 +328,10 @@
 		0417D9D617695E4700081D8C /* POTD-2013-06-04.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-06-04.dict"; sourceTree = "<group>"; };
 		0417D9E217698AF200081D8C /* PictureOfDayCycler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfDayCycler.h; sourceTree = "<group>"; };
 		0417D9E317698AF200081D8C /* PictureOfDayCycler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfDayCycler.m; sourceTree = "<group>"; };
+		0417D9E8176E666A00081D8C /* GalleryMultiSelectCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectCollectionVC.h; sourceTree = "<group>"; };
+		0417D9E9176E666B00081D8C /* GalleryMultiSelectCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectCollectionVC.m; sourceTree = "<group>"; };
+		0417D9EE176EB00000081D8C /* GalleryMultiSelectAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAlbumCell.h; sourceTree = "<group>"; };
+		0417D9EF176EB00100081D8C /* GalleryMultiSelectAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAlbumCell.m; sourceTree = "<group>"; };
 		044A0C3A170F6504003395DD /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
 		044A0C3B170F6504003395DD /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientButton.m; sourceTree = "<group>"; };
 		0451C8601739A2CC00C2D03B /* FetchImageOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchImageOperation.h; sourceTree = "<group>"; };
@@ -342,6 +349,8 @@
 		04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhatIsCommonsViewController.m; sourceTree = "<group>"; };
 		0478F8E71731B5E9007D4531 /* WelcomeOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeOverlayView.h; sourceTree = "<group>"; };
 		0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeOverlayView.m; sourceTree = "<group>"; };
+		04A02DA7177502AF00A392C1 /* GalleryMultiSelectAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAssetCell.h; sourceTree = "<group>"; };
+		04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAssetCell.m; sourceTree = "<group>"; };
 		04C27B171741C24200B1942F /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		04C27B181741C24200B1942F /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		04C27B1A174452E700B1942F /* DescriptionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionParser.h; sourceTree = "<group>"; };
@@ -674,6 +683,19 @@
 			name = "Getting Started";
 			sourceTree = "<group>";
 		};
+		04F5736D1775408400376C46 /* Gallery Multi-Select */ = {
+			isa = PBXGroup;
+			children = (
+				0417D9E8176E666A00081D8C /* GalleryMultiSelectCollectionVC.h */,
+				0417D9E9176E666B00081D8C /* GalleryMultiSelectCollectionVC.m */,
+				0417D9EE176EB00000081D8C /* GalleryMultiSelectAlbumCell.h */,
+				0417D9EF176EB00100081D8C /* GalleryMultiSelectAlbumCell.m */,
+				04A02DA7177502AF00A392C1 /* GalleryMultiSelectAssetCell.h */,
+				04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */,
+			);
+			name = "Gallery Multi-Select";
+			sourceTree = "<group>";
+		};
 		65137D1716BE6999006FA9BD /* Testing-Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -963,6 +985,7 @@
 				0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */,
 				D4E325441739AA3000F7D278 /* CategoryDetailTableViewController.h */,
 				D4E325451739AA3000F7D278 /* CategoryDetailTableViewController.m */,
+				04F5736D1775408400376C46 /* Gallery Multi-Select */,
 				04739E02174DC9D800F32D13 /* Getting Started */,
 			);
 			name = "View Controllers";
@@ -1505,6 +1528,9 @@
 				04DC756617586EFF00D92849 /* PictureOfTheDayImageView.m in Sources */,
 				04DC756F1758884200D92849 /* CustomTextField.m in Sources */,
 				0417D9E417698AF200081D8C /* PictureOfDayCycler.m in Sources */,
+				0417D9EA176E666B00081D8C /* GalleryMultiSelectCollectionVC.m in Sources */,
+				0417D9F0176EB00100081D8C /* GalleryMultiSelectAlbumCell.m in Sources */,
+				04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
