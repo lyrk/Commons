@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Kwj2772",
             "\uc544\ub77c"
         ]
     },
@@ -39,10 +40,13 @@
     "details-description-placeholder": "\ud544\uc218",
     "details-license-label": "\ub77c\uc774\uc120\uc2a4",
     "details-hide-keyboard": "\ud0a4\ubcf4\ub4dc \uc228\uae30\uae30",
+    "details-category-label": "\ubd84\ub958",
     "web-open-in": "$1(\uc73c)\ub85c \uc5f4\uae30",
     "web-cancel": "\ucde8\uc18c",
     "login-title": "\uacc4\uc815",
     "login-button": "\ub85c\uadf8\uc778",
+    "login-recover-password-button": "\ube44\ubc00\ubc88\ud638 \ucc3e\uae30",
+    "logout-button": "\ub85c\uadf8\uc544\uc6c3",
     "about-title": "\uc18c\uac1c",
     "about-app-version-label": "\ubc84\uc804 $1",
     "about-commons-button": "\uc704\ud0a4\ubbf8\ub514\uc5b4 \uacf5\uc6a9",
@@ -52,5 +56,11 @@
     "about-source-this-app-title": "\uc774 \uc560\ud50c\ub9ac\ucf00\uc774\uc158 (iOS):",
     "about-source-this-app-contributors": "\uae30\uc5ec\uc790",
     "about-license-button": "\ub77c\uc774\uc120\uc2a4",
-    "about-source-gradient-title": "Jeff LaMarche\uc758 \uadf8\ub77c\ub514\uc5b8\ud2b8 UI\ubc84\ud2bc:"
+    "about-source-gradient-title": "Jeff LaMarche\uc758 \uadf8\ub77c\ub514\uc5b8\ud2b8 UI\ubc84\ud2bc:",
+    "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing/ko",
+    "catdetail-title": "\ubd84\ub958",
+    "catdetail-info-intro": "\uc790\uc138\ud55c \uc815\ubcf4",
+    "catadd-title": "\ubd84\ub958 \ucd94\uac00\ud558\uae30",
+    "picture-of-day-label": "\uc704\ud0a4\ubbf8\ub514\uc5b4 \uacf5\uc6a9\n\uc624\ub298\uc758 \uadf8\ub9bc",
+    "picture-of-day-author": "\uc800\uc791\uc790:"
 }

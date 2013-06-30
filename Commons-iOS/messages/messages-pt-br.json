@@ -12,6 +12,7 @@
     "contribs-photo-library-button": "Imagens",
     "contribs-state-queued": "Em espera",
     "contribs-state-uploading": "Enviando",
+    "contribs-untitled": "Sem t\u00edtulo",
     "contribs-refresh": "Puxe para atualizar",
     "contribs-refreshing": "Atualizando...",
     "error-upload-failed": "Envio falhou!",
@@ -33,6 +34,7 @@
     "settings-debug-detail": "Enviando para $1",
     "settings-usage-reports-label": "Relat\u00f3rios de uso:",
     "settings-usage-reports-description": "Enviar relat\u00f3rios de uso para a Wikimedia para ajudar-nos a aperfei\u00e7oar o aplicativo.",
+    "settings-links-label": "Links:",
     "details-title": "Detalhes",
     "details-upload-button": "Envio",
     "details-title-label": "T\u00edtulo",
@@ -50,7 +52,10 @@
     "web-open-in": "Abrir em $1",
     "web-cancel": "Cancelar",
     "login-title": "Conta",
+    "login-current-user-button": "Continuar como: $1",
     "login-button": "Entrar",
+    "login-recover-password-button": "recuperar senha",
+    "logout-button": "Sair",
     "about-title": "Sobre",
     "about-app-version-label": "Vers\u00e3o $1",
     "about-commons-button": "Wikimedia Commons",
@@ -74,5 +79,9 @@
     "catdetail-remove-label": "Eliminar \"$1\"",
     "catdetail-info-intro": "Mais informa\u00e7\u00e3o",
     "catdetail-info-label": "Leia sobre as categorias",
-    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    "catadd-title": "Adicionar categoria",
+    "catadd-search-placeholder": "Pesquisar categorias",
+    "getting-started-yes-button": "Sim!",
+    "picture-of-day-author": "Autor:"
 }

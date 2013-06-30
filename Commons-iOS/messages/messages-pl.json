@@ -15,6 +15,7 @@
     "contribs-state-uploading": "$1 Przesy\u0142anie zdj\u0119cia",
     "contribs-state-downloading": "$1 Pobieranie miniatury",
     "contribs-state-generating-thumb": "$1 Generowanie miniatury",
+    "contribs-untitled": "Bez tytu\u0142u",
     "contribs-refresh": "Poci\u0105gnij aby od\u015bwie\u017cy\u0107",
     "contribs-refreshing": "Od\u015bwie\u017canie...",
     "error-upload-failed": "Wysy\u0142anie nie powiod\u0142o si\u0119!",
@@ -82,10 +83,13 @@
     "catdetail-info-intro": "Wi\u0119cej informacji",
     "catdetail-info-label": "Przeczytaj o kategoriach",
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    "catadd-title": "Dodaj kategori\u0119",
+    "catadd-search-placeholder": "Szukaj kategorii",
     "getting-started-what-is-commons-contribute-label": "Do\u0142\u00f3\u017c swoje grafiki.\nPom\u00f3\u017c artyku\u0142om na Wikipedii o\u017cywi\u0107 si\u0119!",
     "getting-started-what-is-commons-images-label": "Obrazy na Wikipedii pochodz\u0105 z Wikimedia Commons.",
     "getting-started-what-photos-educate-label": "Twoje grafiki pomagaj\u0105 w edukacji ludzi na ca\u0142ym \u015bwiecie.",
     "getting-started-what-photos-avoid-label": "Unikaj materia\u0142\u00f3w obj\u0119tych prawami autorskimi znalezionych w internecie, a tak\u017ce obraz\u00f3w, plakat\u00f3w, ok\u0142adek ksi\u0105\u017ckowych, itp.",
     "getting-started-yes-button": "Tak!",
-    "picture-of-day-author": "Autor:"
+    "picture-of-day-author": "Autor:",
+    "refresh-failed-alert": "Od\u015bwie\u017canie nieudane!"
 }

@@ -1,15 +1,17 @@
 {
     "@metadata": {
         "authors": [
-            "HenrikKbh"
+            "HenrikKbh",
+            "Jsmakaayb"
         ]
     },
     "contribs-title": "Mine uploads",
     "contribs-settings-button": "Indstillinger",
     "contribs-upload-button": "Upload",
     "contribs-photo-library-button": "Billeder",
-    "contribs-state-queued": "Sat i k\u00f8",
-    "contribs-state-uploading": "Uploading",
+    "contribs-state-queued": "$1 i k\u00f8",
+    "contribs-state-uploading": "$1 overf\u00f8r foto",
+    "contribs-untitled": "Uden titel",
     "contribs-refresh": "Tr\u00e6k for at opdatere",
     "contribs-refreshing": "Opdaterer",
     "error-upload-failed": "Upload mislykkedes",
@@ -37,12 +39,21 @@
     "details-title-placeholder": "Entydig beskrivende titel",
     "details-description-label": "Beskrivelse",
     "details-description-placeholder": "N\u00f8dvendig",
+    "details-description-loading": "Indl\u00e6ser",
+    "details-description-none-found": "Beskrivelse ikke fundet",
     "details-license-label": "Licens",
     "details-hide-keyboard": "Skjul tastatur",
+    "details-category-label": "Kategorier",
+    "details-category-select": "V\u00e6lg...",
+    "details-category-loading": "Indl\u00e6ser...",
+    "details-category-none-found": "Ingen kategorier fundet",
     "web-open-in": "\u00c5ben i $1",
     "web-cancel": "Afbryd",
     "login-title": "Konto",
+    "login-current-user-button": "Forts\u00e6t som: $1",
     "login-button": "Meld ind",
+    "login-recover-password-button": "gendan adgangskode",
+    "logout-button": "log af",
     "about-title": "Om",
     "about-app-version-label": "Udgave $1",
     "about-commons-button": "Wikimedia Commons",
@@ -52,5 +63,19 @@
     "about-source-this-app-title": "Denne App (iOS):",
     "about-source-this-app-contributors": "Bidragsydere",
     "about-license-button": "Tilladelse",
-    "about-source-gradient-title": "Jeff LaMarche's graduerende UIKnap:"
+    "about-source-gradient-title": "Jeff LaMarche's graduerende UIKnap:",
+    "license-title": "Licens",
+    "license-details-intro": "Flere oplysninger",
+    "catdetail-title": "Kategori",
+    "catdetail-remove-label": "Slet \"$1\"",
+    "catdetail-info-intro": "Flere oplysninger",
+    "catdetail-info-label": "L\u00e6s om kategorier",
+    "catadd-title": "Tilf\u00f8j kategori",
+    "catadd-search-placeholder": "S\u00f8gekategorier",
+    "getting-started-what-photos-avoid-label": "Undg\u00e5 materialer, der findes p\u00e5 internettet, som er beskyttet af copyright, men ogs\u00e5 billeder, plakater, bogomslag, osv.",
+    "getting-started-got-it-label": "Forst\u00e5et?",
+    "getting-started-yes-button": "Ja!",
+    "picture-of-day-label": "Wikimedia Commons\nDagensbillede",
+    "picture-of-day-author": "Forfatter:",
+    "refresh-failed-alert": "Opdatering mislykkedes!"
 }
