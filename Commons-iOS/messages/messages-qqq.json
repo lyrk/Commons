@@ -86,6 +86,6 @@
     "picture-of-day-label": "Label for Picture of the Day image on login page.",
     "picture-of-day-author": "Label for author of Picture of the Day.\n{{Identical|Author}}",
     "refresh-failed-alert": "Alert text for when refreshing of downloaded images fails.",
-    "gallery-cancel-button": "Button text for the image picker Cancel button.",
-    "gallery-album-title": "Title for the image picker Album section."
+    "gallery-cancel-button": "Button text for the image picker Cancel button.\n{{Identical|Cancel}}",
+    "gallery-album-title": "Title for the image picker Album section.\n{{Identical|Album}}"
 }

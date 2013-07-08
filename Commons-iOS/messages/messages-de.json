@@ -91,5 +91,7 @@
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nBild des Tages",
     "picture-of-day-author": "Autor:",
-    "refresh-failed-alert": "Aktualisieren fehlgeschlagen!"
+    "refresh-failed-alert": "Aktualisieren fehlgeschlagen!",
+    "gallery-cancel-button": "Abbrechen",
+    "gallery-album-title": "Alben"
 }

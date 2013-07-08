@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Gusta",
+            "HenriqueCrang",
             "Luckas",
             "Tuliouel"
         ]
@@ -10,8 +11,10 @@
     "contribs-settings-button": "Configura\u00e7\u00f5es",
     "contribs-upload-button": "Envios",
     "contribs-photo-library-button": "Imagens",
-    "contribs-state-queued": "Em espera",
-    "contribs-state-uploading": "Enviando",
+    "contribs-state-queued": "$1 Em espera",
+    "contribs-state-uploading": "$1 Enviando Foto",
+    "contribs-state-downloading": "$1 Buscando miniaturas",
+    "contribs-state-generating-thumb": "$1 Gerando miniaturas",
     "contribs-untitled": "Sem t\u00edtulo",
     "contribs-refresh": "Puxe para atualizar",
     "contribs-refreshing": "Atualizando...",
@@ -82,6 +85,15 @@
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
     "catadd-title": "Adicionar categoria",
     "catadd-search-placeholder": "Pesquisar categorias",
+    "getting-started-what-is-commons-contribute-label": "Contribua com suas imagens.\nAjude artigos da Wikip\u00e9dia a ganharem vida!",
+    "getting-started-what-is-commons-images-label": "Imagens da Wikip\u00e9dia vem do\nWikimedia Commons.",
+    "getting-started-what-photos-educate-label": "Sua imagen ir\u00e1 ajudar na educa\u00e7\u00e3o de pessoas\nao redor do mundo.",
+    "getting-started-what-photos-avoid-label": "Evite material com direito autoral que voc\u00ea encontrou\nna internet assim como imagens de\nposters, capas de livros, etc.",
+    "getting-started-got-it-label": "Voc\u00ea conseguiu?",
     "getting-started-yes-button": "Sim!",
-    "picture-of-day-author": "Autor:"
+    "picture-of-day-label": "Wikimedia Commons\nImagem do Dia",
+    "picture-of-day-author": "Autor:",
+    "refresh-failed-alert": "Falha na Atualiza\u00e7\u00e3o!",
+    "gallery-cancel-button": "Cancelar",
+    "gallery-album-title": "\u00c1lbuns"
 }

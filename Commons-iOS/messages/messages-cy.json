@@ -11,6 +11,8 @@
     "contribs-photo-library-button": "Ffotograffau",
     "contribs-state-queued": "$1 yn disgwyl ei dro",
     "contribs-state-uploading": "$1 Wrthi'n Uwchlwytho...",
+    "contribs-state-downloading": "$ N\u00f4l y ciplun",
+    "contribs-state-generating-thumb": "$ Wrthi'n creu ciplun",
     "contribs-untitled": "Dim teitl",
     "contribs-refresh": "Tynnwch i adnewyddu",
     "contribs-refreshing": "Adnewyddu",
@@ -88,5 +90,8 @@
     "getting-started-got-it-label": "Gawsoch chi e?",
     "getting-started-yes-button": "Do!",
     "picture-of-day-label": "Comin Wikimedia\nLlun y Dydd",
-    "picture-of-day-author": "Awdur:"
+    "picture-of-day-author": "Awdur:",
+    "refresh-failed-alert": "Methwyd ailgyrchu!",
+    "gallery-cancel-button": "Canslo",
+    "gallery-album-title": "Albymau"
 }

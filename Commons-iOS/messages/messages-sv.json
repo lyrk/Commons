@@ -84,7 +84,7 @@
     "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
     "catadd-title": "L\u00e4gg till kategori",
     "catadd-search-placeholder": "S\u00f6k kategorier",
-    "getting-started-what-is-commons-contribute-label": "Bidra med dina bilder.\nHj\u00e4lp Wikipedia-artiklar att f\u00e5 liv!",
+    "getting-started-what-is-commons-contribute-label": "Bidra med dina bilder.\nHj\u00e4lp Wikipedia-artiklar att komma till liv!",
     "getting-started-what-is-commons-images-label": "Bilder p\u00e5 Wikipedia kommer fr\u00e5n\nWikimedia Commons.",
     "getting-started-what-photos-educate-label": "Dina bilder hj\u00e4lper till att utbilda\nm\u00e4nniskor runt om i v\u00e4rlden.",
     "getting-started-what-photos-avoid-label": "Undvik upphovsr\u00e4ttsskyddat material\nsom du hittar fr\u00e5n Internet samt\nbilder av affischer, bokomslag, etc.",
@@ -92,5 +92,7 @@
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nDagens bild",
     "picture-of-day-author": "F\u00f6rfattare:",
-    "refresh-failed-alert": "Uppdatering misslyckades!"
+    "refresh-failed-alert": "Uppdatering misslyckades!",
+    "gallery-cancel-button": "Avbryt",
+    "gallery-album-title": "Album"
 }

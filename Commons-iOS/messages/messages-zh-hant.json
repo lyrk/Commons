@@ -3,6 +3,7 @@
         "authors": [
             "Htchien",
             "Justincheng12345",
+            "Liflon",
             "Simon Shek"
         ]
     },
@@ -92,5 +93,6 @@
     "getting-started-yes-button": "\u662f\uff01",
     "picture-of-day-label": "\u7dad\u57fa\u5171\u4eab\u8cc7\u6e90\u4eca\u65e5\u5716\u7247",
     "picture-of-day-author": "\u4f5c\u8005\uff1a",
-    "refresh-failed-alert": "\u66f4\u65b0\u5931\u6557\uff01"
+    "refresh-failed-alert": "\u66f4\u65b0\u5931\u6557\uff01",
+    "gallery-cancel-button": "\u53d6\u6d88"
 }

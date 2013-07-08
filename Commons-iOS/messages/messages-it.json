@@ -92,5 +92,7 @@
     "getting-started-yes-button": "S\u00ec!",
     "picture-of-day-label": "Immagine del giorno\ndi Wikimedia Commons",
     "picture-of-day-author": "Autore:",
-    "refresh-failed-alert": "Aggiornamento non riuscito!"
+    "refresh-failed-alert": "Aggiornamento non riuscito!",
+    "gallery-cancel-button": "Annulla",
+    "gallery-album-title": "Album"
 }
