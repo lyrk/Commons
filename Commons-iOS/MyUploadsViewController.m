@@ -1169,15 +1169,22 @@
                                                                                   action:@selector(deleteButtonPushed:)];
     
     
-    UIBarButtonItem *spacerItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                                                                target:nil
-                                                                                action:nil];
-    spacerItem.width = 25.0f;
+    UIBarButtonItem *spacerItemFlexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                        target:nil
+                                                                                        action:nil];
+    
+    // These fake buttons trick the navigation bar into automatically centering the upload and openWiki buttons
+    UIBarButtonItem *fakeButton1 = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)]];
+    UIBarButtonItem *fakeButton2 = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 9, 1)]];
     
     if (!self.selectedRecord.complete.boolValue) {
-        [imageScrollVC_.navigationItem setRightBarButtonItems:@[self.uploadButton, spacerItem,deleteButton] animated:YES];
+        [imageScrollVC_.navigationItem setRightBarButtonItems:
+         @[deleteButton, fakeButton2, spacerItemFlexible, self.uploadButton, spacerItemFlexible,fakeButton1]
+                                                     animated:YES];
     }else{
-        [imageScrollVC_.navigationItem setRightBarButtonItems:@[shareButton, spacerItem, openWikiPageButton] animated:YES];
+        [imageScrollVC_.navigationItem setRightBarButtonItems:
+         @[shareButton, spacerItemFlexible, openWikiPageButton, spacerItemFlexible, fakeButton1]
+                                                     animated:YES];
     }
 }
 
