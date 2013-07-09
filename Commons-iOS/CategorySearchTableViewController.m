@@ -17,6 +17,11 @@
 
 @implementation CategorySearchTableViewController
 
+-(void)backButtonPressed:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -29,6 +34,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    // Change back button to be an arrow
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"\U000025C0\U0000FE0E"
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(backButtonPressed:)];
 
     self.recentCats = [self recentCategories]; // don't need a live view, it won't change while we're viewing
     self.searchCats = @[];

@@ -15,6 +15,11 @@
 
 @implementation CategoryDetailTableViewController
 
+-(void)backButtonPressed:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -28,6 +33,12 @@
 {
     [super viewDidLoad];
     
+    // Change back button to be an arrow
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"\U000025C0\U0000FE0E"
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(backButtonPressed:)];
+
     // i18n
     self.removeLabel.text = [MWMessage forKey:@"catdetail-remove-label" param:self.category].text;
     self.moreLabel.text = [MWMessage forKey:@"catdetail-info-label"].text;
