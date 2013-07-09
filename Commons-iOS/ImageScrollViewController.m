@@ -12,6 +12,9 @@
 #define FULL_SCREEN_IMAGE_MIN_ZOOM_SCALE 0.5f
 #define FULL_SCREEN_IMAGE_MAX_ZOOM_SCALE 5.0f
 
+// Defines how dark the black overlay above the image can become when details slide up over the image
+#define FULL_SCREEN_IMAGE_MAX_OVERLAY_ALPHA 0.7f
+
 // Private
 @interface ImageScrollViewController ()
 
@@ -276,7 +279,9 @@
     
     _detailsScrollNormal = detailsScrollNormal;
     
-    overlayView_.backgroundColor = [UIColor colorWithWhite:0.0f alpha:1.0f - detailsScrollNormal];
+    float overlayAlpha = MIN(FULL_SCREEN_IMAGE_MAX_OVERLAY_ALPHA, 1.0f - detailsScrollNormal);
+    
+    overlayView_.backgroundColor = [UIColor colorWithWhite:0.0f alpha:overlayAlpha];
 }
 
 -(void)clearOverlay
