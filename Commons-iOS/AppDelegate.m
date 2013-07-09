@@ -22,7 +22,7 @@
     // Change the appearance of the nav bar throughout the app
     [self customizeNavBar];
     
-//    [[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackTranslucent];    
+    //[[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackTranslucent];    
     
     // Register default default values.
     // See: http://stackoverflow.com/a/5397647/135557

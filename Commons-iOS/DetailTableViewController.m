@@ -44,8 +44,8 @@
 @implementation DetailTableViewController{
     UIActivityIndicatorView *tableViewHeaderActivityIndicator_;
     UIImage *previewImage_;
-	BOOL isFirstAppearance_;
-	BOOL isOKtoReportDetailsScroll_;
+    BOOL isFirstAppearance_;
+    BOOL isOKtoReportDetailsScroll_;
     DescriptionParser *descriptionParser_;
     UISwipeGestureRecognizer *swipeRecognizerDown_;
 }
@@ -55,8 +55,8 @@
     self = [super initWithCoder:coder];
     if (self) {
         descriptionParser_ = [[DescriptionParser alloc] init];
-		isFirstAppearance_ = YES;
-		isOKtoReportDetailsScroll_ = NO;
+        isFirstAppearance_ = YES;
+        isOKtoReportDetailsScroll_ = NO;
     }
     return self;
 }
@@ -89,9 +89,9 @@
     
     UIColor *placeholderTextColor = [UIColor whiteColor];
     self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:
-                                                    [MWMessage forKey:@"details-title-placeholder"].text
+                                                 [MWMessage forKey:@"details-title-placeholder"].text
                                                                                 attributes:
-                                                    @{NSForegroundColorAttributeName: placeholderTextColor}
+                                                 @{NSForegroundColorAttributeName: placeholderTextColor}
                                                  ];
 
     self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
@@ -241,12 +241,12 @@
     // Keep the table view the same size as its content
     [self.tableView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
 
-	// Keep track of sliding
-	[self.tableView addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
-
-	[self.tableView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
-
-	self.view.opaque = NO;
+    // Keep track of sliding
+    [self.tableView addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
+    
+    [self.tableView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
+    
+    self.view.opaque = NO;
     self.view.backgroundColor = DETAIL_VIEW_COLOR;
 
     self.view.layer.cornerRadius = DETAIL_BORDER_RADIUS;
@@ -258,9 +258,9 @@
     backView.backgroundColor = [UIColor clearColor];
     self.tableView.backgroundView = backView;
 
-	// Without scrollEnabled, the license and category cells ignore the first touch
-	// after the self.view has been dragged
-	self.tableView.scrollEnabled = YES;
+    // Without scrollEnabled, the license and category cells ignore the first touch
+    // after the self.view has been dragged
+    self.tableView.scrollEnabled = YES;
 }
 
 - (NSString *)categoryShortList
@@ -279,7 +279,7 @@
     FileUpload *record = self.selectedRecord;
     if (record != nil && !record.complete.boolValue) {
         self.uploadButton.enabled = record.title.length > 0 &&
-                                    record.desc.length > 0;
+        record.desc.length > 0;
     }
 }
 
@@ -427,29 +427,29 @@
     }
 }
 
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
-     return NO;
- }
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the specified item to be editable.
+    return NO;
+}
 
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- }
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+}
 
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+}
 
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return NO;
- }
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return NO if you do not want the item to be re-orderable.
+    return NO;
+}
 
 
 // must overload this or the static table handling explodes in cats dynamic section
@@ -791,7 +791,7 @@
         }
     }];
 }
- 
+
 #pragma mark - Image scroll view
 
 -(void)sizeTableViewToItsContents
@@ -889,7 +889,7 @@
 		self.detailsScrollNormal = scrollValue;
 		[self.delegate setDetailsScrollNormal:scrollValue];
     }
-} 
+}
 
 -(void)dockAtBottom
 {
@@ -963,7 +963,6 @@
 	[self.tableView removeObserver:self forKeyPath:@"frame"];
 
 }
-
 
 /*
 -(void)retrieveFullSizedImageForRecord:(FileUpload*)record{

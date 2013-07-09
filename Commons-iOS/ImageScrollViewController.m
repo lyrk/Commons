@@ -74,7 +74,7 @@
     CGRect f = self.imageView.frame;
     f.size = image.size;
     self.imageView.frame = f;
-    self.imageView.center = p;    
+    self.imageView.center = p;
 }
 
 - (void)centerScrollViewContents {
@@ -140,16 +140,16 @@
     overlayView_.backgroundColor = [UIColor clearColor];
     
     /*
-    // Center activity indicator view
-    CGRect bounds = [[UIScreen mainScreen] bounds];
+     // Center activity indicator view
+     CGRect bounds = [[UIScreen mainScreen] bounds];
     
-    self.activityIndicator.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-    activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
+     self.activityIndicator.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
+     activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     
-    // Change the appearance of the status bar and navigation bar
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
-    */
+     // Change the appearance of the status bar and navigation bar
+     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
+     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
+     */
 
     // Setup the scroll view
     imageScrollView.bouncesZoom = YES;
@@ -206,7 +206,7 @@
 
 - (void)scrollViewDidZoom:(UIScrollView *)aScrollView {    
     // The scroll view has zoomed, so we need to re-center the contents
-        [self centerScrollViewContents];
+    [self centerScrollViewContents];
 }
 
 #pragma mark - UIScrollViewDelegate methods

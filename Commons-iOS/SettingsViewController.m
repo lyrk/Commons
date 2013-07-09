@@ -197,8 +197,8 @@
     // Based on http://stackoverflow.com/a/5826745/135557
 
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
-                                                    byRoundingCorners:corners
-                                                          cornerRadii:CGSizeMake(radius, radius)];
+                                                   byRoundingCorners:corners
+                                                         cornerRadii:CGSizeMake(radius, radius)];
     // Create the shape layer and set its path
     CAShapeLayer *maskLayer = [CAShapeLayer layer];
     maskLayer.frame = view.bounds;
@@ -439,8 +439,8 @@
 {
     // Log the logging preference change
 	[app_ log:@"MobileAppTrackingChange" event:@{
-        @"state": self.trackingSwitch.on ? @YES : @NO
-    } override:YES];
+     @"state": self.trackingSwitch.on ? @YES : @NO
+     } override:YES];
     
     // Now set logging according to switch
     app_.trackingEnabled = self.trackingSwitch.on;

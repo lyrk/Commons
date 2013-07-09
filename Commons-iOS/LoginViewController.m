@@ -329,7 +329,7 @@
                                                       animations:^{
                                                           weakSelf.attributionLabel.alpha = 1.0f;
                                                       }
-                                                      completion:^(BOOL finished){                                                          
+                                                      completion:^(BOOL finished){
                                                       }];
                                  }];
 
@@ -415,9 +415,9 @@
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
 
-                        // Prevents the keyboard from covering any of the login container contents, not needed on iPad
-                        // Most useful on non-iPads in landscape
-                        float yOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0 : LOGIN_CONTAINER_VERTICAL_OFFSET;
+                         // Prevents the keyboard from covering any of the login container contents, not needed on iPad
+                         // Most useful on non-iPads in landscape
+                         float yOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0 : LOGIN_CONTAINER_VERTICAL_OFFSET;
                          
 						 // Move login container to logo position (plus a slight vertical offset)
 						 _loginInfoContainer.center = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
@@ -460,7 +460,7 @@
 						 // Restore the logo alpha and scale as well
 						 _logoImageView.alpha = 1.0;
 						 
-                        [_logoImageView toColor];
+                         [_logoImageView toColor];
                          
 						 if (
 							 (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
@@ -504,7 +504,7 @@
 		(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
 		&&
 		UIInterfaceOrientationIsLandscape(self.interfaceOrientation)
-	){
+        ){
 		_logoImageView.transform = CGAffineTransformMakeScale(LOGO_SCALE_NON_IPAD_LANDSCAPE, LOGO_SCALE_NON_IPAD_LANDSCAPE);
 	}else{
 		_logoImageView.transform = CGAffineTransformIdentity;
@@ -612,7 +612,7 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-	   
+
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
 								   initWithTitle: [MWMessage forKey:@"login-title"].text
 								   style: UIBarButtonItemStyleBordered
@@ -801,11 +801,11 @@
 {
     // Uncomment for presentation username/pwd auto entry
     /*
-    self.usernameField.text = @"";
-	self.passwordField.text = @"";
-
-    [self fadeLoginButtonIfNoCredentials];
-    */
+     self.usernameField.text = @"";
+     self.passwordField.text = @"";
+     
+     [self fadeLoginButtonIfNoCredentials];
+     */
 }
 
 -(void)handleDoubleTap
@@ -877,9 +877,9 @@
             if (mwapi.isLoggedIn) {
                 // Credentials verified
                 [app log:@"MobileAppLoginAttempts" event:@{
-                    @"username": username,
-                    @"result": @"success"
-                }];
+                 @"username": username,
+                 @"result": @"success"
+                 }];
                 
                 // Save credentials
                 app.username = username;
@@ -898,9 +898,9 @@
             } else {
                 // Credentials invalid
                 [app log:@"MobileAppLoginAttempts" event:@{
-                    @"username": username,
-                    @"result": loginResult[@"login"][@"result"]
-                }];
+                 @"username": username,
+                 @"result": loginResult[@"login"][@"result"]
+                 }];
                 
                 // Erase saved credentials so that the credentials are validated every time they are changed
                 app.username = @"";
@@ -919,9 +919,9 @@
         [login fail:^(NSError *error) {
             
             [app log:@"MobileAppLoginAttempts" event:@{
-                @"username": username,
-                @"result": @"network"
-            }];
+             @"username": username,
+             @"result": @"network"
+             }];
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-login-fail"].text
                                                                 message:[error localizedDescription]
                                                                delegate:nil
@@ -936,12 +936,12 @@
         }];
     }
     else {
-    // Credentials have not been changed
+        // Credentials have not been changed
         
         NSLog(@"Credentials have not been changed.");
         
         // Dismiss view
-               
+
 		//login success!
         [self showMyUploadsVC];
     }

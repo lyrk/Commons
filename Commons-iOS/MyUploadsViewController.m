@@ -102,7 +102,7 @@
     // Set up refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
-             forControlEvents:UIControlEventValueChanged];
+                  forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
 
     // l10n
@@ -410,10 +410,10 @@
                         self.navigationItem.rightBarButtonItem = [self uploadButton];
                         
                         NSString *alertTitle = ([error.domain isEqualToString:@"MediaWiki API"] && (error.code == MW_ERROR_UPLOAD_CANCEL))
-                            ?
-                            [MWMessage forKey:@"error-upload-cancelled"].text
-                            :
-                            [MWMessage forKey:@"error-upload-failed"].text
+                        ?
+                        [MWMessage forKey:@"error-upload-cancelled"].text
+                        :
+                        [MWMessage forKey:@"error-upload-failed"].text
                         ;
                         
                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle
@@ -515,8 +515,8 @@
             CGRect rect = self.choosePhotoButton.frame;
             [self.popover presentPopoverFromRect:rect
                                           inView:self.view
-                                 permittedArrowDirections:UIPopoverArrowDirectionAny
-                                                 animated:YES];
+                        permittedArrowDirections:UIPopoverArrowDirectionAny
+                                        animated:YES];
         }
     } else {
         [self presentViewController:picker animated:YES completion:nil];
@@ -658,9 +658,9 @@
                              self.takePhotoButton.transform = CGAffineTransformIdentity;
                              self.choosePhotoButton.transform = CGAffineTransformIdentity;
                              
-                            // Also animate the opaque view from transparent to partially opaque
-                            [opaqueView_ setAlpha:OPAQUE_VIEW_ALPHA];
-                            opaqueView_.backgroundColor = [UIColor OPAQUE_VIEW_BACKGROUND_COLOR];
+                             // Also animate the opaque view from transparent to partially opaque
+                             [opaqueView_ setAlpha:OPAQUE_VIEW_ALPHA];
+                             opaqueView_.backgroundColor = [UIColor OPAQUE_VIEW_BACKGROUND_COLOR];
                              
                          }
                          completion:^(BOOL finished){
@@ -687,15 +687,15 @@
                               delay:0.0
                             options:UIViewAnimationOptionTransitionNone
                          animations:^{
-                            self.takePhotoButton.center = self.addMediaButton.center;
-                            self.choosePhotoButton.center = self.addMediaButton.center;
-                            buttonAnimationInProgress_ = YES;
+                             self.takePhotoButton.center = self.addMediaButton.center;
+                             self.choosePhotoButton.center = self.addMediaButton.center;
+                             buttonAnimationInProgress_ = YES;
                              
-                            self.addMediaButton.transform = CGAffineTransformIdentity;
-                            self.addMediaButton.alpha = 1.0;
+                             self.addMediaButton.transform = CGAffineTransformIdentity;
+                             self.addMediaButton.alpha = 1.0;
                              
-                            [opaqueView_ setAlpha:1.0];
-                            opaqueView_.backgroundColor = [UIColor clearColor];
+                             [opaqueView_ setAlpha:1.0];
+                             opaqueView_.backgroundColor = [UIColor clearColor];
                              
                              self.takePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-90));
                              self.choosePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
@@ -705,14 +705,14 @@
                              
                          }
                          completion:^(BOOL finished){
-                            self.takePhotoButton.hidden = YES;
-                            self.choosePhotoButton.hidden = YES;
-                            self.takePhotoButton.center = takePhotoButtonOriginalCenter;
-                            self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
-                            self.addMediaButton.transform = CGAffineTransformIdentity;
-                            buttonAnimationInProgress_ = NO;
-
-                            [opaqueView_ removeFromSuperview];
+                             self.takePhotoButton.hidden = YES;
+                             self.choosePhotoButton.hidden = YES;
+                             self.takePhotoButton.center = takePhotoButtonOriginalCenter;
+                             self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
+                             self.addMediaButton.transform = CGAffineTransformIdentity;
+                             buttonAnimationInProgress_ = NO;
+                             
+                             [opaqueView_ removeFromSuperview];
                          }];
     }
 }
@@ -765,14 +765,14 @@
     switch (type) {
         case NSFetchedResultsChangeInsert:
             [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
-            {
-                FileUpload *record = (FileUpload *)anObject;
-                if (!record.complete.boolValue) {
-                    // This will go crazy if we import multiple items at once :)
-                    self.selectedRecord = record;
-                    [self performSegueWithIdentifier:@"OpenImageSegue" /*@"DetailSegue"*/ sender:self];
-                }
+        {
+            FileUpload *record = (FileUpload *)anObject;
+            if (!record.complete.boolValue) {
+                // This will go crazy if we import multiple items at once :)
+                self.selectedRecord = record;
+                [self performSegueWithIdentifier:@"OpenImageSegue" /*@"DetailSegue"*/ sender:self];
             }
+        }
             break;
             
         case NSFetchedResultsChangeDelete:
@@ -957,7 +957,7 @@
     // Set title label text and resize the label to fit no matter how much text there is
     [cell resizeTitleLabelWithTitle:labelText fileName:noExtFileName];
     //cell.titleLabel.text = labelText;
-        
+
     // Do not animate this progress setting. It needs to directly jump to the proper progress
     cell.infoBox.progressNormal = progress;
     [cell.infoBox setNeedsDisplay];
@@ -1069,7 +1069,7 @@
 #pragma mark Details segue methods
 
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
-{    
+{
     /*
      if ([segue.identifier isEqualToString:@"DetailSegue"]) {
      DetailTableViewController *detailVC = [segue destinationViewController];
@@ -1112,16 +1112,16 @@
 
                     MWPromise *fetch;
                     /*
-                    if (record.complete.boolValue) {
-                        // Fetch cached or internet image at size to fit within self.view
-                        CGSize screenSize = self.view.bounds.size;
-                        AspectFillThumbFetcher *aspectFillThumbFetcher = [[AspectFillThumbFetcher alloc] init];
-                        fetch = [aspectFillThumbFetcher fetchThumbnail:record.title size:screenSize withQueuePriority:NSOperationQueuePriorityVeryHigh];
-                    } else {
-                        // Load the local file...
-                    */
-                        fetch = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityVeryHigh];
-                  //}
+                     if (record.complete.boolValue) {
+                     // Fetch cached or internet image at size to fit within self.view
+                     CGSize screenSize = self.view.bounds.size;
+                     AspectFillThumbFetcher *aspectFillThumbFetcher = [[AspectFillThumbFetcher alloc] init];
+                     fetch = [aspectFillThumbFetcher fetchThumbnail:record.title size:screenSize withQueuePriority:NSOperationQueuePriorityVeryHigh];
+                     } else {
+                     // Load the local file...
+                     */
+                    fetch = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityVeryHigh];
+                    //}
                     
                     [fetch done:^(id data) {
                         // If a local file was loaded (from the "else" clause above) data will contain an image
@@ -1221,7 +1221,7 @@
     imageDoubleTapRecognizer_.cancelsTouchesInView = NO;
     imageDoubleTapRecognizer_.delegate = self;
 	
-imageDoubleTapRecognizer_.enabled = NO;
+    imageDoubleTapRecognizer_.enabled = NO;
 	
 	[imageTapRecognizer_ requireGestureRecognizerToFail:imageDoubleTapRecognizer_];
 	
