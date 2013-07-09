@@ -25,7 +25,7 @@
 
 @synthesize fetchThumbnailProgress;
 
-#define THUMBNAIL_RESOLUTION_IPAD 256.0f
+#define THUMBNAIL_RESOLUTION_IPAD 480.0f
 #define THUMBNAIL_RESOLUTION_NON_IPAD 320.0f
 
 - (id)initWithEntity:(NSEntityDescription *)entity insertIntoManagedObjectContext:(NSManagedObjectContext *)context{

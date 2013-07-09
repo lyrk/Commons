@@ -33,7 +33,7 @@
 #define DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.5f]
 #define DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.25f]
 
-#define DETAIL_DOCK_DISTANCE_FROM_BOTTOM 175.0f
+#define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 485.0f : 175.0f)
 
 @interface DetailTableViewController ()
 

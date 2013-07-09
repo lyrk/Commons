@@ -62,9 +62,12 @@
     CGSize src = self.imageView.frame.size;
     float scale = fminf( dst.width/src.width, dst.height/src.height);
 
+    // (Turned this off because on iPad the images need to be scaled up a bit to fill larger screen better)
     // Only do this in the case the image is larger than the view - otherwise images smaller than the view
     // are scaled up giving the user a false impression
-    return (scale > 1.0f) ? 1.0f : scale;
+    // return (scale > 1.0f) ? 1.0f : scale;
+
+    return scale;
 }
 
 -(void)sizeImageViewToItsImage
