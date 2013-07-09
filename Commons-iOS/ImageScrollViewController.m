@@ -18,7 +18,7 @@
 @end
 
 @implementation ImageScrollViewController{
-    UIView *overlayView;
+    UIView *overlayView_;
 }
 
 #pragma mark - Property synthesizations
@@ -133,11 +133,11 @@
     UIViewAutoresizingFlexibleHeight |
     UIViewAutoresizingFlexibleBottomMargin;
 
-    overlayView = [[UIView alloc] initWithFrame:self.view.bounds];
-    overlayView.autoresizingMask = self.view.autoresizingMask;
-    [self.view addSubview:overlayView];
-    overlayView.userInteractionEnabled = NO;
-    overlayView.backgroundColor = [UIColor clearColor];
+    overlayView_ = [[UIView alloc] initWithFrame:self.view.bounds];
+    overlayView_.autoresizingMask = self.view.autoresizingMask;
+    [self.view addSubview:overlayView_];
+    overlayView_.userInteractionEnabled = NO;
+    overlayView_.backgroundColor = [UIColor clearColor];
     
     /*
     // Center activity indicator view
@@ -269,12 +269,12 @@
     
     _detailsScrollNormal = detailsScrollNormal;
     
-    overlayView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:1.0f - detailsScrollNormal];
+    overlayView_.backgroundColor = [UIColor colorWithWhite:0.0f alpha:1.0f - detailsScrollNormal];
 }
 
 -(void)clearOverlay
 {
-	overlayView.backgroundColor = [UIColor clearColor];
+	overlayView_.backgroundColor = [UIColor clearColor];
 }
 
 @end

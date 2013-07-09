@@ -35,29 +35,28 @@
 
 #define DETAIL_DOCK_DISTANCE_FROM_BOTTOM 175.0f
 
-@interface DetailTableViewController (){
-    DescriptionParser *descriptionParser;
-    UISwipeGestureRecognizer *swipeRecognizerDown;
-}
+@interface DetailTableViewController ()
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 
 @end
 
 @implementation DetailTableViewController{
-    UIActivityIndicatorView *tableViewHeaderActivityIndicator;
-    UIImage *previewImage;
-	BOOL isFirstAppearance;
-	BOOL isOKtoReportDetailsScroll;
+    UIActivityIndicatorView *tableViewHeaderActivityIndicator_;
+    UIImage *previewImage_;
+	BOOL isFirstAppearance_;
+	BOOL isOKtoReportDetailsScroll_;
+    DescriptionParser *descriptionParser_;
+    UISwipeGestureRecognizer *swipeRecognizerDown_;
 }
 
 - (id)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
     if (self) {
-        descriptionParser = [[DescriptionParser alloc] init];
-		isFirstAppearance = YES;
-		isOKtoReportDetailsScroll = NO;
+        descriptionParser_ = [[DescriptionParser alloc] init];
+		isFirstAppearance_ = YES;
+		isOKtoReportDetailsScroll_ = NO;
     }
     return self;
 }
@@ -76,7 +75,7 @@
     UIViewAutoresizingFlexibleHeight |
     UIViewAutoresizingFlexibleBottomMargin;
 
-    previewImage = nil;
+    previewImage_ = nil;
     
     // Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -309,7 +308,7 @@
     [self.tableView reloadData];
 
 	// Only scrollToDockAtBottom if coming from my uploads (not categories, license etc...)
-	if(isFirstAppearance){
+	if(isFirstAppearance_){
 		
 		// Move details just below the nav bar
 		CGRect f = self.view.frame;
@@ -318,12 +317,12 @@
 		
 		//[self scrollToTopBeneathNavBar];
 		[self scrollToDockAtBottomThen:^{
-			isOKtoReportDetailsScroll = YES;
+			isOKtoReportDetailsScroll_ = YES;
 		}];
         [self.delegate clearOverlay];
 	}
 
-	isFirstAppearance = NO;
+	isFirstAppearance_ = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -760,8 +759,8 @@
             for (NSDictionary *category in result[@"query"][@"pages"][page][@"revisions"]) {
                 //NSMutableString *pageHTML = [category[@"*"] mutableCopy];
                 
-                descriptionParser.xml = category[@"parsetree"];
-                descriptionParser.done = ^(NSDictionary *descriptions){
+                descriptionParser_.xml = category[@"parsetree"];
+                descriptionParser_.done = ^(NSDictionary *descriptions){
                     
                     //for (NSString *description in descriptions) {
                     //    NSLog(@"[%@] description = %@", description, descriptions[description]);
@@ -775,7 +774,7 @@
                     [weakTableView reloadData];
                     
                 };
-                [descriptionParser parse];
+                [descriptionParser_ parse];
             }
         }
     }];
@@ -862,7 +861,7 @@
             if (![old isEqualToValue:new]) {
 				//CGPoint oldCenter = old.CGPointValue;
 				//CGPoint newCenter = new.CGPointValue;
-				if (isOKtoReportDetailsScroll) {
+				if (isOKtoReportDetailsScroll_) {
 					[self reportDetailsScroll];
 				}
             }

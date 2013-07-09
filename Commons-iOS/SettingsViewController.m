@@ -35,9 +35,9 @@
 
 @interface SettingsViewController ()
 {
-    NSMutableArray *installedSupportedBrowserNames;
-    BrowserHelper *browserHelper;
-    CommonsApp *app;
+    NSMutableArray *installedSupportedBrowserNames_;
+    BrowserHelper *browserHelper_;
+    CommonsApp *app_;
 }
 
 -(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell;
@@ -61,9 +61,9 @@
     self = [super initWithCoder:coder];
     if (self) {
         
-        browserHelper = [[BrowserHelper alloc] init];
-        app = CommonsApp.singleton;
-        installedSupportedBrowserNames = nil;
+        browserHelper_ = [[BrowserHelper alloc] init];
+        app_ = CommonsApp.singleton;
+        installedSupportedBrowserNames_ = nil;
 
         // Listen for UIApplicationDidBecomeActiveNotification
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -93,7 +93,7 @@
     
     self.openInLabel.adjustsFontSizeToFitWidth = YES;
     
-    self.debugModeSwitch.on = app.debugMode;
+    self.debugModeSwitch.on = app_.debugMode;
     [self setDebugModeLabel];
 	    
     self.externalLinksContainer.alpha = 0.0f;
@@ -102,7 +102,7 @@
     self.scrollView.contentSize = self.settingsContainer.frame.size;
     
     // Make settings switch reflect any saved value
-    self.trackingSwitch.on = app.trackingEnabled;
+    self.trackingSwitch.on = app_.trackingEnabled;
     
     // Get bundle info dict for its app name and version settings
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
@@ -252,11 +252,11 @@
     // See the following for more details: http://stackoverflow.com/a/6391136/135557
  
     // Get array of supported browsers which are installed on the device
-    installedSupportedBrowserNames = [[browserHelper getInstalledSupportedBrowserNames] mutableCopy];
+    installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
 
     [self moveSelectedBrowserToTop];
     
-    return [installedSupportedBrowserNames count];
+    return [installedSupportedBrowserNames_ count];
 }
 
 - (void)receivedUIApplicationDidBecomeActiveNotification:(NSNotification *)notification
@@ -265,7 +265,7 @@
     if(self.navigationController.topViewController == self){
 
         // Update the list of browsers in case the user deleted one while the app was suspended
-        installedSupportedBrowserNames = [[browserHelper getInstalledSupportedBrowserNames] mutableCopy];
+        installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
         
         [self moveSelectedBrowserToTop];
               
@@ -274,7 +274,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([cell.textLabel.text isEqualToString:app.defaultExternalBrowser]) cell.selected = YES;
+    if ([cell.textLabel.text isEqualToString:app_.defaultExternalBrowser]) cell.selected = YES;
     
     [self moveOpenInLabelBesideSelectedBrowserCell:cell];
 }
@@ -293,7 +293,7 @@
     cell.textLabel.font = self.openInLabel.font;
     
     // Make the cell display the browser name
-    cell.textLabel.text = [installedSupportedBrowserNames objectAtIndex:indexPath.row];
+    cell.textLabel.text = [installedSupportedBrowserNames_ objectAtIndex:indexPath.row];
     
     // Round just the top right and bottom right corners of the cell
     [self roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
@@ -304,7 +304,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *selectedCell = [self.browsersTableView cellForRowAtIndexPath:indexPath];
-    app.defaultExternalBrowser = selectedCell.textLabel.text;
+    app_.defaultExternalBrowser = selectedCell.textLabel.text;
     
     // Ensure previous selection highlighting turns off. Not sure why this is needed...
     for (UITableViewCell *cell in self.browsersTableView.visibleCells) {
@@ -314,7 +314,7 @@
     [self moveOpenInLabelBesideSelectedBrowserCell:selectedCell];
 
     // If only Safari is installed and the user taps "Safari" remind them why they're not seeing other browsers
-    if ([installedSupportedBrowserNames count] == 1) {
+    if ([installedSupportedBrowserNames_ count] == 1) {
 
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"settings-open-links-only-safari"].text
                                                             message:nil
@@ -358,16 +358,16 @@
 {
     // Make the user's browser choice appear at the top of the list when the view appears by moving
     // their choice to the front of the installedSupportedBrowserNames array
-    if (installedSupportedBrowserNames.count > 1) {
-        NSString *defaultExternalBrowser = app.defaultExternalBrowser;
-        NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames indexOfObject:defaultExternalBrowser];
+    if (installedSupportedBrowserNames_.count > 1) {
+        NSString *defaultExternalBrowser = app_.defaultExternalBrowser;
+        NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames_ indexOfObject:defaultExternalBrowser];
         if (selectedBrowserIndex != NSNotFound) {
             // Remove the selected browser from the array and re-add it to the front of
             // the array. Was swapping the selected entry with the first entry but this caused
             // the alpha sort of the items after the first to be messed up
-            NSString *selectedBrowser = [installedSupportedBrowserNames objectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames removeObjectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames insertObject:selectedBrowser atIndex:0];
+            NSString *selectedBrowser = [installedSupportedBrowserNames_ objectAtIndex:selectedBrowserIndex];
+            [installedSupportedBrowserNames_ removeObjectAtIndex:selectedBrowserIndex];
+            [installedSupportedBrowserNames_ insertObject:selectedBrowser atIndex:0];
         }
     }
 }
@@ -387,25 +387,25 @@
 - (IBAction)debugSwitchPushed:(id)sender
 {
     // Cancel any fetches as they won't be relevant
-    [app.fetchDataURLQueue cancelAllOperations];
+    [app_.fetchDataURLQueue cancelAllOperations];
     
-    app.debugMode = self.debugModeSwitch.on;
+    app_.debugMode = self.debugModeSwitch.on;
     [self setDebugModeLabel];
     
-    [app deleteAllRecords];
+    [app_ deleteAllRecords];
 
     // Show the loading indicator wheel
     // Needed because the user may have a large list of images and if they back up to the MyUploads page
     // before the data is in place for the MyUploads page it will crash
     [self.appDelegate.loadingIndicator show];
     
-    MWPromise *refresh = [app refreshHistoryWithFailureAlert:NO];
+    MWPromise *refresh = [app_ refreshHistoryWithFailureAlert:NO];
     [refresh always:^(id arg) {
         // Show the loading indicator wheel
         [self.appDelegate.loadingIndicator hide];
         
         // Reset the fetchedResultsController delegate
-        app.fetchedResultsController.delegate = [self getMyUploadsViewController];
+        app_.fetchedResultsController.delegate = [self getMyUploadsViewController];
     }];
 }
 
@@ -415,7 +415,7 @@
 
     MyUploadsViewController *myUploadsViewController = [self getMyUploadsViewController];
     
-    [app fetchUploadRecords];
+    [app_ fetchUploadRecords];
     
     [myUploadsViewController.collectionView reloadData];
     
@@ -425,7 +425,7 @@
 - (void)setDebugModeLabel
 {
     NSString *target;
-    if (app.debugMode) {
+    if (app_.debugMode) {
         target = URL_DEBUG_MODE_TARGET_TESTING;
     } else {
         target = URL_DEBUG_MODE_TARGET_COMMONS;
@@ -438,12 +438,12 @@
 - (IBAction)loggingSwitchPushed:(id)sender
 {
     // Log the logging preference change
-	[app log:@"MobileAppTrackingChange" event:@{
+	[app_ log:@"MobileAppTrackingChange" event:@{
         @"state": self.trackingSwitch.on ? @YES : @NO
     } override:YES];
     
     // Now set logging according to switch
-    app.trackingEnabled = self.trackingSwitch.on;
+    app_.trackingEnabled = self.trackingSwitch.on;
 }
 
 #pragma mark - External Links methods (From old About page)
@@ -504,7 +504,7 @@
     }
     
     // Open the url in the user's preferred browser
-    if (urlStr) [app openURLWithDefaultBrowser:[NSURL URLWithString:urlStr]];    
+    if (urlStr) [app_ openURLWithDefaultBrowser:[NSURL URLWithString:urlStr]];    
 }
 
 -(void)toggleSourceDetailsContainerVisibility
