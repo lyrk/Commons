@@ -48,6 +48,7 @@
     BOOL isOKtoReportDetailsScroll_;
     DescriptionParser *descriptionParser_;
     UISwipeGestureRecognizer *swipeRecognizerDown_;
+    UIView *navBackgroundView_;
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -57,6 +58,7 @@
         descriptionParser_ = [[DescriptionParser alloc] init];
         isFirstAppearance_ = YES;
         isOKtoReportDetailsScroll_ = NO;
+        navBackgroundView_ = nil;
     }
     return self;
 }
@@ -294,6 +296,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [navBackgroundView_ removeFromSuperview];
     [self hideKeyboard];
     [super viewWillDisappear:animated];
 }
@@ -329,12 +332,47 @@
 	}
 
 	isFirstAppearance_ = NO;
+    
+    if(!self.selectedRecord.complete.boolValue)
+    {
+        [self addNavBarBackgroundViewForTouchDetection];
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Nav touch
+
+-(void)addNavBarBackgroundViewForTouchDetection
+{
+    CGRect f = self.navigationController.navigationBar.bounds;
+    // Set size to just encompass the upload button in the center of the screen
+    f = CGRectInset(f, (f.size.width / 2.0f) - 60.0f, 0.0f);
+    navBackgroundView_ = [[UIView alloc] initWithFrame:f];
+    navBackgroundView_.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.0f];
+    navBackgroundView_.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
+    UIViewAutoresizingFlexibleRightMargin |
+    UIViewAutoresizingFlexibleLeftMargin |
+    UIViewAutoresizingFlexibleTopMargin |
+    UIViewAutoresizingFlexibleHeight |
+    UIViewAutoresizingFlexibleBottomMargin;
+    [self.navigationController.navigationBar addSubview:navBackgroundView_];
+    [self.navigationController.navigationBar sendSubviewToBack:navBackgroundView_];
+    navBackgroundView_.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(navBackgroundViewTap:)];
+    tapGesture.cancelsTouchesInView = NO;
+    [navBackgroundView_ addGestureRecognizer:tapGesture];
+}
+
+-(void)navBackgroundViewTap:(UITapGestureRecognizer *)recognizer
+{
+    // If user taps disabled upload button or the nav bar this causes the details table to slide up
+    // (Nice prompt to remind user to enter title and description)
+    [self scrollToTopBeneathNavBar];
 }
 
 #pragma mark - Table view data source
