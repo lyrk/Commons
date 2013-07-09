@@ -292,6 +292,12 @@
     }
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self hideKeyboard];
+    [super viewWillDisappear:animated];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
 	// Note:
