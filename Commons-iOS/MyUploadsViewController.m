@@ -1091,11 +1091,7 @@
         if (self.selectedRecord) {
             
             imageScrollVC_ = [segue destinationViewController];
-			
-            if (!self.selectedRecord.complete.boolValue) {
-                imageScrollVC_.navigationItem.prompt = [MWMessage forKey:@"details-nav-prompt"].text;
-            }
-            
+
             [self addDetailsViewToImageScrollViewController];
             
             [self addRightBarButtonsToImageScrollVC];

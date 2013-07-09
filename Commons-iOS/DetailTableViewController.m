@@ -327,6 +327,11 @@
 		//[self scrollToTopBeneathNavBar];
 		[self scrollToDockAtBottomThen:^{
 			isOKtoReportDetailsScroll_ = YES;
+            
+            if (!self.selectedRecord.complete.boolValue) {
+                [self.delegate.navigationItem setPrompt:[MWMessage forKey:@"details-nav-prompt"].text];
+            }
+            
 		}];
         [self.delegate clearOverlay];
 	}

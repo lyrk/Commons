@@ -14,6 +14,7 @@
     // that the Details view has been scrolled. The ImageScrollViewController uses this
     // so it can adjust the image alpha.
     @property (nonatomic) float detailsScrollNormal;
+    @property (weak, nonatomic) UINavigationItem* navigationItem;
     -(void)clearOverlay;
 @end
 
