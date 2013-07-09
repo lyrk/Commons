@@ -7,6 +7,7 @@
 
 #import "ImageScrollViewController.h"
 #include <math.h>
+#import <QuartzCore/QuartzCore.h>
 
 #define FULL_SCREEN_IMAGE_MIN_ZOOM_SCALE 0.5f
 #define FULL_SCREEN_IMAGE_MAX_ZOOM_SCALE 5.0f
@@ -14,25 +15,17 @@
 // Private
 @interface ImageScrollViewController ()
 
-@property (nonatomic, strong) IBOutlet UIScrollView *imageScrollView;
-@property (nonatomic, strong) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, strong) IBOutlet UIImageView *imageView;
-
 @end
 
-
 @implementation ImageScrollViewController{
-    float initialScale_;
+    UIView *overlayView;
 }
-
 
 #pragma mark - Property synthesizations
 
 @synthesize imageView;
 @synthesize imageScrollView;
 @synthesize image;
-@synthesize activityIndicator;
-
 
 #pragma mark - Setters
 
@@ -40,11 +33,7 @@
     
     image = anImage;
     
-    [self.activityIndicator stopAnimating];
-    
     [self.imageView setImage:image];
-
-    [self centerScrollViewContents];
 
     // Resize imageView to match new image size
     [self sizeImageViewToItsImage];
@@ -60,7 +49,7 @@
     [self.imageScrollView setZoomScale:scale animated:NO];
 
     // Remember the scale so it can be easily returned to
-    initialScale_ = scale;
+    self.initialScale = scale;
 }
 
 #pragma mark - Positioning
@@ -89,45 +78,78 @@
 }
 
 - (void)centerScrollViewContents {
-    // From: http://www.raywenderlich.com/10518/how-to-use-uiscrollview-to-scroll-and-zoom-content
-    CGSize boundsSize = self.imageScrollView.bounds.size;
-    CGRect contentsFrame = self.imageView.frame;
+    UIView *subView = self.imageView;
     
-    if (contentsFrame.size.width < boundsSize.width) {
-        contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0f;
-    } else {
-        contentsFrame.origin.x = 0.0f;
+    CGFloat offsetX = (self.imageScrollView.bounds.size.width > self.imageScrollView.contentSize.width)?
+    (self.imageScrollView.bounds.size.width - self.imageScrollView.contentSize.width) * 0.5 : 0.0;
+    
+    CGFloat offsetY = (self.imageScrollView.bounds.size.height > self.imageScrollView.contentSize.height)?
+    (self.imageScrollView.bounds.size.height - self.imageScrollView.contentSize.height) * 0.5 : 0.0;
+    
+    subView.center = CGPointMake(self.imageScrollView.contentSize.width * 0.5 + offsetX,
+                                 self.imageScrollView.contentSize.height * 0.5 + offsetY);
+    
+    CGPoint centerOffset = CGPointMake(
+                                       (imageScrollView.contentSize.width/2) - (self.imageScrollView.bounds.size.width/2),
+                                       (imageScrollView.contentSize.height/2) - (self.imageScrollView.bounds.size.height/2)
+                                       );
+    
+    if(self.imageScrollView.bounds.size.width > self.imageScrollView.contentSize.width){
+        centerOffset.x = 0;
+    }
+    if(self.imageScrollView.bounds.size.height > self.imageScrollView.contentSize.height){
+        centerOffset.y = 0;
     }
     
-    if (contentsFrame.size.height < boundsSize.height) {
-        contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0f;
-    } else {
-        contentsFrame.origin.y = 0.0f;
-    }
-    
-    self.imageView.frame = contentsFrame;
+    [self.imageScrollView setContentOffset:centerOffset animated:NO];
 }
 
+#pragma mark - Nav
+
+-(void)backButtonPressed:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.initialScale = 1.0f;
+
     
-    initialScale_ = 1.0f;
+    // Change back button to be an arrow
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"\U000025C0\U0000FE0E"
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(backButtonPressed:)];
     
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
+    UIViewAutoresizingFlexibleWidth |
+    UIViewAutoresizingFlexibleRightMargin |
+    UIViewAutoresizingFlexibleTopMargin |
+    UIViewAutoresizingFlexibleHeight |
+    UIViewAutoresizingFlexibleBottomMargin;
+
+    overlayView = [[UIView alloc] initWithFrame:self.view.bounds];
+    overlayView.autoresizingMask = self.view.autoresizingMask;
+    [self.view addSubview:overlayView];
+    overlayView.userInteractionEnabled = NO;
+    overlayView.backgroundColor = [UIColor clearColor];
+    
+    /*
     // Center activity indicator view
     CGRect bounds = [[UIScreen mainScreen] bounds];
+    
     self.activityIndicator.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
     activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
     
     // Change the appearance of the status bar and navigation bar
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
-
-    imageView.frame = self.view.frame;
-    imageView.backgroundColor = [UIColor blackColor];
+    */
 
     // Setup the scroll view
     imageScrollView.bouncesZoom = YES;
@@ -136,9 +158,10 @@
     imageScrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     imageScrollView.showsHorizontalScrollIndicator = NO;
     imageScrollView.showsVerticalScrollIndicator = NO;
+    imageScrollView.delaysContentTouches = NO;
     
-    self.imageScrollView.backgroundColor = [UIColor blackColor];
-    imageScrollView.frame = self.view.frame;
+    imageScrollView.backgroundColor = [UIColor clearColor];
+    imageView.backgroundColor = [UIColor clearColor];
     
     // Add the imageView to the scrollView as subview
     [imageScrollView addSubview:imageView];
@@ -146,47 +169,44 @@
     imageScrollView.contentSize = CGSizeMake(imageView.bounds.size.width, imageView.bounds.size.height);
     
     // Setup UITapGestureRecognizers
-    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
-    [singleTap setNumberOfTapsRequired:1];
-    [doubleTap setNumberOfTapsRequired:2];
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
     
     // Add the gesture recognizers to the view
-    [self.view addGestureRecognizer:singleTap];
-    [self.view addGestureRecognizer:doubleTap];
     [self.view addGestureRecognizer:swipeRight];
-    
-    [self.view bringSubviewToFront:activityIndicator];
-}
 
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
     imageScrollView.minimumZoomScale = FULL_SCREEN_IMAGE_MIN_ZOOM_SCALE;
     imageScrollView.maximumZoomScale = FULL_SCREEN_IMAGE_MAX_ZOOM_SCALE;
     imageScrollView.zoomScale = 1.0f;
+
+	// Don't make the view background clear or the space surrounding the image will
+	// stop responding to touch events - perhaps because uiview's "hitTest:withEvent:"
+	// doesn't fire if the touched view's alpha is < 0.01f?
+    self.view.backgroundColor = [UIColor blackColor];
+	
+    [self.view setMultipleTouchEnabled:YES];
+    self.imageScrollView.backgroundColor = [UIColor clearColor];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
-    
-    // Restore appearance when popping back
-    
-    [self.navigationController.navigationBar setBarStyle:UIBarStyleBlack];
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:YES];
-    
-    [self setControlsHidden:NO animated:YES];
 }
+
+/*
+-(void)viewWillAppear:(BOOL)animated
+{
+//    [self.activityIndicator startAnimating];
+
+    [super viewWillAppear:animated];
+}
+*/
 
 #pragma mark - UIScrollView
 
 - (void)scrollViewDidZoom:(UIScrollView *)aScrollView {    
     // The scroll view has zoomed, so we need to re-center the contents
-    [self centerScrollViewContents];
+        [self centerScrollViewContents];
 }
 
 #pragma mark - UIScrollViewDelegate methods
@@ -196,80 +216,65 @@
     return imageView;
 }
 
+#pragma mark - Zoom
 
-#pragma mark - Gestures
-
-- (void)handleSingleTap:(UIGestureRecognizer *)gestureRecognizer {
-
-    // Toggle controls on single tap
-    [self performSelector:@selector(toggleControls) withObject:nil afterDelay:0.2f];
-}
-
-- (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {
-    
-    // Cancel single tap
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-
-    [self.imageScrollView setZoomScale:initialScale_ animated:YES];
+-(void)resetInitialZoomScaleAnimated:(BOOL)animated
+{
+    [self.imageScrollView setZoomScale:self.initialScale animated:animated];
 }
 
 - (void)handleSwipeRight:(UIGestureRecognizer *)gestureRecognizer {
-    [[self navigationController] popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - Rotation
 
-#pragma mark - Control visibility
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    [self resetInitialZoomScaleAnimated:YES];
 
-// If permanent then timer to hide controls is not activated
-- (void)setControlsHidden:(BOOL)hidden animated:(BOOL)animated{
-    
-	// Status bar and nav bar positioning
-    if (self.wantsFullScreenLayout) {
-        
-        // Get status bar height if visible
-        CGFloat statusBarHeight = 0.0f;
-        if (![UIApplication sharedApplication].statusBarHidden) {
-            CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-            statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
-        }
-        
-        // Status bar
-        if ([UIApplication instancesRespondToSelector:@selector(setStatusBarHidden:withAnimation:)]) {
-            [[UIApplication sharedApplication] setStatusBarHidden:hidden withAnimation:animated?UIStatusBarAnimationFade:UIStatusBarAnimationNone];
-        }
-        
-        // Get status bar height if visible
-        if (![UIApplication sharedApplication].statusBarHidden) {
-            CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-            statusBarHeight = MIN(statusBarFrame.size.height, statusBarFrame.size.width);
-        }
-        
-        // Set navigation bar frame
-        CGRect navBarFrame = self.navigationController.navigationBar.frame;
-        navBarFrame.origin.y = statusBarHeight;
-        self.navigationController.navigationBar.frame = navBarFrame;
-    }
-    
-	// Animate
-    if (animated) {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.35f];
-    }
-    CGFloat alpha = hidden ? 0.0f : 1.0f;
-	[self.navigationController.navigationBar setAlpha:alpha];
-	if (animated) {
-        [UIView commitAnimations];
-    }
+    [self centerScrollViewContents];
 }
 
-- (BOOL)controlsHidden {
-    
-    return [UIApplication sharedApplication].isStatusBarHidden;
+-(BOOL)shouldAutorotate
+{
+    return YES;
 }
 
-- (void)toggleControls {
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+-(BOOL)shouldAutomaticallyForwardRotationMethods{
+    // This method is called to determine whether to
+    // automatically forward rotation-related containment
+    // callbacks to child view controllers.
+    return YES;
+}
+
+-(BOOL)shouldAutomaticallyForwardAppearanceMethods{
+    // This method is called to determine whether to
+    // automatically forward appearance-related containment
+    //  callbacks to child view controllers.
+    return YES;    
+}
+
+#pragma mark - Details Scroll
+
+-(void)setDetailsScrollNormal:(float)detailsScrollNormal
+{
+    // Clear out the prompt above the nav bar as soon as details scrolled
+    self.navigationItem.prompt = nil;
     
-    [self setControlsHidden:![self controlsHidden] animated:YES];
+    _detailsScrollNormal = detailsScrollNormal;
+    
+    overlayView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:1.0f - detailsScrollNormal];
+}
+
+-(void)clearOverlay
+{
+	overlayView.backgroundColor = [UIColor clearColor];
 }
 
 @end

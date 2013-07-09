@@ -8,7 +8,6 @@
 
 #import "DetailTableViewController.h"
 #import "CommonsApp.h"
-#import "ImageScrollViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
@@ -22,20 +21,34 @@
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
+#define DETAIL_LABEL_COLOR [UIColor whiteColor]
+#define DETAIL_VIEW_COLOR [UIColor colorWithWhite:0.0f alpha:0.3f]
+
+#define DETAIL_BORDER_COLOR [UIColor colorWithWhite:1.0f alpha:0.75f]
+#define DETAIL_BORDER_WIDTH 0.0f
+#define DETAIL_BORDER_RADIUS 0.0f
+
+#define DETAIL_TABLE_CELL_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.3f]
+
+#define DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.5f]
+#define DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.25f]
+
+#define DETAIL_DOCK_DISTANCE_FROM_BOTTOM 175.0f
+
 @interface DetailTableViewController (){
     DescriptionParser *descriptionParser;
+    UISwipeGestureRecognizer *swipeRecognizerDown;
 }
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 
-- (void)hideKeyboard;
-
 @end
 
 @implementation DetailTableViewController{
-    
-    UITapGestureRecognizer *tapRecognizer;
-
+    UIActivityIndicatorView *tableViewHeaderActivityIndicator;
+    UIImage *previewImage;
+	BOOL isFirstAppearance;
+	BOOL isOKtoReportDetailsScroll;
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -43,6 +56,8 @@
     self = [super initWithCoder:coder];
     if (self) {
         descriptionParser = [[DescriptionParser alloc] init];
+		isFirstAppearance = YES;
+		isOKtoReportDetailsScroll = NO;
     }
     return self;
 }
@@ -54,6 +69,15 @@
 {
     [super viewDidLoad];
     
+    self.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
+    UIViewAutoresizingFlexibleWidth |
+    UIViewAutoresizingFlexibleRightMargin |
+    UIViewAutoresizingFlexibleTopMargin |
+    UIViewAutoresizingFlexibleHeight |
+    UIViewAutoresizingFlexibleBottomMargin;
+
+    previewImage = nil;
+    
     // Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
@@ -62,26 +86,36 @@
     
     // l10n
     self.title = [MWMessage forKey:@"details-title"].text;
-    self.uploadButton.title = [MWMessage forKey:@"details-upload-button"].text;
     self.titleLabel.text = [MWMessage forKey:@"details-title-label"].text;
-    self.titleTextField.placeholder = [@" " stringByAppendingString:[MWMessage forKey:@"details-title-placeholder"].text];
+    
+    UIColor *placeholderTextColor = [UIColor whiteColor];
+    self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:
+                                                    [MWMessage forKey:@"details-title-placeholder"].text
+                                                                                attributes:
+                                                    @{NSForegroundColorAttributeName: placeholderTextColor}
+                                                 ];
+
     self.descriptionLabel.text = [MWMessage forKey:@"details-description-label"].text;
     self.descriptionPlaceholder.text = [MWMessage forKey:@"details-description-placeholder"].text;
+    self.descriptionPlaceholder.textColor = placeholderTextColor;
+    
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
     self.categoryLabel.text = [MWMessage forKey:@"details-category-label"].text;
 
-    // Make spinner visible against the white background
-    self.imageSpinner.color = [UIColor blackColor];
     
     // Load up the selected record
     FileUpload *record = self.selectedRecord;
+
+    self.descriptionTextView.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+    self.titleTextField.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+    // Add a bit of left padding to the text box (from: http://stackoverflow.com/a/13515749/135557)
+    self.titleTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0);
     
     if (record != nil) {
         self.categoryList = [record.categoryList mutableCopy];
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
         self.descriptionPlaceholder.hidden = (record.desc.length > 0);
-        self.imageSpinner.hidden = NO;
 
         self.categoryListLabel.text = [self categoryShortList];
 
@@ -95,20 +129,6 @@
         }
 
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            
-            MWPromise *thumb = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityHigh];
-
-            [thumb done:^(UIImage *image) {
-                self.imageSpinner.hidden = YES;
-                self.imagePreview.image = image;
-            }];
-            [thumb fail:^(NSError *error) {
-                NSLog(@"Failed to fetch wiki image: %@", [error localizedDescription]);
-            }];
-
-            [thumb always:^(id arg) {
-                self.imageSpinner.hidden = YES;
-            }];
             
             if (record.complete.boolValue) {
                 // Completed upload...
@@ -130,7 +150,10 @@
                 self.licenseNameLabel.hidden = YES;
                 self.ccByImage.hidden = YES;
                 self.ccSaImage.hidden = YES;
-                
+
+				self.descriptionTextView.backgroundColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+				self.titleTextField.backgroundColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+
                 // either use HTML http://commons.wikimedia.org/wiki/Commons:Machine-readable_data
                 // or pick apart the standard templates
             } else {
@@ -189,11 +212,6 @@
         self.descriptionTextView.inputAccessoryView = hideKeyboardButton;
     }
     
-    // Hide keyboard when anywhere else is tapped
-	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-	[self.view addGestureRecognizer:tapRecognizer];
-    tapRecognizer.cancelsTouchesInView = NO;
-    
     // Make taps to title or description labels cause their respective text boxes to receive focus
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnTitleTextField)];
     [self.titleCell addGestureRecognizer:tapGesture];
@@ -201,6 +219,49 @@
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
     [self.descCell addGestureRecognizer:tapGesture];
     
+    // Round corners of text boxes
+    [self.titleTextField.layer setCornerRadius:6.0f];
+    [self.descriptionTextView.layer setCornerRadius:6.0f];
+    
+    self.licenseNameLabel.textColor = [UIColor whiteColor];
+    
+    self.descriptionLabel.textColor = DETAIL_LABEL_COLOR;
+    self.titleLabel.textColor = DETAIL_LABEL_COLOR;
+    self.licenseLabel.textColor = DETAIL_LABEL_COLOR;
+    self.categoryLabel.textColor = DETAIL_LABEL_COLOR;
+
+    self.tableView.delaysContentTouches = NO;
+    
+    // Get rid of table separator lines and border
+    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.tableView.layer setShadowColor:[UIColor clearColor].CGColor];
+
+    [self.view setMultipleTouchEnabled:NO];
+    
+    // Keep the table view the same size as its content
+    [self.tableView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
+
+	// Keep track of sliding
+	[self.tableView addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
+
+	[self.tableView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
+
+	self.view.opaque = NO;
+    self.view.backgroundColor = DETAIL_VIEW_COLOR;
+
+    self.view.layer.cornerRadius = DETAIL_BORDER_RADIUS;
+    self.view.layer.borderWidth = DETAIL_BORDER_WIDTH;
+    self.view.layer.borderColor = [DETAIL_BORDER_COLOR CGColor];
+
+    // Make the table view's background transparent
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectZero];
+    backView.backgroundColor = [UIColor clearColor];
+    self.tableView.backgroundView = backView;
+
+	// Without scrollEnabled, the license and category cells ignore the first touch
+	// after the self.view has been dragged
+	self.tableView.scrollEnabled = YES;
 }
 
 - (NSString *)categoryShortList
@@ -234,9 +295,35 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.navigationController setToolbarHidden:NO animated:YES];
+	// Note:
+	// Don't call "[super viewWillAppear:animated]" here!
+	// It causes the tableView to scroll if the description box receives focus
+	// when it has been moved to the lower part of the screen
+	// See: http://stackoverflow.com/a/12111260/135557
+	// (the scrolling is unwanted because "scrollSoView:isBelowNavBar:" is being
+	// used instead - for greater control)
+
+	[self.navigationController setToolbarHidden:YES animated:NO];
+
     self.categoryList = [self.selectedRecord.categoryList mutableCopy];
     [self.tableView reloadData];
+
+	// Only scrollToDockAtBottom if coming from my uploads (not categories, license etc...)
+	if(isFirstAppearance){
+		
+		// Move details just below the nav bar
+		CGRect f = self.view.frame;
+		f.origin.y = self.navigationController.navigationBar.frame.size.height;
+		self.view.frame = f;
+		
+		//[self scrollToTopBeneathNavBar];
+		[self scrollToDockAtBottomThen:^{
+			isOKtoReportDetailsScroll = YES;
+		}];
+        [self.delegate clearOverlay];
+	}
+
+	isFirstAppearance = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -259,7 +346,7 @@
         // Hide only the license row if viewing details of already-uploaded image
         if (self.selectedRecord.complete.boolValue) {
             // Hide description row if none found
-            return (self.descriptionTextView.text.length == 0) ? 2 : 3;
+            return (self.descriptionTextView.text.length == 0) ? 1 : 2;
         }
         // Fall through to static section handling...
         return [super tableView:tableView numberOfRowsInSection:section];
@@ -291,7 +378,8 @@
 {
     if (indexPath.section == 0) {
         // Fall through to static section handling...
-        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+        UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+        return  cell;
     } else if (indexPath.section == 1) {
         // Categories
         UITableViewCell *cell;
@@ -303,13 +391,15 @@
                 cell.accessoryType = UITableViewCellAccessoryNone;
                 cell.userInteractionEnabled = NO;
                 cell.textLabel.text = [MWMessage forKey:@"details-category-loading"].text;
+                cell.textLabel.backgroundColor = [UIColor clearColor];
+				cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 return cell;
             }
         }
         
         if (indexPath.row < self.categoryList.count) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
-            
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
             // Make categories read-only for now
             if (self.selectedRecord.complete.boolValue) {
                 cell.accessoryType = UITableViewCellAccessoryNone;
@@ -319,7 +409,12 @@
             cell.textLabel.text = self.categoryList[indexPath.row];
         } else {
             cell = [tableView dequeueReusableCellWithIdentifier:@"AddCategoryCell"];
+            cell.textLabel.text = [MWMessage forKey:@"catadd-title"].text;
+            cell.textLabel.textColor = DETAIL_LABEL_COLOR;
         }
+        
+        cell.textLabel.backgroundColor = [UIColor clearColor];
+
         return cell;
     } else {
         // no exist!
@@ -366,7 +461,7 @@
 // hack to hide table cells
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0 && indexPath.item >= 2 && self.selectedRecord && self.selectedRecord.complete.boolValue) {
+    if (indexPath.section == 0 && indexPath.item >= 1 && self.selectedRecord && self.selectedRecord.complete.boolValue) {
         if (self.selectedRecord.complete.boolValue) {
             // Resize description cell according to the retrieved description's text height
             // From: http://stackoverflow.com/a/2487402/135557
@@ -428,38 +523,44 @@
 	[self.descriptionTextView resignFirstResponder];
 }
 
--(void)viewWillLayoutSubviews
+-(void)scrollSoView:(UIView *)view isBelowNavBar:(UINavigationBar *)navBar
 {
-    // Add a little padding to the bottom of the table view so it can be scrolled up a bit when the
-    // keyboard is shown
-    UIEdgeInsets edgeInsets = UIEdgeInsetsMake(0, 0, self.view.frame.size.height / 2.0, 0);
-    [self.tableView setContentInset:edgeInsets];
-    [self.tableView setScrollIndicatorInsets:edgeInsets];
+    float statusBarHeight = [CommonsApp.singleton getStatusBarHeight];
+    float navBarHeight = navBar.frame.size.height;
+
+    // See: http://stackoverflow.com/q/6452716/135557
+    float viewYinScrollView = [view.superview convertPoint:view.frame.origin toView:
+                               [UIApplication sharedApplication].keyWindow.rootViewController.view
+                               ].y;
+
+    [UIView animateWithDuration:0.5
+                          delay:0.0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+                         CGPoint p = self.view.center;
+                         p.y -= viewYinScrollView - navBarHeight - statusBarHeight;
+                         self.view.center = p;
+                     }
+                     completion:^(BOOL finished){
+
+                     }];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     // When the title box receives focus scroll it to the top of the table view to ensure the keyboard
     // isn't hiding it
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self scrollSoView:self.titleLabel isBelowNavBar:self.navigationController.navigationBar];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     // When the description box receives focus scroll it to the top of the table view to ensure the keyboard
     // isn't hiding it
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:2 inSection:0];
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    [self scrollSoView:self.descriptionLabel isBelowNavBar:self.navigationController.navigationBar];
 }
 
 #pragma mark -
-
-- (void)popViewControllerAnimated
-{
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 - (void)openLicense
 {
@@ -520,64 +621,13 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
-        
+    if ([segue.identifier isEqualToString:@"AddCategorySegue"]) {
         if (self.selectedRecord) {
+            CategorySearchTableViewController *catVC = [segue destinationViewController];
+
+            catVC.title = [MWMessage forKey:@"catadd-title"].text;
             
-            ImageScrollViewController *view = [segue destinationViewController];
-
-            FileUpload *record = self.selectedRecord;
-            if (record != nil) {
-                
-                view.title = record.title;
-                
-                dispatch_async(dispatch_get_main_queue(), ^(void) {
-                    
-                    MWPromise *fetch;
-                    if (record.complete.boolValue) {
-                        // Fetch cached or internet image at size to fit within self.view
-                        CGSize screenSize = self.view.bounds.size;
-                        AspectFillThumbFetcher *aspectFillThumbFetcher = [[AspectFillThumbFetcher alloc] init];
-                        fetch = [aspectFillThumbFetcher fetchThumbnail:record.title size:screenSize withQueuePriority:NSOperationQueuePriorityVeryHigh];
-                    } else {
-                        // Load the local file...
-                        fetch = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityVeryHigh];
-                    }
-
-                    [fetch done:^(id data) {
-                        // If a local file was loaded (from the "else" clause above) data will contain an image
-                        if([data isKindOfClass:[UIImage class]]){
-                            [view setImage:data];
-                        }else if([data isKindOfClass:[NSMutableDictionary class]]){
-                            // If image sized to fit within self.view was downloaded (from the "if" clause above)
-                            // data will contain a dict with an "image" entry
-                            NSData *imageData = data[@"image"];
-                            if (imageData){
-                                UIImage *image = [UIImage imageWithData:imageData scale:1.0];
-                                [view setImage:image];
-                            }
-                        }
-                    }];
-                    
-                    [fetch fail:^(NSError *error) {
-                        NSLog(@"Failed to download image: %@", [error localizedDescription]);
-                        // Pop back after a second if image failed to download
-                        [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
-                    }];
-                    
-                });
-
-            }
-            
-        }
-        
-    } else if ([segue.identifier isEqualToString:@"AddCategorySegue"]) {
-        if (self.selectedRecord) {
-            CategorySearchTableViewController *view = [segue destinationViewController];
-
-            view.title = [MWMessage forKey:@"catadd-title"].text;
-            
-            view.selectedRecord = self.selectedRecord;
+            catVC.selectedRecord = self.selectedRecord;
         }
     } else if ([segue.identifier isEqualToString:@"CategoryDetailSegue"]) {
         if (self.selectedRecord) {
@@ -590,11 +640,9 @@
 }
 
 - (void)viewDidUnload {
-    [self setImagePreview:nil];
     [self setTitleTextField:nil];
     [self setDescriptionTextView:nil];
     [self setSelectedRecord:nil];
-    [self setImageSpinner:nil];
     [self setDeleteButton:nil];
     [self setActionButton:nil];
     [self setUploadButton:nil];
@@ -636,14 +684,6 @@
     [app saveData];
     self.selectedRecord = nil;
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (IBAction)uploadButtonPushed:(id)sender {
-    MyUploadsViewController *controller = [self.navigationController.viewControllers objectAtIndex:1];
-    if ([controller respondsToSelector:@selector(uploadButtonPushed:)]) {
-        [controller performSelector:@selector(uploadButtonPushed:) withObject:controller.uploadButton];
-    }
-    [self popViewControllerAnimated];
 }
 
 #pragma mark - Description and Category retrieval
@@ -746,5 +786,209 @@
         }
     }];
 }
+ 
+#pragma mark - Image scroll view
+
+-(void)sizeTableViewToItsContents
+{
+	CGRect f = self.tableView.frame;
+	f.size = self.tableView.contentSize;
+	self.tableView.frame = f;
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    // If the keyboard was visible during rotation, scroll so the field being edited is near the top of the screen
+    if (self.titleTextField.isFirstResponder) {
+        [self scrollSoView:self.titleLabel isBelowNavBar:self.navigationController.navigationBar];
+    }else if (self.descriptionTextView.isFirstResponder) {
+        [self scrollSoView:self.descriptionLabel isBelowNavBar:self.navigationController.navigationBar];
+    }
+	
+	[self sizeTableViewToItsContents];
+}
+
+// Make the table cell backgrounds partially transparent
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = DETAIL_TABLE_CELL_BACKGROUND_COLOR;
+}
+
+// Custom style for the "Categories" table header label. http://stackoverflow.com/a/7928944/135557
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
+    if (sectionTitle == nil) return nil;
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(20, 8, 320, 20);
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = DETAIL_LABEL_COLOR;
+    label.shadowColor = [UIColor grayColor];
+    label.shadowOffset = CGSizeMake(0.0, 0.0);
+    label.font = [UIFont boldSystemFontOfSize:16];
+    label.text = sectionTitle;
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor clearColor];
+    view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [view addSubview:label];
+    return view;
+}
+
+-(void)removeBorderFromTableViewCell:(UITableViewCell *) cell
+{    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [cell setAccessoryType:UITableViewCellAccessoryNone];
+    cell.backgroundView = nil;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    // Keep the table view the same size as its content
+    if ([keyPath isEqualToString:@"contentSize"]) {
+        NSValue *new = [change valueForKey:@"new"];
+        NSValue *old = [change valueForKey:@"old"];
+        if (new && old) {
+            if (![old isEqualToValue:new]) {
+				[self sizeTableViewToItsContents];
+            }
+        }
+    }else if ([keyPath isEqualToString:@"center"] || [keyPath isEqualToString:@"frame"]) {
+		// Keep track of sliding
+        NSValue *new = [change valueForKey:@"new"];
+        NSValue *old = [change valueForKey:@"old"];
+        if (new && old) {
+            if (![old isEqualToValue:new]) {
+				//CGPoint oldCenter = old.CGPointValue;
+				//CGPoint newCenter = new.CGPointValue;
+				if (isOKtoReportDetailsScroll) {
+					[self reportDetailsScroll];
+				}
+            }
+        }
+    }
+}
+
+-(void)reportDetailsScroll
+{
+    static float lastScrollValue = 0.0f;
+    CGSize rootViewSize = [UIApplication sharedApplication].keyWindow.rootViewController.view.frame.size;
+    float height = (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? rootViewSize.height : rootViewSize.width;
+    float scrollValue = self.view.frame.origin.y / height;
+	float minChangeToReport = 0.025f;
+    if (fabsf((scrollValue - lastScrollValue)) > minChangeToReport) {
+        scrollValue = MIN(scrollValue, 1.0f);
+        scrollValue = MAX(scrollValue, 0.0f);
+        lastScrollValue = scrollValue;
+		self.detailsScrollNormal = scrollValue;
+		[self.delegate setDetailsScrollNormal:scrollValue];
+    }
+} 
+
+-(void)dockAtBottom
+{
+	float y = self.view.superview.frame.size.height - DETAIL_DOCK_DISTANCE_FROM_BOTTOM;
+	CGRect f = self.view.frame;
+	f.origin.y = y;
+	self.view.frame = f;
+}
+
+-(void)scrollToDockAtBottomThen:(void(^)(void))block
+{
+	float distanceFromBottom = DETAIL_DOCK_DISTANCE_FROM_BOTTOM;
+	float navBarHeight = self.navigationController.navigationBar.frame.size.height;
+	float y = self.view.superview.frame.size.height - navBarHeight - distanceFromBottom;
+	
+	CGAffineTransform transform = CGAffineTransformMakeTranslation(0, y);
+
+    [UIView animateWithDuration:0.40f
+                          delay:0.5f
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+						 self.view.transform = transform;
+					 }
+                     completion:^(BOOL finished){
+						 if(block != nil) block();
+                     }];
+}
+
+-(void)scrollToTopBeneathNavBar
+{
+	float navBarHeight = self.navigationController.navigationBar.frame.size.height;
+	float yFromStatusBar = self.view.frame.origin.y;
+	float yFromNavBar = yFromStatusBar - navBarHeight;
+	NSLog(@"yFromStatusBar = %f yFromNavBar = %f", yFromStatusBar, yFromNavBar);
+
+    [UIView animateWithDuration:0.25
+                          delay:0.0
+                        options: UIViewAnimationTransitionNone
+                     animations:^{
+                         CGRect f = self.view.frame;
+                         f.origin.y -= yFromNavBar;
+                         self.view.frame = f;
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+-(void)scrollToPercentOfSuperview:(float)percent then:(void(^)(void))block
+{
+    [UIView animateWithDuration:0.25
+                          delay:0.0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+						 self.view.layer.shouldRasterize = YES;
+
+						 CGRect f = self.view.frame;
+						 f.origin.y = percent * self.view.superview.frame.size.height;
+						 self.view.frame = f;
+					 }
+                     completion:^(BOOL finished){
+						 self.view.layer.shouldRasterize = NO;
+
+						 if(block != nil) block();
+                     }];
+}
+
+-(void)dealloc
+{
+	[self.tableView removeObserver:self forKeyPath:@"contentSize"];
+	[self.tableView removeObserver:self forKeyPath:@"center"];
+	[self.tableView removeObserver:self forKeyPath:@"frame"];
+
+}
+
+
+/*
+-(void)retrieveFullSizedImageForRecord:(FileUpload*)record{
+    // download larger image now that thumb is showing
+    // need progress indicator? with "loading full sized image" messsage?
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        
+        MWPromise *fetch;
+        if (record.complete.boolValue) {
+            CGSize screenSize = self.view.bounds.size;
+            screenSize.width = screenSize.width * 3;
+            screenSize.height = screenSize.height * 3;
+            AspectFillThumbFetcher *aspectFillThumbFetcher = [[AspectFillThumbFetcher alloc] init];
+            fetch = [aspectFillThumbFetcher fetchThumbnail:record.title size:screenSize withQueuePriority:NSOperationQueuePriorityVeryHigh];
+        }
+        
+        [fetch done:^(id data) {
+            if([data isKindOfClass:[NSMutableDictionary class]]){
+                NSData *imageData = data[@"image"];
+                if (imageData){
+                    [imgScrollVC setImage:[UIImage imageWithData:imageData scale:1.0]];
+                }
+            }
+        }];
+        
+        [fetch fail:^(NSError *error) {
+        }];
+    });
+}
+
+*/
 
 @end

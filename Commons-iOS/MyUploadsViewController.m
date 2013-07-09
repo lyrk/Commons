@@ -19,6 +19,8 @@
 #import "ProgressView.h"
 #import "LoginViewController.h"
 #import "GalleryMultiSelectCollectionVC.h"
+#import "ImageScrollViewController.h"
+#import "AspectFillThumbFetcher.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -33,6 +35,12 @@
     bool buttonAnimationInProgress;
     UIView *opaqueView;
     NSUInteger thumbnailCount;
+    
+    ImageScrollViewController *imageScrollVC;
+    DetailTableViewController *detailVC;
+    UITapGestureRecognizer *imageTapRecognizer;
+    UITapGestureRecognizer *imageDoubleTapRecognizer;
+    UIPanGestureRecognizer *detailsPanRecognizer;
 }
 
 - (void)animateTakeAndChoosePhotoButtons;
@@ -151,24 +159,12 @@
     return [UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera];
 }
 
--(void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-    
-    // Make sure when the device is rotated that the opaqueView changes dimensions accordingly
-    opaqueView.frame = self.view.bounds;
-
-    // UIViews don't have access to self.interfaceOrientation, this gets around that so the
-    // welcomeOverlayView can adjust its custom drawing when it needs to
-    self.welcomeOverlayView.interfaceOrientation = self.interfaceOrientation;
-}
-
 -(void)reachabilityChange:(NSNotification*)note {
     Reachability * reach = [note object];
     NetworkStatus netStatus = [reach currentReachabilityStatus];
     if (netStatus == ReachableViaWiFi || netStatus == ReachableViaWWAN)
     {
-        self.uploadButton.enabled = YES;
+        self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;;
     }
     else if (netStatus == NotReachable)
     {
@@ -241,12 +237,16 @@
     [super viewDidUnload];
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+-(void)viewWillLayoutSubviews
 {
-    if ([segue.identifier isEqualToString:@"DetailSegue"]) {
-        DetailTableViewController *view = [segue destinationViewController];
-        view.selectedRecord = self.selectedRecord;
-    }
+    [super viewWillLayoutSubviews];
+    
+    // Make sure when the device is rotated that the opaqueView changes dimensions accordingly
+    opaqueView.frame = self.view.bounds;
+    
+    // UIViews don't have access to self.interfaceOrientation, this gets around that so the
+    // welcomeOverlayView can adjust its custom drawing when it needs to
+    self.welcomeOverlayView.interfaceOrientation = self.interfaceOrientation;
 }
 
 #pragma mark - Thumb Download Prioritization
@@ -354,7 +354,7 @@
     
     if (!_uploadButton) {
         
-        _uploadButton = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
+        _uploadButton = [[UIBarButtonItem alloc] initWithTitle:[MWMessage forKey:@"details-upload-button"].text
                                                          style:UIBarButtonItemStylePlain
                                                         target:self
                                                         action:@selector(uploadButtonPushed:)];
@@ -375,6 +375,9 @@
 #pragma mark - Interface Actions
 
 - (IBAction)uploadButtonPushed:(id)sender {
+    
+    // Pop to this view controller (in case upload button was pressed from the details page)
+    [self.navigationController popToViewController:self animated:YES];
     
     CommonsApp *app = [CommonsApp singleton];
     
@@ -732,6 +735,11 @@
         if (touch.view == self.choosePhotoButton) return NO;
     }
     
+	if ((gestureRecognizer == imageTapRecognizer) || (gestureRecognizer == imageDoubleTapRecognizer)) {
+		// Ignore touches which fall on the details table or its contents
+		if (!(imageScrollVC.imageScrollView == touch.view || imageScrollVC.imageView == touch.view)) return NO;
+	}
+	
     return YES;
 }
 
@@ -762,7 +770,7 @@
                 if (!record.complete.boolValue) {
                     // This will go crazy if we import multiple items at once :)
                     self.selectedRecord = record;
-                    [self performSegueWithIdentifier:@"DetailSegue" sender:self];
+                    [self performSegueWithIdentifier:@"OpenImageSegue" /*@"DetailSegue"*/ sender:self];
                 }
             }
             break;
@@ -1058,13 +1066,231 @@
     [self.welcomeOverlayView animateLines];
 }
 
-#pragma mark UIScrollViewDelegate methods
+#pragma mark Details segue methods
 
-/*
- - (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    NSLog(@"blah");
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+{    
+    /*
+     if ([segue.identifier isEqualToString:@"DetailSegue"]) {
+     DetailTableViewController *detailVC = [segue destinationViewController];
+     detailVC.selectedRecord = self.selectedRecord;
+     
+     // Change back button to be arrow
+     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"\U000025C0\U0000FE0E" style:UIBarButtonItemStyleBordered target:self action:nil];
+     
+     // Make the table view's background transparent
+     UIView *backView = [[UIView alloc] initWithFrame:CGRectZero];
+     backView.backgroundColor = [UIColor clearColor];
+     detailVC.tableView.backgroundView = backView;
+     }
+     return;
+     */
+    
+    if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
+        
+        if (self.selectedRecord) {
+            
+            imageScrollVC = [segue destinationViewController];
+			
+            if (!self.selectedRecord.complete.boolValue) {
+                imageScrollVC.navigationItem.prompt = [MWMessage forKey:@"details-nav-prompt"].text;
+            }
+            
+            [self addDetailsViewToImageScrollViewController];
+            
+            [self addRightBarButtonsToImageScrollVC];
+            
+            // Allow the newly created detailsVC to access the upload button too
+            detailVC.uploadButton = self.uploadButton;
+            
+            FileUpload *record = self.selectedRecord;
+            if (record != nil) {
+
+                imageScrollVC.title = @"";  //[MWMessage forKey:@"details-title"].text; //record.title;
+
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+
+                    MWPromise *fetch;
+                    /*
+                    if (record.complete.boolValue) {
+                        // Fetch cached or internet image at size to fit within self.view
+                        CGSize screenSize = self.view.bounds.size;
+                        AspectFillThumbFetcher *aspectFillThumbFetcher = [[AspectFillThumbFetcher alloc] init];
+                        fetch = [aspectFillThumbFetcher fetchThumbnail:record.title size:screenSize withQueuePriority:NSOperationQueuePriorityVeryHigh];
+                    } else {
+                        // Load the local file...
+                    */
+                        fetch = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityVeryHigh];
+                  //}
+                    
+                    [fetch done:^(id data) {
+                        // If a local file was loaded (from the "else" clause above) data will contain an image
+                        if([data isKindOfClass:[UIImage class]]){
+                            [imageScrollVC setImage:data];
+                        }else if([data isKindOfClass:[NSMutableDictionary class]]){
+                            // If image sized to fit within self.view was downloaded (from the "if" clause above)
+                            // data will contain a dict with an "image" entry
+                            NSData *imageData = data[@"image"];
+                            if (imageData){
+                                UIImage *image = [UIImage imageWithData:imageData scale:1.0];
+                                [imageScrollVC setImage:image];
+                            }
+                        }
+                    }];
+                    
+                    [fetch fail:^(NSError *error) {
+                        NSLog(@"Failed to download image: %@", [error localizedDescription]);
+                        // Pop back after a second if image failed to download
+                        [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
+                    }];
+                    
+                    [fetch always:^(id arg) {
+                        
+                    }];
+                });
+            }
+        }
+    }
 }
-*/
+
+-(void)addRightBarButtonsToImageScrollVC
+{
+    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                 target:detailVC
+                                                                                 action:@selector(shareButtonPushed:)];
+    
+    UIBarButtonItem *openWikiPageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-view.png"]
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:detailVC
+                                                                          action:@selector(openWikiPageButtonPushed:)];
+    
+    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
+                                                                                  target:detailVC
+                                                                                  action:@selector(deleteButtonPushed:)];
+    
+    
+    UIBarButtonItem *spacerItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                target:nil
+                                                                                action:nil];
+    spacerItem.width = 25.0f;
+    
+    if (!self.selectedRecord.complete.boolValue) {
+        [imageScrollVC.navigationItem setRightBarButtonItems:@[self.uploadButton, spacerItem,deleteButton] animated:YES];
+    }else{
+        [imageScrollVC.navigationItem setRightBarButtonItems:@[shareButton, spacerItem, openWikiPageButton] animated:YES];
+    }
+}
+
+-(void)popViewControllerAnimated
+{
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+-(BOOL)shouldAutomaticallyForwardAppearanceMethods
+{
+    // This method is called to determine whether to
+    // automatically forward appearance-related containment
+    //  callbacks to child view controllers.
+    return YES;
+    
+}
+-(BOOL)shouldAutomaticallyForwardRotationMethods
+{
+    // This method is called to determine whether to
+    // automatically forward rotation-related containment
+    // callbacks to child view controllers.
+    return YES;
+}
+
+-(void)addDetailsViewToImageScrollViewController
+{
+    detailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailTableViewController"];
+    detailVC.selectedRecord = self.selectedRecord;
+    
+    imageTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageTap:)];
+	imageTapRecognizer.numberOfTouchesRequired = 1;
+	imageDoubleTapRecognizer.numberOfTapsRequired = 1;
+    [imageScrollVC.view addGestureRecognizer:imageTapRecognizer];
+    imageTapRecognizer.cancelsTouchesInView = NO;
+    imageTapRecognizer.delegate = self;
+
+	imageDoubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageDoubleTap:)];
+	imageDoubleTapRecognizer.numberOfTouchesRequired = 1;
+	imageDoubleTapRecognizer.numberOfTapsRequired = 2;
+    [imageScrollVC.view addGestureRecognizer:imageDoubleTapRecognizer];
+    imageDoubleTapRecognizer.cancelsTouchesInView = NO;
+    imageDoubleTapRecognizer.delegate = self;
+	
+imageDoubleTapRecognizer.enabled = NO;
+	
+	[imageTapRecognizer requireGestureRecognizerToFail:imageDoubleTapRecognizer];
+	
+    detailsPanRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleDetailsPan:)];
+    detailsPanRecognizer.delegate = self;
+	[detailVC.view addGestureRecognizer:detailsPanRecognizer];
+        
+    [imageScrollVC addChildViewController:detailVC];
+    
+    detailVC.view.frame = imageScrollVC.view.bounds;
+	
+    [imageScrollVC.view addSubview:detailVC.view];
+    [detailVC didMoveToParentViewController:imageScrollVC];
+	
+	// Let the detailVC notify the imageScrollVC when the detailVC view slides around
+    // This allows the imageScrollVC to adjust its image visibility depending on how
+    // far the detailVS view has been slid
+    detailVC.delegate = (ImageScrollViewController<DetailTableViewControllerDelegate> *)imageScrollVC;
+    
+	[imageScrollVC.view bringSubviewToFront:detailVC.view];
+	[detailVC.view bringSubviewToFront:detailVC.tableView];
+}
+
+-(void)handleDetailsPan:(UIPanGestureRecognizer *)recognizer
+{
+    static CGPoint originalCenter;
+    if (recognizer.state == UIGestureRecognizerStateBegan)
+    {
+        originalCenter = recognizer.view.center;
+        //recognizer.view.layer.shouldRasterize = YES;
+    }
+    if (recognizer.state == UIGestureRecognizerStateChanged)
+    {
+        CGPoint translate = [recognizer translationInView:recognizer.view.superview];
+        translate.x = 0; // Don't move sideways
+        recognizer.view.center = CGPointMake(originalCenter.x + translate.x, originalCenter.y + translate.y);
+    }
+    if (recognizer.state == UIGestureRecognizerStateEnded ||
+        recognizer.state == UIGestureRecognizerStateFailed ||
+        recognizer.state == UIGestureRecognizerStateCancelled)
+    {
+        //recognizer.view.layer.shouldRasterize = NO;
+    }
+}
+
+-(void)handleImageTap:(UITapGestureRecognizer *)recognizer
+{
+	static float yFramePercent = 0.0f;
+	if(detailVC.navigationController.navigationBar.alpha == 1.0f){
+		detailVC.view.userInteractionEnabled = NO;
+		detailVC.navigationController.navigationBar.alpha = 0.0f;
+		 
+		yFramePercent = detailVC.view.frame.origin.y / detailVC.view.superview.frame.size.height;
+
+		[detailVC scrollToPercentOfSuperview:1.0f then:^{detailVC.view.alpha = 0.0f;}];
+		
+		[detailVC hideKeyboard];
+		
+	}else{
+		detailVC.view.userInteractionEnabled = YES;
+		detailVC.navigationController.navigationBar.alpha = 1.0f;
+		detailVC.view.alpha = 1.0f;
+		[detailVC scrollToPercentOfSuperview:yFramePercent then:nil];
+	}
+}
+
+-(void)handleImageDoubleTap:(UITapGestureRecognizer *)recognizer
+{
+	//NSLog(@"Add double-tap to zoom here");
+}
 
 @end

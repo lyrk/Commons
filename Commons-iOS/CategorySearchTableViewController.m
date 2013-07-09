@@ -37,6 +37,8 @@
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"CategoryCell"];
         
     [self.searchBar setPlaceholder:[MWMessage forKey:@"catadd-search-placeholder"].text];
+
+    self.searchBar.tintColor = [UIColor darkGrayColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,6 +91,8 @@
 {
     static NSString *CellIdentifier = @"CategoryCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    cell.textLabel.textColor = [UIColor blackColor];
     
     NSArray *cats;
     if (tableView == self.tableView) {

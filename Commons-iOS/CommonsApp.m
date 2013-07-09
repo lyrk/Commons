@@ -1440,4 +1440,10 @@ static CommonsApp *singleton_;
                                );
 }
 
+-(float)getStatusBarHeight
+{
+	CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+    return MIN(statusBarFrame.size.height, statusBarFrame.size.width);
+}
+
 @end

@@ -9,15 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "FileUpload.h"
 
-@interface DetailTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate>
+@protocol DetailTableViewControllerDelegate <NSObject>
+    // Protocol for notifying other view controllers, such as ImageScrollViewController,
+    // that the Details view has been scrolled. The ImageScrollViewController uses this
+    // so it can adjust the image alpha.
+    @property (nonatomic) float detailsScrollNormal;
+    -(void)clearOverlay;
+@end
 
-@property (weak, nonatomic) IBOutlet UIImageView *imagePreview;
+@interface DetailTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionPlaceholder;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *imageSpinner;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
@@ -38,8 +44,17 @@
 @property (nonatomic, strong) UIActivityViewController *shareActivityViewController;
 
 - (IBAction)deleteButtonPushed:(id)sender;
-- (IBAction)uploadButtonPushed:(id)sender;
 - (IBAction)openWikiPageButtonPushed:(id)sender;
 - (IBAction)shareButtonPushed:(id)sender;
 
+- (void)hideKeyboard;
+
+- (void)scrollToDockAtBottomThen:(void(^)(void))block;
+- (void)scrollToPercentOfSuperview:(float)percent then:(void(^)(void))block;
+
+@property (nonatomic) float detailsScrollNormal;
+
+@property (strong, nonatomic) id<DetailTableViewControllerDelegate> delegate;
+
 @end
+
