@@ -67,9 +67,9 @@
     // are scaled up giving the user a false impression
     // return (scale > 1.0f) ? 1.0f : scale;
 
-    // Increased the scale just a bit so on iPad the image has just a bit of overlap
+    // Increased the scale just a bit so the image has just a bit of overlap
     // Look nicer as the image then extends beyond the nav bar buttons
-    scale *= 1.05f;
+    scale *= (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 1.05f : 1.30f;
 
     return scale;
 }
