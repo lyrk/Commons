@@ -55,6 +55,10 @@
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
 		305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 305BC7691710BD3300B2CC01 /* LoadingIndicator.m */; };
 		3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3067546E170FF9D900A4BD8F /* SettingsViewController.m */; };
+		30DC441B178D42E60081555A /* cc-by-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC4417178D42E20081555A /* cc-by-white.png */; };
+		30DC441C178D42E60081555A /* cc-by-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC4418178D42E30081555A /* cc-by-white@2x.png */; };
+		30DC441D178D42E60081555A /* cc-sa-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC4419178D42E40081555A /* cc-sa-white.png */; };
+		30DC441E178D42E60081555A /* cc-sa-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC441A178D42E60081555A /* cc-sa-white@2x.png */; };
 		30FA25D71751E3D90040292C /* UILabel+ResizeWithAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA25D61751E3D80040292C /* UILabel+ResizeWithAttributes.m */; };
 		30FA25DA1751E6390040292C /* UIView+Space.m in Sources */ = {isa = PBXBuildFile; fileRef = 30FA25D91751E6380040292C /* UIView+Space.m */; };
 		65137CD716BE4C3B006FA9BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086170169B760800D6ACB0 /* UIKit.framework */; };
@@ -387,6 +391,10 @@
 		305BC7691710BD3300B2CC01 /* LoadingIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingIndicator.m; sourceTree = "<group>"; };
 		3067546D170FF9D800A4BD8F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		3067546E170FF9D900A4BD8F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		30DC4417178D42E20081555A /* cc-by-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by-white.png"; sourceTree = "<group>"; };
+		30DC4418178D42E30081555A /* cc-by-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by-white@2x.png"; sourceTree = "<group>"; };
+		30DC4419178D42E40081555A /* cc-sa-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa-white.png"; sourceTree = "<group>"; };
+		30DC441A178D42E60081555A /* cc-sa-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa-white@2x.png"; sourceTree = "<group>"; };
 		30FA25D51751E3D80040292C /* UILabel+ResizeWithAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+ResizeWithAttributes.h"; sourceTree = "<group>"; };
 		30FA25D61751E3D80040292C /* UILabel+ResizeWithAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+ResizeWithAttributes.m"; sourceTree = "<group>"; };
 		30FA25D81751E6380040292C /* UIView+Space.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Space.h"; sourceTree = "<group>"; };
@@ -895,6 +903,10 @@
 				D41D280A16C18C9F00BC3ABE /* cc-by@2x.png */,
 				D41D280B16C18C9F00BC3ABE /* cc-sa.png */,
 				D41D280C16C18C9F00BC3ABE /* cc-sa@2x.png */,
+				30DC4417178D42E20081555A /* cc-by-white.png */,
+				30DC4418178D42E30081555A /* cc-by-white@2x.png */,
+				30DC4419178D42E40081555A /* cc-sa-white.png */,
+				30DC441A178D42E60081555A /* cc-sa-white@2x.png */,
 				D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */,
 				D40CE3DD16BB542200E63B27 /* fileicon-svg.png */,
 				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
@@ -1356,6 +1368,10 @@
 				0417D9DF17695E4700081D8C /* POTD-2009-06-19.dict in Resources */,
 				0417D9E017695E4700081D8C /* POTD-2013-04-21.dict in Resources */,
 				0417D9E117695E4700081D8C /* POTD-2013-06-04.dict in Resources */,
+				30DC441B178D42E60081555A /* cc-by-white.png in Resources */,
+				30DC441C178D42E60081555A /* cc-by-white@2x.png in Resources */,
+				30DC441D178D42E60081555A /* cc-sa-white.png in Resources */,
+				30DC441E178D42E60081555A /* cc-sa-white@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

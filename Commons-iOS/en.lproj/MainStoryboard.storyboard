@@ -1099,11 +1099,11 @@ to take or choose photos.</string>
                                                     <color key="textColor" red="0.0" green="0.25098040699958801" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="cc-by.png" id="5K9-ea-Ir7">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="cc-by-white.png" id="5K9-ea-Ir7">
                                                     <rect key="frame" x="218" y="20" width="24" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="cc-sa.png" id="hHJ-fo-oLs">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="cc-sa-white.png" id="hHJ-fo-oLs">
                                                     <rect key="frame" x="247" y="20" width="24" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
@@ -1567,7 +1567,9 @@ Help Wikipedia articles come to life!</string>
         <image name="Commons-logo-white.png" width="250" height="329"/>
         <image name="add_image.png" width="32" height="27"/>
         <image name="camera.png" width="30" height="25"/>
+        <image name="cc-by-white.png" width="24" height="24"/>
         <image name="cc-by.png" width="24" height="24"/>
+        <image name="cc-sa-white.png" width="24" height="24"/>
         <image name="cc-sa.png" width="24" height="24"/>
         <image name="commons-logo.png" width="175" height="235"/>
         <image name="copyleft.png" width="19" height="19"/>
@@ -1601,7 +1603,6 @@ Help Wikipedia articles come to life!</string>
                 <relationship kind="action" name="deleteButtonPushed:"/>
                 <relationship kind="action" name="openWikiPageButtonPushed:"/>
                 <relationship kind="action" name="shareButtonPushed:"/>
-                <relationship kind="action" name="uploadButtonPushed:"/>
                 <relationship kind="outlet" name="actionButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="categoryLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="categoryListLabel" candidateClass="UILabel"/>
@@ -1612,8 +1613,6 @@ Help Wikipedia articles come to life!</string>
                 <relationship kind="outlet" name="descriptionLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="descriptionPlaceholder" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="descriptionTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="imagePreview" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="imageSpinner" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="licenseCell" candidateClass="UITableViewCell"/>
                 <relationship kind="outlet" name="licenseLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="licenseNameLabel" candidateClass="UILabel"/>
@@ -1623,6 +1622,22 @@ Help Wikipedia articles come to life!</string>
                 <relationship kind="outlet" name="titleTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="uploadButton" candidateClass="UIBarButtonItem"/>
             </relationships>
+        </class>
+        <class className="GalleryMultiSelectAlbumCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GalleryMultiSelectAlbumCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="label" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="GalleryMultiSelectAssetCell" superclassName="UICollectionViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GalleryMultiSelectAssetCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="GalleryMultiSelectCollectionVC" superclassName="UICollectionViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GalleryMultiSelectCollectionVC.h"/>
         </class>
         <class className="GettingStartedViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GettingStartedViewController.h"/>
@@ -1659,7 +1674,6 @@ Help Wikipedia articles come to life!</string>
         <class className="ImageScrollViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageScrollViewController.h"/>
             <relationships>
-                <relationship kind="outlet" name="activityIndicator" candidateClass="UIActivityIndicatorView"/>
                 <relationship kind="outlet" name="imageScrollView" candidateClass="UIScrollView"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
             </relationships>
@@ -1669,6 +1683,7 @@ Help Wikipedia articles come to life!</string>
             <relationships>
                 <relationship kind="action" name="pushLicenseButton:"/>
                 <relationship kind="outlet" name="ccBySaViewButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="readAboutLicensingLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
         <class className="LoginViewController" superclassName="UIViewController">
@@ -1782,6 +1797,9 @@ Help Wikipedia articles come to life!</string>
         </class>
         <class className="UICollectionViewCell" superclassName="UICollectionReusableView">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewCell.h"/>
+        </class>
+        <class className="UICollectionViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewController.h"/>
         </class>
         <class className="UICollectionViewFlowLayout" superclassName="UICollectionViewLayout">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/UICollectionViewFlowLayout.h"/>

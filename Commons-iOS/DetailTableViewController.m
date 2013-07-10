@@ -28,9 +28,10 @@
 #define DETAIL_BORDER_WIDTH 0.0f
 #define DETAIL_BORDER_RADIUS 0.0f
 
-#define DETAIL_TABLE_CELL_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.3f]
+#define DETAIL_TABLE_CELL_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.0f]
 
 #define DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.5f]
+#define DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR [UIColor whiteColor]
 #define DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.25f]
 
 #define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 485.0f : 175.0f)
@@ -112,6 +113,9 @@
     // Add a bit of left padding to the text box (from: http://stackoverflow.com/a/13515749/135557)
     self.titleTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0);
     
+	self.titleTextField.textColor = DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR;
+	self.descriptionTextView.textColor = DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR;
+
     if (record != nil) {
         self.categoryList = [record.categoryList mutableCopy];
         self.titleTextField.text = record.title;
