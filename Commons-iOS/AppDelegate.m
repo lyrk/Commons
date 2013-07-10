@@ -99,6 +99,16 @@
     UIGraphicsEndImageContext();
     
     [[UINavigationBar appearance] setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    
+    // Sets the nav bar text color - also sets the color of any nav bar navigation item prompt text.
+    // (needed because by default the prompt text is very gray and hard to see)
+    [[UINavigationBar appearance] setTitleTextAttributes:
+         @{
+                                    UITextAttributeTextColor: [UIColor whiteColor],
+                              UITextAttributeTextShadowColor: [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3f],
+                             UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetMake(0, -1)]
+         }
+     ];
 }
 
 - (void)receivedUINavigationControllerDidShowViewControllerNotification:(NSNotification *)notification {
