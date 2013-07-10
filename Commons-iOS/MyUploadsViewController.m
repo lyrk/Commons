@@ -1267,6 +1267,9 @@
         recognizer.state == UIGestureRecognizerStateCancelled)
     {
         //recognizer.view.layer.shouldRasterize = NO;
+
+        // Scroll to eliminate any gap beneath the details table now that dragging it has ceased
+        [detailVC_ scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero];
     }
 }
 

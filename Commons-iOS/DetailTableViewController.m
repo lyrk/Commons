@@ -872,7 +872,22 @@
 {
 	CGRect f = self.tableView.frame;
 	f.size = self.tableView.contentSize;
+
+    // Make the details table extent about a third of the screen height past the bottom
+    // of the details table content. The size must be grabbed from the delegate because
+    // the details view itself isn't fullscreen, so the size of the screen can't be
+    // obtained from it.
+    f.size.height += (self.delegate.view.bounds.size.height / 3.0f);
+        
 	self.tableView.frame = f;
+    
+    // Ensure the newly sized table isn't scrolled so far up that there's a gap beneath it
+    [self scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero];
+}
+
+-(float)tableBottomVerticalDistanceFromDelegateViewBottom
+{
+	return self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.view.frame.size.height);
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -984,6 +999,34 @@
         // Clear out any prompt above the nav bar as soon as details scrolled
         [self clearNavBarPrompt];
     }
+}
+
+- (void)scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero
+{
+    // Scroll to eliminate any gap beneath the table and the bottom of the delegate's view
+    float bottomGapHeight = [self tableBottomVerticalDistanceFromDelegateViewBottom];
+    if (bottomGapHeight > 0.0f) {
+        [self scrollByAmount:bottomGapHeight then:nil];
+    }
+}
+
+-(void)scrollByAmount:(float)amount then:(void(^)(void))block
+{
+    [UIView animateWithDuration:0.25
+                          delay:0.0
+                        options: UIViewAnimationCurveEaseOut
+                     animations:^{
+						 self.view.layer.shouldRasterize = YES;
+
+						 CGRect f = self.view.frame;
+						 f.origin.y += amount;
+						 self.view.frame = f;
+					 }
+                     completion:^(BOOL finished){
+						 self.view.layer.shouldRasterize = NO;
+
+						 if(block != nil) block();
+                     }];
 }
 
 -(void)dockAtBottom

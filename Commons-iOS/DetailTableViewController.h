@@ -14,7 +14,8 @@
     // that the Details view has been scrolled. The ImageScrollViewController uses this
     // so it can adjust the image alpha.
     @property (nonatomic) float detailsScrollNormal;
-    @property (weak, nonatomic) UINavigationItem* navigationItem;
+    @property (weak, nonatomic) UINavigationItem *navigationItem;
+    @property (weak, nonatomic) UIView *view;
     -(void)clearOverlay;
 @end
 
@@ -52,6 +53,8 @@
 
 - (void)scrollToDockAtBottomThen:(void(^)(void))block;
 - (void)scrollToPercentOfSuperview:(float)percent then:(void(^)(void))block;
+- (float)tableBottomVerticalDistanceFromDelegateViewBottom;
+- (void)scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero;
 
 @property (nonatomic) float detailsScrollNormal;
 
