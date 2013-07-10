@@ -946,7 +946,7 @@
 {
     // Prevent details from underlapping nav bar by hiding nav bar when details scrolled up so
     // far that underlap would occur. And when details scrolled back down make nav bar re-appear.
-    if ([self verticalDistanceFromNavBar] < 5.0f) {
+    if ([self verticalDistanceFromNavBar] < 0.0f) {
         if (!self.navigationController.navigationBarHidden) {
             [self.navigationController setNavigationBarHidden:YES animated:YES];
         }
