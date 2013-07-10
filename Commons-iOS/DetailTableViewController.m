@@ -204,7 +204,7 @@
 
     if ((!record.complete.boolValue) && (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)){
         UIButton *hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [hideKeyboardButton addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventTouchDown];
+        [hideKeyboardButton addTarget:self action:@selector(hideKeyboardAccessoryViewTapped) forControlEvents:UIControlEventTouchDown];
 
         [hideKeyboardButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [hideKeyboardButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
@@ -587,6 +587,15 @@
 }
 
 #pragma mark - Repositioning for keyboard appearance
+
+- (void)hideKeyboardAccessoryViewTapped
+{
+    [self hideKeyboard];
+    // When the description field is being edited and the "hide keyboard" button is pressed
+    // the nav bar needs to be revealed so the "upload" button is visible
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self scrollToTopBeneathNavBarAfterDelay:0.0f];
+}
 
 - (void)hideKeyboard
 {
