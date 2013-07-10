@@ -303,6 +303,10 @@
     [navBackgroundView_ removeFromSuperview];
     [self hideKeyboard];
     [super viewWillDisappear:animated];
+    
+    // Ensure the nav bar is visible
+    // (needed because "makeNavBarRunAwayFromDetails" method could have hidden the nav bar)
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -345,6 +349,12 @@
     {
         [self addNavBarBackgroundViewForTouchDetection];
     }
+    
+    // Ensure nav bar isn't being underlapped by details
+    // (needed if details pushed another view controller while details was scrolled so far up that
+    // it had caused the nav bar to be hidden - without this extra call to "makeNavBarRunAwayFromDetails"
+    // here, when that pushed view gets popped, the nav would overlap the details)
+    [self makeNavBarRunAwayFromDetails];
 }
 
 - (void)didReceiveMemoryWarning
