@@ -595,11 +595,9 @@
 	[self.descriptionTextView resignFirstResponder];
 }
 
--(void)scrollSoView:(UIView *)view isBelowNavBar:(UINavigationBar *)navBar
+-(void)scrollViewBeneathStatusBar:(UIView *)view
 {
     float statusBarHeight = [CommonsApp.singleton getStatusBarHeight];
-    float navBarHeight = navBar.frame.size.height;
-
     // See: http://stackoverflow.com/q/6452716/135557
     float viewYinScrollView = [view.superview convertPoint:view.frame.origin toView:
                                [UIApplication sharedApplication].keyWindow.rootViewController.view
@@ -610,7 +608,7 @@
                         options: UIViewAnimationCurveEaseOut
                      animations:^{
                          CGPoint p = self.view.center;
-                         p.y -= viewYinScrollView - navBarHeight - statusBarHeight;
+                         p.y -= viewYinScrollView - statusBarHeight;
                          self.view.center = p;
                      }
                      completion:^(BOOL finished){
@@ -622,14 +620,14 @@
 {
     // When the title box receives focus scroll it to the top of the table view to ensure the keyboard
     // isn't hiding it
-    [self scrollSoView:self.titleLabel isBelowNavBar:self.navigationController.navigationBar];
+    [self scrollViewBeneathStatusBar:self.titleLabel];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     // When the description box receives focus scroll it to the top of the table view to ensure the keyboard
     // isn't hiding it
-    [self scrollSoView:self.descriptionLabel isBelowNavBar:self.navigationController.navigationBar];
+    [self scrollViewBeneathStatusBar:self.descriptionLabel];
 }
 
 #pragma mark -
@@ -872,9 +870,9 @@
 {
     // If the keyboard was visible during rotation, scroll so the field being edited is near the top of the screen
     if (self.titleTextField.isFirstResponder) {
-        [self scrollSoView:self.titleLabel isBelowNavBar:self.navigationController.navigationBar];
+        [self scrollViewBeneathStatusBar:self.titleLabel];
     }else if (self.descriptionTextView.isFirstResponder) {
-        [self scrollSoView:self.descriptionLabel isBelowNavBar:self.navigationController.navigationBar];
+        [self scrollViewBeneathStatusBar:self.descriptionLabel];
     }
 	
 	[self sizeTableViewToItsContents];
