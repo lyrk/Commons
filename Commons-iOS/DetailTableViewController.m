@@ -932,12 +932,30 @@
     }
 }
 
+-(void)makeNavBarRunAwayFromDetails
+{
+    // Prevent details from underlapping nav bar by hiding nav bar when details scrolled up so
+    // far that underlap would occur. And when details scrolled back down make nav bar re-appear.
+    if ([self verticalDistanceFromNavBar] < 5.0f) {
+        if (!self.navigationController.navigationBarHidden) {
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+        }
+    }else{
+        if (self.navigationController.navigationBarHidden) {
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+        }
+    }
+}
+
 -(void)reportDetailsScroll
 {
     static float lastScrollValue = 0.0f;
     CGSize rootViewSize = [UIApplication sharedApplication].keyWindow.rootViewController.view.frame.size;
     float height = (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? rootViewSize.height : rootViewSize.width;
     float scrollValue = self.view.frame.origin.y / height;
+
+    [self makeNavBarRunAwayFromDetails];
+
 	float minChangeToReport = 0.025f;
     if (fabsf((scrollValue - lastScrollValue)) > minChangeToReport) {
         scrollValue = MIN(scrollValue, 1.0f);
