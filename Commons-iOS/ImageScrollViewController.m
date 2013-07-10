@@ -273,10 +273,7 @@
 #pragma mark - Details Scroll
 
 -(void)setDetailsScrollNormal:(float)detailsScrollNormal
-{
-    // Clear out the prompt above the nav bar as soon as details scrolled
-    self.navigationItem.prompt = nil;
-    
+{    
     _detailsScrollNormal = detailsScrollNormal;
     
     float overlayAlpha = MIN(FULL_SCREEN_IMAGE_MAX_OVERLAY_ALPHA, 1.0f - detailsScrollNormal);

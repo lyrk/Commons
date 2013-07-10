@@ -324,7 +324,6 @@
 		f.origin.y = self.navigationController.navigationBar.frame.size.height;
 		self.view.frame = f;
 		
-		//[self scrollToTopBeneathNavBar];
 		[self scrollToDockAtBottomThen:^{
 			isOKtoReportDetailsScroll_ = YES;
             
@@ -375,9 +374,20 @@
 
 -(void)navBackgroundViewTap:(UITapGestureRecognizer *)recognizer
 {
+    float delay = (self.delegate.navigationItem.prompt.length == 0) ? 0.0f : 0.1f;
+
+    // Clear out any prompt above the nav bar as soon as disabled upload button is tapped
+    [self clearNavBarPrompt];
+
     // If user taps disabled upload button or the nav bar this causes the details table to slide up
-    // (Nice prompt to remind user to enter title and description)
-    [self scrollToTopBeneathNavBar];
+    // Nice prompt to remind user to enter title and description. Perform after delay if the
+    // navigationItem.prompt was set to give prompt time to disappear
+    [self scrollToTopBeneathNavBarAfterDelay:delay];
+}
+
+-(void)clearNavBarPrompt
+{
+    self.delegate.navigationItem.prompt = nil;
 }
 
 #pragma mark - Table view data source
@@ -931,6 +941,9 @@
         lastScrollValue = scrollValue;
 		self.detailsScrollNormal = scrollValue;
 		[self.delegate setDetailsScrollNormal:scrollValue];
+
+        // Clear out any prompt above the nav bar as soon as details scrolled
+        [self clearNavBarPrompt];
     }
 }
 
@@ -961,15 +974,17 @@
                      }];
 }
 
--(void)scrollToTopBeneathNavBar
+-(float)verticalDistanceFromNavBar
 {
-	float navBarHeight = self.navigationController.navigationBar.frame.size.height;
-	float yFromStatusBar = self.view.frame.origin.y;
-	float yFromNavBar = yFromStatusBar - navBarHeight;
-	NSLog(@"yFromStatusBar = %f yFromNavBar = %f", yFromStatusBar, yFromNavBar);
+	return self.view.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
+}
+
+-(void)scrollToTopBeneathNavBarAfterDelay:(float)delay
+{
+	float yFromNavBar = [self verticalDistanceFromNavBar];
 
     [UIView animateWithDuration:0.25
-                          delay:0.0
+                          delay:delay
                         options: UIViewAnimationTransitionNone
                      animations:^{
                          CGRect f = self.view.frame;
