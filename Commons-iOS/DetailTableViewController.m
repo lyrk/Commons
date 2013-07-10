@@ -192,7 +192,7 @@
     
     // Make the title text box keyboard "Done" button dismiss the keyboard
     [self.titleTextField setReturnKeyType:UIReturnKeyDone];
-    [self.titleTextField addTarget:self action:@selector(hideKeyboard) forControlEvents:UIControlEventEditingDidEndOnExit];
+    [self.titleTextField addTarget:self.descriptionTextView action:@selector(becomeFirstResponder) forControlEvents:UIControlEventEditingDidEndOnExit];
     
     // Add a "hide keyboard" button above the keyboard (when the description box has the focus and the
     // keyboard is visible). Did this so multi-line descriptions could still be entered *and* the
