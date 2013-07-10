@@ -32,7 +32,7 @@
 
 #define DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.5f]
 #define DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR [UIColor whiteColor]
-#define DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.25f]
+#define DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.1f]
 
 #define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 485.0f : 175.0f)
 

@@ -13,7 +13,7 @@
 #define FULL_SCREEN_IMAGE_MAX_ZOOM_SCALE 5.0f
 
 // Defines how dark the black overlay above the image can become when details slide up over the image
-#define FULL_SCREEN_IMAGE_MAX_OVERLAY_ALPHA 0.7f
+#define FULL_SCREEN_IMAGE_MAX_OVERLAY_ALPHA 0.8f
 
 // Private
 @interface ImageScrollViewController ()
