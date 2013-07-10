@@ -1211,41 +1211,41 @@
     detailVC_.selectedRecord = self.selectedRecord;
     
     imageTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageTap:)];
-	imageTapRecognizer_.numberOfTouchesRequired = 1;
-	imageDoubleTapRecognizer_.numberOfTapsRequired = 1;
+    imageTapRecognizer_.numberOfTouchesRequired = 1;
+    imageDoubleTapRecognizer_.numberOfTapsRequired = 1;
     [imageScrollVC_.view addGestureRecognizer:imageTapRecognizer_];
     imageTapRecognizer_.cancelsTouchesInView = NO;
     imageTapRecognizer_.delegate = self;
 
-	imageDoubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageDoubleTap:)];
-	imageDoubleTapRecognizer_.numberOfTouchesRequired = 1;
-	imageDoubleTapRecognizer_.numberOfTapsRequired = 2;
+    imageDoubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageDoubleTap:)];
+    imageDoubleTapRecognizer_.numberOfTouchesRequired = 1;
+    imageDoubleTapRecognizer_.numberOfTapsRequired = 2;
     [imageScrollVC_.view addGestureRecognizer:imageDoubleTapRecognizer_];
     imageDoubleTapRecognizer_.cancelsTouchesInView = NO;
     imageDoubleTapRecognizer_.delegate = self;
 	
     imageDoubleTapRecognizer_.enabled = NO;
-	
-	[imageTapRecognizer_ requireGestureRecognizerToFail:imageDoubleTapRecognizer_];
-	
+
+    [imageTapRecognizer_ requireGestureRecognizerToFail:imageDoubleTapRecognizer_];
+
     detailsPanRecognizer_ = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleDetailsPan:)];
     detailsPanRecognizer_.delegate = self;
-	[detailVC_.view addGestureRecognizer:detailsPanRecognizer_];
-        
+    [detailVC_.view addGestureRecognizer:detailsPanRecognizer_];
+
     [imageScrollVC_ addChildViewController:detailVC_];
     
     detailVC_.view.frame = imageScrollVC_.view.bounds;
 	
     [imageScrollVC_.view addSubview:detailVC_.view];
     [detailVC_ didMoveToParentViewController:imageScrollVC_];
-	
-	// Let the detailVC notify the imageScrollVC when the detailVC view slides around
+
+    // Let the detailVC notify the imageScrollVC when the detailVC view slides around
     // This allows the imageScrollVC to adjust its image visibility depending on how
     // far the detailVS view has been slid
     detailVC_.delegate = (ImageScrollViewController<DetailTableViewControllerDelegate> *)imageScrollVC_;
     
-	[imageScrollVC_.view bringSubviewToFront:detailVC_.view];
-	[detailVC_.view bringSubviewToFront:detailVC_.tableView];
+    [imageScrollVC_.view bringSubviewToFront:detailVC_.view];
+    [detailVC_.view bringSubviewToFront:detailVC_.tableView];
 }
 
 -(void)handleDetailsPan:(UIPanGestureRecognizer *)recognizer
