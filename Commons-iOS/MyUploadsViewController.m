@@ -221,22 +221,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidUnload {
-    [self setSettingsButton:nil];
-    [self setUploadButton:nil];
-    [self setChoosePhotoButton:nil];
-    [self setTakePhotoButton:nil];
-
-    self.popover = nil;
-    self.selectedRecord = nil;
-
-    [self setAddMediaButton:nil];
-    [self setTakePhotoButton:nil];
-    [self setChoosePhotoButton:nil];
-    [self setCollectionView:nil];
-    [super viewDidUnload];
-}
-
 -(void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];

@@ -483,13 +483,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidUnload {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self setUsernameField:nil];
-    [self setPasswordField:nil];
-    [super viewDidUnload];
-}
-
 -(void)viewWillLayoutSubviews{
 	// Position the logo and the login containers centered horizontally and at about one-third and two-thirds
 	// the way down the screen vertically respectively

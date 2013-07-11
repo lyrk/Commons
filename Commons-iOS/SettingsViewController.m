@@ -184,14 +184,6 @@
     [super viewDidAppear:animated];
 }
 
-- (void)viewDidUnload {
-    [self setDebugModeSwitch:nil];
-    [self setDebugModeLabel:nil];
-	[self setUploadTargetLabel:nil];
-    
-    [super viewDidUnload];
-}
-
 -(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius
 {   // Use for rounding *specific* corners of a UIView.
     // Based on http://stackoverflow.com/a/5826745/135557
