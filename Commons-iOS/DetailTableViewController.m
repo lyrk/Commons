@@ -606,23 +606,8 @@
 
 -(void)scrollViewBeneathStatusBar:(UIView *)view
 {
-    float statusBarHeight = [CommonsApp.singleton getStatusBarHeight];
-    // See: http://stackoverflow.com/q/6452716/135557
-    float viewYinScrollView = [view.superview convertPoint:view.frame.origin toView:
-                               [UIApplication sharedApplication].keyWindow.rootViewController.view
-                               ].y;
-
-    [UIView animateWithDuration:0.5
-                          delay:0.0
-                        options: UIViewAnimationCurveEaseOut
-                     animations:^{
-                         CGPoint p = self.view.center;
-                         p.y -= viewYinScrollView - statusBarHeight;
-                         self.view.center = p;
-                     }
-                     completion:^(BOOL finished){
-
-                     }];
+    float offset = [view.superview convertPoint:view.frame.origin toView:self.delegate.view].y;
+    [self scrollByAmount:-offset withDuration:0.5f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -881,6 +866,17 @@
         
 	self.tableView.frame = f;
     
+    if (self.view.alpha != 0.0f) {
+        // Don't mess with scrolling if the view is hidden!
+        [self ensureScrollingDoesNotExceedThreshold];
+    }
+}
+
+-(void)ensureScrollingDoesNotExceedThreshold
+{
+    // Ensure the table isn't scrolled so far down that it goes too far down offscreen
+    [self scrollSoMiddleOfDescriptionLabelAtBottomOfDelegateView];
+    
     // Ensure the newly sized table isn't scrolled so far up that there's a gap beneath it
     [self scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero];
 }
@@ -888,6 +884,16 @@
 -(float)tableBottomVerticalDistanceFromDelegateViewBottom
 {
 	return self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.view.frame.size.height);
+}
+
+-(float)tableTopVerticalDistanceFromDelegateViewBottom
+{
+	return self.delegate.view.bounds.size.height - self.view.frame.origin.y;
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    isOKtoReportDetailsScroll_ = NO;
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -900,6 +906,8 @@
     }
 	
 	[self sizeTableViewToItsContents];
+    
+    isOKtoReportDetailsScroll_ = YES;
 }
 
 // Make the table cell backgrounds partially transparent
@@ -984,6 +992,8 @@
     static float lastScrollValue = 0.0f;
     CGSize rootViewSize = [UIApplication sharedApplication].keyWindow.rootViewController.view.frame.size;
     float height = (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? rootViewSize.height : rootViewSize.width;
+    //NSLog(@"height = %f, height = %f", height, self.delegate.view.frame.size.height);
+    
     float scrollValue = self.view.frame.origin.y / height;
 
     [self makeNavBarRunAwayFromDetails];
@@ -1001,40 +1011,27 @@
     }
 }
 
-- (void)scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero
+-(void)scrollByAmount:(float)amount withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options useXF:(BOOL)useXF then:(void(^)(void))block
 {
-    // Scroll to eliminate any gap beneath the table and the bottom of the delegate's view
-    float bottomGapHeight = [self tableBottomVerticalDistanceFromDelegateViewBottom];
-    if (bottomGapHeight > 0.0f) {
-        [self scrollByAmount:bottomGapHeight then:nil];
-    }
-}
+    [UIView animateWithDuration: duration
+                          delay: delay
+                        options: options
+                     animations: ^{
+						 //self.view.layer.shouldRasterize = YES;
 
--(void)scrollByAmount:(float)amount then:(void(^)(void))block
-{
-    [UIView animateWithDuration:0.25
-                          delay:0.0
-                        options: UIViewAnimationCurveEaseOut
-                     animations:^{
-						 self.view.layer.shouldRasterize = YES;
-
-						 CGRect f = self.view.frame;
-						 f.origin.y += amount;
-						 self.view.frame = f;
+                         if(useXF){
+                             self.view.transform = CGAffineTransformTranslate(self.view.transform, 0, amount);
+                         }else{
+                             CGRect f = self.view.frame;
+                             f.origin.y += amount;
+                             self.view.frame = f;
+                         }
 					 }
                      completion:^(BOOL finished){
-						 self.view.layer.shouldRasterize = NO;
+						 //self.view.layer.shouldRasterize = NO;
 
 						 if(block != nil) block();
                      }];
-}
-
--(void)dockAtBottom
-{
-	float y = self.view.superview.frame.size.height - DETAIL_DOCK_DISTANCE_FROM_BOTTOM;
-	CGRect f = self.view.frame;
-	f.origin.y = y;
-	self.view.frame = f;
 }
 
 -(void)scrollToDockAtBottomThen:(void(^)(void))block
@@ -1042,18 +1039,7 @@
 	float distanceFromBottom = DETAIL_DOCK_DISTANCE_FROM_BOTTOM;
 	float navBarHeight = self.navigationController.navigationBar.frame.size.height;
 	float y = self.view.superview.frame.size.height - navBarHeight - distanceFromBottom;
-	
-	CGAffineTransform transform = CGAffineTransformMakeTranslation(0, y);
-
-    [UIView animateWithDuration:0.40f
-                          delay:0.5f
-                        options: UIViewAnimationCurveEaseOut
-                     animations:^{
-						 self.view.transform = transform;
-					 }
-                     completion:^(BOOL finished){
-						 if(block != nil) block();
-                     }];
+    [self scrollByAmount:y withDuration:0.4f delay:0.5f options:UIViewAnimationCurveEaseOut useXF:YES then:block];
 }
 
 -(float)verticalDistanceFromNavBar
@@ -1063,37 +1049,48 @@
 
 -(void)scrollToTopBeneathNavBarAfterDelay:(float)delay
 {
-	float yFromNavBar = [self verticalDistanceFromNavBar];
-
-    [UIView animateWithDuration:0.25
-                          delay:delay
-                        options: UIViewAnimationTransitionNone
-                     animations:^{
-                         CGRect f = self.view.frame;
-                         f.origin.y -= yFromNavBar;
-                         self.view.frame = f;
-                     }
-                     completion:^(BOOL finished){
-                     }];
+    [self scrollByAmount:-[self verticalDistanceFromNavBar] withDuration:0.25f delay:delay options:UIViewAnimationTransitionNone useXF:NO then:nil];
 }
 
 -(void)scrollToPercentOfSuperview:(float)percent then:(void(^)(void))block
 {
-    [UIView animateWithDuration:0.25
-                          delay:0.0
-                        options: UIViewAnimationCurveEaseOut
-                     animations:^{
-						 self.view.layer.shouldRasterize = YES;
+    float offset = ((percent / 100.0f) * self.view.superview.frame.size.height) - self.view.frame.origin.y;
+    [self scrollByAmount:offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:block];
+}
 
-						 CGRect f = self.view.frame;
-						 f.origin.y = percent * self.view.superview.frame.size.height;
-						 self.view.frame = f;
-					 }
-                     completion:^(BOOL finished){
-						 self.view.layer.shouldRasterize = NO;
+-(float)viewDistanceFromDelegateViewBottom:(UIView *)view
+{
+    // See: http://stackoverflow.com/q/6452716/135557
+    float viewYinScrollView = [view.superview convertPoint:view.frame.origin toView:self.delegate.view].y;
+    return self.delegate.view.frame.size.height - viewYinScrollView;
+}
 
-						 if(block != nil) block();
-                     }];
+-(float)middleOfDescriptionLabelDistanceFromDelegateViewBottom
+{
+    return [self viewDistanceFromDelegateViewBottom:self.descriptionLabel] - (self.descriptionLabel.frame.size.height / 2.0f);
+}
+
+- (void)scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero
+{
+    // Scroll to eliminate any gap beneath the table and the bottom of the delegate's view
+    float bottomGapHeight = [self tableBottomVerticalDistanceFromDelegateViewBottom];
+    if (bottomGapHeight > 0.0f) {
+        [self scrollByAmount:bottomGapHeight withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
+    }
+}
+
+- (void)scrollSoMiddleOfDescriptionLabelAtBottomOfDelegateView
+{
+    float distance = [self middleOfDescriptionLabelDistanceFromDelegateViewBottom];
+    if (distance > 0.0f) return;
+    [self scrollByAmount:distance withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
+}
+
+- (BOOL)doesScrollingExceedThreshold
+{
+    if ([self tableBottomVerticalDistanceFromDelegateViewBottom] > 0.0f) return YES;
+    if ([self middleOfDescriptionLabelDistanceFromDelegateViewBottom] < 0.0f) return YES;
+    return NO;
 }
 
 -(void)dealloc
@@ -1101,7 +1098,6 @@
 	[self.tableView removeObserver:self forKeyPath:@"contentSize"];
 	[self.tableView removeObserver:self forKeyPath:@"center"];
 	[self.tableView removeObserver:self forKeyPath:@"frame"];
-
 }
 
 /*

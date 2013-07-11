@@ -1268,29 +1268,32 @@
     {
         //recognizer.view.layer.shouldRasterize = NO;
 
-        // Scroll to eliminate any gap beneath the details table now that dragging it has ceased
-        [detailVC_ scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero];
+        // Ensure the table isn't scrolled so far down or up
+        [detailVC_ ensureScrollingDoesNotExceedThreshold];
     }
 }
 
 -(void)handleImageTap:(UITapGestureRecognizer *)recognizer
 {
-	static float yFramePercent = 0.0f;
+    // Toggles full-screen image pinch mode
+    static float detailsY = 0.0f;
 	if(detailVC_.navigationController.navigationBar.alpha == 1.0f){
 		detailVC_.view.userInteractionEnabled = NO;
 		detailVC_.navigationController.navigationBar.alpha = 0.0f;
-		 
-		yFramePercent = detailVC_.view.frame.origin.y / detailVC_.view.superview.frame.size.height;
-
-		[detailVC_ scrollToPercentOfSuperview:1.0f then:^{detailVC_.view.alpha = 0.0f;}];
-		
+        detailsY = detailVC_.view.frame.origin.y;
+        float offset = detailVC_.view.superview.frame.size.height - detailsY;
+        [detailVC_ scrollByAmount:offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
+            detailVC_.view.alpha = 0.0f;
+        }];
 		[detailVC_ hideKeyboard];
-		
 	}else{
 		detailVC_.view.userInteractionEnabled = YES;
 		detailVC_.navigationController.navigationBar.alpha = 1.0f;
 		detailVC_.view.alpha = 1.0f;
-		[detailVC_ scrollToPercentOfSuperview:yFramePercent then:nil];
+        float offset = detailVC_.view.frame.origin.y - detailsY;
+        [detailVC_ scrollByAmount:-offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
+            [detailVC_ ensureScrollingDoesNotExceedThreshold];
+        }];
 	}
 }
 

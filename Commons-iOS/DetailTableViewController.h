@@ -45,20 +45,16 @@
 
 @property (nonatomic, strong) UIActivityViewController *shareActivityViewController;
 
-- (IBAction)deleteButtonPushed:(id)sender;
-- (IBAction)openWikiPageButtonPushed:(id)sender;
-- (IBAction)shareButtonPushed:(id)sender;
-
-- (void)hideKeyboard;
-
-- (void)scrollToDockAtBottomThen:(void(^)(void))block;
-- (void)scrollToPercentOfSuperview:(float)percent then:(void(^)(void))block;
-- (float)tableBottomVerticalDistanceFromDelegateViewBottom;
-- (void)scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero;
-
+@property (strong, nonatomic) id<DetailTableViewControllerDelegate> delegate;
 @property (nonatomic) float detailsScrollNormal;
 
-@property (strong, nonatomic) id<DetailTableViewControllerDelegate> delegate;
+-(IBAction)deleteButtonPushed:(id)sender;
+-(IBAction)openWikiPageButtonPushed:(id)sender;
+-(IBAction)shareButtonPushed:(id)sender;
+-(void)hideKeyboard;
+
+-(void)scrollByAmount:(float)amount withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options useXF:(BOOL)useXF then:(void(^)(void))block;
+
+-(void)ensureScrollingDoesNotExceedThreshold;
 
 @end
-
