@@ -1277,13 +1277,17 @@
 {
     // Toggles full-screen image pinch mode
     static float detailsY = 0.0f;
+    static BOOL isAnimating = NO;
+    if (isAnimating) return;
 	if(detailVC_.navigationController.navigationBar.alpha == 1.0f){
 		detailVC_.view.userInteractionEnabled = NO;
 		detailVC_.navigationController.navigationBar.alpha = 0.0f;
         detailsY = detailVC_.view.frame.origin.y;
         float offset = detailVC_.view.superview.frame.size.height - detailsY;
+        isAnimating = YES;
         [detailVC_ scrollByAmount:offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
             detailVC_.view.alpha = 0.0f;
+            isAnimating = NO;
         }];
 		[detailVC_ hideKeyboard];
 	}else{
@@ -1291,8 +1295,10 @@
 		detailVC_.navigationController.navigationBar.alpha = 1.0f;
 		detailVC_.view.alpha = 1.0f;
         float offset = detailVC_.view.frame.origin.y - detailsY;
+        isAnimating = YES;
         [detailVC_ scrollByAmount:-offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
             [detailVC_ ensureScrollingDoesNotExceedThreshold];
+            isAnimating = NO;
         }];
 	}
 }
