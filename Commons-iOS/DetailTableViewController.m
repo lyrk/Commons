@@ -1075,12 +1075,12 @@
 	CGRect f = self.tableView.frame;
 	f.size = self.tableView.contentSize;
 
-    // Make the details table extent about a third of the screen height past the bottom
-    // of the details table content. The size must be grabbed from the delegate because
-    // the details view itself isn't fullscreen, so the size of the screen can't be
-    // obtained from it.
-    f.size.height += (self.delegate.view.bounds.size.height / 3.0f);
-        
+    // Make the details table extent about 1/3 of the screen height past the bottom
+    // of the details table content. (1/8 for iPad) The size must be grabbed from
+    // the delegate because the details view itself isn't fullscreen, so the size of
+    // the screen can't be obtained from it.
+    f.size.height += (self.delegate.view.bounds.size.height / ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 8.0f : 3.0f));
+    
 	self.tableView.frame = f;
     
     if (self.view.alpha != 0.0f) {
