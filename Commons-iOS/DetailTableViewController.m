@@ -34,7 +34,7 @@
 #define DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR [UIColor whiteColor]
 #define DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.1f]
 
-#define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 485.0f : 175.0f)
+#define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 166.0f : 146.0f)
 
 @interface DetailTableViewController ()
 
@@ -52,6 +52,8 @@
     UIView *navBackgroundView_;
 }
 
+#pragma mark - Init / dealloc
+
 - (id)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
@@ -63,6 +65,23 @@
     }
     return self;
 }
+
+-(void)dealloc
+{
+	[self.tableView removeObserver:self forKeyPath:@"contentSize"];
+	[self.tableView removeObserver:self forKeyPath:@"center"];
+	[self.tableView removeObserver:self forKeyPath:@"frame"];
+}
+
+#pragma mark - Memory
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - View lifecycle
 
 /**
  * View has loaded.
@@ -269,16 +288,58 @@
     self.tableView.scrollEnabled = YES;
 }
 
-- (NSString *)categoryShortList
+- (void)viewWillAppear:(BOOL)animated
 {
-    // Assume the list will be cropped off in the label if it's long. :)
-    NSArray *cats = self.selectedRecord.categoryList;
-    if (cats.count == 0) {
-        return [MWMessage forKey:@"details-category-select"].text;
-    } else {
-        return [cats componentsJoinedByString:@", "];
+	// Note:
+	// Don't call "[super viewWillAppear:animated]" here!
+	// It causes the tableView to scroll if the description box receives focus
+	// when it has been moved to the lower part of the screen
+	// See: http://stackoverflow.com/a/12111260/135557
+	// (the scrolling is unwanted because "scrollSoView:isBelowNavBar:" is being
+	// used instead - for greater control)
+
+    self.categoryList = [self.selectedRecord.categoryList mutableCopy];
+    [self.tableView reloadData];
+
+	// Only move details to bottom if coming from my uploads (not categories, license etc...)
+	if(isFirstAppearance_){
+
+        // Move details to docking position at bottom of screen
+        [self moveDetailsToDock];
+        
+        [self.delegate clearOverlay];
+	}
+
+    if(!self.selectedRecord.complete.boolValue){
+        [self addNavBarBackgroundViewForTouchDetection];
     }
+    
+    // Ensure nav bar isn't being underlapped by details
+    // (needed if details pushed another view controller while details was scrolled so far up that
+    // it had caused the nav bar to be hidden - without this extra call to "makeNavBarRunAwayFromDetails"
+    // here, when that pushed view gets popped, the nav would overlap the details)
+    [self makeNavBarRunAwayFromDetails];
 }
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    isOKtoReportDetailsScroll_ = YES;
+    isFirstAppearance_ = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [navBackgroundView_ removeFromSuperview];
+    [self hideKeyboard];
+    [super viewWillDisappear:animated];
+
+    // Ensure the nav bar is visible
+    // (needed because "makeNavBarRunAwayFromDetails" method could have hidden the nav bar)
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+
+#pragma mark - Buttons
 
 - (void)updateUploadButton
 {
@@ -298,72 +359,72 @@
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [navBackgroundView_ removeFromSuperview];
-    [self hideKeyboard];
-    [super viewWillDisappear:animated];
-    
-    // Ensure the nav bar is visible
-    // (needed because "makeNavBarRunAwayFromDetails" method could have hidden the nav bar)
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
+- (IBAction)deleteButtonPushed:(id)sender {
+    CommonsApp *app = CommonsApp.singleton;
+    [app deleteUploadRecord:self.selectedRecord];
+    [app saveData];
+    self.selectedRecord = nil;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)openLicense
 {
-	// Note:
-	// Don't call "[super viewWillAppear:animated]" here!
-	// It causes the tableView to scroll if the description box receives focus
-	// when it has been moved to the lower part of the screen
-	// See: http://stackoverflow.com/a/12111260/135557
-	// (the scrolling is unwanted because "scrollSoView:isBelowNavBar:" is being
-	// used instead - for greater control)
+    [CommonsApp.singleton openURLWithDefaultBrowser:[NSURL URLWithString:URL_IMAGE_LICENSE]];
+}
 
-	[self.navigationController setToolbarHidden:YES animated:NO];
+- (IBAction)openWikiPageButtonPushed:(id)sender
+{
+    if (self.selectedRecord) {
+        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
+        [CommonsApp.singleton openURLWithDefaultBrowser:[CommonsApp.singleton URLForWikiPage:pageTitle]];
+    }
+}
 
-    self.categoryList = [self.selectedRecord.categoryList mutableCopy];
-    [self.tableView reloadData];
-
-	// Only scrollToDockAtBottom if coming from my uploads (not categories, license etc...)
-	if(isFirstAppearance_){
-		
-		// Move details just below the nav bar
-		CGRect f = self.view.frame;
-		f.origin.y = self.navigationController.navigationBar.frame.size.height;
-		self.view.frame = f;
-		
-		[self scrollToDockAtBottomThen:^{
-			isOKtoReportDetailsScroll_ = YES;
-            
-            if (!self.selectedRecord.complete.boolValue) {
-                [self.delegate.navigationItem setPrompt:[MWMessage forKey:@"details-nav-prompt"].text];
-            }
-            
-		}];
-        [self.delegate clearOverlay];
-	}
-
-	isFirstAppearance_ = NO;
-    
-    if(!self.selectedRecord.complete.boolValue)
-    {
-        [self addNavBarBackgroundViewForTouchDetection];
+- (IBAction)shareButtonPushed:(id)sender
+{
+    FileUpload *record = self.selectedRecord;
+    if (record == nil) {
+        NSLog(@"No image to share. No record.");
+        return;
     }
     
-    // Ensure nav bar isn't being underlapped by details
-    // (needed if details pushed another view controller while details was scrolled so far up that
-    // it had caused the nav bar to be hidden - without this extra call to "makeNavBarRunAwayFromDetails"
-    // here, when that pushed view gets popped, the nav would overlap the details)
-    [self makeNavBarRunAwayFromDetails];
+    if (!record.complete.boolValue) {
+        NSLog(@"No image to share. Not complete.");
+        return;
+    }
+    
+    // Could display more than just the loading indicator at this point - could
+    // display message saying "Retrieving full resolution image for sharing" or
+    // something similar
+    [self.appDelegate.loadingIndicator show];
+        
+    // Fetch cached or internet image at standard size...
+    MWPromise *fetch = [CommonsApp.singleton fetchWikiImage:record.title size:[CommonsApp.singleton getFullSizedImageSize] withQueuePriority:NSOperationQueuePriorityHigh];
+    
+    [fetch done:^(UIImage *image) {
+
+        // Get the wiki url for the image
+        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
+        NSURL *wikiUrl = [CommonsApp.singleton URLForWikiPage:pageTitle];
+        
+        // Present the sharing interface for the image itself and its wiki url
+        self.shareActivityViewController = [[UIActivityViewController alloc]
+                                            initWithActivityItems:@[image, wikiUrl]
+                                            applicationActivities:nil
+                                            ];
+        [self presentViewController:self.shareActivityViewController animated:YES completion:^{
+            [self.appDelegate.loadingIndicator hide];
+        }];
+    }];
+    [fetch fail:^(NSError *error) {
+        NSLog(@"Failed to obtain image for sharing: %@", [error localizedDescription]);
+    }];
+    [fetch always:^(id obj) {
+        [self.appDelegate.loadingIndicator hide];
+    }];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Nav touch
+#pragma mark - Nav bar
 
 -(void)addNavBarBackgroundViewForTouchDetection
 {
@@ -402,6 +463,26 @@
 -(void)clearNavBarPrompt
 {
     self.delegate.navigationItem.prompt = nil;
+}
+
+-(void)makeNavBarRunAwayFromDetails
+{
+    // Prevent details from underlapping nav bar by hiding nav bar when details scrolled up so
+    // far that underlap would occur. And when details scrolled back down make nav bar re-appear.
+    if ([self verticalDistanceFromNavBar] < 0.0f) {
+        if (!self.navigationController.navigationBarHidden) {
+            [self.navigationController setNavigationBarHidden:YES animated:YES];
+        }
+    }else{
+        if (self.navigationController.navigationBarHidden) {
+            [self.navigationController setNavigationBarHidden:NO animated:YES];
+        }
+    }
+}
+
+-(float)verticalDistanceFromNavBar
+{
+	return self.view.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
 }
 
 #pragma mark - Table view data source
@@ -518,7 +599,6 @@
     return NO;
 }
 
-
 // must overload this or the static table handling explodes in cats dynamic section
 -(int)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -526,6 +606,34 @@
         return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
     }
     return 5;
+}
+
+// Make the table cell backgrounds partially transparent
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    cell.backgroundColor = DETAIL_TABLE_CELL_BACKGROUND_COLOR;
+}
+
+// Custom style for the "Categories" table header label. http://stackoverflow.com/a/7928944/135557
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
+    if (sectionTitle == nil) return nil;
+    
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(20, 8, 320, 20);
+    label.backgroundColor = [UIColor clearColor];
+    label.textColor = DETAIL_LABEL_COLOR;
+    label.shadowColor = [UIColor grayColor];
+    label.shadowOffset = CGSizeMake(0.0, 0.0);
+    label.font = [UIFont boldSystemFontOfSize:16];
+    label.text = sectionTitle;
+    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor clearColor];
+    view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [view addSubview:label];
+    return view;
 }
 
 #pragma mark - Table view delegate
@@ -575,6 +683,15 @@
     }
 }
 
+#pragma mark - Table style
+
+-(void)removeBorderFromTableViewCell:(UITableViewCell *) cell
+{    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [cell setAccessoryType:UITableViewCellAccessoryNone];
+    cell.backgroundView = nil;
+}
+
 #pragma mark - Focus to box when title or description label tapped
 - (void)focusOnTitleTextField
 {
@@ -604,11 +721,7 @@
 	[self.descriptionTextView resignFirstResponder];
 }
 
--(void)scrollViewBeneathStatusBar:(UIView *)view
-{
-    float offset = [view.superview convertPoint:view.frame.origin toView:self.delegate.view].y;
-    [self scrollByAmount:-offset withDuration:0.5f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
-}
+#pragma mark - Text fields
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
@@ -622,98 +735,6 @@
     // When the description box receives focus scroll it to the top of the table view to ensure the keyboard
     // isn't hiding it
     [self scrollViewBeneathStatusBar:self.descriptionLabel];
-}
-
-#pragma mark -
-
-- (void)openLicense
-{
-    [CommonsApp.singleton openURLWithDefaultBrowser:[NSURL URLWithString:URL_IMAGE_LICENSE]];
-}
-
-- (IBAction)openWikiPageButtonPushed:(id)sender
-{
-    if (self.selectedRecord) {
-        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
-        [CommonsApp.singleton openURLWithDefaultBrowser:[CommonsApp.singleton URLForWikiPage:pageTitle]];
-    }
-}
-
-- (IBAction)shareButtonPushed:(id)sender
-{
-    FileUpload *record = self.selectedRecord;
-    if (record == nil) {
-        NSLog(@"No image to share. No record.");
-        return;
-    }
-    
-    if (!record.complete.boolValue) {
-        NSLog(@"No image to share. Not complete.");
-        return;
-    }
-    
-    // Could display more than just the loading indicator at this point - could
-    // display message saying "Retrieving full resolution image for sharing" or
-    // something similar
-    [self.appDelegate.loadingIndicator show];
-        
-    // Fetch cached or internet image at standard size...
-    MWPromise *fetch = [CommonsApp.singleton fetchWikiImage:record.title size:[CommonsApp.singleton getFullSizedImageSize] withQueuePriority:NSOperationQueuePriorityHigh];
-    
-    [fetch done:^(UIImage *image) {
-
-        // Get the wiki url for the image
-        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
-        NSURL *wikiUrl = [CommonsApp.singleton URLForWikiPage:pageTitle];
-        
-        // Present the sharing interface for the image itself and its wiki url
-        self.shareActivityViewController = [[UIActivityViewController alloc]
-                                            initWithActivityItems:@[image, wikiUrl]
-                                            applicationActivities:nil
-                                            ];
-        [self presentViewController:self.shareActivityViewController animated:YES completion:^{
-            [self.appDelegate.loadingIndicator hide];
-        }];
-    }];
-    [fetch fail:^(NSError *error) {
-        NSLog(@"Failed to obtain image for sharing: %@", [error localizedDescription]);
-    }];
-    [fetch always:^(id obj) {
-        [self.appDelegate.loadingIndicator hide];
-    }];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"AddCategorySegue"]) {
-        if (self.selectedRecord) {
-            CategorySearchTableViewController *catVC = [segue destinationViewController];
-
-            catVC.title = [MWMessage forKey:@"catadd-title"].text;
-            
-            catVC.selectedRecord = self.selectedRecord;
-        }
-    } else if ([segue.identifier isEqualToString:@"CategoryDetailSegue"]) {
-        if (self.selectedRecord) {
-            CategoryDetailTableViewController *view = [segue destinationViewController];
-            view.selectedRecord = self.selectedRecord;
-            view.category = self.categoryList[self.tableView.indexPathForSelectedRow.row];
-        }
-    }
-    
-}
-
-- (void)viewDidUnload {
-    [self setTitleTextField:nil];
-    [self setDescriptionTextView:nil];
-    [self setSelectedRecord:nil];
-    [self setDeleteButton:nil];
-    [self setActionButton:nil];
-    [self setUploadButton:nil];
-    [self setTitleLabel:nil];
-    [self setDescriptionLabel:nil];
-    [self setLicenseLabel:nil];
-    [super viewDidUnload];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -742,12 +763,26 @@
     [self updateUploadButton];
 }
 
-- (IBAction)deleteButtonPushed:(id)sender {
-    CommonsApp *app = CommonsApp.singleton;
-    [app deleteUploadRecord:self.selectedRecord];
-    [app saveData];
-    self.selectedRecord = nil;
-    [self.navigationController popViewControllerAnimated:YES];
+#pragma mark - Segue
+
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"AddCategorySegue"]) {
+        if (self.selectedRecord) {
+            CategorySearchTableViewController *catVC = [segue destinationViewController];
+
+            catVC.title = [MWMessage forKey:@"catadd-title"].text;
+            
+            catVC.selectedRecord = self.selectedRecord;
+        }
+    } else if ([segue.identifier isEqualToString:@"CategoryDetailSegue"]) {
+        if (self.selectedRecord) {
+            CategoryDetailTableViewController *view = [segue destinationViewController];
+            view.selectedRecord = self.selectedRecord;
+            view.category = self.categoryList[self.tableView.indexPathForSelectedRow.row];
+        }
+    }
+    
 }
 
 #pragma mark - Description and Category retrieval
@@ -851,99 +886,18 @@
     }];
 }
 
-#pragma mark - Image scroll view
-
--(void)sizeTableViewToItsContents
+- (NSString *)categoryShortList
 {
-	CGRect f = self.tableView.frame;
-	f.size = self.tableView.contentSize;
-
-    // Make the details table extent about a third of the screen height past the bottom
-    // of the details table content. The size must be grabbed from the delegate because
-    // the details view itself isn't fullscreen, so the size of the screen can't be
-    // obtained from it.
-    f.size.height += (self.delegate.view.bounds.size.height / 3.0f);
-        
-	self.tableView.frame = f;
-    
-    if (self.view.alpha != 0.0f) {
-        // Don't mess with scrolling if the view is hidden!
-        [self ensureScrollingDoesNotExceedThreshold];
+    // Assume the list will be cropped off in the label if it's long. :)
+    NSArray *cats = self.selectedRecord.categoryList;
+    if (cats.count == 0) {
+        return [MWMessage forKey:@"details-category-select"].text;
+    } else {
+        return [cats componentsJoinedByString:@", "];
     }
 }
 
--(void)ensureScrollingDoesNotExceedThreshold
-{
-    // Ensure the table isn't scrolled so far down that it goes too far down offscreen
-    [self scrollSoMiddleOfDescriptionLabelAtBottomOfDelegateView];
-    
-    // Ensure the newly sized table isn't scrolled so far up that there's a gap beneath it
-    [self scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero];
-}
-
--(float)tableBottomVerticalDistanceFromDelegateViewBottom
-{
-	return self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.view.frame.size.height);
-}
-
--(float)tableTopVerticalDistanceFromDelegateViewBottom
-{
-	return self.delegate.view.bounds.size.height - self.view.frame.origin.y;
-}
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    isOKtoReportDetailsScroll_ = NO;
-}
-
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    // If the keyboard was visible during rotation, scroll so the field being edited is near the top of the screen
-    if (self.titleTextField.isFirstResponder) {
-        [self scrollViewBeneathStatusBar:self.titleLabel];
-    }else if (self.descriptionTextView.isFirstResponder) {
-        [self scrollViewBeneathStatusBar:self.descriptionLabel];
-    }
-	
-	[self sizeTableViewToItsContents];
-    
-    isOKtoReportDetailsScroll_ = YES;
-}
-
-// Make the table cell backgrounds partially transparent
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = DETAIL_TABLE_CELL_BACKGROUND_COLOR;
-}
-
-// Custom style for the "Categories" table header label. http://stackoverflow.com/a/7928944/135557
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
-    if (sectionTitle == nil) return nil;
-    
-    UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(20, 8, 320, 20);
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = DETAIL_LABEL_COLOR;
-    label.shadowColor = [UIColor grayColor];
-    label.shadowOffset = CGSizeMake(0.0, 0.0);
-    label.font = [UIFont boldSystemFontOfSize:16];
-    label.text = sectionTitle;
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    
-    UIView *view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor clearColor];
-    view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [view addSubview:label];
-    return view;
-}
-
--(void)removeBorderFromTableViewCell:(UITableViewCell *) cell
-{    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setAccessoryType:UITableViewCellAccessoryNone];
-    cell.backgroundView = nil;
-}
+#pragma mark - KVO
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -972,44 +926,51 @@
     }
 }
 
--(void)makeNavBarRunAwayFromDetails
+#pragma mark - Rotation
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    // Prevent details from underlapping nav bar by hiding nav bar when details scrolled up so
-    // far that underlap would occur. And when details scrolled back down make nav bar re-appear.
-    if ([self verticalDistanceFromNavBar] < 0.0f) {
-        if (!self.navigationController.navigationBarHidden) {
-            [self.navigationController setNavigationBarHidden:YES animated:YES];
-        }
-    }else{
-        if (self.navigationController.navigationBarHidden) {
-            [self.navigationController setNavigationBarHidden:NO animated:YES];
-        }
-    }
+    isOKtoReportDetailsScroll_ = NO;
 }
 
--(void)reportDetailsScroll
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    static float lastScrollValue = 0.0f;
-    CGSize rootViewSize = [UIApplication sharedApplication].keyWindow.rootViewController.view.frame.size;
-    float height = (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? rootViewSize.height : rootViewSize.width;
-    //NSLog(@"height = %f, height = %f", height, self.delegate.view.frame.size.height);
+    // If the keyboard was visible during rotation, scroll so the field being edited is near the top of the screen
+    if (self.titleTextField.isFirstResponder) {
+        [self scrollViewBeneathStatusBar:self.titleLabel];
+    }else if (self.descriptionTextView.isFirstResponder) {
+        [self scrollViewBeneathStatusBar:self.descriptionLabel];
+    }
+	
+	[self sizeTableViewToItsContents];
     
-    float scrollValue = self.view.frame.origin.y / height;
-
-    [self makeNavBarRunAwayFromDetails];
-
-	float minChangeToReport = 0.025f;
-    if (fabsf((scrollValue - lastScrollValue)) > minChangeToReport) {
-        scrollValue = MIN(scrollValue, 1.0f);
-        scrollValue = MAX(scrollValue, 0.0f);
-        lastScrollValue = scrollValue;
-		self.detailsScrollNormal = scrollValue;
-		[self.delegate setDetailsScrollNormal:scrollValue];
-
-        // Clear out any prompt above the nav bar as soon as details scrolled
-        [self clearNavBarPrompt];
-    }
+    isOKtoReportDetailsScroll_ = YES;
 }
+
+#pragma mark - Details moving
+
+-(void)moveDetailsToDock
+{
+    CGRect f = self.view.frame;
+    f.origin.y = self.delegate.view.frame.size.height - DETAIL_DOCK_DISTANCE_FROM_BOTTOM;
+    self.view.frame = f;
+}
+
+-(void)moveDetailsToBottom
+{
+    CGRect f = self.view.frame;
+    f.origin.y = self.delegate.view.frame.size.height;
+    self.view.frame = f;
+}
+
+-(void)moveDetailsBeneathNav
+{
+    CGRect f = self.view.frame;
+    f.origin.y = self.navigationController.navigationBar.frame.size.height;
+    self.view.frame = f;
+}
+
+#pragma mark - Details scrolling
 
 -(void)scrollByAmount:(float)amount withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options useXF:(BOOL)useXF then:(void(^)(void))block
 {
@@ -1034,19 +995,6 @@
                      }];
 }
 
--(void)scrollToDockAtBottomThen:(void(^)(void))block
-{
-	float distanceFromBottom = DETAIL_DOCK_DISTANCE_FROM_BOTTOM;
-	float navBarHeight = self.navigationController.navigationBar.frame.size.height;
-	float y = self.view.superview.frame.size.height - navBarHeight - distanceFromBottom;
-    [self scrollByAmount:y withDuration:0.4f delay:0.5f options:UIViewAnimationCurveEaseOut useXF:YES then:block];
-}
-
--(float)verticalDistanceFromNavBar
-{
-	return self.view.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
-}
-
 -(void)scrollToTopBeneathNavBarAfterDelay:(float)delay
 {
     [self scrollByAmount:-[self verticalDistanceFromNavBar] withDuration:0.25f delay:delay options:UIViewAnimationTransitionNone useXF:NO then:nil];
@@ -1058,6 +1006,101 @@
     [self scrollByAmount:offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:block];
 }
 
+- (void)scrollDownIfGapBeneathDetails
+{
+    // Scroll to eliminate any gap beneath the table and the bottom of the delegate's view
+    float bottomGapHeight = [self getBottomGapHeight];
+    if (bottomGapHeight > 0.0f) {
+        [self scrollByAmount:bottomGapHeight withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
+    }
+}
+
+- (void)scrollUpToDockIfNecessary
+{
+    float distance = [self distanceFromDock];
+    if (distance > 0.0f) return;
+    [self scrollByAmount:distance withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
+}
+
+-(void)ensureScrollingDoesNotExceedThreshold
+{
+    // Ensure the table isn't scrolled so far down that it goes too far down offscreen
+    [self scrollUpToDockIfNecessary];
+    
+    // Ensure the newly sized table isn't scrolled so far up that there's a gap beneath it
+    [self scrollDownIfGapBeneathDetails];
+}
+
+- (BOOL)doesScrollingExceedThreshold
+{
+    if ([self getBottomGapHeight] > 0.0f) return YES;
+    if ([self distanceFromDock] < 0.0f) return YES;
+    return NO;
+}
+
+-(void)reportDetailsScroll
+{
+    static float lastScrollValue = 0.0f;
+    CGSize rootViewSize = [UIApplication sharedApplication].keyWindow.rootViewController.view.frame.size;
+    float height = (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? rootViewSize.height : rootViewSize.width;
+    //NSLog(@"height = %f, height = %f", height, self.delegate.view.frame.size.height);
+    
+    float scrollValue = self.view.frame.origin.y / (height - DETAIL_DOCK_DISTANCE_FROM_BOTTOM);
+
+    [self makeNavBarRunAwayFromDetails];
+
+	float minChangeToReport = 0.025f;
+    if (fabsf((scrollValue - lastScrollValue)) > minChangeToReport) {
+        scrollValue = MIN(scrollValue, 1.0f);
+        scrollValue = MAX(scrollValue, 0.0f);
+        lastScrollValue = scrollValue;
+		self.detailsScrollNormal = scrollValue;
+		[self.delegate setDetailsScrollNormal:scrollValue];
+
+        // Clear out any prompt above the nav bar as soon as details scrolled
+        [self clearNavBarPrompt];
+    }
+}
+
+-(void)scrollViewBeneathStatusBar:(UIView *)view
+{
+    float offset = [view.superview convertPoint:view.frame.origin toView:self.delegate.view].y;
+    [self scrollByAmount:-offset withDuration:0.5f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
+}
+
+#pragma mark - Details sizing
+
+-(void)sizeTableViewToItsContents
+{
+	CGRect f = self.tableView.frame;
+	f.size = self.tableView.contentSize;
+
+    // Make the details table extent about a third of the screen height past the bottom
+    // of the details table content. The size must be grabbed from the delegate because
+    // the details view itself isn't fullscreen, so the size of the screen can't be
+    // obtained from it.
+    f.size.height += (self.delegate.view.bounds.size.height / 3.0f);
+        
+	self.tableView.frame = f;
+    
+    if (self.view.alpha != 0.0f) {
+        // Don't mess with scrolling if the view is hidden!
+        [self ensureScrollingDoesNotExceedThreshold];
+    }
+}
+
+#pragma mark - Details distances
+
+-(float)getBottomGapHeight
+{
+	return self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.view.frame.size.height);
+}
+
+-(float)tableTopVerticalDistanceFromDelegateViewBottom
+{
+	return self.delegate.view.bounds.size.height - self.view.frame.origin.y;
+}
+
 -(float)viewDistanceFromDelegateViewBottom:(UIView *)view
 {
     // See: http://stackoverflow.com/q/6452716/135557
@@ -1065,39 +1108,9 @@
     return self.delegate.view.frame.size.height - viewYinScrollView;
 }
 
--(float)middleOfDescriptionLabelDistanceFromDelegateViewBottom
+-(float)distanceFromDock
 {
-    return [self viewDistanceFromDelegateViewBottom:self.descriptionLabel] - (self.descriptionLabel.frame.size.height / 2.0f);
-}
-
-- (void)scrollSoBottomVerticalDistanceFromDelegateViewBottomIsZero
-{
-    // Scroll to eliminate any gap beneath the table and the bottom of the delegate's view
-    float bottomGapHeight = [self tableBottomVerticalDistanceFromDelegateViewBottom];
-    if (bottomGapHeight > 0.0f) {
-        [self scrollByAmount:bottomGapHeight withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
-    }
-}
-
-- (void)scrollSoMiddleOfDescriptionLabelAtBottomOfDelegateView
-{
-    float distance = [self middleOfDescriptionLabelDistanceFromDelegateViewBottom];
-    if (distance > 0.0f) return;
-    [self scrollByAmount:distance withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
-}
-
-- (BOOL)doesScrollingExceedThreshold
-{
-    if ([self tableBottomVerticalDistanceFromDelegateViewBottom] > 0.0f) return YES;
-    if ([self middleOfDescriptionLabelDistanceFromDelegateViewBottom] < 0.0f) return YES;
-    return NO;
-}
-
--(void)dealloc
-{
-	[self.tableView removeObserver:self forKeyPath:@"contentSize"];
-	[self.tableView removeObserver:self forKeyPath:@"center"];
-	[self.tableView removeObserver:self forKeyPath:@"frame"];
+    return (self.delegate.view.frame.size.height - (DETAIL_DOCK_DISTANCE_FROM_BOTTOM / 2.0f)) - (self.view.frame.origin.y + (DETAIL_DOCK_DISTANCE_FROM_BOTTOM / 2.0f));
 }
 
 /*
