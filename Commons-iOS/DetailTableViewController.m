@@ -757,14 +757,14 @@
 {
     // When the title box receives focus scroll it to the top of the table view to ensure the keyboard
     // isn't hiding it
-    [self scrollViewBeneathStatusBar:self.titleLabel];
+    [self scrollViewAboveKeyboard:self.titleLabel];
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)textView
 {
     // When the description box receives focus scroll it to the top of the table view to ensure the keyboard
     // isn't hiding it
-    [self scrollViewBeneathStatusBar:self.descriptionLabel];
+    [self scrollViewAboveKeyboard:self.descriptionLabel];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -967,15 +967,15 @@
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+	[self sizeTableViewToItsContents];
+
     // If the keyboard was visible during rotation, scroll so the field being edited is near the top of the screen
     if (self.titleTextField.isFirstResponder) {
-        [self scrollViewBeneathStatusBar:self.titleLabel];
+        [self scrollViewAboveKeyboard:self.titleLabel];
     }else if (self.descriptionTextView.isFirstResponder) {
-        [self scrollViewBeneathStatusBar:self.descriptionLabel];
+        [self scrollViewAboveKeyboard:self.descriptionLabel];
     }
-	
-	[self sizeTableViewToItsContents];
-    
+
     isOKtoReportDetailsScroll_ = YES;
 }
 
@@ -1095,10 +1095,26 @@
     }
 }
 
--(void)scrollViewBeneathStatusBar:(UIView *)view
+-(void)scrollViewAboveKeyboard:(UIView *)view
 {
-    float offset = [view.superview convertPoint:view.frame.origin toView:self.delegate.view].y;
-    [self scrollByAmount:-offset withDuration:0.5f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
+    [self scrollByAmount:[self getOffsetToMoveViewAboveKeyboard:view] withDuration:0.5f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
+}
+
+-(float)getOffsetToMoveViewAboveKeyboard:(UIView *)view
+{
+    // Note: this offset is just a best guess near-ish the top of the screen.
+    // Since the keyboard may be undocked and slid around and because the keyboard
+    // size can change based on locale, it's perhaps not a good idea to try to
+    // position actively around the keyboard as it moves, other than to just slide
+    // things up a bit when it first appears
+    
+    float statusBarOffset = [view.superview convertPoint:view.frame.origin toView:self.delegate.view].y;
+    
+    // If not iPad return offset for scrolling view beneath the status bar.
+    // If iPad shift everything down a bit from there.
+    float offsetForKeyboard = statusBarOffset - ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 150.0f : 0.0f);
+    
+    return -offsetForKeyboard;
 }
 
 #pragma mark - Details sizing
