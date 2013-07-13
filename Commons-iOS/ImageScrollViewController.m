@@ -8,6 +8,7 @@
 #import "ImageScrollViewController.h"
 #include <math.h>
 #import <QuartzCore/QuartzCore.h>
+#import "CommonsApp.h"
 
 #define FULL_SCREEN_IMAGE_MIN_ZOOM_SCALE 0.5f
 #define FULL_SCREEN_IMAGE_MAX_ZOOM_SCALE 5.0f
@@ -131,7 +132,7 @@
 
     
     // Change back button to be an arrow
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"\U000025C0\U0000FE0E"
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString]
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(backButtonPressed:)];

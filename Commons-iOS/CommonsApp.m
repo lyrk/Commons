@@ -1446,4 +1446,9 @@ static CommonsApp *singleton_;
     return MIN(statusBarFrame.size.height, statusBarFrame.size.width);
 }
 
+- (NSString *)getBackButtonString
+{
+    return @"\U000025C0\U0000FE0E";
+}
+
 @end

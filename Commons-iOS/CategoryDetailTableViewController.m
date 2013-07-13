@@ -34,7 +34,7 @@
     [super viewDidLoad];
     
     // Change back button to be an arrow
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"\U000025C0\U0000FE0E"
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString]
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(backButtonPressed:)];

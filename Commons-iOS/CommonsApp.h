@@ -92,4 +92,6 @@
 
 - (float)getStatusBarHeight;
 
+- (NSString *)getBackButtonString;
+
 @end

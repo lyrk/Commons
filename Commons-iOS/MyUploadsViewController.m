@@ -1060,7 +1060,7 @@
      detailVC.selectedRecord = self.selectedRecord;
      
      // Change back button to be arrow
-     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"\U000025C0\U0000FE0E" style:UIBarButtonItemStyleBordered target:self action:nil];
+     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString] style:UIBarButtonItemStyleBordered target:self action:nil];
      
      // Make the table view's background transparent
      UIView *backView = [[UIView alloc] initWithFrame:CGRectZero];
