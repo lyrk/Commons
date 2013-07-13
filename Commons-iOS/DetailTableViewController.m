@@ -22,7 +22,7 @@
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
 #define DETAIL_LABEL_COLOR [UIColor whiteColor]
-#define DETAIL_VIEW_COLOR [UIColor colorWithWhite:0.0f alpha:0.3f]
+#define DETAIL_VIEW_COLOR [UIColor blackColor]
 
 #define DETAIL_BORDER_COLOR [UIColor colorWithWhite:1.0f alpha:0.75f]
 #define DETAIL_BORDER_WIDTH 0.0f
@@ -34,7 +34,9 @@
 #define DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR [UIColor whiteColor]
 #define DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.1f]
 
-#define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 166.0f : 146.0f)
+#define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 146.0f : 126.0f)
+
+#define DETAIL_TABLE_MAX_OVERLAY_ALPHA 0.85f
 
 @interface DetailTableViewController ()
 
@@ -50,6 +52,9 @@
     DescriptionParser *descriptionParser_;
     UISwipeGestureRecognizer *swipeRecognizerDown_;
     UIView *navBackgroundView_;
+    UIView *tableBackgroundView_;
+    CAGradientLayer *tableTopGradient_;
+    CALayer *tableBottomFiller_;
 }
 
 #pragma mark - Init / dealloc
@@ -254,6 +259,23 @@
     self.licenseLabel.textColor = DETAIL_LABEL_COLOR;
     self.categoryLabel.textColor = DETAIL_LABEL_COLOR;
 
+    [self.view setMultipleTouchEnabled:NO];
+
+    self.view.opaque = NO;
+    self.view.backgroundColor = [UIColor clearColor];
+
+    self.view.layer.cornerRadius = DETAIL_BORDER_RADIUS;
+    self.view.layer.borderWidth = DETAIL_BORDER_WIDTH;
+    self.view.layer.borderColor = [DETAIL_BORDER_COLOR CGColor];
+
+    // Allow the gradient above the table and the filler below the table to be seen
+    self.view.clipsToBounds = NO;
+
+    [self configureTableView];
+}
+
+-(void)configureTableView
+{
     self.tableView.delaysContentTouches = NO;
     
     // Get rid of table separator lines and border
@@ -261,7 +283,31 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableView.layer setShadowColor:[UIColor clearColor].CGColor];
 
-    [self.view setMultipleTouchEnabled:NO];
+    // Make the table view's background transparent
+    tableBackgroundView_ = [[UIView alloc] initWithFrame:CGRectZero];
+    tableBackgroundView_.backgroundColor = DETAIL_VIEW_COLOR;
+    tableBackgroundView_.alpha = 0.0f;
+    self.tableView.backgroundView = tableBackgroundView_;
+    
+    // Add gradient above table
+    tableTopGradient_ = [CAGradientLayer layer];
+    tableTopGradient_.locations = [NSArray arrayWithObjects:@0.0, @1.0, nil];
+    tableTopGradient_.colors = [NSArray arrayWithObjects:(id)[[UIColor clearColor] CGColor], (id)[DETAIL_VIEW_COLOR CGColor], nil];
+    [self.tableView.backgroundView.layer insertSublayer:tableTopGradient_ atIndex:0];
+    
+    // Add filler below table
+    tableBottomFiller_ = [CALayer layer];
+    tableBottomFiller_.backgroundColor = [DETAIL_VIEW_COLOR CGColor];
+    [self.tableView.backgroundView.layer insertSublayer:tableBottomFiller_ atIndex:0];
+    
+    // Enable the tableView border when debugging gradientTop_ and bottomFiller_.
+    // Would also be helpful to set distinct background colors on gradientTop_ and bottomFiller_.
+    //self.tableView.layer.borderColor = [[UIColor whiteColor]CGColor];
+    //self.tableView.layer.borderWidth = 1.0f;
+
+    // Without scrollEnabled, the license and category cells ignore the first touch
+    // after the self.view has been dragged
+    self.tableView.scrollEnabled = YES;
     
     // Keep the table view the same size as its content
     [self.tableView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
@@ -270,22 +316,6 @@
     [self.tableView addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
     
     [self.tableView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
-    
-    self.view.opaque = NO;
-    self.view.backgroundColor = DETAIL_VIEW_COLOR;
-
-    self.view.layer.cornerRadius = DETAIL_BORDER_RADIUS;
-    self.view.layer.borderWidth = DETAIL_BORDER_WIDTH;
-    self.view.layer.borderColor = [DETAIL_BORDER_COLOR CGColor];
-
-    // Make the table view's background transparent
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectZero];
-    backView.backgroundColor = [UIColor clearColor];
-    self.tableView.backgroundView = backView;
-
-    // Without scrollEnabled, the license and category cells ignore the first touch
-    // after the self.view has been dragged
-    self.tableView.scrollEnabled = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -931,6 +961,8 @@
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     isOKtoReportDetailsScroll_ = NO;
+    // Resize the gradient and filler CALayers which don't get resized automatically
+    [self sizeTableTopGradientAndBottomFillerWithFlip:YES];
 }
 
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1041,10 +1073,8 @@
 -(void)reportDetailsScroll
 {
     static float lastScrollValue = 0.0f;
-    CGSize rootViewSize = [UIApplication sharedApplication].keyWindow.rootViewController.view.frame.size;
-    float height = (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) ? rootViewSize.height : rootViewSize.width;
-    //NSLog(@"height = %f, height = %f", height, self.delegate.view.frame.size.height);
-    
+    float height = self.delegate.view.frame.size.height;
+
     float scrollValue = self.view.frame.origin.y / (height - DETAIL_DOCK_DISTANCE_FROM_BOTTOM);
 
     [self makeNavBarRunAwayFromDetails];
@@ -1056,6 +1086,9 @@
         lastScrollValue = scrollValue;
 		self.detailsScrollNormal = scrollValue;
 		[self.delegate setDetailsScrollNormal:scrollValue];
+
+        // Set the background table alpha
+        tableBackgroundView_.alpha = MIN(DETAIL_TABLE_MAX_OVERLAY_ALPHA, 1.0f - scrollValue);
 
         // Clear out any prompt above the nav bar as soon as details scrolled
         [self clearNavBarPrompt];
@@ -1070,6 +1103,19 @@
 
 #pragma mark - Details sizing
 
+-(void)sizeTableTopGradientAndBottomFillerWithFlip:(BOOL)flip
+{
+    // Size the gradient and filler CALayers to fit above and below the table
+    if (!flip) {
+        tableTopGradient_.frame = CGRectMake(0, -self.tableView.frame.size.height, self.tableView.frame.size.width, self.view.frame.size.height);
+        tableBottomFiller_.frame = CGRectMake(0, self.tableView.frame.size.height, self.tableView.frame.size.width, self.delegate.view.frame.size.height);
+    }else{
+        // If this method is being invoked from "willRotateToInterfaceOrientation" the dimensions have not yet flipped, so do so here
+        tableTopGradient_.frame = CGRectMake(0, -self.tableView.frame.size.width, self.view.frame.size.height, self.tableView.frame.size.width);
+        tableBottomFiller_.frame = CGRectMake(0, self.tableView.frame.size.width, self.delegate.view.frame.size.height, self.tableView.frame.size.width);
+    }
+}
+
 -(void)sizeTableViewToItsContents
 {
 	CGRect f = self.tableView.frame;
@@ -1083,9 +1129,13 @@
     
 	self.tableView.frame = f;
     
+    [self sizeTableTopGradientAndBottomFillerWithFlip:NO];
+    
     if (self.view.alpha != 0.0f) {
         // Don't mess with scrolling if the view is hidden!
-        [self ensureScrollingDoesNotExceedThreshold];
+        if(!isFirstAppearance_){
+            [self ensureScrollingDoesNotExceedThreshold];
+        }
     }
 }
 

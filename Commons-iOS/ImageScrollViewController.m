@@ -276,9 +276,11 @@
 {    
     _detailsScrollNormal = detailsScrollNormal;
     
+    /*
     float overlayAlpha = MIN(FULL_SCREEN_IMAGE_MAX_OVERLAY_ALPHA, 1.0f - detailsScrollNormal);
     
     overlayView_.backgroundColor = [UIColor colorWithWhite:0.0f alpha:overlayAlpha];
+    */
 }
 
 -(void)clearOverlay
