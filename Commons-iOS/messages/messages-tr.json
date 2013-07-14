@@ -2,7 +2,8 @@
     "@metadata": {
         "authors": [
             "Coolland",
-            "Emperyan"
+            "Emperyan",
+            "Incelemeelemani"
         ]
     },
     "contribs-title": "Y\u00fcklemelerim",
@@ -66,6 +67,7 @@
     "about-source-this-app-title": "Bu Uygulama (iOS):",
     "about-source-this-app-contributors": "Katk\u0131da bulunanlar",
     "about-license-button": "Lisans",
+    "about-source-gradient-title": "Jeff LaMarche's Gradyan UIButon:",
     "welcome-no-images-message": "Y\u00fckleme Bulunamad\u0131\nFoto\u011fraf \u00c7ekmek veya Se\u00e7mek \u0130\u00e7in\nA\u015fa\u011f\u0131daki Butonlar\u0131 Kullan\u0131n",
     "welcome-take-or-choose-message": "Foto\u011fraf \u00c7ekin veya Se\u00e7in",
     "welcome-checking-message": "\u00d6nceki Y\u00fcklemeler\nKontrol Ediliyor",
@@ -90,5 +92,7 @@
     "getting-started-yes-button": "Evet!",
     "picture-of-day-label": "Wikimedia Commons G\u00fcn\u00fcn Resmi",
     "picture-of-day-author": "Yazar:",
-    "refresh-failed-alert": "Yenileme Ba\u015far\u0131s\u0131z!"
+    "refresh-failed-alert": "Yenileme Ba\u015far\u0131s\u0131z!",
+    "gallery-cancel-button": "Vazge\u00e7",
+    "gallery-album-title": "Alb\u00fcmler"
 }
