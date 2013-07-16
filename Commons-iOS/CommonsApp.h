@@ -90,4 +90,8 @@
 - (void)clearKeychainCredentials;
 - (void)resizeViewInPlace:(UIView *)view toSize:(CGSize)size;
 
+- (float)getStatusBarHeight;
+
+- (NSString *)getBackButtonString;
+
 @end

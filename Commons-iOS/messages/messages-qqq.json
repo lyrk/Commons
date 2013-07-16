@@ -36,6 +36,7 @@
     "settings-usage-reports-description": "Detail text for usage reports indicating the data collected is used to improve the app",
     "settings-links-label": "Label for links section.\n{{Identical|Link}}",
     "details-title": "Title for photo details screen.\n{{Identical|Details}}",
+    "details-nav-prompt": "Prompt which appears above the navigation bar at the top of the screen when a newly taken, yet to be uploaded picture is first presented",
     "details-upload-button": "Button text for button to begin uploading the selected photo.\n{{Identical|Upload}}",
     "details-title-label": "Label for title input/display field on photo details.\n{{Identical|Title}}",
     "details-title-placeholder": "Placeholder text for title input field on photo details",

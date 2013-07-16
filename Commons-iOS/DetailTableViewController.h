@@ -9,15 +9,23 @@
 #import <UIKit/UIKit.h>
 #import "FileUpload.h"
 
-@interface DetailTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate>
+@protocol DetailTableViewControllerDelegate <NSObject>
+    // Protocol for notifying other view controllers, such as ImageScrollViewController,
+    // that the Details view has been scrolled. The ImageScrollViewController uses this
+    // so it can adjust the image alpha.
+    @property (nonatomic) float detailsScrollNormal;
+    @property (weak, nonatomic) UINavigationItem *navigationItem;
+    @property (weak, nonatomic) UIView *view;
+    -(void)clearOverlay;
+@end
 
-@property (weak, nonatomic) IBOutlet UIImageView *imagePreview;
+@interface DetailTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionPlaceholder;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *imageSpinner;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
@@ -37,9 +45,16 @@
 
 @property (nonatomic, strong) UIActivityViewController *shareActivityViewController;
 
-- (IBAction)deleteButtonPushed:(id)sender;
-- (IBAction)uploadButtonPushed:(id)sender;
-- (IBAction)openWikiPageButtonPushed:(id)sender;
-- (IBAction)shareButtonPushed:(id)sender;
+@property (strong, nonatomic) id<DetailTableViewControllerDelegate> delegate;
+@property (nonatomic) float detailsScrollNormal;
+
+-(IBAction)deleteButtonPushed:(id)sender;
+-(IBAction)openWikiPageButtonPushed:(id)sender;
+-(IBAction)shareButtonPushed:(id)sender;
+-(void)hideKeyboard;
+
+-(void)scrollByAmount:(float)amount withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options useXF:(BOOL)useXF then:(void(^)(void))block;
+
+-(void)ensureScrollingDoesNotExceedThreshold;
 
 @end

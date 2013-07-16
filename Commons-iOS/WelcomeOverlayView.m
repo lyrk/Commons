@@ -11,11 +11,11 @@
 
 @implementation WelcomeOverlayView
 {
-    WelcomeMessage message;
-    CAShapeLayer *lineLayerTake;
-    CAShapeLayer *lineLayerGallery;
-    CAShapeLayer *lineLayerAdd;
-    CALerpLine *lerpLine;
+    WelcomeMessage message_;
+    CAShapeLayer *lineLayerTake_;
+    CAShapeLayer *lineLayerGallery_;
+    CAShapeLayer *lineLayerAdd_;
+    CALerpLine *lerpLine_;
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -25,12 +25,12 @@
 
         self.hidden = YES;
         self.interfaceOrientation = UIDeviceOrientationPortrait;
-        message = WELCOME_MESSAGE_NONE;
+        message_ = WELCOME_MESSAGE_NONE;
 
-        lerpLine = [[CALerpLine alloc] init];
-        lineLayerTake = [CAShapeLayer layer];
-        lineLayerGallery = [CAShapeLayer layer];
-        lineLayerAdd = [CAShapeLayer layer];
+        lerpLine_ = [[CALerpLine alloc] init];
+        lineLayerTake_ = [CAShapeLayer layer];
+        lineLayerGallery_ = [CAShapeLayer layer];
+        lineLayerAdd_ = [CAShapeLayer layer];
     }
     return self;
 }
@@ -39,7 +39,7 @@
 {
     // Make the message fade in, but only do so if a different message is to be shown
     // otherwise it flickers
-    if (message != msg) self.messageLabel.alpha = 0.0;
+    if (message_ != msg) self.messageLabel.alpha = 0.0;
     
     switch (msg) {
         case WELCOME_MESSAGE_WELCOME:
@@ -63,7 +63,7 @@
     }
     
     // Fade in the message
-    if (message != msg) {
+    if (message_ != msg) {
         [UIView animateWithDuration:0.25
                               delay:0.0
                             options:UIViewAnimationOptionTransitionNone
@@ -74,7 +74,7 @@
                          }];
     }
     
-    message = msg;
+    message_ = msg;
     
     // Animate the drawing of the lines
     [self animateLines];
@@ -85,30 +85,30 @@
     // from the messageLabel in the direction of the respective button
     
     // If no message is being shown there's no need to draw anything
-    if ((message == WELCOME_MESSAGE_NONE) || (message == WELCOME_MESSAGE_CHECKING)) return;
+    if ((message_ == WELCOME_MESSAGE_NONE) || (message_ == WELCOME_MESSAGE_CHECKING)) return;
     
     // Block for drawing lines between the message label and the buttons - nice place for common settings
     void(^drawLerpLine)(CAShapeLayer *, CGPoint, float, float) = ^(CAShapeLayer *pathLayer, CGPoint endPoint, float startOffset, float endOffset){
-        lerpLine.view = self;
-        lerpLine.pathLayer = pathLayer;
-        lerpLine.startPoint = self.messageLabel.center;
-        lerpLine.endPoint = endPoint;
-        lerpLine.startOffset = startOffset;
-        lerpLine.endOffset = endOffset;
-        lerpLine.duration = 0.35;
-        lerpLine.from = 0.0;
-        lerpLine.to = 1.0;
-        lerpLine.strokeColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.5];
-        lerpLine.lineWidth = 2.0f;
-        lerpLine.lineDashPattern = @[@4, @4];
-        [lerpLine drawLine];
+        lerpLine_.view = self;
+        lerpLine_.pathLayer = pathLayer;
+        lerpLine_.startPoint = self.messageLabel.center;
+        lerpLine_.endPoint = endPoint;
+        lerpLine_.startOffset = startOffset;
+        lerpLine_.endOffset = endOffset;
+        lerpLine_.duration = 0.35;
+        lerpLine_.from = 0.0;
+        lerpLine_.to = 1.0;
+        lerpLine_.strokeColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:0.5];
+        lerpLine_.lineWidth = 2.0f;
+        lerpLine_.lineDashPattern = @[@4, @4];
+        [lerpLine_ drawLine];
     };
 
     // These determine how far from the line start and end points the drawing will begin and end
     float startReduction = 0.0;
     float endReduction = 0.0;
     
-    if (message == WELCOME_MESSAGE_WELCOME) {
+    if (message_ == WELCOME_MESSAGE_WELCOME) {
         // Draw single line between the message label and the add media button
         
         // Landscape
@@ -132,12 +132,12 @@
             }
         }
         // Hide the lines to the choose and take picture buttons
-        [lineLayerTake removeFromSuperlayer];
-        [lineLayerGallery removeFromSuperlayer];
+        [lineLayerTake_ removeFromSuperlayer];
+        [lineLayerGallery_ removeFromSuperlayer];
         // Show the line to the add image button
-        drawLerpLine(lineLayerAdd, self.addMediaButton.center, startReduction, endReduction);
+        drawLerpLine(lineLayerAdd_, self.addMediaButton.center, startReduction, endReduction);
         
-    }else if (message == WELCOME_MESSAGE_CHOOSE_OR_TAKE) {
+    }else if (message_ == WELCOME_MESSAGE_CHOOSE_OR_TAKE) {
         // Draw lines between the message label and take and choose photo buttons
         
         // Landscape
@@ -161,21 +161,21 @@
             }
         }
         // Hide the line to the add image button
-        [lineLayerAdd removeFromSuperlayer];
+        [lineLayerAdd_ removeFromSuperlayer];
         // Show the lines to the choose and take picture buttons
-        drawLerpLine(lineLayerTake, self.takePhotoButton.center, startReduction, endReduction);
-        drawLerpLine(lineLayerGallery, self.choosePhotoButton.center, startReduction, endReduction);
+        drawLerpLine(lineLayerTake_, self.takePhotoButton.center, startReduction, endReduction);
+        drawLerpLine(lineLayerGallery_, self.choosePhotoButton.center, startReduction, endReduction);
     }
 }
 
 -(void) clearLines
 {   // Easy reset of all lines
-    lineLayerAdd.path = nil;
-    lineLayerTake.path = nil;
-    lineLayerGallery.path = nil;
-    [lineLayerAdd removeFromSuperlayer];
-    [lineLayerTake removeFromSuperlayer];
-    [lineLayerGallery removeFromSuperlayer];
+    lineLayerAdd_.path = nil;
+    lineLayerTake_.path = nil;
+    lineLayerGallery_.path = nil;
+    [lineLayerAdd_ removeFromSuperlayer];
+    [lineLayerTake_ removeFromSuperlayer];
+    [lineLayerGallery_ removeFromSuperlayer];
 }
 
 @end

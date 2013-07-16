@@ -19,6 +19,8 @@
 #import "ProgressView.h"
 #import "LoginViewController.h"
 #import "GalleryMultiSelectCollectionVC.h"
+#import "ImageScrollViewController.h"
+#import "AspectFillThumbFetcher.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -29,10 +31,16 @@
 
 @interface MyUploadsViewController () {
     NSString *pickerSource_;
-    UITapGestureRecognizer *tapRecognizer;
-    bool buttonAnimationInProgress;
-    UIView *opaqueView;
-    NSUInteger thumbnailCount;
+    UITapGestureRecognizer *tapRecognizer_;
+    bool buttonAnimationInProgress_;
+    UIView *opaqueView_;
+    NSUInteger thumbnailCount_;
+    
+    ImageScrollViewController *imageScrollVC_;
+    DetailTableViewController *detailVC_;
+    UITapGestureRecognizer *imageTapRecognizer_;
+    UITapGestureRecognizer *imageDoubleTapRecognizer_;
+    UIPanGestureRecognizer *detailsPanRecognizer_;
 }
 
 - (void)animateTakeAndChoosePhotoButtons;
@@ -49,7 +57,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        thumbnailCount = 0;
+        thumbnailCount_ = 0;
     }
     return self;
 }
@@ -58,7 +66,7 @@
 {
     [super viewDidAppear:animated];
     
-    if (thumbnailCount != 0){
+    if (thumbnailCount_ != 0){
         // Ensure welcome message is hidden if the user has images
         [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
     }else{
@@ -94,7 +102,7 @@
     // Set up refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
-             forControlEvents:UIControlEventValueChanged];
+                  forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
 
     // l10n
@@ -121,21 +129,21 @@
     }
     
     // Hide take and choose photo buttons when anywhere else is tapped
-	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideTakeAndChoosePhotoButtons:)];
+	tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideTakeAndChoosePhotoButtons:)];
     
     // By not cancelling touches in view the tapping the images in the background will cause the tapped image details view to load
-    [tapRecognizer setCancelsTouchesInView:NO];
+    [tapRecognizer_ setCancelsTouchesInView:NO];
     
     // Makes "gestureRecognizer:shouldReceiveTouch:" be called so decisions may be made about which interface elements respond to tapRecognizer touches
-    [tapRecognizer setDelegate:self];
+    [tapRecognizer_ setDelegate:self];
     
-	[self.view addGestureRecognizer:tapRecognizer];
+	[self.view addGestureRecognizer:tapRecognizer_];
     
-    buttonAnimationInProgress = NO;
+    buttonAnimationInProgress_ = NO;
 
     // This view is used to fade out the background when the take and choose photo buttons are revealed
-    opaqueView = [[UIView alloc] init];
-    opaqueView.backgroundColor = [UIColor clearColor];
+    opaqueView_ = [[UIView alloc] init];
+    opaqueView_.backgroundColor = [UIColor clearColor];
     
     // Make the About and Settings buttons stand out better against light colors
     [LoginViewController applyShadowToView:self.settingsButton];
@@ -151,24 +159,12 @@
     return [UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera];
 }
 
--(void)viewWillLayoutSubviews
-{
-    [super viewWillLayoutSubviews];
-    
-    // Make sure when the device is rotated that the opaqueView changes dimensions accordingly
-    opaqueView.frame = self.view.bounds;
-
-    // UIViews don't have access to self.interfaceOrientation, this gets around that so the
-    // welcomeOverlayView can adjust its custom drawing when it needs to
-    self.welcomeOverlayView.interfaceOrientation = self.interfaceOrientation;
-}
-
 -(void)reachabilityChange:(NSNotification*)note {
     Reachability * reach = [note object];
     NetworkStatus netStatus = [reach currentReachabilityStatus];
     if (netStatus == ReachableViaWiFi || netStatus == ReachableViaWWAN)
     {
-        self.uploadButton.enabled = YES;
+        self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;;
     }
     else if (netStatus == NotReachable)
     {
@@ -225,28 +221,16 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidUnload {
-    [self setSettingsButton:nil];
-    [self setUploadButton:nil];
-    [self setChoosePhotoButton:nil];
-    [self setTakePhotoButton:nil];
-
-    self.popover = nil;
-    self.selectedRecord = nil;
-
-    [self setAddMediaButton:nil];
-    [self setTakePhotoButton:nil];
-    [self setChoosePhotoButton:nil];
-    [self setCollectionView:nil];
-    [super viewDidUnload];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
+-(void)viewWillLayoutSubviews
 {
-    if ([segue.identifier isEqualToString:@"DetailSegue"]) {
-        DetailTableViewController *view = [segue destinationViewController];
-        view.selectedRecord = self.selectedRecord;
-    }
+    [super viewWillLayoutSubviews];
+    
+    // Make sure when the device is rotated that the opaqueView changes dimensions accordingly
+    opaqueView_.frame = self.view.bounds;
+    
+    // UIViews don't have access to self.interfaceOrientation, this gets around that so the
+    // welcomeOverlayView can adjust its custom drawing when it needs to
+    self.welcomeOverlayView.interfaceOrientation = self.interfaceOrientation;
 }
 
 #pragma mark - Thumb Download Prioritization
@@ -354,7 +338,7 @@
     
     if (!_uploadButton) {
         
-        _uploadButton = [[UIBarButtonItem alloc] initWithTitle:@"Upload"
+        _uploadButton = [[UIBarButtonItem alloc] initWithTitle:[MWMessage forKey:@"details-upload-button"].text
                                                          style:UIBarButtonItemStylePlain
                                                         target:self
                                                         action:@selector(uploadButtonPushed:)];
@@ -375,6 +359,9 @@
 #pragma mark - Interface Actions
 
 - (IBAction)uploadButtonPushed:(id)sender {
+    
+    // Pop to this view controller (in case upload button was pressed from the details page)
+    [self.navigationController popToViewController:self animated:YES];
     
     CommonsApp *app = [CommonsApp singleton];
     
@@ -407,10 +394,10 @@
                         self.navigationItem.rightBarButtonItem = [self uploadButton];
                         
                         NSString *alertTitle = ([error.domain isEqualToString:@"MediaWiki API"] && (error.code == MW_ERROR_UPLOAD_CANCEL))
-                            ?
-                            [MWMessage forKey:@"error-upload-cancelled"].text
-                            :
-                            [MWMessage forKey:@"error-upload-failed"].text
+                        ?
+                        [MWMessage forKey:@"error-upload-cancelled"].text
+                        :
+                        [MWMessage forKey:@"error-upload-failed"].text
                         ;
                         
                         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:alertTitle
@@ -512,8 +499,8 @@
             CGRect rect = self.choosePhotoButton.frame;
             [self.popover presentPopoverFromRect:rect
                                           inView:self.view
-                                 permittedArrowDirections:UIPopoverArrowDirectionAny
-                                                 animated:YES];
+                        permittedArrowDirections:UIPopoverArrowDirectionAny
+                                        animated:YES];
         }
     } else {
         [self presentViewController:picker animated:YES completion:nil];
@@ -541,7 +528,7 @@
         });
         
         // Now that the refresh is done it is known whether there are images, so show the welcome message if needed
-        if (thumbnailCount == 0) {
+        if (thumbnailCount_ == 0) {
             if (self.takePhotoButton.hidden) {
                 [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
             }else{
@@ -586,7 +573,7 @@
 - (IBAction)addMediaButtonPushed:(id)sender {
     
     // Ensure the toggle can't be toggled again until any animation from a previous toggle has completed
-    if (buttonAnimationInProgress) return;
+    if (buttonAnimationInProgress_) return;
     
     [self animateTakeAndChoosePhotoButtons];
 
@@ -622,8 +609,8 @@
 
         // Make the opaque view appear, presently it's transparent, but its color transition will be animated along with the button location changes below
         // (also ensure the buttons are on top of the opaque view)
-        [self.view addSubview:opaqueView];
-        [self.view bringSubviewToFront:opaqueView];
+        [self.view addSubview:opaqueView_];
+        [self.view bringSubviewToFront:opaqueView_];
         [self.view bringSubviewToFront:self.takePhotoButton];
         [self.view bringSubviewToFront:self.choosePhotoButton];
         [self.view bringSubviewToFront:self.addMediaButton];
@@ -647,7 +634,7 @@
                              self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
                              self.takePhotoButton.hidden = NO;
                              self.choosePhotoButton.hidden = NO;
-                             buttonAnimationInProgress = YES;
+                             buttonAnimationInProgress_ = YES;
 
                              self.addMediaButton.transform = CGAffineTransformMakeScale(0.65f, 0.65f);
                              self.addMediaButton.alpha = 0.25;
@@ -655,27 +642,27 @@
                              self.takePhotoButton.transform = CGAffineTransformIdentity;
                              self.choosePhotoButton.transform = CGAffineTransformIdentity;
                              
-                            // Also animate the opaque view from transparent to partially opaque
-                            [opaqueView setAlpha:OPAQUE_VIEW_ALPHA];
-                            opaqueView.backgroundColor = [UIColor OPAQUE_VIEW_BACKGROUND_COLOR];
+                             // Also animate the opaque view from transparent to partially opaque
+                             [opaqueView_ setAlpha:OPAQUE_VIEW_ALPHA];
+                             opaqueView_.backgroundColor = [UIColor OPAQUE_VIEW_BACKGROUND_COLOR];
                              
                          }
                          completion:^(BOOL finished){
                              self.takePhotoButton.enabled = [self hasCamera];
                              self.choosePhotoButton.enabled = YES;
-                             buttonAnimationInProgress = NO;
+                             buttonAnimationInProgress_ = NO;
                              
                              // Now that the addMediaButton was tapped, change the welcome message to
                              // describe the take and choose photo buttons. Only do so if the user has
                              // no images
-                             if(thumbnailCount == 0){
+                             if(thumbnailCount_ == 0){
                                  [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHOOSE_OR_TAKE];
                              }
                          }];
     }else{
         
         // Assuming a user with no images may need a little prompting, show a welcome message
-        if(thumbnailCount == 0) [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
+        if(thumbnailCount_ == 0) [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_WELCOME];
         
         // Run the "hide buttons" animation, essentially unwinding the animations above
         takePhotoButtonOriginalCenter = self.takePhotoButton.center;
@@ -684,15 +671,15 @@
                               delay:0.0
                             options:UIViewAnimationOptionTransitionNone
                          animations:^{
-                            self.takePhotoButton.center = self.addMediaButton.center;
-                            self.choosePhotoButton.center = self.addMediaButton.center;
-                            buttonAnimationInProgress = YES;
+                             self.takePhotoButton.center = self.addMediaButton.center;
+                             self.choosePhotoButton.center = self.addMediaButton.center;
+                             buttonAnimationInProgress_ = YES;
                              
-                            self.addMediaButton.transform = CGAffineTransformIdentity;
-                            self.addMediaButton.alpha = 1.0;
+                             self.addMediaButton.transform = CGAffineTransformIdentity;
+                             self.addMediaButton.alpha = 1.0;
                              
-                            [opaqueView setAlpha:1.0];
-                            opaqueView.backgroundColor = [UIColor clearColor];
+                             [opaqueView_ setAlpha:1.0];
+                             opaqueView_.backgroundColor = [UIColor clearColor];
                              
                              self.takePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-90));
                              self.choosePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
@@ -702,14 +689,14 @@
                              
                          }
                          completion:^(BOOL finished){
-                            self.takePhotoButton.hidden = YES;
-                            self.choosePhotoButton.hidden = YES;
-                            self.takePhotoButton.center = takePhotoButtonOriginalCenter;
-                            self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
-                            self.addMediaButton.transform = CGAffineTransformIdentity;
-                            buttonAnimationInProgress = NO;
-
-                            [opaqueView removeFromSuperview];
+                             self.takePhotoButton.hidden = YES;
+                             self.choosePhotoButton.hidden = YES;
+                             self.takePhotoButton.center = takePhotoButtonOriginalCenter;
+                             self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
+                             self.addMediaButton.transform = CGAffineTransformIdentity;
+                             buttonAnimationInProgress_ = NO;
+                             
+                             [opaqueView_ removeFromSuperview];
                          }];
     }
 }
@@ -724,14 +711,19 @@
     // The tapRecognizer is used to hide the take and choose photo buttons (via hideTakeAndChoosePhotoButtons)
     // but it should not hide the buttons if the buttons are already being hidden (if buttonAnimationInProgress is YES)
     // It should also ignore taps on the add media and take and choose photo buttons
-    if (gestureRecognizer == tapRecognizer) {
+    if (gestureRecognizer == tapRecognizer_) {
         
-        if (buttonAnimationInProgress) return NO;
+        if (buttonAnimationInProgress_) return NO;
         if (touch.view == self.addMediaButton) return NO;
         if (touch.view == self.takePhotoButton) return NO;
         if (touch.view == self.choosePhotoButton) return NO;
     }
     
+	if ((gestureRecognizer == imageTapRecognizer_) || (gestureRecognizer == imageDoubleTapRecognizer_)) {
+		// Ignore touches which fall on the details table or its contents
+		if (!(imageScrollVC_.imageScrollView == touch.view || imageScrollVC_.imageView == touch.view)) return NO;
+	}
+	
     return YES;
 }
 
@@ -740,7 +732,7 @@
     // Don't auto rotate if animateTakeAndChoosePhotoButtons is currently moving the buttons
     // This is needed because the button animation code relies on the storyboard button locations
     // and these button locations are changed by when the device rotates
-    return (!buttonAnimationInProgress);
+    return (!buttonAnimationInProgress_);
 }
 
 #pragma mark - NSFetchedResultsController Delegate Methods
@@ -757,14 +749,14 @@
     switch (type) {
         case NSFetchedResultsChangeInsert:
             [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
-            {
-                FileUpload *record = (FileUpload *)anObject;
-                if (!record.complete.boolValue) {
-                    // This will go crazy if we import multiple items at once :)
-                    self.selectedRecord = record;
-                    [self performSegueWithIdentifier:@"DetailSegue" sender:self];
-                }
+        {
+            FileUpload *record = (FileUpload *)anObject;
+            if (!record.complete.boolValue) {
+                // This will go crazy if we import multiple items at once :)
+                self.selectedRecord = record;
+                [self performSegueWithIdentifier:@"OpenImageSegue" /*@"DetailSegue"*/ sender:self];
             }
+        }
             break;
             
         case NSFetchedResultsChangeDelete:
@@ -880,7 +872,7 @@
         count = 0;
     }
     
-    thumbnailCount = count;
+    thumbnailCount_ = count;
 
     return count;
 }
@@ -949,7 +941,7 @@
     // Set title label text and resize the label to fit no matter how much text there is
     [cell resizeTitleLabelWithTitle:labelText fileName:noExtFileName];
     //cell.titleLabel.text = labelText;
-        
+
     // Do not animate this progress setting. It needs to directly jump to the proper progress
     cell.infoBox.progressNormal = progress;
     [cell.infoBox setNeedsDisplay];
@@ -1058,13 +1050,246 @@
     [self.welcomeOverlayView animateLines];
 }
 
-#pragma mark UIScrollViewDelegate methods
+#pragma mark Details segue methods
 
-/*
- - (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
 {
-    NSLog(@"blah");
+    /*
+     if ([segue.identifier isEqualToString:@"DetailSegue"]) {
+     DetailTableViewController *detailVC = [segue destinationViewController];
+     detailVC.selectedRecord = self.selectedRecord;
+     
+     // Change back button to be arrow
+     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString] style:UIBarButtonItemStyleBordered target:self action:nil];
+     
+     // Make the table view's background transparent
+     UIView *backView = [[UIView alloc] initWithFrame:CGRectZero];
+     backView.backgroundColor = [UIColor clearColor];
+     detailVC.tableView.backgroundView = backView;
+     }
+     return;
+     */
+    
+    if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
+        
+        if (self.selectedRecord) {
+            
+            imageScrollVC_ = [segue destinationViewController];
+
+            [self addDetailsViewToImageScrollViewController];
+            
+            [self addRightBarButtonsToImageScrollVC];
+            
+            // Allow the newly created detailsVC to access the upload button too
+            detailVC_.uploadButton = self.uploadButton;
+            
+            FileUpload *record = self.selectedRecord;
+            if (record != nil) {
+
+                imageScrollVC_.title = @"";  //[MWMessage forKey:@"details-title"].text; //record.title;
+
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+
+                    MWPromise *fetch;
+                    /*
+                     if (record.complete.boolValue) {
+                     // Fetch cached or internet image at size to fit within self.view
+                     CGSize screenSize = self.view.bounds.size;
+                     AspectFillThumbFetcher *aspectFillThumbFetcher = [[AspectFillThumbFetcher alloc] init];
+                     fetch = [aspectFillThumbFetcher fetchThumbnail:record.title size:screenSize withQueuePriority:NSOperationQueuePriorityVeryHigh];
+                     } else {
+                     // Load the local file...
+                     */
+                    fetch = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityVeryHigh];
+                    //}
+                    
+                    [fetch done:^(id data) {
+                        // If a local file was loaded (from the "else" clause above) data will contain an image
+                        if([data isKindOfClass:[UIImage class]]){
+                            [imageScrollVC_ setImage:data];
+                        }else if([data isKindOfClass:[NSMutableDictionary class]]){
+                            // If image sized to fit within self.view was downloaded (from the "if" clause above)
+                            // data will contain a dict with an "image" entry
+                            NSData *imageData = data[@"image"];
+                            if (imageData){
+                                UIImage *image = [UIImage imageWithData:imageData scale:1.0];
+                                [imageScrollVC_ setImage:image];
+                            }
+                        }
+                    }];
+                    
+                    [fetch fail:^(NSError *error) {
+                        NSLog(@"Failed to download image: %@", [error localizedDescription]);
+                        // Pop back after a second if image failed to download
+                        [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
+                    }];
+                    
+                    [fetch always:^(id arg) {
+                        
+                    }];
+                });
+            }
+        }
+    }
 }
-*/
+
+-(void)addRightBarButtonsToImageScrollVC
+{
+    UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                 target:detailVC_
+                                                                                 action:@selector(shareButtonPushed:)];
+    
+    UIBarButtonItem *openWikiPageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-view.png"]
+                                                                           style:UIBarButtonItemStylePlain
+                                                                          target:detailVC_
+                                                                          action:@selector(openWikiPageButtonPushed:)];
+    
+    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
+                                                                                  target:detailVC_
+                                                                                  action:@selector(deleteButtonPushed:)];
+    
+    
+    UIBarButtonItem *spacerItemFlexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                                        target:nil
+                                                                                        action:nil];
+    
+    // These fake buttons trick the navigation bar into automatically centering the upload and openWiki buttons
+    UIBarButtonItem *fakeButton1 = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)]];
+    UIBarButtonItem *fakeButton2 = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 9, 1)]];
+    
+    if (!self.selectedRecord.complete.boolValue) {
+        [imageScrollVC_.navigationItem setRightBarButtonItems:
+         @[deleteButton, fakeButton2, spacerItemFlexible, self.uploadButton, spacerItemFlexible,fakeButton1]
+                                                     animated:YES];
+    }else{
+        [imageScrollVC_.navigationItem setRightBarButtonItems:
+         @[shareButton, spacerItemFlexible, openWikiPageButton, spacerItemFlexible, fakeButton1]
+                                                     animated:YES];
+    }
+}
+
+-(void)popViewControllerAnimated
+{
+	[self.navigationController popViewControllerAnimated:YES];
+}
+
+-(BOOL)shouldAutomaticallyForwardAppearanceMethods
+{
+    // This method is called to determine whether to
+    // automatically forward appearance-related containment
+    //  callbacks to child view controllers.
+    return YES;
+    
+}
+-(BOOL)shouldAutomaticallyForwardRotationMethods
+{
+    // This method is called to determine whether to
+    // automatically forward rotation-related containment
+    // callbacks to child view controllers.
+    return YES;
+}
+
+-(void)addDetailsViewToImageScrollViewController
+{
+    detailVC_ = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailTableViewController"];
+    detailVC_.selectedRecord = self.selectedRecord;
+    
+    imageTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageTap:)];
+    imageTapRecognizer_.numberOfTouchesRequired = 1;
+    imageDoubleTapRecognizer_.numberOfTapsRequired = 1;
+    [imageScrollVC_.view addGestureRecognizer:imageTapRecognizer_];
+    imageTapRecognizer_.cancelsTouchesInView = NO;
+    imageTapRecognizer_.delegate = self;
+
+    imageDoubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageDoubleTap:)];
+    imageDoubleTapRecognizer_.numberOfTouchesRequired = 1;
+    imageDoubleTapRecognizer_.numberOfTapsRequired = 2;
+    [imageScrollVC_.view addGestureRecognizer:imageDoubleTapRecognizer_];
+    imageDoubleTapRecognizer_.cancelsTouchesInView = NO;
+    imageDoubleTapRecognizer_.delegate = self;
+	
+    imageDoubleTapRecognizer_.enabled = NO;
+
+    [imageTapRecognizer_ requireGestureRecognizerToFail:imageDoubleTapRecognizer_];
+
+    detailsPanRecognizer_ = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleDetailsPan:)];
+    detailsPanRecognizer_.delegate = self;
+    [detailVC_.view addGestureRecognizer:detailsPanRecognizer_];
+
+    [imageScrollVC_ addChildViewController:detailVC_];
+    
+    detailVC_.view.frame = imageScrollVC_.view.bounds;
+	
+    [imageScrollVC_.view addSubview:detailVC_.view];
+    [detailVC_ didMoveToParentViewController:imageScrollVC_];
+
+    // Let the detailVC notify the imageScrollVC when the detailVC view slides around
+    // This allows the imageScrollVC to adjust its image visibility depending on how
+    // far the detailVS view has been slid
+    detailVC_.delegate = (ImageScrollViewController<DetailTableViewControllerDelegate> *)imageScrollVC_;
+    
+    [imageScrollVC_.view bringSubviewToFront:detailVC_.view];
+    [detailVC_.view bringSubviewToFront:detailVC_.tableView];
+}
+
+-(void)handleDetailsPan:(UIPanGestureRecognizer *)recognizer
+{
+    static CGPoint originalCenter;
+    if (recognizer.state == UIGestureRecognizerStateBegan)
+    {
+        originalCenter = recognizer.view.center;
+        //recognizer.view.layer.shouldRasterize = YES;
+    }
+    if (recognizer.state == UIGestureRecognizerStateChanged)
+    {
+        CGPoint translate = [recognizer translationInView:recognizer.view.superview];
+        translate.x = 0; // Don't move sideways
+        recognizer.view.center = CGPointMake(originalCenter.x + translate.x, originalCenter.y + translate.y);
+    }
+    if (recognizer.state == UIGestureRecognizerStateEnded ||
+        recognizer.state == UIGestureRecognizerStateFailed ||
+        recognizer.state == UIGestureRecognizerStateCancelled)
+    {
+        //recognizer.view.layer.shouldRasterize = NO;
+
+        // Ensure the table isn't scrolled so far down or up
+        [detailVC_ ensureScrollingDoesNotExceedThreshold];
+    }
+}
+
+-(void)handleImageTap:(UITapGestureRecognizer *)recognizer
+{
+    // Toggles full-screen image pinch mode
+    static float detailsY = 0.0f;
+    static BOOL isAnimating = NO;
+    if (isAnimating) return;
+	if(detailVC_.navigationController.navigationBar.alpha == 1.0f){
+		detailVC_.view.userInteractionEnabled = NO;
+		detailVC_.navigationController.navigationBar.alpha = 0.0f;
+        detailsY = detailVC_.view.frame.origin.y;
+        float offset = detailVC_.view.superview.frame.size.height - detailsY;
+        isAnimating = YES;
+        [detailVC_ scrollByAmount:offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
+            detailVC_.view.alpha = 0.0f;
+            isAnimating = NO;
+        }];
+		[detailVC_ hideKeyboard];
+	}else{
+		detailVC_.view.userInteractionEnabled = YES;
+		detailVC_.navigationController.navigationBar.alpha = 1.0f;
+		detailVC_.view.alpha = 1.0f;
+        float offset = detailVC_.view.frame.origin.y - detailsY;
+        isAnimating = YES;
+        [detailVC_ scrollByAmount:-offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
+            [detailVC_ ensureScrollingDoesNotExceedThreshold];
+            isAnimating = NO;
+        }];
+	}
+}
+
+-(void)handleImageDoubleTap:(UITapGestureRecognizer *)recognizer
+{
+	//NSLog(@"Add double-tap to zoom here");
+}
 
 @end

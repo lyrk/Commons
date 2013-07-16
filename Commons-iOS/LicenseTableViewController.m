@@ -8,6 +8,7 @@
 
 #import "LicenseTableViewController.h"
 #import "MWI18N.h"
+#import "CommonsApp.h"
 
 @interface LicenseTableViewController ()
 
@@ -27,9 +28,21 @@
     return self;
 }
 
+-(void)backButtonPressed:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    // Change back button to be an arrow
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString]
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(backButtonPressed:)];
+
     
     self.title = [MWMessage forKey:@"license-title"].text;
 

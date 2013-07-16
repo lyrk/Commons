@@ -17,6 +17,11 @@
 
 @implementation CategorySearchTableViewController
 
+-(void)backButtonPressed:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -30,6 +35,12 @@
 {
     [super viewDidLoad];
 
+    // Change back button to be an arrow
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString]
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:self
+                                                                            action:@selector(backButtonPressed:)];
+
     self.recentCats = [self recentCategories]; // don't need a live view, it won't change while we're viewing
     self.searchCats = @[];
 
@@ -37,6 +48,8 @@
     [self.tableView registerNib:cellNib forCellReuseIdentifier:@"CategoryCell"];
         
     [self.searchBar setPlaceholder:[MWMessage forKey:@"catadd-search-placeholder"].text];
+
+    self.searchBar.tintColor = [UIColor darkGrayColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -89,6 +102,8 @@
 {
     static NSString *CellIdentifier = @"CategoryCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    
+    cell.textLabel.textColor = [UIColor blackColor];
     
     NSArray *cats;
     if (tableView == self.tableView) {

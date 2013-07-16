@@ -19,6 +19,11 @@
 {
     // Override point for customization after application launch.
 
+    // Change the appearance of the nav bar throughout the app
+    [self customizeNavBar];
+    
+    //[[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackTranslucent];    
+    
     // Register default default values.
     // See: http://stackoverflow.com/a/5397647/135557
     NSDictionary *userDefaultsDefaults = @{
@@ -71,6 +76,39 @@
 	[_window addSubview: _loadingIndicator];
     
     return YES;
+}
+
+-(void)customizeNavBar
+{
+    // Note: translucent and opaque settings are made in the Navigation Controller storyboard
+    // under "User Defined Runtime Attributes"
+    //[[UINavigationBar appearance] setTranslucent:YES];
+    //[[UINavigationBar appearance] setOpaque:YES];
+
+    [[UINavigationBar appearance] setTintColor:[UIColor clearColor]];
+    [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.3f]];
+    
+    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
+    CGContextFillRect(context, rect);
+    
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [[UINavigationBar appearance] setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    
+    // Sets the nav bar text color - also sets the color of any nav bar navigation item prompt text.
+    // (needed because by default the prompt text is very gray and hard to see)
+    [[UINavigationBar appearance] setTitleTextAttributes:
+         @{
+                                    UITextAttributeTextColor: [UIColor whiteColor],
+                              UITextAttributeTextShadowColor: [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3f],
+                             UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetMake(0, -1)]
+         }
+     ];
 }
 
 - (void)receivedUINavigationControllerDidShowViewControllerNotification:(NSNotification *)notification {

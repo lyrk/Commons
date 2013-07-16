@@ -52,13 +52,7 @@
 // Force the app to download and cache a particularly interesting picture of the day
 #define FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE nil //@"2013-05-24"
 
-@interface LoginViewController (){
-    AspectFillThumbFetcher *pictureOfTheDayGetter_;
-    BOOL showingPictureOfTheDayAttribution_;
-    NSMutableArray *cachedPotdDateStrings_;
-}
-
-- (void)showMyUploadsVC;
+@interface LoginViewController ()
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSString *trimmedUsername;
@@ -66,20 +60,25 @@
 @property (strong, nonatomic) NSString *pictureOfTheDayUser;
 @property (strong, nonatomic) NSString *pictureOfTheDayDateString;
 
+- (void)showMyUploadsVC;
+
 @end
 
 @implementation LoginViewController
 {
-    UILongPressGestureRecognizer *longPressRecognizer;
-    UISwipeGestureRecognizer *swipeRecognizerUp;
-    UISwipeGestureRecognizer *swipeRecognizerDown;
-    UISwipeGestureRecognizer *swipeRecognizerLeft;
-    UITapGestureRecognizer *tapRecognizer;
-    UITapGestureRecognizer *doubleTapRecognizer;
-    CGPoint originalInfoContainerCenter;
+    UILongPressGestureRecognizer *longPressRecognizer_;
+    UISwipeGestureRecognizer *swipeRecognizerUp_;
+    UISwipeGestureRecognizer *swipeRecognizerDown_;
+    UISwipeGestureRecognizer *swipeRecognizerLeft_;
+    UITapGestureRecognizer *tapRecognizer_;
+    UITapGestureRecognizer *doubleTapRecognizer_;
+    CGPoint originalInfoContainerCenter_;
+    AspectFillThumbFetcher *pictureOfTheDayGetter_;
+    BOOL showingPictureOfTheDayAttribution_;
+    NSMutableArray *cachedPotdDateStrings_;
     
     // Only skip the login screen on initial load
-    bool allowSkippingToMyUploads;
+    bool allowSkippingToMyUploads_;
     PictureOfDayCycler *pictureOfDayCycler_;
 }
 
@@ -87,7 +86,7 @@
 {
     if (self = [super initWithCoder:decoder])
     {
-        allowSkippingToMyUploads = YES;
+        allowSkippingToMyUploads_ = YES;
         pictureOfTheDayGetter_ = [[AspectFillThumbFetcher alloc] init];
         self.pictureOfTheDayUser = nil;
         self.pictureOfTheDayDateString = nil;
@@ -107,10 +106,10 @@
 {
     [super viewDidLoad];
 
-    originalInfoContainerCenter = CGPointZero;
+    originalInfoContainerCenter_ = CGPointZero;
 
     // Remember where the login info container had been so it can be moved back here when the keyboard is hidden
-    originalInfoContainerCenter = _loginInfoContainer.center;
+    originalInfoContainerCenter_ = _loginInfoContainer.center;
     
 	// Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -145,33 +144,33 @@
     self.passwordField.text = app.password;
     
     //hide keyboard when anywhere else is tapped
-	tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
-    tapRecognizer.numberOfTapsRequired = 1;
-	[self.view addGestureRecognizer:tapRecognizer];
+	tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+    tapRecognizer_.numberOfTapsRequired = 1;
+	[self.view addGestureRecognizer:tapRecognizer_];
 
-	longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
-    longPressRecognizer.minimumPressDuration = 1.0f;
-	[self.view addGestureRecognizer:longPressRecognizer];
+	longPressRecognizer_ = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
+    longPressRecognizer_.minimumPressDuration = 1.0f;
+	[self.view addGestureRecognizer:longPressRecognizer_];
     
-    swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUp)];
-    swipeRecognizerUp.numberOfTouchesRequired = 1;
-    swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
-	[self.view addGestureRecognizer:swipeRecognizerUp];
+    swipeRecognizerUp_ = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUp)];
+    swipeRecognizerUp_.numberOfTouchesRequired = 1;
+    swipeRecognizerUp_.direction = UISwipeGestureRecognizerDirectionUp;
+	[self.view addGestureRecognizer:swipeRecognizerUp_];
 
-    swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown)];
-    swipeRecognizerDown.numberOfTouchesRequired = 1;
-    swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
-	[self.view addGestureRecognizer:swipeRecognizerDown];
+    swipeRecognizerDown_ = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown)];
+    swipeRecognizerDown_.numberOfTouchesRequired = 1;
+    swipeRecognizerDown_.direction = UISwipeGestureRecognizerDirectionDown;
+	[self.view addGestureRecognizer:swipeRecognizerDown_];
 
-    swipeRecognizerLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft)];
-    swipeRecognizerLeft.numberOfTouchesRequired = 1;
-    swipeRecognizerLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-	[self.view addGestureRecognizer:swipeRecognizerLeft];
+    swipeRecognizerLeft_ = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft)];
+    swipeRecognizerLeft_.numberOfTouchesRequired = 1;
+    swipeRecognizerLeft_.direction = UISwipeGestureRecognizerDirectionLeft;
+	[self.view addGestureRecognizer:swipeRecognizerLeft_];
 
-    doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
-    doubleTapRecognizer.numberOfTapsRequired = 2;
-	[self.view addGestureRecognizer:doubleTapRecognizer];
-    doubleTapRecognizer.enabled = NO;
+    doubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
+    doubleTapRecognizer_.numberOfTapsRequired = 2;
+	[self.view addGestureRecognizer:doubleTapRecognizer_];
+    doubleTapRecognizer_.enabled = NO;
 
     [self fadeLoginButtonIfNoCredentials];
 
@@ -330,7 +329,7 @@
                                                       animations:^{
                                                           weakSelf.attributionLabel.alpha = 1.0f;
                                                       }
-                                                      completion:^(BOOL finished){                                                          
+                                                      completion:^(BOOL finished){
                                                       }];
                                  }];
 
@@ -416,9 +415,9 @@
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
 
-                        // Prevents the keyboard from covering any of the login container contents, not needed on iPad
-                        // Most useful on non-iPads in landscape
-                        float yOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0 : LOGIN_CONTAINER_VERTICAL_OFFSET;
+                         // Prevents the keyboard from covering any of the login container contents, not needed on iPad
+                         // Most useful on non-iPads in landscape
+                         float yOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0 : LOGIN_CONTAINER_VERTICAL_OFFSET;
                          
 						 // Move login container to logo position (plus a slight vertical offset)
 						 _loginInfoContainer.center = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
@@ -442,7 +441,7 @@
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
-    doubleTapRecognizer.enabled = NO;
+    doubleTapRecognizer_.enabled = NO;
 
     [self animateLoginInfoContainerAndLogoBackToStoryboardLayout];
 }
@@ -456,12 +455,12 @@
 					 animations:^{
 
 						 // Reset the login container position
-						 _loginInfoContainer.center = originalInfoContainerCenter;
+						 _loginInfoContainer.center = originalInfoContainerCenter_;
 						 
 						 // Restore the logo alpha and scale as well
 						 _logoImageView.alpha = 1.0;
 						 
-                        [_logoImageView toColor];
+                         [_logoImageView toColor];
                          
 						 if (
 							 (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
@@ -484,13 +483,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidUnload {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self setUsernameField:nil];
-    [self setPasswordField:nil];
-    [super viewDidUnload];
-}
-
 -(void)viewWillLayoutSubviews{
 	// Position the logo and the login containers centered horizontally and at about one-third and two-thirds
 	// the way down the screen vertically respectively
@@ -498,14 +490,14 @@
 	_loginInfoContainer.center = CGPointMake(self.view.center.x, (self.view.frame.size.height / 2.6) * 2.0);
 
     // Ensure originalInfoContainerCenter has new _loginInfoContainer.center value
-    originalInfoContainerCenter = _loginInfoContainer.center;
+    originalInfoContainerCenter_ = _loginInfoContainer.center;
     
 	// Shrink the logo a bit when the device is held in landscape if the device is not an ipad
     if (
 		(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
 		&&
 		UIInterfaceOrientationIsLandscape(self.interfaceOrientation)
-	){
+        ){
 		_logoImageView.transform = CGAffineTransformMakeScale(LOGO_SCALE_NON_IPAD_LANDSCAPE, LOGO_SCALE_NON_IPAD_LANDSCAPE);
 	}else{
 		_logoImageView.transform = CGAffineTransformIdentity;
@@ -515,7 +507,7 @@
 
 - (void)keyboardDidShow:(NSNotification *)notification
 {
-    doubleTapRecognizer.enabled = YES;
+    doubleTapRecognizer_.enabled = YES;
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -613,7 +605,7 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-	   
+
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
 								   initWithTitle: [MWMessage forKey:@"login-title"].text
 								   style: UIBarButtonItemStyleBordered
@@ -802,11 +794,11 @@
 {
     // Uncomment for presentation username/pwd auto entry
     /*
-    self.usernameField.text = @"";
-	self.passwordField.text = @"";
-
-    [self fadeLoginButtonIfNoCredentials];
-    */
+     self.usernameField.text = @"";
+     self.passwordField.text = @"";
+     
+     [self fadeLoginButtonIfNoCredentials];
+     */
 }
 
 -(void)handleDoubleTap
@@ -842,7 +834,7 @@
     
     CommonsApp *app = CommonsApp.singleton;
     
-    allowSkippingToMyUploads = NO;
+    allowSkippingToMyUploads_ = NO;
 
 	// Trim leading and trailing white space from user name and password. This is so the isEqualToString:@"" check below
 	// will cause the login to be validated (previously if login info was blank it fell past the credential validation
@@ -878,9 +870,9 @@
             if (mwapi.isLoggedIn) {
                 // Credentials verified
                 [app log:@"MobileAppLoginAttempts" event:@{
-                    @"username": username,
-                    @"result": @"success"
-                }];
+                 @"username": username,
+                 @"result": @"success"
+                 }];
                 
                 // Save credentials
                 app.username = username;
@@ -899,9 +891,9 @@
             } else {
                 // Credentials invalid
                 [app log:@"MobileAppLoginAttempts" event:@{
-                    @"username": username,
-                    @"result": loginResult[@"login"][@"result"]
-                }];
+                 @"username": username,
+                 @"result": loginResult[@"login"][@"result"]
+                 }];
                 
                 // Erase saved credentials so that the credentials are validated every time they are changed
                 app.username = @"";
@@ -920,9 +912,9 @@
         [login fail:^(NSError *error) {
             
             [app log:@"MobileAppLoginAttempts" event:@{
-                @"username": username,
-                @"result": @"network"
-            }];
+             @"username": username,
+             @"result": @"network"
+             }];
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-login-fail"].text
                                                                 message:[error localizedDescription]
                                                                delegate:nil
@@ -937,12 +929,12 @@
         }];
     }
     else {
-    // Credentials have not been changed
+        // Credentials have not been changed
         
         NSLog(@"Credentials have not been changed.");
         
         // Dismiss view
-               
+
 		//login success!
         [self showMyUploadsVC];
     }

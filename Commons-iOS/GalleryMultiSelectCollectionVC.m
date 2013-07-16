@@ -9,6 +9,7 @@
 #import "GalleryMultiSelectAssetCell.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "MWI18N/MWI18N.h"
+#import "CommonsApp.h"
 
 #pragma mark - Defines
 
@@ -171,7 +172,7 @@ typedef enum {
 {
     UINavigationItem *thisItem = navBar_.items[0];
     if (visible) {
-        NSString *backArrowStr = @"\U000025C0\U0000FE0E";
+        NSString *backArrowStr = [[CommonsApp singleton] getBackButtonString];
         thisItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:backArrowStr style:UIBarButtonItemStylePlain target:self action:@selector(returnToAlbums)];
         thisItem.hidesBackButton = NO;
     }else{
