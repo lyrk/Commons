@@ -559,6 +559,10 @@
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appResumed:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
     
     // Automatically show the getting started pages, but only once and only if no credentials present
     [self showGettingStartedAutomaticallyOnce];
@@ -627,6 +631,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
 
     // Ensure keyboard is hidden - sometimes it can hang around otherwise
 	[self.usernameField resignFirstResponder];
@@ -1018,12 +1024,14 @@
             urlToOpen = [NSString stringWithFormat:@"%@%@", @"http:", self.pictureOfTheDayLicenseUrl];
             break;
         default:
+            // On iPad the action sheet can be dismissed by tapping outside the action sheet
+            // On non-iPad the cancel button dismisses the action sheet
+            self.attributionLabel.alpha = 1.0f;
+            self.attributionButton.alpha = 1.0f;
             break;
     }
     if (urlToOpen) [CommonsApp.singleton openURLWithDefaultBrowser:[NSURL URLWithString:urlToOpen]];
     [pictureOfDayCycler_ start];
-    self.attributionLabel.alpha = 1.0f;
-    self.attributionButton.alpha = 1.0f;
 }
 
 -(void)handleAttributionLabelTap:(UITapGestureRecognizer *)recognizer
@@ -1039,6 +1047,16 @@
     [pictureOfDayCycler_ stop];
     self.attributionLabel.alpha = 0.0f;
     self.attributionButton.alpha = 0.0f;
+}
+
+- (void)appResumed:(NSNotification *)notification
+{
+    // If the attribution action sheet caused an external link to be opened, when the app resumes the attribution
+    // label and buttons will need to be reshown
+    if (showingPictureOfTheDayAttribution_) {
+        self.attributionLabel.alpha = 1.0f;
+        self.attributionButton.alpha = 1.0f;
+    }
 }
 
 -(void)updateAttributionLabelFrame
