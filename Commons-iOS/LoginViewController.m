@@ -50,6 +50,7 @@
 #define PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO 0 //0 for today, 1 for yesterday, -1 for tomorrow etc
 
 // Force the app to download and cache a particularly interesting picture of the day
+// Note: use iPad to retrieve potd image cache files to be bundled
 #define FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE nil //@"2013-05-24"
 
 @interface LoginViewController ()
@@ -59,6 +60,8 @@
 @property (strong, nonatomic) NSString *trimmedPassword;
 @property (strong, nonatomic) NSString *pictureOfTheDayUser;
 @property (strong, nonatomic) NSString *pictureOfTheDayDateString;
+@property (strong, nonatomic) NSString *pictureOfTheDayLicense;
+@property (strong, nonatomic) NSString *pictureOfTheDayLicenseUrl;
 
 - (void)showMyUploadsVC;
 
@@ -90,6 +93,8 @@
         pictureOfTheDayGetter_ = [[AspectFillThumbFetcher alloc] init];
         self.pictureOfTheDayUser = nil;
         self.pictureOfTheDayDateString = nil;
+        self.pictureOfTheDayLicense = nil;
+        self.pictureOfTheDayLicenseUrl = nil;
         showingPictureOfTheDayAttribution_ = NO;
         cachedPotdDateStrings_ = [[NSMutableArray alloc] init];
         self.potdImageView.image = nil;
@@ -308,6 +313,8 @@
 
                 weakSelf.pictureOfTheDayUser = dict[@"user"];
                 weakSelf.pictureOfTheDayDateString = dict[@"potd_date"];
+                weakSelf.pictureOfTheDayLicense = dict[@"license"];
+                weakSelf.pictureOfTheDayLicenseUrl = dict[@"licenseurl"];
                 
                 // Briefly hide the attribution label before updating it
                 [UIView animateWithDuration:pictureOfDayCycler_.transitionDuration / 4.0
@@ -949,8 +956,10 @@
         [self hideAttributionLabel];
     }
 
-    NSLog(@"pictureOfTheDayUser_ = %@", self.pictureOfTheDayUser);
-    NSLog(@"pictureOfTheDayDateString_ = %@", self.pictureOfTheDayDateString);
+    NSLog(@"pictureOfTheDayUser = %@", self.pictureOfTheDayUser);
+    NSLog(@"pictureOfTheDayDateString = %@", self.pictureOfTheDayDateString);
+    NSLog(@"pictureOfTheDayLicense = %@", self.pictureOfTheDayLicense);
+    NSLog(@"pictureOfTheDayLicenseUrl = %@", self.pictureOfTheDayLicenseUrl);
 }
 
 -(void)updateAttributionLabelText
@@ -968,11 +977,13 @@
     NSString *picOfTheDayText = [MWMessage forKey:@"picture-of-day-label"].text;
     NSString *picOfTheAuthorText = [MWMessage forKey:@"picture-of-day-author"].text;
     self.attributionLabel.text = [NSString stringWithFormat:
-                                  @"%@\n%@\n%@ %@",
+                                  @"%@\n%@\n%@ %@\n%@",
                                   picOfTheDayText,
                                   prettyDateString,
                                   picOfTheAuthorText,
-                                  self.pictureOfTheDayUser];    
+                                  self.pictureOfTheDayUser,
+                                  [self.pictureOfTheDayLicense uppercaseString]
+                                  ];
 }
 
 -(void)updateAttributionLabelFrame
