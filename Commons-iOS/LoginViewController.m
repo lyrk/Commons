@@ -264,6 +264,19 @@
             if (![fm fileExistsAtPath:cachePotdPath]) {
                 // Cached version of bundle file not found, so copy bundle file to cache!
                 [fm copyItemAtPath:defaultBundledPath toPath:cachePotdPath error:nil];
+            }else{
+                // Cached version was found, so check if bundled file differs from existing cached file by comparing last modified dates
+                NSError *error = nil;
+                NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:defaultBundledPath error:&error];
+                NSDate *bundledFileModDate = [fileAttributes objectForKey:NSFileModificationDate];
+                fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:cachePotdPath error:&error];
+                NSDate *cachedFileModDate = [fileAttributes objectForKey:NSFileModificationDate];
+                if (![cachedFileModDate isEqualToDate:bundledFileModDate]) {
+                    // Remove the cached version
+                    [fm removeItemAtPath:cachePotdPath error:&error];
+                    // Bundled version newer than cached version, so copy bundle file to cache
+                    [fm copyItemAtPath:defaultBundledPath toPath:cachePotdPath error:&error];
+                }
             }
         }
     }
