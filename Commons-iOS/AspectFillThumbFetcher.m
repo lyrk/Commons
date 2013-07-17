@@ -323,8 +323,14 @@
 
 -(NSString *)getLicenseFromCategories:(NSMutableArray *)categories
 {
+    // Sort the license names to be looked for by descending length
+    // (prevents unwanted substring matches in the loop below)
+    NSArray *licenseNamesSortedByDescendingLength = [[commonLicenses_ allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString* a, NSString* b) {
+        return (a.length > b.length) ? NO : YES;
+    }];
+
     // Look at each category checking whether it begins with the name of a common license
-    for (NSString *license in commonLicenses_) {
+    for (NSString *license in licenseNamesSortedByDescendingLength) {
         for (NSString *category in categories) {
             NSRange foundRange = [category rangeOfString:license options:NSCaseInsensitiveSearch];
             //if(foundRange.location != NSNotFound){
