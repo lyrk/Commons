@@ -62,6 +62,7 @@
 @property (strong, nonatomic) NSString *pictureOfTheDayDateString;
 @property (strong, nonatomic) NSString *pictureOfTheDayLicense;
 @property (strong, nonatomic) NSString *pictureOfTheDayLicenseUrl;
+@property (strong, nonatomic) NSString *pictureOfTheDayWikiUrl;
 
 - (void)showMyUploadsVC;
 
@@ -75,6 +76,7 @@
     UISwipeGestureRecognizer *swipeRecognizerLeft_;
     UITapGestureRecognizer *tapRecognizer_;
     UITapGestureRecognizer *doubleTapRecognizer_;
+    UITapGestureRecognizer *attributionLabelTapRecognizer_;
     CGPoint originalInfoContainerCenter_;
     AspectFillThumbFetcher *pictureOfTheDayGetter_;
     BOOL showingPictureOfTheDayAttribution_;
@@ -95,6 +97,7 @@
         self.pictureOfTheDayDateString = nil;
         self.pictureOfTheDayLicense = nil;
         self.pictureOfTheDayLicenseUrl = nil;
+        self.pictureOfTheDayWikiUrl = nil;
         showingPictureOfTheDayAttribution_ = NO;
         cachedPotdDateStrings_ = [[NSMutableArray alloc] init];
         self.potdImageView.image = nil;
@@ -176,6 +179,11 @@
     doubleTapRecognizer_.numberOfTapsRequired = 2;
 	[self.view addGestureRecognizer:doubleTapRecognizer_];
     doubleTapRecognizer_.enabled = NO;
+   
+    attributionLabelTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleAttributionLabelTap:)];
+    attributionLabelTapRecognizer_.numberOfTapsRequired = 1;
+    [self.attributionLabel addGestureRecognizer:attributionLabelTapRecognizer_];
+    self.attributionLabel.userInteractionEnabled = YES;
 
     [self fadeLoginButtonIfNoCredentials];
 
@@ -315,6 +323,7 @@
                 weakSelf.pictureOfTheDayDateString = dict[@"potd_date"];
                 weakSelf.pictureOfTheDayLicense = dict[@"license"];
                 weakSelf.pictureOfTheDayLicenseUrl = dict[@"licenseurl"];
+                weakSelf.pictureOfTheDayWikiUrl = dict[@"descriptionurl"];
                 
                 // Briefly hide the attribution label before updating it
                 [UIView animateWithDuration:pictureOfDayCycler_.transitionDuration / 4.0
@@ -984,6 +993,39 @@
                                   self.pictureOfTheDayUser,
                                   [self.pictureOfTheDayLicense uppercaseString]
                                   ];
+}
+
+-(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSString *urlToOpen = nil;
+    switch (buttonIndex) {
+        case 0:
+            urlToOpen = self.pictureOfTheDayWikiUrl;
+            break;
+        case 1:
+            urlToOpen = [NSString stringWithFormat:@"%@%@", @"http:", self.pictureOfTheDayLicenseUrl];
+            break;
+        default:
+            break;
+    }
+    if (urlToOpen) [CommonsApp.singleton openURLWithDefaultBrowser:[NSURL URLWithString:urlToOpen]];
+    [pictureOfDayCycler_ start];
+    self.attributionLabel.alpha = 1.0f;
+    self.attributionButton.alpha = 1.0f;
+}
+
+-(void)handleAttributionLabelTap:(UITapGestureRecognizer *)recognizer
+{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[MWMessage forKey:@"picture-of-day-menu-title"].text
+                                                             delegate:self
+                                                    cancelButtonTitle:[MWMessage forKey:@"picture-of-day-cancel-button"].text
+                                               destructiveButtonTitle:nil
+                                                    otherButtonTitles:[MWMessage forKey:@"picture-of-day-commons-button"].text,
+                                                    [MWMessage forKey:@"picture-of-day-license-button"].text, nil];
+    actionSheet.actionSheetStyle = UIBarStyleBlackTranslucent;
+    [actionSheet showInView:self.view];
+    [pictureOfDayCycler_ stop];
+    self.attributionLabel.alpha = 0.0f;
+    self.attributionButton.alpha = 0.0f;
 }
 
 -(void)updateAttributionLabelFrame

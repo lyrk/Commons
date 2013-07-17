@@ -11,7 +11,7 @@
 @class GradientButton;
 @class GrayscaleImageView;
 @class PictureOfTheDayImageView;
-@interface LoginViewController : UIViewController <UITextFieldDelegate>
+@interface LoginViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
