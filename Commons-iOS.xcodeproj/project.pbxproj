@@ -9,17 +9,6 @@
 /* Begin PBXBuildFile section */
 		040860BB17136FC300D3290B /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 040860BA17136FC300D3290B /* CoreImage.framework */; };
 		040860BE1713939200D3290B /* GrayscaleImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040860BD1713939200D3290B /* GrayscaleImageView.m */; };
-		0417D9D717695E4700081D8C /* POTD-2013-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9CC17695E4700081D8C /* POTD-2013-05-24.dict */; };
-		0417D9D817695E4700081D8C /* POTD-2007-06-15.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9CD17695E4700081D8C /* POTD-2007-06-15.dict */; };
-		0417D9D917695E4700081D8C /* POTD-2008-01-25.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9CE17695E4700081D8C /* POTD-2008-01-25.dict */; };
-		0417D9DA17695E4700081D8C /* POTD-2010-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9CF17695E4700081D8C /* POTD-2010-05-24.dict */; };
-		0417D9DB17695E4700081D8C /* POTD-2012-07-08.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D017695E4700081D8C /* POTD-2012-07-08.dict */; };
-		0417D9DC17695E4700081D8C /* POTD-2013-02-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D117695E4700081D8C /* POTD-2013-02-24.dict */; };
-		0417D9DD17695E4700081D8C /* POTD-2013-04-29.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D217695E4700081D8C /* POTD-2013-04-29.dict */; };
-		0417D9DE17695E4700081D8C /* POTD-2008-11-14.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D317695E4700081D8C /* POTD-2008-11-14.dict */; };
-		0417D9DF17695E4700081D8C /* POTD-2009-06-19.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D417695E4700081D8C /* POTD-2009-06-19.dict */; };
-		0417D9E017695E4700081D8C /* POTD-2013-04-21.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D517695E4700081D8C /* POTD-2013-04-21.dict */; };
-		0417D9E117695E4700081D8C /* POTD-2013-06-04.dict in Resources */ = {isa = PBXBuildFile; fileRef = 0417D9D617695E4700081D8C /* POTD-2013-06-04.dict */; };
 		0417D9E417698AF200081D8C /* PictureOfDayCycler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E317698AF200081D8C /* PictureOfDayCycler.m */; };
 		0417D9EA176E666B00081D8C /* GalleryMultiSelectCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E9176E666B00081D8C /* GalleryMultiSelectCollectionVC.m */; };
 		0417D9F0176EB00100081D8C /* GalleryMultiSelectAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9EF176EB00100081D8C /* GalleryMultiSelectAlbumCell.m */; };
@@ -55,6 +44,17 @@
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
 		305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 305BC7691710BD3300B2CC01 /* LoadingIndicator.m */; };
 		3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3067546E170FF9D900A4BD8F /* SettingsViewController.m */; };
+		30841365179616C7006937FA /* POTD-2013-02-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135A179616C7006937FA /* POTD-2013-02-24.dict */; };
+		30841366179616C7006937FA /* POTD-2013-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135B179616C7006937FA /* POTD-2013-05-24.dict */; };
+		30841367179616C7006937FA /* POTD-2007-06-15.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135C179616C7006937FA /* POTD-2007-06-15.dict */; };
+		30841368179616C7006937FA /* POTD-2010-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135D179616C7006937FA /* POTD-2010-05-24.dict */; };
+		30841369179616C7006937FA /* POTD-2008-01-25.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135E179616C7006937FA /* POTD-2008-01-25.dict */; };
+		3084136A179616C7006937FA /* POTD-2008-11-14.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135F179616C7006937FA /* POTD-2008-11-14.dict */; };
+		3084136B179616C7006937FA /* POTD-2013-04-21.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841360179616C7006937FA /* POTD-2013-04-21.dict */; };
+		3084136C179616C7006937FA /* POTD-2013-06-04.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841361179616C7006937FA /* POTD-2013-06-04.dict */; };
+		3084136D179616C7006937FA /* POTD-2009-06-19.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841362179616C7006937FA /* POTD-2009-06-19.dict */; };
+		3084136E179616C7006937FA /* POTD-2012-07-08.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841363179616C7006937FA /* POTD-2012-07-08.dict */; };
+		3084136F179616C7006937FA /* POTD-2013-04-29.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841364179616C7006937FA /* POTD-2013-04-29.dict */; };
 		30DC441B178D42E60081555A /* cc-by-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC4417178D42E20081555A /* cc-by-white.png */; };
 		30DC441C178D42E60081555A /* cc-by-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC4418178D42E30081555A /* cc-by-white@2x.png */; };
 		30DC441D178D42E60081555A /* cc-sa-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC4419178D42E40081555A /* cc-sa-white.png */; };
@@ -319,17 +319,6 @@
 		040860BA17136FC300D3290B /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		040860BC1713939100D3290B /* GrayscaleImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrayscaleImageView.h; sourceTree = "<group>"; };
 		040860BD1713939200D3290B /* GrayscaleImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrayscaleImageView.m; sourceTree = "<group>"; };
-		0417D9CC17695E4700081D8C /* POTD-2013-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-05-24.dict"; sourceTree = "<group>"; };
-		0417D9CD17695E4700081D8C /* POTD-2007-06-15.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2007-06-15.dict"; sourceTree = "<group>"; };
-		0417D9CE17695E4700081D8C /* POTD-2008-01-25.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-01-25.dict"; sourceTree = "<group>"; };
-		0417D9CF17695E4700081D8C /* POTD-2010-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2010-05-24.dict"; sourceTree = "<group>"; };
-		0417D9D017695E4700081D8C /* POTD-2012-07-08.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2012-07-08.dict"; sourceTree = "<group>"; };
-		0417D9D117695E4700081D8C /* POTD-2013-02-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-02-24.dict"; sourceTree = "<group>"; };
-		0417D9D217695E4700081D8C /* POTD-2013-04-29.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-29.dict"; sourceTree = "<group>"; };
-		0417D9D317695E4700081D8C /* POTD-2008-11-14.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-11-14.dict"; sourceTree = "<group>"; };
-		0417D9D417695E4700081D8C /* POTD-2009-06-19.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2009-06-19.dict"; sourceTree = "<group>"; };
-		0417D9D517695E4700081D8C /* POTD-2013-04-21.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-21.dict"; sourceTree = "<group>"; };
-		0417D9D617695E4700081D8C /* POTD-2013-06-04.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-06-04.dict"; sourceTree = "<group>"; };
 		0417D9E217698AF200081D8C /* PictureOfDayCycler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfDayCycler.h; sourceTree = "<group>"; };
 		0417D9E317698AF200081D8C /* PictureOfDayCycler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfDayCycler.m; sourceTree = "<group>"; };
 		0417D9E8176E666A00081D8C /* GalleryMultiSelectCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectCollectionVC.h; sourceTree = "<group>"; };
@@ -391,6 +380,17 @@
 		305BC7691710BD3300B2CC01 /* LoadingIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingIndicator.m; sourceTree = "<group>"; };
 		3067546D170FF9D800A4BD8F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		3067546E170FF9D900A4BD8F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		3084135A179616C7006937FA /* POTD-2013-02-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-02-24.dict"; sourceTree = "<group>"; };
+		3084135B179616C7006937FA /* POTD-2013-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-05-24.dict"; sourceTree = "<group>"; };
+		3084135C179616C7006937FA /* POTD-2007-06-15.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2007-06-15.dict"; sourceTree = "<group>"; };
+		3084135D179616C7006937FA /* POTD-2010-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2010-05-24.dict"; sourceTree = "<group>"; };
+		3084135E179616C7006937FA /* POTD-2008-01-25.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-01-25.dict"; sourceTree = "<group>"; };
+		3084135F179616C7006937FA /* POTD-2008-11-14.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-11-14.dict"; sourceTree = "<group>"; };
+		30841360179616C7006937FA /* POTD-2013-04-21.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-21.dict"; sourceTree = "<group>"; };
+		30841361179616C7006937FA /* POTD-2013-06-04.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-06-04.dict"; sourceTree = "<group>"; };
+		30841362179616C7006937FA /* POTD-2009-06-19.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2009-06-19.dict"; sourceTree = "<group>"; };
+		30841363179616C7006937FA /* POTD-2012-07-08.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2012-07-08.dict"; sourceTree = "<group>"; };
+		30841364179616C7006937FA /* POTD-2013-04-29.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-29.dict"; sourceTree = "<group>"; };
 		30DC4417178D42E20081555A /* cc-by-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by-white.png"; sourceTree = "<group>"; };
 		30DC4418178D42E30081555A /* cc-by-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by-white@2x.png"; sourceTree = "<group>"; };
 		30DC4419178D42E40081555A /* cc-sa-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa-white.png"; sourceTree = "<group>"; };
@@ -861,17 +861,17 @@
 		D4086177169B760800D6ACB0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				0417D9CC17695E4700081D8C /* POTD-2013-05-24.dict */,
-				0417D9CD17695E4700081D8C /* POTD-2007-06-15.dict */,
-				0417D9CE17695E4700081D8C /* POTD-2008-01-25.dict */,
-				0417D9CF17695E4700081D8C /* POTD-2010-05-24.dict */,
-				0417D9D017695E4700081D8C /* POTD-2012-07-08.dict */,
-				0417D9D117695E4700081D8C /* POTD-2013-02-24.dict */,
-				0417D9D217695E4700081D8C /* POTD-2013-04-29.dict */,
-				0417D9D317695E4700081D8C /* POTD-2008-11-14.dict */,
-				0417D9D417695E4700081D8C /* POTD-2009-06-19.dict */,
-				0417D9D517695E4700081D8C /* POTD-2013-04-21.dict */,
-				0417D9D617695E4700081D8C /* POTD-2013-06-04.dict */,
+				3084135A179616C7006937FA /* POTD-2013-02-24.dict */,
+				3084135B179616C7006937FA /* POTD-2013-05-24.dict */,
+				3084135C179616C7006937FA /* POTD-2007-06-15.dict */,
+				3084135D179616C7006937FA /* POTD-2010-05-24.dict */,
+				3084135E179616C7006937FA /* POTD-2008-01-25.dict */,
+				3084135F179616C7006937FA /* POTD-2008-11-14.dict */,
+				30841360179616C7006937FA /* POTD-2013-04-21.dict */,
+				30841361179616C7006937FA /* POTD-2013-06-04.dict */,
+				30841362179616C7006937FA /* POTD-2009-06-19.dict */,
+				30841363179616C7006937FA /* POTD-2012-07-08.dict */,
+				30841364179616C7006937FA /* POTD-2013-04-29.dict */,
 				04E6617917614AB0003F35AD /* copyleft@2x.png */,
 				04E6617A17614AB0003F35AD /* copyleft.png */,
 				04C27B31174BEB9500B1942F /* mockPagePhoto.png */,
@@ -1247,6 +1247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3084136E179616C7006937FA /* POTD-2012-07-08.dict in Resources */,
 				D408617B169B760800D6ACB0 /* InfoPlist.strings in Resources */,
 				D4086183169B760800D6ACB0 /* Default.png in Resources */,
 				D4086185169B760800D6ACB0 /* Default@2x.png in Resources */,
@@ -1272,10 +1273,12 @@
 				D48555A516CD804900ED60B1 /* add_image.png in Resources */,
 				D48555A616CD804900ED60B1 /* add_image@2x.png in Resources */,
 				D48555A716CD804900ED60B1 /* camera.png in Resources */,
+				30841366179616C7006937FA /* POTD-2013-05-24.dict in Resources */,
 				D48555A816CD804900ED60B1 /* camera@2x.png in Resources */,
 				D48555A916CD804900ED60B1 /* gallery.png in Resources */,
 				D48555AA16CD804900ED60B1 /* gallery@2x.png in Resources */,
 				D48555AB16CD804900ED60B1 /* settings.png in Resources */,
+				30841368179616C7006937FA /* POTD-2010-05-24.dict in Resources */,
 				D48555AC16CD804900ED60B1 /* settings@2x.png in Resources */,
 				D43E578D16CD9C3C00FBB0F9 /* photo-button-bg.png in Resources */,
 				D43E578E16CD9C3C00FBB0F9 /* photo-button-bg@2x.png in Resources */,
@@ -1286,6 +1289,7 @@
 				D4C037111700C38100AA2537 /* messages-ar.json in Resources */,
 				D4C037121700C38100AA2537 /* messages-ast.json in Resources */,
 				D4C037131700C38100AA2537 /* messages-be-tarask.json in Resources */,
+				30841369179616C7006937FA /* POTD-2008-01-25.dict in Resources */,
 				D4C037141700C38100AA2537 /* messages-bn.json in Resources */,
 				D4C037151700C38100AA2537 /* messages-br.json in Resources */,
 				D4C037161700C38100AA2537 /* messages-cs.json in Resources */,
@@ -1302,6 +1306,7 @@
 				D4C037211700C38100AA2537 /* messages-ia.json in Resources */,
 				D4C037221700C38100AA2537 /* messages-it.json in Resources */,
 				D4C037231700C38100AA2537 /* messages-ja.json in Resources */,
+				30841367179616C7006937FA /* POTD-2007-06-15.dict in Resources */,
 				D4C037241700C38100AA2537 /* messages-km.json in Resources */,
 				D4C037251700C38100AA2537 /* messages-ko.json in Resources */,
 				D4C037261700C38100AA2537 /* messages-lb.json in Resources */,
@@ -1319,15 +1324,18 @@
 				D485AA6D1706525900D555ED /* toolbar-view.png in Resources */,
 				D485AA6E1706525900D555ED /* toolbar-view@2x.png in Resources */,
 				D4DE80E6170A3761005F7580 /* messages-ca.json in Resources */,
+				3084136F179616C7006937FA /* POTD-2013-04-29.dict in Resources */,
 				D4DE80E7170A3761005F7580 /* messages-fa.json in Resources */,
 				D4DE80E8170A3761005F7580 /* messages-hu.json in Resources */,
 				D4DE80E9170A3761005F7580 /* messages-lez.json in Resources */,
 				D4DE80EA170A3761005F7580 /* messages-nb.json in Resources */,
+				3084136D179616C7006937FA /* POTD-2009-06-19.dict in Resources */,
 				D4DE80EB170A3761005F7580 /* messages-pl.json in Resources */,
 				D4DE80EC170A3761005F7580 /* messages-ro.json in Resources */,
 				D4DE80ED170A3761005F7580 /* messages-vi.json in Resources */,
 				D475B28E171C750D00AA81C9 /* messages-fi.json in Resources */,
 				D475B28F171C750D00AA81C9 /* messages-ksh.json in Resources */,
+				3084136A179616C7006937FA /* POTD-2008-11-14.dict in Resources */,
 				D475B290171C750D00AA81C9 /* messages-pa.json in Resources */,
 				D475B291171C750D00AA81C9 /* messages-pt-br.json in Resources */,
 				D475B292171C750D00AA81C9 /* messages-te.json in Resources */,
@@ -1348,26 +1356,18 @@
 				D41BFA57173C26A100472EC7 /* messages-lv.json in Resources */,
 				D41BFA58173C26A100472EC7 /* messages-pt.json in Resources */,
 				D41BFA59173C26A100472EC7 /* messages-ta.json in Resources */,
+				3084136C179616C7006937FA /* POTD-2013-06-04.dict in Resources */,
+				3084136B179616C7006937FA /* POTD-2013-04-21.dict in Resources */,
 				04C27B30174BEACD00B1942F /* mockPageLogo.png in Resources */,
 				04C27B32174BEB9500B1942F /* mockPagePhoto.png in Resources */,
 				04C27B39174D78E200B1942F /* mockBadPhoto.png in Resources */,
 				04DC756A1758837600D92849 /* Commons-logo-white.png in Resources */,
+				30841365179616C7006937FA /* POTD-2013-02-24.dict in Resources */,
 				04DC7597175D748400D92849 /* cc@2x.png in Resources */,
 				04DC7598175D748400D92849 /* cc.png in Resources */,
 				04DC759A175D98A600D92849 /* Commons-logo-white@2x.png in Resources */,
 				04E6617B17614AB0003F35AD /* copyleft@2x.png in Resources */,
 				04E6617C17614AB0003F35AD /* copyleft.png in Resources */,
-				0417D9D717695E4700081D8C /* POTD-2013-05-24.dict in Resources */,
-				0417D9D817695E4700081D8C /* POTD-2007-06-15.dict in Resources */,
-				0417D9D917695E4700081D8C /* POTD-2008-01-25.dict in Resources */,
-				0417D9DA17695E4700081D8C /* POTD-2010-05-24.dict in Resources */,
-				0417D9DB17695E4700081D8C /* POTD-2012-07-08.dict in Resources */,
-				0417D9DC17695E4700081D8C /* POTD-2013-02-24.dict in Resources */,
-				0417D9DD17695E4700081D8C /* POTD-2013-04-29.dict in Resources */,
-				0417D9DE17695E4700081D8C /* POTD-2008-11-14.dict in Resources */,
-				0417D9DF17695E4700081D8C /* POTD-2009-06-19.dict in Resources */,
-				0417D9E017695E4700081D8C /* POTD-2013-04-21.dict in Resources */,
-				0417D9E117695E4700081D8C /* POTD-2013-06-04.dict in Resources */,
 				30DC441B178D42E60081555A /* cc-by-white.png in Resources */,
 				30DC441C178D42E60081555A /* cc-by-white@2x.png in Resources */,
 				30DC441D178D42E60081555A /* cc-sa-white.png in Resources */,

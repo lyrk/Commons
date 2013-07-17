@@ -104,6 +104,11 @@
     
     "picture-of-day-label": "Wikimedia Commons\nPicture of the Day",
     "picture-of-day-author": "Author:",
+
+    "picture-of-day-menu-title": "Picture of the Day",
+    "picture-of-day-commons-button": "Commons Page",
+    "picture-of-day-license-button": "License",
+    "picture-of-day-cancel-button": "Cancel",
     
     "refresh-failed-alert": "Refresh Failed!",
     

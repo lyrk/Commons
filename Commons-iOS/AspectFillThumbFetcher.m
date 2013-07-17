@@ -7,6 +7,8 @@
 #import "AspectFillThumbFetcher.h"
 #import "CommonsApp.h"
 #import "MWPromise.h"
+#import "DescriptionParser.h"
+#import "MWI18N.h"
 
 #pragma mark - Private
 
@@ -36,7 +38,10 @@
 
 #pragma mark - Init
 
-@implementation AspectFillThumbFetcher
+@implementation AspectFillThumbFetcher{
+    DescriptionParser *descriptionParser_;
+    NSDictionary *commonLicenses_;
+}
 
 - (id)init
 {
@@ -48,6 +53,8 @@
         self.maxWidthHeightRatio = 0.0f;
         self.getTitle = nil;
         self.getGenerator = nil;
+        descriptionParser_ = [[DescriptionParser alloc] init];
+        commonLicenses_ = [self getLicenses];
     }
     return self;
 }
@@ -177,7 +184,12 @@
         NSMutableDictionary *params = [@{
                                    @"action": @"query",
                                    @"titles": filename,
-                                   @"prop": @"imageinfo",
+                                   @"prop": @"imageinfo|categories|revisions",
+                                   @"cllimit": @"max",
+                                   @"rvprop": @"content",
+                                   @"rvparse": @"1",
+                                   @"rvlimit": @"1",
+                                   @"rvgeneratexml": @"1",
                                    @"iiprop": @"timestamp|url"
                                    } mutableCopy];
 
@@ -208,6 +220,17 @@
 
                     // Cache the image data
                     dataToCache[@"image"] = data;
+
+                    // Cache the categories and description
+                    dataToCache[@"categories"] = [self getCategoriesFromJson:result];
+                    dataToCache[@"description"] = [self getDescriptionFromJson:result];
+                    
+                    // Cache the license (check categories for license)
+                    NSString *license = [self getLicenseFromCategories:dataToCache[@"categories"]];
+                    if (license) {
+                        dataToCache[@"license"] = license;
+                        dataToCache[@"licenseurl"] = commonLicenses_[license];
+                    }
 
                     [dataToCache addEntriesFromDictionary:self.extraDataToCache];
                     
@@ -248,6 +271,98 @@
         retrievedJsonUrlData(nil, urlData, err);
         */
     }
+}
+
+#pragma mark - Categories
+
+-(NSMutableArray *)getCategoriesFromJson:(NSDictionary *)json
+{
+    NSMutableArray *categories = [@[] mutableCopy];
+    for (NSString *page in json[@"query"][@"pages"]) {
+        for (NSDictionary *category in json[@"query"][@"pages"][page][@"categories"]) {
+            NSMutableString *categoryTitle = [category[@"title"] mutableCopy];
+            // Remove "Category:" prefix from category title
+            NSError *error = NULL;
+            NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^Category:" options:NSRegularExpressionCaseInsensitive error:&error];
+            [regex replaceMatchesInString:categoryTitle options:0 range:NSMakeRange(0, [categoryTitle length]) withTemplate:@""];
+            [categories addObject:categoryTitle];
+        }
+    }
+    return categories;
+}
+
+#pragma mark - Description
+
+- (NSString *)getDescriptionFromJson:(NSDictionary *)json
+{
+    __block NSMutableString *description = [@"" mutableCopy];
+    for (NSString *page in json[@"query"][@"pages"]) {
+        for (NSDictionary *revision in json[@"query"][@"pages"][page][@"revisions"]) {
+            //NSMutableString *pageHTML = [category[@"*"] mutableCopy];
+            descriptionParser_.xml = revision[@"parsetree"];
+            descriptionParser_.done = ^(NSDictionary *descriptions){
+                
+                /*
+                for (NSString *description in descriptions) {
+                    NSLog(@"[%@] description = %@", description, descriptions[description]);
+                }
+                */
+                
+                // Show description for locale
+                NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+                language = [MWI18N filterLanguage:language];
+                description = ([descriptions objectForKey:language]) ? descriptions[language] : descriptions[@"en"];
+            };
+            [descriptionParser_ parse];
+        }
+    }
+    return description;
+}
+
+#pragma mark - Licenses
+
+-(NSString *)getLicenseFromCategories:(NSMutableArray *)categories
+{
+    // Sort the license names to be looked for by descending length
+    // (prevents unwanted substring matches in the loop below)
+    NSArray *licenseNamesSortedByDescendingLength = [[commonLicenses_ allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString* a, NSString* b) {
+        return (a.length > b.length) ? NO : YES;
+    }];
+
+    // Look at each category checking whether it begins with the name of a common license
+    for (NSString *license in licenseNamesSortedByDescendingLength) {
+        for (NSString *category in categories) {
+            NSRange foundRange = [category rangeOfString:license options:NSCaseInsensitiveSearch];
+            //if(foundRange.location != NSNotFound){
+            if(foundRange.location == 0){
+                return license;
+            }
+        }
+    }
+    return nil;
+}
+
+-(NSDictionary *)getLicenses
+{
+    return @{
+             @"cc-by-sa-3.0" :       @"//creativecommons.org/licenses/by-sa/3.0/",
+             @"cc-by-sa-3.0-at" :    @"//creativecommons.org/licenses/by-sa/3.0/at/",
+             @"cc-by-sa-3.0-de" :    @"//creativecommons.org/licenses/by-sa/3.0/de/",
+             @"cc-by-sa-3.0-ee" :    @"//creativecommons.org/licenses/by-sa/3.0/ee/",
+             @"cc-by-sa-3.0-es" :    @"//creativecommons.org/licenses/by-sa/3.0/es/",
+             @"cc-by-sa-3.0-hr" :    @"//creativecommons.org/licenses/by-sa/3.0/hr/",
+             @"cc-by-sa-3.0-lu" :    @"//creativecommons.org/licenses/by-sa/3.0/lu/",
+             @"cc-by-sa-3.0-nl" :    @"//creativecommons.org/licenses/by-sa/3.0/nl/",
+             @"cc-by-sa-3.0-no" :    @"//creativecommons.org/licenses/by-sa/3.0/no/",
+             @"cc-by-sa-3.0-pl" :    @"//creativecommons.org/licenses/by-sa/3.0/pl/",
+             @"cc-by-sa-3.0-ro" :    @"//creativecommons.org/licenses/by-sa/3.0/ro/",
+             @"cc-by-3.0" :          @"//creativecommons.org/licenses/by/3.0/",
+             @"cc-zero" :            @"//creativecommons.org/publicdomain/zero/1.0/",
+             @"cc-by-sa-2.5" :       @"//creativecommons.org/licenses/by-sa/2.5/",
+             @"cc-by-2.5" :          @"//creativecommons.org/licenses/by/2.5/",
+             @"cc-by-sa-2.0" :       @"//creativecommons.org/licenses/by-sa/2.0/",
+             @"cc-by-2.0" :          @"//creativecommons.org/licenses/by/2.0/"
+             };
 }
 
 #pragma mark - JSON
