@@ -22,12 +22,13 @@
 #import "UILabel+ResizeWithAttributes.h"
 #import "PictureOfDayCycler.h"
 
-// This is the size reduction of the logo when the device is rotated to
-// landscape (non-iPad - on iPad size reduction is not needed as there is ample screen area)
-#define LOGO_SCALE_NON_IPAD_LANDSCAPE 0.53
-
-// This is the extra distance the login container is moved when the keyboard is revealed
-#define LOGIN_CONTAINER_VERTICAL_OFFSET -30.0
+struct WMDeviceOrientationOffsets {
+  CGFloat nonIpadPortrait;
+  CGFloat nonIpadLandscape;
+  CGFloat ipadPortrait;
+  CGFloat ipadLandscape;
+};
+typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
@@ -77,14 +78,16 @@
     UITapGestureRecognizer *tapRecognizer_;
     UITapGestureRecognizer *doubleTapRecognizer_;
     UITapGestureRecognizer *attributionLabelTapRecognizer_;
-    CGPoint originalInfoContainerCenter_;
     AspectFillThumbFetcher *pictureOfTheDayGetter_;
     BOOL showingPictureOfTheDayAttribution_;
     NSMutableArray *cachedPotdDateStrings_;
     
     // Only skip the login screen on initial load
-    bool allowSkippingToMyUploads_;
+    BOOL allowSkippingToMyUploads_;
     PictureOfDayCycler *pictureOfDayCycler_;
+    
+    BOOL isRotating_;
+    BOOL isKeyboardOnscreen_;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -101,7 +104,9 @@
         showingPictureOfTheDayAttribution_ = NO;
         cachedPotdDateStrings_ = [[NSMutableArray alloc] init];
         self.potdImageView.image = nil;
-        
+        isRotating_ = NO;
+        isKeyboardOnscreen_ = NO;
+
         pictureOfDayCycler_ = [[PictureOfDayCycler alloc] init];
         pictureOfDayCycler_.dateStrings = cachedPotdDateStrings_;
         pictureOfDayCycler_.transitionDuration = SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY;
@@ -113,11 +118,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    originalInfoContainerCenter_ = CGPointZero;
-
-    // Remember where the login info container had been so it can be moved back here when the keyboard is hidden
-    originalInfoContainerCenter_ = _loginInfoContainer.center;
     
 	// Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -404,10 +404,7 @@
 
 -(NSUInteger)supportedInterfaceOrientations
 {
-    // Restrict login page orientation to portrait. Needed because the because
-    // the picture of the day looks weird on rotation otherwise.
-    // Also jarring if the getting started screen is shown as it forces portrait
-    return UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskAll;
 }
 
 -(BOOL)shouldAutorotate
@@ -435,75 +432,25 @@
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
-	// When the keyboard is revealed move the login container to the logo position so the keyboard doesn't occlude
-	// the login text boxes and login button
-	// Enlarge and Fade the logo partially out when doing so for a nice transistion and to focus attention on the
-	// login process while the keyboard is visible
-	[UIView animateWithDuration:0.2
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
-
-                         // Prevents the keyboard from covering any of the login container contents, not needed on iPad
-                         // Most useful on non-iPads in landscape
-                         float yOffset = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0 : LOGIN_CONTAINER_VERTICAL_OFFSET;
-                         
-						 // Move login container to logo position (plus a slight vertical offset)
-						 _loginInfoContainer.center = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
-						 
-						 // Enlarge and partially fade out the logo
-                         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-                             _logoImageView.transform = CGAffineTransformMakeScale(1.5, 1.5);
-                         }else{
-                             _logoImageView.transform = CGAffineTransformMakeScale(1.2, 1.2);
-                         }
-                         
-						 _logoImageView.alpha = 0.08;
-                         
-                         [_logoImageView toGrayscale];
-                         
-					 }
-					 completion:^(BOOL finished){
-						 
-					 }];
+    isKeyboardOnscreen_ = YES;
+    [self.view setNeedsLayout];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
+    isKeyboardOnscreen_ = NO;
+    [self.view setNeedsLayout];
     doubleTapRecognizer_.enabled = NO;
-
-    [self animateLoginInfoContainerAndLogoBackToStoryboardLayout];
 }
 
--(void)animateLoginInfoContainerAndLogoBackToStoryboardLayout{
-    // When hiding the keyboard, the login container needs be moved back to its storyboard
-    // position (where it was before the keyboard was shown)
-	[UIView animateWithDuration:0.2
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    isRotating_ = YES;
+}
 
-						 // Reset the login container position
-						 _loginInfoContainer.center = originalInfoContainerCenter_;
-						 
-						 // Restore the logo alpha and scale as well
-						 _logoImageView.alpha = 1.0;
-						 
-                         [_logoImageView toColor];
-                         
-						 if (
-							 (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-							 &&
-							 UIInterfaceOrientationIsLandscape(self.interfaceOrientation)
-							 ){
-							 _logoImageView.transform = CGAffineTransformMakeScale(LOGO_SCALE_NON_IPAD_LANDSCAPE, LOGO_SCALE_NON_IPAD_LANDSCAPE);
-						 }else{
-							 _logoImageView.transform = CGAffineTransformIdentity;
-						 }
-					 }
-					 completion:^(BOOL finished){
-						 
-					 }];
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    isRotating_ = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -512,26 +459,79 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillLayoutSubviews{
-	// Position the logo and the login containers centered horizontally and at about one-third and two-thirds
-	// the way down the screen vertically respectively
-	_logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height / 3.0);
-	_loginInfoContainer.center = CGPointMake(self.view.center.x, (self.view.frame.size.height / 2.6) * 2.0);
+-(float)getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets)offsets
+{
+    float result = 0.0f;
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
+        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadLandscape : offsets.nonIpadLandscape;
+    }else{
+        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadPortrait : offsets.nonIpadPortrait;
+    }
+    return result;
+}
 
-    // Ensure originalInfoContainerCenter has new _loginInfoContainer.center value
-    originalInfoContainerCenter_ = _loginInfoContainer.center;
+-(void)viewWillLayoutSubviews{
+
+    [super viewWillLayoutSubviews];
+
+    if (showingPictureOfTheDayAttribution_) {
+        [self updateAttributionLabelFrame];
+    }
+
+    // Position the logo a percentage of the way down the screen
+    float logoFromTop = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.3125f, 0.2325f, 0.3846f, 0.333}];
+    _logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height * logoFromTop);
     
-	// Shrink the logo a bit when the device is held in landscape if the device is not an ipad
-    if (
-		(UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)
-		&&
-		UIInterfaceOrientationIsLandscape(self.interfaceOrientation)
-        ){
-		_logoImageView.transform = CGAffineTransformMakeScale(LOGO_SCALE_NON_IPAD_LANDSCAPE, LOGO_SCALE_NON_IPAD_LANDSCAPE);
-	}else{
-		_logoImageView.transform = CGAffineTransformIdentity;
-	}
-	
+    _loginInfoContainer.layer.borderWidth = 0.0f;
+    _logoImageView.layer.borderWidth = 0.0f;
+    
+    // Match durations with the built-in rotation animation durations (about 0.4f for the iPad and 0.3f for non iPads)
+    // If not rotating just use a quick duration of about 0.2f
+    float duration = (isRotating_) ? (
+                                      (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0.4f : 0.3f
+                                      ) : 0.2f;
+    
+    // No delay on first display
+    static BOOL isFirstTime = YES;
+    if (isFirstTime) duration = 0.0f;
+    isFirstTime = NO;
+    
+    [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         
+                         // Adjust logo size
+                         float scale = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){1.0f, 0.53, 1.0f, 0.83}];
+
+                         // Zoom in on the logo a bit if the keyboard is showing
+                         if (isKeyboardOnscreen_) {
+                             scale *= (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 1.5f : 1.2f;
+                             _logoImageView.alpha = 0.08;
+                             
+                         }else{
+                             _logoImageView.alpha = 1.0;
+                         }
+                         
+                         _logoImageView.transform = CGAffineTransformMakeScale(scale, scale);
+                         
+                         // Adjust the location of the _loginInfoContainer
+                         CGPoint newContainerCenter = CGPointZero;
+                         if (!isKeyboardOnscreen_) {
+                             float ySpacer = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){41.0f, 9.0f, 125.0f, 95.0f}];
+                             float yOffset = (_logoImageView.frame.size.height / 2.0f);
+                             yOffset += (_loginInfoContainer.frame.size.height / 2.0f);
+                             yOffset += ySpacer;
+                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
+                         }else{
+                             float yOffset = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.0f, 17.0f, 0.0f, -40.0f}];
+                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
+                         }
+
+                         _loginInfoContainer.center = newContainerCenter;
+                     }
+                     completion:^(BOOL finished){
+                     }];
 }
 
 - (void)keyboardDidShow:(NSNotification *)notification
@@ -1061,6 +1061,13 @@
 
 -(void)updateAttributionLabelFrame
 {
+    // Set initial dimensions (the "resizeWithAttributes:" method will then shrink this if necessary)
+    CGPoint p = self.attributionLabel.center;
+    CGRect f = self.attributionLabel.frame;
+    f.size = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? CGSizeMake(410.0f, 375.0f) : CGSizeMake(175.0f, 175.0f);
+    self.attributionLabel.frame = f;
+    self.attributionLabel.center = p;
+
     // Ensure the label encompasses its text perfectly
     float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 38.0f : 15.0f;
     float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 16.0f : 8.0f;
