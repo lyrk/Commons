@@ -93,7 +93,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" id="3va-h9-QXe">
-                                                <rect key="frame" x="105" y="121" width="191" height="30"/>
+                                                <rect key="frame" x="60" y="122" width="201" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                 <state key="normal" title="recover password">
@@ -1836,7 +1836,7 @@ Help Wikipedia articles come to life!</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="BNW-d1-kWU"/>
+        <segue reference="LQ8-N8-Tpg"/>
         <segue reference="BjT-aI-DfZ"/>
         <segue reference="F72-2D-Gl0"/>
     </inferredMetricsTieBreakers>

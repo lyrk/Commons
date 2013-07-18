@@ -79,26 +79,12 @@
 
 -(BOOL)shouldAutorotate
 {
-    /*
-    // @fixme uncomment this after fixing rotation -- currently the subpage sizes don't update right
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return [super shouldAutorotate];
-    } else {
-        // No room for landscape on phones/iPods
-        return NO;
-    }
-    */
     return NO;
 }
 
 -(NSUInteger)supportedInterfaceOrientations
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        return [super supportedInterfaceOrientations];
-    } else {
-        // No room for landscape on phones/iPods
-        return UIInterfaceOrientationMaskPortrait;
-    }
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
