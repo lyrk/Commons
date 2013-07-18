@@ -90,6 +90,8 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     BOOL isKeyboardOnscreen_;
 }
 
+#pragma mark - Init
+
 - (id)initWithCoder:(NSCoder *)decoder
 {
     if (self = [super initWithCoder:decoder])
@@ -114,6 +116,16 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     }
     return self;
 }
+
+#pragma mark - Memory
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
@@ -248,6 +260,504 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     [app resizeViewInPlace:self.aboutButton toSize:CGSizeMake(55, 55)];
     [app resizeViewInPlace:self.attributionButton toSize:CGSizeMake(55, 55)];
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+
+    // Because tapping currentUserButton pushes a view controller onto the navigation controller stack
+    // the currentUserButton can shuffle offscreen before it completely finishes updating itself from
+    // its selected visual state to its unselected visual state. When this happens, when the view
+    // which was pushed gets popped, the currentUserButton can appear to be pushed - visually a bit
+    // more dark. setNeedsDisplay tells it to draw itself again
+    [self.currentUserButton setNeedsDisplay];
+    
+	[self.navigationController setNavigationBarHidden:YES animated:animated];
+    [super viewWillAppear:animated];
+	
+    // The wikimedia picture of the day urls use yyyy-MM-dd format - get such a string
+    NSString *dateString = [self getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
+    
+    if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE != nil){
+        dateString = FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE;
+    }
+
+    // Populate array cachedPotdDateStrings_ with all cached potd file date strings
+    [self loadArrayOfCachedPotdDateStrings];
+    // If dateString not already in cachedPotdDateStrings_ 
+    if (![cachedPotdDateStrings_ containsObject:dateString]) {
+        // Download the current PotD!
+        [self getPictureOfTheDayForDateString:dateString done:^{
+            // Update "cachedPotdDateStrings_" so it contains date string for the newly downloaded file
+            [self loadArrayOfCachedPotdDateStrings];
+            [pictureOfDayCycler_ start];
+        }];
+    }else{
+        [pictureOfDayCycler_ start];
+    }
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+
+    // Disables keyboard listeners when this view controller's view is not visible
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
+
+    // Ensure keyboard is hidden - sometimes it can hang around otherwise
+	[self.usernameField resignFirstResponder];
+	[self.passwordField resignFirstResponder];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+
+	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
+								   initWithTitle: [MWMessage forKey:@"login-title"].text
+								   style: UIBarButtonItemStyleBordered
+								   target:nil action: nil];
+	
+	[backButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+										[UIColor colorWithRed:1 green:1 blue:1 alpha:1], UITextAttributeTextColor,
+										[NSValue valueWithUIOffset:UIOffsetMake(0.0f, 0.0f)], UITextAttributeTextShadowOffset,
+										nil] forState:UIControlStateNormal];
+	
+	[self.navigationItem setBackBarButtonItem: backButton];
+
+    [pictureOfDayCycler_ stop];
+
+    [super viewWillDisappear:animated];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    // Enable keyboard show listener only while this view controller's view is visible (this observer is removed
+    // in viewDidDisappear. When we didn't remove it in viewDidDisappear this view controller was receiving
+    // notifications even when its view wasn't even visible!)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardDidShow:)
+                                                 name:UIKeyboardDidShowNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appResumed:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+    
+    // Automatically show the getting started pages, but only once and only if no credentials present
+    [self showGettingStartedAutomaticallyOnce];
+    
+    [super viewDidAppear:animated];
+}
+
+#pragma mark - Notifications
+
+- (void)appResumed:(NSNotification *)notification
+{
+    // If the attribution action sheet caused an external link to be opened, when the app resumes the attribution
+    // label and buttons will need to be reshown
+    if (showingPictureOfTheDayAttribution_) {
+        self.attributionLabel.alpha = 1.0f;
+        self.attributionButton.alpha = 1.0f;
+    }
+}
+
+#pragma mark - Utility
+
++ (void)applyShadowToView:(UIView *)view{
+
+    // "shouldRasterize" improves shadow performance: http://stackoverflow.com/a/7867703/135557
+    // This is especially noticable on old 3.5 inch devices during pic of the day transitions
+    view.layer.shouldRasterize = YES;
+    view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+
+    // Apply shadow
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0, 0);
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowRadius = 6.0;
+    view.clipsToBounds = NO;
+}
+
+#pragma mark - Other view controllers
+
+-(void)showGettingStartedAutomaticallyOnce
+{
+    // Automatically show the getting started pages, but only once and only if no credentials present
+    if(
+       ([self trimmedUsername].length == 0)
+       &&
+       ([self trimmedPassword].length == 0)
+       &&
+       ![[NSUserDefaults standardUserDefaults] boolForKey:@"GettingStartedWasAutomaticallyShown"]
+       )
+    {
+        GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
+        [self presentViewController:gettingStartedVC animated:NO completion:nil];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GettingStartedWasAutomaticallyShown"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+-(void)showMyUploadsVC{
+    // For pushing the MyUploads view controller on to the navigation controller (used when login
+    // credentials have been authenticated)
+    MyUploadsViewController *myUploadsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
+    [self.navigationController pushViewController:myUploadsVC animated:YES];
+    
+    // Show logout elementes after slight delay. if the login page is sliding offscreen it looks odd
+    // to update its interface elements as it's sliding away - the delay fixes this
+    float delayInSeconds = 0.25;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        // Executed on the main queue after delay
+        [self showLogout:YES];
+    });
+}
+
+#pragma mark - Buttons
+
+- (void)fadeLoginButtonIfNoCredentials
+{
+    [self.loginButton setTitleColor:
+     (!self.trimmedUsername.length || !self.trimmedPassword.length) ? [UIColor grayColor] : [UIColor blackColor]
+                           forState:UIControlStateNormal];
+}
+
+- (IBAction)pushedLogoutButton:(id)sender
+{
+    CommonsApp *app = CommonsApp.singleton;
+    [app.fetchDataURLQueue cancelAllOperations];
+    [app deleteAllRecords];
+    [app clearKeychainCredentials];
+    app.debugMode = NO;
+    self.usernameField.text = @"";
+    self.passwordField.text = @"";
+
+    [self revealLoginFieldsWithAnimation];
+}
+
+-(IBAction)pushedCurrentUserButton:(id)sender
+{
+    [self showMyUploadsVC];
+}
+
+-(IBAction)pushedRecoverPasswordButton:(id)sender
+{
+    CommonsApp *app = CommonsApp.singleton;
+    [app openURLWithDefaultBrowser:[NSURL URLWithString:RESET_PASSWORD_URL]];
+}
+
+- (IBAction)pushedLoginButton:(id)sender
+{
+    // If username or password are blank set focus on the first one which is blank and return
+    if ([self setTextInputFocusOnEmptyField]) return;
+    
+    CommonsApp *app = CommonsApp.singleton;
+    
+    allowSkippingToMyUploads_ = NO;
+
+	// Trim leading and trailing white space from user name and password. This is so the isEqualToString:@"" check below
+	// will cause the login to be validated (previously if login info was blank it fell past the credential validation
+	// check and crashed)
+    NSString *username = self.trimmedUsername;
+    NSString *password = self.trimmedPassword;
+    
+    // Only update & validate user credentials if they have been changed
+    if (
+        ![app.username isEqualToString:username]
+		||
+		![app.password isEqualToString:password]
+
+		// The two cases below force the validation check to happen even on blank user name and/or password entries so
+		// an invalid login alert is still shown if no login credentials were entered
+		||
+		[app.username isEqualToString:@""]
+		||
+		[app.password isEqualToString:@""]
+
+        ) {
+        
+		// Show the loading indicator wheel
+		[self.appDelegate.loadingIndicator show];
+		
+        // Test credentials to make sure they are valid
+        MWApi *mwapi = [app startApi];
+        
+        MWPromise *login = [mwapi loginWithUsername:username
+                                        andPassword:password];
+        [login done:^(NSDictionary *loginResult) {
+            
+            if (mwapi.isLoggedIn) {
+                // Credentials verified
+                [app log:@"MobileAppLoginAttempts" event:@{
+                 @"username": username,
+                 @"result": @"success"
+                 }];
+                
+                // Save credentials
+                app.username = username;
+                app.password = password;
+                [app saveCredentials];
+                [app deleteAllRecords];
+                
+                [self.passwordField resignFirstResponder];
+                
+                MWPromise *refresh = [app refreshHistoryWithFailureAlert:YES];
+                [refresh always:^(id arg) {
+                    // Login success! Show MyUploads view
+                    [self showMyUploadsVC];
+                }];
+                
+            } else {
+                // Credentials invalid
+                [app log:@"MobileAppLoginAttempts" event:@{
+                 @"username": username,
+                 @"result": loginResult[@"login"][@"result"]
+                 }];
+                
+                // Erase saved credentials so that the credentials are validated every time they are changed
+                app.username = @"";
+                app.password = @"";
+                [app saveCredentials];
+                [app deleteAllRecords];
+                
+                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-bad-password-title"].text
+                                                                    message:[MWMessage forKey:@"error-bad-password"].text
+                                                                   delegate:nil
+                                                          cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
+                                                          otherButtonTitles:nil];
+                [alertView show];
+            }
+        }];
+        [login fail:^(NSError *error) {
+            
+            [app log:@"MobileAppLoginAttempts" event:@{
+             @"username": username,
+             @"result": @"network"
+             }];
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-login-fail"].text
+                                                                message:[error localizedDescription]
+                                                               delegate:nil
+                                                      cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
+                                                      otherButtonTitles:nil];
+            [alertView show];
+        }];
+        
+        [login always:^(NSDictionary *loginResult) {
+			// Hide the loading indicator wheel
+			[self.appDelegate.loadingIndicator hide];
+        }];
+    }
+    else {
+        // Credentials have not been changed
+        
+        NSLog(@"Credentials have not been changed.");
+        
+        // Dismiss view
+
+		//login success!
+        [self showMyUploadsVC];
+    }
+}
+
+-(void)showLogout:(BOOL)show
+{
+    self.logoutButton.hidden = !show;
+    self.currentUserButton.hidden = !show;
+    self.loginButton.hidden = show;
+    self.usernameField.hidden = show;
+    self.passwordField.hidden = show;
+    self.recoverPasswordButton.hidden = show;
+
+    [self.currentUserButton setTitle:[MWMessage forKey:@"login-current-user-button" param:self.usernameField.text].text forState:UIControlStateNormal];
+    
+    // Size currentUserButton to fix whatever text it now contains
+    CGRect f = self.currentUserButton.frame;
+    CGSize s = [self.currentUserButton sizeThatFits:self.currentUserButton.frame.size];
+    // Add padding to right and left of re-sized currentUserButton's text
+    f.size.width = s.width + 40.0f;
+    // If resized currentUserButton is narrower than the logout button make it same width as logout button
+    f.size.width = (f.size.width < self.logoutButton.frame.size.width) ? self.logoutButton.frame.size.width : f.size.width;
+    self.currentUserButton.frame = f;
+    // Re-center currentUserButton above logout button
+    self.currentUserButton.center = CGPointMake(self.logoutButton.center.x, self.currentUserButton.center.y);
+    
+}
+
+-(void)revealLoginFieldsWithAnimation
+{
+    CGPoint origCurrentUserButtonCenter = self.currentUserButton.center;
+    self.logoutButton.layer.zPosition = self.currentUserButton.layer.zPosition + 1;
+    // Animate currentUserButton to slide down behind logoutButton
+    [UIView animateWithDuration:0.15f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.currentUserButton.center = self.logoutButton.center;
+                         self.currentUserButton.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                         // Now animate usernameField and passwordField sliding up
+                         self.currentUserButton.hidden = YES;
+                         self.currentUserButton.center = origCurrentUserButtonCenter;
+                         self.loginButton.alpha = 0.0f;
+                         self.usernameField.alpha = 0.0f;
+                         self.passwordField.alpha = 0.0f;
+                         self.recoverPasswordButton.alpha = 0.0f;
+                         self.loginButton.hidden = NO;
+                         self.usernameField.hidden = NO;
+                         self.passwordField.hidden = NO;
+                         self.recoverPasswordButton.hidden = NO;
+
+                         CGRect origUsernameFieldFrame = self.usernameField.frame;
+                         CGRect origPasswordFieldFrame = self.passwordField.frame;
+                         float vOffset = self.loginButton.frame.origin.y - self.usernameField.frame.origin.y;
+                         self.usernameField.center = CGPointMake(self.usernameField.center.x, self.usernameField.center.y + vOffset);
+                         self.passwordField.center = CGPointMake(self.passwordField.center.x, self.passwordField.center.y + vOffset);
+                         [UIView animateWithDuration:0.15f
+                                               delay:0.0f
+                                             options:UIViewAnimationOptionTransitionNone
+                                          animations:^{
+                                              
+                                              self.usernameField.alpha = 1.0f;
+                                              self.passwordField.alpha = 1.0f;
+                                              
+                                              self.recoverPasswordButton.alpha = 1.0f;
+                                              self.loginButton.alpha = 1.0f;
+                                              // If either username or password blank fade the login button
+                                              [self fadeLoginButtonIfNoCredentials];
+                                              
+                                              self.logoutButton.alpha = 0.0f;
+                                              
+                                              self.usernameField.frame = origUsernameFieldFrame;
+                                              self.passwordField.frame = origPasswordFieldFrame;
+                                          }
+                                          completion:^(BOOL finished){
+                                              // Reset logout state
+                                              [self showLogout:NO];
+                                              // Ensure login button isn't stuck drawn selected
+                                              [self.loginButton setNeedsDisplay];
+                                              // The logout button is hidden by now, but ensure it can be seen the next time it is animated
+                                              self.logoutButton.alpha = 1.0f;
+                                              self.currentUserButton.alpha = 1.0f;
+                                          }];
+                     }];
+}
+
+#pragma mark - Layout
+
+-(void)viewWillLayoutSubviews{
+
+    [super viewWillLayoutSubviews];
+
+    if (showingPictureOfTheDayAttribution_) {
+        [self updateAttributionLabelFrame];
+    }
+
+    // Position the logo a percentage of the way down the screen
+    float logoFromTop = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.3125f, 0.2325f, 0.3846f, 0.333}];
+    _logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height * logoFromTop);
+    
+    _loginInfoContainer.layer.borderWidth = 0.0f;
+    _logoImageView.layer.borderWidth = 0.0f;
+    
+    // Match durations with the built-in rotation animation durations (about 0.4f for the iPad and 0.3f for non iPads)
+    // If not rotating just use a quick duration of about 0.2f
+    float duration = (isRotating_) ? (
+                                      (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0.4f : 0.3f
+                                      ) : 0.2f;
+    
+    // No delay on first display
+    static BOOL isFirstTime = YES;
+    if (isFirstTime) duration = 0.0f;
+    isFirstTime = NO;
+    
+    [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         
+                         // Adjust logo size
+                         float scale = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){1.0f, 0.53, 1.0f, 0.83}];
+
+                         // Zoom in on the logo a bit if the keyboard is showing
+                         if (isKeyboardOnscreen_) {
+                             scale *= (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 1.5f : 1.2f;
+                             _logoImageView.alpha = 0.08;
+                             
+                         }else{
+                             _logoImageView.alpha = 1.0;
+                         }
+                         
+                         _logoImageView.transform = CGAffineTransformMakeScale(scale, scale);
+                         
+                         // Adjust the location of the _loginInfoContainer
+                         CGPoint newContainerCenter = CGPointZero;
+                         if (!isKeyboardOnscreen_) {
+                             float ySpacer = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){41.0f, 9.0f, 125.0f, 95.0f}];
+                             float yOffset = (_logoImageView.frame.size.height / 2.0f);
+                             yOffset += (_loginInfoContainer.frame.size.height / 2.0f);
+                             yOffset += ySpacer;
+                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
+                         }else{
+                             float yOffset = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.0f, 17.0f, 0.0f, -40.0f}];
+                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
+                         }
+
+                         _loginInfoContainer.center = newContainerCenter;
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+#pragma mark - Rotation
+
+-(BOOL)shouldAutorotate
+{
+    // Required for supportedInterfaceOrientations to be called
+    return YES;
+}
+
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    isRotating_ = YES;
+}
+
+-(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    isRotating_ = NO;
+}
+
+-(NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
+-(float)getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets)offsets
+{
+    float result = 0.0f;
+    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
+        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadLandscape : offsets.nonIpadLandscape;
+    }else{
+        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadPortrait : offsets.nonIpadPortrait;
+    }
+    return result;
+}
+
+#pragma mark - Pic of Day
 
 -(void)copyToCacheBundledPotdsNamed:(NSString *)defaultBundledPotdsDates
 {
@@ -387,593 +897,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     }];
 }
 
-+ (void)applyShadowToView:(UIView *)view{
-
-    // "shouldRasterize" improves shadow performance: http://stackoverflow.com/a/7867703/135557
-    // This is especially noticable on old 3.5 inch devices during pic of the day transitions
-    view.layer.shouldRasterize = YES;
-    view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-
-    // Apply shadow
-    view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(0, 0);
-    view.layer.shadowOpacity = 1;
-    view.layer.shadowRadius = 6.0;
-    view.clipsToBounds = NO;
-}
-
--(NSUInteger)supportedInterfaceOrientations
-{
-    return UIInterfaceOrientationMaskAll;
-}
-
--(BOOL)shouldAutorotate
-{
-    // Required for supportedInterfaceOrientations to be called
-    return YES;
-}
-
--(NSString *) trimmedUsername{
-    // Returns trimmed version of the username as it *presently exists* in the usernameField UITextField
-    return [CommonsApp.singleton getTrimmedString:self.usernameField.text];
-}
-
--(NSString *) trimmedPassword{
-    // Returns trimmed version of the password as it *presently exists* in the passwordField UITextField
-    return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
-}
-
-- (void)fadeLoginButtonIfNoCredentials
-{
-    [self.loginButton setTitleColor:
-     (!self.trimmedUsername.length || !self.trimmedPassword.length) ? [UIColor grayColor] : [UIColor blackColor]
-                           forState:UIControlStateNormal];
-}
-
-- (void)keyboardWillShow:(NSNotification *)notification
-{
-    isKeyboardOnscreen_ = YES;
-    [self.view setNeedsLayout];
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification
-{
-    isKeyboardOnscreen_ = NO;
-    [self.view setNeedsLayout];
-    doubleTapRecognizer_.enabled = NO;
-}
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    isRotating_ = YES;
-}
-
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    isRotating_ = NO;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(float)getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets)offsets
-{
-    float result = 0.0f;
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
-        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadLandscape : offsets.nonIpadLandscape;
-    }else{
-        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadPortrait : offsets.nonIpadPortrait;
-    }
-    return result;
-}
-
--(void)viewWillLayoutSubviews{
-
-    [super viewWillLayoutSubviews];
-
-    if (showingPictureOfTheDayAttribution_) {
-        [self updateAttributionLabelFrame];
-    }
-
-    // Position the logo a percentage of the way down the screen
-    float logoFromTop = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.3125f, 0.2325f, 0.3846f, 0.333}];
-    _logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height * logoFromTop);
-    
-    _loginInfoContainer.layer.borderWidth = 0.0f;
-    _logoImageView.layer.borderWidth = 0.0f;
-    
-    // Match durations with the built-in rotation animation durations (about 0.4f for the iPad and 0.3f for non iPads)
-    // If not rotating just use a quick duration of about 0.2f
-    float duration = (isRotating_) ? (
-                                      (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0.4f : 0.3f
-                                      ) : 0.2f;
-    
-    // No delay on first display
-    static BOOL isFirstTime = YES;
-    if (isFirstTime) duration = 0.0f;
-    isFirstTime = NO;
-    
-    [UIView animateWithDuration:duration
-                          delay:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-                         
-                         // Adjust logo size
-                         float scale = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){1.0f, 0.53, 1.0f, 0.83}];
-
-                         // Zoom in on the logo a bit if the keyboard is showing
-                         if (isKeyboardOnscreen_) {
-                             scale *= (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 1.5f : 1.2f;
-                             _logoImageView.alpha = 0.08;
-                             
-                         }else{
-                             _logoImageView.alpha = 1.0;
-                         }
-                         
-                         _logoImageView.transform = CGAffineTransformMakeScale(scale, scale);
-                         
-                         // Adjust the location of the _loginInfoContainer
-                         CGPoint newContainerCenter = CGPointZero;
-                         if (!isKeyboardOnscreen_) {
-                             float ySpacer = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){41.0f, 9.0f, 125.0f, 95.0f}];
-                             float yOffset = (_logoImageView.frame.size.height / 2.0f);
-                             yOffset += (_loginInfoContainer.frame.size.height / 2.0f);
-                             yOffset += ySpacer;
-                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
-                         }else{
-                             float yOffset = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.0f, 17.0f, 0.0f, -40.0f}];
-                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
-                         }
-
-                         _loginInfoContainer.center = newContainerCenter;
-                     }
-                     completion:^(BOOL finished){
-                     }];
-}
-
-- (void)keyboardDidShow:(NSNotification *)notification
-{
-    doubleTapRecognizer_.enabled = YES;
-}
-
--(void)viewDidAppear:(BOOL)animated{
-    
-    // Enable keyboard show listener only while this view controller's view is visible (this observer is removed
-    // in viewDidDisappear. When we didn't remove it in viewDidDisappear this view controller was receiving
-    // notifications even when its view wasn't even visible!)
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardDidShow:)
-                                                 name:UIKeyboardDidShowNotification
-                                               object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appResumed:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
-    
-    // Automatically show the getting started pages, but only once and only if no credentials present
-    [self showGettingStartedAutomaticallyOnce];
-    
-    [super viewDidAppear:animated];
-}
-
--(void)showGettingStartedAutomaticallyOnce
-{
-    // Automatically show the getting started pages, but only once and only if no credentials present
-    if(
-       ([self trimmedUsername].length == 0)
-       &&
-       ([self trimmedPassword].length == 0)
-       &&
-       ![[NSUserDefaults standardUserDefaults] boolForKey:@"GettingStartedWasAutomaticallyShown"]
-       )
-    {
-        GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
-        [self presentViewController:gettingStartedVC animated:NO completion:nil];
-        
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GettingStartedWasAutomaticallyShown"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-}
-
--(void)viewWillAppear:(BOOL)animated{
-
-    // Because tapping currentUserButton pushes a view controller onto the navigation controller stack
-    // the currentUserButton can shuffle offscreen before it completely finishes updating itself from
-    // its selected visual state to its unselected visual state. When this happens, when the view
-    // which was pushed gets popped, the currentUserButton can appear to be pushed - visually a bit
-    // more dark. setNeedsDisplay tells it to draw itself again
-    [self.currentUserButton setNeedsDisplay];
-    
-	[self.navigationController setNavigationBarHidden:YES animated:animated];
-    [super viewWillAppear:animated];
-	
-    // The wikimedia picture of the day urls use yyyy-MM-dd format - get such a string
-    NSString *dateString = [self getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
-    
-    if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE != nil){
-        dateString = FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE;
-    }
-
-    // Populate array cachedPotdDateStrings_ with all cached potd file date strings
-    [self loadArrayOfCachedPotdDateStrings];
-    // If dateString not already in cachedPotdDateStrings_ 
-    if (![cachedPotdDateStrings_ containsObject:dateString]) {
-        // Download the current PotD!
-        [self getPictureOfTheDayForDateString:dateString done:^{
-            // Update "cachedPotdDateStrings_" so it contains date string for the newly downloaded file
-            [self loadArrayOfCachedPotdDateStrings];
-            [pictureOfDayCycler_ start];
-        }];
-    }else{
-        [pictureOfDayCycler_ start];
-    }
-}
-
--(void)viewDidDisappear:(BOOL)animated{
-
-    // Disables keyboard listeners when this view controller's view is not visible
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-
-    // Ensure keyboard is hidden - sometimes it can hang around otherwise
-	[self.usernameField resignFirstResponder];
-	[self.passwordField resignFirstResponder];
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-
-	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
-								   initWithTitle: [MWMessage forKey:@"login-title"].text
-								   style: UIBarButtonItemStyleBordered
-								   target:nil action: nil];
-	
-	[backButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-										[UIColor colorWithRed:1 green:1 blue:1 alpha:1], UITextAttributeTextColor,
-										[NSValue valueWithUIOffset:UIOffsetMake(0.0f, 0.0f)], UITextAttributeTextShadowOffset,
-										nil] forState:UIControlStateNormal];
-	
-	[self.navigationItem setBackBarButtonItem: backButton];
-
-    [pictureOfDayCycler_ stop];
-
-    [super viewWillDisappear:animated];
-}
-
--(void)showMyUploadsVC{
-    // For pushing the MyUploads view controller on to the navigation controller (used when login
-    // credentials have been authenticated)
-    MyUploadsViewController *myUploadsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
-    [self.navigationController pushViewController:myUploadsVC animated:YES];
-    
-    // Show logout elementes after slight delay. if the login page is sliding offscreen it looks odd
-    // to update its interface elements as it's sliding away - the delay fixes this
-    float delayInSeconds = 0.25;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-        // Executed on the main queue after delay
-        [self showLogout:YES];
-    });
-}
-
--(IBAction)pushedCurrentUserButton:(id)sender
-{
-    [self showMyUploadsVC];
-}
-
--(IBAction)pushedRecoverPasswordButton:(id)sender
-{
-    CommonsApp *app = CommonsApp.singleton;
-    [app openURLWithDefaultBrowser:[NSURL URLWithString:RESET_PASSWORD_URL]];
-}
-
--(void)showLogout:(BOOL)show
-{
-    self.logoutButton.hidden = !show;
-    self.currentUserButton.hidden = !show;
-    self.loginButton.hidden = show;
-    self.usernameField.hidden = show;
-    self.passwordField.hidden = show;
-    self.recoverPasswordButton.hidden = show;
-
-    [self.currentUserButton setTitle:[MWMessage forKey:@"login-current-user-button" param:self.usernameField.text].text forState:UIControlStateNormal];
-    
-    // Size currentUserButton to fix whatever text it now contains
-    CGRect f = self.currentUserButton.frame;
-    CGSize s = [self.currentUserButton sizeThatFits:self.currentUserButton.frame.size];
-    // Add padding to right and left of re-sized currentUserButton's text
-    f.size.width = s.width + 40.0f;
-    // If resized currentUserButton is narrower than the logout button make it same width as logout button
-    f.size.width = (f.size.width < self.logoutButton.frame.size.width) ? self.logoutButton.frame.size.width : f.size.width;
-    self.currentUserButton.frame = f;
-    // Re-center currentUserButton above logout button
-    self.currentUserButton.center = CGPointMake(self.logoutButton.center.x, self.currentUserButton.center.y);
-    
-}
-
--(void)revealLoginFieldsWithAnimation
-{
-    CGPoint origCurrentUserButtonCenter = self.currentUserButton.center;
-    self.logoutButton.layer.zPosition = self.currentUserButton.layer.zPosition + 1;
-    // Animate currentUserButton to slide down behind logoutButton
-    [UIView animateWithDuration:0.15f
-                          delay:0.0f
-                        options:UIViewAnimationOptionTransitionNone
-                     animations:^{
-                         self.currentUserButton.center = self.logoutButton.center;
-                         self.currentUserButton.alpha = 0.0f;
-                     }
-                     completion:^(BOOL finished){
-                         
-                         // Now animate usernameField and passwordField sliding up
-                         self.currentUserButton.hidden = YES;
-                         self.currentUserButton.center = origCurrentUserButtonCenter;
-                         self.loginButton.alpha = 0.0f;
-                         self.usernameField.alpha = 0.0f;
-                         self.passwordField.alpha = 0.0f;
-                         self.recoverPasswordButton.alpha = 0.0f;
-                         self.loginButton.hidden = NO;
-                         self.usernameField.hidden = NO;
-                         self.passwordField.hidden = NO;
-                         self.recoverPasswordButton.hidden = NO;
-
-                         CGRect origUsernameFieldFrame = self.usernameField.frame;
-                         CGRect origPasswordFieldFrame = self.passwordField.frame;
-                         float vOffset = self.loginButton.frame.origin.y - self.usernameField.frame.origin.y;
-                         self.usernameField.center = CGPointMake(self.usernameField.center.x, self.usernameField.center.y + vOffset);
-                         self.passwordField.center = CGPointMake(self.passwordField.center.x, self.passwordField.center.y + vOffset);
-                         [UIView animateWithDuration:0.15f
-                                               delay:0.0f
-                                             options:UIViewAnimationOptionTransitionNone
-                                          animations:^{
-                                              
-                                              self.usernameField.alpha = 1.0f;
-                                              self.passwordField.alpha = 1.0f;
-                                              
-                                              self.recoverPasswordButton.alpha = 1.0f;
-                                              self.loginButton.alpha = 1.0f;
-                                              // If either username or password blank fade the login button
-                                              [self fadeLoginButtonIfNoCredentials];
-                                              
-                                              self.logoutButton.alpha = 0.0f;
-                                              
-                                              self.usernameField.frame = origUsernameFieldFrame;
-                                              self.passwordField.frame = origPasswordFieldFrame;
-                                          }
-                                          completion:^(BOOL finished){
-                                              // Reset logout state
-                                              [self showLogout:NO];
-                                              // Ensure login button isn't stuck drawn selected
-                                              [self.loginButton setNeedsDisplay];
-                                              // The logout button is hidden by now, but ensure it can be seen the next time it is animated
-                                              self.logoutButton.alpha = 1.0f;
-                                              self.currentUserButton.alpha = 1.0f;
-                                          }];
-                     }];
-}
-
-- (IBAction)pushedLogoutButton:(id)sender
-{
-    CommonsApp *app = CommonsApp.singleton;
-    [app.fetchDataURLQueue cancelAllOperations];
-    [app deleteAllRecords];
-    [app clearKeychainCredentials];
-    app.debugMode = NO;
-    self.usernameField.text = @"";
-    self.passwordField.text = @"";
-
-    [self revealLoginFieldsWithAnimation];
-}
-
--(BOOL)setTextInputFocusOnEmptyField
-{
-    // Sets focus on first empty username or password field returning YES if it does so
-    // Returns no if no blank fields found
-    UITextField *textFieldInNeedOfInput = [self getTextFieldInNeedOfInput];
-    if (textFieldInNeedOfInput) {
-        [textFieldInNeedOfInput becomeFirstResponder];
-        return YES;
-    }else{
-        return NO;
-    }
-}
-
--(void)handleTap
-{
-    if (showingPictureOfTheDayAttribution_) {
-        [self hideAttributionLabel];
-        showingPictureOfTheDayAttribution_ = NO;
-        return;
-    }
-    
-    [self setTextInputFocusOnEmptyField];
-}
-
--(void)handleSwipeUp
-{
-    if (showingPictureOfTheDayAttribution_) return;
-    [self setTextInputFocusOnEmptyField];
-}
-
--(void)handleSwipeDown
-{
-    if (showingPictureOfTheDayAttribution_) return;
-    [self hideKeyboard];
-}
-
--(void)handleSwipeLeft
-{
-    if (self.currentUserButton.hidden) return;
-    
-    [self showMyUploadsVC];
-}
-
--(void)handleLongPress
-{
-    // Uncomment for presentation username/pwd auto entry
-    /*
-     self.usernameField.text = @"";
-     self.passwordField.text = @"";
-     
-     [self fadeLoginButtonIfNoCredentials];
-     */
-}
-
--(void)handleDoubleTap
-{
-    // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
-    [self hideKeyboard];
-}
-
--(void)hideKeyboard
-{
-    [self.usernameField resignFirstResponder];
-	[self.passwordField resignFirstResponder];
-}
-
--(UITextField *)getTextFieldInNeedOfInput
-{
-    // If neither username nor password, return username field
-    if(!self.trimmedUsername.length && !self.trimmedPassword.length) return self.usernameField;
-    
-    // If some username but no password return password field
-    if(self.trimmedUsername.length && !self.trimmedPassword.length) return self.passwordField;
-    
-    // If some password but no username return username field
-    if(!self.trimmedUsername.length && self.trimmedPassword.length) return self.usernameField;
-
-    return nil;
-}
-
-- (IBAction)pushedLoginButton:(id)sender
-{
-    // If username or password are blank set focus on the first one which is blank and return
-    if ([self setTextInputFocusOnEmptyField]) return;
-    
-    CommonsApp *app = CommonsApp.singleton;
-    
-    allowSkippingToMyUploads_ = NO;
-
-	// Trim leading and trailing white space from user name and password. This is so the isEqualToString:@"" check below
-	// will cause the login to be validated (previously if login info was blank it fell past the credential validation
-	// check and crashed)
-    NSString *username = self.trimmedUsername;
-    NSString *password = self.trimmedPassword;
-    
-    // Only update & validate user credentials if they have been changed
-    if (
-        ![app.username isEqualToString:username]
-		||
-		![app.password isEqualToString:password]
-
-		// The two cases below force the validation check to happen even on blank user name and/or password entries so
-		// an invalid login alert is still shown if no login credentials were entered
-		||
-		[app.username isEqualToString:@""]
-		||
-		[app.password isEqualToString:@""]
-
-        ) {
-        
-		// Show the loading indicator wheel
-		[self.appDelegate.loadingIndicator show];
-		
-        // Test credentials to make sure they are valid
-        MWApi *mwapi = [app startApi];
-        
-        MWPromise *login = [mwapi loginWithUsername:username
-                                        andPassword:password];
-        [login done:^(NSDictionary *loginResult) {
-            
-            if (mwapi.isLoggedIn) {
-                // Credentials verified
-                [app log:@"MobileAppLoginAttempts" event:@{
-                 @"username": username,
-                 @"result": @"success"
-                 }];
-                
-                // Save credentials
-                app.username = username;
-                app.password = password;
-                [app saveCredentials];
-                [app deleteAllRecords];
-                
-                [self.passwordField resignFirstResponder];
-                
-                MWPromise *refresh = [app refreshHistoryWithFailureAlert:YES];
-                [refresh always:^(id arg) {
-                    // Login success! Show MyUploads view
-                    [self showMyUploadsVC];
-                }];
-                
-            } else {
-                // Credentials invalid
-                [app log:@"MobileAppLoginAttempts" event:@{
-                 @"username": username,
-                 @"result": loginResult[@"login"][@"result"]
-                 }];
-                
-                // Erase saved credentials so that the credentials are validated every time they are changed
-                app.username = @"";
-                app.password = @"";
-                [app saveCredentials];
-                [app deleteAllRecords];
-                
-                UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-bad-password-title"].text
-                                                                    message:[MWMessage forKey:@"error-bad-password"].text
-                                                                   delegate:nil
-                                                          cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
-                                                          otherButtonTitles:nil];
-                [alertView show];
-            }
-        }];
-        [login fail:^(NSError *error) {
-            
-            [app log:@"MobileAppLoginAttempts" event:@{
-             @"username": username,
-             @"result": @"network"
-             }];
-            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"error-login-fail"].text
-                                                                message:[error localizedDescription]
-                                                               delegate:nil
-                                                      cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
-                                                      otherButtonTitles:nil];
-            [alertView show];
-        }];
-        
-        [login always:^(NSDictionary *loginResult) {
-			// Hide the loading indicator wheel
-			[self.appDelegate.loadingIndicator hide];
-        }];
-    }
-    else {
-        // Credentials have not been changed
-        
-        NSLog(@"Credentials have not been changed.");
-        
-        // Dismiss view
-
-		//login success!
-        [self showMyUploadsVC];
-    }
-}
+#pragma mark - Pic of Day attribution
 
 - (IBAction)pushedAttributionButton:(id)sender{
     showingPictureOfTheDayAttribution_ = !showingPictureOfTheDayAttribution_;
@@ -1047,16 +971,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     [pictureOfDayCycler_ stop];
     self.attributionLabel.alpha = 0.0f;
     self.attributionButton.alpha = 0.0f;
-}
-
-- (void)appResumed:(NSNotification *)notification
-{
-    // If the attribution action sheet caused an external link to be opened, when the app resumes the attribution
-    // label and buttons will need to be reshown
-    if (showingPictureOfTheDayAttribution_) {
-        self.attributionLabel.alpha = 1.0f;
-        self.attributionButton.alpha = 1.0f;
-    }
 }
 
 -(void)updateAttributionLabelFrame
@@ -1159,7 +1073,121 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                      }];
 }
 
-#pragma mark - Text Field Delegate Methods
+#pragma mark - Keyboard
+
+- (void)keyboardWillShow:(NSNotification *)notification
+{
+    isKeyboardOnscreen_ = YES;
+    [self.view setNeedsLayout];
+}
+
+- (void)keyboardWillHide:(NSNotification *)notification
+{
+    isKeyboardOnscreen_ = NO;
+    [self.view setNeedsLayout];
+    doubleTapRecognizer_.enabled = NO;
+}
+
+-(void)hideKeyboard
+{
+    [self.usernameField resignFirstResponder];
+	[self.passwordField resignFirstResponder];
+}
+
+- (void)keyboardDidShow:(NSNotification *)notification
+{
+    doubleTapRecognizer_.enabled = YES;
+}
+
+#pragma mark - Text fields
+
+-(BOOL)setTextInputFocusOnEmptyField
+{
+    // Sets focus on first empty username or password field returning YES if it does so
+    // Returns no if no blank fields found
+    UITextField *textFieldInNeedOfInput = [self getTextFieldInNeedOfInput];
+    if (textFieldInNeedOfInput) {
+        [textFieldInNeedOfInput becomeFirstResponder];
+        return YES;
+    }else{
+        return NO;
+    }
+}
+
+-(UITextField *)getTextFieldInNeedOfInput
+{
+    // If neither username nor password, return username field
+    if(!self.trimmedUsername.length && !self.trimmedPassword.length) return self.usernameField;
+    
+    // If some username but no password return password field
+    if(self.trimmedUsername.length && !self.trimmedPassword.length) return self.passwordField;
+    
+    // If some password but no username return username field
+    if(!self.trimmedUsername.length && self.trimmedPassword.length) return self.usernameField;
+
+    return nil;
+}
+
+-(NSString *) trimmedUsername{
+    // Returns trimmed version of the username as it *presently exists* in the usernameField UITextField
+    return [CommonsApp.singleton getTrimmedString:self.usernameField.text];
+}
+
+-(NSString *) trimmedPassword{
+    // Returns trimmed version of the password as it *presently exists* in the passwordField UITextField
+    return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
+}
+
+#pragma mark - Gesture
+
+-(void)handleTap
+{
+    if (showingPictureOfTheDayAttribution_) {
+        [self hideAttributionLabel];
+        showingPictureOfTheDayAttribution_ = NO;
+        return;
+    }
+    
+    [self setTextInputFocusOnEmptyField];
+}
+
+-(void)handleSwipeUp
+{
+    if (showingPictureOfTheDayAttribution_) return;
+    [self setTextInputFocusOnEmptyField];
+}
+
+-(void)handleSwipeDown
+{
+    if (showingPictureOfTheDayAttribution_) return;
+    [self hideKeyboard];
+}
+
+-(void)handleSwipeLeft
+{
+    if (self.currentUserButton.hidden) return;
+    
+    [self showMyUploadsVC];
+}
+
+-(void)handleLongPress
+{
+    // Uncomment for presentation username/pwd auto entry
+    /*
+     self.usernameField.text = @"";
+     self.passwordField.text = @"";
+     
+     [self fadeLoginButtonIfNoCredentials];
+     */
+}
+
+-(void)handleDoubleTap
+{
+    // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
+    [self hideKeyboard];
+}
+
+#pragma mark - Text field delegate methods
 
 /**
  * Advance text field to text field with next tag.
