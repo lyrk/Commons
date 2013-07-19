@@ -54,6 +54,12 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 // Note: use iPad to retrieve potd image cache files to be bundled
 #define FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE nil //@"2013-05-24"
 
+// Convenience flag for re-taking splash image screen shots with the logo in the exact
+// position and at the exact size it will initially appear once the application
+// starts. (setting this to YES doesn't actually take the screenshots, it just
+// freezes the app once the logo is in position)
+#define FREEZE_FOR_TAKING_SPLASH_SCREENSHOT NO
+
 @interface LoginViewController ()
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -358,6 +364,15 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     // Automatically show the getting started pages, but only once and only if no credentials present
     [self showGettingStartedAutomaticallyOnce];
     
+    if (FREEZE_FOR_TAKING_SPLASH_SCREENSHOT) {
+        self.loginInfoContainer.alpha = 0.0f;
+        [pictureOfDayCycler_ stop];
+        self.potdImageView.image = nil;
+        self.potdImageView.backgroundColor = [UIColor blackColor];
+        self.aboutButton.alpha = 0.0f;
+        self.attributionButton.alpha = 0.0f;
+    }
+
     [super viewDidAppear:animated];
 }
 
@@ -663,14 +678,46 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 
     [super viewWillLayoutSubviews];
 
+    WMDeviceOrientationOffsets scaleSettings = (WMDeviceOrientationOffsets){1.0f, 0.53, 1.0f, 0.83};
+    static BOOL isFirstTime = YES;
+    if (isFirstTime) {
+        isFirstTime = NO;
+        
+        // This is the logo location to use for taking splash screen screenshots
+        // (set FREEZE_FOR_TAKING_SPLASH_SCREENSHOT to YES to do so) and is the initial location
+        // the actual logo. Only change this location if you intend to re-take the
+        // splash image screenshots, otherwise the logo and splash images won't be
+        // in the same location.
+        _logoImageView.center = CGPointMake(self.view.center.x, self.view.center.y - 25.0f);
+
+        self.loginInfoContainer.alpha = 0.0f;
+        self.aboutButton.alpha = 0.0f;
+        self.attributionButton.alpha = 0.0f;
+        float scale = [self getOffsetForDeviceAndOrientation:scaleSettings];
+        _logoImageView.transform = CGAffineTransformMakeScale(scale, scale);
+        
+        if (FREEZE_FOR_TAKING_SPLASH_SCREENSHOT) return;
+
+        self.potdImageView.alpha = 0.0f;
+        self.view.backgroundColor = [UIColor blackColor];
+        [UIView animateWithDuration:1.2f
+                              delay:0.0
+                            options:UIViewAnimationOptionBeginFromCurrentState
+                         animations:^{
+                             self.potdImageView.alpha = 1.0f;
+                         }
+                         completion:^(BOOL finished){
+                             // setNeedsLayout will cause viewWillLayoutSubviews to be called again, but isFirstTime will no longer
+                             // be YES, so this if statement will be skipped
+                             [self.view setNeedsLayout];
+                         }];
+        return;
+    }
+
     if (showingPictureOfTheDayAttribution_) {
         [self updateAttributionLabelFrame];
     }
 
-    // Position the logo a percentage of the way down the screen
-    float logoFromTop = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.3125f, 0.2325f, 0.3846f, 0.333}];
-    _logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height * logoFromTop);
-    
     _loginInfoContainer.layer.borderWidth = 0.0f;
     _logoImageView.layer.borderWidth = 0.0f;
     
@@ -680,18 +727,21 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                                       (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0.4f : 0.3f
                                       ) : 0.2f;
     
-    // No delay on first display
-    static BOOL isFirstTime = YES;
-    if (isFirstTime) duration = 0.0f;
-    isFirstTime = NO;
-    
     [UIView animateWithDuration:duration
                           delay:0.0
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
-                         
+
+                         // Position the logo a percentage of the way down the screen
+                         float logoFromTop = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.3125f, 0.2325f, 0.3846f, 0.333}];
+                         _logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height * logoFromTop);
+
+                         self.loginInfoContainer.alpha = 1.0f;
+                         self.aboutButton.alpha = 1.0f;
+                         self.attributionButton.alpha = 1.0f;
+
                          // Adjust logo size
-                         float scale = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){1.0f, 0.53, 1.0f, 0.83}];
+                         float scale = [self getOffsetForDeviceAndOrientation:scaleSettings];
 
                          // Zoom in on the logo a bit if the keyboard is showing
                          if (isKeyboardOnscreen_) {
