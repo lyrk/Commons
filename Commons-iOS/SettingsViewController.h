@@ -6,7 +6,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class GradientButton;
 @interface SettingsViewController : UIViewController <UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *debugModeLabel;
@@ -24,10 +23,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *appNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appVersionLabel;
 
-@property (weak, nonatomic) IBOutlet GradientButton *commonsButton;
-@property (weak, nonatomic) IBOutlet GradientButton *bugsButton;
-@property (weak, nonatomic) IBOutlet GradientButton *privacyButton;
-@property (weak, nonatomic) IBOutlet GradientButton *sourceButton;
+@property (weak, nonatomic) IBOutlet UIButton *commonsButton;
+@property (weak, nonatomic) IBOutlet UIButton *bugsButton;
+@property (weak, nonatomic) IBOutlet UIButton *privacyButton;
+@property (weak, nonatomic) IBOutlet UIButton *sourceButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *thisAppSourceButton;
 @property (weak, nonatomic) IBOutlet UIButton *thisAppLicenseButton;

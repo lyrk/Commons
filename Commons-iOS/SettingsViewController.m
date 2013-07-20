@@ -13,7 +13,6 @@
 #import "MyUploadsViewController.h"
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
-#import "GradientButton.h"
 
 #pragma mark - Defines
 
@@ -38,6 +37,7 @@
     NSMutableArray *installedSupportedBrowserNames_;
     BrowserHelper *browserHelper_;
     CommonsApp *app_;
+    UIColor *navBarOriginalColor_;
 }
 
 -(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell;
@@ -97,19 +97,12 @@
     [self setDebugModeLabel];
 	    
     self.externalLinksContainer.alpha = 0.0f;
-    
-    // Set the content size of the scrollView
-    self.scrollView.contentSize = self.settingsContainer.frame.size;
-    
+
     // Make settings switch reflect any saved value
     self.trackingSwitch.on = app_.trackingEnabled;
     
     // Get bundle info dict for its app name and version settings
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-
-    // Set the app name label
-    NSString *appDisplayName = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-    [self.appNameLabel setText:appDisplayName];
     
     // Set the app version label
     NSString *shortVersionString = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
@@ -117,11 +110,11 @@
     
     [self.appVersionLabel setText:versionText];
     
-    // Set gradient button color scheme
-    [self.sourceButton useBlackActionSheetStyle];
-    [self.commonsButton useBlackActionSheetStyle];
-    [self.bugsButton useBlackActionSheetStyle];
-    [self.privacyButton useBlackActionSheetStyle];
+    // Set button color scheme
+    [self applyStyleToButton:self.sourceButton];
+    [self applyStyleToButton:self.commonsButton];
+    [self applyStyleToButton:self.bugsButton];
+    [self applyStyleToButton:self.privacyButton];
     
     // Ensure button text doesn't get clipped if i18n is long string
     self.sourceButton.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -146,21 +139,28 @@
     [self.gradientButtonLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
 }
 
+-(void)applyStyleToButton:(UIButton *) button
+{
+    // Button must have it's type set to "Custom" in interface builder for these
+    // settings to take effect
+    button.layer.backgroundColor = [UIColor colorWithRed:0.08 green:0.50 blue:0.92 alpha:0.9].CGColor;
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
+}
+
 - (void)revealExternalLinksContainerBelowBrowsersTableView
 {
-    CGRect externalLinksContainerFrame = self.externalLinksContainer.frame;
-    float top = self.externalBrowserContainer.frame.origin.y;
-    top += self.browsersTableView.frame.origin.y;
-    top += self.browsersTableView.frame.size.height;
+    float externalLinksContainerY = [self.browsersTableView convertPoint:(CGPoint){0, self.browsersTableView.frame.size.height} toView:self.settingsContainer].y;
     
-    // If there's only one browser add a little padding
-    if ([self.browsersTableView numberOfRowsInSection:0] < 2) top += 15.0f;
+    externalLinksContainerY += 28.0f;
+    CGRect f = self.externalLinksContainer.frame;
+    f.origin = (CGPoint){self.externalLinksContainer.frame.origin.x, externalLinksContainerY};
+    self.externalLinksContainer.frame = f;
     
-    externalLinksContainerFrame.origin.y = top;
-    self.externalLinksContainer.frame = externalLinksContainerFrame;
-    
-    [UIView animateWithDuration:0.1 animations:^{
+    [UIView animateWithDuration:0.3 delay:0.35 options:nil animations:^{
         self.externalLinksContainer.alpha = 1.0f;
+    } completion:^(BOOL finished){
+        
     }];
 }
 
@@ -168,20 +168,46 @@
 {
     CGRect browsersTableViewFrame = self.browsersTableView.frame;
     browsersTableViewFrame.size.height = self.browsersTableView.contentSize.height;
+    if (self.browsersTableView.contentSize.height == 0.0f) return;
     self.browsersTableView.frame = browsersTableViewFrame;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+
     // Round just the top left and bottom left corners of openInLabel
     [self roundCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft ofView:self.openInLabel toRadius:10.0];
-    
+    [self.view setNeedsLayout];
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    navBarOriginalColor_ = self.navigationController.navigationBar.backgroundColor;
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.85f]];
+}
+
+-(void)viewWillLayoutSubviews
+{
     // Resize browsersTableView according to its number of rows
     [self adjustHeightOfBrowsersTableView];
+    
     // Now that browsersTableView has been resized, move the link buttons below the browsersTableView
     [self revealExternalLinksContainerBelowBrowsersTableView];
+
+    [self setScrollViewContentSize];
+}
+
+-(void)setScrollViewContentSize
+{
+    float settingsContainerHeight = [self.sourceDetailsContainer convertPoint:(CGPoint){0,self.sourceDetailsContainer.frame.size.height} toView:self.settingsContainer].y;
     
-    [super viewDidAppear:animated];
+    CGRect f = self.settingsContainer.frame;
+    f.size = (CGSize){self.settingsContainer.frame.size.width, settingsContainerHeight};
+    self.settingsContainer.frame = f;
+    self.scrollView.contentSize = f.size;
 }
 
 -(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius
@@ -234,6 +260,21 @@
     [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    [self.navigationController.navigationBar setBackgroundColor:navBarOriginalColor_];
+
+    MyUploadsViewController *myUploadsViewController = [self getMyUploadsViewController];
+    
+    [app_ fetchUploadRecords];
+    
+    [myUploadsViewController.collectionView reloadData];
+    
+    [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
+}
+
 #pragma mark - Browser Selection Table View
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -262,6 +303,8 @@
         [self moveSelectedBrowserToTop];
               
         [self.browsersTableView reloadData];
+        
+        [self.view setNeedsLayout];
     }
 }
 
@@ -286,6 +329,8 @@
     
     // Make the cell display the browser name
     cell.textLabel.text = [installedSupportedBrowserNames_ objectAtIndex:indexPath.row];
+
+    cell.textLabel.textColor = [UIColor whiteColor];
     
     // Round just the top right and bottom right corners of the cell
     [self roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
@@ -399,19 +444,6 @@
         // Reset the fetchedResultsController delegate
         app_.fetchedResultsController.delegate = [self getMyUploadsViewController];
     }];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-
-    MyUploadsViewController *myUploadsViewController = [self getMyUploadsViewController];
-    
-    [app_ fetchUploadRecords];
-    
-    [myUploadsViewController.collectionView reloadData];
-    
-    [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)setDebugModeLabel
