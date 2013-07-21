@@ -355,11 +355,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                                              selector:@selector(keyboardDidShow:)
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
-
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(appResumed:)
-                                                 name:UIApplicationWillEnterForegroundNotification
-                                               object:nil];
     
     // Automatically show the getting started pages, but only once and only if no credentials present
     [self performSelector:@selector(showGettingStartedAutomaticallyOnce) withObject:nil afterDelay:2.0f];
@@ -374,18 +369,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     }
 
     [super viewDidAppear:animated];
-}
-
-#pragma mark - Notifications
-
-- (void)appResumed:(NSNotification *)notification
-{
-    // If the attribution action sheet caused an external link to be opened, when the app resumes the attribution
-    // label and buttons will need to be reshown
-    if (showingPictureOfTheDayAttribution_) {
-        self.attributionLabel.alpha = 1.0f;
-        self.attributionButton.alpha = 1.0f;
-    }
 }
 
 #pragma mark - Utility
@@ -950,9 +933,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 #pragma mark - Pic of Day attribution
 
 - (IBAction)pushedAttributionButton:(id)sender{
-    showingPictureOfTheDayAttribution_ = !showingPictureOfTheDayAttribution_;
-
-    if (showingPictureOfTheDayAttribution_) {
+    if (!showingPictureOfTheDayAttribution_) {
         [self showAttributionLabel];
     }else{
         [self hideAttributionLabel];
@@ -1062,6 +1043,8 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 
 -(void)showAttributionLabel
 {
+    showingPictureOfTheDayAttribution_ = YES;
+
     [self updateAttributionLabelText];
     
     [self updateAttributionLabelFrame];
@@ -1101,6 +1084,8 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 
 -(void)hideAttributionLabel
 {
+    showingPictureOfTheDayAttribution_ = NO;
+
     self.logoImageView.hidden = NO;
     self.loginInfoContainer.hidden = NO;
     self.aboutButton.hidden = NO;
@@ -1194,7 +1179,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 {
     if (showingPictureOfTheDayAttribution_) {
         [self hideAttributionLabel];
-        showingPictureOfTheDayAttribution_ = NO;
         return;
     }
     
@@ -1209,7 +1193,10 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 
 -(void)handleSwipeDown
 {
-    if (showingPictureOfTheDayAttribution_) return;
+    if (showingPictureOfTheDayAttribution_){
+        [self hideAttributionLabel];
+        return;
+    }
     [self hideKeyboard];
 }
 
