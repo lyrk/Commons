@@ -40,14 +40,6 @@
     UIColor *navBarOriginalColor_;
 }
 
--(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell;
--(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius;
--(void)moveSelectedBrowserToTop;
--(MyUploadsViewController *) getMyUploadsViewController;
-
-- (void)toggleSourceDetailsContainerVisibility;
-- (void)scrollToBottomOfExternalLinksContainer;
-
 @property (weak, nonatomic) AppDelegate *appDelegate;
 
 @end
@@ -74,7 +66,7 @@
     return self;
 }
 
-#pragma mark - View
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
@@ -139,39 +131,6 @@
     [self.gradientButtonLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
 }
 
--(void)applyStyleToButton:(UIButton *) button
-{
-    // Button must have it's type set to "Custom" in interface builder for these
-    // settings to take effect
-    button.layer.backgroundColor = [UIColor colorWithRed:0.08 green:0.50 blue:0.92 alpha:0.9].CGColor;
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
-}
-
-- (void)revealExternalLinksContainerBelowBrowsersTableView
-{
-    float externalLinksContainerY = [self.browsersTableView convertPoint:(CGPoint){0, self.browsersTableView.frame.size.height} toView:self.settingsContainer].y;
-    
-    externalLinksContainerY += 28.0f;
-    CGRect f = self.externalLinksContainer.frame;
-    f.origin = (CGPoint){self.externalLinksContainer.frame.origin.x, externalLinksContainerY};
-    self.externalLinksContainer.frame = f;
-    
-    [UIView animateWithDuration:0.3 delay:0.35 options:nil animations:^{
-        self.externalLinksContainer.alpha = 1.0f;
-    } completion:^(BOOL finished){
-        
-    }];
-}
-
-- (void)adjustHeightOfBrowsersTableView
-{
-    CGRect browsersTableViewFrame = self.browsersTableView.frame;
-    browsersTableViewFrame.size.height = self.browsersTableView.contentSize.height;
-    if (self.browsersTableView.contentSize.height == 0.0f) return;
-    self.browsersTableView.frame = browsersTableViewFrame;
-}
-
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -189,6 +148,23 @@
     [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.85f]];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    [self.navigationController.navigationBar setBackgroundColor:navBarOriginalColor_];
+
+    MyUploadsViewController *myUploadsViewController = [self getMyUploadsViewController];
+    
+    [app_ fetchUploadRecords];
+    
+    [myUploadsViewController.collectionView reloadData];
+    
+    [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
+}
+
+#pragma mark - Positioning
+
 -(void)viewWillLayoutSubviews
 {
     // Resize browsersTableView according to its number of rows
@@ -198,32 +174,6 @@
     [self revealExternalLinksContainerBelowBrowsersTableView];
 
     [self setScrollViewContentSize];
-}
-
--(void)setScrollViewContentSize
-{
-    float settingsContainerHeight = [self.sourceDetailsContainer convertPoint:(CGPoint){0,self.sourceDetailsContainer.frame.size.height} toView:self.settingsContainer].y;
-    
-    CGRect f = self.settingsContainer.frame;
-    f.size = (CGSize){self.settingsContainer.frame.size.width, settingsContainerHeight};
-    self.settingsContainer.frame = f;
-    self.scrollView.contentSize = f.size;
-}
-
--(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius
-{   // Use for rounding *specific* corners of a UIView.
-    // Based on http://stackoverflow.com/a/5826745/135557
-
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
-                                                   byRoundingCorners:corners
-                                                         cornerRadii:CGSizeMake(radius, radius)];
-    // Create the shape layer and set its path
-    CAShapeLayer *maskLayer = [CAShapeLayer layer];
-    maskLayer.frame = view.bounds;
-    maskLayer.path = maskPath.CGPath;
-    
-    // Set the newly created shape layer as the mask for the image view's layer
-    view.layer.mask = maskLayer;
 }
 
 -(void)viewDidLayoutSubviews
@@ -244,6 +194,98 @@
     }
 }
 
+- (void)revealExternalLinksContainerBelowBrowsersTableView
+{
+    float externalLinksContainerY = [self.browsersTableView convertPoint:(CGPoint){0, self.browsersTableView.frame.size.height} toView:self.settingsContainer].y;
+    
+    externalLinksContainerY += 28.0f;
+    CGRect f = self.externalLinksContainer.frame;
+    f.origin = (CGPoint){self.externalLinksContainer.frame.origin.x, externalLinksContainerY};
+    self.externalLinksContainer.frame = f;
+    
+    [UIView animateWithDuration:0.3 delay:0.35 options:nil animations:^{
+        self.externalLinksContainer.alpha = 1.0f;
+    } completion:^(BOOL finished){
+        
+    }];
+}
+
+-(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell
+{
+    // Animate the openInLabel from its present vertical position to a position vertically
+    // aligned with browsersTableView's selected cell
+    [UIView animateWithDuration:0.25
+						  delay:0.0
+						options:UIViewAnimationOptionTransitionNone
+					 animations:^{
+
+					     self.openInLabel.backgroundColor = [UIColor lightGrayColor];
+
+                         // Account for browsersTableView's contentOffset
+                         float cellY = [self.browsersTableView rectForRowAtIndexPath:self.browsersTableView.indexPathForSelectedRow].origin.y;
+
+                         cellY -= self.browsersTableView.contentOffset.y;
+                         cellY += self.browsersTableView.frame.origin.y;
+                         
+                         // Determine cell height so label can be made to be same height
+                         float cellHeight = cell.frame.size.height;
+                         
+                         // Set label frame shifting it into the same vertical position as the selected cell
+                         // Also make the label the same height as the cell
+                         self.openInLabel.frame = CGRectMake(self.openInLabel.frame.origin.x, cellY, self.openInLabel.frame.size.width, cellHeight);
+                     }
+					 completion:^(BOOL finished){
+                         
+                     }];
+}
+
+- (void)moveSelectedBrowserToTop
+{
+    // Make the user's browser choice appear at the top of the list when the view appears by moving
+    // their choice to the front of the installedSupportedBrowserNames array
+    if (installedSupportedBrowserNames_.count > 1) {
+        NSString *defaultExternalBrowser = app_.defaultExternalBrowser;
+        NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames_ indexOfObject:defaultExternalBrowser];
+        if (selectedBrowserIndex != NSNotFound) {
+            // Remove the selected browser from the array and re-add it to the front of
+            // the array. Was swapping the selected entry with the first entry but this caused
+            // the alpha sort of the items after the first to be messed up
+            NSString *selectedBrowser = [installedSupportedBrowserNames_ objectAtIndex:selectedBrowserIndex];
+            [installedSupportedBrowserNames_ removeObjectAtIndex:selectedBrowserIndex];
+            [installedSupportedBrowserNames_ insertObject:selectedBrowser atIndex:0];
+        }
+    }
+}
+
+#pragma mark - Styling
+
+-(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius
+{   // Use for rounding *specific* corners of a UIView.
+    // Based on http://stackoverflow.com/a/5826745/135557
+
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
+                                                   byRoundingCorners:corners
+                                                         cornerRadii:CGSizeMake(radius, radius)];
+    // Create the shape layer and set its path
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.frame = view.bounds;
+    maskLayer.path = maskPath.CGPath;
+    
+    // Set the newly created shape layer as the mask for the image view's layer
+    view.layer.mask = maskLayer;
+}
+
+-(void)applyStyleToButton:(UIButton *) button
+{
+    // Button must have it's type set to "Custom" in interface builder for these
+    // settings to take effect
+    button.layer.backgroundColor = [UIColor colorWithRed:0.08 green:0.50 blue:0.92 alpha:0.9].CGColor;
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
+}
+
+#pragma mark - Scrolling
+
 -(void)scrollToBottomOfDebugInfoContainer
 {
     [self.scrollView scrollRectToVisible:CGRectMake(0, self.debugInfoContainer.frame.origin.y + self.debugInfoContainer.frame.size.height + 10, 1, 1) animated:YES];
@@ -260,22 +302,37 @@
     [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
 }
 
--(void)viewWillDisappear:(BOOL)animated
+-(void)scrollToBottomOfExternalLinksContainer
 {
-    [super viewWillDisappear:animated];
-
-    [self.navigationController.navigationBar setBackgroundColor:navBarOriginalColor_];
-
-    MyUploadsViewController *myUploadsViewController = [self getMyUploadsViewController];
-    
-    [app_ fetchUploadRecords];
-    
-    [myUploadsViewController.collectionView reloadData];
-    
-    [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
+    // Scroll to the bottom of the externalLinksContainer. OK to use self.scrollView.contentSize as it is set
+    // to self.externalLinksContainer.frame.size in the viewDidLoad
+    // (The rect passed to scrollRectToVisible must have its origin.y be less than self.scrollView.contentSize.height
+    // or it won't scroll, hence the "- 1")
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
 }
 
-#pragma mark - Browser Selection Table View
+#pragma mark - Sizing
+
+- (void)adjustHeightOfBrowsersTableView
+{
+    CGRect browsersTableViewFrame = self.browsersTableView.frame;
+    browsersTableViewFrame.size.height = self.browsersTableView.contentSize.height;
+    if (self.browsersTableView.contentSize.height == 0.0f) return;
+    self.browsersTableView.frame = browsersTableViewFrame;
+}
+
+
+-(void)setScrollViewContentSize
+{
+    float settingsContainerHeight = [self.sourceDetailsContainer convertPoint:(CGPoint){0,self.sourceDetailsContainer.frame.size.height} toView:self.settingsContainer].y;
+    
+    CGRect f = self.settingsContainer.frame;
+    f.size = (CGSize){self.settingsContainer.frame.size.width, settingsContainerHeight};
+    self.settingsContainer.frame = f;
+    self.scrollView.contentSize = f.size;
+}
+
+#pragma mark - Browser selection table view
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -362,54 +419,7 @@
     }
 }
 
--(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell
-{
-    // Animate the openInLabel from its present vertical position to a position vertically
-    // aligned with browsersTableView's selected cell
-    [UIView animateWithDuration:0.25
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
-
-					     self.openInLabel.backgroundColor = [UIColor lightGrayColor];
-
-                         // Account for browsersTableView's contentOffset
-                         float cellY = [self.browsersTableView rectForRowAtIndexPath:self.browsersTableView.indexPathForSelectedRow].origin.y;
-
-                         cellY -= self.browsersTableView.contentOffset.y;
-                         cellY += self.browsersTableView.frame.origin.y;
-                         
-                         // Determine cell height so label can be made to be same height
-                         float cellHeight = cell.frame.size.height;
-                         
-                         // Set label frame shifting it into the same vertical position as the selected cell
-                         // Also make the label the same height as the cell
-                         self.openInLabel.frame = CGRectMake(self.openInLabel.frame.origin.x, cellY, self.openInLabel.frame.size.width, cellHeight);
-                     }
-					 completion:^(BOOL finished){
-                         
-                     }];
-}
-
-- (void)moveSelectedBrowserToTop
-{
-    // Make the user's browser choice appear at the top of the list when the view appears by moving
-    // their choice to the front of the installedSupportedBrowserNames array
-    if (installedSupportedBrowserNames_.count > 1) {
-        NSString *defaultExternalBrowser = app_.defaultExternalBrowser;
-        NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames_ indexOfObject:defaultExternalBrowser];
-        if (selectedBrowserIndex != NSNotFound) {
-            // Remove the selected browser from the array and re-add it to the front of
-            // the array. Was swapping the selected entry with the first entry but this caused
-            // the alpha sort of the items after the first to be messed up
-            NSString *selectedBrowser = [installedSupportedBrowserNames_ objectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames_ removeObjectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames_ insertObject:selectedBrowser atIndex:0];
-        }
-    }
-}
-
-#pragma mark - Debug Switch
+#pragma mark - Debug switch
 
 -(MyUploadsViewController *) getMyUploadsViewController
 {
@@ -457,7 +467,7 @@
     self.uploadTargetLabel.text = [MWMessage forKey:@"settings-debug-detail" params:@[target]].text;
 }
 
-#pragma mark - Logging Switch
+#pragma mark - Logging switch
 
 - (IBAction)loggingSwitchPushed:(id)sender
 {
@@ -470,16 +480,7 @@
     app_.trackingEnabled = self.trackingSwitch.on;
 }
 
-#pragma mark - External Links methods (From old About page)
-
--(void)scrollToBottomOfExternalLinksContainer
-{
-    // Scroll to the bottom of the externalLinksContainer. OK to use self.scrollView.contentSize as it is set
-    // to self.externalLinksContainer.frame.size in the viewDidLoad
-    // (The rect passed to scrollRectToVisible must have its origin.y be less than self.scrollView.contentSize.height
-    // or it won't scroll, hence the "- 1")
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
-}
+#pragma mark - External links
 
 -(IBAction)openURLinExternalBrowser:(id)sender
 {
