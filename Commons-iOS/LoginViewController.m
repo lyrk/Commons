@@ -362,7 +362,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                                                object:nil];
     
     // Automatically show the getting started pages, but only once and only if no credentials present
-    [self showGettingStartedAutomaticallyOnce];
+    [self performSelector:@selector(showGettingStartedAutomaticallyOnce) withObject:nil afterDelay:2.0f];
     
     if (FREEZE_FOR_TAKING_SPLASH_SCREENSHOT) {
         self.loginInfoContainer.alpha = 0.0f;
@@ -419,7 +419,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
        )
     {
         GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
-        [self presentViewController:gettingStartedVC animated:NO completion:nil];
+        [self presentViewController:gettingStartedVC animated:YES completion:nil];
         
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GettingStartedWasAutomaticallyShown"];
         [[NSUserDefaults standardUserDefaults] synchronize];
