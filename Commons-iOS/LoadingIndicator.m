@@ -23,7 +23,7 @@
 -(id)initWithFrame:(CGRect)frame{     // sizes the view according to the style
 	if((self = [super initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge])) {
 
-		self.color = [UIColor blackColor];
+		self.color = [UIColor lightGrayColor];
 	
 		CGPoint activityIndicatorLocation = CGPointMake(frame.size.width/2, frame.size.height/2);
 		
@@ -40,7 +40,7 @@
 -(void)show{	
 	// For some reason it's getting reset so force it here for now
 	self.activityIndicatorViewStyle	= UIActivityIndicatorViewStyleWhiteLarge;
-	self.color = [UIColor blackColor];
+	self.color = [UIColor lightGrayColor];
 
     // Make the loading indicator block touch events using a mostly transparent view
     // (created here each time so it accounts for present screen dimensions)
