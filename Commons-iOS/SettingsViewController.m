@@ -288,7 +288,7 @@
 {
     backgroundGradient_ = [CAGradientLayer layer];
     backgroundGradient_.colors = @[(id)[UIColor blackColor].CGColor, (id)[UIColor blackColor].CGColor, (id)[UIColor lightGrayColor].CGColor];
-    backgroundGradient_.locations = @[@0.0f, @0.1f, @1.2];
+    backgroundGradient_.locations = @[@0.0f, @0.37f, @1.2];
     [self.view.layer insertSublayer:backgroundGradient_ atIndex:0];
 }
 
