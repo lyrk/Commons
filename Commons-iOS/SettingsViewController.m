@@ -139,6 +139,10 @@
     
     [self addGradientToBackground];
     self.sourceDetailsContainer.backgroundColor = [UIColor clearColor];
+
+    // Scale the mock page down a bit
+    CGAffineTransform xf = CGAffineTransformMakeScale(0.7f, 0.7f);
+    self.mockPageContainerView.transform = xf;
 }
 
 -(void)viewDidAppear:(BOOL)animated

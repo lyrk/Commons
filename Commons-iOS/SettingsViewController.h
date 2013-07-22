@@ -44,6 +44,8 @@
 
 @property (weak, nonatomic) IBOutlet UIView *sourceDetailsContainer;
 
+@property (strong, nonatomic) IBOutlet UIView *mockPageContainerView;
+
 -(IBAction)sourceButtonTap:(id)sender;
 -(IBAction)openURLinExternalBrowser:(id)sender;
 -(IBAction)debugSwitchPushed:(id)sender;

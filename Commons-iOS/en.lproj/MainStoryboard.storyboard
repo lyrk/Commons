@@ -384,15 +384,23 @@ to take or choose photos.</string>
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="900"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
+                                            <containerView opaque="NO" contentMode="scaleToFill" id="Fir-Lb-O64">
+                                                <rect key="frame" x="40" y="52" width="240" height="152"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <connections>
+                                                    <segue destination="6G9-GW-Bdz" kind="embed" id="aQi-hT-KWU"/>
+                                                </connections>
+                                            </containerView>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Version 1.0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XC1-a4-VNj">
-                                                <rect key="frame" x="0.0" y="85" width="320" height="21"/>
+                                                <rect key="frame" x="0.0" y="219" width="320" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="italicSystem" pointSize="28"/>
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" id="roS-hG-Dqv" userLabel="Tracking Container">
-                                                <rect key="frame" x="0.0" y="152" width="320" height="76"/>
+                                                <rect key="frame" x="0.0" y="279" width="320" height="76"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Usage Reports:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tOO-Oe-hxg">
@@ -420,7 +428,7 @@ to take or choose photos.</string>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="nfQ-ke-R0b" userLabel="Debug Info Container">
-                                                <rect key="frame" x="0.0" y="269" width="320" height="56"/>
+                                                <rect key="frame" x="0.0" y="396" width="320" height="56"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="D2R-xI-JC0" userLabel="Debug Switch">
@@ -448,7 +456,7 @@ to take or choose photos.</string>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="L20-SL-UMS" userLabel="External Browser Container">
-                                                <rect key="frame" x="0.0" y="357" width="320" height="230"/>
+                                                <rect key="frame" x="0.0" y="484" width="320" height="230"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Open Links With:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" id="80h-CY-QOf">
@@ -483,7 +491,7 @@ to take or choose photos.</string>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="qUp-nb-Xrg" userLabel="External Links Container">
-                                                <rect key="frame" x="0.0" y="413" width="320" height="240"/>
+                                                <rect key="frame" x="0.0" y="540" width="320" height="240"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="jTE-56-tBh">
@@ -676,6 +684,7 @@ to take or choose photos.</string>
                         <outlet property="gradientButtonLicenseButton" destination="Mf0-p2-Ami" id="FC2-yD-ElK"/>
                         <outlet property="gradientButtonSourceButton" destination="l4K-56-ENO" id="PiI-jy-apM"/>
                         <outlet property="gradientButtonsLabel" destination="oP6-Ir-zpI" id="Tbe-ht-XPe"/>
+                        <outlet property="mockPageContainerView" destination="Fir-Lb-O64" id="3hl-gh-oTe"/>
                         <outlet property="openInLabel" destination="80h-CY-QOf" id="Uzd-Al-fHH"/>
                         <outlet property="privacyButton" destination="Kre-rl-jh6" id="Gb8-PA-TMR"/>
                         <outlet property="scrollView" destination="8Ub-kI-Lsv" id="FFJ-jY-IXE"/>
@@ -1747,7 +1756,6 @@ Help Wikipedia articles come to life!</string>
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
             <relationships>
                 <relationship kind="action" name="debugSwitchPushed:"/>
-                <relationship kind="action" name="loggingSwitchPushed:"/>
                 <relationship kind="action" name="openURLinExternalBrowser:"/>
                 <relationship kind="action" name="sourceButtonTap:"/>
                 <relationship kind="outlet" name="appNameLabel" candidateClass="UILabel"/>
@@ -1764,6 +1772,7 @@ Help Wikipedia articles come to life!</string>
                 <relationship kind="outlet" name="gradientButtonLicenseButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="gradientButtonSourceButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="gradientButtonsLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mockPageContainerView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="openInLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="privacyButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
@@ -1825,7 +1834,7 @@ Help Wikipedia articles come to life!</string>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="LQ8-N8-Tpg"/>
-        <segue reference="BjT-aI-DfZ"/>
+        <segue reference="aQi-hT-KWU"/>
         <segue reference="F72-2D-Gl0"/>
     </inferredMetricsTieBreakers>
 </document>
