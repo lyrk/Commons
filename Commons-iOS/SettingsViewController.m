@@ -13,6 +13,7 @@
 #import "MyUploadsViewController.h"
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
+#import "UILabel+ResizeWithAttributes.h"
 
 #pragma mark - Defines
 
@@ -38,6 +39,7 @@
     BrowserHelper *browserHelper_;
     CommonsApp *app_;
     UIColor *navBarOriginalColor_;
+    CAGradientLayer *backgroundGradient_;
 }
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -101,7 +103,12 @@
     NSString *versionText = [MWMessage forKey:@"about-app-version-label" param:shortVersionString].text;
     
     [self.appVersionLabel setText:versionText];
-    
+
+    [self.appVersionLabel resizeWithAttributes: @{
+                          NSFontAttributeName : [UIFont boldSystemFontOfSize:27.0f],
+               NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
+     }];
+
     // Set button color scheme
     [self applyStyleToButton:self.sourceButton];
     [self applyStyleToButton:self.commonsButton];
@@ -129,6 +136,9 @@
     [self.gradientButtonsLabel setText:[MWMessage forKey:@"about-source-gradient-title"].text];
     [self.gradientButtonSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
     [self.gradientButtonLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
+    
+    [self addGradientToBackground];
+    self.sourceDetailsContainer.backgroundColor = [UIColor clearColor];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -174,6 +184,8 @@
     [self revealExternalLinksContainerBelowBrowsersTableView];
 
     [self setScrollViewContentSize];
+    
+    [self resizeBackgroundGradient];
 }
 
 -(void)viewDidLayoutSubviews
@@ -284,6 +296,14 @@
     [self roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
 }
 
+-(void)addGradientToBackground
+{
+    backgroundGradient_ = [CAGradientLayer layer];
+    backgroundGradient_.colors = @[(id)[UIColor blackColor].CGColor, (id)[UIColor blackColor].CGColor, (id)[UIColor lightGrayColor].CGColor];
+    backgroundGradient_.locations = @[@0.0f, @0.1f, @1.2];
+    [self.view.layer insertSublayer:backgroundGradient_ atIndex:0];
+}
+
 #pragma mark - Scrolling
 
 -(void)scrollToBottomOfDebugInfoContainer
@@ -330,6 +350,19 @@
     f.size = (CGSize){self.settingsContainer.frame.size.width, settingsContainerHeight};
     self.settingsContainer.frame = f;
     self.scrollView.contentSize = f.size;
+}
+
+-(void)resizeBackgroundGradient
+{
+    // Resize the gradient, but make the gradient bigger than the view to eliminate
+    // weird rotation artifact.
+    // Note: since the gradient layer is double the size of the view any "locations"
+    // stops in the gradient will be off by a factor of 2 since only half the layer
+    // will be visible
+    CGRect f = self.view.bounds;
+    f.size.width *= 2;
+    f.size.height *= 2;
+    backgroundGradient_.frame = f;
 }
 
 #pragma mark - Browser selection table view
