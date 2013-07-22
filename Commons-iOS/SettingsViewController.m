@@ -150,7 +150,7 @@
     [super viewDidAppear:animated];
 
     // Round just the top left and bottom left corners of openInLabel
-    [self roundCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft ofView:self.openInLabel toRadius:10.0];
+    [app_ roundCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft ofView:self.openInLabel toRadius:10.0];
     [self.view setNeedsLayout];
 }
 
@@ -275,29 +275,13 @@
 
 #pragma mark - Styling
 
--(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius
-{   // Use for rounding *specific* corners of a UIView.
-    // Based on http://stackoverflow.com/a/5826745/135557
-
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
-                                                   byRoundingCorners:corners
-                                                         cornerRadii:CGSizeMake(radius, radius)];
-    // Create the shape layer and set its path
-    CAShapeLayer *maskLayer = [CAShapeLayer layer];
-    maskLayer.frame = view.bounds;
-    maskLayer.path = maskPath.CGPath;
-    
-    // Set the newly created shape layer as the mask for the image view's layer
-    view.layer.mask = maskLayer;
-}
-
 -(void)applyStyleToButton:(UIButton *) button
 {
     // Button must have it's type set to "Custom" in interface builder for these
     // settings to take effect
     button.layer.backgroundColor = [UIColor colorWithRed:0.08 green:0.50 blue:0.92 alpha:0.9].CGColor;
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
+    [app_ roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
 }
 
 -(void)addGradientToBackground
@@ -427,7 +411,7 @@
     cell.textLabel.textColor = [UIColor whiteColor];
     
     // Round just the top right and bottom right corners of the cell
-    [self roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
+    [app_ roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
 
     return cell;
 }

@@ -6,6 +6,8 @@
 //
 
 #import "LoadingIndicator.h"
+#import "CommonsApp.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface LoadingIndicator()
 
@@ -15,6 +17,7 @@
 	CGPoint origCenter;
 	UIActivityIndicatorViewStyle origUIActivityIndicatorViewStyle;
     UIView *opaqueView;
+    UIView *backgroundView;
 }
 
 #pragma mark -
@@ -52,7 +55,17 @@
     
     // Move the opaque view in front of everything except the spinner
     [opaqueView.superview bringSubviewToFront:opaqueView];
-    
+
+    // Add a small rounded-corner view behind the spinner for contrast
+    backgroundView = [[UIView alloc] initWithFrame:(CGRect){0.0f, 0.0f, 85.0f, 85.0f}];
+    backgroundView.userInteractionEnabled = NO;
+    backgroundView.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.7f];
+    backgroundView.center = self.center;
+    [[CommonsApp singleton] roundCorners:UIRectCornerAllCorners ofView:backgroundView toRadius:10.0];
+
+    [self.window addSubview:backgroundView];
+    [backgroundView.superview bringSubviewToFront:backgroundView];
+
 	// Make sure the spinning indicator isn't covered up!
 	[self.superview bringSubviewToFront:self];
 		
@@ -63,7 +76,8 @@
 -(void)hide{
 	// Make the loading indicator no longer block touch events
     [opaqueView removeFromSuperview];
-    
+    [backgroundView removeFromSuperview];
+
 	self.hidden = YES;
 	[self stopAnimating];
 	

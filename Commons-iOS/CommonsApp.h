@@ -93,5 +93,6 @@
 - (float)getStatusBarHeight;
 
 - (NSString *)getBackButtonString;
+- (void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius;
 
 @end
