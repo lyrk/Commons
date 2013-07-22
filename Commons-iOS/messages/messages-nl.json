@@ -36,6 +36,7 @@
     "settings-usage-reports-description": "Stuur gebruiksrapportages naar Wikimedia om te helpen de app te verbeteren.",
     "settings-links-label": "Koppelingen:",
     "details-title": "Details",
+    "details-nav-prompt": "Beschrijven en uploaden",
     "details-upload-button": "Uploaden",
     "details-title-label": "Naam",
     "details-title-placeholder": "Unieke, beschrijvende naam",
@@ -90,6 +91,10 @@
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nAfbeelding van de dag",
     "picture-of-day-author": "Auteur:",
+    "picture-of-day-menu-title": "Afbeelding van de dag",
+    "picture-of-day-commons-button": "Commonspagina",
+    "picture-of-day-license-button": "Licentie",
+    "picture-of-day-cancel-button": "Annuleren",
     "refresh-failed-alert": "Vernieuwen mislukt!",
     "gallery-cancel-button": "Annuleren",
     "gallery-album-title": "Albums"

@@ -3,7 +3,8 @@
         "authors": [
             "Gomoko",
             "Jean-Fr\u00e9d\u00e9ric",
-            "Metroitendo"
+            "Metroitendo",
+            "Wyz"
         ]
     },
     "contribs-title": "Mes t\u00e9l\u00e9chargements",
@@ -38,6 +39,7 @@
     "settings-usage-reports-description": "Envoyer les rapports d\u2019utilisation \u00e0 Wikim\u00e9dia pour nous aider \u00e0 am\u00e9liorer l\u2019application.",
     "settings-links-label": "Liens :",
     "details-title": "D\u00e9tails",
+    "details-nav-prompt": "D\u00e9crire et importer",
     "details-upload-button": "T\u00e9l\u00e9charger",
     "details-title-label": "Titre",
     "details-title-placeholder": "Titre unique descriptif",

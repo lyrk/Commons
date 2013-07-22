@@ -4,7 +4,8 @@
             "Htchien",
             "Justincheng12345",
             "Liflon",
-            "Simon Shek"
+            "Simon Shek",
+            "StephDC"
         ]
     },
     "contribs-title": "\u6211\u7684\u4e0a\u8f09",
@@ -39,6 +40,7 @@
     "settings-usage-reports-description": "\u5411\u7dad\u57fa\u5a92\u9ad4\u767c\u9001\u4f7f\u7528\u5831\u544a\uff0c\u5e6b\u52a9\u6211\u5011\u6539\u9032\u6b64\u7a0b\u5f0f",
     "settings-links-label": "\u9023\u7d50\uff1a",
     "details-title": "\u8a73\u7d30\u8cc7\u8a0a",
+    "details-nav-prompt": "\u63cf\u8ff0\u4e26\u4e0a\u50b3",
     "details-upload-button": "\u4e0a\u8f09",
     "details-title-label": "\u6a19\u984c",
     "details-title-placeholder": "\u552f\u4e00\u7684\u3001 \u63cf\u8ff0\u6027\u6a19\u984c",
@@ -94,5 +96,6 @@
     "picture-of-day-label": "\u7dad\u57fa\u5171\u4eab\u8cc7\u6e90\u4eca\u65e5\u5716\u7247",
     "picture-of-day-author": "\u4f5c\u8005\uff1a",
     "refresh-failed-alert": "\u66f4\u65b0\u5931\u6557\uff01",
-    "gallery-cancel-button": "\u53d6\u6d88"
+    "gallery-cancel-button": "\u53d6\u6d88",
+    "gallery-album-title": "\u76f8\u518a"
 }

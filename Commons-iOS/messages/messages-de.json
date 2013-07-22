@@ -37,6 +37,7 @@
     "settings-usage-reports-description": "Nutzungsberichte an Wikimedia senden, um zur Verbesserung der App beizutragen.",
     "settings-links-label": "Links:",
     "details-title": "Einzelheiten",
+    "details-nav-prompt": "Beschreiben und hochladen",
     "details-upload-button": "Hochladen",
     "details-title-label": "Titel",
     "details-title-placeholder": "Eindeutiger beschreibender Titel",

@@ -38,6 +38,7 @@
     "settings-usage-reports-description": "Send bruksrapporter til Wikimedia for \u00e5 hjelpe oss med \u00e5 forbedre denne appen.",
     "settings-links-label": "Lenker:",
     "details-title": "Detaljer",
+    "details-nav-prompt": "Beskriv og last opp",
     "details-upload-button": "Last opp",
     "details-title-label": "Tittel",
     "details-title-placeholder": "Unik, beskrivende tittel",
@@ -92,5 +93,7 @@
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nDagens bilde",
     "picture-of-day-author": "Opphavsperson:",
-    "refresh-failed-alert": "Oppfrisking feilet!"
+    "refresh-failed-alert": "Oppfrisking feilet!",
+    "gallery-cancel-button": "Avbryt",
+    "gallery-album-title": "Album"
 }

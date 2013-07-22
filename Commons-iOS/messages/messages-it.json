@@ -38,6 +38,7 @@
     "settings-usage-reports-description": "Invia report sull'utilizzo a Wikimedia per aiutarci a migliorare l'app.",
     "settings-links-label": "Link:",
     "details-title": "Dettagli",
+    "details-nav-prompt": "Descrivi e carica",
     "details-upload-button": "Carica",
     "details-title-label": "Titolo",
     "details-title-placeholder": "Titolo descrittivo, univoco",
