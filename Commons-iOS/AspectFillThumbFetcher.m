@@ -288,6 +288,7 @@
             [categories addObject:categoryTitle];
         }
     }
+    if (categories == nil) categories = [@[] mutableCopy];
     return categories;
 }
 
@@ -316,6 +317,7 @@
             [descriptionParser_ parse];
         }
     }
+    if (description == nil) description = [@"" mutableCopy];
     return description;
 }
 
