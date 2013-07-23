@@ -904,15 +904,19 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                                  }];
 
                 // Transistion the picture of the day
-                [UIView transitionWithView:weakPotdImageView
-                                  duration:self.pictureOfDayCycler.transitionDuration
-                                   options:UIViewAnimationOptionTransitionCrossDissolve
-                                animations:^{
-                                    weakPotdImageView.useFilter = NO;
-                                    weakPotdImageView.image = image;
-                                }completion:^(BOOL finished){
-                                    if(done) done();
-                                }];
+                [CATransaction begin];
+                CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
+                crossFade.duration = self.pictureOfDayCycler.transitionDuration;
+                crossFade.fromValue = (id)weakPotdImageView.image.CGImage;
+                crossFade.toValue = (id)image.CGImage;
+                [CATransaction setCompletionBlock:^{
+                    if(done) done();
+                    [weakPotdImageView.layer removeAnimationForKey:@"animateContents"];
+                }];
+                [weakPotdImageView.layer addAnimation:crossFade forKey:@"animateContents"];
+                [CATransaction commit];
+                
+                weakPotdImageView.image = image;
             }
         }
     }];
