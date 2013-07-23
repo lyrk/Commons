@@ -90,8 +90,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     
     // Only skip the login screen on initial load
     BOOL allowSkippingToMyUploads_;
-    PictureOfDayCycler *pictureOfDayCycler_;
-    
     BOOL isRotating_;
     BOOL isKeyboardOnscreen_;
 }
@@ -115,10 +113,10 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
         isRotating_ = NO;
         isKeyboardOnscreen_ = NO;
 
-        pictureOfDayCycler_ = [[PictureOfDayCycler alloc] init];
-        pictureOfDayCycler_.dateStrings = cachedPotdDateStrings_;
-        pictureOfDayCycler_.transitionDuration = SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY;
-        pictureOfDayCycler_.displayInterval = SECONDS_TO_SHOW_EACH_PIC_OF_DAY;
+        self.pictureOfDayCycler = [[PictureOfDayCycler alloc] init];
+        self.pictureOfDayCycler.dateStrings = cachedPotdDateStrings_;
+        self.pictureOfDayCycler.transitionDuration = SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY;
+        self.pictureOfDayCycler.displayInterval = SECONDS_TO_SHOW_EACH_PIC_OF_DAY;
     }
     return self;
 }
@@ -232,15 +230,15 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     [LoginViewController applyShadowToView:self.attributionButton];
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
     
-    // The "cycle" callback below is invoked by pictureOfDayCycler_ to change which picture of the day is showing
+    // The "cycle" callback below is invoked by self.pictureOfDayCycler to change which picture of the day is showing
     __weak LoginViewController *weakSelf = self;
     __weak NSMutableArray *weakCachedPotdDateStrings_ = cachedPotdDateStrings_;
     // todayDateString must be set *inside* cycle callback! it's used to see if midnight rolled around while the images
     // were transitioning. if so it adds a date string for the new day to cachedPotdDateStrings_ so the new day's image
     // will load (previously you had to leave the login page and go back to see the new day's image)
     __block NSString *todayDateString = nil;
-    __weak PictureOfDayCycler *weakPictureOfDayCycler_ = pictureOfDayCycler_;
-    pictureOfDayCycler_.cycle = ^(NSString *dateString){
+    __weak PictureOfDayCycler *weakPictureOfDayCycler_ = self.pictureOfDayCycler;
+    self.pictureOfDayCycler.cycle = ^(NSString *dateString){
         // If today's date string is not in cachedPotdDateStrings_ (can happen if the login page is displaying and
         // midnight occurs) add it so it will be downloaded.
         todayDateString = [weakSelf getDateStringForDaysAgo:0];
@@ -294,10 +292,10 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
         [self getPictureOfTheDayForDateString:dateString done:^{
             // Update "cachedPotdDateStrings_" so it contains date string for the newly downloaded file
             [self loadArrayOfCachedPotdDateStrings];
-            [pictureOfDayCycler_ start];
+            [self.pictureOfDayCycler start];
         }];
     }else{
-        [pictureOfDayCycler_ start];
+        [self.pictureOfDayCycler start];
     }
 }
 
@@ -331,7 +329,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 	
 	[self.navigationItem setBackBarButtonItem: backButton];
 
-    [pictureOfDayCycler_ stop];
+    [self.pictureOfDayCycler stop];
 
     [super viewWillDisappear:animated];
 }
@@ -361,7 +359,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     
     if (FREEZE_FOR_TAKING_SPLASH_SCREENSHOT) {
         self.loginInfoContainer.alpha = 0.0f;
-        [pictureOfDayCycler_ stop];
+        [self.pictureOfDayCycler stop];
         self.potdImageView.image = nil;
         self.potdImageView.backgroundColor = [UIColor blackColor];
         self.aboutButton.alpha = 0.0f;
@@ -882,7 +880,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                 weakSelf.pictureOfTheDayWikiUrl = dict[@"descriptionurl"];
                 
                 // Briefly hide the attribution label before updating it
-                [UIView animateWithDuration:pictureOfDayCycler_.transitionDuration / 4.0
+                [UIView animateWithDuration:self.pictureOfDayCycler.transitionDuration / 4.0
                                       delay:0.0
                                     options: UIViewAnimationCurveLinear
                                  animations:^{
@@ -895,7 +893,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                                      [weakSelf updateAttributionLabelFrame];
 
                                      //Now show the updated attribution box
-                                     [UIView animateWithDuration:pictureOfDayCycler_.transitionDuration / 3.0
+                                     [UIView animateWithDuration:self.pictureOfDayCycler.transitionDuration / 3.0
                                                            delay:0.0
                                                          options: UIViewAnimationCurveLinear
                                                       animations:^{
@@ -907,7 +905,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 
                 // Transistion the picture of the day
                 [UIView transitionWithView:weakPotdImageView
-                                  duration:pictureOfDayCycler_.transitionDuration
+                                  duration:self.pictureOfDayCycler.transitionDuration
                                    options:UIViewAnimationOptionTransitionCrossDissolve
                                 animations:^{
                                     weakPotdImageView.useFilter = NO;
@@ -986,7 +984,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
             break;
     }
     if (urlToOpen) [CommonsApp.singleton openURLWithDefaultBrowser:[NSURL URLWithString:urlToOpen]];
-    [pictureOfDayCycler_ start];
+    [self.pictureOfDayCycler start];
 }
 
 -(void)handleAttributionLabelTap:(UITapGestureRecognizer *)recognizer
@@ -999,7 +997,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                                                     [MWMessage forKey:@"picture-of-day-license-button"].text, nil];
     actionSheet.actionSheetStyle = UIBarStyleBlackTranslucent;
     [actionSheet showInView:self.view];
-    [pictureOfDayCycler_ stop];
+    [self.pictureOfDayCycler stop];
     self.attributionLabel.alpha = 0.0f;
     self.attributionButton.alpha = 0.0f;
 }
