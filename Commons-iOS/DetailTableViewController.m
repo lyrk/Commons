@@ -442,8 +442,17 @@
                                             initWithActivityItems:@[image, wikiUrl]
                                             applicationActivities:nil
                                             ];
+
+        [self toggle];
+
         [self presentViewController:self.shareActivityViewController animated:YES completion:^{
             [self.appDelegate.loadingIndicator hide];
+        }];
+
+        __weak DetailTableViewController *weakSelf = self;
+
+        [self.shareActivityViewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
+            [weakSelf toggle];
         }];
     }];
     [fetch fail:^(NSError *error) {
@@ -1000,6 +1009,36 @@
     CGRect f = self.view.frame;
     f.origin.y = self.navigationController.navigationBar.frame.size.height;
     self.view.frame = f;
+}
+
+-(void)toggle
+{
+    // Hides/shows both the details view and the nav bar
+    static float detailsY = 0.0f;
+    static BOOL isAnimating = NO;
+    if (isAnimating) return;
+    if(self.navigationController.navigationBar.alpha == 1.0f){
+        self.view.userInteractionEnabled = NO;
+        self.navigationController.navigationBar.alpha = 0.0f;
+        detailsY = self.view.frame.origin.y;
+        float offset = self.view.superview.frame.size.height - detailsY;
+        isAnimating = YES;
+        [self scrollByAmount:offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
+            self.view.alpha = 0.0f;
+            isAnimating = NO;
+        }];
+        [self hideKeyboard];
+    }else{
+        self.view.userInteractionEnabled = YES;
+        self.navigationController.navigationBar.alpha = 1.0f;
+        self.view.alpha = 1.0f;
+        float offset = self.view.frame.origin.y - detailsY;
+        isAnimating = YES;
+        [self scrollByAmount:-offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
+            [self ensureScrollingDoesNotExceedThreshold];
+            isAnimating = NO;
+        }];
+    }
 }
 
 #pragma mark - Details scrolling

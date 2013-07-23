@@ -56,5 +56,6 @@
 -(void)scrollByAmount:(float)amount withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options useXF:(BOOL)useXF then:(void(^)(void))block;
 
 -(void)ensureScrollingDoesNotExceedThreshold;
+-(void)toggle;
 
 @end
