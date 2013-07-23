@@ -19,13 +19,15 @@
 // Private
 @interface ImageScrollViewController ()
 
+@property (nonatomic) float initialScale;
+
 @end
 
 @implementation ImageScrollViewController{
     UIView *overlayView_;
 }
 
-#pragma mark - Property synthesizations
+#pragma mark - Property synthesis
 
 @synthesize imageView;
 @synthesize imageScrollView;
@@ -113,6 +115,13 @@
     }
     
     [self.imageScrollView setContentOffset:centerOffset animated:NO];
+}
+
+-(void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+
+    [self resetInitialZoomScaleAnimated:YES];
+    [self centerScrollViewContents];
 }
 
 #pragma mark - Nav
@@ -240,13 +249,6 @@
 
 #pragma mark - Rotation
 
--(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-    [self resetInitialZoomScaleAnimated:YES];
-
-    [self centerScrollViewContents];
-}
-
 -(BOOL)shouldAutorotate
 {
     return YES;
@@ -258,17 +260,11 @@
 }
 
 -(BOOL)shouldAutomaticallyForwardRotationMethods{
-    // This method is called to determine whether to
-    // automatically forward rotation-related containment
-    // callbacks to child view controllers.
     return YES;
 }
 
 -(BOOL)shouldAutomaticallyForwardAppearanceMethods{
-    // This method is called to determine whether to
-    // automatically forward appearance-related containment
-    //  callbacks to child view controllers.
-    return YES;    
+    return YES;
 }
 
 #pragma mark - Details Scroll
