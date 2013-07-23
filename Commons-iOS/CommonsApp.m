@@ -13,6 +13,7 @@
 #import "BrowserHelper.h"
 #import "CommonsApp.h"
 #import "FetchImageOperation.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation CommonsApp{
     NSPersistentStore *persistentStore;
@@ -1449,6 +1450,22 @@ static CommonsApp *singleton_;
 - (NSString *)getBackButtonString
 {
     return @"\U000025C0\U0000FE0E";
+}
+
+-(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius
+{   // Use for rounding *specific* corners of a UIView.
+    // Based on http://stackoverflow.com/a/5826745/135557
+
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
+                                                   byRoundingCorners:corners
+                                                         cornerRadii:CGSizeMake(radius, radius)];
+    // Create the shape layer and set its path
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.frame = view.bounds;
+    maskLayer.path = maskPath.CGPath;
+    
+    // Set the newly created shape layer as the mask for the image view's layer
+    view.layer.mask = maskLayer;
 }
 
 @end

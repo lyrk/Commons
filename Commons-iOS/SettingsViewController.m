@@ -13,7 +13,7 @@
 #import "MyUploadsViewController.h"
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
-#import "GradientButton.h"
+#import "UILabel+ResizeWithAttributes.h"
 
 #pragma mark - Defines
 
@@ -38,15 +38,9 @@
     NSMutableArray *installedSupportedBrowserNames_;
     BrowserHelper *browserHelper_;
     CommonsApp *app_;
+    UIColor *navBarOriginalColor_;
+    CAGradientLayer *backgroundGradient_;
 }
-
--(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell;
--(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius;
--(void)moveSelectedBrowserToTop;
--(MyUploadsViewController *) getMyUploadsViewController;
-
-- (void)toggleSourceDetailsContainerVisibility;
-- (void)scrollToBottomOfExternalLinksContainer;
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 
@@ -74,7 +68,7 @@
     return self;
 }
 
-#pragma mark - View
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
@@ -97,31 +91,29 @@
     [self setDebugModeLabel];
 	    
     self.externalLinksContainer.alpha = 0.0f;
-    
-    // Set the content size of the scrollView
-    self.scrollView.contentSize = self.settingsContainer.frame.size;
-    
+
     // Make settings switch reflect any saved value
     self.trackingSwitch.on = app_.trackingEnabled;
     
     // Get bundle info dict for its app name and version settings
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-
-    // Set the app name label
-    NSString *appDisplayName = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-    [self.appNameLabel setText:appDisplayName];
     
     // Set the app version label
     NSString *shortVersionString = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     NSString *versionText = [MWMessage forKey:@"about-app-version-label" param:shortVersionString].text;
     
     [self.appVersionLabel setText:versionText];
-    
-    // Set gradient button color scheme
-    [self.sourceButton useBlackActionSheetStyle];
-    [self.commonsButton useBlackActionSheetStyle];
-    [self.bugsButton useBlackActionSheetStyle];
-    [self.privacyButton useBlackActionSheetStyle];
+
+    [self.appVersionLabel resizeWithAttributes: @{
+                          NSFontAttributeName : [UIFont boldSystemFontOfSize:27.0f],
+               NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
+     }];
+
+    // Set button color scheme
+    [self applyStyleToButton:self.sourceButton];
+    [self applyStyleToButton:self.commonsButton];
+    [self applyStyleToButton:self.bugsButton];
+    [self applyStyleToButton:self.privacyButton];
     
     // Ensure button text doesn't get clipped if i18n is long string
     self.sourceButton.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -144,60 +136,60 @@
     [self.gradientButtonsLabel setText:[MWMessage forKey:@"about-source-gradient-title"].text];
     [self.gradientButtonSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
     [self.gradientButtonLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
-}
+    
+    [self addGradientToBackground];
+    self.sourceDetailsContainer.backgroundColor = [UIColor clearColor];
 
-- (void)revealExternalLinksContainerBelowBrowsersTableView
-{
-    CGRect externalLinksContainerFrame = self.externalLinksContainer.frame;
-    float top = self.externalBrowserContainer.frame.origin.y;
-    top += self.browsersTableView.frame.origin.y;
-    top += self.browsersTableView.frame.size.height;
-    
-    // If there's only one browser add a little padding
-    if ([self.browsersTableView numberOfRowsInSection:0] < 2) top += 15.0f;
-    
-    externalLinksContainerFrame.origin.y = top;
-    self.externalLinksContainer.frame = externalLinksContainerFrame;
-    
-    [UIView animateWithDuration:0.1 animations:^{
-        self.externalLinksContainer.alpha = 1.0f;
-    }];
-}
-
-- (void)adjustHeightOfBrowsersTableView
-{
-    CGRect browsersTableViewFrame = self.browsersTableView.frame;
-    browsersTableViewFrame.size.height = self.browsersTableView.contentSize.height;
-    self.browsersTableView.frame = browsersTableViewFrame;
+    // Scale the mock page down a bit
+    CGAffineTransform xf = CGAffineTransformMakeScale(0.7f, 0.7f);
+    self.mockPageContainerView.transform = xf;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    // Round just the top left and bottom left corners of openInLabel
-    [self roundCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft ofView:self.openInLabel toRadius:10.0];
-    
-    // Resize browsersTableView according to its number of rows
-    [self adjustHeightOfBrowsersTableView];
-    // Now that browsersTableView has been resized, move the link buttons below the browsersTableView
-    [self revealExternalLinksContainerBelowBrowsersTableView];
-    
     [super viewDidAppear:animated];
+
+    // Round just the top left and bottom left corners of openInLabel
+    [app_ roundCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft ofView:self.openInLabel toRadius:10.0];
+    [self.view setNeedsLayout];
 }
 
--(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius
-{   // Use for rounding *specific* corners of a UIView.
-    // Based on http://stackoverflow.com/a/5826745/135557
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view.bounds
-                                                   byRoundingCorners:corners
-                                                         cornerRadii:CGSizeMake(radius, radius)];
-    // Create the shape layer and set its path
-    CAShapeLayer *maskLayer = [CAShapeLayer layer];
-    maskLayer.frame = view.bounds;
-    maskLayer.path = maskPath.CGPath;
+    navBarOriginalColor_ = self.navigationController.navigationBar.backgroundColor;
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.85f]];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    [self.navigationController.navigationBar setBackgroundColor:navBarOriginalColor_];
+
+    MyUploadsViewController *myUploadsViewController = [self getMyUploadsViewController];
     
-    // Set the newly created shape layer as the mask for the image view's layer
-    view.layer.mask = maskLayer;
+    [app_ fetchUploadRecords];
+    
+    [myUploadsViewController.collectionView reloadData];
+    
+    [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
+}
+
+#pragma mark - Positioning
+
+-(void)viewWillLayoutSubviews
+{
+    // Resize browsersTableView according to its number of rows
+    [self adjustHeightOfBrowsersTableView];
+    
+    // Now that browsersTableView has been resized, move the link buttons below the browsersTableView
+    [self revealExternalLinksContainerBelowBrowsersTableView];
+
+    [self setScrollViewContentSize];
+    
+    [self resizeBackgroundGradient];
 }
 
 -(void)viewDidLayoutSubviews
@@ -218,103 +210,20 @@
     }
 }
 
--(void)scrollToBottomOfDebugInfoContainer
+- (void)revealExternalLinksContainerBelowBrowsersTableView
 {
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.debugInfoContainer.frame.origin.y + self.debugInfoContainer.frame.size.height + 10, 1, 1) animated:YES];
-}
-
--(void)scrollToBottomOfSettingsContainer
-{
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
-}
-
--(void)scrollToTopOfSettingsContainer
-{
-    // Scroll to the top of the settingsContainer
-    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-}
-
-#pragma mark - Browser Selection Table View
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Moved the initialization of installedSupportedBrowserNames to "tableView:numberOfRowsInSection:"
-    // because it's former location in "viewWillAppear:" didn't always execute before
-    // "tableView:numberOfRowsInSection:".
-    // See the following for more details: http://stackoverflow.com/a/6391136/135557
- 
-    // Get array of supported browsers which are installed on the device
-    installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
-
-    [self moveSelectedBrowserToTop];
+    float externalLinksContainerY = [self.browsersTableView convertPoint:(CGPoint){0, self.browsersTableView.frame.size.height} toView:self.settingsContainer].y;
     
-    return [installedSupportedBrowserNames_ count];
-}
-
-- (void)receivedUIApplicationDidBecomeActiveNotification:(NSNotification *)notification
-{
-    // Ensure response to UIApplicationDidBecomeActiveNotification's only if this view is visible
-    if(self.navigationController.topViewController == self){
-
-        // Update the list of browsers in case the user deleted one while the app was suspended
-        installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
+    externalLinksContainerY += 28.0f;
+    CGRect f = self.externalLinksContainer.frame;
+    f.origin = (CGPoint){self.externalLinksContainer.frame.origin.x, externalLinksContainerY};
+    self.externalLinksContainer.frame = f;
+    
+    [UIView animateWithDuration:0.3 delay:0.35 options:nil animations:^{
+        self.externalLinksContainer.alpha = 1.0f;
+    } completion:^(BOOL finished){
         
-        [self moveSelectedBrowserToTop];
-              
-        [self.browsersTableView reloadData];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([cell.textLabel.text isEqualToString:app_.defaultExternalBrowser]) cell.selected = YES;
-    
-    [self moveOpenInLabelBesideSelectedBrowserCell:cell];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *simpleTableIdentifier = @"BrowserTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-        
-    // Make the cell use the same font as openInLabel so they look consistent
-    cell.textLabel.font = self.openInLabel.font;
-    
-    // Make the cell display the browser name
-    cell.textLabel.text = [installedSupportedBrowserNames_ objectAtIndex:indexPath.row];
-    
-    // Round just the top right and bottom right corners of the cell
-    [self roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
-
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *selectedCell = [self.browsersTableView cellForRowAtIndexPath:indexPath];
-    app_.defaultExternalBrowser = selectedCell.textLabel.text;
-    
-    // Ensure previous selection highlighting turns off. Not sure why this is needed...
-    for (UITableViewCell *cell in self.browsersTableView.visibleCells) {
-        if (cell != selectedCell) cell.selected = NO;
-    }
-    
-    [self moveOpenInLabelBesideSelectedBrowserCell:selectedCell];
-
-    // If only Safari is installed and the user taps "Safari" remind them why they're not seeing other browsers
-    if ([installedSupportedBrowserNames_ count] == 1) {
-
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"settings-open-links-only-safari"].text
-                                                            message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
+    }];
 }
 
 -(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell
@@ -364,7 +273,174 @@
     }
 }
 
-#pragma mark - Debug Switch
+#pragma mark - Styling
+
+-(void)applyStyleToButton:(UIButton *) button
+{
+    // Button must have it's type set to "Custom" in interface builder for these
+    // settings to take effect
+    button.layer.backgroundColor = [UIColor colorWithRed:0.08 green:0.50 blue:0.92 alpha:0.9].CGColor;
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [app_ roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
+}
+
+-(void)addGradientToBackground
+{
+    backgroundGradient_ = [CAGradientLayer layer];
+    backgroundGradient_.colors = @[(id)[UIColor blackColor].CGColor, (id)[UIColor blackColor].CGColor, (id)[UIColor lightGrayColor].CGColor];
+    backgroundGradient_.locations = @[@0.0f, @0.37f, @1.2];
+    [self.view.layer insertSublayer:backgroundGradient_ atIndex:0];
+}
+
+#pragma mark - Scrolling
+
+-(void)scrollToBottomOfDebugInfoContainer
+{
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.debugInfoContainer.frame.origin.y + self.debugInfoContainer.frame.size.height + 10, 1, 1) animated:YES];
+}
+
+-(void)scrollToBottomOfSettingsContainer
+{
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
+}
+
+-(void)scrollToTopOfSettingsContainer
+{
+    // Scroll to the top of the settingsContainer
+    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+}
+
+-(void)scrollToBottomOfExternalLinksContainer
+{
+    // Scroll to the bottom of the externalLinksContainer. OK to use self.scrollView.contentSize as it is set
+    // to self.externalLinksContainer.frame.size in the viewDidLoad
+    // (The rect passed to scrollRectToVisible must have its origin.y be less than self.scrollView.contentSize.height
+    // or it won't scroll, hence the "- 1")
+    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
+}
+
+#pragma mark - Sizing
+
+- (void)adjustHeightOfBrowsersTableView
+{
+    CGRect browsersTableViewFrame = self.browsersTableView.frame;
+    browsersTableViewFrame.size.height = self.browsersTableView.contentSize.height;
+    if (self.browsersTableView.contentSize.height == 0.0f) return;
+    self.browsersTableView.frame = browsersTableViewFrame;
+}
+
+
+-(void)setScrollViewContentSize
+{
+    float settingsContainerHeight = [self.sourceDetailsContainer convertPoint:(CGPoint){0,self.sourceDetailsContainer.frame.size.height} toView:self.settingsContainer].y;
+    
+    CGRect f = self.settingsContainer.frame;
+    f.size = (CGSize){self.settingsContainer.frame.size.width, settingsContainerHeight};
+    self.settingsContainer.frame = f;
+    self.scrollView.contentSize = f.size;
+}
+
+-(void)resizeBackgroundGradient
+{
+    // Resize the gradient, but make the gradient bigger than the view to eliminate
+    // weird rotation artifact.
+    // Note: since the gradient layer is double the size of the view any "locations"
+    // stops in the gradient will be off by a factor of 2 since only half the layer
+    // will be visible
+    CGRect f = self.view.bounds;
+    f.size.width *= 2;
+    f.size.height *= 2;
+    backgroundGradient_.frame = f;
+}
+
+#pragma mark - Browser selection table view
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    // Moved the initialization of installedSupportedBrowserNames to "tableView:numberOfRowsInSection:"
+    // because it's former location in "viewWillAppear:" didn't always execute before
+    // "tableView:numberOfRowsInSection:".
+    // See the following for more details: http://stackoverflow.com/a/6391136/135557
+ 
+    // Get array of supported browsers which are installed on the device
+    installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
+
+    [self moveSelectedBrowserToTop];
+    
+    return [installedSupportedBrowserNames_ count];
+}
+
+- (void)receivedUIApplicationDidBecomeActiveNotification:(NSNotification *)notification
+{
+    // Ensure response to UIApplicationDidBecomeActiveNotification's only if this view is visible
+    if(self.navigationController.topViewController == self){
+
+        // Update the list of browsers in case the user deleted one while the app was suspended
+        installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
+        
+        [self moveSelectedBrowserToTop];
+              
+        [self.browsersTableView reloadData];
+        
+        [self.view setNeedsLayout];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if ([cell.textLabel.text isEqualToString:app_.defaultExternalBrowser]) cell.selected = YES;
+    
+    [self moveOpenInLabelBesideSelectedBrowserCell:cell];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *simpleTableIdentifier = @"BrowserTableItem";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+    }
+        
+    // Make the cell use the same font as openInLabel so they look consistent
+    cell.textLabel.font = self.openInLabel.font;
+    
+    // Make the cell display the browser name
+    cell.textLabel.text = [installedSupportedBrowserNames_ objectAtIndex:indexPath.row];
+
+    cell.textLabel.textColor = [UIColor whiteColor];
+    
+    // Round just the top right and bottom right corners of the cell
+    [app_ roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
+
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *selectedCell = [self.browsersTableView cellForRowAtIndexPath:indexPath];
+    app_.defaultExternalBrowser = selectedCell.textLabel.text;
+    
+    // Ensure previous selection highlighting turns off. Not sure why this is needed...
+    for (UITableViewCell *cell in self.browsersTableView.visibleCells) {
+        if (cell != selectedCell) cell.selected = NO;
+    }
+    
+    [self moveOpenInLabelBesideSelectedBrowserCell:selectedCell];
+
+    // If only Safari is installed and the user taps "Safari" remind them why they're not seeing other browsers
+    if ([installedSupportedBrowserNames_ count] == 1) {
+
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"settings-open-links-only-safari"].text
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
+#pragma mark - Debug switch
 
 -(MyUploadsViewController *) getMyUploadsViewController
 {
@@ -401,19 +477,6 @@
     }];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-
-    MyUploadsViewController *myUploadsViewController = [self getMyUploadsViewController];
-    
-    [app_ fetchUploadRecords];
-    
-    [myUploadsViewController.collectionView reloadData];
-    
-    [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
-}
-
 - (void)setDebugModeLabel
 {
     NSString *target;
@@ -425,7 +488,7 @@
     self.uploadTargetLabel.text = [MWMessage forKey:@"settings-debug-detail" params:@[target]].text;
 }
 
-#pragma mark - Logging Switch
+#pragma mark - Logging switch
 
 - (IBAction)loggingSwitchPushed:(id)sender
 {
@@ -438,16 +501,7 @@
     app_.trackingEnabled = self.trackingSwitch.on;
 }
 
-#pragma mark - External Links methods (From old About page)
-
--(void)scrollToBottomOfExternalLinksContainer
-{
-    // Scroll to the bottom of the externalLinksContainer. OK to use self.scrollView.contentSize as it is set
-    // to self.externalLinksContainer.frame.size in the viewDidLoad
-    // (The rect passed to scrollRectToVisible must have its origin.y be less than self.scrollView.contentSize.height
-    // or it won't scroll, hence the "- 1")
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
-}
+#pragma mark - External links
 
 -(IBAction)openURLinExternalBrowser:(id)sender
 {
