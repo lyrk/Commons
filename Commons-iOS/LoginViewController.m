@@ -14,7 +14,6 @@
 #import "GradientButton.h"
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
-#import "GrayscaleImageView.h"
 #import "GettingStartedViewController.h"
 #import "QuartzCore/QuartzCore.h"
 #import "AspectFillThumbFetcher.h"
@@ -229,7 +228,8 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     [LoginViewController applyShadowToView:self.aboutButton];    
     [LoginViewController applyShadowToView:self.attributionButton];
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
-    
+    [LoginViewController applyShadowToView:self.logoImageView];
+
     // The "cycle" callback below is invoked by self.pictureOfDayCycler to change which picture of the day is showing
     __weak LoginViewController *weakSelf = self;
     __weak NSMutableArray *weakCachedPotdDateStrings_ = cachedPotdDateStrings_;

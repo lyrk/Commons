@@ -20,7 +20,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Commons-logo-white.png" id="Y6M-eQ-GLr" userLabel="Logo Image View" customClass="GrayscaleImageView">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Commons-logo-white.png" id="Y6M-eQ-GLr" userLabel="Logo Image View">
                                         <rect key="frame" x="73" y="12" width="175" height="235"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1657,9 +1657,6 @@ Help Wikipedia articles come to life!</string>
         <class className="GradientButton" superclassName="UIButton">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/GradientButton.h"/>
         </class>
-        <class className="GrayscaleImageView" superclassName="UIImageView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GrayscaleImageView.h"/>
-        </class>
         <class className="ImageListCell" superclassName="UICollectionViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ImageListCell.h"/>
             <relationships>
@@ -1698,7 +1695,7 @@ Help Wikipedia articles come to life!</string>
                 <relationship kind="outlet" name="currentUserButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="loginButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="loginInfoContainer" candidateClass="UIView"/>
-                <relationship kind="outlet" name="logoImageView" candidateClass="GrayscaleImageView"/>
+                <relationship kind="outlet" name="logoImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="logoutButton" candidateClass="GradientButton"/>
                 <relationship kind="outlet" name="passwordField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="potdImageView" candidateClass="PictureOfTheDayImageView"/>

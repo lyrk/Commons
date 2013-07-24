@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @class GradientButton;
-@class GrayscaleImageView;
 @class PictureOfTheDayImageView;
 @class PictureOfDayCycler;
 
@@ -23,7 +22,7 @@
 @property (weak, nonatomic) IBOutlet GradientButton *currentUserButton;
 @property (weak, nonatomic) IBOutlet UIButton *recoverPasswordButton;
 
-@property (weak, nonatomic) IBOutlet GrayscaleImageView *logoImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UIView *loginInfoContainer;
 @property (weak, nonatomic) IBOutlet PictureOfTheDayImageView *potdImageView;
 @property (weak, nonatomic) IBOutlet UIButton *aboutButton;

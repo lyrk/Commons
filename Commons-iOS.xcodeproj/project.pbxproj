@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		040860BB17136FC300D3290B /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 040860BA17136FC300D3290B /* CoreImage.framework */; };
-		040860BE1713939200D3290B /* GrayscaleImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040860BD1713939200D3290B /* GrayscaleImageView.m */; };
 		0417D9E417698AF200081D8C /* PictureOfDayCycler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E317698AF200081D8C /* PictureOfDayCycler.m */; };
 		0417D9EA176E666B00081D8C /* GalleryMultiSelectCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E9176E666B00081D8C /* GalleryMultiSelectCollectionVC.m */; };
 		0417D9F0176EB00100081D8C /* GalleryMultiSelectAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9EF176EB00100081D8C /* GalleryMultiSelectAlbumCell.m */; };
@@ -318,8 +317,6 @@
 
 /* Begin PBXFileReference section */
 		040860BA17136FC300D3290B /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
-		040860BC1713939100D3290B /* GrayscaleImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrayscaleImageView.h; sourceTree = "<group>"; };
-		040860BD1713939200D3290B /* GrayscaleImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrayscaleImageView.m; sourceTree = "<group>"; };
 		0417D9E217698AF200081D8C /* PictureOfDayCycler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfDayCycler.h; sourceTree = "<group>"; };
 		0417D9E317698AF200081D8C /* PictureOfDayCycler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfDayCycler.m; sourceTree = "<group>"; };
 		0417D9E8176E666A00081D8C /* GalleryMultiSelectCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectCollectionVC.h; sourceTree = "<group>"; };
@@ -750,8 +747,6 @@
 				305BC7691710BD3300B2CC01 /* LoadingIndicator.m */,
 				04846024179F3D290054BA47 /* SettingsImageView.h */,
 				04846025179F3D290054BA47 /* SettingsImageView.m */,
-				040860BC1713939100D3290B /* GrayscaleImageView.h */,
-				040860BD1713939200D3290B /* GrayscaleImageView.m */,
 				044A0C3A170F6504003395DD /* GradientButton.h */,
 				044A0C3B170F6504003395DD /* GradientButton.m */,
 				04C27B171741C24200B1942F /* ProgressView.h */,
@@ -1525,7 +1520,6 @@
 				044A0C3C170F6504003395DD /* GradientButton.m in Sources */,
 				3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */,
 				305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */,
-				040860BE1713939200D3290B /* GrayscaleImageView.m in Sources */,
 				D4C5B4191720966C00C40532 /* LicenseTableViewController.m in Sources */,
 				D4B1CDFD1721E248008E1B31 /* CategorySearchTableViewController.m in Sources */,
 				0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */,
