@@ -70,7 +70,7 @@
 -(void) zoom
 {
     [CATransaction begin];
-    CABasicAnimation *zoom = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    CABasicAnimation *zoom = [CABasicAnimation animationWithKeyPath:@"transform"];
     zoom.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
     zoom.toValue =   [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.06, 1.06, 1.0)];
     zoom.fillMode=kCAFillModeForwards;
