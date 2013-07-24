@@ -53,7 +53,7 @@
     CIFilter *colorMonochrome = [CIFilter filterWithName:@"CIColorControls"];
     [colorMonochrome setValue: adjustedImage forKey: @"inputImage"];
     [colorMonochrome setValue: [NSNumber numberWithFloat:0.0f] forKey:@"inputSaturation"];
-    [colorMonochrome setValue: [NSNumber numberWithFloat:-0.45f] forKey:@"inputBrightness"];
+    [colorMonochrome setValue: [NSNumber numberWithFloat:-0.405f] forKey:@"inputBrightness"];
     [colorMonochrome setValue: [NSNumber numberWithFloat:0.2f] forKey:@"inputContrast"];
     adjustedImage = [colorMonochrome outputImage];
 
