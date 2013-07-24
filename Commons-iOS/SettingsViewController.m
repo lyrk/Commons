@@ -148,6 +148,11 @@
     
     // Add the image view for the picture of the day last shown by the login page
     [self.view insertSubview:settingsImageView_ atIndex:0];
+
+#ifndef DEBUG
+    [self hideDebugInfoContainerIfReleaseBuild];
+#endif
+
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -280,6 +285,22 @@
             [installedSupportedBrowserNames_ insertObject:selectedBrowser atIndex:0];
         }
     }
+}
+
+-(void)hideDebugInfoContainerIfReleaseBuild
+{
+    self.debugInfoContainer.hidden = YES;
+
+    void(^moveUp)(UIView *view) = ^(UIView *view){
+        CGRect f = view.frame;
+        f.origin.y -= (self.debugInfoContainer.frame.size.height + 45.0f);
+        view.frame = f;
+    };
+
+    // Move the external browser and external links containers up to occupy
+    // the space vacated by the hidden debugInfoContainer
+    moveUp(self.externalBrowserContainer);
+    moveUp(self.externalLinksContainer);
 }
 
 #pragma mark - Styling
