@@ -263,6 +263,10 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     // Increase hit area of buttons at the bottom of screen
     [app resizeViewInPlace:self.aboutButton toSize:CGSizeMake(55, 55)];
     [app resizeViewInPlace:self.attributionButton toSize:CGSizeMake(55, 55)];
+
+    // Round username and pwd box corners
+    [app roundCorners:UIRectCornerTopLeft|UIRectCornerTopRight ofView:self.usernameField toRadius:10.0];
+	[app roundCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight ofView:self.passwordField toRadius:10.0];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
