@@ -14,6 +14,8 @@
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
 #import "UILabel+ResizeWithAttributes.h"
+#import "LoginViewController.h"
+#import "SettingsImageView.h"
 
 #pragma mark - Defines
 
@@ -40,6 +42,7 @@
     CommonsApp *app_;
     UIColor *navBarOriginalColor_;
     CAGradientLayer *backgroundGradient_;
+    SettingsImageView *settingsImageView_;
 }
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -54,7 +57,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        
+        settingsImageView_ = [[SettingsImageView alloc] init];
         browserHelper_ = [[BrowserHelper alloc] init];
         app_ = CommonsApp.singleton;
         installedSupportedBrowserNames_ = nil;
@@ -137,12 +140,14 @@
     [self.gradientButtonSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
     [self.gradientButtonLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
     
-    [self addGradientToBackground];
     self.sourceDetailsContainer.backgroundColor = [UIColor clearColor];
 
     // Scale the mock page down a bit
     CGAffineTransform xf = CGAffineTransformMakeScale(0.7f, 0.7f);
     self.mockPageContainerView.transform = xf;
+    
+    // Add the image view for the picture of the day last shown by the login page
+    [self.view insertSubview:settingsImageView_ atIndex:0];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -159,7 +164,9 @@
     [super viewWillAppear:animated];
 
     navBarOriginalColor_ = self.navigationController.navigationBar.backgroundColor;
-    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.85f]];
+    [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.65f]];
+
+    [self useLastPicOfDayShownByLoginPageAsBackground];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -190,6 +197,8 @@
     [self setScrollViewContentSize];
     
     [self resizeBackgroundGradient];
+
+    settingsImageView_.frame = self.view.bounds;
 }
 
 -(void)viewDidLayoutSubviews
@@ -284,12 +293,15 @@
     [app_ roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
 }
 
--(void)addGradientToBackground
+-(void)useLastPicOfDayShownByLoginPageAsBackground
 {
-    backgroundGradient_ = [CAGradientLayer layer];
-    backgroundGradient_.colors = @[(id)[UIColor blackColor].CGColor, (id)[UIColor blackColor].CGColor, (id)[UIColor lightGrayColor].CGColor];
-    backgroundGradient_.locations = @[@0.0f, @0.37f, @1.2];
-    [self.view.layer insertSublayer:backgroundGradient_ atIndex:0];
+    UIImageView *potdImageView_ = (UIImageView *)((LoginViewController *)self.navigationController.viewControllers[0]).potdImageView;
+    settingsImageView_.contentMode = potdImageView_.contentMode;
+    settingsImageView_.image = potdImageView_.image;
+    [settingsImageView_ prepareFilteredImage];
+    [settingsImageView_ toFiltered];
+    [settingsImageView_ zoom];
+    settingsImageView_.frame = self.view.bounds;
 }
 
 #pragma mark - Scrolling
