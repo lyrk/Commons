@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		040860BB17136FC300D3290B /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 040860BA17136FC300D3290B /* CoreImage.framework */; };
-		040860BE1713939200D3290B /* GrayscaleImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 040860BD1713939200D3290B /* GrayscaleImageView.m */; };
 		0417D9E417698AF200081D8C /* PictureOfDayCycler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E317698AF200081D8C /* PictureOfDayCycler.m */; };
 		0417D9EA176E666B00081D8C /* GalleryMultiSelectCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E9176E666B00081D8C /* GalleryMultiSelectCollectionVC.m */; };
 		0417D9F0176EB00100081D8C /* GalleryMultiSelectAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9EF176EB00100081D8C /* GalleryMultiSelectAlbumCell.m */; };
@@ -20,6 +19,7 @@
 		04739E08174ECCDF00F32D13 /* WhatPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E07174ECCDF00F32D13 /* WhatPhotosViewController.m */; };
 		04739E0E174F0D3600F32D13 /* WhatIsCommonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */; };
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
+		04846026179F3D290054BA47 /* SettingsImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04846025179F3D290054BA47 /* SettingsImageView.m */; };
 		04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */; };
 		04C27B191741C24200B1942F /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B181741C24200B1942F /* ProgressView.m */; };
 		04C27B1C174452E800B1942F /* DescriptionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B1B174452E800B1942F /* DescriptionParser.m */; };
@@ -317,8 +317,6 @@
 
 /* Begin PBXFileReference section */
 		040860BA17136FC300D3290B /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
-		040860BC1713939100D3290B /* GrayscaleImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrayscaleImageView.h; sourceTree = "<group>"; };
-		040860BD1713939200D3290B /* GrayscaleImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrayscaleImageView.m; sourceTree = "<group>"; };
 		0417D9E217698AF200081D8C /* PictureOfDayCycler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfDayCycler.h; sourceTree = "<group>"; };
 		0417D9E317698AF200081D8C /* PictureOfDayCycler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfDayCycler.m; sourceTree = "<group>"; };
 		0417D9E8176E666A00081D8C /* GalleryMultiSelectCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectCollectionVC.h; sourceTree = "<group>"; };
@@ -342,6 +340,8 @@
 		04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhatIsCommonsViewController.m; sourceTree = "<group>"; };
 		0478F8E71731B5E9007D4531 /* WelcomeOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeOverlayView.h; sourceTree = "<group>"; };
 		0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeOverlayView.m; sourceTree = "<group>"; };
+		04846024179F3D290054BA47 /* SettingsImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsImageView.h; sourceTree = "<group>"; };
+		04846025179F3D290054BA47 /* SettingsImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsImageView.m; sourceTree = "<group>"; };
 		04A02DA7177502AF00A392C1 /* GalleryMultiSelectAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAssetCell.h; sourceTree = "<group>"; };
 		04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAssetCell.m; sourceTree = "<group>"; };
 		04C27B171741C24200B1942F /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
@@ -745,8 +745,8 @@
 				04C27B1B174452E800B1942F /* DescriptionParser.m */,
 				305BC7681710BD3300B2CC01 /* LoadingIndicator.h */,
 				305BC7691710BD3300B2CC01 /* LoadingIndicator.m */,
-				040860BC1713939100D3290B /* GrayscaleImageView.h */,
-				040860BD1713939200D3290B /* GrayscaleImageView.m */,
+				04846024179F3D290054BA47 /* SettingsImageView.h */,
+				04846025179F3D290054BA47 /* SettingsImageView.m */,
 				044A0C3A170F6504003395DD /* GradientButton.h */,
 				044A0C3B170F6504003395DD /* GradientButton.m */,
 				04C27B171741C24200B1942F /* ProgressView.h */,
@@ -1520,7 +1520,6 @@
 				044A0C3C170F6504003395DD /* GradientButton.m in Sources */,
 				3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */,
 				305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */,
-				040860BE1713939200D3290B /* GrayscaleImageView.m in Sources */,
 				D4C5B4191720966C00C40532 /* LicenseTableViewController.m in Sources */,
 				D4B1CDFD1721E248008E1B31 /* CategorySearchTableViewController.m in Sources */,
 				0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */,
@@ -1547,6 +1546,7 @@
 				0417D9EA176E666B00081D8C /* GalleryMultiSelectCollectionVC.m in Sources */,
 				0417D9F0176EB00100081D8C /* GalleryMultiSelectAlbumCell.m in Sources */,
 				04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */,
+				04846026179F3D290054BA47 /* SettingsImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

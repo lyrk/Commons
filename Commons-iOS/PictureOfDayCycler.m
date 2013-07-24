@@ -27,6 +27,11 @@
     return self;
 }
 
+-(BOOL)isCycling
+{
+    return (!(timer_ == nil));
+}
+
 -(void)start
 {
     // Added initial call to "first" on a shorter timer because the initial image isn't

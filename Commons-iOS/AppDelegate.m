@@ -12,6 +12,7 @@
 #import "LoadingIndicator.h"
 #import "MyUploadsViewController.h"
 #import "LoginViewController.h"
+#import "PictureOfDayCycler.h"
 
 @implementation AppDelegate
 
@@ -145,6 +146,12 @@
                 
                 // Show the logout button
                 [(LoginViewController *)toVc showLogout:YES];
+
+                // Ensure potd cycler stops. Needed because jumping straight to MyUploadsViewController
+                // means LoginViewController's view appearance methods won't be called which means the
+                // cycler which is started in LoginViewController's viewDidLoad method won't be stopped
+                // by it's viewWillDisappear method.
+                [((LoginViewController *)toVc).pictureOfDayCycler stop];
                 
                 // Only skip to MyUploadsViewController if credentials found
                 MyUploadsViewController *myUploadsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
