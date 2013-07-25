@@ -21,6 +21,26 @@
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
 		04846026179F3D290054BA47 /* SettingsImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04846025179F3D290054BA47 /* SettingsImageView.m */; };
 		04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */; };
+		04AC5A8A17A1D66800A06997 /* POTD-2007-06-15.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7617A1D66800A06997 /* POTD-2007-06-15.dict */; };
+		04AC5A8B17A1D66800A06997 /* POTD-2007-06-15.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7717A1D66800A06997 /* POTD-2007-06-15.jpg */; };
+		04AC5A8C17A1D66800A06997 /* POTD-2008-01-25.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7817A1D66800A06997 /* POTD-2008-01-25.dict */; };
+		04AC5A8D17A1D66800A06997 /* POTD-2008-01-25.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7917A1D66800A06997 /* POTD-2008-01-25.jpg */; };
+		04AC5A8E17A1D66800A06997 /* POTD-2008-11-14.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7A17A1D66800A06997 /* POTD-2008-11-14.dict */; };
+		04AC5A8F17A1D66800A06997 /* POTD-2008-11-14.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7B17A1D66800A06997 /* POTD-2008-11-14.jpg */; };
+		04AC5A9017A1D66800A06997 /* POTD-2009-06-19.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7C17A1D66800A06997 /* POTD-2009-06-19.dict */; };
+		04AC5A9117A1D66800A06997 /* POTD-2009-06-19.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7D17A1D66800A06997 /* POTD-2009-06-19.jpg */; };
+		04AC5A9217A1D66800A06997 /* POTD-2010-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7E17A1D66800A06997 /* POTD-2010-05-24.dict */; };
+		04AC5A9317A1D66800A06997 /* POTD-2010-05-24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7F17A1D66800A06997 /* POTD-2010-05-24.jpg */; };
+		04AC5A9417A1D66800A06997 /* POTD-2012-07-08.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8017A1D66800A06997 /* POTD-2012-07-08.dict */; };
+		04AC5A9517A1D66800A06997 /* POTD-2012-07-08.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8117A1D66800A06997 /* POTD-2012-07-08.jpg */; };
+		04AC5A9617A1D66800A06997 /* POTD-2013-04-21.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8217A1D66800A06997 /* POTD-2013-04-21.dict */; };
+		04AC5A9717A1D66800A06997 /* POTD-2013-04-21.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8317A1D66800A06997 /* POTD-2013-04-21.jpg */; };
+		04AC5A9817A1D66800A06997 /* POTD-2013-04-29.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8417A1D66800A06997 /* POTD-2013-04-29.dict */; };
+		04AC5A9917A1D66800A06997 /* POTD-2013-04-29.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8517A1D66800A06997 /* POTD-2013-04-29.jpg */; };
+		04AC5A9A17A1D66800A06997 /* POTD-2013-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8617A1D66800A06997 /* POTD-2013-05-24.dict */; };
+		04AC5A9B17A1D66800A06997 /* POTD-2013-05-24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8717A1D66800A06997 /* POTD-2013-05-24.jpg */; };
+		04AC5A9C17A1D66800A06997 /* POTD-2013-06-04.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8817A1D66800A06997 /* POTD-2013-06-04.dict */; };
+		04AC5A9D17A1D66800A06997 /* POTD-2013-06-04.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8917A1D66800A06997 /* POTD-2013-06-04.jpg */; };
 		04C27B191741C24200B1942F /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B181741C24200B1942F /* ProgressView.m */; };
 		04C27B1C174452E800B1942F /* DescriptionParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B1B174452E800B1942F /* DescriptionParser.m */; };
 		04C27B1F174B0B1E00B1942F /* MockBadPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B1E174B0B1D00B1942F /* MockBadPhotoViewController.m */; };
@@ -44,17 +64,6 @@
 		1F7C6BFB16BEF0D200B7C558 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F7C6BF716BEEE4D00B7C558 /* Reachability.m */; };
 		305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 305BC7691710BD3300B2CC01 /* LoadingIndicator.m */; };
 		3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3067546E170FF9D900A4BD8F /* SettingsViewController.m */; };
-		30841365179616C7006937FA /* POTD-2013-02-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135A179616C7006937FA /* POTD-2013-02-24.dict */; };
-		30841366179616C7006937FA /* POTD-2013-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135B179616C7006937FA /* POTD-2013-05-24.dict */; };
-		30841367179616C7006937FA /* POTD-2007-06-15.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135C179616C7006937FA /* POTD-2007-06-15.dict */; };
-		30841368179616C7006937FA /* POTD-2010-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135D179616C7006937FA /* POTD-2010-05-24.dict */; };
-		30841369179616C7006937FA /* POTD-2008-01-25.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135E179616C7006937FA /* POTD-2008-01-25.dict */; };
-		3084136A179616C7006937FA /* POTD-2008-11-14.dict in Resources */ = {isa = PBXBuildFile; fileRef = 3084135F179616C7006937FA /* POTD-2008-11-14.dict */; };
-		3084136B179616C7006937FA /* POTD-2013-04-21.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841360179616C7006937FA /* POTD-2013-04-21.dict */; };
-		3084136C179616C7006937FA /* POTD-2013-06-04.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841361179616C7006937FA /* POTD-2013-06-04.dict */; };
-		3084136D179616C7006937FA /* POTD-2009-06-19.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841362179616C7006937FA /* POTD-2009-06-19.dict */; };
-		3084136E179616C7006937FA /* POTD-2012-07-08.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841363179616C7006937FA /* POTD-2012-07-08.dict */; };
-		3084136F179616C7006937FA /* POTD-2013-04-29.dict in Resources */ = {isa = PBXBuildFile; fileRef = 30841364179616C7006937FA /* POTD-2013-04-29.dict */; };
 		30DC441B178D42E60081555A /* cc-by-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC4417178D42E20081555A /* cc-by-white.png */; };
 		30DC441C178D42E60081555A /* cc-by-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC4418178D42E30081555A /* cc-by-white@2x.png */; };
 		30DC441D178D42E60081555A /* cc-sa-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 30DC4419178D42E40081555A /* cc-sa-white.png */; };
@@ -344,6 +353,26 @@
 		04846025179F3D290054BA47 /* SettingsImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsImageView.m; sourceTree = "<group>"; };
 		04A02DA7177502AF00A392C1 /* GalleryMultiSelectAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAssetCell.h; sourceTree = "<group>"; };
 		04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAssetCell.m; sourceTree = "<group>"; };
+		04AC5A7617A1D66800A06997 /* POTD-2007-06-15.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2007-06-15.dict"; sourceTree = "<group>"; };
+		04AC5A7717A1D66800A06997 /* POTD-2007-06-15.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2007-06-15.jpg"; sourceTree = "<group>"; };
+		04AC5A7817A1D66800A06997 /* POTD-2008-01-25.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-01-25.dict"; sourceTree = "<group>"; };
+		04AC5A7917A1D66800A06997 /* POTD-2008-01-25.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2008-01-25.jpg"; sourceTree = "<group>"; };
+		04AC5A7A17A1D66800A06997 /* POTD-2008-11-14.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-11-14.dict"; sourceTree = "<group>"; };
+		04AC5A7B17A1D66800A06997 /* POTD-2008-11-14.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2008-11-14.jpg"; sourceTree = "<group>"; };
+		04AC5A7C17A1D66800A06997 /* POTD-2009-06-19.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2009-06-19.dict"; sourceTree = "<group>"; };
+		04AC5A7D17A1D66800A06997 /* POTD-2009-06-19.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2009-06-19.jpg"; sourceTree = "<group>"; };
+		04AC5A7E17A1D66800A06997 /* POTD-2010-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2010-05-24.dict"; sourceTree = "<group>"; };
+		04AC5A7F17A1D66800A06997 /* POTD-2010-05-24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2010-05-24.jpg"; sourceTree = "<group>"; };
+		04AC5A8017A1D66800A06997 /* POTD-2012-07-08.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2012-07-08.dict"; sourceTree = "<group>"; };
+		04AC5A8117A1D66800A06997 /* POTD-2012-07-08.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2012-07-08.jpg"; sourceTree = "<group>"; };
+		04AC5A8217A1D66800A06997 /* POTD-2013-04-21.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-21.dict"; sourceTree = "<group>"; };
+		04AC5A8317A1D66800A06997 /* POTD-2013-04-21.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-04-21.jpg"; sourceTree = "<group>"; };
+		04AC5A8417A1D66800A06997 /* POTD-2013-04-29.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-29.dict"; sourceTree = "<group>"; };
+		04AC5A8517A1D66800A06997 /* POTD-2013-04-29.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-04-29.jpg"; sourceTree = "<group>"; };
+		04AC5A8617A1D66800A06997 /* POTD-2013-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-05-24.dict"; sourceTree = "<group>"; };
+		04AC5A8717A1D66800A06997 /* POTD-2013-05-24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-05-24.jpg"; sourceTree = "<group>"; };
+		04AC5A8817A1D66800A06997 /* POTD-2013-06-04.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-06-04.dict"; sourceTree = "<group>"; };
+		04AC5A8917A1D66800A06997 /* POTD-2013-06-04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-06-04.jpg"; sourceTree = "<group>"; };
 		04C27B171741C24200B1942F /* ProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressView.h; sourceTree = "<group>"; };
 		04C27B181741C24200B1942F /* ProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressView.m; sourceTree = "<group>"; };
 		04C27B1A174452E700B1942F /* DescriptionParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionParser.h; sourceTree = "<group>"; };
@@ -380,17 +409,6 @@
 		305BC7691710BD3300B2CC01 /* LoadingIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingIndicator.m; sourceTree = "<group>"; };
 		3067546D170FF9D800A4BD8F /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		3067546E170FF9D900A4BD8F /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		3084135A179616C7006937FA /* POTD-2013-02-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-02-24.dict"; sourceTree = "<group>"; };
-		3084135B179616C7006937FA /* POTD-2013-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-05-24.dict"; sourceTree = "<group>"; };
-		3084135C179616C7006937FA /* POTD-2007-06-15.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2007-06-15.dict"; sourceTree = "<group>"; };
-		3084135D179616C7006937FA /* POTD-2010-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2010-05-24.dict"; sourceTree = "<group>"; };
-		3084135E179616C7006937FA /* POTD-2008-01-25.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-01-25.dict"; sourceTree = "<group>"; };
-		3084135F179616C7006937FA /* POTD-2008-11-14.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-11-14.dict"; sourceTree = "<group>"; };
-		30841360179616C7006937FA /* POTD-2013-04-21.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-21.dict"; sourceTree = "<group>"; };
-		30841361179616C7006937FA /* POTD-2013-06-04.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-06-04.dict"; sourceTree = "<group>"; };
-		30841362179616C7006937FA /* POTD-2009-06-19.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2009-06-19.dict"; sourceTree = "<group>"; };
-		30841363179616C7006937FA /* POTD-2012-07-08.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2012-07-08.dict"; sourceTree = "<group>"; };
-		30841364179616C7006937FA /* POTD-2013-04-29.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-29.dict"; sourceTree = "<group>"; };
 		30DC4417178D42E20081555A /* cc-by-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by-white.png"; sourceTree = "<group>"; };
 		30DC4418178D42E30081555A /* cc-by-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-by-white@2x.png"; sourceTree = "<group>"; };
 		30DC4419178D42E40081555A /* cc-sa-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa-white.png"; sourceTree = "<group>"; };
@@ -705,6 +723,33 @@
 			name = "Splash Images";
 			sourceTree = "<group>";
 		};
+		04AC5A7517A1D66800A06997 /* Bundled Pictures of Day */ = {
+			isa = PBXGroup;
+			children = (
+				04AC5A7617A1D66800A06997 /* POTD-2007-06-15.dict */,
+				04AC5A7717A1D66800A06997 /* POTD-2007-06-15.jpg */,
+				04AC5A7817A1D66800A06997 /* POTD-2008-01-25.dict */,
+				04AC5A7917A1D66800A06997 /* POTD-2008-01-25.jpg */,
+				04AC5A7A17A1D66800A06997 /* POTD-2008-11-14.dict */,
+				04AC5A7B17A1D66800A06997 /* POTD-2008-11-14.jpg */,
+				04AC5A7C17A1D66800A06997 /* POTD-2009-06-19.dict */,
+				04AC5A7D17A1D66800A06997 /* POTD-2009-06-19.jpg */,
+				04AC5A7E17A1D66800A06997 /* POTD-2010-05-24.dict */,
+				04AC5A7F17A1D66800A06997 /* POTD-2010-05-24.jpg */,
+				04AC5A8017A1D66800A06997 /* POTD-2012-07-08.dict */,
+				04AC5A8117A1D66800A06997 /* POTD-2012-07-08.jpg */,
+				04AC5A8217A1D66800A06997 /* POTD-2013-04-21.dict */,
+				04AC5A8317A1D66800A06997 /* POTD-2013-04-21.jpg */,
+				04AC5A8417A1D66800A06997 /* POTD-2013-04-29.dict */,
+				04AC5A8517A1D66800A06997 /* POTD-2013-04-29.jpg */,
+				04AC5A8617A1D66800A06997 /* POTD-2013-05-24.dict */,
+				04AC5A8717A1D66800A06997 /* POTD-2013-05-24.jpg */,
+				04AC5A8817A1D66800A06997 /* POTD-2013-06-04.dict */,
+				04AC5A8917A1D66800A06997 /* POTD-2013-06-04.jpg */,
+			);
+			path = "Bundled Pictures of Day";
+			sourceTree = "<group>";
+		};
 		04F5736D1775408400376C46 /* Gallery Multi-Select */ = {
 			isa = PBXGroup;
 			children = (
@@ -872,17 +917,7 @@
 		D4086177169B760800D6ACB0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				3084135A179616C7006937FA /* POTD-2013-02-24.dict */,
-				3084135B179616C7006937FA /* POTD-2013-05-24.dict */,
-				3084135C179616C7006937FA /* POTD-2007-06-15.dict */,
-				3084135D179616C7006937FA /* POTD-2010-05-24.dict */,
-				3084135E179616C7006937FA /* POTD-2008-01-25.dict */,
-				3084135F179616C7006937FA /* POTD-2008-11-14.dict */,
-				30841360179616C7006937FA /* POTD-2013-04-21.dict */,
-				30841361179616C7006937FA /* POTD-2013-06-04.dict */,
-				30841362179616C7006937FA /* POTD-2009-06-19.dict */,
-				30841363179616C7006937FA /* POTD-2012-07-08.dict */,
-				30841364179616C7006937FA /* POTD-2013-04-29.dict */,
+				04AC5A7517A1D66800A06997 /* Bundled Pictures of Day */,
 				04E6617917614AB0003F35AD /* copyleft@2x.png */,
 				04E6617A17614AB0003F35AD /* copyleft.png */,
 				04C27B31174BEB9500B1942F /* mockPagePhoto.png */,
@@ -1255,7 +1290,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3084136E179616C7006937FA /* POTD-2012-07-08.dict in Resources */,
 				D408617B169B760800D6ACB0 /* InfoPlist.strings in Resources */,
 				D4086183169B760800D6ACB0 /* Default.png in Resources */,
 				D4086185169B760800D6ACB0 /* Default@2x.png in Resources */,
@@ -1281,12 +1315,10 @@
 				D48555A516CD804900ED60B1 /* add_image.png in Resources */,
 				D48555A616CD804900ED60B1 /* add_image@2x.png in Resources */,
 				D48555A716CD804900ED60B1 /* camera.png in Resources */,
-				30841366179616C7006937FA /* POTD-2013-05-24.dict in Resources */,
 				D48555A816CD804900ED60B1 /* camera@2x.png in Resources */,
 				D48555A916CD804900ED60B1 /* gallery.png in Resources */,
 				D48555AA16CD804900ED60B1 /* gallery@2x.png in Resources */,
 				D48555AB16CD804900ED60B1 /* settings.png in Resources */,
-				30841368179616C7006937FA /* POTD-2010-05-24.dict in Resources */,
 				D48555AC16CD804900ED60B1 /* settings@2x.png in Resources */,
 				D43E578D16CD9C3C00FBB0F9 /* photo-button-bg.png in Resources */,
 				D43E578E16CD9C3C00FBB0F9 /* photo-button-bg@2x.png in Resources */,
@@ -1297,7 +1329,6 @@
 				D4C037111700C38100AA2537 /* messages-ar.json in Resources */,
 				D4C037121700C38100AA2537 /* messages-ast.json in Resources */,
 				D4C037131700C38100AA2537 /* messages-be-tarask.json in Resources */,
-				30841369179616C7006937FA /* POTD-2008-01-25.dict in Resources */,
 				D4C037141700C38100AA2537 /* messages-bn.json in Resources */,
 				D4C037151700C38100AA2537 /* messages-br.json in Resources */,
 				D4C037161700C38100AA2537 /* messages-cs.json in Resources */,
@@ -1314,7 +1345,6 @@
 				D4C037211700C38100AA2537 /* messages-ia.json in Resources */,
 				D4C037221700C38100AA2537 /* messages-it.json in Resources */,
 				D4C037231700C38100AA2537 /* messages-ja.json in Resources */,
-				30841367179616C7006937FA /* POTD-2007-06-15.dict in Resources */,
 				D4C037241700C38100AA2537 /* messages-km.json in Resources */,
 				D4C037251700C38100AA2537 /* messages-ko.json in Resources */,
 				D4C037261700C38100AA2537 /* messages-lb.json in Resources */,
@@ -1332,18 +1362,15 @@
 				D485AA6D1706525900D555ED /* toolbar-view.png in Resources */,
 				D485AA6E1706525900D555ED /* toolbar-view@2x.png in Resources */,
 				D4DE80E6170A3761005F7580 /* messages-ca.json in Resources */,
-				3084136F179616C7006937FA /* POTD-2013-04-29.dict in Resources */,
 				D4DE80E7170A3761005F7580 /* messages-fa.json in Resources */,
 				D4DE80E8170A3761005F7580 /* messages-hu.json in Resources */,
 				D4DE80E9170A3761005F7580 /* messages-lez.json in Resources */,
 				D4DE80EA170A3761005F7580 /* messages-nb.json in Resources */,
-				3084136D179616C7006937FA /* POTD-2009-06-19.dict in Resources */,
 				D4DE80EB170A3761005F7580 /* messages-pl.json in Resources */,
 				D4DE80EC170A3761005F7580 /* messages-ro.json in Resources */,
 				D4DE80ED170A3761005F7580 /* messages-vi.json in Resources */,
 				D475B28E171C750D00AA81C9 /* messages-fi.json in Resources */,
 				D475B28F171C750D00AA81C9 /* messages-ksh.json in Resources */,
-				3084136A179616C7006937FA /* POTD-2008-11-14.dict in Resources */,
 				D475B290171C750D00AA81C9 /* messages-pa.json in Resources */,
 				D475B291171C750D00AA81C9 /* messages-pt-br.json in Resources */,
 				D475B292171C750D00AA81C9 /* messages-te.json in Resources */,
@@ -1364,13 +1391,10 @@
 				D41BFA57173C26A100472EC7 /* messages-lv.json in Resources */,
 				D41BFA58173C26A100472EC7 /* messages-pt.json in Resources */,
 				D41BFA59173C26A100472EC7 /* messages-ta.json in Resources */,
-				3084136C179616C7006937FA /* POTD-2013-06-04.dict in Resources */,
-				3084136B179616C7006937FA /* POTD-2013-04-21.dict in Resources */,
 				04C27B30174BEACD00B1942F /* mockPageLogo.png in Resources */,
 				04C27B32174BEB9500B1942F /* mockPagePhoto.png in Resources */,
 				04C27B39174D78E200B1942F /* mockBadPhoto.png in Resources */,
 				04DC756A1758837600D92849 /* Commons-logo-white.png in Resources */,
-				30841365179616C7006937FA /* POTD-2013-02-24.dict in Resources */,
 				04DC7597175D748400D92849 /* cc@2x.png in Resources */,
 				04DC7598175D748400D92849 /* cc.png in Resources */,
 				04DC759A175D98A600D92849 /* Commons-logo-white@2x.png in Resources */,
@@ -1380,6 +1404,26 @@
 				30DC441C178D42E60081555A /* cc-by-white@2x.png in Resources */,
 				30DC441D178D42E60081555A /* cc-sa-white.png in Resources */,
 				30DC441E178D42E60081555A /* cc-sa-white@2x.png in Resources */,
+				04AC5A8A17A1D66800A06997 /* POTD-2007-06-15.dict in Resources */,
+				04AC5A8B17A1D66800A06997 /* POTD-2007-06-15.jpg in Resources */,
+				04AC5A8C17A1D66800A06997 /* POTD-2008-01-25.dict in Resources */,
+				04AC5A8D17A1D66800A06997 /* POTD-2008-01-25.jpg in Resources */,
+				04AC5A8E17A1D66800A06997 /* POTD-2008-11-14.dict in Resources */,
+				04AC5A8F17A1D66800A06997 /* POTD-2008-11-14.jpg in Resources */,
+				04AC5A9017A1D66800A06997 /* POTD-2009-06-19.dict in Resources */,
+				04AC5A9117A1D66800A06997 /* POTD-2009-06-19.jpg in Resources */,
+				04AC5A9217A1D66800A06997 /* POTD-2010-05-24.dict in Resources */,
+				04AC5A9317A1D66800A06997 /* POTD-2010-05-24.jpg in Resources */,
+				04AC5A9417A1D66800A06997 /* POTD-2012-07-08.dict in Resources */,
+				04AC5A9517A1D66800A06997 /* POTD-2012-07-08.jpg in Resources */,
+				04AC5A9617A1D66800A06997 /* POTD-2013-04-21.dict in Resources */,
+				04AC5A9717A1D66800A06997 /* POTD-2013-04-21.jpg in Resources */,
+				04AC5A9817A1D66800A06997 /* POTD-2013-04-29.dict in Resources */,
+				04AC5A9917A1D66800A06997 /* POTD-2013-04-29.jpg in Resources */,
+				04AC5A9A17A1D66800A06997 /* POTD-2013-05-24.dict in Resources */,
+				04AC5A9B17A1D66800A06997 /* POTD-2013-05-24.jpg in Resources */,
+				04AC5A9C17A1D66800A06997 /* POTD-2013-06-04.dict in Resources */,
+				04AC5A9D17A1D66800A06997 /* POTD-2013-06-04.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
