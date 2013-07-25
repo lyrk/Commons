@@ -965,17 +965,37 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     NSString *prettyDateString = [dateFormatter stringFromDate:date];
     NSString *picOfTheDayText = [MWMessage forKey:@"picture-of-day-label"].text;
     NSString *picOfTheAuthorText = [MWMessage forKey:@"picture-of-day-author"].text;
+    NSString *picOfTheDayLicenseName = [self.pictureOfTheDayLicense uppercaseString];
+
+    // If license was name was not retrieved change it to say "Tap for License" for now
+    if (picOfTheDayLicenseName == nil){
+        picOfTheDayLicenseName = [MWMessage forKey:@"picture-of-day-tap-for-license"].text;
+    }
+
     self.attributionLabel.text = [NSString stringWithFormat:
                                   @"%@\n%@\n%@ %@\n%@",
                                   picOfTheDayText,
                                   prettyDateString,
                                   picOfTheAuthorText,
                                   self.pictureOfTheDayUser,
-                                  [self.pictureOfTheDayLicense uppercaseString]
+                                  picOfTheDayLicenseName
                                   ];
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    if(actionSheet.cancelButtonIndex == buttonIndex){
+        // On iPad the action sheet can be dismissed by tapping outside the action sheet
+        // On non-iPad the cancel button dismisses the action sheet
+        self.attributionLabel.alpha = 1.0f;
+        self.attributionButton.alpha = 1.0f;
+        return;
+    }
+
+    // If license name was not retrieved make the license button open the wiki page for now
+    // (the wiki page should have license info so at least the user is pointed in the right direction)
+    if (self.pictureOfTheDayLicense == nil) buttonIndex = 0;
+
     NSString *urlToOpen = nil;
     switch (buttonIndex) {
         case 0:
@@ -985,13 +1005,15 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
             urlToOpen = [NSString stringWithFormat:@"%@%@", @"http:", self.pictureOfTheDayLicenseUrl];
             break;
         default:
-            // On iPad the action sheet can be dismissed by tapping outside the action sheet
-            // On non-iPad the cancel button dismisses the action sheet
-            self.attributionLabel.alpha = 1.0f;
-            self.attributionButton.alpha = 1.0f;
             break;
     }
     if (urlToOpen) [CommonsApp.singleton openURLWithDefaultBrowser:[NSURL URLWithString:urlToOpen]];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    // Ensure the cycler is restarted. Added this because on iPad action sheet
+    // there is no "Cancel" button so "actionSheet:clickedButtonAtIndex:" doesn't
+    // get called when action sheet is dismissed on iPad
     [self.pictureOfDayCycler start];
 }
 
