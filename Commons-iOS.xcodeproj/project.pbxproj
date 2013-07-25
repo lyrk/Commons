@@ -437,9 +437,9 @@
 		D408617E169B760800D6ACB0 /* Commons-iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commons-iOS-Prefix.pch"; sourceTree = "<group>"; };
 		D408617F169B760800D6ACB0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D4086180169B760800D6ACB0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D4086182169B760800D6ACB0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		D4086184169B760800D6ACB0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		D4086186169B760800D6ACB0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		D4086182169B760800D6ACB0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = "Commons-iOS/Default.png"; sourceTree = "<group>"; };
+		D4086184169B760800D6ACB0 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "Commons-iOS/Default@2x.png"; sourceTree = "<group>"; };
+		D4086186169B760800D6ACB0 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Commons-iOS/Default-568h@2x.png"; sourceTree = "<group>"; };
 		D4086189169B760800D6ACB0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		D4086196169B791100D6ACB0 /* Commons-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-57.png"; path = "../Commons-logo-57.png"; sourceTree = "<group>"; };
 		D4086198169B791400D6ACB0 /* Commons-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-114.png"; path = "../Commons-logo-114.png"; sourceTree = "<group>"; };
@@ -691,6 +691,20 @@
 			name = "Getting Started";
 			sourceTree = "<group>";
 		};
+		0484602717A198410054BA47 /* Splash Images */ = {
+			isa = PBXGroup;
+			children = (
+				D4086182169B760800D6ACB0 /* Default.png */,
+				D4086184169B760800D6ACB0 /* Default@2x.png */,
+				D4086186169B760800D6ACB0 /* Default-568h@2x.png */,
+				D40CE3CC16BB390A00E63B27 /* Default-Portrait~ipad.png */,
+				D40CE3D216BB391500E63B27 /* Default-Landscape@2x~ipad.png */,
+				D40CE3D016BB391300E63B27 /* Default-Landscape~ipad.png */,
+				D40CE3CE16BB390D00E63B27 /* Default-Portrait@2x~ipad.png */,
+			);
+			name = "Splash Images";
+			sourceTree = "<group>";
+		};
 		04F5736D1775408400376C46 /* Gallery Multi-Select */ = {
 			isa = PBXGroup;
 			children = (
@@ -795,10 +809,7 @@
 			children = (
 				D40CE3D616BB398A00E63B27 /* Commons-logo-72@2x.png */,
 				D40CE3D416BB398700E63B27 /* Commons-logo-72.png */,
-				D40CE3D216BB391500E63B27 /* Default-Landscape@2x~ipad.png */,
-				D40CE3D016BB391300E63B27 /* Default-Landscape~ipad.png */,
-				D40CE3CE16BB390D00E63B27 /* Default-Portrait@2x~ipad.png */,
-				D40CE3CC16BB390A00E63B27 /* Default-Portrait~ipad.png */,
+				0484602717A198410054BA47 /* Splash Images */,
 				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,
 				65C4D54016CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing */,
@@ -915,9 +926,6 @@
 				D4086179169B760800D6ACB0 /* InfoPlist.strings */,
 				D408617C169B760800D6ACB0 /* main.m */,
 				D408617E169B760800D6ACB0 /* Commons-iOS-Prefix.pch */,
-				D4086182169B760800D6ACB0 /* Default.png */,
-				D4086184169B760800D6ACB0 /* Default@2x.png */,
-				D4086186169B760800D6ACB0 /* Default-568h@2x.png */,
 				DC0F63DE16BBB73F0017E63C /* defaults.plist */,
 				D4E0384D16C463D300330A7F /* Messages */,
 			);
