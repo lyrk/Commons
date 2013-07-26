@@ -699,7 +699,7 @@
         }
     }
     if (indexPath.section == 1) {
-        return 44; // ????? hack
+        return 40; // ????? hack
     }
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
