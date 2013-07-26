@@ -329,7 +329,6 @@
 	// used instead - for greater control)
 
     self.categoryList = [self.selectedRecord.categoryList mutableCopy];
-    [self.tableView reloadData];
 
 	// Only move details to bottom if coming from my uploads (not categories, license etc...)
 	if(isFirstAppearance_){
@@ -356,6 +355,10 @@
     [super viewDidAppear:animated];
     isOKtoReportDetailsScroll_ = YES;
     isFirstAppearance_ = NO;
+
+    // Moved this here from viewWillAppear so "tableView:viewForHeaderInSection:" can calculate
+    // the titleLabelOffset accurately - wasn't able to do so for new images otherwise
+    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -657,9 +660,14 @@
 {
     NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
     if (sectionTitle == nil) return nil;
-    
+
+    // Get the x offset of the title label relative to the tableView and use
+    // same offset for the categories label (makes the "Categories" header
+    // share the same left alignment as the title label)
+    float titleLabelOffset = [self.titleLabel convertPoint:CGPointZero toView:self.tableView].x;
+
     UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(20, 8, 320, 20);
+    label.frame = CGRectMake(titleLabelOffset, 8, 320, 20);
     label.backgroundColor = [UIColor clearColor];
     label.textColor = DETAIL_LABEL_COLOR;
     label.shadowColor = [UIColor grayColor];
