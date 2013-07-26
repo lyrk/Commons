@@ -438,11 +438,23 @@
 
 - (NSDictionary *)cachedDictForKey:(NSString *)key
 {
-    NSString *imgDataPath = [self fullCacheFilePath:key];
+    NSString *imgDataPath = [self fullCacheFilePath:key extension:@"dict"];
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:imgDataPath]) {
         NSData *data = [NSData dataWithContentsOfFile:imgDataPath options:nil error:nil];
-        return (NSDictionary*) [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+        NSMutableDictionary *dict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+        // Load the jpg data from the jpg file back into the dictionary's "image" entry
+        NSString *jpgPath = [self fullCacheFilePath:key extension:@"jpg"];
+        if ([fm fileExistsAtPath:jpgPath]) {
+            NSError *err = nil;
+            NSData *jpgData = [NSData dataWithContentsOfFile:jpgPath options:nil error:&err];
+            if (err == nil) {
+                dict[@"image"] = jpgData;
+            }
+        }
+        return dict;
     } else {
         return nil;
     }
@@ -458,15 +470,34 @@
     _cachePath = newCachePath;
 }
 
-- (NSString *)fullCacheFilePath:(NSString *)fileName
+- (NSString *)fullCacheFilePath:(NSString *)fileName extension:(NSString *)extension
 {
-    return [NSString stringWithFormat:@"%@%@.dict", self.cachePath, fileName];
+    return [NSString stringWithFormat:@"%@%@.%@", self.cachePath, fileName, extension];
 }
 
-- (void)cacheDict:(NSDictionary *)dict forKey:(NSString *)key
+- (void)cacheDict:(NSMutableDictionary *)dict forKey:(NSString *)key
 {
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dict];
-    [data writeToFile:[self fullCacheFilePath:key] atomically:YES];
+    // Dict is to be written out to file, but first take the jpg data from its "image"
+    // key and write it out to a jpg file with the same name as the "dict" file but
+    // a jpg extension
+
+    // Note: rather than making a copy of dict, which contains a large amound of image
+    // data in dict["image"], copy all the non-image keys. (much faster than unncessarily
+    // copying all the image data)
+    NSMutableDictionary *dictWithoutImageData = [[NSMutableDictionary alloc] init];
+    for (NSString *key in dict) {
+        if ([key isEqualToString:@"image"]) continue;
+        dictWithoutImageData[key] = dict[key];
+    }
+
+    // Save dictWithoutImageData, but make its "image" key be set to the name of the image
+    // rather than the actual data
+    NSData *jpgData = UIImageJPEGRepresentation([UIImage imageWithData:dict[@"image"]], 0.9f);
+    [jpgData writeToFile:[self fullCacheFilePath:key extension:@"jpg"] atomically:YES];
+    dictWithoutImageData[@"image"] = [NSString stringWithFormat:@"%@.jpg", key];
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:dictWithoutImageData];
+    [data writeToFile:[self fullCacheFilePath:key extension:@"dict"] atomically:YES];
 }
 
 #pragma mark - Extreme panorama detection

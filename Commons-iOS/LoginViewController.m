@@ -41,7 +41,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 #define DEFAULT_BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
 
 // Change this to a plist later, but we're not bundling that many images
-#define BUNDLED_PIC_OF_DAY_DATES @"2007-06-15|2008-01-25|2008-11-14|2009-06-19|2010-05-24|2012-07-08|2013-02-24|2013-04-21|2013-04-29|2013-05-24|2013-06-04"
+#define BUNDLED_PIC_OF_DAY_DATES @"2007-06-15|2008-01-25|2008-11-14|2009-06-19|2010-05-24|2012-07-08|2013-04-21|2013-04-29|2013-05-24|2013-06-04"
 
 // Pic of day transition settings
 #define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 6.0f
@@ -205,7 +205,8 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     self.potdImageView.useFilter = NO;
 
     // Ensure bundled pic of day is in cache
-    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES];
+    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES extension:@"dict"];
+    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES extension:@"jpg"];
 
     if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE == nil){
         // Load default image to ensure something is showing even if no net connection
@@ -794,13 +795,13 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 
 #pragma mark - Pic of Day
 
--(void)copyToCacheBundledPotdsNamed:(NSString *)defaultBundledPotdsDates
+-(void)copyToCacheBundledPotdsNamed:(NSString *)defaultBundledPotdsDates extension:(NSString *)extension
 {
     NSArray *dates = [defaultBundledPotdsDates componentsSeparatedByString:@"|"];
     for (NSString *bundledPotdDateString in dates) {
         // Copy bundled default picture of the day to the cache (if it's not already there)
         // so there's a pic of the day shows even if today's image can't download
-        NSString *defaultBundledPotdFileName = [NSString stringWithFormat:@"POTD-%@.dict", bundledPotdDateString];
+        NSString *defaultBundledPotdFileName = [NSString stringWithFormat:@"POTD-%@.%@", bundledPotdDateString, extension];
         NSString *defaultBundledPath = [[NSBundle mainBundle] pathForResource:defaultBundledPotdFileName ofType:nil];
         if (defaultBundledPath){
             //Bundled File Found! See: http://stackoverflow.com/a/7487235
@@ -835,9 +836,9 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     // Uses reverseObjectEnumerator so most recently downloaded images show first
     NSArray *allFileInPotdFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[CommonsApp singleton] potdPath:@""] error:nil];
     for (NSString *fileName in [allFileInPotdFolder reverseObjectEnumerator]) {
-        if ([fileName hasPrefix:@"POTD-"]) {
-            NSString *dateString2 = [fileName substringWithRange:NSMakeRange(5, 10)];
-            [cachedPotdDateStrings_ addObject:dateString2];
+        if ([fileName hasPrefix:@"POTD-"] && [fileName hasSuffix:@"dict"]) {
+            NSString *dateString = [fileName substringWithRange:NSMakeRange(5, 10)];
+            [cachedPotdDateStrings_ addObject:dateString];
         }
     }
 
