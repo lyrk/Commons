@@ -698,6 +698,7 @@ to take or choose photos.</string>
                         <outlet property="thisAppLicenseButton" destination="7zM-si-Jwa" id="BS1-fC-IT8"/>
                         <outlet property="thisAppSourceButton" destination="rK2-dn-oLQ" id="oTC-4c-SwT"/>
                         <outlet property="trackingDetailsLabel" destination="SZo-q4-tcy" id="P4e-ej-0qH"/>
+                        <outlet property="trackingInfoContainer" destination="roS-hG-Dqv" id="UN2-Ah-DOz"/>
                         <outlet property="trackingLabel" destination="tOO-Oe-hxg" id="O17-uE-E3m"/>
                         <outlet property="trackingSwitch" destination="GI3-tl-U7j" id="c9W-eD-8Le"/>
                         <outlet property="uploadTargetLabel" destination="EYT-1W-SJu" id="GTl-d2-bGG"/>
