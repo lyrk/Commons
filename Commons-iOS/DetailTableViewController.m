@@ -1187,12 +1187,14 @@
 	CGRect f = self.tableView.frame;
 	f.size = self.tableView.contentSize;
 
-    // Make the details table extent about 1/3 of the screen height past the bottom
-    // of the details table content. The size must be grabbed from the delegate
-    // because the details view itself isn't fullscreen, so the size of the screen
-    // can't be obtained from it.
-    f.size.height += (self.delegate.view.bounds.size.height / 3.0f);
-    
+    if(f.size.height <= self.delegate.view.bounds.size.height){
+        // If the height of its content is less than the screen height only add enough
+        // scroll margin to let the bottom of the details to scroll into view. (No point
+        // in having so much margin in this case that the top of the content can scroll
+        // off the top of the screen.)
+        f.size.height += (self.delegate.view.bounds.size.height - f.size.height);
+    }
+
 	self.tableView.frame = f;
     
     [self sizeTableTopGradientAndBottomFillerWithFlip:NO];
