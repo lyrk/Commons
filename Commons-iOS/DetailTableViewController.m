@@ -491,15 +491,13 @@
 
 -(void)navBackgroundViewTap:(UITapGestureRecognizer *)recognizer
 {
-    float delay = (self.delegate.navigationItem.prompt.length == 0) ? 0.0f : 0.1f;
-
-    // Clear out any prompt above the nav bar as soon as disabled upload button is tapped
-    [self clearNavBarPrompt];
-
     // If user taps disabled upload button or the nav bar this causes the details table to slide up
-    // Nice prompt to remind user to enter title and description. Perform after delay if the
-    // navigationItem.prompt was set to give prompt time to disappear
-    [self scrollToTopBeneathNavBarAfterDelay:delay];
+    // Nice prompt to remind user to enter title and description
+    if ([CommonsApp.singleton getTrimmedString:self.titleTextField.text].length == 0) {
+        [self focusOnTitleTextField];
+    }else if ([CommonsApp.singleton getTrimmedString:self.descriptionTextView.text].length == 0) {
+        [self focusOnDescriptionTextView];
+    }
 }
 
 -(void)clearNavBarPrompt
@@ -763,7 +761,7 @@
     // When the description field is being edited and the "hide keyboard" button is pressed
     // the nav bar needs to be revealed so the "upload" button is visible
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self scrollToTopBeneathNavBarAfterDelay:0.0f];
+    [self scrollToTopBeneathNavBarAfterDelay:0.0f then:nil];
 }
 
 - (void)hideKeyboard
@@ -1079,9 +1077,9 @@
                      }];
 }
 
--(void)scrollToTopBeneathNavBarAfterDelay:(float)delay
+-(void)scrollToTopBeneathNavBarAfterDelay:(float)delay then:(void(^)(void))block
 {
-    [self scrollByAmount:-[self verticalDistanceFromNavBar] withDuration:0.25f delay:delay options:UIViewAnimationTransitionNone useXF:NO then:nil];
+    [self scrollByAmount:-[self verticalDistanceFromNavBar] withDuration:0.25f delay:delay options:UIViewAnimationTransitionNone useXF:NO then:block];
 }
 
 -(void)scrollToPercentOfSuperview:(float)percent then:(void(^)(void))block
@@ -1190,10 +1188,10 @@
 	f.size = self.tableView.contentSize;
 
     // Make the details table extent about 1/3 of the screen height past the bottom
-    // of the details table content. (1/8 for iPad) The size must be grabbed from
-    // the delegate because the details view itself isn't fullscreen, so the size of
-    // the screen can't be obtained from it.
-    f.size.height += (self.delegate.view.bounds.size.height / ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 8.0f : 3.0f));
+    // of the details table content. The size must be grabbed from the delegate
+    // because the details view itself isn't fullscreen, so the size of the screen
+    // can't be obtained from it.
+    f.size.height += (self.delegate.view.bounds.size.height / 3.0f);
     
 	self.tableView.frame = f;
     
