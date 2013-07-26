@@ -1027,7 +1027,7 @@ to take or choose photos.</string>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Unique, descriptive title" minimumFontSize="17" id="V0c-wd-2eA">
-                                                    <rect key="frame" x="11" y="38" width="278" height="30"/>
+                                                    <rect key="frame" x="0.0" y="38" width="300" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1059,14 +1059,14 @@ to take or choose photos.</string>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                                 <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="ucL-2U-rnz">
-                                                    <rect key="frame" x="11" y="36" width="278" height="154"/>
+                                                    <rect key="frame" x="0.0" y="36" width="300" height="154"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Required" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Azd-ug-G3G">
-                                                    <rect key="frame" x="19" y="42" width="69" height="21"/>
+                                                    <rect key="frame" x="8" y="42" width="118" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1755,7 +1755,6 @@ Help Wikipedia articles come to life!</string>
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SettingsViewController.h"/>
             <relationships>
                 <relationship kind="action" name="debugSwitchPushed:"/>
-                <relationship kind="action" name="loggingSwitchPushed:"/>
                 <relationship kind="action" name="openURLinExternalBrowser:"/>
                 <relationship kind="action" name="sourceButtonTap:"/>
                 <relationship kind="outlet" name="appNameLabel" candidateClass="UILabel"/>

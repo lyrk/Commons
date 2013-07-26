@@ -28,7 +28,7 @@
 #define DETAIL_BORDER_WIDTH 0.0f
 #define DETAIL_BORDER_RADIUS 0.0f
 
-#define DETAIL_TABLE_CELL_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.0f]
+#define DETAIL_TABLE_CATEGORIES_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.1f]
 
 #define DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.5f]
 #define DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR [UIColor whiteColor]
@@ -329,7 +329,6 @@
 	// used instead - for greater control)
 
     self.categoryList = [self.selectedRecord.categoryList mutableCopy];
-    [self.tableView reloadData];
 
 	// Only move details to bottom if coming from my uploads (not categories, license etc...)
 	if(isFirstAppearance_){
@@ -356,6 +355,10 @@
     [super viewDidAppear:animated];
     isOKtoReportDetailsScroll_ = YES;
     isFirstAppearance_ = NO;
+
+    // Moved this here from viewWillAppear so "tableView:viewForHeaderInSection:" can calculate
+    // the titleLabelOffset accurately - wasn't able to do so for new images otherwise
+    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -649,7 +652,12 @@
 
 // Make the table cell backgrounds partially transparent
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = DETAIL_TABLE_CELL_BACKGROUND_COLOR;
+
+    if (indexPath.section == 0) {
+        cell.backgroundColor = [UIColor clearColor];
+    }else{
+        cell.backgroundColor = DETAIL_TABLE_CATEGORIES_BACKGROUND_COLOR;
+    }
 }
 
 // Custom style for the "Categories" table header label. http://stackoverflow.com/a/7928944/135557
@@ -657,9 +665,14 @@
 {
     NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
     if (sectionTitle == nil) return nil;
-    
+
+    // Get the x offset of the title label relative to the tableView and use
+    // same offset for the categories label (makes the "Categories" header
+    // share the same left alignment as the title label)
+    float titleLabelOffset = [self.titleLabel convertPoint:CGPointZero toView:self.tableView].x;
+
     UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(20, 8, 320, 20);
+    label.frame = CGRectMake(titleLabelOffset, 8, 320, 20);
     label.backgroundColor = [UIColor clearColor];
     label.textColor = DETAIL_LABEL_COLOR;
     label.shadowColor = [UIColor grayColor];
@@ -691,7 +704,7 @@
         }
     }
     if (indexPath.section == 1) {
-        return 44; // ????? hack
+        return 40; // ????? hack
     }
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
 }
