@@ -86,6 +86,7 @@
     "getting-started-yes-button": "Button text for confirming the user understands what kinds of images to upload.\n{{Identical|Yes}}",
     "picture-of-day-label": "Label for Picture of the Day image on login page.",
     "picture-of-day-author": "Label for author of Picture of the Day.\n{{Identical|Author}}",
+    "picture-of-day-tap-for-license": "Label for license of Picture of the Day if the license name was not retrieved.",
     "picture-of-day-menu-title": "Title for Picture of Day menu.",
     "picture-of-day-commons-button": "Text for Picture of Day button linking to the picture's commons page.",
     "picture-of-day-license-button": "Text for Picture of Day button linking to the picture's license page.",
