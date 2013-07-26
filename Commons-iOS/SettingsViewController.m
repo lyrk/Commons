@@ -142,10 +142,14 @@
     
     self.sourceDetailsContainer.backgroundColor = [UIColor clearColor];
 
-    // Scale the mock page down a bit
-    CGAffineTransform xf = CGAffineTransformMakeScale(0.7f, 0.7f);
-    self.mockPageContainerView.transform = xf;
-    
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
+        // Scale the mock page down a bit
+        CGAffineTransform xf = CGAffineTransformMakeScale(0.7f, 0.7f);
+        self.mockPageContainerView.transform = xf;
+    }else{
+        [self moveContainersDownToMakeRoomForBiggerMockPage];
+    }
+
     // Add the image view for the picture of the day last shown by the login page
     [self.view insertSubview:settingsImageView_ atIndex:0];
 
@@ -301,6 +305,22 @@
     // the space vacated by the hidden debugInfoContainer
     moveUp(self.externalBrowserContainer);
     moveUp(self.externalLinksContainer);
+}
+
+-(void)moveContainersDownToMakeRoomForBiggerMockPage
+{
+    void(^moveDown)(UIView *view, float amount) = ^(UIView *view, float amount){
+        CGRect f = view.frame;
+        f.origin.y += (self.debugInfoContainer.frame.size.height + amount);
+        view.frame = f;
+    };
+
+    moveDown(self.mockPageContainerView, 20.0f);
+    moveDown(self.appVersionLabel, 45.0f);
+    moveDown(self.trackingInfoContainer, 45.0f);
+    moveDown(self.debugInfoContainer, 45.0f);
+    moveDown(self.externalBrowserContainer, 45.0f);
+    moveDown(self.externalLinksContainer, 45.0f);
 }
 
 #pragma mark - Styling

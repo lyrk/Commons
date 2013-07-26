@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *trackingSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *trackingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *trackingDetailsLabel;
+@property (weak, nonatomic) IBOutlet UIView *trackingInfoContainer;
 
 @property (weak, nonatomic) IBOutlet UILabel *appNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appVersionLabel;
