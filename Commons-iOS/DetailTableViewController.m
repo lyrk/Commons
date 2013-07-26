@@ -28,7 +28,7 @@
 #define DETAIL_BORDER_WIDTH 0.0f
 #define DETAIL_BORDER_RADIUS 0.0f
 
-#define DETAIL_TABLE_CELL_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.0f]
+#define DETAIL_TABLE_CATEGORIES_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.1f]
 
 #define DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.5f]
 #define DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR [UIColor whiteColor]
@@ -652,7 +652,12 @@
 
 // Make the table cell backgrounds partially transparent
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    cell.backgroundColor = DETAIL_TABLE_CELL_BACKGROUND_COLOR;
+
+    if (indexPath.section == 0) {
+        cell.backgroundColor = [UIColor clearColor];
+    }else{
+        cell.backgroundColor = DETAIL_TABLE_CATEGORIES_BACKGROUND_COLOR;
+    }
 }
 
 // Custom style for the "Categories" table header label. http://stackoverflow.com/a/7928944/135557
