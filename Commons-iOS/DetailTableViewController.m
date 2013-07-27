@@ -745,11 +745,13 @@
 #pragma mark - Focus to box when title or description label tapped
 - (void)focusOnTitleTextField
 {
+    if (!self.titleTextField.enabled) return;
     [self.titleTextField becomeFirstResponder];
 }
 
 - (void)focusOnDescriptionTextView
 {
+    if (!self.descriptionTextView.editable) return;
     [self.descriptionTextView becomeFirstResponder];
 }
 
