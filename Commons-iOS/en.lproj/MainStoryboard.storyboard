@@ -1129,7 +1129,7 @@ to take or choose photos.</string>
                                                 <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wKF-Ob-qTK">
                                                     <rect key="frame" x="10" y="0.0" width="247" height="43"/>
                                                     <autoresizingMask key="autoresizingMask"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 </label>
@@ -1784,6 +1784,7 @@ Help Wikipedia articles come to life!</string>
                 <relationship kind="outlet" name="thisAppLicenseButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="thisAppSourceButton" candidateClass="UIButton"/>
                 <relationship kind="outlet" name="trackingDetailsLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="trackingInfoContainer" candidateClass="UIView"/>
                 <relationship kind="outlet" name="trackingLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="trackingSwitch" candidateClass="UISwitch"/>
                 <relationship kind="outlet" name="uploadTargetLabel" candidateClass="UILabel"/>
