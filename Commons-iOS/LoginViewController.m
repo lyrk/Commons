@@ -268,6 +268,14 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     // Round username and pwd box corners
     [app roundCorners:UIRectCornerTopLeft|UIRectCornerTopRight ofView:self.usernameField toRadius:10.0];
 	[app roundCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight ofView:self.passwordField toRadius:10.0];
+
+    // Center align username and pwd box text
+    self.usernameField.textAlignment = NSTextAlignmentCenter;
+    self.passwordField.textAlignment = NSTextAlignmentCenter;
+    
+    // Observe changes to username and pwd box text so placeholder text can be updated
+    [self.usernameField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [self.passwordField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -1141,12 +1149,16 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 
 - (void)keyboardWillShow:(NSNotification *)notification
 {
+    [self showPlaceHolderTextIfNecessary];
+
     isKeyboardOnscreen_ = YES;
     [self.view setNeedsLayout];
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
+    [self showPlaceHolderTextIfNecessary];
+
     isKeyboardOnscreen_ = NO;
     [self.view setNeedsLayout];
     doubleTapRecognizer_.enabled = NO;
@@ -1200,6 +1212,17 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 -(NSString *) trimmedPassword{
     // Returns trimmed version of the password as it *presently exists* in the passwordField UITextField
     return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
+}
+
+- (void)showPlaceHolderTextIfNecessary
+{
+    if (self.usernameField.text.length == 0) {
+        self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
+    }
+
+    if (self.passwordField.text.length == 0) {
+        self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
+    }
 }
 
 #pragma mark - Gesture
@@ -1274,6 +1297,15 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     }
 
     return NO;
+}
+
+#pragma mark - KVO
+
+- (void) observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
+{
+    if ([keyPath isEqualToString:@"text"]) {
+        [self showPlaceHolderTextIfNecessary];
+    }
 }
 
 @end

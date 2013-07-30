@@ -10,9 +10,16 @@
     self = [super initWithCoder:coder];
     if (self) {
         // Add a little padding to the left of any text entered
-        UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 20)];
+        UIView *paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 28, 20)];
+        paddingView.backgroundColor = [UIColor clearColor];
         self.leftView = paddingView;
         self.leftViewMode = UITextFieldViewModeAlways;
+        
+        // Add padding to the right too, but only when the clear icon is not visible
+        paddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 28, 20)];
+        paddingView.backgroundColor = [UIColor clearColor];
+        self.rightView = paddingView;
+        self.rightViewMode = UITextFieldViewModeUnlessEditing;
     }
     return self;
 }
