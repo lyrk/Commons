@@ -81,6 +81,11 @@
     "getting-started-got-it-label": "\u3054\u7406\u89e3\u3044\u305f\u3060\u3051\u307e\u3057\u305f\u304b?",
     "getting-started-yes-button": "\u306f\u3044!",
     "picture-of-day-author": "\u4f5c\u8005:",
+    "picture-of-day-tap-for-license": "\u30bf\u30c3\u30d7\u3067\u30e9\u30a4\u30bb\u30f3\u30b9\u3092\u8868\u793a",
+    "picture-of-day-menu-title": "\u4eca\u65e5\u306e\u4e00\u679a",
+    "picture-of-day-commons-button": "\u30b3\u30e2\u30f3\u30ba\u306e\u30da\u30fc\u30b8",
+    "picture-of-day-license-button": "\u30e9\u30a4\u30bb\u30f3\u30b9",
+    "picture-of-day-cancel-button": "\u30ad\u30e3\u30f3\u30bb\u30eb",
     "refresh-failed-alert": "\u66f4\u65b0\u3067\u304d\u307e\u305b\u3093\u3067\u3057\u305f",
     "gallery-cancel-button": "\u30ad\u30e3\u30f3\u30bb\u30eb",
     "gallery-album-title": "\u30a2\u30eb\u30d0\u30e0"

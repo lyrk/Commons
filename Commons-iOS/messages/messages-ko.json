@@ -92,6 +92,10 @@
     "getting-started-yes-button": "\uc608!",
     "picture-of-day-label": "\uc704\ud0a4\ubbf8\ub514\uc5b4 \uacf5\uc6a9\n\uc624\ub298\uc758 \uadf8\ub9bc",
     "picture-of-day-author": "\uc800\uc791\uc790:",
+    "picture-of-day-menu-title": "\uc624\ub298\uc758 \uadf8\ub9bc",
+    "picture-of-day-commons-button": "\uacf5\uc6a9 \ubb38\uc11c",
+    "picture-of-day-license-button": "\ub77c\uc774\uc120\uc2a4",
+    "picture-of-day-cancel-button": "\ucde8\uc18c",
     "refresh-failed-alert": "\uc0c8\ub85c \uace0\uce68\uc744 \uc2e4\ud328\ud588\uc2b5\ub2c8\ub2e4!",
     "gallery-cancel-button": "\ucde8\uc18c",
     "gallery-album-title": "\uc568\ubc94"

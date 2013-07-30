@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Campmaster",
             "Metalhead64",
             "Se4598"
         ]
@@ -92,6 +93,11 @@
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nBild des Tages",
     "picture-of-day-author": "Autor:",
+    "picture-of-day-tap-for-license": "Tippen f\u00fcr die Lizenz",
+    "picture-of-day-menu-title": "Bild des Tages",
+    "picture-of-day-commons-button": "Commons-Seite",
+    "picture-of-day-license-button": "Lizenz",
+    "picture-of-day-cancel-button": "Abbrechen",
     "refresh-failed-alert": "Aktualisieren fehlgeschlagen!",
     "gallery-cancel-button": "Abbrechen",
     "gallery-album-title": "Alben"

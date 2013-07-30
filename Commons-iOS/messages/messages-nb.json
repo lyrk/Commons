@@ -93,6 +93,10 @@
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nDagens bilde",
     "picture-of-day-author": "Opphavsperson:",
+    "picture-of-day-menu-title": "Dagens bilde",
+    "picture-of-day-commons-button": "Commons-side",
+    "picture-of-day-license-button": "Lisens",
+    "picture-of-day-cancel-button": "Avbryt",
     "refresh-failed-alert": "Oppfrisking feilet!",
     "gallery-cancel-button": "Avbryt",
     "gallery-album-title": "Album"

@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Cainamarques",
             "Gusta",
             "HenriqueCrang",
             "Luckas",
@@ -93,6 +94,10 @@
     "getting-started-yes-button": "Sim!",
     "picture-of-day-label": "Wikimedia Commons\nImagem do Dia",
     "picture-of-day-author": "Autor:",
+    "picture-of-day-menu-title": "Imagem do dia",
+    "picture-of-day-commons-button": "P\u00e1gina no Commons",
+    "picture-of-day-license-button": "Licen\u00e7a",
+    "picture-of-day-cancel-button": "Cancelar",
     "refresh-failed-alert": "Falha na Atualiza\u00e7\u00e3o!",
     "gallery-cancel-button": "Cancelar",
     "gallery-album-title": "\u00c1lbuns"

@@ -3,7 +3,8 @@
         "authors": [
             "Coolland",
             "Emperyan",
-            "Incelemeelemani"
+            "Incelemeelemani",
+            "Talha Samil Cakir"
         ]
     },
     "contribs-title": "Y\u00fcklemelerim",
@@ -92,6 +93,9 @@
     "getting-started-yes-button": "Evet!",
     "picture-of-day-label": "Wikimedia Commons G\u00fcn\u00fcn Resmi",
     "picture-of-day-author": "Yazar:",
+    "picture-of-day-menu-title": "G\u00fcn\u00fcn resmi",
+    "picture-of-day-license-button": "Lisans",
+    "picture-of-day-cancel-button": "\u0130ptal",
     "refresh-failed-alert": "Yenileme Ba\u015far\u0131s\u0131z!",
     "gallery-cancel-button": "Vazge\u00e7",
     "gallery-album-title": "Alb\u00fcmler"
