@@ -171,7 +171,11 @@ static CommonsApp *singleton_;
 
 - (BOOL)processLaunchURL:(NSURL *)url
 {
-    NSLog(@"Launched with URL: %@", url);
+    if (url.path == NULL) {
+        NSLog(@"url.path was NULL");
+        return NO;
+    }
+
     NSString *path = [self realPath:url.path];
     NSString *inbox = [[self realPath:[self documentRootPath]] stringByAppendingString:@"/Inbox/"];
     
