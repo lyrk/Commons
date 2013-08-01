@@ -8,6 +8,7 @@
 
 #import "FileUpload.h"
 #import "CommonsApp.h"
+#import "ImageResizer.h"
 
 @implementation FileUpload
 
@@ -59,6 +60,16 @@
         resolution *= app.speedGovernor.imageResolutionMultiplier;
         
         CGSize size = CGSizeMake(resolution, resolution);
+        
+        // Generate local thumbnail so it doesn't require round-trip to server after uploading
+        ImageResizer *imageResizer = [[ImageResizer alloc] init];
+        imageResizer.imagePath = [app filePath:self.localFile];
+        imageResizer.thumbImagePath = [app thumbPath:
+                                       [NSString stringWithFormat:@"%dx%d-%@", (int)size.width, (int)size.height, self.title]
+                                       ];
+        imageResizer.desiredSize = size;
+        [imageResizer createThumbImage];
+        
         fetch = [app fetchWikiImage:self.title size:size withQueuePriority:priority];
     } else {
         // Use the pre-uploaded file as the medium thumbnail
@@ -90,7 +101,6 @@
     }];
     return deferred.promise;
 }
-
 
 - (BOOL)isReadyForUpload
 {
