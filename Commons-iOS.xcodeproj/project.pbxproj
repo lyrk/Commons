@@ -21,6 +21,7 @@
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
 		04846026179F3D290054BA47 /* SettingsImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04846025179F3D290054BA47 /* SettingsImageView.m */; };
 		04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */; };
+		04A0F33B17AACF7F004AB164 /* ImageResizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A0F33A17AACF7F004AB164 /* ImageResizer.m */; };
 		04AC5A8A17A1D66800A06997 /* POTD-2007-06-15.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7617A1D66800A06997 /* POTD-2007-06-15.dict */; };
 		04AC5A8B17A1D66800A06997 /* POTD-2007-06-15.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7717A1D66800A06997 /* POTD-2007-06-15.jpg */; };
 		04AC5A8C17A1D66800A06997 /* POTD-2008-01-25.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7817A1D66800A06997 /* POTD-2008-01-25.dict */; };
@@ -353,6 +354,8 @@
 		04846025179F3D290054BA47 /* SettingsImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsImageView.m; sourceTree = "<group>"; };
 		04A02DA7177502AF00A392C1 /* GalleryMultiSelectAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAssetCell.h; sourceTree = "<group>"; };
 		04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAssetCell.m; sourceTree = "<group>"; };
+		04A0F33917AACF7F004AB164 /* ImageResizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageResizer.h; sourceTree = "<group>"; };
+		04A0F33A17AACF7F004AB164 /* ImageResizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageResizer.m; sourceTree = "<group>"; };
 		04AC5A7617A1D66800A06997 /* POTD-2007-06-15.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2007-06-15.dict"; sourceTree = "<group>"; };
 		04AC5A7717A1D66800A06997 /* POTD-2007-06-15.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2007-06-15.jpg"; sourceTree = "<group>"; };
 		04AC5A7817A1D66800A06997 /* POTD-2008-01-25.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-01-25.dict"; sourceTree = "<group>"; };
@@ -790,6 +793,8 @@
 		655BF5EC16C104CD00B22299 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				04A0F33917AACF7F004AB164 /* ImageResizer.h */,
+				04A0F33A17AACF7F004AB164 /* ImageResizer.m */,
 				0417D9E217698AF200081D8C /* PictureOfDayCycler.h */,
 				0417D9E317698AF200081D8C /* PictureOfDayCycler.m */,
 				04C27B35174D44C800B1942F /* CALerpLine.h */,
@@ -1558,6 +1563,7 @@
 				DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */,
 				D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */,
 				DC606FBF16BF28FA006EFA5C /* ImageScrollViewController.m in Sources */,
+				04A0F33B17AACF7F004AB164 /* ImageResizer.m in Sources */,
 				D41D281316C19C4D00BC3ABE /* ImageListCell.m in Sources */,
 				D41D281716C19CE100BC3ABE /* MyUploadsViewController.m in Sources */,
 				D4E0383C16C4567500330A7F /* MWMessage.m in Sources */,
