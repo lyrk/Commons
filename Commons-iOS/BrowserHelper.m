@@ -83,6 +83,19 @@
 {   // Returns url formatted for opening in specified browser. Assumes the url
     // it is passed includes protocol
 
+    // Special case if "browser" is Chrome and it supports googlechrome-x-callback scheme
+    // This is to enable support for a "Commons" back button in Chrome to allow quick return
+    // to this app after opening link in Chrome. Reminder: an addition to the app's plist
+    // file had to be made to allow this "googlechrome-x-callback" url scheme to work - see
+    // the "CFBundleURLTypes" key in the plist
+    if([browser isEqualToString:@"Chrome"]){
+        // Ensure installed chome version supports googlechrome-x-callback before using it,
+        // "getURLFormattedForChromeCallbackFromURL:" will return nil if the installed Chrome
+        // browser does not support googlechrome-x-callback
+        NSString *chromeCallbackURL = [self getURLFormattedForChromeCallbackFromURL:[urlWithProtocol absoluteString]];
+        if (chromeCallbackURL) return [NSURL URLWithString:chromeCallbackURL];
+    }
+
     NSString *urlStr = [urlWithProtocol absoluteString];
     NSDictionary *settings = [browserSettings objectForKey:browser];
     NSInteger colonPosition = [urlStr rangeOfString:@"://"].location;
@@ -102,6 +115,20 @@
     urlFormat = [urlFormat stringByReplacingOccurrencesOfString:@"[proto]" withString:protocol];
     
     return [NSURL URLWithString:urlFormat];
+}
+
+-(NSString *)getURLFormattedForChromeCallbackFromURL:(NSString *)url
+{
+    // See https://github.com/GoogleChrome/OpenInChrome for sample app using "googlechrome-x-callback"
+    if ([[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:@"googlechrome-x-callback://"]]){
+        return [NSString stringWithFormat:
+                         @"googlechrome-x-callback://x-callback-url/open/?x-source=%@&url=%@&x-success=%@&create-new-tab",
+                         [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
+                         url,
+                         @"wikimedia-commons%3A%2F%2F"
+                         ];
+    }
+    return nil;
 }
 
 @end
