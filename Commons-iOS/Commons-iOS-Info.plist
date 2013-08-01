@@ -38,7 +38,7 @@
 			<string>org.wikimedia.commons</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>commons</string>
+				<string>wikimedia-commons</string>
 			</array>
 		</dict>
 	</array>

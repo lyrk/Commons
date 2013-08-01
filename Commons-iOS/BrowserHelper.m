@@ -125,7 +125,7 @@
                          @"googlechrome-x-callback://x-callback-url/open/?x-source=%@&url=%@&x-success=%@&create-new-tab",
                          [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
                          url,
-                         @"commons%3A%2F%2F"
+                         @"wikimedia-commons%3A%2F%2F"
                          ];
     }
     return nil;
