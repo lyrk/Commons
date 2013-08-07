@@ -1393,7 +1393,7 @@ static CommonsApp *singleton_;
     [self.eventLog log:schemaName event:dict];
 }
 
-- (void)openURLWithDefaultBrowser:(NSURL *)url
+- (NSString *)desiredBrowserName
 {
     BrowserHelper *browserHelper = [[BrowserHelper alloc] init];
     NSString *desiredBrowserName = self.defaultExternalBrowser;
@@ -1404,6 +1404,14 @@ static CommonsApp *singleton_;
         desiredBrowserName = @"Safari";
     }
 
+    return desiredBrowserName;
+}
+
+- (void)openURLWithDefaultBrowser:(NSURL *)url
+{
+    BrowserHelper *browserHelper = [[BrowserHelper alloc] init];
+    NSString *desiredBrowserName = [self desiredBrowserName];
+    
     // Get url with formatting required to open in desired browser
     url = [browserHelper formatURL:url forBrowser:desiredBrowserName];
     

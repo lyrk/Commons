@@ -18,6 +18,7 @@
 #import "DescriptionParser.h"
 #import "MWI18N.h"
 #import "AspectFillThumbFetcher.h"
+#import "OpenInBrowserActivity.h"
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
@@ -405,14 +406,6 @@
     [CommonsApp.singleton openURLWithDefaultBrowser:[NSURL URLWithString:URL_IMAGE_LICENSE]];
 }
 
-- (IBAction)openWikiPageButtonPushed:(id)sender
-{
-    if (self.selectedRecord) {
-        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
-        [CommonsApp.singleton openURLWithDefaultBrowser:[CommonsApp.singleton URLForWikiPage:pageTitle]];
-    }
-}
-
 - (IBAction)shareButtonPushed:(id)sender
 {
     FileUpload *record = self.selectedRecord;
@@ -431,7 +424,8 @@
     // something similar
     [self.appDelegate.loadingIndicator show];
         
-    // Fetch cached or internet image at standard size...
+    // Fetch cached or internet image at standard size
+    // FIXME: initialize fetching later on while the user chooses an action
     MWPromise *fetch = [CommonsApp.singleton fetchWikiImage:record.title size:[CommonsApp.singleton getFullSizedImageSize] withQueuePriority:NSOperationQueuePriorityHigh];
     
     [fetch done:^(UIImage *image) {
@@ -441,9 +435,10 @@
         NSURL *wikiUrl = [CommonsApp.singleton URLForWikiPage:pageTitle];
         
         // Present the sharing interface for the image itself and its wiki url
+        OpenInBrowserActivity *openInSafariActivity = [[OpenInBrowserActivity alloc] init];
         self.shareActivityViewController = [[UIActivityViewController alloc]
                                             initWithActivityItems:@[image, wikiUrl]
-                                            applicationActivities:nil
+                                            applicationActivities:@[openInSafariActivity]
                                             ];
 
         [self toggle];

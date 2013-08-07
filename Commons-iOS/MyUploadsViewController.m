@@ -1138,12 +1138,7 @@
     UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                                  target:detailVC_
                                                                                  action:@selector(shareButtonPushed:)];
-    
-    UIBarButtonItem *openWikiPageButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"toolbar-view.png"]
-                                                                           style:UIBarButtonItemStylePlain
-                                                                          target:detailVC_
-                                                                          action:@selector(openWikiPageButtonPushed:)];
-    
+        
     UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
                                                                                   target:detailVC_
                                                                                   action:@selector(deleteButtonPushed:)];
@@ -1163,7 +1158,7 @@
                                                      animated:YES];
     }else{
         [imageScrollVC_.navigationItem setRightBarButtonItems:
-         @[shareButton, spacerItemFlexible, openWikiPageButton, spacerItemFlexible, fakeButton1]
+         @[shareButton, spacerItemFlexible, fakeButton1]
                                                      animated:YES];
     }
 }
