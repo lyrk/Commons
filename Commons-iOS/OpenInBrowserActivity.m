@@ -47,8 +47,9 @@
 
 - (UIImage *)activityImage
 {
-    // "Safari.png" from TUSafariActivity may represent any browser and not Safari in particular
-	return [UIImage imageNamed:@"Safari"];
+    // "browser.png" is symlinked to "../Libraries/TUSafariActivity/TUSafariActivity/Safari.png";
+    // "Safari.png" looks generic and doesn't denote Safari in particular
+	return [UIImage imageNamed:@"browser"];
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems

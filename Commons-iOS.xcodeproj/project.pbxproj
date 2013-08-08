@@ -170,10 +170,10 @@
 		65CA699D16C0687C00839D09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086174169B760800D6ACB0 /* CoreGraphics.framework */; };
 		65D839AF16D056CA00C0371A /* LocalizationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839AE16D056CA00C0371A /* LocalizationTest.m */; };
 		65D839B216D08F9200C0371A /* DataTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839B116D08F9200C0371A /* DataTest.m */; };
-		B94B599717B2329600A9B744 /* Safari.png in Resources */ = {isa = PBXBuildFile; fileRef = B94B598C17B2329600A9B744 /* Safari.png */; };
-		B94B599817B2329600A9B744 /* Safari@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B94B598D17B2329600A9B744 /* Safari@2x.png */; };
-		B94B599917B2329600A9B744 /* Safari@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B94B598E17B2329600A9B744 /* Safari@2x~ipad.png */; };
-		B94B599A17B2329600A9B744 /* Safari~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B94B598F17B2329600A9B744 /* Safari~ipad.png */; };
+		B938B3C317B332250039ABF8 /* browser.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3BF17B332250039ABF8 /* browser.png */; };
+		B938B3C417B332250039ABF8 /* browser@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3C017B332250039ABF8 /* browser@2x.png */; };
+		B938B3C517B332250039ABF8 /* browser@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3C117B332250039ABF8 /* browser@2x~ipad.png */; };
+		B938B3C617B332250039ABF8 /* browser~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3C217B332250039ABF8 /* browser~ipad.png */; };
 		B94B599E17B2338900A9B744 /* OpenInBrowserActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = B94B599D17B2338900A9B744 /* OpenInBrowserActivity.m */; };
 		D400C36D16DD8C030059F6A7 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D400C36C16DD8C030059F6A7 /* ImageIO.framework */; };
 		D400C37016DD96F70059F6A7 /* commons-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = D400C36E16DD96F70059F6A7 /* commons-logo.png */; };
@@ -448,10 +448,10 @@
 		65CA697416BFCE3300839D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		65D839AE16D056CA00C0371A /* LocalizationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalizationTest.m; sourceTree = "<group>"; };
 		65D839B116D08F9200C0371A /* DataTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTest.m; sourceTree = "<group>"; };
-		B94B598C17B2329600A9B744 /* Safari.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Safari.png; sourceTree = "<group>"; };
-		B94B598D17B2329600A9B744 /* Safari@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Safari@2x.png"; sourceTree = "<group>"; };
-		B94B598E17B2329600A9B744 /* Safari@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Safari@2x~ipad.png"; sourceTree = "<group>"; };
-		B94B598F17B2329600A9B744 /* Safari~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Safari~ipad.png"; sourceTree = "<group>"; };
+		B938B3BF17B332250039ABF8 /* browser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = browser.png; sourceTree = "<group>"; };
+		B938B3C017B332250039ABF8 /* browser@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser@2x.png"; sourceTree = "<group>"; };
+		B938B3C117B332250039ABF8 /* browser@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser@2x~ipad.png"; sourceTree = "<group>"; };
+		B938B3C217B332250039ABF8 /* browser~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser~ipad.png"; sourceTree = "<group>"; };
 		B94B599C17B2338900A9B744 /* OpenInBrowserActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenInBrowserActivity.h; sourceTree = "<group>"; };
 		B94B599D17B2338900A9B744 /* OpenInBrowserActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenInBrowserActivity.m; sourceTree = "<group>"; };
 		D400C36C16DD8C030059F6A7 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -863,26 +863,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B94B597A17B2327700A9B744 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-				B94B597B17B2329600A9B744 /* TUSafariActivity */,
-			);
-			name = Libraries;
-			sourceTree = "<group>";
-		};
-		B94B597B17B2329600A9B744 /* TUSafariActivity */ = {
-			isa = PBXGroup;
-			children = (
-				B94B598C17B2329600A9B744 /* Safari.png */,
-				B94B598D17B2329600A9B744 /* Safari@2x.png */,
-				B94B598E17B2329600A9B744 /* Safari@2x~ipad.png */,
-				B94B598F17B2329600A9B744 /* Safari~ipad.png */,
-			);
-			name = TUSafariActivity;
-			path = Libraries/TUSafariActivity/TUSafariActivity;
-			sourceTree = "<group>";
-		};
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
@@ -891,7 +871,6 @@
 				0484602717A198410054BA47 /* Splash Images */,
 				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,
-				B94B597A17B2327700A9B744 /* Libraries */,
 				65C4D54016CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing */,
 				65137D1716BE6999006FA9BD /* Testing-Libraries */,
 				D408616F169B760800D6ACB0 /* Frameworks */,
@@ -958,6 +937,10 @@
 				04C27B31174BEB9500B1942F /* mockPagePhoto.png */,
 				04C27B38174D78E200B1942F /* mockBadPhoto.png */,
 				04C27B2E174BEACD00B1942F /* mockPageLogo.png */,
+				B938B3BF17B332250039ABF8 /* browser.png */,
+				B938B3C017B332250039ABF8 /* browser@2x.png */,
+				B938B3C117B332250039ABF8 /* browser@2x~ipad.png */,
+				B938B3C217B332250039ABF8 /* browser~ipad.png */,
 				04DC7595175D748400D92849 /* cc@2x.png */,
 				04DC7596175D748400D92849 /* cc.png */,
 				04DC75691758837600D92849 /* Commons-logo-white.png */,
@@ -1473,10 +1456,10 @@
 				04AC5A9B17A1D66800A06997 /* POTD-2013-05-24.jpg in Resources */,
 				04AC5A9C17A1D66800A06997 /* POTD-2013-06-04.dict in Resources */,
 				04AC5A9D17A1D66800A06997 /* POTD-2013-06-04.jpg in Resources */,
-				B94B599717B2329600A9B744 /* Safari.png in Resources */,
-				B94B599817B2329600A9B744 /* Safari@2x.png in Resources */,
-				B94B599917B2329600A9B744 /* Safari@2x~ipad.png in Resources */,
-				B94B599A17B2329600A9B744 /* Safari~ipad.png in Resources */,
+				B938B3C317B332250039ABF8 /* browser.png in Resources */,
+				B938B3C417B332250039ABF8 /* browser@2x.png in Resources */,
+				B938B3C517B332250039ABF8 /* browser@2x~ipad.png in Resources */,
+				B938B3C617B332250039ABF8 /* browser~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
