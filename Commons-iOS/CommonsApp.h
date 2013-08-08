@@ -83,6 +83,7 @@
 - (void)log:(NSString *)schemaName event:(NSDictionary *)event override:(BOOL)override;
 - (void)deleteAllRecords;
 
+- (NSString *)desiredBrowserName;
 - (void)openURLWithDefaultBrowser:(NSURL *)url;
 - (CGSize)getFullSizedImageSize;
 - (NSString *)getTrimmedString:(NSString *)string;

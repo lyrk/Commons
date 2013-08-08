@@ -49,7 +49,6 @@
 @property (nonatomic) float detailsScrollNormal;
 
 -(IBAction)deleteButtonPushed:(id)sender;
--(IBAction)openWikiPageButtonPushed:(id)sender;
 -(IBAction)shareButtonPushed:(id)sender;
 -(void)hideKeyboard;
 
