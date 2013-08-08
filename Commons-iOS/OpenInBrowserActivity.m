@@ -8,6 +8,7 @@
 
 #import "OpenInBrowserActivity.h"
 #import "CommonsApp.h"
+#import "MWMessage.h"
 
 @interface OpenInBrowserActivity (Private)
 
@@ -42,7 +43,7 @@
 - (NSString *)activityTitle
 {
     NSString *desiredBrowserName = [CommonsApp.singleton desiredBrowserName];
-    return [NSString stringWithFormat:NSLocalizedString(@"Open in %@", @"As in \"Open in Safari\""), desiredBrowserName];
+    return [MWMessage forKey:@"web-open-in" param:desiredBrowserName].text;
 }
 
 - (UIImage *)activityImage
