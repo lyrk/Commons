@@ -147,7 +147,17 @@ static CommonsApp *singleton_;
 
 - (BOOL)debugMode
 {
+
+#ifdef DEBUG
     return [[NSUserDefaults standardUserDefaults] boolForKey:@"DebugMode"];
+#else
+    // Force NO if release build - needed because release builds no longer show settings
+    // option to change DebugMode. Otherwise user would be stuck with DebugMode YES if
+    // they had previously had it enabled then upgraded to new version which no longer
+    // provides a way to change the debug mode setting.
+    return NO;
+#endif
+
 }
 
 - (void)setDebugMode:(BOOL)value {
