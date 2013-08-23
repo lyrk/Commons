@@ -27,7 +27,6 @@
 @property (weak, nonatomic) IBOutlet PictureOfTheDayImageView *potdImageView;
 @property (weak, nonatomic) IBOutlet UIButton *aboutButton;
 @property (weak, nonatomic) IBOutlet UIButton *attributionButton;
-@property (weak, nonatomic) IBOutlet UILabel *attributionLabel;
 
 @property (strong, nonatomic) PictureOfDayCycler *pictureOfDayCycler;
 
