@@ -24,8 +24,8 @@
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="Commons-logo-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Y6M-eQ-GLr" userLabel="Logo Image View">
-                                        <rect key="frame" x="73" y="12" width="175" height="235"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="Commons-logo-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Y6M-eQ-GLr" userLabel="Logo Image View">
+                                        <rect key="frame" x="35" y="12" width="250" height="235"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     </imageView>
@@ -92,8 +92,8 @@
                                                     <action selector="pushedCurrentUserButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="NbN-DJ-pdz"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3va-h9-QXe">
-                                                <rect key="frame" x="60" y="122" width="201" height="30"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3va-h9-QXe">
+                                                <rect key="frame" x="97" y="122" width="126" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="30" id="WLO-ct-PdD"/>
@@ -138,7 +138,7 @@
                                             <constraint firstItem="F4V-0d-xD2" firstAttribute="trailing" secondItem="OYd-ZP-vjJ" secondAttribute="trailing" id="xAt-jd-rsz"/>
                                         </constraints>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Lu-O3-Lg3" userLabel="About Button">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Lu-O3-Lg3" userLabel="About Button">
                                         <rect key="frame" x="15" y="446" width="22" height="22"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <constraints>
@@ -190,6 +190,7 @@
                                     <constraint firstItem="wRv-eo-aen" firstAttribute="top" secondItem="1DZ-b7-b84" secondAttribute="top" id="mDT-Ms-Dmy"/>
                                     <constraint firstItem="wRv-eo-aen" firstAttribute="top" secondItem="1DZ-b7-b84" secondAttribute="top" id="qZ3-4C-YRu"/>
                                     <constraint firstAttribute="bottom" secondItem="2Lu-O3-Lg3" secondAttribute="bottom" constant="12" id="tEf-VB-BxS"/>
+                                    <constraint firstItem="2Lu-O3-Lg3" firstAttribute="leading" secondItem="1DZ-b7-b84" secondAttribute="leading" constant="15" id="vvC-2S-nPB"/>
                                     <constraint firstAttribute="centerX" secondItem="Y6M-eQ-GLr" secondAttribute="centerX" id="wEg-oT-i5G"/>
                                     <constraint firstItem="Y6M-eQ-GLr" firstAttribute="top" secondItem="1DZ-b7-b84" secondAttribute="top" constant="12" id="zvs-6P-i95"/>
                                 </constraints>
@@ -1318,15 +1319,22 @@ to take or choose photos.</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="pr5-VE-2sE">
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="pr5-VE-2sE">
                                 <rect key="frame" x="125" y="434" width="70" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="70" id="ktM-QN-9gX"/>
+                                </constraints>
                                 <connections>
                                     <action selector="changePage:" destination="AR2-z5-wAc" eventType="valueChanged" id="3GY-lQ-JQS"/>
                                 </connections>
                             </pageControl>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.45882352941176469" blue="0.67450980392156867" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstItem="wgq-cr-Bfu" firstAttribute="top" secondItem="pr5-VE-2sE" secondAttribute="bottom" constant="9" id="gLv-yH-eFB"/>
+                            <constraint firstItem="pr5-VE-2sE" firstAttribute="centerX" secondItem="KAs-XF-xv0" secondAttribute="centerX" id="jcw-qg-0ZY"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qN2-Zr-Xjq"/>
                     <connections>
@@ -1349,13 +1357,40 @@ to take or choose photos.</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FnJ-bk-F4H" userLabel="Vertical Centering Container">
-                                <rect key="frame" x="0.0" y="65" width="320" height="350"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qKZ-hY-hiZ" userLabel="Top Container">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="230"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="shg-Rq-9Cq" userLabel="Contribute Label">
-                                        <rect key="frame" x="10" y="184" width="300" height="66"/>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aE4-IZ-cjC">
+                                        <rect key="frame" x="40" y="78" width="240" height="152"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="152" id="8G1-FA-4Hr"/>
+                                            <constraint firstAttribute="width" constant="240" id="LBX-xD-U6P"/>
+                                        </constraints>
+                                        <connections>
+                                            <segue destination="6G9-GW-Bdz" kind="embed" identifier="WhatIsCommons_MockPage_Embed" id="BjT-aI-DfZ"/>
+                                        </connections>
+                                    </containerView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="aE4-IZ-cjC" secondAttribute="bottom" id="YL1-Wa-QvQ"/>
+                                    <constraint firstAttribute="centerX" secondItem="aE4-IZ-cjC" secondAttribute="centerX" id="vnV-zc-f54"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FhB-xt-EAA" userLabel="Bottom Container">
+                                <rect key="frame" x="0.0" y="250" width="320" height="230"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="shg-Rq-9Cq" userLabel="Contribute Label">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="320" id="8FI-61-EuV"/>
+                                        </constraints>
                                         <string key="text">Contribute your images.
 
 Help Wikipedia articles come to life!</string>
@@ -1363,32 +1398,48 @@ Help Wikipedia articles come to life!</string>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Images on Wikipedia come from   Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="284" translatesAutoresizingMaskIntoConstraints="NO" id="YpP-Ot-g5U" userLabel="Images Label">
-                                        <rect key="frame" x="18" y="246" width="284" height="66"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Images on Wikipedia come from Wikimedia Commons." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="YpP-Ot-g5U" userLabel="Images Label">
+                                        <rect key="frame" x="0.0" y="54" width="320" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="320" id="4aj-KD-C1k"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aE4-IZ-cjC">
-                                        <rect key="frame" x="40" y="0.0" width="240" height="152"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <segue destination="6G9-GW-Bdz" kind="embed" identifier="WhatIsCommons_MockPage_Embed" id="BjT-aI-DfZ"/>
-                                        </connections>
-                                    </containerView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="shg-Rq-9Cq" secondAttribute="centerX" id="8Rc-ht-z7e"/>
+                                    <constraint firstItem="YpP-Ot-g5U" firstAttribute="top" secondItem="shg-Rq-9Cq" secondAttribute="bottom" id="UrQ-jt-yHC"/>
+                                    <constraint firstAttribute="centerX" secondItem="YpP-Ot-g5U" secondAttribute="centerX" id="Zm8-8P-puL"/>
+                                    <constraint firstItem="shg-Rq-9Cq" firstAttribute="top" secondItem="FhB-xt-EAA" secondAttribute="top" id="i1n-wN-jZU"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.45948221457543981" blue="0.67330063868613144" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstItem="qKZ-hY-hiZ" firstAttribute="height" secondItem="FhB-xt-EAA" secondAttribute="height" id="ArT-NX-qLS"/>
+                            <constraint firstItem="FhB-xt-EAA" firstAttribute="top" secondItem="qKZ-hY-hiZ" secondAttribute="bottom" constant="20" id="BDk-3l-UDF"/>
+                            <constraint firstAttribute="trailing" secondItem="FhB-xt-EAA" secondAttribute="trailing" id="IXQ-Cs-eZI"/>
+                            <constraint firstAttribute="bottom" secondItem="FhB-xt-EAA" secondAttribute="bottom" id="LxQ-25-TQm"/>
+                            <constraint firstItem="qKZ-hY-hiZ" firstAttribute="top" secondItem="tu4-d8-oqM" secondAttribute="top" id="ZfZ-zz-iSp"/>
+                            <constraint firstItem="qKZ-hY-hiZ" firstAttribute="leading" secondItem="tu4-d8-oqM" secondAttribute="leading" id="gca-jF-8Yh"/>
+                            <constraint firstItem="FhB-xt-EAA" firstAttribute="leading" secondItem="tu4-d8-oqM" secondAttribute="leading" id="tVF-D5-PlV"/>
+                            <constraint firstAttribute="trailing" secondItem="qKZ-hY-hiZ" secondAttribute="trailing" id="yfe-fq-AYG"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="XlZ-ix-2d5"/>
                     <connections>
                         <outlet property="contributeLabel" destination="shg-Rq-9Cq" id="5jV-aa-x1d"/>
+                        <outlet property="contributeLabelWidth" destination="8FI-61-EuV" id="j8D-hX-lla"/>
                         <outlet property="imagesLabel" destination="YpP-Ot-g5U" id="Tgu-5u-TdP"/>
+                        <outlet property="imagesLabelWidth" destination="4aj-KD-C1k" id="yhJ-2C-ASK"/>
                         <outlet property="mockPageContainerView" destination="aE4-IZ-cjC" id="Udz-FT-Xvo"/>
+                        <outlet property="verticalSpaceBetweenHalves" destination="BDk-3l-UDF" id="Usf-yW-OK3"/>
+                        <outlet property="verticalSpaceBetweenLabels" destination="UrQ-jt-yHC" id="9bo-3H-IO3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bvL-hR-t7E" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1407,43 +1458,86 @@ Help Wikipedia articles come to life!</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FNe-S1-HBk" userLabel="Vertical Centering Container">
-                                <rect key="frame" x="0.0" y="66" width="320" height="350"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UUZ-GZ-dXm" userLabel="Top Container">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="230"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vX7-lG-sSB">
-                                        <rect key="frame" x="40" y="0.0" width="240" height="152"/>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vX7-lG-sSB">
+                                        <rect key="frame" x="40" y="78" width="240" height="152"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="152" id="P64-CW-1KT"/>
+                                            <constraint firstAttribute="width" constant="240" id="aGr-Mb-cEZ"/>
+                                        </constraints>
                                         <connections>
                                             <segue destination="Ze1-nF-ZzL" kind="embed" identifier="WhatPhotos_MockBadPhoto_Embed" id="yNY-cm-JEu"/>
                                         </connections>
                                     </containerView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Your images help educate people  around the world." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="300" translatesAutoresizingMaskIntoConstraints="NO" id="hU7-u3-spc" userLabel="Educate Label">
-                                        <rect key="frame" x="10" y="184" width="300" height="66"/>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="vX7-lG-sSB" secondAttribute="bottom" id="EiU-wc-cd1"/>
+                                    <constraint firstAttribute="centerX" secondItem="vX7-lG-sSB" secondAttribute="centerX" id="Qil-iQ-w7M"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ndb-eu-a6n" userLabel="Bottom Container">
+                                <rect key="frame" x="0.0" y="250" width="320" height="230"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Your images help educate people  around the world." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="hU7-u3-spc" userLabel="Educate Label">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="320" id="vop-KD-WIM"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Avoid copyrighted materials you found from the Internet as well as images of posters, book covers, etc." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="284" translatesAutoresizingMaskIntoConstraints="NO" id="wLT-cq-7UQ" userLabel="Avoid Label">
-                                        <rect key="frame" x="18" y="243" width="284" height="82"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Avoid copyrighted materials you found from the Internet as well as images of posters, book covers, etc." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="wLT-cq-7UQ" userLabel="Avoid Label">
+                                        <rect key="frame" x="0.0" y="36" width="320" height="51"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="320" id="Q4c-Ve-DCz"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="hU7-u3-spc" firstAttribute="top" secondItem="ndb-eu-a6n" secondAttribute="top" id="0Za-ZQ-Cl0"/>
+                                    <constraint firstItem="wLT-cq-7UQ" firstAttribute="top" secondItem="hU7-u3-spc" secondAttribute="bottom" id="OQ1-Fq-Jdn"/>
+                                    <constraint firstAttribute="centerX" secondItem="wLT-cq-7UQ" secondAttribute="centerX" id="RV0-c0-5ku"/>
+                                    <constraint firstAttribute="centerX" secondItem="hU7-u3-spc" secondAttribute="centerX" id="nL8-Jy-Q97"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.45948221459999999" blue="0.67330063870000001" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstItem="ndb-eu-a6n" firstAttribute="height" secondItem="UUZ-GZ-dXm" secondAttribute="height" id="57a-rN-x8Y"/>
+                            <constraint firstAttribute="trailing" secondItem="ndb-eu-a6n" secondAttribute="trailing" id="84b-In-PTQ"/>
+                            <constraint firstItem="ndb-eu-a6n" firstAttribute="leading" secondItem="Cj4-tO-2C0" secondAttribute="leading" id="Q3b-WZ-XHh"/>
+                            <constraint firstItem="UUZ-GZ-dXm" firstAttribute="top" secondItem="Cj4-tO-2C0" secondAttribute="top" id="RRD-vn-PgJ"/>
+                            <constraint firstItem="UUZ-GZ-dXm" firstAttribute="leading" secondItem="Cj4-tO-2C0" secondAttribute="leading" id="VgJ-RJ-Etk"/>
+                            <constraint firstAttribute="bottom" secondItem="ndb-eu-a6n" secondAttribute="bottom" id="mtm-sp-5fF"/>
+                            <constraint firstAttribute="trailing" secondItem="UUZ-GZ-dXm" secondAttribute="trailing" id="wtE-QC-Pj1"/>
+                            <constraint firstItem="ndb-eu-a6n" firstAttribute="top" secondItem="UUZ-GZ-dXm" secondAttribute="bottom" constant="20" id="xrH-P9-BLO"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="dDi-x9-WYh"/>
                     <connections>
                         <outlet property="avoidLabel" destination="wLT-cq-7UQ" id="03g-Jm-7xf"/>
+                        <outlet property="avoidLabelWidth" destination="Q4c-Ve-DCz" id="H9z-RD-C6A"/>
                         <outlet property="educateLabel" destination="hU7-u3-spc" id="doF-GQ-Kx9"/>
+                        <outlet property="educateLabelWidth" destination="vop-KD-WIM" id="wnV-tJ-XdW"/>
                         <outlet property="mockBadPhotoContainerView" destination="vX7-lG-sSB" id="doQ-71-JZg"/>
+                        <outlet property="verticalSpaceBetweenHalves" destination="xrH-P9-BLO" id="Fw2-e6-0sc"/>
+                        <outlet property="verticalSpaceBetweenLabels" destination="OQ1-Fq-Jdn" id="NvH-PB-lJQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MLB-V3-Fd9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1466,9 +1560,13 @@ Help Wikipedia articles come to life!</string>
                                 <rect key="frame" x="1" y="28" width="60" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" fixedFrame="YES" image="mockPagePhoto.png" translatesAutoresizingMaskIntoConstraints="NO" id="W0u-ou-T6P">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="mockPagePhoto.png" translatesAutoresizingMaskIntoConstraints="NO" id="W0u-ou-T6P">
                                 <rect key="frame" x="155" y="22" width="61" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="F19-VB-Xf1"/>
+                                    <constraint firstAttribute="width" constant="61" id="HTQ-ie-X46"/>
+                                </constraints>
                             </imageView>
                             <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sq9-o0-ODp">
                                 <rect key="frame" x="61" y="28" width="38" height="3"/>
@@ -1497,6 +1595,10 @@ Help Wikipedia articles come to life!</string>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.5215686559677124" blue="0.66666668653488159" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstItem="W0u-ou-T6P" firstAttribute="top" secondItem="IRj-Sx-S8P" secondAttribute="top" constant="22" id="LMF-SC-7Qn"/>
+                            <constraint firstAttribute="trailing" secondItem="W0u-ou-T6P" secondAttribute="trailing" constant="24" placeholder="YES" id="jgO-9D-nGr"/>
+                        </constraints>
                     </view>
                     <toolbarItems/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -1521,42 +1623,59 @@ Help Wikipedia articles come to life!</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="71Q-b5-3HZ" userLabel="Vertical Centering Container">
-                                <rect key="frame" x="0.0" y="87" width="320" height="305"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jht-Oi-4qd" userLabel="Top Container">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="230"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yx5-ZO-nk1" userLabel="Containers Container">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="152"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <subviews>
-                                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GA3-em-MbC">
-                                                <rect key="frame" x="-8" y="0.0" width="240" height="152"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <connections>
-                                                    <segue destination="6G9-GW-Bdz" kind="embed" identifier="GotIt_MockPage_Embed" id="dbR-9g-yz2"/>
-                                                </connections>
-                                            </containerView>
-                                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="783-3b-cvJ">
-                                                <rect key="frame" x="120" y="0.0" width="240" height="152"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                                <connections>
-                                                    <segue destination="Ze1-nF-ZzL" kind="embed" identifier="GotIt_MockBadPhoto_Embed" id="F72-2D-Gl0"/>
-                                                </connections>
-                                            </containerView>
-                                        </subviews>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GA3-em-MbC" userLabel="Mock Page Container">
+                                        <rect key="frame" x="40" y="78" width="240" height="152"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </view>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="You think you got it?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="8uY-2H-lam">
-                                        <rect key="frame" x="20" y="143" width="280" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="152" id="YAm-gv-Wj8"/>
+                                            <constraint firstAttribute="width" constant="240" id="nGF-HC-p5N"/>
+                                        </constraints>
+                                        <connections>
+                                            <segue destination="6G9-GW-Bdz" kind="embed" identifier="GotIt_MockPage_Embed" id="dbR-9g-yz2"/>
+                                        </connections>
+                                    </containerView>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="783-3b-cvJ" userLabel="Mock Bad Photo Container">
+                                        <rect key="frame" x="40" y="78" width="240" height="152"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="240" id="7i6-OA-r5d"/>
+                                            <constraint firstAttribute="height" constant="152" id="Ku2-lw-rdi"/>
+                                        </constraints>
+                                        <connections>
+                                            <segue destination="Ze1-nF-ZzL" kind="embed" identifier="GotIt_MockBadPhoto_Embed" id="F72-2D-Gl0"/>
+                                        </connections>
+                                    </containerView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="783-3b-cvJ" secondAttribute="centerX" placeholder="YES" id="UDg-Bd-sGW"/>
+                                    <constraint firstAttribute="bottom" secondItem="GA3-em-MbC" secondAttribute="bottom" id="dQ0-pB-XgJ"/>
+                                    <constraint firstAttribute="centerX" secondItem="GA3-em-MbC" secondAttribute="centerX" placeholder="YES" id="wDy-8L-Dmd"/>
+                                    <constraint firstAttribute="bottom" secondItem="783-3b-cvJ" secondAttribute="bottom" id="zPX-I8-7De"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iXo-TQ-0un" userLabel="Bottom Container">
+                                <rect key="frame" x="0.0" y="250" width="320" height="230"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="You think you got it?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="7" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="8uY-2H-lam">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="320" id="8Pr-My-JJ7"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ft2-DP-zYM">
-                                        <rect key="frame" x="116" y="201" width="89" height="39"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ft2-DP-zYM">
+                                        <rect key="frame" x="143" y="18" width="35" height="34"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" white="0.94039818549999998" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="boldSystem" size="button"/>
@@ -1573,15 +1692,34 @@ Help Wikipedia articles come to life!</string>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerX" secondItem="8uY-2H-lam" secondAttribute="centerX" id="GD1-hw-Kp2"/>
+                                    <constraint firstItem="Ft2-DP-zYM" firstAttribute="top" secondItem="8uY-2H-lam" secondAttribute="bottom" id="Nky-Sk-aOh"/>
+                                    <constraint firstAttribute="centerX" secondItem="Ft2-DP-zYM" secondAttribute="centerX" id="RWD-cK-cxq"/>
+                                    <constraint firstItem="8uY-2H-lam" firstAttribute="top" secondItem="iXo-TQ-0un" secondAttribute="top" id="zha-SX-Utf"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.45882352941176469" blue="0.67450980392156867" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstItem="iXo-TQ-0un" firstAttribute="top" secondItem="Jht-Oi-4qd" secondAttribute="bottom" constant="20" id="1Gr-86-dH2"/>
+                            <constraint firstItem="Jht-Oi-4qd" firstAttribute="height" secondItem="iXo-TQ-0un" secondAttribute="height" id="3qb-xU-GbC"/>
+                            <constraint firstItem="Jht-Oi-4qd" firstAttribute="top" secondItem="BkF-a8-5fx" secondAttribute="top" id="VSE-hs-U23"/>
+                            <constraint firstAttribute="bottom" secondItem="iXo-TQ-0un" secondAttribute="bottom" id="f43-TB-uWh"/>
+                            <constraint firstItem="iXo-TQ-0un" firstAttribute="leading" secondItem="BkF-a8-5fx" secondAttribute="leading" id="ga7-jk-pAR"/>
+                            <constraint firstAttribute="trailing" secondItem="Jht-Oi-4qd" secondAttribute="trailing" id="hbv-Fu-45X"/>
+                            <constraint firstAttribute="trailing" secondItem="iXo-TQ-0un" secondAttribute="trailing" id="var-c1-rRm"/>
+                            <constraint firstItem="Jht-Oi-4qd" firstAttribute="leading" secondItem="BkF-a8-5fx" secondAttribute="leading" id="xU5-06-gQk"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="tFZ-Di-rf0"/>
                     <connections>
                         <outlet property="gotItLabel" destination="8uY-2H-lam" id="rRA-IK-q63"/>
+                        <outlet property="gotItLabelWidth" destination="8Pr-My-JJ7" id="7vP-G3-FWf"/>
                         <outlet property="mockBadPhotoContainerView" destination="783-3b-cvJ" id="pBb-2M-rTt"/>
                         <outlet property="mockPageContainerView" destination="GA3-em-MbC" id="JWj-nf-tBV"/>
+                        <outlet property="verticalSpaceBetweenHalves" destination="1Gr-86-dH2" id="03b-ex-Qd5"/>
+                        <outlet property="verticalSpaceBetweenLabels" destination="Nky-Sk-aOh" id="neb-tz-3Fq"/>
                         <outlet property="yesButton" destination="Ft2-DP-zYM" id="Ewy-JM-ljX"/>
                     </connections>
                 </viewController>
@@ -1660,6 +1798,6 @@ Help Wikipedia articles come to life!</string>
     <inferredMetricsTieBreakers>
         <segue reference="LQ8-N8-Tpg"/>
         <segue reference="dbR-9g-yz2"/>
-        <segue reference="F72-2D-Gl0"/>
+        <segue reference="yNY-cm-JEu"/>
     </inferredMetricsTieBreakers>
 </document>

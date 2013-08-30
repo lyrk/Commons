@@ -110,7 +110,7 @@
     [self.appVersionLabel resizeWithAttributes: @{
                           NSFontAttributeName : [UIFont boldSystemFontOfSize:27.0f],
                NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
-     }];
+     } preferredMaxLayoutWidth:320.0f];
 
     // Set button color scheme
     [self applyStyleToButton:self.sourceButton];

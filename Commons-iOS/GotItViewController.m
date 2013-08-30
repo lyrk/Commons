@@ -38,9 +38,31 @@
 
     self.gotItLabel.text = [MWMessage forKey:@"getting-started-got-it-label"].text;
     [self.yesButton setTitle:[MWMessage forKey:@"getting-started-yes-button"].text forState:UIControlStateNormal];
-	
-	// Widen the label for iPad
-	self.gotItLabel.frame = CGRectInset(self.gotItLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
+
+    [self.yesButton.titleLabel setFont:[UIFont boldSystemFontOfSize:GETTING_STARTED_HEADING_FONT_SIZE]];
+
+    self.verticalSpaceBetweenLabels.constant = self.view.frame.size.height * GETTING_STARTED_VERTICAL_SPACE_BETWEEN_LABELS;
+    self.verticalSpaceBetweenHalves.constant = self.view.frame.size.height * GETTING_STARTED_VERTICAL_SPACE_BETWEEN_HALVES;
+
+    // Widen the labels for iPad
+    self.gotItLabelWidth.constant *= GETTING_STARTED_LABEL_WIDTH_MULTIPLIER;
+
+    // Constrain the mock views horizonally
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.mockPageContainerView
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:(self.view.frame.size.width * 0.3f)]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.mockBadPhotoContainerView
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:-(self.view.frame.size.width * 0.28f)]];
 
 	// Scale the animations up for iPad
 	CGAffineTransform xf = CGAffineTransformMakeScale(GETTING_STARTED_GOTIT_ANIMATIONS_SCALE, GETTING_STARTED_GOTIT_ANIMATIONS_SCALE);
@@ -61,16 +83,20 @@
 					 NSFontAttributeName : [UIFont boldSystemFontOfSize:GETTING_STARTED_HEADING_FONT_SIZE],
 		   NSParagraphStyleAttributeName : paragraphStyle,
 		  NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
-	 }];
-	
-	// Ensure constant spacing around the newly resized labels
-	[self.gotItLabel moveBelowView:self.mockBadPhotoContainerView spacing:GETTING_STARTED_SPACE_BELOW_ANIMATION];
-	[self.yesButton moveBelowView:self.gotItLabel spacing:GETTING_STARTED_SPACE_BELOW_HEADING];
+	 } preferredMaxLayoutWidth:self.gotItLabelWidth.constant];
+
+    // The button should resize properly if its i18n text is large, but it needs some padding around the text, which this provides.
+    self.yesButton.contentEdgeInsets = UIEdgeInsetsMake(9.0f, 20.0f, 9.0f, 20.0f);
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self drawAttentionToYesButtonWithDelay:GETTING_STARTED_GOTIT_YESBUTTONATTENTION_ANIMATION_DELAY];
 }
 
 -(void)handleTap
 {
-    [self drawAttentionToYesButton];
+    [self drawAttentionToYesButtonWithDelay:0.0f];
 }
 
 -(void)handleDoubleTap
@@ -78,26 +104,23 @@
     [self dismissModalView];
 }
 
--(void)drawAttentionToYesButton
+-(void)drawAttentionToYesButtonWithDelay:(float)delay
 {
-    [UIView animateWithDuration:0.13f
-                          delay:0.0f
-                        options:UIViewAnimationOptionTransitionNone
-                     animations:^{
-                         self.gotItLabel.alpha = 0.5f;
-                         self.yesButton.transform = CGAffineTransformMakeScale(1.08f, 1.08f);
-                     }
-                     completion:^(BOOL finished){
-                         [UIView animateWithDuration:0.13f
-                                               delay:0.0f
-                                             options:UIViewAnimationOptionTransitionNone
-                                          animations:^{
-                                              self.gotItLabel.alpha = 1.0f;
-                                              self.yesButton.transform = CGAffineTransformIdentity;
-                                          }
-                                          completion:^(BOOL finished){
-                                          }];
-                     }];
+    CABasicAnimation *(^animatePathToValue)(NSString *, NSValue *) = ^(NSString *path, NSValue *toValue){
+        CABasicAnimation *a = [CABasicAnimation animationWithKeyPath:path];
+        a.fillMode = kCAFillModeForwards;
+        a.autoreverses = YES;
+        a.duration = 0.13f;
+        a.removedOnCompletion = YES;
+        [a setBeginTime:CACurrentMediaTime() + delay];
+        a.toValue = toValue;
+        return a;
+    };
+
+    [self.gotItLabel.layer addAnimation:animatePathToValue(@"opacity", @0.5f) forKey:nil];
+
+    CATransform3D xf = CATransform3DMakeScale(1.08f, 1.08f, 1.0f);
+    [self.yesButton.layer addAnimation:animatePathToValue(@"transform", [NSValue valueWithCATransform3D:xf]) forKey:nil];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

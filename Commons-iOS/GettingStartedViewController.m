@@ -7,6 +7,7 @@
 #import "GettingStartedViewController.h"
 #import "GotItViewController.h"
 #import "GettingStartedConstants.h"
+#import "UIView+Debugging.h"
 
 @interface GettingStartedViewController (){
     NSMutableArray *scrollViewControllers_;
@@ -75,6 +76,7 @@
     }    
     
     [self.view addSubview:scrollView_];
+    //[self.view randomlyColorSubviews];
 }
 
 -(BOOL)shouldAutorotate

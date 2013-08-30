@@ -11,5 +11,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *contributeLabel;
 @property (strong, nonatomic) IBOutlet UILabel *imagesLabel;
 @property (strong, nonatomic) IBOutlet UIView *mockPageContainerView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *verticalSpaceBetweenLabels;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *verticalSpaceBetweenHalves;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *contributeLabelWidth;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *imagesLabelWidth;
 
 @end
