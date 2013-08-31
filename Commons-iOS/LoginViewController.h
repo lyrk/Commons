@@ -16,7 +16,6 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet GradientButton *loginButton;
 @property (weak, nonatomic) IBOutlet GradientButton *logoutButton;
 @property (weak, nonatomic) IBOutlet GradientButton *currentUserButton;
@@ -38,5 +37,12 @@
 -(void)showLogout:(BOOL)show;
 +(void)applyShadowToView:(UIView *)view;
 -(IBAction)pushedAttributionButton:(id)sender;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomSpacerViewToScreenBottomConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *recoverPasswordButtonHeightConstraint;
+
+@property (weak, nonatomic) IBOutlet UIView *topSpacer;
+@property (weak, nonatomic) IBOutlet UIView *middleSpacer;
+@property (weak, nonatomic) IBOutlet UIView *bottomSpacer;
 
 @end

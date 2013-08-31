@@ -20,14 +20,7 @@
 #import "PictureOfTheDayImageView.h"
 #import "UILabel+ResizeWithAttributes.h"
 #import "PictureOfDayCycler.h"
-
-struct WMDeviceOrientationOffsets {
-  CGFloat nonIpadPortrait;
-  CGFloat nonIpadLandscape;
-  CGFloat ipadPortrait;
-  CGFloat ipadLandscape;
-};
-typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
+#import "UIView+Debugging.h"
 
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
@@ -53,12 +46,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 // Note: use iPad to retrieve potd image cache files to be bundled
 #define FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE nil //@"2013-05-24"
 
-// Convenience flag for re-taking splash image screen shots with the logo in the exact
-// position and at the exact size it will initially appear once the application
-// starts. (setting this to YES doesn't actually take the screenshots, it just
-// freezes the app once the logo is in position)
-#define FREEZE_FOR_TAKING_SPLASH_SCREENSHOT NO
-
 @interface LoginViewController ()
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -73,6 +60,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 @property (strong, nonatomic) UIView *attributionLabelBackground;
 @property (strong, nonatomic) NSArray *attributionLabelOffscreenConstraints;
 @property (strong, nonatomic) NSArray *attributionLabelOnscreenConstraints;
+@property (strong, nonatomic) NSArray *logoImageViewKeyboardOnscreenConstraints;
 
 - (void)showMyUploadsVC;
 
@@ -231,12 +219,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
         // (loads the copy of the bundled default potd which was copied to the cache)
         [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
     }
-    
-    // Make logo a bit larger on iPad
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-        _logoImageView.frame = CGRectInset(_logoImageView.frame, -75.0f, -75.0f);
-    }
-    
+
     _logoImageView.alpha = 1.0f;
     _usernameField.alpha = 1.0f;
     _passwordField.alpha = 1.0f;
@@ -301,6 +284,15 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     
     // Setup constraints to control attributionLabel layout
     [self setupAttributionLabelConstraints];
+    
+    // Hide the logo when the keyboard is visible
+    self.logoImageViewKeyboardOnscreenConstraints = [NSLayoutConstraint
+                                                     constraintsWithVisualFormat: @"V:[logoImageView(0)]"
+                                                     options:  0
+                                                     metrics:  0
+                                                     views:    @{@"logoImageView" : self.logoImageView}
+                                                     ];
+    //[self.view randomlyColorSubviews];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -395,15 +387,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     // Automatically show the getting started pages, but only once and only if no credentials present
     [self performSelector:@selector(showGettingStartedAutomaticallyOnce) withObject:nil afterDelay:2.0f];
     
-    if (FREEZE_FOR_TAKING_SPLASH_SCREENSHOT) {
-        self.loginInfoContainer.alpha = 0.0f;
-        [self.pictureOfDayCycler stop];
-        self.potdImageView.image = nil;
-        self.potdImageView.backgroundColor = [UIColor blackColor];
-        self.aboutButton.alpha = 0.0f;
-        self.attributionButton.alpha = 0.0f;
-    }
-
     [super viewDidAppear:animated];
 }
 
@@ -696,96 +679,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 -(void)viewWillLayoutSubviews{
 
     [super viewWillLayoutSubviews];
-
-    WMDeviceOrientationOffsets scaleSettings = (WMDeviceOrientationOffsets){1.0f, 0.53, 1.0f, 0.83};
-    static BOOL isFirstTime = YES;
-    if (isFirstTime) {
-        isFirstTime = NO;
-        
-        // This is the logo location to use for taking splash screen screenshots
-        // (set FREEZE_FOR_TAKING_SPLASH_SCREENSHOT to YES to do so) and is the initial location
-        // the actual logo. Only change this location if you intend to re-take the
-        // splash image screenshots, otherwise the logo and splash images won't be
-        // in the same location.
-        _logoImageView.center = CGPointMake(self.view.center.x, self.view.center.y - 25.0f);
-
-        self.loginInfoContainer.alpha = 0.0f;
-        self.aboutButton.alpha = 0.0f;
-        self.attributionButton.alpha = 0.0f;
-        float scale = [self getOffsetForDeviceAndOrientation:scaleSettings];
-        _logoImageView.transform = CGAffineTransformMakeScale(scale, scale);
-        
-        if (FREEZE_FOR_TAKING_SPLASH_SCREENSHOT) return;
-
-        self.potdImageView.alpha = 0.0f;
-        self.view.backgroundColor = [UIColor blackColor];
-        [UIView animateWithDuration:1.2f
-                              delay:0.0
-                            options:UIViewAnimationOptionBeginFromCurrentState
-                         animations:^{
-                             self.potdImageView.alpha = 1.0f;
-                         }
-                         completion:^(BOOL finished){
-                             // setNeedsLayout will cause viewWillLayoutSubviews to be called again, but isFirstTime will no longer
-                             // be YES, so this if statement will be skipped
-                             [self.view setNeedsLayout];
-                         }];
-        return;
-    }
-
-    _loginInfoContainer.layer.borderWidth = 0.0f;
-    _logoImageView.layer.borderWidth = 0.0f;
-    
-    // Match durations with the built-in rotation animation durations (about 0.4f for the iPad and 0.3f for non iPads)
-    // If not rotating just use a quick duration of about 0.2f
-    float duration = (isRotating_) ? (
-                                      (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0.4f : 0.3f
-                                      ) : 0.2f;
-    
-    [UIView animateWithDuration:duration
-                          delay:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-
-                         // Position the logo a percentage of the way down the screen
-                         float logoFromTop = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.3125f, 0.2325f, 0.3846f, 0.333}];
-                         _logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height * logoFromTop);
-
-                         self.loginInfoContainer.alpha = 1.0f;
-                         self.aboutButton.alpha = 1.0f;
-                         self.attributionButton.alpha = 1.0f;
-
-                         // Adjust logo size
-                         float scale = [self getOffsetForDeviceAndOrientation:scaleSettings];
-
-                         // Zoom in on the logo a bit if the keyboard is showing
-                         if (isKeyboardOnscreen_) {
-                             scale *= (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 1.5f : 1.2f;
-                             _logoImageView.alpha = 0.08;
-                             
-                         }else{
-                             _logoImageView.alpha = 1.0;
-                         }
-                         
-                         _logoImageView.transform = CGAffineTransformMakeScale(scale, scale);
-                         
-                         // Adjust the location of the _loginInfoContainer
-                         CGPoint newContainerCenter = CGPointZero;
-                         if (!isKeyboardOnscreen_) {
-                             float ySpacer = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){41.0f, 9.0f, 125.0f, 95.0f}];
-                             float yOffset = (_logoImageView.frame.size.height / 2.0f);
-                             yOffset += (_loginInfoContainer.frame.size.height / 2.0f);
-                             yOffset += ySpacer;
-                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
-                         }else{
-                             float yOffset = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.0f, 17.0f, 0.0f, -40.0f}];
-                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
-                         }
-
-                         _loginInfoContainer.center = newContainerCenter;
-                     }
-                     completion:^(BOOL finished){
-                     }];
 }
 
 #pragma mark - Rotation
@@ -809,17 +702,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 -(NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
-}
-
--(float)getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets)offsets
-{
-    float result = 0.0f;
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
-        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadLandscape : offsets.nonIpadLandscape;
-    }else{
-        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadPortrait : offsets.nonIpadPortrait;
-    }
-    return result;
 }
 
 #pragma mark - Pic of Day
@@ -1227,16 +1109,63 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 {
     [self showPlaceHolderTextIfNecessary];
 
+    self.recoverPasswordButton.hidden = YES;
+    self.recoverPasswordButtonHeightConstraint.constant = 0.0f;
+
+    // Shrink the logo
+    [self.view addConstraints:self.logoImageViewKeyboardOnscreenConstraints];
+    
+    // Move the bottom spacer's bottom up to the top of the keyboard
+    NSDictionary *info = [notification userInfo];
+    CGRect keyboardWindowRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardViewRect = [self.view convertRect:keyboardWindowRect fromView:nil];
+    self.bottomSpacerViewToScreenBottomConstraint.constant = keyboardViewRect.size.height;
+
     isKeyboardOnscreen_ = YES;
-    [self.view setNeedsLayout];
+
+    if (isRotating_) {
+        [self.view layoutIfNeeded];
+    }else{
+        [UIView animateWithDuration:0.2f
+                              delay:0.0f
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             // Cause the constraint changes to be animated
+                             [self.view layoutIfNeeded];
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     [self showPlaceHolderTextIfNecessary];
 
+    // Reset the image logo size
+    [self.view removeConstraints:self.logoImageViewKeyboardOnscreenConstraints];
+    // Move the bottom spacer's bottom back to the bottom of the screen
+    
+    self.bottomSpacerViewToScreenBottomConstraint.constant = 0;
+    self.recoverPasswordButton.hidden = NO;
+    self.recoverPasswordButtonHeightConstraint.constant = 30.0f;
+    
     isKeyboardOnscreen_ = NO;
-    [self.view setNeedsLayout];
+    
+    if (isRotating_) {
+        [self.view layoutIfNeeded];
+    }else{
+        [UIView animateWithDuration:0.2f
+                              delay:0.0f
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             // Cause the constraint changes to be animated
+                             [self.view layoutIfNeeded];
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }
+
     doubleTapRecognizer_.enabled = NO;
 }
 
