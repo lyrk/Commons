@@ -5,6 +5,7 @@
             "Gusta",
             "HenriqueCrang",
             "Luckas",
+            "Rodrigo Padula",
             "Tuliouel"
         ]
     },
@@ -40,6 +41,7 @@
     "settings-usage-reports-description": "Enviar relat\u00f3rios de uso para a Wikimedia para ajudar-nos a aperfei\u00e7oar o aplicativo.",
     "settings-links-label": "Links:",
     "details-title": "Detalhes",
+    "details-nav-prompt": "Descreva e envie",
     "details-upload-button": "Envio",
     "details-title-label": "T\u00edtulo",
     "details-title-placeholder": "\u00danico, t\u00edtulo descritivo",
@@ -94,6 +96,7 @@
     "getting-started-yes-button": "Sim!",
     "picture-of-day-label": "Wikimedia Commons\nImagem do Dia",
     "picture-of-day-author": "Autor:",
+    "picture-of-day-tap-for-license": "Toque para ler a licen\u00e7a",
     "picture-of-day-menu-title": "Imagem do dia",
     "picture-of-day-commons-button": "P\u00e1gina no Commons",
     "picture-of-day-license-button": "Licen\u00e7a",

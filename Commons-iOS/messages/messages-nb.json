@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Danmichaelo",
+            "Event",
             "Laaknor",
             "Nghtwlkr"
         ]
@@ -93,6 +94,7 @@
     "getting-started-yes-button": "Ja!",
     "picture-of-day-label": "Wikimedia Commons\nDagens bilde",
     "picture-of-day-author": "Opphavsperson:",
+    "picture-of-day-tap-for-license": "Trykk for lisens",
     "picture-of-day-menu-title": "Dagens bilde",
     "picture-of-day-commons-button": "Commons-side",
     "picture-of-day-license-button": "Lisens",

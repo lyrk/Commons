@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Chrumps",
+            "Faren",
             "Rezonansowy",
             "Ty221",
             "Woytecr"
@@ -90,9 +91,11 @@
     "getting-started-what-is-commons-images-label": "Obrazy na Wikipedii pochodz\u0105 z Wikimedia Commons.",
     "getting-started-what-photos-educate-label": "Twoje grafiki pomagaj\u0105 w edukacji ludzi na ca\u0142ym \u015bwiecie.",
     "getting-started-what-photos-avoid-label": "Unikaj materia\u0142\u00f3w obj\u0119tych prawami autorskimi znalezionych w internecie, a tak\u017ce obraz\u00f3w, plakat\u00f3w, ok\u0142adek ksi\u0105\u017ckowych, itp.",
+    "getting-started-got-it-label": "Uwa\u017casz \u017ce wszystko jasne?",
     "getting-started-yes-button": "Tak!",
     "picture-of-day-label": "Zdj\u0119cie dnia Wikimedia Commons",
     "picture-of-day-author": "Autor:",
+    "picture-of-day-tap-for-license": "Stuknij po licencj\u0119",
     "picture-of-day-menu-title": "Zdj\u0119cie dnia",
     "picture-of-day-commons-button": "Strona Commons",
     "picture-of-day-license-button": "Licencja",

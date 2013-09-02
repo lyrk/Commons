@@ -4,6 +4,7 @@
             "Chmee2",
             "Frettie",
             "Jkjk",
+            "Leanes",
             "Mormegil"
         ]
     },
@@ -39,6 +40,7 @@
     "settings-usage-reports-description": "Odes\u00edlat hl\u00e1\u0161en\u00ed o pou\u017e\u00edv\u00e1n\u00ed nadaci Wikimedia za \u00fa\u010delem zlep\u0161ov\u00e1n\u00ed aplikace.",
     "settings-links-label": "Odkazy:",
     "details-title": "Podrobnosti",
+    "details-nav-prompt": "Popsat a Nahr\u00e1t",
     "details-upload-button": "Nahr\u00e1t",
     "details-title-label": "N\u00e1zev",
     "details-title-placeholder": "Unik\u00e1tn\u00ed, popisn\u00fd n\u00e1zev",
@@ -93,7 +95,9 @@
     "getting-started-yes-button": "Ano!",
     "picture-of-day-label": "Wikimedia Commons\nObr\u00e1zek dne",
     "picture-of-day-author": "Autor:",
+    "picture-of-day-tap-for-license": "Klepn\u011bte pro licenci",
     "picture-of-day-menu-title": "Obr\u00e1zek dne",
+    "picture-of-day-commons-button": "Str\u00e1nka na Commons",
     "picture-of-day-license-button": "Licence",
     "picture-of-day-cancel-button": "Storno",
     "refresh-failed-alert": "Aktualizace se nezda\u0159ila!",
