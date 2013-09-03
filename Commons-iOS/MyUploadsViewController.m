@@ -546,26 +546,24 @@
 - (IBAction)settingsButtonPushed:(id)sender {
 	
 	NSLog(@"Settings Button Pushed");
-	
-	[UIView animateWithDuration:0.2
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
 
-						 // Spin and enlarge the settings button briefly up tapping it
-						 self.settingsButton.transform = CGAffineTransformRotate(CGAffineTransformMakeScale(1.8, 1.8), DEGREES_TO_RADIANS(180));
-
-					 }
-					 completion:^(BOOL finished){
-
-						 // Reset the settings button transform
-						 self.settingsButton.transform = CGAffineTransformIdentity;
-						 
-						 // Push the settings view controller on to the nav controller now that the little animation is done
-						 SettingsViewController *settingsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-						 [self.navigationController pushViewController:settingsVC animated:YES];
-
-					 }];
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:0.2f];
+    // Spin and enlarge the settings button briefly up tapping it
+    CABasicAnimation *spinAndEnlargeAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
+    spinAndEnlargeAnimation.fillMode = kCAFillModeForwards;
+    spinAndEnlargeAnimation.autoreverses = YES;
+    spinAndEnlargeAnimation.removedOnCompletion = YES;
+    CATransform3D xf = CATransform3DConcat(CATransform3DMakeRotation(DEGREES_TO_RADIANS(180.0f), 0.0f, 0.0f, 1.0f),
+                                           CATransform3DMakeScale(1.8f, 1.8f, 1.0f));
+    spinAndEnlargeAnimation.toValue = [NSValue valueWithCATransform3D:xf];
+    [CATransaction setCompletionBlock:^{
+        // Push the settings view controller on to the nav controller now that the little animation is done
+        SettingsViewController *settingsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+        [self.navigationController pushViewController:settingsVC animated:YES];
+    }];
+    [self.settingsButton.layer addAnimation:spinAndEnlargeAnimation forKey:nil];
+    [CATransaction commit];
 }
 
 - (IBAction)addMediaButtonPushed:(id)sender {
