@@ -254,7 +254,7 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="C6f-pH-iVT">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="C6f-pH-iVT">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="3" id="jyT-Ct-CGN">
@@ -315,7 +315,7 @@
                                     <outlet property="delegate" destination="jET-mn-Ts4" id="YI2-JG-QhS"/>
                                 </connections>
                             </collectionView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vMt-yt-DPQ" userLabel="Add Media Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vMt-yt-DPQ" userLabel="Add Media Button">
                                 <rect key="frame" x="124" y="324" width="72" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -330,7 +330,7 @@
                                     <action selector="addMediaButtonPushed:" destination="jET-mn-Ts4" eventType="touchUpInside" id="zgt-QO-b45"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YkX-Ws-keA" userLabel="Take Pic Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YkX-Ws-keA" userLabel="Take Pic Button">
                                 <rect key="frame" x="44" y="272" width="72" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -345,7 +345,7 @@
                                     <action selector="takePhotoButtonPushed:" destination="jET-mn-Ts4" eventType="touchUpInside" id="nyO-bt-56O"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vaw-aE-DoK" userLabel="Gallery Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vaw-aE-DoK" userLabel="Gallery Button">
                                 <rect key="frame" x="204" y="272" width="72" height="72"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -360,7 +360,7 @@
                                     <action selector="choosePhotoButtonPushed:" destination="jET-mn-Ts4" eventType="touchUpInside" id="uOZ-Jo-EbO"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H5i-2T-Kng" userLabel="Settings Button">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H5i-2T-Kng" userLabel="Settings Button">
                                 <rect key="frame" x="279" y="375" width="36" height="36"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -375,7 +375,7 @@
                                     <action selector="settingsButtonPushed:" destination="jET-mn-Ts4" eventType="touchUpInside" id="i6k-63-syH"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TeK-jG-kNu" userLabel="About Button">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoLight" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TeK-jG-kNu" userLabel="About Button">
                                 <rect key="frame" x="15" y="380" width="18" height="19"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -390,13 +390,16 @@
                                     <segue destination="AR2-z5-wAc" kind="modal" id="BNW-d1-kWU"/>
                                 </connections>
                             </button>
-                            <view userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YPu-ML-rkl" customClass="WelcomeOverlayView">
+                            <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YPu-ML-rkl" customClass="WelcomeOverlayView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="4xO-hX-THU" userLabel="Welcome Label">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="4xO-hX-THU" userLabel="Welcome Label">
                                         <rect key="frame" x="35" y="35" width="250" height="200"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="9JG-rt-Op4"/>
+                                        </constraints>
                                         <string key="text">No images found.
 Use the button below
 to take or choose photos.</string>
@@ -406,6 +409,11 @@ to take or choose photos.</string>
                                     </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="4xO-hX-THU" firstAttribute="centerX" secondItem="YPu-ML-rkl" secondAttribute="centerX" id="Wj0-Oq-kbC"/>
+                                    <constraint firstItem="4xO-hX-THU" firstAttribute="top" secondItem="YPu-ML-rkl" secondAttribute="top" constant="35" id="cBr-1b-WhJ"/>
+                                    <constraint firstItem="4xO-hX-THU" firstAttribute="leading" secondItem="YPu-ML-rkl" secondAttribute="leading" constant="35" id="u2K-8t-bT2"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="addMediaButton" destination="vMt-yt-DPQ" id="H6g-Db-yYD"/>
                                     <outlet property="choosePhotoButton" destination="Vaw-aE-DoK" id="9Bv-yr-SCZ"/>
@@ -415,6 +423,27 @@ to take or choose photos.</string>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="C6f-pH-iVT" firstAttribute="bottom" secondItem="YPu-ML-rkl" secondAttribute="bottom" id="27H-sY-kl0"/>
+                            <constraint firstAttribute="trailing" secondItem="H5i-2T-Kng" secondAttribute="trailing" constant="5" id="2S6-nW-EoZ"/>
+                            <constraint firstItem="C6f-pH-iVT" firstAttribute="leading" secondItem="YPu-ML-rkl" secondAttribute="leading" id="2SV-va-25G"/>
+                            <constraint firstItem="Vaw-aE-DoK" firstAttribute="top" secondItem="YkX-Ws-keA" secondAttribute="top" id="6ft-DD-FFf"/>
+                            <constraint firstAttribute="trailing" secondItem="YPu-ML-rkl" secondAttribute="trailing" id="JSx-ia-FV0"/>
+                            <constraint firstItem="Vaw-aE-DoK" firstAttribute="leading" secondItem="vMt-yt-DPQ" secondAttribute="trailing" constant="8" symbolic="YES" id="JcI-Wf-3p3"/>
+                            <constraint firstItem="C6f-pH-iVT" firstAttribute="top" secondItem="YPu-ML-rkl" secondAttribute="top" id="MLk-PK-OK7"/>
+                            <constraint firstItem="YPu-ML-rkl" firstAttribute="trailing" secondItem="C6f-pH-iVT" secondAttribute="trailing" id="Mst-4q-iBP"/>
+                            <constraint firstItem="bwO-UB-wxQ" firstAttribute="top" secondItem="TeK-jG-kNu" secondAttribute="bottom" constant="17" id="TIS-jM-Waq"/>
+                            <constraint firstItem="bwO-UB-wxQ" firstAttribute="top" secondItem="YkX-Ws-keA" secondAttribute="bottom" constant="72" id="XA9-nl-XzB"/>
+                            <constraint firstAttribute="bottom" secondItem="YPu-ML-rkl" secondAttribute="bottom" id="YNb-rW-tW0"/>
+                            <constraint firstItem="YPu-ML-rkl" firstAttribute="leading" secondItem="4Wo-hn-oxn" secondAttribute="leading" id="ft7-YB-XLd"/>
+                            <constraint firstItem="TeK-jG-kNu" firstAttribute="leading" secondItem="4Wo-hn-oxn" secondAttribute="leading" constant="15" id="iA6-Be-KtG"/>
+                            <constraint firstItem="bwO-UB-wxQ" firstAttribute="top" secondItem="H5i-2T-Kng" secondAttribute="bottom" constant="5" id="jfv-qH-vmX"/>
+                            <constraint firstItem="Vaw-aE-DoK" firstAttribute="baseline" secondItem="YkX-Ws-keA" secondAttribute="baseline" id="nIs-4o-wSb"/>
+                            <constraint firstItem="vMt-yt-DPQ" firstAttribute="leading" secondItem="YkX-Ws-keA" secondAttribute="trailing" constant="8" symbolic="YES" id="nwS-Dk-egc"/>
+                            <constraint firstItem="YPu-ML-rkl" firstAttribute="centerX" secondItem="vMt-yt-DPQ" secondAttribute="centerX" id="peS-gW-Xjf"/>
+                            <constraint firstItem="C6f-pH-iVT" firstAttribute="top" secondItem="4Wo-hn-oxn" secondAttribute="top" id="t5B-3k-d3G"/>
+                            <constraint firstAttribute="bottom" secondItem="vMt-yt-DPQ" secondAttribute="bottom" constant="20" symbolic="YES" id="xql-YG-Bo7"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cin-BK-iTy">
                         <barButtonItem key="rightBarButtonItem" title="Upload" id="a9S-L8-gKd">
@@ -1813,8 +1842,8 @@ Help Wikipedia articles come to life!</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="LQ8-N8-Tpg"/>
-        <segue reference="dbR-9g-yz2"/>
         <segue reference="yNY-cm-JEu"/>
+        <segue reference="BNW-d1-kWU"/>
+        <segue reference="dbR-9g-yz2"/>
     </inferredMetricsTieBreakers>
 </document>

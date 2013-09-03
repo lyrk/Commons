@@ -143,6 +143,7 @@
 
     // This view is used to fade out the background when the take and choose photo buttons are revealed
     opaqueView_ = [[UIView alloc] init];
+    opaqueView_.translatesAutoresizingMaskIntoConstraints = NO;
     opaqueView_.backgroundColor = [UIColor clearColor];
     
     // Make the About and Settings buttons stand out better against light colors
@@ -224,9 +225,6 @@
 -(void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
-    // Make sure when the device is rotated that the opaqueView changes dimensions accordingly
-    opaqueView_.frame = self.view.bounds;
     
     // UIViews don't have access to self.interfaceOrientation, this gets around that so the
     // welcomeOverlayView can adjust its custom drawing when it needs to
@@ -592,6 +590,17 @@
 
 - (void)animateTakeAndChoosePhotoButtons {
     
+    CABasicAnimation *(^xfAnimation)(CATransform3D, float, float) = ^(CATransform3D xf, float delay, float duration){
+        CABasicAnimation *a = [CABasicAnimation animationWithKeyPath:@"transform"];
+        a.fillMode = kCAFillModeForwards;
+        a.autoreverses = NO;
+        a.duration = duration;
+        a.removedOnCompletion = NO;
+        [a setBeginTime:CACurrentMediaTime() + delay];
+        a.toValue = [NSValue valueWithCATransform3D:xf];
+        return a;
+    };
+    
     // Animates the take and choose photo buttons from their storyboard location to the location of the add media button
     // and vice-versa.
     
@@ -610,6 +619,17 @@
         // Make the opaque view appear, presently it's transparent, but its color transition will be animated along with the button location changes below
         // (also ensure the buttons are on top of the opaque view)
         [self.view addSubview:opaqueView_];
+
+        // Constrain the opaque view to take up the whole screen
+        void (^constrainOpaqueView)(NSString *) = ^(NSString * str){
+            [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:str
+                                                                              options:0
+                                                                              metrics:0
+                                                                                views:NSDictionaryOfVariableBindings(opaqueView_)]];
+        };
+        constrainOpaqueView(@"H:|[opaqueView_]|");
+        constrainOpaqueView(@"V:|[opaqueView_]|");
+
         [self.view bringSubviewToFront:opaqueView_];
         [self.view bringSubviewToFront:self.takePhotoButton];
         [self.view bringSubviewToFront:self.choosePhotoButton];
@@ -621,10 +641,15 @@
         self.takePhotoButton.center = self.addMediaButton.center;
         self.choosePhotoButton.center = self.addMediaButton.center;
         
-        //make the take and choose buttons twist as they're revealed and hidden
-        self.takePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-90));
-        self.choosePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
-        
+        // Make the take and choose buttons twist as they're revealed and hidden.
+        [self.takePhotoButton.layer addAnimation:
+         xfAnimation(CATransform3DMakeRotation(DEGREES_TO_RADIANS(-90), 0, 0, 1), 0.0f, 0.0f)
+                                          forKey:nil];
+
+        [self.choosePhotoButton.layer addAnimation:
+         xfAnimation(CATransform3DMakeRotation(DEGREES_TO_RADIANS(90), 0, 0, 1), 0.0f, 0.0f)
+                                            forKey:nil];
+
         [UIView animateWithDuration:BUTTON_ANIMATION_DURATION
                               delay:0.0
                             options:UIViewAnimationOptionTransitionNone
@@ -636,11 +661,7 @@
                              self.choosePhotoButton.hidden = NO;
                              buttonAnimationInProgress_ = YES;
 
-                             self.addMediaButton.transform = CGAffineTransformMakeScale(0.65f, 0.65f);
                              self.addMediaButton.alpha = 0.25;
-                             
-                             self.takePhotoButton.transform = CGAffineTransformIdentity;
-                             self.choosePhotoButton.transform = CGAffineTransformIdentity;
                              
                              // Also animate the opaque view from transparent to partially opaque
                              [opaqueView_ setAlpha:OPAQUE_VIEW_ALPHA];
@@ -659,6 +680,21 @@
                                  [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHOOSE_OR_TAKE];
                              }
                          }];
+        
+        // Shrink the add media button when it's tapped
+        [self.addMediaButton.layer addAnimation:
+            xfAnimation(CATransform3DMakeScale(0.65f, 0.65f, 1.0f), 0.0f, BUTTON_ANIMATION_DURATION)
+                                         forKey:nil];
+        
+        // Reveal the choose button
+        [self.choosePhotoButton.layer addAnimation:
+            xfAnimation(CATransform3DIdentity, 0.0f, BUTTON_ANIMATION_DURATION)
+                                            forKey:nil];
+        
+        // Reveal the take button
+        [self.takePhotoButton.layer addAnimation:
+            xfAnimation(CATransform3DIdentity, 0.0f, BUTTON_ANIMATION_DURATION)
+                                          forKey:nil];
     }else{
         
         // Assuming a user with no images may need a little prompting, show a welcome message
@@ -675,29 +711,39 @@
                              self.choosePhotoButton.center = self.addMediaButton.center;
                              buttonAnimationInProgress_ = YES;
                              
-                             self.addMediaButton.transform = CGAffineTransformIdentity;
                              self.addMediaButton.alpha = 1.0;
                              
                              [opaqueView_ setAlpha:1.0];
                              opaqueView_.backgroundColor = [UIColor clearColor];
-                             
-                             self.takePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-90));
-                             self.choosePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
-                             
-                             //make the add media button swell as the take and choose buttons are hidden - almost makes it appear to swallow them
-                             self.addMediaButton.transform = CGAffineTransformMakeScale(1.25, 1.25);
-                             
                          }
                          completion:^(BOOL finished){
                              self.takePhotoButton.hidden = YES;
                              self.choosePhotoButton.hidden = YES;
                              self.takePhotoButton.center = takePhotoButtonOriginalCenter;
                              self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
-                             self.addMediaButton.transform = CGAffineTransformIdentity;
                              buttonAnimationInProgress_ = NO;
                              
                              [opaqueView_ removeFromSuperview];
                          }];
+
+        // Make the add media button swell as the take and choose buttons are hidden.
+        // Almost makes it appear to swallow them.
+        [self.addMediaButton.layer addAnimation:
+            xfAnimation(CATransform3DMakeScale(1.25f, 1.25f, 1.0f), 0.0f, BUTTON_ANIMATION_DURATION)
+                                         forKey:nil];
+
+        [self.addMediaButton.layer addAnimation:
+            xfAnimation(CATransform3DIdentity, BUTTON_ANIMATION_DURATION, 0.0f)
+                                         forKey:nil];
+
+        // Rotate the choose and take photo buttons slightly as they are hidden
+        [self.choosePhotoButton.layer addAnimation:
+            xfAnimation(CATransform3DMakeRotation(DEGREES_TO_RADIANS(90), 0, 0, 1), 0.0f, BUTTON_ANIMATION_DURATION)
+                                            forKey:nil];
+
+        [self.takePhotoButton.layer addAnimation:
+            xfAnimation(CATransform3DMakeRotation(DEGREES_TO_RADIANS(-90), 0, 0, 1), 0.0f, BUTTON_ANIMATION_DURATION)
+                                          forKey:nil];
     }
 }
 
