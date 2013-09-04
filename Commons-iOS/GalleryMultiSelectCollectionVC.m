@@ -14,8 +14,8 @@
 #pragma mark - Defines
 
 // See "setSpacing" method for other layout adjustments
-#define GALLERY_NON_IPAD_IMAGE_BORDER_WIDTH 6.0f
-#define GALLERY_IPAD_IMAGE_BORDER_WIDTH 12.0f
+#define GALLERY_NON_IPAD_IMAGE_BORDER_WIDTH 2.0f
+#define GALLERY_IPAD_IMAGE_BORDER_WIDTH 2.0f
 
 #define GALLERY_ALBUM_BORDER_COLOR [UIColor whiteColor]
 #define GALLERY_SELECTED_ALBUM_BORDER_COLOR [UIColor redColor]
@@ -133,6 +133,8 @@ typedef enum {
 
 -(void)setSpacing
 {
+    // For info on autolayout with collectionviews, see: http://stackoverflow.com/a/17598033/135557
+
     UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
     
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
@@ -210,7 +212,7 @@ typedef enum {
 {
     UIImage *image = [collectionData_[indexPath.section][@"assets"] objectAtIndex:indexPath.row][@"thumb"];
     
-    return CGSizeMake((image.size.width * cellScale_) + imageMargin_, (image.size.height * cellScale_) + imageMargin_);
+    return CGSizeMake((image.size.width * cellScale_), (image.size.height * cellScale_));
 }
 
 - (void)returnToAlbums{
@@ -259,22 +261,27 @@ typedef enum {
     return [collectionData_ count];
 }
 
+-(void)addMarginConstraintsToImageView:(UIImageView *)thisImageView
+{
+    void (^constrainImageView)(NSString *) = ^(NSString *vfString){
+        [thisImageView.superview addConstraints:[NSLayoutConstraint
+                                                 constraintsWithVisualFormat: vfString
+                                                 options:  0
+                                                 metrics:  @{@"margin" : @(imageMargin_)}
+                                                 views:    @{@"imageView" : thisImageView}
+                                                 ]];
+    };
+    constrainImageView(@"H:|-margin-[imageView]-margin-|");
+    constrainImageView(@"V:|-margin-[imageView]-margin-|");
+}
+
 -(void)configureCellImageView:(UIImageView *)thisImageView forIndexPath:(NSIndexPath*)indexPath
 {
     // Set the image
     thisImageView.image = [collectionData_[indexPath.section][@"assets"] objectAtIndex:indexPath.row][@"thumb"];
-    
-    // Size the cell imageView to the size of the image it contains
-    CGRect f = thisImageView.frame;
-    CGPoint p = thisImageView.center;
-    f.size.width = thisImageView.image.size.width;
-    f.size.height = thisImageView.image.size.height;
-    
-    f.size.width = f.size.width * imageScale_;
-    f.size.height = f.size.height * imageScale_;
-    
-    thisImageView.frame = f;
-    thisImageView.center = p;
+
+    // Add margin constraints between image view and its cell
+    [self addMarginConstraintsToImageView:thisImageView];
 }
 
 -(void)configureBackgroundForCell:(UICollectionViewCell *)cell havingImageView:(UIImageView *) imageView
