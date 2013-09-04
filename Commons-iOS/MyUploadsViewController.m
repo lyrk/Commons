@@ -939,6 +939,8 @@
 - (void)configureCell:(ImageListCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = (FileUpload *)[app.fetchedResultsController objectAtIndexPath:indexPath];
+
+    [cell constrainSubviews];
     
     //NSString *indexPosition = [NSString stringWithFormat:@"%d", indexPath.item + 1];
     //cell.indexLabel.text = indexPosition;

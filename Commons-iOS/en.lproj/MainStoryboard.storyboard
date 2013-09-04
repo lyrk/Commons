@@ -282,25 +282,43 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="240"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="okD-fs-BOe" customClass="ProgressView">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="okD-fs-BOe" customClass="ProgressView">
                                                     <rect key="frame" x="0.0" y="196" width="320" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                     <subviews>
-                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Title" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="t14-R2-Kf0">
-                                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="320" translatesAutoresizingMaskIntoConstraints="NO" id="t14-R2-Kf0">
+                                                            <rect key="frame" x="10" y="12" width="320" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="320" placeholder="YES" id="WL5-l0-R4S"/>
+                                                            </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.29999999999999999" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="t14-R2-Kf0" firstAttribute="leading" secondItem="okD-fs-BOe" secondAttribute="leading" constant="10" placeholder="YES" id="Uky-cF-bda"/>
+                                                        <constraint firstAttribute="centerY" secondItem="t14-R2-Kf0" secondAttribute="centerY" id="XzV-xe-lPZ"/>
+                                                        <constraint firstAttribute="height" constant="44" placeholder="YES" id="dyh-3E-36o"/>
+                                                    </constraints>
                                                 </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="okD-fs-BOe" secondAttribute="bottom" id="EeB-zU-A2u"/>
+                                            <constraint firstAttribute="trailing" secondItem="okD-fs-BOe" secondAttribute="trailing" id="e4B-lF-l8S"/>
+                                            <constraint firstItem="okD-fs-BOe" firstAttribute="leading" secondItem="fxd-h5-oSR" secondAttribute="leading" id="uHH-zY-9Rp"/>
+                                        </constraints>
                                         <size key="customSize" width="320" height="240"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="titleLabelMargin">
+                                                <integer key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="image" destination="XOQ-vH-P1a" id="ODq-Px-xkj"/>
                                             <outlet property="indexLabel" destination="B7S-Xb-Ggh" id="hIw-tw-wEJ"/>
