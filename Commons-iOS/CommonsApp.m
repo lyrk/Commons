@@ -761,7 +761,7 @@ static CommonsApp *singleton_;
 - (NSString *)formatDescription:(FileUpload *)record
 {
     NSString *format = @"== {{int:filedesc}} ==\n"
-                       @"{{Information|Description=%@|source={{own}}|author=[[User:%@]]|date=%@}}\n"
+                       @"{{Information\n|description=%@\n|source={{own}}\n|author=[[User:%@|%2$@]]\n|date=%@}}\n"
                        @"== {{int:license-header}} ==\n"
                        @"{{self|cc-by-sa-3.0}}\n"
                        @"\n"
