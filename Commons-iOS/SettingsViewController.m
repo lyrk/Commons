@@ -16,6 +16,7 @@
 #import "UILabel+ResizeWithAttributes.h"
 #import "LoginViewController.h"
 #import "SettingsImageView.h"
+#import "UIView+Debugging.h"
 
 #pragma mark - Defines
 
@@ -41,11 +42,11 @@
     BrowserHelper *browserHelper_;
     CommonsApp *app_;
     UIColor *navBarOriginalColor_;
-    CAGradientLayer *backgroundGradient_;
     SettingsImageView *settingsImageView_;
 }
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *browserAndDebugContainersTopConstraint;
 
 @end
 
@@ -58,6 +59,8 @@
     self = [super initWithCoder:coder];
     if (self) {
         settingsImageView_ = [[SettingsImageView alloc] init];
+        settingsImageView_.translatesAutoresizingMaskIntoConstraints = NO;
+        
         browserHelper_ = [[BrowserHelper alloc] init];
         app_ = CommonsApp.singleton;
         installedSupportedBrowserNames_ = nil;
@@ -77,7 +80,25 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-	    
+
+    self.settingsContainer.translatesAutoresizingMaskIntoConstraints = NO;
+
+    // Ensure storyboard labels will wrap to multiple lines if necessary
+    void(^multiLine)(UILabel *) = ^(UILabel *label){
+        label.numberOfLines = 0;
+        label.preferredMaxLayoutWidth = label.frame.size.width;
+    };
+
+    multiLine(self.trackingLabel);
+    multiLine(self.trackingDetailsLabel);
+    multiLine(self.externalLinksLabel);
+    multiLine(self.uploadTargetLabel);
+    multiLine(self.debugModeLabel);
+    multiLine(self.openInLabel);
+    multiLine(self.sourceLabel);
+    multiLine(self.thisAppLabel);
+    multiLine(self.gradientButtonsLabel);
+
     // Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
@@ -88,13 +109,9 @@
     self.trackingDetailsLabel.text = [MWMessage forKey:@"settings-usage-reports-description"].text;
     self.externalLinksLabel.text = [MWMessage forKey:@"settings-links-label"].text;
     
-    self.openInLabel.adjustsFontSizeToFitWidth = YES;
-    
     self.debugModeSwitch.on = app_.debugMode;
     [self setDebugModeLabel];
-	    
-    self.externalLinksContainer.alpha = 0.0f;
-
+	   
     // Make settings switch reflect any saved value
     self.trackingSwitch.on = app_.trackingEnabled;
     
@@ -112,23 +129,11 @@
                NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
      } preferredMaxLayoutWidth:320.0f];
 
-    // Set button color scheme
-    [self applyStyleToButton:self.sourceButton];
-    [self applyStyleToButton:self.commonsButton];
-    [self applyStyleToButton:self.bugsButton];
-    [self applyStyleToButton:self.privacyButton];
-    
-    // Ensure button text doesn't get clipped if i18n is long string
-    self.sourceButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.commonsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.bugsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.privacyButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    
     // i18n for buttons
     [self.commonsButton setTitle:[MWMessage forKey:@"about-commons-button"].text forState:UIControlStateNormal];
     [self.bugsButton setTitle:[MWMessage forKey:@"about-bugs-button"].text forState:UIControlStateNormal];
     [self.privacyButton setTitle:[MWMessage forKey:@"about-privacy-button"].text forState:UIControlStateNormal];
-    [self.sourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
+    [self.sourceLabel setText:[MWMessage forKey:@"settings-source-label"].text];
     
     // i18n for the sub-items under the Source button
     [self.thisAppLabel setText:[MWMessage forKey:@"about-source-this-app-title"].text];
@@ -143,20 +148,89 @@
     self.sourceDetailsContainer.backgroundColor = [UIColor clearColor];
 
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
+        // Increase the space above the mock page a bit
+        self.spaceAboveMockPageConstraint.constant *= 4.0f;
         // Scale the mock page down a bit
-        CGAffineTransform xf = CGAffineTransformMakeScale(0.7f, 0.7f);
+        CGAffineTransform xf = CGAffineTransformMakeScale(0.8f, 0.8f);
         self.mockPageContainerView.transform = xf;
     }else{
-        [self moveContainersDownToMakeRoomForBiggerMockPage];
+        // Increase the space above the mock page a bit
+        self.spaceAboveMockPageConstraint.constant *= 6.0f;
+        // Scale the mock page up a bit
+        CGAffineTransform xf = CGAffineTransformMakeScale(1.45f, 1.45f);
+        self.mockPageContainerView.transform = xf;
     }
 
     // Add the image view for the picture of the day last shown by the login page
     [self.view insertSubview:settingsImageView_ atIndex:0];
 
-#ifndef DEBUG
-    [self hideDebugInfoContainerIfReleaseBuild];
-#endif
+    [self constrainSubviews];
 
+    // The debug settings toggle is hidden by default unless the settings screen is tapped 6 times
+    [self setupDebugContainer];
+
+    //[self.view randomlyColorSubviews];
+}
+
+-(void)constrainSubviews
+{
+    void (^constrainButton)(UIButton *) = ^(UIButton *button){
+        // Add left and right padding
+        float padding = 12.0f;
+        button.titleEdgeInsets = UIEdgeInsetsMake(0, padding, 0, padding);
+        
+        // Enable multi-line and word-wrapping
+        button.titleLabel.numberOfLines = 0;
+        button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        
+        // Wrap button text at its present width constraint
+        button.titleLabel.preferredMaxLayoutWidth = button.frame.size.width;
+        
+        // Size the button's height to be the size of its text plus padding
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: button
+                                                              attribute: NSLayoutAttributeHeight
+                                                              relatedBy: NSLayoutRelationEqual
+                                                                 toItem: button.titleLabel
+                                                              attribute: NSLayoutAttributeHeight
+                                                             multiplier: 1.0f
+                                                               constant: padding * 2.0f]];
+    };
+    
+    constrainButton(self.commonsButton);
+    constrainButton(self.privacyButton);
+    constrainButton(self.bugsButton);
+    constrainButton(self.thisAppContributorsButton);
+    constrainButton(self.thisAppLicenseButton);
+    constrainButton(self.thisAppSourceButton);
+    constrainButton(self.gradientButtonLicenseButton);
+    constrainButton(self.gradientButtonSourceButton);
+
+    UIColor *color = [UIColor colorWithWhite:1.0f alpha:0.1f];
+    self.thisAppContributorsButton.backgroundColor = color;
+    self.thisAppLicenseButton.backgroundColor = color;
+    self.thisAppSourceButton.backgroundColor = color;
+    self.gradientButtonLicenseButton.backgroundColor = color;
+    self.gradientButtonSourceButton.backgroundColor = color;
+
+    void(^constrainSettingsImageView)(NSString *) = ^(NSString *vfString){
+        [self.view addConstraints:[NSLayoutConstraint
+                                   constraintsWithVisualFormat: vfString
+                                   options:  0
+                                   metrics:  @{@"margin" : @(0)}
+                                   views:    @{@"settingsImageView" : settingsImageView_}
+                                   ]];
+    };
+    constrainSettingsImageView(@"H:|[settingsImageView]|");
+    constrainSettingsImageView(@"V:|[settingsImageView]|");
+    
+    // This is used when toggling the visibility of the debug container
+    self.browserAndDebugContainersTopConstraint = [NSLayoutConstraint constraintWithItem:self.externalBrowserContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                      relatedBy:NSLayoutRelationEqual
+                                                         toItem:self.debugInfoContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                     multiplier:1.0
+                                                       constant:0];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -193,55 +267,63 @@
     [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
 }
 
+#pragma mark - Debug container
+
+-(void)setupDebugContainer
+{
+    // Make the debug container be hidden initially
+    [self hideDebugContainer];
+
+    // Add tap gesture for revealing the debug container if view tapped a number of times
+    UITapGestureRecognizer *doubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleDebugContainer)];
+    doubleTapRecognizer_.numberOfTapsRequired = 6;
+    [self.view addGestureRecognizer:doubleTapRecognizer_];
+    doubleTapRecognizer_.enabled = YES;
+}
+
+-(void)hideDebugContainer
+{
+    [self.externalBrowserContainer.superview removeConstraint:self.spaceBetweenDebugAndBrowserContainersConstraint];
+    [self.externalBrowserContainer.superview addConstraint:self.browserAndDebugContainersTopConstraint];
+    self.debugInfoContainer.alpha = 0.0f;
+}
+
+-(void)showDebugContainer
+{
+    [self.externalBrowserContainer.superview removeConstraint:self.browserAndDebugContainersTopConstraint];
+    [self.externalBrowserContainer.superview addConstraint:self.spaceBetweenDebugAndBrowserContainersConstraint];
+    self.debugInfoContainer.alpha = 1.0f;
+}
+
+-(void)toggleDebugContainer
+{
+    [UIView animateWithDuration:0.2f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         if (self.debugInfoContainer.alpha == 1.0f) {
+                             [self hideDebugContainer];
+                         }else{
+                             [self showDebugContainer];
+                         }
+                         [self.view layoutIfNeeded];
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
 #pragma mark - Positioning
 
 -(void)viewWillLayoutSubviews
 {
     // Resize browsersTableView according to its number of rows
     [self adjustHeightOfBrowsersTableView];
-    
-    // Now that browsersTableView has been resized, move the link buttons below the browsersTableView
-    [self revealExternalLinksContainerBelowBrowsersTableView];
 
-    [self setScrollViewContentSize];
-    
-    [self resizeBackgroundGradient];
-
-    settingsImageView_.frame = self.view.bounds;
-}
-
--(void)viewDidLayoutSubviews
-{
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-            // If orientation is landscape...
-            if(self.sourceDetailsContainer.alpha != 0.0){
-                // If source details are visible so scroll all the way to the bottom so all of the details may be seen
-                [self scrollToBottomOfExternalLinksContainer];
-            }else{
-                [self scrollToBottomOfDebugInfoContainer];
-            }
-        }else{
-            // If orientation is portrait just scroll to the top
-            [self scrollToTopOfSettingsContainer];
-        }
-    }
-}
-
-- (void)revealExternalLinksContainerBelowBrowsersTableView
-{
-    float externalLinksContainerY = [self.browsersTableView convertPoint:(CGPoint){0, self.browsersTableView.frame.size.height} toView:self.settingsContainer].y;
-    
-    externalLinksContainerY += 28.0f;
-    CGRect f = self.externalLinksContainer.frame;
-    f.origin = (CGPoint){self.externalLinksContainer.frame.origin.x, externalLinksContainerY};
-    self.externalLinksContainer.frame = f;
-    
-    [UIView animateWithDuration:0.3 delay:0.35 options:nil animations:^{
-        self.externalLinksContainer.alpha = 1.0f;
-    } completion:^(BOOL finished){
-        
-    }];
+    // Style buttons with rounded corners - needs to happen in viewWillLayoutSubviews
+    // because autolayout may have changed the frame of the buttons
+    [self applyStyleToButton:self.commonsButton];
+    [self applyStyleToButton:self.privacyButton];
+    [self applyStyleToButton:self.bugsButton];
 }
 
 -(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell
@@ -261,15 +343,23 @@
                          cellY -= self.browsersTableView.contentOffset.y;
                          cellY += self.browsersTableView.frame.origin.y;
                          
-                         // Determine cell height so label can be made to be same height
-                         float cellHeight = cell.frame.size.height;
-                         
                          // Set label frame shifting it into the same vertical position as the selected cell
                          // Also make the label the same height as the cell
-                         self.openInLabel.frame = CGRectMake(self.openInLabel.frame.origin.x, cellY, self.openInLabel.frame.size.width, cellHeight);
+                         self.openInLabel.frame = CGRectMake(self.openInLabel.frame.origin.x,
+                                                             cellY,
+                                                             self.openInLabel.frame.size.width,
+                                                             self.openInLabel.frame.size.height);
                      }
 					 completion:^(BOOL finished){
-                         
+                         // Determine cell height so label can be made to be same height
+                         float cellHeight = cell.frame.size.height;
+
+                         // Set label frame shifting it into the same vertical position as the selected cell
+                         // Also make the label the same height as the cell
+                         self.openInLabel.frame = CGRectMake(self.openInLabel.frame.origin.x,
+                                                             self.openInLabel.frame.origin.y,
+                                                             self.openInLabel.frame.size.width,
+                                                             cellHeight);
                      }];
 }
 
@@ -294,33 +384,6 @@
 -(void)hideDebugInfoContainerIfReleaseBuild
 {
     self.debugInfoContainer.hidden = YES;
-
-    void(^moveUp)(UIView *view) = ^(UIView *view){
-        CGRect f = view.frame;
-        f.origin.y -= (self.debugInfoContainer.frame.size.height + 45.0f);
-        view.frame = f;
-    };
-
-    // Move the external browser and external links containers up to occupy
-    // the space vacated by the hidden debugInfoContainer
-    moveUp(self.externalBrowserContainer);
-    moveUp(self.externalLinksContainer);
-}
-
--(void)moveContainersDownToMakeRoomForBiggerMockPage
-{
-    void(^moveDown)(UIView *view, float amount) = ^(UIView *view, float amount){
-        CGRect f = view.frame;
-        f.origin.y += (self.debugInfoContainer.frame.size.height + amount);
-        view.frame = f;
-    };
-
-    moveDown(self.mockPageContainerView, 20.0f);
-    moveDown(self.appVersionLabel, 45.0f);
-    moveDown(self.trackingInfoContainer, 45.0f);
-    moveDown(self.debugInfoContainer, 45.0f);
-    moveDown(self.externalBrowserContainer, 45.0f);
-    moveDown(self.externalLinksContainer, 45.0f);
 }
 
 #pragma mark - Styling
@@ -342,68 +405,14 @@
     [settingsImageView_ prepareFilteredImage];
     [settingsImageView_ toFiltered];
     [settingsImageView_ zoom];
-    settingsImageView_.frame = self.view.bounds;
-}
-
-#pragma mark - Scrolling
-
--(void)scrollToBottomOfDebugInfoContainer
-{
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.debugInfoContainer.frame.origin.y + self.debugInfoContainer.frame.size.height + 10, 1, 1) animated:YES];
-}
-
--(void)scrollToBottomOfSettingsContainer
-{
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
-}
-
--(void)scrollToTopOfSettingsContainer
-{
-    // Scroll to the top of the settingsContainer
-    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
-}
-
--(void)scrollToBottomOfExternalLinksContainer
-{
-    // Scroll to the bottom of the externalLinksContainer. OK to use self.scrollView.contentSize as it is set
-    // to self.externalLinksContainer.frame.size in the viewDidLoad
-    // (The rect passed to scrollRectToVisible must have its origin.y be less than self.scrollView.contentSize.height
-    // or it won't scroll, hence the "- 1")
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
 }
 
 #pragma mark - Sizing
 
 - (void)adjustHeightOfBrowsersTableView
 {
-    CGRect browsersTableViewFrame = self.browsersTableView.frame;
-    browsersTableViewFrame.size.height = self.browsersTableView.contentSize.height;
     if (self.browsersTableView.contentSize.height == 0.0f) return;
-    self.browsersTableView.frame = browsersTableViewFrame;
-}
-
-
--(void)setScrollViewContentSize
-{
-    float settingsContainerHeight = [self.sourceDetailsContainer convertPoint:(CGPoint){0,self.sourceDetailsContainer.frame.size.height} toView:self.settingsContainer].y;
-    
-    CGRect f = self.settingsContainer.frame;
-    f.size = (CGSize){self.settingsContainer.frame.size.width, settingsContainerHeight};
-    self.settingsContainer.frame = f;
-    self.scrollView.contentSize = f.size;
-}
-
--(void)resizeBackgroundGradient
-{
-    // Resize the gradient, but make the gradient bigger than the view to eliminate
-    // weird rotation artifact.
-    // Note: since the gradient layer is double the size of the view any "locations"
-    // stops in the gradient will be off by a factor of 2 since only half the layer
-    // will be visible
-    CGRect f = self.view.bounds;
-    f.size.width *= 2;
-    f.size.height *= 2;
-    backgroundGradient_.frame = f;
+    self.browsersTableViewHeightConstraint.constant = self.browsersTableView.contentSize.height;
 }
 
 #pragma mark - Browser selection table view
@@ -443,6 +452,9 @@
     if ([cell.textLabel.text isEqualToString:app_.defaultExternalBrowser]) cell.selected = YES;
     
     [self moveOpenInLabelBesideSelectedBrowserCell:cell];
+    
+    // Round just the top right and bottom right corners of the cell
+    [app_ roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -462,9 +474,6 @@
     cell.textLabel.text = [installedSupportedBrowserNames_ objectAtIndex:indexPath.row];
 
     cell.textLabel.textColor = [UIColor whiteColor];
-    
-    // Round just the top right and bottom right corners of the cell
-    [app_ roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
 
     return cell;
 }
@@ -605,52 +614,6 @@
     // Open the url in the user's preferred browser
     if (urlStr) [app_ openURLWithDefaultBrowser:[NSURL URLWithString:urlStr]];    
 }
-
--(void)toggleSourceDetailsContainerVisibility
-{
-    CGRect sourceDetailsContainerStoryboardFrame = self.sourceDetailsContainer.frame;
-    
-    // This offset determines how far the details container will be moved up or down during the show or hide
-    float offscreenFrameOffset = 110.0;
-    
-    if(self.sourceDetailsContainer.alpha == 0.0){
-        // If the container is presently hidden, nudge it off the bottom of the screen so the show animation
-        // can slide it back up into place. Nice as it's all relative to the container's storyboard position
-        // so storyboard adjustments won't break the animation as movement is relative
-        self.sourceDetailsContainer.frame = CGRectOffset(self.sourceDetailsContainer.frame, 0.0, offscreenFrameOffset);
-    }
-    
-    [UIView animateWithDuration:0.25
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
-                         if(self.sourceDetailsContainer.alpha == 1.0){
-                             // If container is visible fade out alpha and move it offscreen
-                             self.sourceDetailsContainer.alpha = 0.0;
-                             self.sourceDetailsContainer.frame = CGRectOffset(self.sourceDetailsContainer.frame, 0.0, offscreenFrameOffset);
-                         }else{
-                             // If container is hidden fade in alpha and move it onscreen
-                             self.sourceDetailsContainer.alpha = 1.0;
-                             self.sourceDetailsContainer.frame = sourceDetailsContainerStoryboardFrame;
-                             
-                             // Ensure the newly revealed sourceDetailsContainer is entirely on-screen
-                             [self scrollToBottomOfExternalLinksContainer];
-                         }
-					 }
-					 completion:^(BOOL finished){
-                         // When done with either show or hide put the container back so everything is where it was and
-                         // everything's in a good state for next toggle animation
-                         self.sourceDetailsContainer.frame = sourceDetailsContainerStoryboardFrame;
-					 }];
-}
-
--(IBAction)sourceButtonTap:(id)sender
-{
-    [self.sourceButton setHighlighted:NO];
-    
-    [self toggleSourceDetailsContainerVisibility];
-}
-
 
 #pragma mark - Memory
 

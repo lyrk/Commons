@@ -30,6 +30,7 @@
     "settings-password-placeholder": "Placeholder text for password field in settings.\n{{Identical|Password}}",
     "settings-debug-label": "Label for debug mode switch in settings (switches between uploading to Commons and to a test site)",
     "settings-open-links-label": "Label for button which lets user choose which browser will be used to open external links",
+    "settings-source-label": "Label for source section of the settings pages",
     "settings-open-links-only-safari": "Message for alert which appears if Open Links Safari button is tapped and Safari is only browser on the device",
     "settings-debug-detail": "Label indicating which site photos will be uploaded to. Parameters:\n* $1 - a domain name such as commons.wikimedia.org",
     "settings-usage-reports-label": "Label for Usage Reports switch",

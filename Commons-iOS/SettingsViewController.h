@@ -27,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *commonsButton;
 @property (weak, nonatomic) IBOutlet UIButton *bugsButton;
 @property (weak, nonatomic) IBOutlet UIButton *privacyButton;
-@property (weak, nonatomic) IBOutlet UIButton *sourceButton;
+@property (weak, nonatomic) IBOutlet UILabel *sourceLabel;
 
 @property (weak, nonatomic) IBOutlet UIButton *thisAppSourceButton;
 @property (weak, nonatomic) IBOutlet UIButton *thisAppLicenseButton;
@@ -47,8 +47,11 @@
 
 @property (strong, nonatomic) IBOutlet UIView *mockPageContainerView;
 
--(IBAction)sourceButtonTap:(id)sender;
 -(IBAction)openURLinExternalBrowser:(id)sender;
 -(IBAction)debugSwitchPushed:(id)sender;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *spaceAboveMockPageConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *browsersTableViewHeightConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *spaceBetweenDebugAndBrowserContainersConstraint;
 
 @end
