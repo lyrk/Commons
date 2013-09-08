@@ -46,7 +46,7 @@
 }
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *browserAndDebugContainersTopConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *browserAndDebugContainersTopConstraint;
 
 @end
 
@@ -211,6 +211,9 @@
     self.thisAppSourceButton.backgroundColor = color;
     self.gradientButtonLicenseButton.backgroundColor = color;
     self.gradientButtonSourceButton.backgroundColor = color;
+    self.commonsButton.backgroundColor = color;
+    self.privacyButton.backgroundColor = color;
+    self.bugsButton.backgroundColor = color;
 
     void(^constrainSettingsImageView)(NSString *) = ^(NSString *vfString){
         [self.view addConstraints:[NSLayoutConstraint
@@ -318,12 +321,6 @@
 {
     // Resize browsersTableView according to its number of rows
     [self adjustHeightOfBrowsersTableView];
-
-    // Style buttons with rounded corners - needs to happen in viewWillLayoutSubviews
-    // because autolayout may have changed the frame of the buttons
-    [self applyStyleToButton:self.commonsButton];
-    [self applyStyleToButton:self.privacyButton];
-    [self applyStyleToButton:self.bugsButton];
 }
 
 -(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell
@@ -387,15 +384,6 @@
 }
 
 #pragma mark - Styling
-
--(void)applyStyleToButton:(UIButton *) button
-{
-    // Button must have it's type set to "Custom" in interface builder for these
-    // settings to take effect
-    button.layer.backgroundColor = [UIColor colorWithRed:0.08 green:0.50 blue:0.92 alpha:0.9].CGColor;
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [app_ roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
-}
 
 -(void)useLastPicOfDayShownByLoginPageAsBackground
 {
