@@ -43,6 +43,7 @@
     CommonsApp *app_;
     UIColor *navBarOriginalColor_;
     SettingsImageView *settingsImageView_;
+    NSMutableArray *browserButtons_;
 }
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -64,6 +65,7 @@
         browserHelper_ = [[BrowserHelper alloc] init];
         app_ = CommonsApp.singleton;
         installedSupportedBrowserNames_ = nil;
+        browserButtons_ = [[NSMutableArray alloc] init];
 
         // Listen for UIApplicationDidBecomeActiveNotification
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -164,47 +166,6 @@
     // Add the image view for the picture of the day last shown by the login page
     [self.view insertSubview:settingsImageView_ atIndex:0];
 
-    [self constrainSubviews];
-
-    // The debug settings toggle is hidden by default unless the settings screen is tapped 6 times
-    [self setupDebugContainer];
-
-    //[self.view randomlyColorSubviews];
-}
-
--(void)constrainSubviews
-{
-    void (^constrainButton)(UIButton *) = ^(UIButton *button){
-        // Add left and right padding
-        float padding = 12.0f;
-        button.titleEdgeInsets = UIEdgeInsetsMake(0, padding, 0, padding);
-        
-        // Enable multi-line and word-wrapping
-        button.titleLabel.numberOfLines = 0;
-        button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        
-        // Wrap button text at its present width constraint
-        button.titleLabel.preferredMaxLayoutWidth = button.frame.size.width;
-        
-        // Size the button's height to be the size of its text plus padding
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem: button
-                                                              attribute: NSLayoutAttributeHeight
-                                                              relatedBy: NSLayoutRelationEqual
-                                                                 toItem: button.titleLabel
-                                                              attribute: NSLayoutAttributeHeight
-                                                             multiplier: 1.0f
-                                                               constant: padding * 2.0f]];
-    };
-    
-    constrainButton(self.commonsButton);
-    constrainButton(self.privacyButton);
-    constrainButton(self.bugsButton);
-    constrainButton(self.thisAppContributorsButton);
-    constrainButton(self.thisAppLicenseButton);
-    constrainButton(self.thisAppSourceButton);
-    constrainButton(self.gradientButtonLicenseButton);
-    constrainButton(self.gradientButtonSourceButton);
-
     UIColor *color = [UIColor colorWithWhite:1.0f alpha:0.1f];
     self.thisAppContributorsButton.backgroundColor = color;
     self.thisAppLicenseButton.backgroundColor = color;
@@ -215,34 +176,15 @@
     self.privacyButton.backgroundColor = color;
     self.bugsButton.backgroundColor = color;
 
-    void(^constrainSettingsImageView)(NSString *) = ^(NSString *vfString){
-        [self.view addConstraints:[NSLayoutConstraint
-                                   constraintsWithVisualFormat: vfString
-                                   options:  0
-                                   metrics:  @{@"margin" : @(0)}
-                                   views:    @{@"settingsImageView" : settingsImageView_}
-                                   ]];
-    };
-    constrainSettingsImageView(@"H:|[settingsImageView]|");
-    constrainSettingsImageView(@"V:|[settingsImageView]|");
-    
-    // This is used when toggling the visibility of the debug container
-    self.browserAndDebugContainersTopConstraint = [NSLayoutConstraint constraintWithItem:self.externalBrowserContainer
-                                                      attribute:NSLayoutAttributeTop
-                                                      relatedBy:NSLayoutRelationEqual
-                                                         toItem:self.debugInfoContainer
-                                                      attribute:NSLayoutAttributeTop
-                                                     multiplier:1.0
-                                                       constant:0];
-}
+    [self constrainSubviews];
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+    // The debug settings toggle is hidden by default unless the settings screen is tapped 6 times
+    [self setupDebugContainer];
 
-    // Round just the top left and bottom left corners of openInLabel
-    [app_ roundCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft ofView:self.openInLabel toRadius:10.0];
-    [self.view setNeedsLayout];
+    // Add and constrain a button for each browser installed on the device
+    [self setupBrowserButtons];
+
+    //[self.view randomlyColorSubviews];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -268,6 +210,64 @@
     [myUploadsViewController.collectionView reloadData];
     
     [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
+}
+
+#pragma mark - Constraints
+
+-(void)constrainButtonHeight:(UIButton *)button
+{
+    // Add left and right padding
+    float padding = 12.0f;
+    button.titleEdgeInsets = UIEdgeInsetsMake(0, padding, 0, padding);
+    
+    // Enable multi-line and word-wrapping
+    button.titleLabel.numberOfLines = 0;
+    button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    
+    // Wrap button text at its present width constraint
+    button.titleLabel.preferredMaxLayoutWidth = button.frame.size.width;
+    
+    // Size the button's height to be the size of its text plus padding
+    [button.superview addConstraint:[NSLayoutConstraint constraintWithItem: button
+                                                                 attribute: NSLayoutAttributeHeight
+                                                                 relatedBy: NSLayoutRelationEqual
+                                                                    toItem: button.titleLabel
+                                                                 attribute: NSLayoutAttributeHeight
+                                                                multiplier: 1.0f
+                                                                  constant: padding * 2.0f]];
+    
+}
+
+-(void)constrainSubviews
+{
+    [self constrainButtonHeight:self.commonsButton];
+    [self constrainButtonHeight:self.privacyButton];
+    [self constrainButtonHeight:self.bugsButton];
+    [self constrainButtonHeight:self.thisAppContributorsButton];
+    [self constrainButtonHeight:self.thisAppLicenseButton];
+    [self constrainButtonHeight:self.thisAppSourceButton];
+    [self constrainButtonHeight:self.gradientButtonLicenseButton];
+    [self constrainButtonHeight:self.gradientButtonSourceButton];
+
+    void(^constrainSettingsImageView)(NSString *) = ^(NSString *vfString){
+        [self.view addConstraints:[NSLayoutConstraint
+                                   constraintsWithVisualFormat: vfString
+                                   options:  0
+                                   metrics:  @{@"margin" : @(0)}
+                                   views:    @{@"settingsImageView" : settingsImageView_}
+                                   ]];
+    };
+    constrainSettingsImageView(@"H:|[settingsImageView]|");
+    constrainSettingsImageView(@"V:|[settingsImageView]|");
+    
+    // This is used when toggling the visibility of the debug container
+    self.browserAndDebugContainersTopConstraint = [NSLayoutConstraint constraintWithItem:self.externalBrowserContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                      relatedBy:NSLayoutRelationEqual
+                                                         toItem:self.debugInfoContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                     multiplier:1.0
+                                                       constant:0];
 }
 
 #pragma mark - Debug container
@@ -315,74 +315,6 @@
                      }];
 }
 
-#pragma mark - Positioning
-
--(void)viewWillLayoutSubviews
-{
-    // Resize browsersTableView according to its number of rows
-    [self adjustHeightOfBrowsersTableView];
-}
-
--(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell
-{
-    // Animate the openInLabel from its present vertical position to a position vertically
-    // aligned with browsersTableView's selected cell
-    [UIView animateWithDuration:0.25
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
-
-					     self.openInLabel.backgroundColor = [UIColor lightGrayColor];
-
-                         // Account for browsersTableView's contentOffset
-                         float cellY = [self.browsersTableView rectForRowAtIndexPath:self.browsersTableView.indexPathForSelectedRow].origin.y;
-
-                         cellY -= self.browsersTableView.contentOffset.y;
-                         cellY += self.browsersTableView.frame.origin.y;
-                         
-                         // Set label frame shifting it into the same vertical position as the selected cell
-                         // Also make the label the same height as the cell
-                         self.openInLabel.frame = CGRectMake(self.openInLabel.frame.origin.x,
-                                                             cellY,
-                                                             self.openInLabel.frame.size.width,
-                                                             self.openInLabel.frame.size.height);
-                     }
-					 completion:^(BOOL finished){
-                         // Determine cell height so label can be made to be same height
-                         float cellHeight = cell.frame.size.height;
-
-                         // Set label frame shifting it into the same vertical position as the selected cell
-                         // Also make the label the same height as the cell
-                         self.openInLabel.frame = CGRectMake(self.openInLabel.frame.origin.x,
-                                                             self.openInLabel.frame.origin.y,
-                                                             self.openInLabel.frame.size.width,
-                                                             cellHeight);
-                     }];
-}
-
-- (void)moveSelectedBrowserToTop
-{
-    // Make the user's browser choice appear at the top of the list when the view appears by moving
-    // their choice to the front of the installedSupportedBrowserNames array
-    if (installedSupportedBrowserNames_.count > 1) {
-        NSString *defaultExternalBrowser = app_.defaultExternalBrowser;
-        NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames_ indexOfObject:defaultExternalBrowser];
-        if (selectedBrowserIndex != NSNotFound) {
-            // Remove the selected browser from the array and re-add it to the front of
-            // the array. Was swapping the selected entry with the first entry but this caused
-            // the alpha sort of the items after the first to be messed up
-            NSString *selectedBrowser = [installedSupportedBrowserNames_ objectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames_ removeObjectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames_ insertObject:selectedBrowser atIndex:0];
-        }
-    }
-}
-
--(void)hideDebugInfoContainerIfReleaseBuild
-{
-    self.debugInfoContainer.hidden = YES;
-}
-
 #pragma mark - Styling
 
 -(void)useLastPicOfDayShownByLoginPageAsBackground
@@ -395,88 +327,110 @@
     [settingsImageView_ zoom];
 }
 
-#pragma mark - Sizing
+#pragma mark - Browser buttons
 
-- (void)adjustHeightOfBrowsersTableView
+-(void) setupBrowserButtons
 {
-    if (self.browsersTableView.contentSize.height == 0.0f) return;
-    self.browsersTableViewHeightConstraint.constant = self.browsersTableView.contentSize.height;
-}
-
-#pragma mark - Browser selection table view
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Moved the initialization of installedSupportedBrowserNames to "tableView:numberOfRowsInSection:"
-    // because it's former location in "viewWillAppear:" didn't always execute before
-    // "tableView:numberOfRowsInSection:".
-    // See the following for more details: http://stackoverflow.com/a/6391136/135557
- 
-    // Get array of supported browsers which are installed on the device
     installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
 
-    [self moveSelectedBrowserToTop];
-    
-    return [installedSupportedBrowserNames_ count];
-}
+    // For simulator debuggin fake out a couple browsers
+    //[installedSupportedBrowserNames_ addObject:@"Chrome"];
+    //[installedSupportedBrowserNames_ addObject:@"Opera"];
 
-- (void)receivedUIApplicationDidBecomeActiveNotification:(NSNotification *)notification
-{
-    // Ensure response to UIApplicationDidBecomeActiveNotification's only if this view is visible
-    if(self.navigationController.topViewController == self){
-
-        // Update the list of browsers in case the user deleted one while the app was suspended
-        installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
-        
-        [self moveSelectedBrowserToTop];
-              
-        [self.browsersTableView reloadData];
-        
-        [self.view setNeedsLayout];
+    // Remove any existing browser buttons so this code may be recalled to refresh the buttons
+    for (UIView *button in browserButtons_) {
+        [button removeConstraints:button.constraints];
+        [button removeFromSuperview];
     }
-}
+    [browserButtons_ removeAllObjects];
+    
+    // Make and constrain a button for each browser
+    for (NSString *browserName in installedSupportedBrowserNames_) {
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([cell.textLabel.text isEqualToString:app_.defaultExternalBrowser]) cell.selected = YES;
-    
-    [self moveOpenInLabelBesideSelectedBrowserCell:cell];
-    
-    // Round just the top right and bottom right corners of the cell
-    [app_ roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
-}
+        UIButton *button = [[UIButton alloc] init];
+        button.translatesAutoresizingMaskIntoConstraints = NO;
+        [button.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
+        button.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.1f];
+        button.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:1.0f].CGColor;
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *simpleTableIdentifier = @"BrowserTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
+        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [button setTitle:browserName forState:UIControlStateNormal];
         
-    // Make the cell use the same font as openInLabel so they look consistent
-    cell.textLabel.font = self.openInLabel.font;
-    
-    // Make the cell display the browser name
-    cell.textLabel.text = [installedSupportedBrowserNames_ objectAtIndex:indexPath.row];
+        [self setBrowserButtonSelectionIndication:button];
 
-    cell.textLabel.textColor = [UIColor whiteColor];
+        [button addTarget:self action:@selector(browserSelected:) forControlEvents:UIControlEventTouchUpInside];
+        
 
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *selectedCell = [self.browsersTableView cellForRowAtIndexPath:indexPath];
-    app_.defaultExternalBrowser = selectedCell.textLabel.text;
-    
-    // Ensure previous selection highlighting turns off. Not sure why this is needed...
-    for (UITableViewCell *cell in self.browsersTableView.visibleCells) {
-        if (cell != selectedCell) cell.selected = NO;
+        [browserButtons_ addObject:button];
+        
+        [self.externalBrowserContainer addSubview:button];
     }
     
-    [self moveOpenInLabelBesideSelectedBrowserCell:selectedCell];
+    [self constrainBrowserButtons];
+}
+
+-(void)constrainBrowserButtons
+{
+    UIButton *previousButton = nil;
+    for (UIButton *button in browserButtons_) {
+        // Constrain the button width to 280
+        [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
+                                                        constraintsWithVisualFormat: @"H:[button(==280)]"
+                                                        options:  0
+                                                        metrics:  nil
+                                                        views:    @{@"button" : button}
+                                                        ]];
+        
+        // Constrain the button center to its superview center
+        [self.externalBrowserContainer addConstraint:[NSLayoutConstraint
+                                                      constraintWithItem:button
+                                                      attribute:NSLayoutAttributeCenterX
+                                                      relatedBy:NSLayoutRelationEqual
+                                                      toItem:self.externalBrowserContainer
+                                                      attribute:NSLayoutAttributeCenterX
+                                                      multiplier:1.0
+                                                      constant:0]];
+        
+        // Make the button's height vary with any text it is displaying
+        [self constrainButtonHeight:button];
+
+        // Constrain the vertical space between buttons
+        if (previousButton) {
+            [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
+                                                            constraintsWithVisualFormat: @"V:[previousButton]-[button]"
+                                                            options:  0
+                                                            metrics:  nil
+                                                            views:    @{@"button" : button, @"previousButton" : previousButton}
+                                                            ]];
+        }
+        previousButton = button;
+    }
+    
+    // Constrain the vertical space between the first button and the openInLabel
+    [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
+                                                    constraintsWithVisualFormat: @"V:[openInLabel]-[firstButton]"
+                                                    options:  0
+                                                    metrics:  nil
+                                                    views:    @{@"firstButton" : [browserButtons_ firstObject], @"openInLabel" : self.openInLabel}
+                                                    ]];
+    // Constrain the vertical space between the last button and the superview
+    [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
+                                                    constraintsWithVisualFormat: @"V:[lastButton]-|"
+                                                    options:  0
+                                                    metrics:  nil
+                                                    views:    @{@"lastButton" : [browserButtons_ lastObject]}
+                                                    ]];
+
+}
+
+-(void)browserSelected:(id)sender
+{
+    UIButton *tappedButton = (UIButton *)sender;
+    app_.defaultExternalBrowser = tappedButton.titleLabel.text;
+    
+    for (UIButton *button in browserButtons_) {
+        [self setBrowserButtonSelectionIndication:button];
+    }
 
     // If only Safari is installed and the user taps "Safari" remind them why they're not seeing other browsers
     if ([installedSupportedBrowserNames_ count] == 1) {
@@ -487,6 +441,25 @@
                                                   cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
                                                   otherButtonTitles:nil];
         [alertView show];
+    }
+
+}
+
+-(void)setBrowserButtonSelectionIndication:(UIButton *)button
+{
+    if ([button.titleLabel.text isEqualToString:app_.defaultExternalBrowser] && ([installedSupportedBrowserNames_ count] > 1)){
+        button.layer.borderWidth = 1.0f;
+    }else{
+        button.layer.borderWidth = 0.0f;
+    }
+}
+
+- (void)receivedUIApplicationDidBecomeActiveNotification:(NSNotification *)notification
+{
+    // Ensure response to UIApplicationDidBecomeActiveNotification's only if this view is visible
+    if(self.navigationController.topViewController == self){
+        [self setupBrowserButtons];
+        [self.view layoutIfNeeded];
     }
 }
 
