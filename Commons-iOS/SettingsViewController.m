@@ -48,6 +48,7 @@
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSLayoutConstraint *browserAndDebugContainersTopConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *linksAndBrowserContainersTopConstraint;
 
 @end
 
@@ -181,8 +182,11 @@
     // The debug settings toggle is hidden by default unless the settings screen is tapped 6 times
     [self setupDebugContainer];
 
+    // The browser settings are hidden unless more than one browser is found
+    [self setupBrowserContainer];
+
     // Add and constrain a button for each browser installed on the device
-    [self setupBrowserButtons];
+    [self updateBrowserButtons];
 
     //[self.view randomlyColorSubviews];
 }
@@ -268,6 +272,15 @@
                                                       attribute:NSLayoutAttributeTop
                                                      multiplier:1.0
                                                        constant:0];
+
+    // This is used when toggling the visibility of the browser container
+    self.linksAndBrowserContainersTopConstraint = [NSLayoutConstraint constraintWithItem:self.externalLinksContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                      relatedBy:NSLayoutRelationEqual
+                                                         toItem:self.externalBrowserContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                     multiplier:1.0
+                                                       constant:0];
 }
 
 #pragma mark - Debug container
@@ -286,6 +299,7 @@
 
 -(void)hideDebugContainer
 {
+    if (self.debugInfoContainer.alpha == 0.0f) return;
     [self.externalBrowserContainer.superview removeConstraint:self.spaceBetweenDebugAndBrowserContainersConstraint];
     [self.externalBrowserContainer.superview addConstraint:self.browserAndDebugContainersTopConstraint];
     self.debugInfoContainer.alpha = 0.0f;
@@ -293,6 +307,7 @@
 
 -(void)showDebugContainer
 {
+    if (self.debugInfoContainer.alpha == 1.0f) return;
     [self.externalBrowserContainer.superview removeConstraint:self.browserAndDebugContainersTopConstraint];
     [self.externalBrowserContainer.superview addConstraint:self.spaceBetweenDebugAndBrowserContainersConstraint];
     self.debugInfoContainer.alpha = 1.0f;
@@ -327,9 +342,32 @@
     [settingsImageView_ zoom];
 }
 
+#pragma mark - Browser container
+
+-(void)setupBrowserContainer
+{
+    [self hideBrowserContainer];
+}
+
+-(void)hideBrowserContainer
+{
+    if (self.externalBrowserContainer.alpha == 0.0f) return;
+    [self.externalBrowserContainer.superview removeConstraint:self.spaceBetweenBrowserAndLinksContainersConstraint];
+    [self.externalBrowserContainer.superview addConstraint:self.linksAndBrowserContainersTopConstraint];
+    self.externalBrowserContainer.alpha = 0.0f;
+}
+
+-(void)showBrowserContainer
+{
+    if (self.externalBrowserContainer.alpha == 1.0f) return;
+    [self.externalBrowserContainer.superview removeConstraint:self.linksAndBrowserContainersTopConstraint];
+    [self.externalBrowserContainer.superview addConstraint:self.spaceBetweenBrowserAndLinksContainersConstraint];
+    self.externalBrowserContainer.alpha = 1.0f;
+}
+
 #pragma mark - Browser buttons
 
--(void) setupBrowserButtons
+-(void) updateBrowserButtons
 {
     installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
 
@@ -359,7 +397,6 @@
         [self setBrowserButtonSelectionIndication:button];
 
         [button addTarget:self action:@selector(browserSelected:) forControlEvents:UIControlEventTouchUpInside];
-        
 
         [browserButtons_ addObject:button];
         
@@ -367,6 +404,13 @@
     }
     
     [self constrainBrowserButtons];
+
+    // If only Safari is present don't show the browser chooser. No need.
+    if (browserButtons_.count > 1) {
+        [self showBrowserContainer];
+    }else{
+        [self hideBrowserContainer];
+    }
 }
 
 -(void)constrainBrowserButtons
@@ -431,23 +475,15 @@
     for (UIButton *button in browserButtons_) {
         [self setBrowserButtonSelectionIndication:button];
     }
-
-    // If only Safari is installed and the user taps "Safari" remind them why they're not seeing other browsers
-    if ([installedSupportedBrowserNames_ count] == 1) {
-
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"settings-open-links-only-safari"].text
-                                                            message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-
 }
 
 -(void)setBrowserButtonSelectionIndication:(UIButton *)button
 {
-    if ([button.titleLabel.text isEqualToString:app_.defaultExternalBrowser] && ([installedSupportedBrowserNames_ count] > 1)){
+    if (
+        [button.titleLabel.text isEqualToString:app_.defaultExternalBrowser]
+        &&
+        ([installedSupportedBrowserNames_ count] > 1))
+    {
         button.layer.borderWidth = 1.0f;
     }else{
         button.layer.borderWidth = 0.0f;
@@ -458,7 +494,7 @@
 {
     // Ensure response to UIApplicationDidBecomeActiveNotification's only if this view is visible
     if(self.navigationController.topViewController == self){
-        [self setupBrowserButtons];
+        [self updateBrowserButtons];
         [self.view layoutIfNeeded];
     }
 }

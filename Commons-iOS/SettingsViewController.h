@@ -50,7 +50,7 @@
 -(IBAction)debugSwitchPushed:(id)sender;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *spaceAboveMockPageConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *browsersTableViewHeightConstraint;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *spaceBetweenDebugAndBrowserContainersConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *spaceBetweenBrowserAndLinksContainersConstraint;
 
 @end

@@ -503,8 +503,8 @@ to take or choose photos.</string>
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="88b-ga-lLw" userLabel="Settings Container">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="920"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="88b-ga-lLw" userLabel="Settings Container">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="935"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fir-Lb-O64">
@@ -718,8 +718,8 @@ to take or choose photos.</string>
                                                     <constraint firstAttribute="bottom" secondItem="TXW-A0-e3p" secondAttribute="bottom" constant="20" symbolic="YES" id="vd2-oe-Ruw"/>
                                                 </constraints>
                                             </view>
-                                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wYm-NR-odc" userLabel="Source Details Container">
-                                                <rect key="frame" x="0.0" y="651" width="320" height="249"/>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wYm-NR-odc" userLabel="Source Details Container">
+                                                <rect key="frame" x="0.0" y="651" width="320" height="264"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.89999997615814209" contentMode="left" horizontalHuggingPriority="850" verticalHuggingPriority="850" text="Source:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="DfD-4i-tLc">
@@ -743,8 +743,8 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="zH3-8z-Ew6">
-                                                        <rect key="frame" x="20" y="78" width="280" height="18"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="zH3-8z-Ew6">
+                                                        <rect key="frame" x="20" y="78" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.22" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -762,8 +762,8 @@ to take or choose photos.</string>
                                                             <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="DtU-RL-dca"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7zM-si-Jwa">
-                                                        <rect key="frame" x="20" y="104" width="280" height="18"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7zM-si-Jwa">
+                                                        <rect key="frame" x="20" y="107" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -781,8 +781,8 @@ to take or choose photos.</string>
                                                             <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="ANI-wq-L5G"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rK2-dn-oLQ">
-                                                        <rect key="frame" x="20" y="130" width="280" height="18"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rK2-dn-oLQ">
+                                                        <rect key="frame" x="20" y="136" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -800,8 +800,8 @@ to take or choose photos.</string>
                                                             <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="lh4-Tq-4id"/>
                                                         </connections>
                                                     </button>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Jeff LaMarche's Gradient UIButton:" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oP6-Ir-zpI">
-                                                        <rect key="frame" x="20" y="156" width="280" height="21"/>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Jeff LaMarche's Gradient UIButton:" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oP6-Ir-zpI">
+                                                        <rect key="frame" x="20" y="165" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="280" id="SAQ-Ux-36q"/>
@@ -810,8 +810,8 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Mf0-p2-Ami">
-                                                        <rect key="frame" x="20" y="185" width="280" height="18"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Mf0-p2-Ami">
+                                                        <rect key="frame" x="20" y="194" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -829,8 +829,8 @@ to take or choose photos.</string>
                                                             <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="gxp-2c-OQb"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="l4K-56-ENO">
-                                                        <rect key="frame" x="20" y="211" width="280" height="18"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="l4K-56-ENO">
+                                                        <rect key="frame" x="20" y="223" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.22" colorSpace="calibratedWhite"/>
                                                         <constraints>
@@ -933,6 +933,7 @@ to take or choose photos.</string>
                         <outlet property="sourceDetailsContainer" destination="wYm-NR-odc" id="2wV-XO-ZE2"/>
                         <outlet property="sourceLabel" destination="DfD-4i-tLc" id="FTQ-0f-jwC"/>
                         <outlet property="spaceAboveMockPageConstraint" destination="2wB-n1-cIk" id="5XO-6w-V3e"/>
+                        <outlet property="spaceBetweenBrowserAndLinksContainersConstraint" destination="M4N-9c-ywZ" id="mRr-T4-EpF"/>
                         <outlet property="spaceBetweenDebugAndBrowserContainersConstraint" destination="aGD-LD-5Kn" id="LjZ-0S-N4c"/>
                         <outlet property="thisAppContributorsButton" destination="zH3-8z-Ew6" id="chW-fB-YpS"/>
                         <outlet property="thisAppLabel" destination="TVE-J7-nmJ" id="hWz-2v-WHR"/>
@@ -1989,8 +1990,6 @@ Help Wikipedia articles come to life!</string>
         <image name="mockBadPhoto.png" width="237" height="286"/>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="30" height="30"/>
     </resources>
