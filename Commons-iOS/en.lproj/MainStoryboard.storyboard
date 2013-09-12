@@ -1281,23 +1281,28 @@ to take or choose photos.</string>
                                             <rect key="frame" x="10" y="1" width="300" height="68"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Unique, descriptive title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V0c-wd-2eA">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugf-zU-lfz" userLabel="Title Label">
+                                                    <rect key="frame" x="0.0" y="11" width="300" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Unique, descriptive title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="V0c-wd-2eA" userLabel="Title Text Field">
                                                     <rect key="frame" x="0.0" y="38" width="300" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugf-zU-lfz">
-                                                    <rect key="frame" x="11" y="11" width="60" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="ugf-zU-lfz" firstAttribute="leading" secondItem="9hY-pn-kZN" secondAttribute="leading" id="4dQ-qq-nl0"/>
+                                                <constraint firstAttribute="trailing" secondItem="ugf-zU-lfz" secondAttribute="trailing" id="5tL-Q0-0bj"/>
                                                 <constraint firstItem="V0c-wd-2eA" firstAttribute="leading" secondItem="9hY-pn-kZN" secondAttribute="leading" id="NYx-Vo-cmM"/>
+                                                <constraint firstItem="V0c-wd-2eA" firstAttribute="top" secondItem="ugf-zU-lfz" secondAttribute="bottom" constant="6" id="Np3-XX-wJC"/>
+                                                <constraint firstAttribute="bottom" secondItem="V0c-wd-2eA" secondAttribute="bottom" id="O6x-bE-uxv"/>
+                                                <constraint firstItem="ugf-zU-lfz" firstAttribute="top" secondItem="9hY-pn-kZN" secondAttribute="top" constant="11" id="nOQ-0B-PGs"/>
                                                 <constraint firstAttribute="trailing" secondItem="V0c-wd-2eA" secondAttribute="trailing" id="uce-Uk-eUE"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1310,20 +1315,20 @@ to take or choose photos.</string>
                                             <rect key="frame" x="10" y="0.0" width="300" height="200"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2k-6J-v5G">
-                                                    <rect key="frame" x="11" y="7" width="249" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Description" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2k-6J-v5G" userLabel="Description Label">
+                                                    <rect key="frame" x="0.0" y="7" width="300" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ucL-2U-rnz">
+                                                <textView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ucL-2U-rnz" userLabel="Description Text View">
                                                     <rect key="frame" x="0.0" y="36" width="300" height="154"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Required" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Azd-ug-G3G">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Required" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Azd-ug-G3G" userLabel="Required Label">
                                                     <rect key="frame" x="8" y="42" width="118" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1332,7 +1337,12 @@ to take or choose photos.</string>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="v2k-6J-v5G" firstAttribute="leading" secondItem="mjt-OW-y3X" secondAttribute="leading" id="2tV-pg-iyQ"/>
+                                                <constraint firstAttribute="bottom" secondItem="ucL-2U-rnz" secondAttribute="bottom" constant="10" id="LiN-P0-Ze2"/>
+                                                <constraint firstItem="v2k-6J-v5G" firstAttribute="top" secondItem="mjt-OW-y3X" secondAttribute="top" constant="7" id="TjJ-TP-cz8"/>
                                                 <constraint firstItem="ucL-2U-rnz" firstAttribute="leading" secondItem="mjt-OW-y3X" secondAttribute="leading" id="Uvx-tz-yLY"/>
+                                                <constraint firstItem="ucL-2U-rnz" firstAttribute="top" secondItem="v2k-6J-v5G" secondAttribute="bottom" constant="8" id="aRc-0J-IVr"/>
+                                                <constraint firstAttribute="trailing" secondItem="v2k-6J-v5G" secondAttribute="trailing" id="dLg-Aa-FUh"/>
                                                 <constraint firstAttribute="trailing" secondItem="ucL-2U-rnz" secondAttribute="trailing" id="s8I-at-0A3"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -1345,29 +1355,40 @@ to take or choose photos.</string>
                                             <rect key="frame" x="10" y="0.0" width="280" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="License" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OON-Tn-rfy">
-                                                    <rect key="frame" x="11" y="21" width="89" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" text="License          " textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="92" translatesAutoresizingMaskIntoConstraints="NO" id="OON-Tn-rfy">
+                                                    <rect key="frame" x="1" y="23" width="92" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="CC-BY-SA 3.0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nJ1-xo-ZrE">
-                                                    <rect key="frame" x="100" y="21" width="110" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="CC-BY-SA 3.0 " textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="103" translatesAutoresizingMaskIntoConstraints="NO" id="nJ1-xo-ZrE">
+                                                    <rect key="frame" x="104" y="23" width="103" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                     <color key="textColor" red="0.0" green="0.25098040699958801" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="cc-by-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="5K9-ea-Ir7">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" image="cc-by-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="5K9-ea-Ir7">
                                                     <rect key="frame" x="218" y="20" width="24" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" image="cc-sa-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="hHJ-fo-oLs">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="751" image="cc-sa-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="hHJ-fo-oLs">
                                                     <rect key="frame" x="247" y="20" width="24" height="24"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="nJ1-xo-ZrE" secondAttribute="centerY" id="GQi-Yg-wj6"/>
+                                                <constraint firstAttribute="centerY" secondItem="5K9-ea-Ir7" secondAttribute="centerY" id="I41-YI-RKH"/>
+                                                <constraint firstItem="OON-Tn-rfy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Y3g-7I-npJ" secondAttribute="leading" constant="1" id="UQd-M7-mvw"/>
+                                                <constraint firstItem="nJ1-xo-ZrE" firstAttribute="leading" secondItem="OON-Tn-rfy" secondAttribute="trailing" constant="11" id="XUs-cV-R7L"/>
+                                                <constraint firstAttribute="centerY" secondItem="hHJ-fo-oLs" secondAttribute="centerY" id="ZtC-KM-0Ph"/>
+                                                <constraint firstAttribute="centerY" secondItem="OON-Tn-rfy" secondAttribute="centerY" id="drZ-Cl-oDa"/>
+                                                <constraint firstItem="hHJ-fo-oLs" firstAttribute="leading" secondItem="5K9-ea-Ir7" secondAttribute="trailing" constant="5" id="m80-WW-zoV"/>
+                                                <constraint firstAttribute="trailing" secondItem="hHJ-fo-oLs" secondAttribute="trailing" constant="9" id="v3P-e1-WlO"/>
+                                                <constraint firstItem="5K9-ea-Ir7" firstAttribute="leading" secondItem="nJ1-xo-ZrE" secondAttribute="trailing" constant="11" id="ygT-lO-5rn"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <connections>
@@ -1979,6 +2000,8 @@ Help Wikipedia articles come to life!</string>
         <image name="mockBadPhoto.png" width="237" height="286"/>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>
+        <image name="photo-button-bg.png" width="72" height="72"/>
+        <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="30" height="30"/>
     </resources>

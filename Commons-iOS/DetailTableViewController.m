@@ -135,9 +135,13 @@
 
     self.descriptionTextView.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
     self.titleTextField.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-    // Add a bit of left padding to the text box (from: http://stackoverflow.com/a/13515749/135557)
-    self.titleTextField.layer.sublayerTransform = CATransform3DMakeTranslation(8, 0, 0);
     
+    // Add a bit of left and right padding to the text box
+    self.titleTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 20)];
+    self.titleTextField.leftViewMode = UITextFieldViewModeAlways;
+    self.titleTextField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 20)];
+    self.titleTextField.rightViewMode = UITextFieldViewModeAlways;
+
 	self.titleTextField.textColor = DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR;
 	self.descriptionTextView.textColor = DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR;
 
