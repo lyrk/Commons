@@ -504,7 +504,7 @@ to take or choose photos.</string>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="88b-ga-lLw" userLabel="Settings Container">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="935"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="993"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fir-Lb-O64">
@@ -527,23 +527,19 @@ to take or choose photos.</string>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="roS-hG-Dqv" userLabel="Tracking Container">
-                                                <rect key="frame" x="0.0" y="221" width="320" height="103"/>
+                                                <rect key="frame" x="0.0" y="221" width="320" height="161"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" text="Usage Reports:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="195" translatesAutoresizingMaskIntoConstraints="NO" id="tOO-Oe-hxg">
-                                                        <rect key="frame" x="20" y="20" width="195" height="21"/>
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" text="Usage Reports:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="tOO-Oe-hxg">
+                                                        <rect key="frame" x="20" y="20" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="280" id="6bd-pL-tjz"/>
+                                                        </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <switch opaque="NO" alpha="0.90000000000000002" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GI3-tl-U7j" userLabel="Tracking Switch">
-                                                        <rect key="frame" x="223" y="17" width="79" height="27"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                                        <connections>
-                                                            <action selector="loggingSwitchPushed:" destination="GD7-mm-woa" eventType="valueChanged" id="xZP-Gm-mQ6"/>
-                                                        </connections>
-                                                    </switch>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" text="Send usage reports to Wikimedia to help us improve the app" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="216" translatesAutoresizingMaskIntoConstraints="NO" id="SZo-q4-tcy">
                                                         <rect key="frame" x="52" y="49" width="216" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -554,22 +550,53 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="tmf-yh-qyS">
+                                                        <rect key="frame" x="20" y="91" width="280" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="280" id="xNE-WH-oVI"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                        <state key="normal" title="Send Usage Reports">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="loggingSwitchPushed:" destination="GD7-mm-woa" eventType="touchUpInside" id="hgJ-DA-fFb"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OM0-yY-U5M">
+                                                        <rect key="frame" x="20" y="120" width="280" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="280" id="RB7-pM-A1J"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                        <state key="normal" title="Don't Send Usage Reports">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="loggingSwitchPushed:" destination="GD7-mm-woa" eventType="touchUpInside" id="h5S-vq-U6u"/>
+                                                        </connections>
+                                                    </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="GI3-tl-U7j" secondAttribute="trailing" constant="20" symbolic="YES" id="5Q1-pa-bEM"/>
-                                                    <constraint firstItem="GI3-tl-U7j" firstAttribute="leading" secondItem="tOO-Oe-hxg" secondAttribute="trailing" constant="8" symbolic="YES" id="Aqo-te-wbt"/>
-                                                    <constraint firstItem="GI3-tl-U7j" firstAttribute="centerY" secondItem="tOO-Oe-hxg" secondAttribute="centerY" id="BkK-BH-tIw"/>
+                                                    <constraint firstAttribute="centerX" secondItem="OM0-yY-U5M" secondAttribute="centerX" id="7rT-IB-pYu"/>
                                                     <constraint firstItem="SZo-q4-tcy" firstAttribute="top" secondItem="tOO-Oe-hxg" secondAttribute="bottom" constant="8" symbolic="YES" id="FhF-hc-hyM"/>
                                                     <constraint firstAttribute="centerX" secondItem="SZo-q4-tcy" secondAttribute="centerX" id="Hng-se-aQ8"/>
-                                                    <constraint firstAttribute="bottom" secondItem="SZo-q4-tcy" secondAttribute="bottom" constant="20" symbolic="YES" id="XKh-Qu-2nq"/>
-                                                    <constraint firstItem="tOO-Oe-hxg" firstAttribute="leading" secondItem="roS-hG-Dqv" secondAttribute="leading" constant="20" symbolic="YES" id="boI-3y-bgQ"/>
+                                                    <constraint firstItem="tmf-yh-qyS" firstAttribute="top" secondItem="SZo-q4-tcy" secondAttribute="bottom" constant="8" symbolic="YES" id="caQ-dY-Nm5"/>
+                                                    <constraint firstAttribute="bottom" secondItem="OM0-yY-U5M" secondAttribute="bottom" constant="20" symbolic="YES" id="mHb-Sx-4fU"/>
+                                                    <constraint firstAttribute="centerX" secondItem="tmf-yh-qyS" secondAttribute="centerX" id="mJ2-wk-fkh"/>
+                                                    <constraint firstItem="OM0-yY-U5M" firstAttribute="top" secondItem="tmf-yh-qyS" secondAttribute="bottom" constant="8" symbolic="YES" id="mtF-UJ-W8A"/>
                                                     <constraint firstAttribute="width" constant="320" id="rsG-7L-dQS"/>
+                                                    <constraint firstAttribute="centerX" secondItem="tOO-Oe-hxg" secondAttribute="centerX" id="rsb-Py-7VY"/>
                                                     <constraint firstItem="tOO-Oe-hxg" firstAttribute="top" secondItem="roS-hG-Dqv" secondAttribute="top" constant="20" symbolic="YES" id="vjT-sU-AoS"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfQ-ke-R0b" userLabel="Debug Info Container">
-                                                <rect key="frame" x="0.0" y="332" width="320" height="86"/>
+                                                <rect key="frame" x="0.0" y="390" width="320" height="86"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" text="Debug Mode:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="195" translatesAutoresizingMaskIntoConstraints="NO" id="e0C-pi-hIm">
@@ -611,7 +638,7 @@ to take or choose photos.</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L20-SL-UMS" userLabel="External Browser Container">
-                                                <rect key="frame" x="0.0" y="426" width="320" height="61"/>
+                                                <rect key="frame" x="0.0" y="484" width="320" height="61"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" text="Open Links With:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="80h-CY-QOf">
@@ -635,7 +662,7 @@ to take or choose photos.</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUp-nb-Xrg" userLabel="External Links Container">
-                                                <rect key="frame" x="0.0" y="495" width="320" height="148"/>
+                                                <rect key="frame" x="0.0" y="553" width="320" height="148"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" horizontalHuggingPriority="850" verticalHuggingPriority="850" text="Links:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="soP-O6-SJT">
@@ -719,7 +746,7 @@ to take or choose photos.</string>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wYm-NR-odc" userLabel="Source Details Container">
-                                                <rect key="frame" x="0.0" y="651" width="320" height="264"/>
+                                                <rect key="frame" x="0.0" y="709" width="320" height="264"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.89999997615814209" contentMode="left" horizontalHuggingPriority="850" verticalHuggingPriority="850" text="Source:" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="DfD-4i-tLc">
@@ -919,6 +946,7 @@ to take or choose photos.</string>
                         <outlet property="debugInfoContainer" destination="nfQ-ke-R0b" id="qRe-gE-Gi1"/>
                         <outlet property="debugModeLabel" destination="e0C-pi-hIm" id="lRc-6o-pOh"/>
                         <outlet property="debugModeSwitch" destination="D2R-xI-JC0" id="iHE-iB-pXC"/>
+                        <outlet property="dontSendUsageReportsButton" destination="OM0-yY-U5M" id="tZ4-eb-eBW"/>
                         <outlet property="externalBrowserContainer" destination="L20-SL-UMS" id="Jc0-lF-6fS"/>
                         <outlet property="externalLinksContainer" destination="qUp-nb-Xrg" id="yFR-dR-ipv"/>
                         <outlet property="externalLinksLabel" destination="soP-O6-SJT" id="Noo-AS-zeJ"/>
@@ -929,6 +957,7 @@ to take or choose photos.</string>
                         <outlet property="openInLabel" destination="80h-CY-QOf" id="Uzd-Al-fHH"/>
                         <outlet property="privacyButton" destination="Kre-rl-jh6" id="Gb8-PA-TMR"/>
                         <outlet property="scrollView" destination="8Ub-kI-Lsv" id="FFJ-jY-IXE"/>
+                        <outlet property="sendUsageReportsButton" destination="tmf-yh-qyS" id="WPu-1c-mRl"/>
                         <outlet property="settingsContainer" destination="88b-ga-lLw" id="Lk7-Nj-AoV"/>
                         <outlet property="sourceDetailsContainer" destination="wYm-NR-odc" id="2wV-XO-ZE2"/>
                         <outlet property="sourceLabel" destination="DfD-4i-tLc" id="FTQ-0f-jwC"/>
@@ -942,7 +971,6 @@ to take or choose photos.</string>
                         <outlet property="trackingDetailsLabel" destination="SZo-q4-tcy" id="P4e-ej-0qH"/>
                         <outlet property="trackingInfoContainer" destination="roS-hG-Dqv" id="UN2-Ah-DOz"/>
                         <outlet property="trackingLabel" destination="tOO-Oe-hxg" id="O17-uE-E3m"/>
-                        <outlet property="trackingSwitch" destination="GI3-tl-U7j" id="c9W-eD-8Le"/>
                         <outlet property="uploadTargetLabel" destination="EYT-1W-SJu" id="GTl-d2-bGG"/>
                     </connections>
                 </viewController>

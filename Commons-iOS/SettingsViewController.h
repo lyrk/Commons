@@ -15,7 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *openInLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *settingsContainer;
-@property (weak, nonatomic) IBOutlet UISwitch *trackingSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *trackingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *trackingDetailsLabel;
 @property (weak, nonatomic) IBOutlet UIView *trackingInfoContainer;
@@ -45,6 +44,9 @@
 @property (weak, nonatomic) IBOutlet UIView *sourceDetailsContainer;
 
 @property (strong, nonatomic) IBOutlet UIView *mockPageContainerView;
+
+@property (weak, nonatomic) IBOutlet UIButton *sendUsageReportsButton;
+@property (weak, nonatomic) IBOutlet UIButton *dontSendUsageReportsButton;
 
 -(IBAction)openURLinExternalBrowser:(id)sender;
 -(IBAction)debugSwitchPushed:(id)sender;

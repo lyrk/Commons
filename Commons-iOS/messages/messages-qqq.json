@@ -35,6 +35,8 @@
     "settings-debug-detail": "Label indicating which site photos will be uploaded to. Parameters:\n* $1 - a domain name such as commons.wikimedia.org",
     "settings-usage-reports-label": "Label for Usage Reports switch",
     "settings-usage-reports-description": "Detail text for usage reports indicating the data collected is used to improve the app",
+    "settings-usage-reports-send-button": "Send usage reports buttons text",
+    "settings-usage-reports-dont-send-button": "Don't send usage reports button text",
     "settings-links-label": "Label for links section.\n{{Identical|Link}}",
     "details-title": "Title for photo details screen.\n{{Identical|Details}}",
     "details-nav-prompt": "Prompt which appears above the navigation bar at the top of the screen when a newly taken, yet to be uploaded picture is first presented",

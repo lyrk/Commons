@@ -114,10 +114,7 @@
     
     self.debugModeSwitch.on = app_.debugMode;
     [self setDebugModeLabel];
-	   
-    // Make settings switch reflect any saved value
-    self.trackingSwitch.on = app_.trackingEnabled;
-    
+
     // Get bundle info dict for its app name and version settings
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     
@@ -147,6 +144,9 @@
     [self.gradientButtonsLabel setText:[MWMessage forKey:@"about-source-gradient-title"].text];
     [self.gradientButtonSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
     [self.gradientButtonLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
+
+    [self.sendUsageReportsButton setTitle:[MWMessage forKey:@"settings-usage-reports-send-button"].text forState:UIControlStateNormal];
+    [self.dontSendUsageReportsButton setTitle:[MWMessage forKey:@"settings-usage-reports-dont-send-button"].text forState:UIControlStateNormal];
     
     self.sourceDetailsContainer.backgroundColor = [UIColor clearColor];
 
@@ -176,6 +176,14 @@
     self.commonsButton.backgroundColor = color;
     self.privacyButton.backgroundColor = color;
     self.bugsButton.backgroundColor = color;
+    self.sendUsageReportsButton.backgroundColor = color;
+    self.dontSendUsageReportsButton.backgroundColor = color;
+
+    self.sendUsageReportsButton.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:1.0f].CGColor;
+    self.dontSendUsageReportsButton.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:1.0f].CGColor;
+
+    // Make tracking buttons reflect saved value
+    [self updateLoggingButtonSelectionIndicators];
 
     [self constrainSubviews];
 
@@ -252,6 +260,8 @@
     [self constrainButtonHeight:self.thisAppSourceButton];
     [self constrainButtonHeight:self.gradientButtonLicenseButton];
     [self constrainButtonHeight:self.gradientButtonSourceButton];
+    [self constrainButtonHeight:self.sendUsageReportsButton];
+    [self constrainButtonHeight:self.dontSendUsageReportsButton];
 
     void(^constrainSettingsImageView)(NSString *) = ^(NSString *vfString){
         [self.view addConstraints:[NSLayoutConstraint
@@ -551,13 +561,28 @@
 
 - (IBAction)loggingSwitchPushed:(id)sender
 {
+    BOOL sendReports = (sender == self.sendUsageReportsButton) ? YES : NO;
+
     // Log the logging preference change
 	[app_ log:@"MobileAppTrackingChange" event:@{
-     @"state": self.trackingSwitch.on ? @YES : @NO
+     @"state": sendReports ? @YES : @NO
      } override:YES];
-    
+
     // Now set logging according to switch
-    app_.trackingEnabled = self.trackingSwitch.on;
+    app_.trackingEnabled = sendReports;
+    
+    [self updateLoggingButtonSelectionIndicators];
+}
+
+-(void)updateLoggingButtonSelectionIndicators
+{
+    if (app_.trackingEnabled) {
+       self.sendUsageReportsButton.layer.borderWidth = 1.0f;
+       self.dontSendUsageReportsButton.layer.borderWidth = 0.0f;
+    }else{
+       self.sendUsageReportsButton.layer.borderWidth = 0.0f;
+       self.dontSendUsageReportsButton.layer.borderWidth = 1.0f;
+    }
 }
 
 #pragma mark - External links
