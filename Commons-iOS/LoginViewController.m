@@ -91,6 +91,8 @@
 {
     if (self = [super initWithCoder:decoder])
     {
+        self.wantsFullScreenLayout = YES;
+
         allowSkippingToMyUploads_ = YES;
         pictureOfTheDayGetter_ = [[AspectFillThumbFetcher alloc] init];
         self.pictureOfTheDayUser = nil;

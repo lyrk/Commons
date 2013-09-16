@@ -28,6 +28,15 @@
     UIView *overlayView_;
 }
 
+- (id)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        self.wantsFullScreenLayout = YES;
+    }
+    return self;
+}
+
 #pragma mark - Setters
 
 - (void)setImage:(UIImage *)anImage {

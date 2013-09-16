@@ -21,6 +21,7 @@
 #import "GalleryMultiSelectCollectionVC.h"
 #import "ImageScrollViewController.h"
 #import "AspectFillThumbFetcher.h"
+//#import "UIView+Debugging.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -58,6 +59,7 @@
     self = [super initWithCoder:coder];
     if (self) {
         thumbnailCount_ = 0;
+        self.wantsFullScreenLayout = YES;
     }
     return self;
 }
@@ -65,7 +67,14 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+
+    // Set up refresh
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
+                  forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+    self.refreshControl.hidden = YES;
+
     if (thumbnailCount_ != 0){
         // Ensure welcome message is hidden if the user has images
         [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
@@ -99,14 +108,6 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChange:) name:kReachabilityChangedNotification object:nil];
 
-    // Set up refresh
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
-                  forControlEvents:UIControlEventValueChanged];
-    [self.collectionView addSubview:self.refreshControl];
-
-    // l10n
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
     self.title = [MWMessage forKey:@"contribs-title"].text;
     self.uploadButton.title = [MWMessage forKey:@"contribs-upload-button"].text;
     //self.choosePhotoButton.title = [MWMessage forKey:@"contribs-photo-library-button"].text; // fixme set accessibility title
@@ -153,6 +154,14 @@
     // Increase hit area of buttons at the bottom of screen
     [app resizeViewInPlace:self.aboutButton toSize:CGSizeMake(55, 55)];
     [app resizeViewInPlace:self.settingsButton toSize:CGSizeMake(55, 55)];
+    
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        // For iOS 7 turn auto scroll view insets off since we manually add them for ios 6 compatibility
+        // (the inset is added with "setCollectionViewTopInset")
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+
+    //[self.view randomlyColorSubviews];
 }
 
 -(BOOL)hasCamera
@@ -222,13 +231,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Layout
+
 -(void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     
+    [self setCollectionViewTopInset];
+
     // UIViews don't have access to self.interfaceOrientation, this gets around that so the
     // welcomeOverlayView can adjust its custom drawing when it needs to
     self.welcomeOverlayView.interfaceOrientation = self.interfaceOrientation;
+}
+
+-(void)setCollectionViewTopInset
+{
+    // Keep the top of the collectionView just below the bottom of the nav bar
+    self.spaceAboveCollectionViewConstraint.constant = self.navigationController.navigationBar.frame.size.height + [[CommonsApp singleton] getStatusBarHeight];
 }
 
 #pragma mark - Thumb Download Prioritization
@@ -511,19 +530,8 @@
     
     MWPromise *refresh = [CommonsApp.singleton refreshHistoryWithFailureAlert:YES];
     
-    // Make refresh control say "Refreshing..."
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refreshing"].text];
     [refresh always:^(id arg) {
         [self.refreshControl endRefreshing];
-        
-        // Wait just a second before switching back to the "Pull to refresh" text so the refresh control has
-        // time to hide itself first. Otherwise it just looks a bit odd to see it flash to the "Pull to
-        // refresh" text just before it hides.
-        int64_t delayInSeconds = 1.0;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-            // Executed on the main queue after delay
-            self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
-        });
         
         // Now that the refresh is done it is known whether there are images, so show the welcome message if needed
         if (thumbnailCount_ == 0) {
@@ -854,6 +862,11 @@
 
 #pragma mark - UICollectionViewDelegate methods
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    self.refreshControl.hidden = NO;
+}
+
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CommonsApp *app = [CommonsApp singleton];
@@ -1091,6 +1104,8 @@
     // Ensure cells are redrawn to account for the orientatiton change
     // Not sure why invalidateLayout doesn't completely take care of this
     //[self.collectionView reloadItemsAtIndexPaths:self.collectionView.indexPathsForVisibleItems];
+
+    [self setCollectionViewTopInset];
     
     // Update the lines for the new orientation
     [self.welcomeOverlayView animateLines];

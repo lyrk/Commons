@@ -152,13 +152,22 @@
                 // cycler which is started in LoginViewController's viewDidLoad method won't be stopped
                 // by it's viewWillDisappear method.
                 [((LoginViewController *)toVc).pictureOfDayCycler stop];
-                
-                // Only skip to MyUploadsViewController if credentials found
-                MyUploadsViewController *myUploadsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
-                [navController pushViewController:myUploadsVC animated:NO];
+
+                // Only skip to MyUploadsViewController if credentials found.
+                // Did so after slight delay as autolayout was having issues (freezing) with doing
+                // "pushViewController:" immediately - strangely even setting the delay to 0.0f
+                // causes the freezing to go away...
+                [self performSelector:@selector(showMyUploads:) withObject:navController afterDelay:0.1f];
             }
         }
     }
+}
+
+-(void)showMyUploads:(UINavigationController *)navController
+{
+    // Only skip to MyUploadsViewController if credentials found
+    MyUploadsViewController *myUploadsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
+    [navController pushViewController:myUploadsVC animated:YES];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

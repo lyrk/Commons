@@ -60,6 +60,8 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
+        self.wantsFullScreenLayout = YES;
+
         settingsImageView_ = [[SettingsImageView alloc] init];
         settingsImageView_.translatesAutoresizingMaskIntoConstraints = NO;
         

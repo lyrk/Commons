@@ -8,6 +8,7 @@
 
 #import "ImageListCell.h"
 #import "ProgressView.h"
+//#import "UIView+Debugging.h"
 
 #define PLACEHOLDER_IMAGE_NAME @"commons-logo.png"
 
@@ -34,6 +35,7 @@
         titleBackground_.backgroundColor = [UIColor clearColor];
         self.titleLabelMargin = @0.0f;
         self.subviewsConstrained = NO;
+        //[self randomlyColorSubviews];
     }
     return self;
 }
@@ -87,9 +89,9 @@
                                                     multiplier:1.0
                                                       constant:margin]];
 
-    // Constrain the titleLabel to the left of the infoBox plus margin
+    // Constrain the titleLabel horizontally with margin
     [self addConstraints:[NSLayoutConstraint
-                          constraintsWithVisualFormat: @"H:|-margin-[titleLabel]"
+                          constraintsWithVisualFormat: @"H:|-margin-[titleLabel]-margin-|"
                           options:  0
                           metrics:  @{@"margin" : @(margin)}
                           views:    @{@"titleLabel" : self.titleLabel}
