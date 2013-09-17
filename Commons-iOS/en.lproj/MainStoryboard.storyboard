@@ -545,7 +545,7 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="tmf-yh-qyS">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="tmf-yh-qyS" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="91" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
@@ -560,7 +560,7 @@ to take or choose photos.</string>
                                                             <action selector="loggingSwitchPushed:" destination="GD7-mm-woa" eventType="touchUpInside" id="hgJ-DA-fFb"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OM0-yY-U5M">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OM0-yY-U5M" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="120" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
@@ -671,7 +671,7 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jTE-56-tBh">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jTE-56-tBh" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="49" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
@@ -689,7 +689,7 @@ to take or choose photos.</string>
                                                             <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="8Y2-H0-m4w"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Kre-rl-jh6">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Kre-rl-jh6" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="78" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
@@ -707,7 +707,7 @@ to take or choose photos.</string>
                                                             <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="iuE-E2-boN"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="TXW-A0-e3p">
+                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="TXW-A0-e3p" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="107" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
@@ -765,7 +765,7 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="zH3-8z-Ew6">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="zH3-8z-Ew6" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="78" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.22" colorSpace="calibratedWhite"/>
@@ -784,7 +784,7 @@ to take or choose photos.</string>
                                                             <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="DtU-RL-dca"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7zM-si-Jwa">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7zM-si-Jwa" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="107" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
@@ -803,7 +803,7 @@ to take or choose photos.</string>
                                                             <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="ANI-wq-L5G"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rK2-dn-oLQ">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rK2-dn-oLQ" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="136" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
@@ -832,7 +832,7 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Mf0-p2-Ami">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Mf0-p2-Ami" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="194" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
@@ -851,7 +851,7 @@ to take or choose photos.</string>
                                                             <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="gxp-2c-OQb"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="l4K-56-ENO">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="l4K-56-ENO" customClass="UIButtonDynamicHeight">
                                                         <rect key="frame" x="20" y="223" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.22" colorSpace="calibratedWhite"/>

@@ -17,6 +17,7 @@
 #import "LoginViewController.h"
 #import "SettingsImageView.h"
 #import "UIView+Debugging.h"
+#import "UIButtonDynamicHeight.h"
 
 #pragma mark - Defines
 
@@ -33,6 +34,8 @@
 
 #define URL_GRADIENT_BUTTON_SOURCE    @"https://code.google.com/p/iphonegradientbuttons/"
 #define URL_GRADIENT_BUTTON_LICENSE   @"http://opensource.org/licenses/mit-license.php"
+
+#define URL_GRADIENT_BUTTON_PADDING   @12.0f
 
 #pragma mark - Private
 
@@ -228,42 +231,18 @@
 
 #pragma mark - Constraints
 
--(void)constrainButtonHeight:(UIButton *)button
-{
-    // Add left and right padding
-    float padding = 12.0f;
-    button.titleEdgeInsets = UIEdgeInsetsMake(0, padding, 0, padding);
-    
-    // Enable multi-line and word-wrapping
-    button.titleLabel.numberOfLines = 0;
-    button.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    
-    // Wrap button text at its present width constraint
-    button.titleLabel.preferredMaxLayoutWidth = button.frame.size.width;
-    
-    // Size the button's height to be the size of its text plus padding
-    [button.superview addConstraint:[NSLayoutConstraint constraintWithItem: button
-                                                                 attribute: NSLayoutAttributeHeight
-                                                                 relatedBy: NSLayoutRelationEqual
-                                                                    toItem: button.titleLabel
-                                                                 attribute: NSLayoutAttributeHeight
-                                                                multiplier: 1.0f
-                                                                  constant: padding * 2.0f]];
-    
-}
-
 -(void)constrainSubviews
 {
-    [self constrainButtonHeight:self.commonsButton];
-    [self constrainButtonHeight:self.privacyButton];
-    [self constrainButtonHeight:self.bugsButton];
-    [self constrainButtonHeight:self.thisAppContributorsButton];
-    [self constrainButtonHeight:self.thisAppLicenseButton];
-    [self constrainButtonHeight:self.thisAppSourceButton];
-    [self constrainButtonHeight:self.gradientButtonLicenseButton];
-    [self constrainButtonHeight:self.gradientButtonSourceButton];
-    [self constrainButtonHeight:self.sendUsageReportsButton];
-    [self constrainButtonHeight:self.dontSendUsageReportsButton];
+    self.commonsButton.padding = URL_GRADIENT_BUTTON_PADDING;
+    self.privacyButton.padding = URL_GRADIENT_BUTTON_PADDING;
+    self.bugsButton.padding = URL_GRADIENT_BUTTON_PADDING;
+    self.thisAppContributorsButton.padding = URL_GRADIENT_BUTTON_PADDING;
+    self.thisAppLicenseButton.padding = URL_GRADIENT_BUTTON_PADDING;
+    self.thisAppSourceButton.padding = URL_GRADIENT_BUTTON_PADDING;
+    self.gradientButtonLicenseButton.padding = URL_GRADIENT_BUTTON_PADDING;
+    self.gradientButtonSourceButton.padding = URL_GRADIENT_BUTTON_PADDING;
+    self.sendUsageReportsButton.padding = URL_GRADIENT_BUTTON_PADDING;
+    self.dontSendUsageReportsButton.padding = URL_GRADIENT_BUTTON_PADDING;
 
     void(^constrainSettingsImageView)(NSString *) = ^(NSString *vfString){
         [self.view addConstraints:[NSLayoutConstraint
@@ -397,7 +376,7 @@
     // Make and constrain a button for each browser
     for (NSString *browserName in installedSupportedBrowserNames_) {
 
-        UIButton *button = [[UIButton alloc] init];
+        UIButtonDynamicHeight *button = [[UIButtonDynamicHeight alloc] init];
         button.translatesAutoresizingMaskIntoConstraints = NO;
         [button.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
         button.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.1f];
@@ -427,8 +406,8 @@
 
 -(void)constrainBrowserButtons
 {
-    UIButton *previousButton = nil;
-    for (UIButton *button in browserButtons_) {
+    UIButtonDynamicHeight *previousButton = nil;
+    for (UIButtonDynamicHeight *button in browserButtons_) {
         // Constrain the button width to 280
         [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
                                                         constraintsWithVisualFormat: @"H:[button(==280)]"
@@ -447,8 +426,7 @@
                                                       multiplier:1.0
                                                       constant:0]];
         
-        // Make the button's height vary with any text it is displaying
-        [self constrainButtonHeight:button];
+        button.padding = URL_GRADIENT_BUTTON_PADDING;
 
         // Constrain the vertical space between buttons
         if (previousButton) {
