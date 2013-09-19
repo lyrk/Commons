@@ -142,10 +142,8 @@
     
     buttonAnimationInProgress_ = NO;
 
-    // This view is used to fade out the background when the take and choose photo buttons are revealed
-    opaqueView_ = [[UIView alloc] init];
-    opaqueView_.translatesAutoresizingMaskIntoConstraints = NO;
-    opaqueView_.backgroundColor = [UIColor clearColor];
+    // Opaque view is used to fade out background when take and choose photo buttons are revealed
+    [self setupOpaqueView];
     
     // Make the About and Settings buttons stand out better against light colors
     [LoginViewController applyShadowToView:self.settingsButton];
@@ -229,6 +227,27 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Opaque view
+
+-(void)setupOpaqueView
+{
+    opaqueView_ = [[UIView alloc] init];
+    opaqueView_.translatesAutoresizingMaskIntoConstraints = NO;
+    opaqueView_.hidden = YES;
+    opaqueView_.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:opaqueView_];
+
+    // Constrain the opaque view to take up the whole screen
+    void (^constrain)(NSString *) = ^(NSString * str){
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:str
+                                                                          options:0
+                                                                          metrics:0
+                                                                            views:NSDictionaryOfVariableBindings(opaqueView_)]];
+    };
+    constrain(@"H:|[opaqueView_]|");
+    constrain(@"V:|[opaqueView_]|");
 }
 
 #pragma mark - Layout
@@ -621,21 +640,6 @@
     
     // Use the visibility of the take photo button as a flag to know whether to hide or show
     if (self.takePhotoButton.hidden) {
-
-        // Make the opaque view appear, presently it's transparent, but its color transition will be animated along with the button location changes below
-        // (also ensure the buttons are on top of the opaque view)
-        [self.view addSubview:opaqueView_];
-
-        // Constrain the opaque view to take up the whole screen
-        void (^constrainOpaqueView)(NSString *) = ^(NSString * str){
-            [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:str
-                                                                              options:0
-                                                                              metrics:0
-                                                                                views:NSDictionaryOfVariableBindings(opaqueView_)]];
-        };
-        constrainOpaqueView(@"H:|[opaqueView_]|");
-        constrainOpaqueView(@"V:|[opaqueView_]|");
-
         [self.view bringSubviewToFront:opaqueView_];
         [self.view bringSubviewToFront:self.takePhotoButton];
         [self.view bringSubviewToFront:self.choosePhotoButton];
@@ -656,6 +660,7 @@
          xfAnimation(CATransform3DMakeRotation(DEGREES_TO_RADIANS(90), 0, 0, 1), 0.0f, 0.0f)
                                             forKey:nil];
 
+        opaqueView_.hidden = NO;
         [UIView animateWithDuration:BUTTON_ANIMATION_DURATION
                               delay:0.0
                             options:UIViewAnimationOptionTransitionNone
@@ -728,8 +733,7 @@
                              self.takePhotoButton.center = takePhotoButtonOriginalCenter;
                              self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
                              buttonAnimationInProgress_ = NO;
-                             
-                             [opaqueView_ removeFromSuperview];
+                             opaqueView_.hidden = YES;
                          }];
 
         // Make the add media button swell as the take and choose buttons are hidden.

@@ -34,6 +34,7 @@ typedef enum {
     float imageMargin_;
     float imageScale_;
     float cellScale_;
+    NSURL *selectedAlbumGroupURL_;
 }
 
 @property (nonatomic) GalleryMode galleryMode;
@@ -46,6 +47,7 @@ typedef enum {
 
 -(void)setup
 {
+    selectedAlbumGroupURL_ = nil;
     collectionData_ = [[NSMutableArray alloc] init];
     self.galleryMode = GALLERY_SHOW_ALL_ALBUMS;
 
@@ -103,7 +105,7 @@ typedef enum {
     
     // Refresh in case photos/albums changed since the app was suspended
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(returnToAlbums)
+                                             selector:@selector(appWillEnterForeground)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
@@ -189,14 +191,23 @@ typedef enum {
     thisItem.title = title;
 }
 
+-(void)appWillEnterForeground
+{
+    if (selectedAlbumGroupURL_ != nil) {
+        [self loadCollectionDataForAssetGroupURL:selectedAlbumGroupURL_ then:^{
+            [self setNavBarTitle:collectionData_[0][@"name"]];
+            [self refresh];
+        }];
+    }else{
+        self.galleryMode = GALLERY_SHOW_SINGLE_ALBUM;
+        [self returnToAlbums];
+    }
+}
+
 -(void)refresh
 {
-    [self.collectionView performBatchUpdates:^{
-        [self setSpacing];
-        [self.collectionView deleteSections:[NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.collectionView.numberOfSections)]];
-        [self.collectionView insertSections:[NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, collectionData_.count)]];
-    } completion:^(BOOL finished){
-    }];
+    [self setSpacing];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - Gestures
@@ -218,11 +229,13 @@ typedef enum {
 - (void)returnToAlbums{
         if (self.galleryMode == GALLERY_SHOW_SINGLE_ALBUM) {
             self.galleryMode = GALLERY_SHOW_ALL_ALBUMS;
+            selectedAlbumGroupURL_ = nil;
             [self loadCollectionDataForCoverImagesThen:^{
                 [self setNavBarTitle:[MWMessage forKey:@"gallery-album-title"].text];
                 [self refresh];
             }];
             [self setNavBarBackButtonVisible:NO];
+            [self.collectionView reloadData];
         }
 }
 
@@ -315,8 +328,8 @@ typedef enum {
     // An album cover photo was selected
     if (self.galleryMode == GALLERY_SHOW_ALL_ALBUMS) {
         self.galleryMode = GALLERY_SHOW_SINGLE_ALBUM;
-        NSURL *groupURL = [collectionData_[0][@"assets"] objectAtIndex:indexPath.row][@"url"];
-        [self loadCollectionDataForAssetGroupURL:groupURL then:^{
+        selectedAlbumGroupURL_ = [collectionData_[0][@"assets"] objectAtIndex:indexPath.row][@"url"];
+        [self loadCollectionDataForAssetGroupURL:selectedAlbumGroupURL_ then:^{
             [self setNavBarTitle:collectionData_[0][@"name"]];
             [self refresh];
         }];
@@ -381,8 +394,7 @@ typedef enum {
     void (^groupFail)(NSError *) = ^(NSError *error) {[self showError:error];};
     
     // Enumerate Albums
-    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    [library enumerateGroupsWithTypes: (ALAssetsGroupSavedPhotos | ALAssetsGroupAlbum)
+    [[GalleryMultiSelectCollectionVC defaultAssetsLibrary] enumerateGroupsWithTypes: (ALAssetsGroupSavedPhotos | ALAssetsGroupAlbum)
                            usingBlock: groupEnumerator failureBlock:groupFail];
 }
 
@@ -425,9 +437,7 @@ typedef enum {
     // Group retrieval fail block
     void (^groupFail)(NSError *) = ^(NSError *error) {[self showError:error];};
 
-    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    
-    [library groupForURL:groupURL resultBlock:groupResult failureBlock:groupFail];
+    [[GalleryMultiSelectCollectionVC defaultAssetsLibrary] groupForURL:groupURL resultBlock:groupResult failureBlock:groupFail];
 }
 
 #pragma mark Error
@@ -436,5 +446,18 @@ typedef enum {
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", [error description]] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
 }
+
++ (ALAssetsLibrary *)defaultAssetsLibrary
+{
+    // From: http://www.daveoncode.com/2011/10/15/solve-xcode-error-invalid-attempt-to-access-alassetprivate-past-the-lifetime-of-its-owning-alassetslibrary/
+    
+    static dispatch_once_t once = 0;
+    static ALAssetsLibrary *library = nil;
+    dispatch_once(&once, ^{
+        library = [[ALAssetsLibrary alloc] init];
+    });
+    return library;
+}
+
 
 @end
