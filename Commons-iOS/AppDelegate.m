@@ -87,6 +87,7 @@
         // Post iOS 7:
         // Set the color of the nav bar and other system icons
         [[UIApplication sharedApplication] delegate].window.tintColor = [UIColor whiteColor];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     }
 }
 
