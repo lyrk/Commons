@@ -19,11 +19,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-
-    // Change the appearance of the nav bar throughout the app
-    [self customizeNavBar];
     
-    //[[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackTranslucent];    
+    [self applyGlobalStyleOverrides];
     
     // Register default default values.
     // See: http://stackoverflow.com/a/5397647/135557
@@ -79,7 +76,21 @@
     return YES;
 }
 
--(void)customizeNavBar
+-(void)applyGlobalStyleOverrides
+{
+    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) {
+        // Pre iOS 7:
+        // Change the appearance of the nav bar throughout the app
+        // (do not do this for iOS 7 or above)
+        [self preiOS7GlobalNavBarStyleOverrides];
+    }else{
+        // Post iOS 7:
+        // Set the color of the nav bar and other system icons
+        [[UIApplication sharedApplication] delegate].window.tintColor = [UIColor whiteColor];
+    }
+}
+
+-(void)preiOS7GlobalNavBarStyleOverrides
 {
     // Note: translucent and opaque settings are made in the Navigation Controller storyboard
     // under "User Defined Runtime Attributes"
