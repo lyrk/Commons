@@ -821,19 +821,18 @@
                                                       }];
                                  }];
 
-                // Transistion the picture of the day
+                // Cross-fade between pictures of the day
                 [CATransaction begin];
-                CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
+                CATransition *crossFade = [CATransition animation];
+                crossFade.type = kCATransitionFade;
                 crossFade.duration = self.pictureOfDayCycler.transitionDuration;
-                crossFade.fromValue = (id)weakPotdImageView.image.CGImage;
-                crossFade.toValue = (id)image.CGImage;
+                crossFade.removedOnCompletion = YES;
                 [CATransaction setCompletionBlock:^{
                     if(done) done();
-                    [weakPotdImageView.layer removeAnimationForKey:@"animateContents"];
                 }];
-                [weakPotdImageView.layer addAnimation:crossFade forKey:@"animateContents"];
+                [[weakPotdImageView layer] addAnimation:crossFade forKey:@"Fade"];
                 [CATransaction commit];
-                
+
                 weakPotdImageView.image = image;
             }
         }
