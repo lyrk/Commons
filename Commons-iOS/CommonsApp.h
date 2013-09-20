@@ -90,7 +90,6 @@
 - (NSString *)getTrimmedString:(NSString *)string;
 
 - (void)clearKeychainCredentials;
-- (void)resizeViewInPlace:(UIView *)view toSize:(CGSize)size;
 
 - (float)getStatusBarHeight;
 

@@ -156,11 +156,7 @@
     // Make the About and Settings buttons stand out better against light colors
     [LoginViewController applyShadowToView:self.settingsButton];
     [LoginViewController applyShadowToView:self.aboutButton];
-    
-    // Increase hit area of buttons at the bottom of screen
-    [app resizeViewInPlace:self.aboutButton toSize:CGSizeMake(55, 55)];
-    [app resizeViewInPlace:self.settingsButton toSize:CGSizeMake(55, 55)];
-    
+
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
         // For iOS 7 turn auto scroll view insets off since we manually add them for ios 6 compatibility
         // (the inset is added with "setCollectionViewTopInset")
