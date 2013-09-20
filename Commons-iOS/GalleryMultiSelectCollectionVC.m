@@ -412,7 +412,7 @@ typedef enum {
         dict[@"url"] = [group valueForProperty:ALAssetsGroupPropertyURL];
         dict[@"assets"] = [[NSMutableArray alloc] init];
         
-        [group enumerateAssetsUsingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop){
+        [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop){
             if (asset == nil){
                 // The asset is nil when the enumeration is finished!
                 [collectionData_ addObject:dict];
