@@ -71,6 +71,12 @@
         observe(self, @"padding");
 }
 
+-(void)dealloc
+{
+	[self.titleLabel removeObserver:self forKeyPath:@"frame"];
+	[self removeObserver:self forKeyPath:@"padding"];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"frame"] || [keyPath isEqualToString:@"padding"]) {
