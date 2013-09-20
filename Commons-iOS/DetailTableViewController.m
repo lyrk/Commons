@@ -399,7 +399,9 @@
 
 - (IBAction)deleteButtonPushed:(id)sender {
     CommonsApp *app = CommonsApp.singleton;
-    [app deleteUploadRecord:self.selectedRecord];
+    // Informs the My Uploads VC that it needs to delete a record after it's view did appear.
+    // (gives autolayout a chance to do it's thing before the record is removed)
+    app.recordToDelete = self.selectedRecord;
     self.selectedRecord = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }

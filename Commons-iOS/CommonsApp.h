@@ -34,6 +34,7 @@
 
 @property (strong, nonatomic) NSOperationQueue *fetchDataURLQueue;
 @property (strong, nonatomic) SpeedGovernor *speedGovernor;
+@property (strong, nonatomic) FileUpload *recordToDelete;
 
 + (CommonsApp *)singleton;
 

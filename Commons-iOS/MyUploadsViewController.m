@@ -92,6 +92,14 @@
     // self as observer in viewWillDisappear)
     CommonsApp *app = [CommonsApp singleton];
     [app.fetchDataURLQueue addObserver:self forKeyPath:@"operationCount" options:0 context:NULL];
+    
+    // Remove the record if needed. Moved deletions here so they can happen after the
+    // My Uploads is revealed when popping Details after delete tapped. Otherwise
+    // collection view had an autolayout fit.
+    if (app.recordToDelete != nil) {
+        [app deleteUploadRecord:self.selectedRecord];
+        app.recordToDelete = nil;
+    }
 }
 
 - (void)viewDidLoad
