@@ -15,9 +15,9 @@
 #import "LoadingIndicator.h"
 #import "UILabel+ResizeWithAttributes.h"
 #import "LoginViewController.h"
-#import "SettingsImageView.h"
 #import "UIView+Debugging.h"
-#import "UIButtonDynamicHeight.h"
+#import "UILabelDynamicHeight.h"
+#import "UIImage+ImageEffects.h"
 
 #pragma mark - Defines
 
@@ -35,7 +35,8 @@
 #define URL_GRADIENT_BUTTON_SOURCE    @"https://code.google.com/p/iphonegradientbuttons/"
 #define URL_GRADIENT_BUTTON_LICENSE   @"http://opensource.org/licenses/mit-license.php"
 
-#define URL_GRADIENT_BUTTON_PADDING   @12.0f
+#define URL_GRADIENT_BUTTON_PADDING   18.0f
+#define URL_GRADIENT_BUTTON_BORDER_WIDTH 2.0f
 
 #pragma mark - Private
 
@@ -45,7 +46,7 @@
     BrowserHelper *browserHelper_;
     CommonsApp *app_;
     UIColor *navBarOriginalColor_;
-    SettingsImageView *settingsImageView_;
+    UIImageView *settingsImageView_;
     NSMutableArray *browserButtons_;
 }
 
@@ -65,7 +66,7 @@
     if (self) {
         self.wantsFullScreenLayout = YES;
 
-        settingsImageView_ = [[SettingsImageView alloc] init];
+        settingsImageView_ = [[UIImageView alloc] init];
         settingsImageView_.translatesAutoresizingMaskIntoConstraints = NO;
         
         browserHelper_ = [[BrowserHelper alloc] init];
@@ -83,6 +84,17 @@
 }
 
 #pragma mark - View lifecycle
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+   
+    // Enables auto scroll down the settings page for quick debugging
+    //CGRect frame = self.scrollView.frame;
+    //frame.origin.x = 0;
+    //frame.origin.y = 600;
+    //[self.scrollView scrollRectToVisible:frame animated:YES];
+}
 
 - (void)viewDidLoad
 {
@@ -135,23 +147,23 @@
      } preferredMaxLayoutWidth:320.0f];
 
     // i18n for buttons
-    [self.commonsButton setTitle:[MWMessage forKey:@"about-commons-button"].text forState:UIControlStateNormal];
-    [self.bugsButton setTitle:[MWMessage forKey:@"about-bugs-button"].text forState:UIControlStateNormal];
-    [self.privacyButton setTitle:[MWMessage forKey:@"about-privacy-button"].text forState:UIControlStateNormal];
+    [self.commonsButton setText:[MWMessage forKey:@"about-commons-button"].text];
+    [self.bugsButton setText:[MWMessage forKey:@"about-bugs-button"].text];
+    [self.privacyButton setText:[MWMessage forKey:@"about-privacy-button"].text];
     [self.sourceLabel setText:[MWMessage forKey:@"settings-source-label"].text];
     
     // i18n for the sub-items under the Source button
     [self.thisAppLabel setText:[MWMessage forKey:@"about-source-this-app-title"].text];
-    [self.thisAppContributorsButton setTitle:[MWMessage forKey:@"about-source-this-app-contributors"].text forState:UIControlStateNormal];
-    [self.thisAppSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
-    [self.thisAppLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
+    [self.thisAppContributorsButton setText:[MWMessage forKey:@"about-source-this-app-contributors"].text];
+    [self.thisAppSourceButton setText:[MWMessage forKey:@"about-source-button"].text];
+    [self.thisAppLicenseButton setText:[MWMessage forKey:@"about-license-button"].text];
     
     [self.gradientButtonsLabel setText:[MWMessage forKey:@"about-source-gradient-title"].text];
-    [self.gradientButtonSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
-    [self.gradientButtonLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
+    [self.gradientButtonSourceButton setText:[MWMessage forKey:@"about-source-button"].text];
+    [self.gradientButtonLicenseButton setText:[MWMessage forKey:@"about-license-button"].text];
 
-    [self.sendUsageReportsButton setTitle:[MWMessage forKey:@"settings-usage-reports-send-button"].text forState:UIControlStateNormal];
-    [self.dontSendUsageReportsButton setTitle:[MWMessage forKey:@"settings-usage-reports-dont-send-button"].text forState:UIControlStateNormal];
+    [self.sendUsageReportsButton setText:[MWMessage forKey:@"settings-usage-reports-send-button"].text];
+    [self.dontSendUsageReportsButton setText:[MWMessage forKey:@"settings-usage-reports-dont-send-button"].text];
     
     self.sourceDetailsContainer.backgroundColor = [UIColor clearColor];
 
@@ -172,24 +184,6 @@
     // Add the image view for the picture of the day last shown by the login page
     [self.view insertSubview:settingsImageView_ atIndex:0];
 
-    UIColor *color = [UIColor colorWithWhite:1.0f alpha:0.1f];
-    self.thisAppContributorsButton.backgroundColor = color;
-    self.thisAppLicenseButton.backgroundColor = color;
-    self.thisAppSourceButton.backgroundColor = color;
-    self.gradientButtonLicenseButton.backgroundColor = color;
-    self.gradientButtonSourceButton.backgroundColor = color;
-    self.commonsButton.backgroundColor = color;
-    self.privacyButton.backgroundColor = color;
-    self.bugsButton.backgroundColor = color;
-    self.sendUsageReportsButton.backgroundColor = color;
-    self.dontSendUsageReportsButton.backgroundColor = color;
-
-    self.sendUsageReportsButton.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:1.0f].CGColor;
-    self.dontSendUsageReportsButton.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:1.0f].CGColor;
-
-    // Make tracking buttons reflect saved value
-    [self updateLoggingButtonSelectionIndicators];
-
     [self constrainSubviews];
 
     // The debug settings toggle is hidden by default unless the settings screen is tapped 6 times
@@ -201,6 +195,15 @@
     // Add and constrain a button for each browser installed on the device
     [self updateBrowserButtons];
 
+    [self applyButtonStyles];
+    
+    [self addTapGestureRecognizersToButtons];
+
+    // Make tracking buttons reflect saved value
+    [self updateLoggingButtonSelectionIndicators];
+
+    self.scrollView.delegate = self;
+    
     //[self.view randomlyColorSubviews];
 }
 
@@ -229,21 +232,34 @@
     [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
 }
 
+#pragma mark - Gestures
+
+-(void)addTapGestureRecognizersToButtons
+{
+    void (^addTap)(UILabelDynamicHeight *, SEL) = ^(UILabelDynamicHeight *button, SEL action){
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:action];
+        tap.numberOfTapsRequired = 1;
+        tap.enabled = YES;
+        [button addGestureRecognizer:tap];
+    };
+
+    addTap(self.thisAppContributorsButton, @selector(openURLinExternalBrowser:));
+    addTap(self.thisAppLicenseButton, @selector(openURLinExternalBrowser:));
+    addTap(self.thisAppSourceButton, @selector(openURLinExternalBrowser:));
+    addTap(self.gradientButtonLicenseButton, @selector(openURLinExternalBrowser:));
+    addTap(self.gradientButtonSourceButton, @selector(openURLinExternalBrowser:));
+    addTap(self.commonsButton, @selector(openURLinExternalBrowser:));
+    addTap(self.privacyButton, @selector(openURLinExternalBrowser:));
+    addTap(self.bugsButton, @selector(openURLinExternalBrowser:));
+
+    addTap(self.sendUsageReportsButton, @selector(loggingSwitchPushed:));
+    addTap(self.dontSendUsageReportsButton, @selector(loggingSwitchPushed:));
+}
+
 #pragma mark - Constraints
 
 -(void)constrainSubviews
 {
-    self.commonsButton.padding = URL_GRADIENT_BUTTON_PADDING;
-    self.privacyButton.padding = URL_GRADIENT_BUTTON_PADDING;
-    self.bugsButton.padding = URL_GRADIENT_BUTTON_PADDING;
-    self.thisAppContributorsButton.padding = URL_GRADIENT_BUTTON_PADDING;
-    self.thisAppLicenseButton.padding = URL_GRADIENT_BUTTON_PADDING;
-    self.thisAppSourceButton.padding = URL_GRADIENT_BUTTON_PADDING;
-    self.gradientButtonLicenseButton.padding = URL_GRADIENT_BUTTON_PADDING;
-    self.gradientButtonSourceButton.padding = URL_GRADIENT_BUTTON_PADDING;
-    self.sendUsageReportsButton.padding = URL_GRADIENT_BUTTON_PADDING;
-    self.dontSendUsageReportsButton.padding = URL_GRADIENT_BUTTON_PADDING;
-
     void(^constrainSettingsImageView)(NSString *) = ^(NSString *vfString){
         [self.view addConstraints:[NSLayoutConstraint
                                    constraintsWithVisualFormat: vfString
@@ -327,10 +343,89 @@
 {
     UIImageView *potdImageView_ = (UIImageView *)((LoginViewController *)self.navigationController.viewControllers[0]).potdImageView;
     settingsImageView_.contentMode = potdImageView_.contentMode;
-    settingsImageView_.image = potdImageView_.image;
-    [settingsImageView_ prepareFilteredImage];
-    [settingsImageView_ toFiltered];
-    [settingsImageView_ zoom];
+
+    // Fade transition to blurred Pic of Day image (last one shown by the Login VC).
+    // From either black screen (nil), or the unblurred version of the image.
+
+    // From unblurred version of image:
+    //settingsImageView_.image = potdImageView_.image;
+
+    // From black:
+    settingsImageView_.image = nil;
+
+    // Blur the image, but dispatch_async so the transition to the settings page isn't blocked
+    // while it processes. Then fade the image to the blurred one.
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+
+        UIColor *tintColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        UIImage *blurredImage = [potdImageView_.image applyBlurWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];;
+
+        // Set up the cross-fade transition
+        [CATransaction begin];
+        CATransition *crossFade = [CATransition animation];
+        crossFade.type = kCATransitionFade;
+        //crossFade.subtype = kCATransitionFromLeft;
+        crossFade.beginTime = CACurrentMediaTime() + 0.18f;
+        crossFade.duration = 0.3f;
+        crossFade.fillMode = kCAFillModeBackwards;
+        crossFade.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        crossFade.removedOnCompletion = YES;
+        [CATransaction setCompletionBlock:^{
+        }];
+        [[settingsImageView_ layer] addAnimation:crossFade forKey:@"Fade"];
+        [CATransaction commit];
+
+        // This causes the transition to actually occur
+        settingsImageView_.image = blurredImage;
+    });
+}
+
+-(void)styleButton:(UILabelDynamicHeight *)button
+{
+    [button setFont:[UIFont boldSystemFontOfSize:17.0f]];
+    button.textColor = [UIColor whiteColor];
+    button.backgroundColor = [UIColor clearColor];
+    button.textAlignment = NSTextAlignmentLeft;
+    button.borderColor = [UIColor clearColor];
+    button.borderView.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:0.8f].CGColor;
+    button.borderView.layer.borderWidth = 0.0f;
+    button.borderInsets = UIEdgeInsetsMake(
+        URL_GRADIENT_BUTTON_BORDER_WIDTH,
+        URL_GRADIENT_BUTTON_BORDER_WIDTH,
+        URL_GRADIENT_BUTTON_BORDER_WIDTH,
+        URL_GRADIENT_BUTTON_BORDER_WIDTH
+    );
+    button.paddingColor = [UIColor colorWithWhite:1.0f alpha:0.1f];
+    button.paddingInsets = UIEdgeInsetsMake(
+        URL_GRADIENT_BUTTON_PADDING,
+        URL_GRADIENT_BUTTON_PADDING,
+        URL_GRADIENT_BUTTON_PADDING,
+        URL_GRADIENT_BUTTON_PADDING
+    );
+}
+
+-(void)applyButtonStyles
+{
+    [self styleButton:self.commonsButton];
+    [self styleButton:self.privacyButton];
+    [self styleButton:self.bugsButton];
+    [self styleButton:self.thisAppContributorsButton];
+    [self styleButton:self.thisAppLicenseButton];
+    [self styleButton:self.thisAppSourceButton];
+    [self styleButton:self.gradientButtonLicenseButton];
+    [self styleButton:self.gradientButtonSourceButton];
+    [self styleButton:self.sendUsageReportsButton];
+    [self styleButton:self.dontSendUsageReportsButton];
+}
+
+#pragma mark - ScrollView
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+    if (sender.contentOffset.x != 0) {
+        CGPoint offset = sender.contentOffset;
+        offset.x = 0;
+        sender.contentOffset = offset;
+    }
 }
 
 #pragma mark - Browser container
@@ -375,19 +470,19 @@
     
     // Make and constrain a button for each browser
     for (NSString *browserName in installedSupportedBrowserNames_) {
-
-        UIButtonDynamicHeight *button = [[UIButtonDynamicHeight alloc] init];
+        UILabelDynamicHeight *button = [[UILabelDynamicHeight alloc] init];
         button.translatesAutoresizingMaskIntoConstraints = NO;
-        [button.titleLabel setFont:[UIFont boldSystemFontOfSize:17.0f]];
-        button.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.1f];
-        button.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:1.0f].CGColor;
+        
+        [self styleButton:button];
 
-        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [button setTitle:browserName forState:UIControlStateNormal];
+        [button setText:browserName];
         
         [self setBrowserButtonSelectionIndication:button];
 
-        [button addTarget:self action:@selector(browserSelected:) forControlEvents:UIControlEventTouchUpInside];
+        UITapGestureRecognizer *tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(browserSelected:)];
+        tapRecognizer_.numberOfTapsRequired = 1;
+        tapRecognizer_.enabled = YES;
+        [button addGestureRecognizer:tapRecognizer_];
 
         [browserButtons_ addObject:button];
         
@@ -406,8 +501,8 @@
 
 -(void)constrainBrowserButtons
 {
-    UIButtonDynamicHeight *previousButton = nil;
-    for (UIButtonDynamicHeight *button in browserButtons_) {
+    UILabelDynamicHeight *previousButton = nil;
+    for (UILabelDynamicHeight *button in browserButtons_) {
         // Constrain the button width to 280
         [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
                                                         constraintsWithVisualFormat: @"H:[button(==280)]"
@@ -425,8 +520,13 @@
                                                       attribute:NSLayoutAttributeCenterX
                                                       multiplier:1.0
                                                       constant:0]];
-        
-        button.padding = URL_GRADIENT_BUTTON_PADDING;
+
+        button.paddingInsets = UIEdgeInsetsMake(
+                                                URL_GRADIENT_BUTTON_PADDING,
+                                                URL_GRADIENT_BUTTON_PADDING,
+                                                URL_GRADIENT_BUTTON_PADDING,
+                                                URL_GRADIENT_BUTTON_PADDING
+                                                );
 
         // Constrain the vertical space between buttons
         if (previousButton) {
@@ -457,26 +557,27 @@
 
 }
 
--(void)browserSelected:(id)sender
+-(void)browserSelected:(UITapGestureRecognizer *)sender
 {
-    UIButton *tappedButton = (UIButton *)sender;
-    app_.defaultExternalBrowser = tappedButton.titleLabel.text;
+    UILabel *tappedButton = (UILabel *)sender.view;
+    app_.defaultExternalBrowser = tappedButton.text;
     
-    for (UIButton *button in browserButtons_) {
+    for (UILabelDynamicHeight *button in browserButtons_) {
         [self setBrowserButtonSelectionIndication:button];
     }
 }
 
--(void)setBrowserButtonSelectionIndication:(UIButton *)button
+-(void)setBrowserButtonSelectionIndication:(UILabelDynamicHeight *)button
 {
     if (
-        [button.titleLabel.text isEqualToString:app_.defaultExternalBrowser]
+        [button.text isEqualToString:app_.defaultExternalBrowser]
         &&
         ([installedSupportedBrowserNames_ count] > 1))
     {
-        button.layer.borderWidth = 1.0f;
+        button.borderView.layer.borderWidth = URL_GRADIENT_BUTTON_BORDER_WIDTH;
+
     }else{
-        button.layer.borderWidth = 0.0f;
+        button.borderView.layer.borderWidth = 0.0f;
     }
 }
 
@@ -539,8 +640,10 @@
 
 #pragma mark - Logging switch
 
-- (IBAction)loggingSwitchPushed:(id)sender
+- (void)loggingSwitchPushed:(UITapGestureRecognizer *)recognizer
 {
+    id sender = recognizer.view;
+    
     BOOL sendReports = (sender == self.sendUsageReportsButton) ? YES : NO;
 
     // Log the logging preference change
@@ -557,26 +660,25 @@
 -(void)updateLoggingButtonSelectionIndicators
 {
     if (app_.trackingEnabled) {
-       self.sendUsageReportsButton.layer.borderWidth = 1.0f;
-       self.dontSendUsageReportsButton.layer.borderWidth = 0.0f;
+        self.sendUsageReportsButton.borderView.layer.borderWidth = URL_GRADIENT_BUTTON_BORDER_WIDTH;
+        self.dontSendUsageReportsButton.borderView.layer.borderWidth = 0.0f;
     }else{
-       self.sendUsageReportsButton.layer.borderWidth = 0.0f;
-       self.dontSendUsageReportsButton.layer.borderWidth = 1.0f;
+        self.sendUsageReportsButton.borderView.layer.borderWidth = 0.0f;
+        self.dontSendUsageReportsButton.borderView.layer.borderWidth = URL_GRADIENT_BUTTON_BORDER_WIDTH;
     }
 }
 
 #pragma mark - External links
 
--(IBAction)openURLinExternalBrowser:(id)sender
+-(void)openURLinExternalBrowser:(UITapGestureRecognizer *)recognizer
 {
     // Detect which button was tapped and open its URL in external browser
+
+    UILabelDynamicHeight *sender = (UILabelDynamicHeight*)recognizer.view;
     
-    // Ensure the button doesn't remain in highlighted state
-    if ([sender isKindOfClass:[UIButton class]]) {
-        [sender setHighlighted:NO];
-    }
-    
-    // Determine the target url based on which button was tapped
+    // Used to debug UILabelDynamicHeight labels
+    //[sender debug];
+    //return;
     
     NSString *urlStr = nil;
     

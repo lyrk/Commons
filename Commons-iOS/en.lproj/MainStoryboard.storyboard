@@ -548,7 +548,7 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" text="Send usage reports to Wikimedia to help us improve the app" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="216" translatesAutoresizingMaskIntoConstraints="NO" id="SZo-q4-tcy">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" alpha="0.90000000000000002" contentMode="left" text="Send usage reports to Wikimedia to help us improve the app" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="216" translatesAutoresizingMaskIntoConstraints="NO" id="SZo-q4-tcy">
                                                         <rect key="frame" x="52" y="49" width="216" height="34"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
@@ -558,49 +558,39 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="tmf-yh-qyS" customClass="UIButtonDynamicHeight">
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send Usage Reports" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="xkh-KN-53q" userLabel="Send Usage Report" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="91" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="xNE-WH-oVI"/>
+                                                            <constraint firstAttribute="width" constant="280" id="vyE-lz-ZyV"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="Send Usage Reports">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="loggingSwitchPushed:" destination="GD7-mm-woa" eventType="touchUpInside" id="hgJ-DA-fFb"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OM0-yY-U5M" customClass="UIButtonDynamicHeight">
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't Send Usage Reports" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="bWE-Zf-hhX" userLabel="Don't Send Usage Reports" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="120" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="RB7-pM-A1J"/>
+                                                            <constraint firstAttribute="width" constant="280" id="FQc-ea-wid"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="Don't Send Usage Reports">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="loggingSwitchPushed:" destination="GD7-mm-woa" eventType="touchUpInside" id="h5S-vq-U6u"/>
-                                                        </connections>
-                                                    </button>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="centerX" secondItem="OM0-yY-U5M" secondAttribute="centerX" id="7rT-IB-pYu"/>
                                                     <constraint firstItem="SZo-q4-tcy" firstAttribute="top" secondItem="tOO-Oe-hxg" secondAttribute="bottom" constant="8" symbolic="YES" id="FhF-hc-hyM"/>
                                                     <constraint firstAttribute="centerX" secondItem="SZo-q4-tcy" secondAttribute="centerX" id="Hng-se-aQ8"/>
-                                                    <constraint firstItem="tmf-yh-qyS" firstAttribute="top" secondItem="SZo-q4-tcy" secondAttribute="bottom" constant="8" symbolic="YES" id="caQ-dY-Nm5"/>
-                                                    <constraint firstAttribute="bottom" secondItem="OM0-yY-U5M" secondAttribute="bottom" constant="20" symbolic="YES" id="mHb-Sx-4fU"/>
-                                                    <constraint firstAttribute="centerX" secondItem="tmf-yh-qyS" secondAttribute="centerX" id="mJ2-wk-fkh"/>
-                                                    <constraint firstItem="OM0-yY-U5M" firstAttribute="top" secondItem="tmf-yh-qyS" secondAttribute="bottom" constant="8" symbolic="YES" id="mtF-UJ-W8A"/>
+                                                    <constraint firstItem="xkh-KN-53q" firstAttribute="top" secondItem="SZo-q4-tcy" secondAttribute="bottom" constant="8" symbolic="YES" id="iII-pC-ieR"/>
+                                                    <constraint firstAttribute="bottom" secondItem="bWE-Zf-hhX" secondAttribute="bottom" constant="20" symbolic="YES" id="m5l-gK-trW"/>
+                                                    <constraint firstItem="bWE-Zf-hhX" firstAttribute="top" secondItem="xkh-KN-53q" secondAttribute="bottom" constant="8" symbolic="YES" id="pbe-vI-RFQ"/>
                                                     <constraint firstAttribute="width" constant="320" id="rsG-7L-dQS"/>
                                                     <constraint firstAttribute="centerX" secondItem="tOO-Oe-hxg" secondAttribute="centerX" id="rsb-Py-7VY"/>
+                                                    <constraint firstAttribute="centerX" secondItem="xkh-KN-53q" secondAttribute="centerX" id="rud-0O-hCg"/>
                                                     <constraint firstItem="tOO-Oe-hxg" firstAttribute="top" secondItem="roS-hG-Dqv" secondAttribute="top" constant="20" symbolic="YES" id="vjT-sU-AoS"/>
+                                                    <constraint firstAttribute="centerX" secondItem="bWE-Zf-hhX" secondAttribute="centerX" id="yxS-6n-iHu"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfQ-ke-R0b" userLabel="Debug Info Container">
@@ -684,73 +674,49 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="jTE-56-tBh" customClass="UIButtonDynamicHeight">
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wikimedia Commons" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="oZA-hc-jq6" userLabel="Wikimedia Commons" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="49" width="280" height="21"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="0fg-1d-4OJ"/>
+                                                            <constraint firstAttribute="width" constant="280" id="lTk-9g-9Ph"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="Wikimedia Commons">
-                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="8Y2-H0-m4w"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Kre-rl-jh6" customClass="UIButtonDynamicHeight">
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Privacy Policy" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="dWo-56-N06" userLabel="Privacy Policy" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="78" width="280" height="21"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="Dqk-Pd-2am"/>
+                                                            <constraint firstAttribute="width" constant="280" id="SQs-qO-ADS"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="Privacy Policy">
-                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="iuE-E2-boN"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="850" verticalHuggingPriority="850" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="TXW-A0-e3p" customClass="UIButtonDynamicHeight">
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bug Tracker" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="NbO-d4-Ssu" userLabel="Bug Tracker" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="107" width="280" height="21"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="TcK-6M-Ktn"/>
+                                                            <constraint firstAttribute="width" constant="280" id="5nq-IA-xpb"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="Bug Tracker">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="5oi-cF-HKd"/>
-                                                        </connections>
-                                                    </button>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="centerX" secondItem="Kre-rl-jh6" secondAttribute="centerX" id="9ZU-7W-vWj"/>
-                                                    <constraint firstAttribute="centerX" secondItem="TXW-A0-e3p" secondAttribute="centerX" id="EyC-f4-9yF"/>
+                                                    <constraint firstItem="dWo-56-N06" firstAttribute="top" secondItem="oZA-hc-jq6" secondAttribute="bottom" constant="8" symbolic="YES" id="HJD-ez-o9e"/>
                                                     <constraint firstItem="soP-O6-SJT" firstAttribute="top" secondItem="qUp-nb-Xrg" secondAttribute="top" constant="20" symbolic="YES" id="Hbe-h2-X6q"/>
-                                                    <constraint firstItem="TXW-A0-e3p" firstAttribute="top" secondItem="Kre-rl-jh6" secondAttribute="bottom" constant="8" symbolic="YES" id="N1f-QB-beM"/>
-                                                    <constraint firstAttribute="centerX" secondItem="jTE-56-tBh" secondAttribute="centerX" id="SYe-5L-F1M"/>
-                                                    <constraint firstItem="Kre-rl-jh6" firstAttribute="top" secondItem="jTE-56-tBh" secondAttribute="bottom" constant="8" symbolic="YES" id="SqP-8v-Gxx"/>
-                                                    <constraint firstItem="jTE-56-tBh" firstAttribute="top" secondItem="soP-O6-SJT" secondAttribute="bottom" constant="8" symbolic="YES" id="gMZ-7V-zzQ"/>
+                                                    <constraint firstItem="oZA-hc-jq6" firstAttribute="top" secondItem="soP-O6-SJT" secondAttribute="bottom" constant="8" symbolic="YES" id="JQM-yw-n4R"/>
+                                                    <constraint firstAttribute="centerX" secondItem="oZA-hc-jq6" secondAttribute="centerX" id="Pwy-Vh-ogB"/>
+                                                    <constraint firstAttribute="centerX" secondItem="dWo-56-N06" secondAttribute="centerX" id="Ra4-2d-AJn"/>
+                                                    <constraint firstItem="NbO-d4-Ssu" firstAttribute="top" secondItem="dWo-56-N06" secondAttribute="bottom" constant="8" symbolic="YES" id="ajl-hY-rbj"/>
                                                     <constraint firstAttribute="width" constant="320" id="lhF-qu-0ib"/>
                                                     <constraint firstAttribute="centerX" secondItem="soP-O6-SJT" secondAttribute="centerX" id="naH-I3-zu8"/>
-                                                    <constraint firstAttribute="bottom" secondItem="TXW-A0-e3p" secondAttribute="bottom" constant="20" symbolic="YES" id="vd2-oe-Ruw"/>
+                                                    <constraint firstAttribute="centerX" secondItem="NbO-d4-Ssu" secondAttribute="centerX" id="wsV-wA-s5a"/>
+                                                    <constraint firstAttribute="bottom" secondItem="NbO-d4-Ssu" secondAttribute="bottom" constant="20" symbolic="YES" id="xk9-S1-7If"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wYm-NR-odc" userLabel="Source Details Container">
@@ -768,7 +734,7 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This App (iOS):" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TVE-J7-nmJ">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This App (iOS):" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="TVE-J7-nmJ">
                                                         <rect key="frame" x="20" y="49" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
@@ -778,64 +744,37 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="zH3-8z-Ew6" customClass="UIButtonDynamicHeight">
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contributors" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="MLV-sa-SAW" userLabel="Contributors" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="78" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.22" colorSpace="calibratedWhite"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="CPO-Zs-MjF"/>
+                                                            <constraint firstAttribute="width" constant="280" id="kPX-Hr-mBE"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="Contributors">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="DtU-RL-dca"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="7zM-si-Jwa" customClass="UIButtonDynamicHeight">
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="License" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="PyL-Hi-Fde" userLabel="License" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="107" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="FXj-aA-x5J"/>
+                                                            <constraint firstAttribute="width" constant="280" id="bOB-EO-kPy"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="License">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="ANI-wq-L5G"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="rK2-dn-oLQ" customClass="UIButtonDynamicHeight">
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Source" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-5v-OVE" userLabel="Source" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="136" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="xGg-Cn-a0U"/>
+                                                            <constraint firstAttribute="width" constant="280" id="rZP-DW-cts"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="Source">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="lh4-Tq-4id"/>
-                                                        </connections>
-                                                    </button>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Jeff LaMarche's Gradient UIButton:" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oP6-Ir-zpI">
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" text="Jeff LaMarche's Gradient UIButton:" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="oP6-Ir-zpI">
                                                         <rect key="frame" x="20" y="165" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
@@ -845,65 +784,47 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Mf0-p2-Ami" customClass="UIButtonDynamicHeight">
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="License" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="9pe-MO-dJl" userLabel="License" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="194" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.10000000000000001" colorSpace="calibratedWhite"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="o3A-pr-ZCD"/>
+                                                            <constraint firstAttribute="width" constant="280" id="3ut-ia-6Qi"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="License">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="gxp-2c-OQb"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="l4K-56-ENO" customClass="UIButtonDynamicHeight">
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Source" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2jR-cg-eFC" userLabel="Source" customClass="UILabelDynamicHeight">
                                                         <rect key="frame" x="20" y="223" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <color key="backgroundColor" white="0.0" alpha="0.22" colorSpace="calibratedWhite"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="aGr-vT-hFF"/>
+                                                            <constraint firstAttribute="width" constant="280" id="vHM-wh-EkO"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <state key="normal" title="Source">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <state key="highlighted">
-                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="openURLinExternalBrowser:" destination="GD7-mm-woa" eventType="touchUpInside" id="SD3-mC-8GY"/>
-                                                        </connections>
-                                                    </button>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstItem="oP6-Ir-zpI" firstAttribute="top" secondItem="rK2-dn-oLQ" secondAttribute="bottom" constant="8" symbolic="YES" id="0Cc-Ma-j81"/>
-                                                    <constraint firstAttribute="centerX" secondItem="zH3-8z-Ew6" secondAttribute="centerX" id="0q9-Op-n14"/>
-                                                    <constraint firstAttribute="centerX" secondItem="rK2-dn-oLQ" secondAttribute="centerX" id="7LN-5D-fLR"/>
+                                                    <constraint firstItem="MLV-sa-SAW" firstAttribute="top" secondItem="TVE-J7-nmJ" secondAttribute="bottom" constant="8" symbolic="YES" id="051-8I-WJO"/>
+                                                    <constraint firstItem="9pe-MO-dJl" firstAttribute="top" secondItem="oP6-Ir-zpI" secondAttribute="bottom" constant="8" symbolic="YES" id="5Vl-9z-8XA"/>
+                                                    <constraint firstItem="2jR-cg-eFC" firstAttribute="top" secondItem="9pe-MO-dJl" secondAttribute="bottom" constant="8" symbolic="YES" id="A8Z-BY-5yG"/>
                                                     <constraint firstAttribute="centerX" secondItem="TVE-J7-nmJ" secondAttribute="centerX" id="Bbd-00-Zpg"/>
+                                                    <constraint firstItem="PyL-Hi-Fde" firstAttribute="top" secondItem="MLV-sa-SAW" secondAttribute="bottom" constant="8" symbolic="YES" id="L9O-Cg-l1i"/>
+                                                    <constraint firstAttribute="centerX" secondItem="QvM-5v-OVE" secondAttribute="centerX" id="N9d-uB-hKb"/>
                                                     <constraint firstItem="DfD-4i-tLc" firstAttribute="top" secondItem="wYm-NR-odc" secondAttribute="top" constant="20" symbolic="YES" id="ORg-Fk-CAU"/>
-                                                    <constraint firstItem="zH3-8z-Ew6" firstAttribute="top" secondItem="TVE-J7-nmJ" secondAttribute="bottom" constant="8" symbolic="YES" id="Tui-aH-jER"/>
                                                     <constraint firstAttribute="centerX" secondItem="DfD-4i-tLc" secondAttribute="centerX" id="VDy-pw-2nx"/>
                                                     <constraint firstAttribute="centerX" secondItem="oP6-Ir-zpI" secondAttribute="centerX" id="WLJ-CN-Q53"/>
-                                                    <constraint firstAttribute="centerX" secondItem="l4K-56-ENO" secondAttribute="centerX" id="aEC-8f-9Yu"/>
-                                                    <constraint firstItem="7zM-si-Jwa" firstAttribute="top" secondItem="zH3-8z-Ew6" secondAttribute="bottom" constant="8" symbolic="YES" id="bMU-jh-VFJ"/>
+                                                    <constraint firstAttribute="centerX" secondItem="MLV-sa-SAW" secondAttribute="centerX" id="ZC3-5z-mRx"/>
+                                                    <constraint firstAttribute="centerX" secondItem="2jR-cg-eFC" secondAttribute="centerX" id="ZTF-sT-JXp"/>
                                                     <constraint firstAttribute="width" constant="320" id="bZv-kk-4sf"/>
                                                     <constraint firstItem="TVE-J7-nmJ" firstAttribute="top" secondItem="DfD-4i-tLc" secondAttribute="bottom" constant="8" symbolic="YES" id="fYa-08-3lo"/>
-                                                    <constraint firstAttribute="centerX" secondItem="Mf0-p2-Ami" secondAttribute="centerX" id="mxH-Pe-Ubh"/>
-                                                    <constraint firstAttribute="bottom" secondItem="l4K-56-ENO" secondAttribute="bottom" constant="20" symbolic="YES" id="oJu-Uq-qIM"/>
-                                                    <constraint firstAttribute="centerX" secondItem="7zM-si-Jwa" secondAttribute="centerX" id="t9f-js-TjG"/>
-                                                    <constraint firstItem="Mf0-p2-Ami" firstAttribute="top" secondItem="oP6-Ir-zpI" secondAttribute="bottom" constant="8" symbolic="YES" id="wJk-M6-Luf"/>
-                                                    <constraint firstItem="l4K-56-ENO" firstAttribute="top" secondItem="Mf0-p2-Ami" secondAttribute="bottom" constant="8" symbolic="YES" id="y1g-WK-guA"/>
-                                                    <constraint firstItem="rK2-dn-oLQ" firstAttribute="top" secondItem="7zM-si-Jwa" secondAttribute="bottom" constant="8" symbolic="YES" id="ynm-wr-gaz"/>
+                                                    <constraint firstAttribute="centerX" secondItem="PyL-Hi-Fde" secondAttribute="centerX" id="rh3-NC-fKG"/>
+                                                    <constraint firstAttribute="centerX" secondItem="9pe-MO-dJl" secondAttribute="centerX" id="rnE-Uc-ZXN"/>
+                                                    <constraint firstItem="oP6-Ir-zpI" firstAttribute="top" secondItem="QvM-5v-OVE" secondAttribute="bottom" constant="8" symbolic="YES" id="ulN-6W-hPQ"/>
+                                                    <constraint firstItem="QvM-5v-OVE" firstAttribute="top" secondItem="PyL-Hi-Fde" secondAttribute="bottom" constant="8" symbolic="YES" id="wfp-Sp-hOg"/>
+                                                    <constraint firstAttribute="bottom" secondItem="2jR-cg-eFC" secondAttribute="bottom" constant="20" symbolic="YES" id="yDV-KY-FqI"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -929,7 +850,6 @@ to take or choose photos.</string>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="88b-ga-lLw" secondAttribute="centerX" id="9iF-PZ-KRh"/>
                                     <constraint firstItem="88b-ga-lLw" firstAttribute="top" secondItem="8Ub-kI-Lsv" secondAttribute="top" id="jec-v0-Ww8"/>
                                     <constraint firstAttribute="bottom" secondItem="88b-ga-lLw" secondAttribute="bottom" id="nJT-ap-SN2"/>
                                     <constraint firstItem="88b-ga-lLw" firstAttribute="leading" secondItem="8Ub-kI-Lsv" secondAttribute="leading" id="pOQ-45-rFs"/>
@@ -949,33 +869,33 @@ to take or choose photos.</string>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="appVersionLabel" destination="XC1-a4-VNj" id="oUR-GI-QFC"/>
-                        <outlet property="bugsButton" destination="TXW-A0-e3p" id="AL0-PO-mOE"/>
-                        <outlet property="commonsButton" destination="jTE-56-tBh" id="wFw-NG-dwL"/>
+                        <outlet property="bugsButton" destination="NbO-d4-Ssu" id="hlT-xs-Vco"/>
+                        <outlet property="commonsButton" destination="oZA-hc-jq6" id="dUq-x9-n6D"/>
                         <outlet property="debugInfoContainer" destination="nfQ-ke-R0b" id="qRe-gE-Gi1"/>
                         <outlet property="debugModeLabel" destination="e0C-pi-hIm" id="lRc-6o-pOh"/>
                         <outlet property="debugModeSwitch" destination="D2R-xI-JC0" id="iHE-iB-pXC"/>
-                        <outlet property="dontSendUsageReportsButton" destination="OM0-yY-U5M" id="tZ4-eb-eBW"/>
+                        <outlet property="dontSendUsageReportsButton" destination="bWE-Zf-hhX" id="hsq-pY-131"/>
                         <outlet property="externalBrowserContainer" destination="L20-SL-UMS" id="Jc0-lF-6fS"/>
                         <outlet property="externalLinksContainer" destination="qUp-nb-Xrg" id="yFR-dR-ipv"/>
                         <outlet property="externalLinksLabel" destination="soP-O6-SJT" id="Noo-AS-zeJ"/>
-                        <outlet property="gradientButtonLicenseButton" destination="Mf0-p2-Ami" id="FC2-yD-ElK"/>
-                        <outlet property="gradientButtonSourceButton" destination="l4K-56-ENO" id="PiI-jy-apM"/>
+                        <outlet property="gradientButtonLicenseButton" destination="9pe-MO-dJl" id="9Hj-59-6J1"/>
+                        <outlet property="gradientButtonSourceButton" destination="2jR-cg-eFC" id="vTl-7G-Wo6"/>
                         <outlet property="gradientButtonsLabel" destination="oP6-Ir-zpI" id="Tbe-ht-XPe"/>
                         <outlet property="mockPageContainerView" destination="Fir-Lb-O64" id="3hl-gh-oTe"/>
                         <outlet property="openInLabel" destination="80h-CY-QOf" id="Uzd-Al-fHH"/>
-                        <outlet property="privacyButton" destination="Kre-rl-jh6" id="Gb8-PA-TMR"/>
+                        <outlet property="privacyButton" destination="dWo-56-N06" id="yEB-vr-pXw"/>
                         <outlet property="scrollView" destination="8Ub-kI-Lsv" id="FFJ-jY-IXE"/>
-                        <outlet property="sendUsageReportsButton" destination="tmf-yh-qyS" id="WPu-1c-mRl"/>
+                        <outlet property="sendUsageReportsButton" destination="xkh-KN-53q" id="Aq4-p0-O3b"/>
                         <outlet property="settingsContainer" destination="88b-ga-lLw" id="Lk7-Nj-AoV"/>
                         <outlet property="sourceDetailsContainer" destination="wYm-NR-odc" id="2wV-XO-ZE2"/>
                         <outlet property="sourceLabel" destination="DfD-4i-tLc" id="FTQ-0f-jwC"/>
                         <outlet property="spaceAboveMockPageConstraint" destination="2wB-n1-cIk" id="5XO-6w-V3e"/>
                         <outlet property="spaceBetweenBrowserAndLinksContainersConstraint" destination="M4N-9c-ywZ" id="mRr-T4-EpF"/>
                         <outlet property="spaceBetweenDebugAndBrowserContainersConstraint" destination="aGD-LD-5Kn" id="LjZ-0S-N4c"/>
-                        <outlet property="thisAppContributorsButton" destination="zH3-8z-Ew6" id="chW-fB-YpS"/>
+                        <outlet property="thisAppContributorsButton" destination="MLV-sa-SAW" id="5XO-QO-PRA"/>
                         <outlet property="thisAppLabel" destination="TVE-J7-nmJ" id="hWz-2v-WHR"/>
-                        <outlet property="thisAppLicenseButton" destination="7zM-si-Jwa" id="BS1-fC-IT8"/>
-                        <outlet property="thisAppSourceButton" destination="rK2-dn-oLQ" id="oTC-4c-SwT"/>
+                        <outlet property="thisAppLicenseButton" destination="PyL-Hi-Fde" id="0Ee-6Z-68A"/>
+                        <outlet property="thisAppSourceButton" destination="QvM-5v-OVE" id="kgh-Th-bmM"/>
                         <outlet property="trackingDetailsLabel" destination="SZo-q4-tcy" id="P4e-ej-0qH"/>
                         <outlet property="trackingInfoContainer" destination="roS-hG-Dqv" id="UN2-Ah-DOz"/>
                         <outlet property="trackingLabel" destination="tOO-Oe-hxg" id="O17-uE-E3m"/>
@@ -2036,8 +1956,6 @@ Help Wikipedia articles come to life!</string>
         <image name="mockBadPhoto.png" width="237" height="286"/>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="30" height="30"/>
     </resources>

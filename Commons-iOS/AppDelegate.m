@@ -30,7 +30,11 @@
                                            @"GettingStartedWasAutomaticallyShown": @NO
                                         };
     [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
-    
+
+    // Enables Alignment Rect highlighting for debugging
+    //[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"UIViewShowAlignmentRects"];
+    //[[NSUserDefaults standardUserDefaults] synchronize];
+
     // Listen for changes to which view controllers are on the navigation controller stack
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedUINavigationControllerDidShowViewControllerNotification:)

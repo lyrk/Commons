@@ -100,6 +100,10 @@
         [app deleteUploadRecord:self.selectedRecord];
         app.recordToDelete = nil;
     }
+    
+    // Enables jumping straight to Settings page for quick debugging
+    //SettingsViewController *settingsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+    //[self.navigationController pushViewController:settingsVC animated:YES];
 }
 
 - (void)viewDidLoad
