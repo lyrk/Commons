@@ -50,6 +50,7 @@
     "web-open-in": "Aperire in $1",
     "web-cancel": "Dimittere",
     "login-title": "Ratio",
+    "login-current-user-button": "Pergere utens: $1",
     "login-button": "Conventum aperire",
     "login-recover-password-button": "Tesseram recuperare",
     "logout-button": "Conventum concludere",
@@ -85,5 +86,10 @@
     "getting-started-yes-button": "Pergere",
     "picture-of-day-label": "Imago diei",
     "picture-of-day-author": "Auctor:",
+    "picture-of-day-tap-for-license": "Prome ad permissionem videndam",
+    "picture-of-day-menu-title": "Imago diei",
+    "picture-of-day-license-button": "Permissio",
+    "picture-of-day-cancel-button": "Sinere",
+    "refresh-failed-alert": "Renovare non contigit.",
     "gallery-cancel-button": "Dimittere"
 }
