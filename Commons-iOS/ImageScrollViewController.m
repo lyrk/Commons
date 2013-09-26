@@ -11,30 +11,14 @@
 #import "CommonsApp.h"
 //#import "UIView+Debugging.h"
 
-#define FULL_SCREEN_IMAGE_MIN_ZOOM_SCALE 0.5f
+#define FULL_SCREEN_IMAGE_MIN_ZOOM_SCALE 0.1f
 #define FULL_SCREEN_IMAGE_MAX_ZOOM_SCALE 5.0f
 
 // Defines how dark the black overlay above the image can become when details slide up over the image
 #define FULL_SCREEN_IMAGE_MAX_OVERLAY_ALPHA 0.8f
 
-// Private
-@interface ImageScrollViewController ()
-
-@property (nonatomic) float initialScale;
-
-@end
-
 @implementation ImageScrollViewController{
     UIView *overlayView_;
-}
-
-- (id)initWithCoder:(NSCoder *)coder
-{
-    self = [super initWithCoder:coder];
-    if (self) {
-        self.wantsFullScreenLayout = YES;
-    }
-    return self;
 }
 
 #pragma mark - Setters
@@ -46,7 +30,7 @@
     [self.imageView setImage:_image];
 
     // Resize imageView to match new image size
-    [self sizeImageViewToItsImage];
+    [self.imageView sizeToFit];
     
     // And zoom so image fits
     float scale = [self getScaleToMakeImageFullscreen];
@@ -57,9 +41,6 @@
     }
 
     [self.imageScrollView setZoomScale:scale animated:NO];
-
-    // Remember the scale so it can be easily returned to
-    self.initialScale = scale;
 }
 
 #pragma mark - Positioning
@@ -84,26 +65,14 @@
     return scale;
 }
 
--(void)sizeImageViewToItsImage
-{
-    // Sizes and keeps the previous center
-    CGPoint p = self.imageView.center;
-    CGRect f = self.imageView.frame;
-    f.size = self.image.size;
-    self.imageView.frame = f;
-    self.imageView.center = p;
-}
-
 - (void)centerScrollViewContents {
-    UIView *subView = self.imageView;
-    
     CGFloat offsetX = (self.imageScrollView.bounds.size.width > self.imageScrollView.contentSize.width)?
     (self.imageScrollView.bounds.size.width - self.imageScrollView.contentSize.width) * 0.5 : 0.0;
     
     CGFloat offsetY = (self.imageScrollView.bounds.size.height > self.imageScrollView.contentSize.height)?
     (self.imageScrollView.bounds.size.height - self.imageScrollView.contentSize.height) * 0.5 : 0.0;
     
-    subView.center = CGPointMake(self.imageScrollView.contentSize.width * 0.5 + offsetX,
+    self.imageView.center = CGPointMake(self.imageScrollView.contentSize.width * 0.5 + offsetX,
                                  self.imageScrollView.contentSize.height * 0.5 + offsetY);
     
     CGPoint centerOffset = CGPointMake(
@@ -123,8 +92,6 @@
 
 -(void)viewDidLayoutSubviews{
     [super viewWillLayoutSubviews];
-
-    [self resetInitialZoomScaleAnimated:YES];
     [self centerScrollViewContents];
 }
 
@@ -141,59 +108,56 @@
 {
     [super viewDidLoad];
 
-    self.initialScale = 1.0f;
+    // "wantsFullScreenLayout = NO" makes self.view not underlap the status bar on iOS 6.
+    // Really matters when pinch has expanded image and the image is dragged downward. The top
+    // of the image will drag (actually when drag is released) to the bottom of the status bar
+    // if this is NO, and to top of it if YES.
+    self.wantsFullScreenLayout = NO;
 
-    
     // Change back button to be an arrow
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString]
                                                                              style:UIBarButtonItemStyleBordered
                                                                             target:self
                                                                             action:@selector(backButtonPressed:)];
-
     [self setupOverlayView];
     
     [self setupImageScrollingViews];
-
-    /*
-     // Center activity indicator view
-     CGRect bounds = [[UIScreen mainScreen] bounds];
     
-     self.activityIndicator.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds));
-     activityIndicator.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin);
-    
-     // Change the appearance of the status bar and navigation bar
-     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent animated:YES];
-     [self.navigationController.navigationBar setBarStyle:UIBarStyleBlackTranslucent];
-     */
-    
-    // Setup UITapGestureRecognizers
-    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeRight:)];
-    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
-    
-    // Add the gesture recognizers to the view
-    [self.view addGestureRecognizer:swipeRight];
-
 	// Don't make the view background clear or the space surrounding the image will
 	// stop responding to touch events - perhaps because uiview's "hitTest:withEvent:"
 	// doesn't fire if the touched view's alpha is < 0.01f?
     self.view.backgroundColor = [UIColor blackColor];
 	
     [self.view setMultipleTouchEnabled:YES];
+
+    //[self.view randomlyColorSubviews];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     
     [super viewWillDisappear:animated];
+    
+    // Ensure the image, if pinch-expanded, doesn't overlap the My Uploads view when this view is popped
+    self.imageScrollView.clipsToBounds = YES;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.imageScrollView.clipsToBounds = NO;
+    /*
+        if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+            // Make self.view's top not underlap the nav bar. By doing this and having
+            // the scrollView *not* clip to bounds the scroll view will load so its
+            // top is just below the nav bar's bottom, yet scrolling will still allow
+            // content to visually scroll up and under the nav bar (thanks to not clipping)
+            self.edgesForExtendedLayout = UIRectEdgeNone;
+        }
+    */
 }
 
 /*
--(void)viewWillAppear:(BOOL)animated
-{
-//    [self.activityIndicator startAnimating];
-
-    [super viewWillAppear:animated];
-}
-
 -(void)viewDidAppear:(BOOL)animated
 {
     [self.view randomlyColorSubviews];
@@ -219,7 +183,8 @@
     self.imageScrollView.translatesAutoresizingMaskIntoConstraints = NO;
     self.imageScrollView.delegate = self;
     self.imageScrollView.bouncesZoom = YES;
-    self.imageScrollView.clipsToBounds = YES;
+    // Not clipping bounds means the scroll view can underlap the nav bar even if edgesForExtendedLayout is UIRectEdgeNone
+    self.imageScrollView.clipsToBounds = NO;
     self.imageScrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     self.imageScrollView.showsHorizontalScrollIndicator = NO;
     self.imageScrollView.showsVerticalScrollIndicator = NO;
@@ -232,25 +197,19 @@
 
     [self.view addSubview:self.imageScrollView];
 
-    UIView *contentView = [[UIView alloc] init];
-    contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    contentView.backgroundColor = [UIColor clearColor];
-
-    [self.imageScrollView addSubview:contentView];
-
+    // The imageView is sized based on the size of the image it is displaying (see "sizeToFit")
+    // So no constraints on its size!
     self.imageView = [[UIImageView alloc] init];
     self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
     self.imageView.backgroundColor = [UIColor clearColor];
 
-    [contentView addSubview:self.imageView];
+    NSDictionary *views = @{@"imageScrollView" : self.imageScrollView, @"imageView" : self.imageView};
 
-    NSDictionary *views = @{@"imageScrollView" : self.imageScrollView, @"contentView" : contentView, @"imageView" : self.imageView};
-
+    // Make the scrollView hug self.view
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[imageScrollView]|" options:0 metrics:0 views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[imageScrollView]|" options:0 metrics:0 views:views]];
 
-    [self.imageScrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[contentView]|" options:0 metrics:0 views:views]];
-    [self.imageScrollView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[contentView]|" options:0 metrics:0 views:views]];
+    [self.imageScrollView addSubview:self.imageView];
 }
 
 #pragma mark - UIScrollView
@@ -263,19 +222,7 @@
 #pragma mark - UIScrollViewDelegate methods
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    
     return self.imageView;
-}
-
-#pragma mark - Zoom
-
--(void)resetInitialZoomScaleAnimated:(BOOL)animated
-{
-    [self.imageScrollView setZoomScale:self.initialScale animated:animated];
-}
-
-- (void)handleSwipeRight:(UIGestureRecognizer *)gestureRecognizer {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Rotation
