@@ -15,7 +15,9 @@
 #import "LoadingIndicator.h"
 #import "UILabel+ResizeWithAttributes.h"
 #import "LoginViewController.h"
-#import "SettingsImageView.h"
+#import "UIView+Debugging.h"
+#import "UILabelDynamicHeight.h"
+#import "UIImage+ImageEffects.h"
 
 #pragma mark - Defines
 
@@ -33,6 +35,9 @@
 #define URL_GRADIENT_BUTTON_SOURCE    @"https://code.google.com/p/iphonegradientbuttons/"
 #define URL_GRADIENT_BUTTON_LICENSE   @"http://opensource.org/licenses/mit-license.php"
 
+#define URL_GRADIENT_BUTTON_PADDING   18.0f
+#define URL_GRADIENT_BUTTON_BORDER_WIDTH 2.0f
+
 #pragma mark - Private
 
 @interface SettingsViewController ()
@@ -41,11 +46,13 @@
     BrowserHelper *browserHelper_;
     CommonsApp *app_;
     UIColor *navBarOriginalColor_;
-    CAGradientLayer *backgroundGradient_;
-    SettingsImageView *settingsImageView_;
+    UIImageView *settingsImageView_;
+    NSMutableArray *browserButtons_;
 }
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
+@property (strong, nonatomic) NSLayoutConstraint *browserAndDebugContainersTopConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *linksAndBrowserContainersTopConstraint;
 
 @end
 
@@ -57,10 +64,15 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        settingsImageView_ = [[SettingsImageView alloc] init];
+        self.wantsFullScreenLayout = YES;
+
+        settingsImageView_ = [[UIImageView alloc] init];
+        settingsImageView_.translatesAutoresizingMaskIntoConstraints = NO;
+        
         browserHelper_ = [[BrowserHelper alloc] init];
         app_ = CommonsApp.singleton;
         installedSupportedBrowserNames_ = nil;
+        browserButtons_ = [[NSMutableArray alloc] init];
 
         // Listen for UIApplicationDidBecomeActiveNotification
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -73,11 +85,40 @@
 
 #pragma mark - View lifecycle
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+   
+    // Enables auto scroll down the settings page for quick debugging
+    //CGRect frame = self.scrollView.frame;
+    //frame.origin.x = 0;
+    //frame.origin.y = 600;
+    //[self.scrollView scrollRectToVisible:frame animated:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-	    
+
+    self.settingsContainer.translatesAutoresizingMaskIntoConstraints = NO;
+
+    // Ensure storyboard labels will wrap to multiple lines if necessary
+    void(^multiLine)(UILabel *) = ^(UILabel *label){
+        label.numberOfLines = 0;
+        label.preferredMaxLayoutWidth = label.frame.size.width;
+    };
+
+    multiLine(self.trackingLabel);
+    multiLine(self.trackingDetailsLabel);
+    multiLine(self.externalLinksLabel);
+    multiLine(self.uploadTargetLabel);
+    multiLine(self.debugModeLabel);
+    multiLine(self.openInLabel);
+    multiLine(self.sourceLabel);
+    multiLine(self.thisAppLabel);
+    multiLine(self.gradientButtonsLabel);
+
     // Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
@@ -88,16 +129,9 @@
     self.trackingDetailsLabel.text = [MWMessage forKey:@"settings-usage-reports-description"].text;
     self.externalLinksLabel.text = [MWMessage forKey:@"settings-links-label"].text;
     
-    self.openInLabel.adjustsFontSizeToFitWidth = YES;
-    
     self.debugModeSwitch.on = app_.debugMode;
     [self setDebugModeLabel];
-	    
-    self.externalLinksContainer.alpha = 0.0f;
 
-    // Make settings switch reflect any saved value
-    self.trackingSwitch.on = app_.trackingEnabled;
-    
     // Get bundle info dict for its app name and version settings
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     
@@ -110,62 +144,67 @@
     [self.appVersionLabel resizeWithAttributes: @{
                           NSFontAttributeName : [UIFont boldSystemFontOfSize:27.0f],
                NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
-     }];
+     } preferredMaxLayoutWidth:320.0f];
 
-    // Set button color scheme
-    [self applyStyleToButton:self.sourceButton];
-    [self applyStyleToButton:self.commonsButton];
-    [self applyStyleToButton:self.bugsButton];
-    [self applyStyleToButton:self.privacyButton];
-    
-    // Ensure button text doesn't get clipped if i18n is long string
-    self.sourceButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.commonsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.bugsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.privacyButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    
     // i18n for buttons
-    [self.commonsButton setTitle:[MWMessage forKey:@"about-commons-button"].text forState:UIControlStateNormal];
-    [self.bugsButton setTitle:[MWMessage forKey:@"about-bugs-button"].text forState:UIControlStateNormal];
-    [self.privacyButton setTitle:[MWMessage forKey:@"about-privacy-button"].text forState:UIControlStateNormal];
-    [self.sourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
+    [self.commonsButton setText:[MWMessage forKey:@"about-commons-button"].text];
+    [self.bugsButton setText:[MWMessage forKey:@"about-bugs-button"].text];
+    [self.privacyButton setText:[MWMessage forKey:@"about-privacy-button"].text];
+    [self.sourceLabel setText:[MWMessage forKey:@"settings-source-label"].text];
     
     // i18n for the sub-items under the Source button
     [self.thisAppLabel setText:[MWMessage forKey:@"about-source-this-app-title"].text];
-    [self.thisAppContributorsButton setTitle:[MWMessage forKey:@"about-source-this-app-contributors"].text forState:UIControlStateNormal];
-    [self.thisAppSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
-    [self.thisAppLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
+    [self.thisAppContributorsButton setText:[MWMessage forKey:@"about-source-this-app-contributors"].text];
+    [self.thisAppSourceButton setText:[MWMessage forKey:@"about-source-button"].text];
+    [self.thisAppLicenseButton setText:[MWMessage forKey:@"about-license-button"].text];
     
     [self.gradientButtonsLabel setText:[MWMessage forKey:@"about-source-gradient-title"].text];
-    [self.gradientButtonSourceButton setTitle:[MWMessage forKey:@"about-source-button"].text forState:UIControlStateNormal];
-    [self.gradientButtonLicenseButton setTitle:[MWMessage forKey:@"about-license-button"].text forState:UIControlStateNormal];
+    [self.gradientButtonSourceButton setText:[MWMessage forKey:@"about-source-button"].text];
+    [self.gradientButtonLicenseButton setText:[MWMessage forKey:@"about-license-button"].text];
+
+    [self.sendUsageReportsButton setText:[MWMessage forKey:@"settings-usage-reports-send-button"].text];
+    [self.dontSendUsageReportsButton setText:[MWMessage forKey:@"settings-usage-reports-dont-send-button"].text];
     
     self.sourceDetailsContainer.backgroundColor = [UIColor clearColor];
 
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
+        // Increase the space above the mock page a bit
+        self.spaceAboveMockPageConstraint.constant *= 4.0f;
         // Scale the mock page down a bit
-        CGAffineTransform xf = CGAffineTransformMakeScale(0.7f, 0.7f);
+        CGAffineTransform xf = CGAffineTransformMakeScale(0.8f, 0.8f);
         self.mockPageContainerView.transform = xf;
     }else{
-        [self moveContainersDownToMakeRoomForBiggerMockPage];
+        // Increase the space above the mock page a bit
+        self.spaceAboveMockPageConstraint.constant *= 6.0f;
+        // Scale the mock page up a bit
+        CGAffineTransform xf = CGAffineTransformMakeScale(1.45f, 1.45f);
+        self.mockPageContainerView.transform = xf;
     }
 
     // Add the image view for the picture of the day last shown by the login page
     [self.view insertSubview:settingsImageView_ atIndex:0];
 
-#ifndef DEBUG
-    [self hideDebugInfoContainerIfReleaseBuild];
-#endif
+    [self constrainSubviews];
 
-}
+    // The debug settings toggle is hidden by default unless the settings screen is tapped 6 times
+    [self setupDebugContainer];
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+    // The browser settings are hidden unless more than one browser is found
+    [self setupBrowserContainer];
 
-    // Round just the top left and bottom left corners of openInLabel
-    [app_ roundCorners:UIRectCornerTopLeft|UIRectCornerBottomLeft ofView:self.openInLabel toRadius:10.0];
-    [self.view setNeedsLayout];
+    // Add and constrain a button for each browser installed on the device
+    [self updateBrowserButtons];
+
+    [self applyButtonStyles];
+    
+    [self addTapGestureRecognizersToButtons];
+
+    // Make tracking buttons reflect saved value
+    [self updateLoggingButtonSelectionIndicators];
+
+    self.scrollView.delegate = self;
+    
+    //[self.view randomlyColorSubviews];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -193,303 +232,361 @@
     [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
 }
 
-#pragma mark - Positioning
+#pragma mark - Gestures
 
--(void)viewWillLayoutSubviews
+-(void)addTapGestureRecognizersToButtons
 {
-    // Resize browsersTableView according to its number of rows
-    [self adjustHeightOfBrowsersTableView];
-    
-    // Now that browsersTableView has been resized, move the link buttons below the browsersTableView
-    [self revealExternalLinksContainerBelowBrowsersTableView];
+    void (^addTap)(UILabelDynamicHeight *, SEL) = ^(UILabelDynamicHeight *button, SEL action){
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:action];
+        tap.numberOfTapsRequired = 1;
+        tap.enabled = YES;
+        [button addGestureRecognizer:tap];
+    };
 
-    [self setScrollViewContentSize];
-    
-    [self resizeBackgroundGradient];
+    addTap(self.thisAppContributorsButton, @selector(openURLinExternalBrowser:));
+    addTap(self.thisAppLicenseButton, @selector(openURLinExternalBrowser:));
+    addTap(self.thisAppSourceButton, @selector(openURLinExternalBrowser:));
+    addTap(self.gradientButtonLicenseButton, @selector(openURLinExternalBrowser:));
+    addTap(self.gradientButtonSourceButton, @selector(openURLinExternalBrowser:));
+    addTap(self.commonsButton, @selector(openURLinExternalBrowser:));
+    addTap(self.privacyButton, @selector(openURLinExternalBrowser:));
+    addTap(self.bugsButton, @selector(openURLinExternalBrowser:));
 
-    settingsImageView_.frame = self.view.bounds;
+    addTap(self.sendUsageReportsButton, @selector(loggingSwitchPushed:));
+    addTap(self.dontSendUsageReportsButton, @selector(loggingSwitchPushed:));
 }
 
--(void)viewDidLayoutSubviews
+#pragma mark - Constraints
+
+-(void)constrainSubviews
 {
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
-        if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)) {
-            // If orientation is landscape...
-            if(self.sourceDetailsContainer.alpha != 0.0){
-                // If source details are visible so scroll all the way to the bottom so all of the details may be seen
-                [self scrollToBottomOfExternalLinksContainer];
-            }else{
-                [self scrollToBottomOfDebugInfoContainer];
-            }
-        }else{
-            // If orientation is portrait just scroll to the top
-            [self scrollToTopOfSettingsContainer];
-        }
-    }
+    void(^constrainSettingsImageView)(NSString *) = ^(NSString *vfString){
+        [self.view addConstraints:[NSLayoutConstraint
+                                   constraintsWithVisualFormat: vfString
+                                   options:  0
+                                   metrics:  @{@"margin" : @(0)}
+                                   views:    @{@"settingsImageView" : settingsImageView_}
+                                   ]];
+    };
+    constrainSettingsImageView(@"H:|[settingsImageView]|");
+    constrainSettingsImageView(@"V:|[settingsImageView]|");
+    
+    // This is used when toggling the visibility of the debug container
+    self.browserAndDebugContainersTopConstraint = [NSLayoutConstraint constraintWithItem:self.externalBrowserContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                      relatedBy:NSLayoutRelationEqual
+                                                         toItem:self.debugInfoContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                     multiplier:1.0
+                                                       constant:0];
+
+    // This is used when toggling the visibility of the browser container
+    self.linksAndBrowserContainersTopConstraint = [NSLayoutConstraint constraintWithItem:self.externalLinksContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                      relatedBy:NSLayoutRelationEqual
+                                                         toItem:self.externalBrowserContainer
+                                                      attribute:NSLayoutAttributeTop
+                                                     multiplier:1.0
+                                                       constant:0];
 }
 
-- (void)revealExternalLinksContainerBelowBrowsersTableView
+#pragma mark - Debug container
+
+-(void)setupDebugContainer
 {
-    float externalLinksContainerY = [self.browsersTableView convertPoint:(CGPoint){0, self.browsersTableView.frame.size.height} toView:self.settingsContainer].y;
-    
-    externalLinksContainerY += 28.0f;
-    CGRect f = self.externalLinksContainer.frame;
-    f.origin = (CGPoint){self.externalLinksContainer.frame.origin.x, externalLinksContainerY};
-    self.externalLinksContainer.frame = f;
-    
-    [UIView animateWithDuration:0.3 delay:0.35 options:nil animations:^{
-        self.externalLinksContainer.alpha = 1.0f;
-    } completion:^(BOOL finished){
-        
-    }];
+    // Make the debug container be hidden initially
+    [self hideDebugContainer];
+
+    // Add tap gesture for revealing the debug container if view tapped a number of times
+    UITapGestureRecognizer *doubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleDebugContainer)];
+    doubleTapRecognizer_.numberOfTapsRequired = 6;
+    [self.view addGestureRecognizer:doubleTapRecognizer_];
+    doubleTapRecognizer_.enabled = YES;
 }
 
--(void)moveOpenInLabelBesideSelectedBrowserCell:(UITableViewCell *)cell
+-(void)hideDebugContainer
 {
-    // Animate the openInLabel from its present vertical position to a position vertically
-    // aligned with browsersTableView's selected cell
-    [UIView animateWithDuration:0.25
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
+    if (self.debugInfoContainer.alpha == 0.0f) return;
+    [self.externalBrowserContainer.superview removeConstraint:self.spaceBetweenDebugAndBrowserContainersConstraint];
+    [self.externalBrowserContainer.superview addConstraint:self.browserAndDebugContainersTopConstraint];
+    self.debugInfoContainer.alpha = 0.0f;
+}
 
-					     self.openInLabel.backgroundColor = [UIColor lightGrayColor];
+-(void)showDebugContainer
+{
+    if (self.debugInfoContainer.alpha == 1.0f) return;
+    [self.externalBrowserContainer.superview removeConstraint:self.browserAndDebugContainersTopConstraint];
+    [self.externalBrowserContainer.superview addConstraint:self.spaceBetweenDebugAndBrowserContainersConstraint];
+    self.debugInfoContainer.alpha = 1.0f;
+}
 
-                         // Account for browsersTableView's contentOffset
-                         float cellY = [self.browsersTableView rectForRowAtIndexPath:self.browsersTableView.indexPathForSelectedRow].origin.y;
-
-                         cellY -= self.browsersTableView.contentOffset.y;
-                         cellY += self.browsersTableView.frame.origin.y;
-                         
-                         // Determine cell height so label can be made to be same height
-                         float cellHeight = cell.frame.size.height;
-                         
-                         // Set label frame shifting it into the same vertical position as the selected cell
-                         // Also make the label the same height as the cell
-                         self.openInLabel.frame = CGRectMake(self.openInLabel.frame.origin.x, cellY, self.openInLabel.frame.size.width, cellHeight);
+-(void)toggleDebugContainer
+{
+    [UIView animateWithDuration:0.2f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         if (self.debugInfoContainer.alpha == 1.0f) {
+                             [self hideDebugContainer];
+                         }else{
+                             [self showDebugContainer];
+                         }
+                         [self.view layoutIfNeeded];
                      }
-					 completion:^(BOOL finished){
-                         
+                     completion:^(BOOL finished){
                      }];
 }
 
-- (void)moveSelectedBrowserToTop
-{
-    // Make the user's browser choice appear at the top of the list when the view appears by moving
-    // their choice to the front of the installedSupportedBrowserNames array
-    if (installedSupportedBrowserNames_.count > 1) {
-        NSString *defaultExternalBrowser = app_.defaultExternalBrowser;
-        NSUInteger selectedBrowserIndex = [installedSupportedBrowserNames_ indexOfObject:defaultExternalBrowser];
-        if (selectedBrowserIndex != NSNotFound) {
-            // Remove the selected browser from the array and re-add it to the front of
-            // the array. Was swapping the selected entry with the first entry but this caused
-            // the alpha sort of the items after the first to be messed up
-            NSString *selectedBrowser = [installedSupportedBrowserNames_ objectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames_ removeObjectAtIndex:selectedBrowserIndex];
-            [installedSupportedBrowserNames_ insertObject:selectedBrowser atIndex:0];
-        }
-    }
-}
-
--(void)hideDebugInfoContainerIfReleaseBuild
-{
-    self.debugInfoContainer.hidden = YES;
-
-    void(^moveUp)(UIView *view) = ^(UIView *view){
-        CGRect f = view.frame;
-        f.origin.y -= (self.debugInfoContainer.frame.size.height + 45.0f);
-        view.frame = f;
-    };
-
-    // Move the external browser and external links containers up to occupy
-    // the space vacated by the hidden debugInfoContainer
-    moveUp(self.externalBrowserContainer);
-    moveUp(self.externalLinksContainer);
-}
-
--(void)moveContainersDownToMakeRoomForBiggerMockPage
-{
-    void(^moveDown)(UIView *view, float amount) = ^(UIView *view, float amount){
-        CGRect f = view.frame;
-        f.origin.y += (self.debugInfoContainer.frame.size.height + amount);
-        view.frame = f;
-    };
-
-    moveDown(self.mockPageContainerView, 20.0f);
-    moveDown(self.appVersionLabel, 45.0f);
-    moveDown(self.trackingInfoContainer, 45.0f);
-    moveDown(self.debugInfoContainer, 45.0f);
-    moveDown(self.externalBrowserContainer, 45.0f);
-    moveDown(self.externalLinksContainer, 45.0f);
-}
-
 #pragma mark - Styling
-
--(void)applyStyleToButton:(UIButton *) button
-{
-    // Button must have it's type set to "Custom" in interface builder for these
-    // settings to take effect
-    button.layer.backgroundColor = [UIColor colorWithRed:0.08 green:0.50 blue:0.92 alpha:0.9].CGColor;
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [app_ roundCorners:UIRectCornerAllCorners ofView:button toRadius:10.0];
-}
 
 -(void)useLastPicOfDayShownByLoginPageAsBackground
 {
     UIImageView *potdImageView_ = (UIImageView *)((LoginViewController *)self.navigationController.viewControllers[0]).potdImageView;
     settingsImageView_.contentMode = potdImageView_.contentMode;
-    settingsImageView_.image = potdImageView_.image;
-    [settingsImageView_ prepareFilteredImage];
-    [settingsImageView_ toFiltered];
-    [settingsImageView_ zoom];
-    settingsImageView_.frame = self.view.bounds;
+
+    // Fade transition to blurred Pic of Day image (last one shown by the Login VC).
+    // From either black screen (nil), or the unblurred version of the image.
+
+    // From unblurred version of image:
+    //settingsImageView_.image = potdImageView_.image;
+
+    // From black:
+    settingsImageView_.image = nil;
+
+    // Blur the image, but dispatch_async so the transition to the settings page isn't blocked
+    // while it processes. Then fade the image to the blurred one.
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+
+        UIColor *tintColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+        UIImage *blurredImage = [potdImageView_.image applyBlurWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];;
+
+        // Set up the cross-fade transition
+        [CATransaction begin];
+        CATransition *crossFade = [CATransition animation];
+        crossFade.type = kCATransitionFade;
+        //crossFade.subtype = kCATransitionFromLeft;
+        crossFade.beginTime = CACurrentMediaTime() + 0.18f;
+        crossFade.duration = 0.3f;
+        crossFade.fillMode = kCAFillModeBackwards;
+        crossFade.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        crossFade.removedOnCompletion = YES;
+        [CATransaction setCompletionBlock:^{
+        }];
+        [[settingsImageView_ layer] addAnimation:crossFade forKey:@"Fade"];
+        [CATransaction commit];
+
+        // This causes the transition to actually occur
+        settingsImageView_.image = blurredImage;
+    });
 }
 
-#pragma mark - Scrolling
-
--(void)scrollToBottomOfDebugInfoContainer
+-(void)styleButton:(UILabelDynamicHeight *)button
 {
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.debugInfoContainer.frame.origin.y + self.debugInfoContainer.frame.size.height + 10, 1, 1) animated:YES];
+    [button setFont:[UIFont boldSystemFontOfSize:17.0f]];
+    button.textColor = [UIColor whiteColor];
+    button.backgroundColor = [UIColor clearColor];
+    button.textAlignment = NSTextAlignmentLeft;
+    button.borderColor = [UIColor clearColor];
+    button.borderView.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:0.8f].CGColor;
+    button.borderView.layer.borderWidth = 0.0f;
+    button.borderInsets = UIEdgeInsetsMake(
+        URL_GRADIENT_BUTTON_BORDER_WIDTH,
+        URL_GRADIENT_BUTTON_BORDER_WIDTH,
+        URL_GRADIENT_BUTTON_BORDER_WIDTH,
+        URL_GRADIENT_BUTTON_BORDER_WIDTH
+    );
+    button.paddingColor = [UIColor colorWithWhite:1.0f alpha:0.1f];
+    button.paddingInsets = UIEdgeInsetsMake(
+        URL_GRADIENT_BUTTON_PADDING,
+        URL_GRADIENT_BUTTON_PADDING,
+        URL_GRADIENT_BUTTON_PADDING,
+        URL_GRADIENT_BUTTON_PADDING
+    );
 }
 
--(void)scrollToBottomOfSettingsContainer
+-(void)applyButtonStyles
 {
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
+    [self styleButton:self.commonsButton];
+    [self styleButton:self.privacyButton];
+    [self styleButton:self.bugsButton];
+    [self styleButton:self.thisAppContributorsButton];
+    [self styleButton:self.thisAppLicenseButton];
+    [self styleButton:self.thisAppSourceButton];
+    [self styleButton:self.gradientButtonLicenseButton];
+    [self styleButton:self.gradientButtonSourceButton];
+    [self styleButton:self.sendUsageReportsButton];
+    [self styleButton:self.dontSendUsageReportsButton];
 }
 
--(void)scrollToTopOfSettingsContainer
-{
-    // Scroll to the top of the settingsContainer
-    [self.scrollView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:YES];
+#pragma mark - ScrollView
+
+- (void)scrollViewDidScroll:(UIScrollView *)sender {
+    if (sender.contentOffset.x != 0) {
+        CGPoint offset = sender.contentOffset;
+        offset.x = 0;
+        sender.contentOffset = offset;
+    }
 }
 
--(void)scrollToBottomOfExternalLinksContainer
+#pragma mark - Browser container
+
+-(void)setupBrowserContainer
 {
-    // Scroll to the bottom of the externalLinksContainer. OK to use self.scrollView.contentSize as it is set
-    // to self.externalLinksContainer.frame.size in the viewDidLoad
-    // (The rect passed to scrollRectToVisible must have its origin.y be less than self.scrollView.contentSize.height
-    // or it won't scroll, hence the "- 1")
-    [self.scrollView scrollRectToVisible:CGRectMake(0, self.scrollView.contentSize.height - 1, 1, 1) animated:YES];
+    [self hideBrowserContainer];
 }
 
-#pragma mark - Sizing
-
-- (void)adjustHeightOfBrowsersTableView
+-(void)hideBrowserContainer
 {
-    CGRect browsersTableViewFrame = self.browsersTableView.frame;
-    browsersTableViewFrame.size.height = self.browsersTableView.contentSize.height;
-    if (self.browsersTableView.contentSize.height == 0.0f) return;
-    self.browsersTableView.frame = browsersTableViewFrame;
+    if (self.externalBrowserContainer.alpha == 0.0f) return;
+    [self.externalBrowserContainer.superview removeConstraint:self.spaceBetweenBrowserAndLinksContainersConstraint];
+    [self.externalBrowserContainer.superview addConstraint:self.linksAndBrowserContainersTopConstraint];
+    self.externalBrowserContainer.alpha = 0.0f;
 }
 
-
--(void)setScrollViewContentSize
+-(void)showBrowserContainer
 {
-    float settingsContainerHeight = [self.sourceDetailsContainer convertPoint:(CGPoint){0,self.sourceDetailsContainer.frame.size.height} toView:self.settingsContainer].y;
-    
-    CGRect f = self.settingsContainer.frame;
-    f.size = (CGSize){self.settingsContainer.frame.size.width, settingsContainerHeight};
-    self.settingsContainer.frame = f;
-    self.scrollView.contentSize = f.size;
+    if (self.externalBrowserContainer.alpha == 1.0f) return;
+    [self.externalBrowserContainer.superview removeConstraint:self.linksAndBrowserContainersTopConstraint];
+    [self.externalBrowserContainer.superview addConstraint:self.spaceBetweenBrowserAndLinksContainersConstraint];
+    self.externalBrowserContainer.alpha = 1.0f;
 }
 
--(void)resizeBackgroundGradient
-{
-    // Resize the gradient, but make the gradient bigger than the view to eliminate
-    // weird rotation artifact.
-    // Note: since the gradient layer is double the size of the view any "locations"
-    // stops in the gradient will be off by a factor of 2 since only half the layer
-    // will be visible
-    CGRect f = self.view.bounds;
-    f.size.width *= 2;
-    f.size.height *= 2;
-    backgroundGradient_.frame = f;
-}
+#pragma mark - Browser buttons
 
-#pragma mark - Browser selection table view
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+-(void) updateBrowserButtons
 {
-    // Moved the initialization of installedSupportedBrowserNames to "tableView:numberOfRowsInSection:"
-    // because it's former location in "viewWillAppear:" didn't always execute before
-    // "tableView:numberOfRowsInSection:".
-    // See the following for more details: http://stackoverflow.com/a/6391136/135557
- 
-    // Get array of supported browsers which are installed on the device
     installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
 
-    [self moveSelectedBrowserToTop];
+    // For simulator debuggin fake out a couple browsers
+    //[installedSupportedBrowserNames_ addObject:@"Chrome"];
+    //[installedSupportedBrowserNames_ addObject:@"Opera"];
+
+    // Remove any existing browser buttons so this code may be recalled to refresh the buttons
+    for (UIView *button in browserButtons_) {
+        [button removeConstraints:button.constraints];
+        [button removeFromSuperview];
+    }
+    [browserButtons_ removeAllObjects];
     
-    return [installedSupportedBrowserNames_ count];
+    // Make and constrain a button for each browser
+    for (NSString *browserName in installedSupportedBrowserNames_) {
+        UILabelDynamicHeight *button = [[UILabelDynamicHeight alloc] init];
+        button.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self styleButton:button];
+
+        [button setText:browserName];
+        
+        [self setBrowserButtonSelectionIndication:button];
+
+        UITapGestureRecognizer *tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(browserSelected:)];
+        tapRecognizer_.numberOfTapsRequired = 1;
+        tapRecognizer_.enabled = YES;
+        [button addGestureRecognizer:tapRecognizer_];
+
+        [browserButtons_ addObject:button];
+        
+        [self.externalBrowserContainer addSubview:button];
+    }
+    
+    [self constrainBrowserButtons];
+
+    // If only Safari is present don't show the browser chooser. No need.
+    if (browserButtons_.count > 1) {
+        [self showBrowserContainer];
+    }else{
+        [self hideBrowserContainer];
+    }
+}
+
+-(void)constrainBrowserButtons
+{
+    UILabelDynamicHeight *previousButton = nil;
+    for (UILabelDynamicHeight *button in browserButtons_) {
+        // Constrain the button width to 280
+        [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
+                                                        constraintsWithVisualFormat: @"H:[button(==280)]"
+                                                        options:  0
+                                                        metrics:  nil
+                                                        views:    @{@"button" : button}
+                                                        ]];
+        
+        // Constrain the button center to its superview center
+        [self.externalBrowserContainer addConstraint:[NSLayoutConstraint
+                                                      constraintWithItem:button
+                                                      attribute:NSLayoutAttributeCenterX
+                                                      relatedBy:NSLayoutRelationEqual
+                                                      toItem:self.externalBrowserContainer
+                                                      attribute:NSLayoutAttributeCenterX
+                                                      multiplier:1.0
+                                                      constant:0]];
+
+        button.paddingInsets = UIEdgeInsetsMake(
+                                                URL_GRADIENT_BUTTON_PADDING,
+                                                URL_GRADIENT_BUTTON_PADDING,
+                                                URL_GRADIENT_BUTTON_PADDING,
+                                                URL_GRADIENT_BUTTON_PADDING
+                                                );
+
+        // Constrain the vertical space between buttons
+        if (previousButton) {
+            [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
+                                                            constraintsWithVisualFormat: @"V:[previousButton]-[button]"
+                                                            options:  0
+                                                            metrics:  nil
+                                                            views:    @{@"button" : button, @"previousButton" : previousButton}
+                                                            ]];
+        }
+        previousButton = button;
+    }
+    
+    // Constrain the vertical space between the first button and the openInLabel
+    [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
+                                                    constraintsWithVisualFormat: @"V:[openInLabel]-[firstButton]"
+                                                    options:  0
+                                                    metrics:  nil
+                                                    views:    @{@"firstButton" : [browserButtons_ firstObject], @"openInLabel" : self.openInLabel}
+                                                    ]];
+    // Constrain the vertical space between the last button and the superview
+    [self.externalBrowserContainer addConstraints: [NSLayoutConstraint
+                                                    constraintsWithVisualFormat: @"V:[lastButton]-|"
+                                                    options:  0
+                                                    metrics:  nil
+                                                    views:    @{@"lastButton" : [browserButtons_ lastObject]}
+                                                    ]];
+
+}
+
+-(void)browserSelected:(UITapGestureRecognizer *)sender
+{
+    UILabel *tappedButton = (UILabel *)sender.view;
+    app_.defaultExternalBrowser = tappedButton.text;
+    
+    for (UILabelDynamicHeight *button in browserButtons_) {
+        [self setBrowserButtonSelectionIndication:button];
+    }
+}
+
+-(void)setBrowserButtonSelectionIndication:(UILabelDynamicHeight *)button
+{
+    if (
+        [button.text isEqualToString:app_.defaultExternalBrowser]
+        &&
+        ([installedSupportedBrowserNames_ count] > 1))
+    {
+        button.borderView.layer.borderWidth = URL_GRADIENT_BUTTON_BORDER_WIDTH;
+
+    }else{
+        button.borderView.layer.borderWidth = 0.0f;
+    }
 }
 
 - (void)receivedUIApplicationDidBecomeActiveNotification:(NSNotification *)notification
 {
     // Ensure response to UIApplicationDidBecomeActiveNotification's only if this view is visible
     if(self.navigationController.topViewController == self){
-
-        // Update the list of browsers in case the user deleted one while the app was suspended
-        installedSupportedBrowserNames_ = [[browserHelper_ getInstalledSupportedBrowserNames] mutableCopy];
-        
-        [self moveSelectedBrowserToTop];
-              
-        [self.browsersTableView reloadData];
-        
-        [self.view setNeedsLayout];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([cell.textLabel.text isEqualToString:app_.defaultExternalBrowser]) cell.selected = YES;
-    
-    [self moveOpenInLabelBesideSelectedBrowserCell:cell];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *simpleTableIdentifier = @"BrowserTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
-    }
-        
-    // Make the cell use the same font as openInLabel so they look consistent
-    cell.textLabel.font = self.openInLabel.font;
-    
-    // Make the cell display the browser name
-    cell.textLabel.text = [installedSupportedBrowserNames_ objectAtIndex:indexPath.row];
-
-    cell.textLabel.textColor = [UIColor whiteColor];
-    
-    // Round just the top right and bottom right corners of the cell
-    [app_ roundCorners:UIRectCornerTopRight|UIRectCornerBottomRight ofView:cell toRadius:10.0];
-
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *selectedCell = [self.browsersTableView cellForRowAtIndexPath:indexPath];
-    app_.defaultExternalBrowser = selectedCell.textLabel.text;
-    
-    // Ensure previous selection highlighting turns off. Not sure why this is needed...
-    for (UITableViewCell *cell in self.browsersTableView.visibleCells) {
-        if (cell != selectedCell) cell.selected = NO;
-    }
-    
-    [self moveOpenInLabelBesideSelectedBrowserCell:selectedCell];
-
-    // If only Safari is installed and the user taps "Safari" remind them why they're not seeing other browsers
-    if ([installedSupportedBrowserNames_ count] == 1) {
-
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:[MWMessage forKey:@"settings-open-links-only-safari"].text
-                                                            message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:[MWMessage forKey:@"error-dismiss"].text
-                                                  otherButtonTitles:nil];
-        [alertView show];
+        [self updateBrowserButtons];
+        [self.view layoutIfNeeded];
     }
 }
 
@@ -543,29 +640,45 @@
 
 #pragma mark - Logging switch
 
-- (IBAction)loggingSwitchPushed:(id)sender
+- (void)loggingSwitchPushed:(UITapGestureRecognizer *)recognizer
 {
+    id sender = recognizer.view;
+    
+    BOOL sendReports = (sender == self.sendUsageReportsButton) ? YES : NO;
+
     // Log the logging preference change
 	[app_ log:@"MobileAppTrackingChange" event:@{
-     @"state": self.trackingSwitch.on ? @YES : @NO
+     @"state": sendReports ? @YES : @NO
      } override:YES];
-    
+
     // Now set logging according to switch
-    app_.trackingEnabled = self.trackingSwitch.on;
+    app_.trackingEnabled = sendReports;
+    
+    [self updateLoggingButtonSelectionIndicators];
+}
+
+-(void)updateLoggingButtonSelectionIndicators
+{
+    if (app_.trackingEnabled) {
+        self.sendUsageReportsButton.borderView.layer.borderWidth = URL_GRADIENT_BUTTON_BORDER_WIDTH;
+        self.dontSendUsageReportsButton.borderView.layer.borderWidth = 0.0f;
+    }else{
+        self.sendUsageReportsButton.borderView.layer.borderWidth = 0.0f;
+        self.dontSendUsageReportsButton.borderView.layer.borderWidth = URL_GRADIENT_BUTTON_BORDER_WIDTH;
+    }
 }
 
 #pragma mark - External links
 
--(IBAction)openURLinExternalBrowser:(id)sender
+-(void)openURLinExternalBrowser:(UITapGestureRecognizer *)recognizer
 {
     // Detect which button was tapped and open its URL in external browser
+
+    UILabelDynamicHeight *sender = (UILabelDynamicHeight*)recognizer.view;
     
-    // Ensure the button doesn't remain in highlighted state
-    if ([sender isKindOfClass:[UIButton class]]) {
-        [sender setHighlighted:NO];
-    }
-    
-    // Determine the target url based on which button was tapped
+    // Used to debug UILabelDynamicHeight labels
+    //[sender debug];
+    //return;
     
     NSString *urlStr = nil;
     
@@ -605,52 +718,6 @@
     // Open the url in the user's preferred browser
     if (urlStr) [app_ openURLWithDefaultBrowser:[NSURL URLWithString:urlStr]];    
 }
-
--(void)toggleSourceDetailsContainerVisibility
-{
-    CGRect sourceDetailsContainerStoryboardFrame = self.sourceDetailsContainer.frame;
-    
-    // This offset determines how far the details container will be moved up or down during the show or hide
-    float offscreenFrameOffset = 110.0;
-    
-    if(self.sourceDetailsContainer.alpha == 0.0){
-        // If the container is presently hidden, nudge it off the bottom of the screen so the show animation
-        // can slide it back up into place. Nice as it's all relative to the container's storyboard position
-        // so storyboard adjustments won't break the animation as movement is relative
-        self.sourceDetailsContainer.frame = CGRectOffset(self.sourceDetailsContainer.frame, 0.0, offscreenFrameOffset);
-    }
-    
-    [UIView animateWithDuration:0.25
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
-                         if(self.sourceDetailsContainer.alpha == 1.0){
-                             // If container is visible fade out alpha and move it offscreen
-                             self.sourceDetailsContainer.alpha = 0.0;
-                             self.sourceDetailsContainer.frame = CGRectOffset(self.sourceDetailsContainer.frame, 0.0, offscreenFrameOffset);
-                         }else{
-                             // If container is hidden fade in alpha and move it onscreen
-                             self.sourceDetailsContainer.alpha = 1.0;
-                             self.sourceDetailsContainer.frame = sourceDetailsContainerStoryboardFrame;
-                             
-                             // Ensure the newly revealed sourceDetailsContainer is entirely on-screen
-                             [self scrollToBottomOfExternalLinksContainer];
-                         }
-					 }
-					 completion:^(BOOL finished){
-                         // When done with either show or hide put the container back so everything is where it was and
-                         // everything's in a good state for next toggle animation
-                         self.sourceDetailsContainer.frame = sourceDetailsContainerStoryboardFrame;
-					 }];
-}
-
--(IBAction)sourceButtonTap:(id)sender
-{
-    [self.sourceButton setHighlighted:NO];
-    
-    [self toggleSourceDetailsContainerVisibility];
-}
-
 
 #pragma mark - Memory
 

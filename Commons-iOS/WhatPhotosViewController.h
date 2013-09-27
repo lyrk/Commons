@@ -12,5 +12,10 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *educateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *avoidLabel;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *verticalSpaceBetweenLabels;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *verticalSpaceBetweenHalves;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *educateLabelWidth;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *avoidLabelWidth;
 
 @end

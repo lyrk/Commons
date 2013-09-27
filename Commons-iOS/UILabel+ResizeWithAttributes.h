@@ -8,6 +8,6 @@
 
 @interface UILabel (ResizeWithAttributes)
 
--(void)resizeWithAttributes:(NSDictionary *)attributes;
+-(void)resizeWithAttributes:(NSDictionary *)attributes preferredMaxLayoutWidth:(CGFloat)width;
 
 @end

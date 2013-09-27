@@ -14,8 +14,8 @@
 #pragma mark - Defines
 
 // See "setSpacing" method for other layout adjustments
-#define GALLERY_NON_IPAD_IMAGE_BORDER_WIDTH 6.0f
-#define GALLERY_IPAD_IMAGE_BORDER_WIDTH 12.0f
+#define GALLERY_NON_IPAD_IMAGE_BORDER_WIDTH 2.0f
+#define GALLERY_IPAD_IMAGE_BORDER_WIDTH 2.0f
 
 #define GALLERY_ALBUM_BORDER_COLOR [UIColor whiteColor]
 #define GALLERY_SELECTED_ALBUM_BORDER_COLOR [UIColor redColor]
@@ -34,6 +34,7 @@ typedef enum {
     float imageMargin_;
     float imageScale_;
     float cellScale_;
+    NSURL *selectedAlbumGroupURL_;
 }
 
 @property (nonatomic) GalleryMode galleryMode;
@@ -46,6 +47,7 @@ typedef enum {
 
 -(void)setup
 {
+    selectedAlbumGroupURL_ = nil;
     collectionData_ = [[NSMutableArray alloc] init];
     self.galleryMode = GALLERY_SHOW_ALL_ALBUMS;
 
@@ -103,7 +105,7 @@ typedef enum {
     
     // Refresh in case photos/albums changed since the app was suspended
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(returnToAlbums)
+                                             selector:@selector(appWillEnterForeground)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
@@ -133,6 +135,8 @@ typedef enum {
 
 -(void)setSpacing
 {
+    // For info on autolayout with collectionviews, see: http://stackoverflow.com/a/17598033/135557
+
     UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
     
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
@@ -187,14 +191,23 @@ typedef enum {
     thisItem.title = title;
 }
 
+-(void)appWillEnterForeground
+{
+    if (selectedAlbumGroupURL_ != nil) {
+        [self loadCollectionDataForAssetGroupURL:selectedAlbumGroupURL_ then:^{
+            [self setNavBarTitle:collectionData_[0][@"name"]];
+            [self refresh];
+        }];
+    }else{
+        self.galleryMode = GALLERY_SHOW_SINGLE_ALBUM;
+        [self returnToAlbums];
+    }
+}
+
 -(void)refresh
 {
-    [self.collectionView performBatchUpdates:^{
-        [self setSpacing];
-        [self.collectionView deleteSections:[NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, self.collectionView.numberOfSections)]];
-        [self.collectionView insertSections:[NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, collectionData_.count)]];
-    } completion:^(BOOL finished){
-    }];
+    [self setSpacing];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - Gestures
@@ -210,17 +223,19 @@ typedef enum {
 {
     UIImage *image = [collectionData_[indexPath.section][@"assets"] objectAtIndex:indexPath.row][@"thumb"];
     
-    return CGSizeMake((image.size.width * cellScale_) + imageMargin_, (image.size.height * cellScale_) + imageMargin_);
+    return CGSizeMake((image.size.width * cellScale_), (image.size.height * cellScale_));
 }
 
 - (void)returnToAlbums{
         if (self.galleryMode == GALLERY_SHOW_SINGLE_ALBUM) {
             self.galleryMode = GALLERY_SHOW_ALL_ALBUMS;
+            selectedAlbumGroupURL_ = nil;
             [self loadCollectionDataForCoverImagesThen:^{
                 [self setNavBarTitle:[MWMessage forKey:@"gallery-album-title"].text];
                 [self refresh];
             }];
             [self setNavBarBackButtonVisible:NO];
+            [self.collectionView reloadData];
         }
 }
 
@@ -259,22 +274,27 @@ typedef enum {
     return [collectionData_ count];
 }
 
+-(void)addMarginConstraintsToImageView:(UIImageView *)thisImageView
+{
+    void (^constrainImageView)(NSString *) = ^(NSString *vfString){
+        [thisImageView.superview addConstraints:[NSLayoutConstraint
+                                                 constraintsWithVisualFormat: vfString
+                                                 options:  0
+                                                 metrics:  @{@"margin" : @(imageMargin_)}
+                                                 views:    @{@"imageView" : thisImageView}
+                                                 ]];
+    };
+    constrainImageView(@"H:|-margin-[imageView]-margin-|");
+    constrainImageView(@"V:|-margin-[imageView]-margin-|");
+}
+
 -(void)configureCellImageView:(UIImageView *)thisImageView forIndexPath:(NSIndexPath*)indexPath
 {
     // Set the image
     thisImageView.image = [collectionData_[indexPath.section][@"assets"] objectAtIndex:indexPath.row][@"thumb"];
-    
-    // Size the cell imageView to the size of the image it contains
-    CGRect f = thisImageView.frame;
-    CGPoint p = thisImageView.center;
-    f.size.width = thisImageView.image.size.width;
-    f.size.height = thisImageView.image.size.height;
-    
-    f.size.width = f.size.width * imageScale_;
-    f.size.height = f.size.height * imageScale_;
-    
-    thisImageView.frame = f;
-    thisImageView.center = p;
+
+    // Add margin constraints between image view and its cell
+    [self addMarginConstraintsToImageView:thisImageView];
 }
 
 -(void)configureBackgroundForCell:(UICollectionViewCell *)cell havingImageView:(UIImageView *) imageView
@@ -308,8 +328,8 @@ typedef enum {
     // An album cover photo was selected
     if (self.galleryMode == GALLERY_SHOW_ALL_ALBUMS) {
         self.galleryMode = GALLERY_SHOW_SINGLE_ALBUM;
-        NSURL *groupURL = [collectionData_[0][@"assets"] objectAtIndex:indexPath.row][@"url"];
-        [self loadCollectionDataForAssetGroupURL:groupURL then:^{
+        selectedAlbumGroupURL_ = [collectionData_[0][@"assets"] objectAtIndex:indexPath.row][@"url"];
+        [self loadCollectionDataForAssetGroupURL:selectedAlbumGroupURL_ then:^{
             [self setNavBarTitle:collectionData_[0][@"name"]];
             [self refresh];
         }];
@@ -374,8 +394,7 @@ typedef enum {
     void (^groupFail)(NSError *) = ^(NSError *error) {[self showError:error];};
     
     // Enumerate Albums
-    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    [library enumerateGroupsWithTypes: (ALAssetsGroupSavedPhotos | ALAssetsGroupAlbum)
+    [[GalleryMultiSelectCollectionVC defaultAssetsLibrary] enumerateGroupsWithTypes: (ALAssetsGroupSavedPhotos | ALAssetsGroupAlbum)
                            usingBlock: groupEnumerator failureBlock:groupFail];
 }
 
@@ -393,7 +412,7 @@ typedef enum {
         dict[@"url"] = [group valueForProperty:ALAssetsGroupPropertyURL];
         dict[@"assets"] = [[NSMutableArray alloc] init];
         
-        [group enumerateAssetsUsingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop){
+        [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *asset, NSUInteger index, BOOL *stop){
             if (asset == nil){
                 // The asset is nil when the enumeration is finished!
                 [collectionData_ addObject:dict];
@@ -418,9 +437,7 @@ typedef enum {
     // Group retrieval fail block
     void (^groupFail)(NSError *) = ^(NSError *error) {[self showError:error];};
 
-    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-    
-    [library groupForURL:groupURL resultBlock:groupResult failureBlock:groupFail];
+    [[GalleryMultiSelectCollectionVC defaultAssetsLibrary] groupForURL:groupURL resultBlock:groupResult failureBlock:groupFail];
 }
 
 #pragma mark Error
@@ -429,5 +446,18 @@ typedef enum {
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", [error description]] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
 }
+
++ (ALAssetsLibrary *)defaultAssetsLibrary
+{
+    // From: http://www.daveoncode.com/2011/10/15/solve-xcode-error-invalid-attempt-to-access-alassetprivate-past-the-lifetime-of-its-owning-alassetslibrary/
+    
+    static dispatch_once_t once = 0;
+    static ALAssetsLibrary *library = nil;
+    dispatch_once(&once, ^{
+        library = [[ALAssetsLibrary alloc] init];
+    });
+    return library;
+}
+
 
 @end

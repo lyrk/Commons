@@ -27,6 +27,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet WelcomeOverlayView *welcomeOverlayView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *spaceAboveCollectionViewConstraint;
+
 - (IBAction)choosePhotoButtonPushed:(id)sender;
 - (IBAction)takePhotoButtonPushed:(id)sender;
 - (IBAction)addMediaButtonPushed:(id)sender;

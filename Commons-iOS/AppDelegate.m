@@ -19,11 +19,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-
-    // Change the appearance of the nav bar throughout the app
-    [self customizeNavBar];
     
-    //[[UIApplication sharedApplication] setStatusBarStyle: UIStatusBarStyleBlackTranslucent];    
+    [self applyGlobalStyleOverrides];
     
     // Register default default values.
     // See: http://stackoverflow.com/a/5397647/135557
@@ -33,7 +30,11 @@
                                            @"GettingStartedWasAutomaticallyShown": @NO
                                         };
     [[NSUserDefaults standardUserDefaults] registerDefaults:userDefaultsDefaults];
-    
+
+    // Enables Alignment Rect highlighting for debugging
+    //[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"UIViewShowAlignmentRects"];
+    //[[NSUserDefaults standardUserDefaults] synchronize];
+
     // Listen for changes to which view controllers are on the navigation controller stack
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedUINavigationControllerDidShowViewControllerNotification:)
@@ -79,7 +80,22 @@
     return YES;
 }
 
--(void)customizeNavBar
+-(void)applyGlobalStyleOverrides
+{
+    if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) {
+        // Pre iOS 7:
+        // Change the appearance of the nav bar throughout the app
+        // (do not do this for iOS 7 or above)
+        [self preiOS7GlobalNavBarStyleOverrides];
+    }else{
+        // Post iOS 7:
+        // Set the color of the nav bar and other system icons
+        [[UIApplication sharedApplication] delegate].window.tintColor = [UIColor whiteColor];
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+    }
+}
+
+-(void)preiOS7GlobalNavBarStyleOverrides
 {
     // Note: translucent and opaque settings are made in the Navigation Controller storyboard
     // under "User Defined Runtime Attributes"
@@ -152,13 +168,22 @@
                 // cycler which is started in LoginViewController's viewDidLoad method won't be stopped
                 // by it's viewWillDisappear method.
                 [((LoginViewController *)toVc).pictureOfDayCycler stop];
-                
-                // Only skip to MyUploadsViewController if credentials found
-                MyUploadsViewController *myUploadsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
-                [navController pushViewController:myUploadsVC animated:NO];
+
+                // Only skip to MyUploadsViewController if credentials found.
+                // Did so after slight delay as autolayout was having issues (freezing) with doing
+                // "pushViewController:" immediately - strangely even setting the delay to 0.0f
+                // causes the freezing to go away...
+                [self performSelector:@selector(showMyUploads:) withObject:navController afterDelay:0.1f];
             }
         }
     }
+}
+
+-(void)showMyUploads:(UINavigationController *)navController
+{
+    // Only skip to MyUploadsViewController if credentials found
+    MyUploadsViewController *myUploadsVC = [navController.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
+    [navController pushViewController:myUploadsVC animated:YES];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

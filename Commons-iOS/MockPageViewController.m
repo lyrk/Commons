@@ -10,9 +10,12 @@
 #import "GettingStartedConstants.h"
 
 @interface MockPageViewController (){
-    CGRect mockPagePhotoIBFrame_;
     MockPageBackgroundView *backgroundView_;
 }
+
+@property (strong, nonatomic) NSLayoutConstraint *mockPagePhotoOffscreenConstraint;
+@property (strong, nonatomic) NSLayoutConstraint *mockPagePhotoOnscreenConstraint;
+
 @end
 
 @implementation MockPageViewController
@@ -29,7 +32,25 @@
 
 - (void)viewDidLoad
 {
-    mockPagePhotoIBFrame_ = self.mockPagePhoto.frame;
+    // Constraints for hiding/showing mockPagePhoto
+    self.mockPagePhotoOffscreenConstraint = [NSLayoutConstraint constraintWithItem:self.mockPagePhoto
+                                                                         attribute:NSLayoutAttributeLeft
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self.view
+                                                                         attribute:NSLayoutAttributeRight
+                                                                        multiplier:1
+                                                                          constant:24];
+    
+    self.mockPagePhotoOnscreenConstraint = [NSLayoutConstraint constraintWithItem:self.mockPagePhoto
+                                                                        attribute:NSLayoutAttributeRight
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.view
+                                                                        attribute:NSLayoutAttributeRight
+                                                                       multiplier:1
+                                                                         constant:-24];
+    
+    [self.view addConstraint:self.mockPagePhotoOffscreenConstraint];
+    
     backgroundView_ = (MockPageBackgroundView *)self.view;
 
     [super viewDidLoad];
@@ -38,18 +59,45 @@
 }
 
 -(void) revealPhoto
-{    
+{
+    [self.view removeConstraint:self.mockPagePhotoOffscreenConstraint];
+    [self.view addConstraint:self.mockPagePhotoOnscreenConstraint];
+
     [UIView animateWithDuration:0.17f
 						  delay:0.05f
 						options:UIViewAnimationOptionTransitionNone
 					 animations:^{
-                         // Slide the photo in from off-screen right
-                         self.mockPagePhoto.frame = mockPagePhotoIBFrame_;
+
                          // Partial photo fade-in
                          self.mockPagePhoto.alpha = 0.5f;
+                         
+                         // Cause the constraint changes to be animated
+                         [self.view layoutIfNeeded];
 					 }
 					 completion:^(BOOL finished){
-                         [UIView animateWithDuration:0.17f
+
+                         // Make the lines fade out at same rate as the logo
+                         [CATransaction begin];
+                         //match duration to the value of the UIView animateWithDuration: call
+                         [CATransaction setValue:[NSNumber numberWithFloat:0.2f] forKey:kCATransactionAnimationDuration];
+                         CGColorRef color = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
+                         backgroundView_.lineOne.strokeColor = color;
+                         backgroundView_.lineTwo.strokeColor = color;
+                         backgroundView_.lineThree.strokeColor = color;
+                         backgroundView_.lineFour.strokeColor = color;
+                         backgroundView_.lineFive.strokeColor = color;
+                         [CATransaction commit];
+
+                         // Swell the photo
+                         CABasicAnimation *swellMockPagePhoto = [CABasicAnimation animationWithKeyPath:@"transform"];
+                         swellMockPagePhoto.autoreverses = YES;
+                         swellMockPagePhoto.duration = 0.17f;
+                         [swellMockPagePhoto setRemovedOnCompletion:YES];
+                         [swellMockPagePhoto setBeginTime:CACurrentMediaTime() + 0.0f];
+                         swellMockPagePhoto.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.4, 1.4, 1)];
+                         [self.mockPagePhoto.layer addAnimation:swellMockPagePhoto forKey:nil];
+
+                         [UIView animateWithDuration:0.2f
                                                delay:0.01f
                                              options:UIViewAnimationOptionBeginFromCurrentState
                                           animations:^{
@@ -59,34 +107,8 @@
 
                                               // Partial logo fade-out
                                               self.mockPageLogo.alpha = GETTING_STARTED_MOCK_PAGE_ALPHA_LOGO;
-
-                                              // Make the lines fade out at same rate as the logo
-                                              [CATransaction begin];
-                                              //match duration to the value of the UIView animateWithDuration: call
-                                              [CATransaction setValue:[NSNumber numberWithFloat:0.17f] forKey:kCATransactionAnimationDuration];
-
-                                              // It appears the color setting do need to repeat in verbose manner for animation to tween properly... iirc
-                                              backgroundView_.lineOne.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
-                                              backgroundView_.lineTwo.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
-                                              backgroundView_.lineThree.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
-                                              backgroundView_.lineFour.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
-                                              backgroundView_.lineFive.strokeColor = [[UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:GETTING_STARTED_MOCK_PAGE_ALPHA_LINES] CGColor];
-                                              [CATransaction commit];
-                                              
-                                              // Make the photo swell
-                                              self.mockPagePhoto.transform = CGAffineTransformMakeScale(1.4f, 1.4f);
-                                              
                                           }
                                           completion:^(BOOL finished){
-                                              [UIView animateWithDuration:0.17f
-                                                                    delay:0.0f
-                                                                  options:UIViewAnimationOptionTransitionNone
-                                                               animations:^{
-                                                                   // Return the photo to original size
-                                                                   self.mockPagePhoto.transform = CGAffineTransformIdentity;
-                                                               }
-                                                               completion:^(BOOL finished){
-                                                               }];
                                           }];
 					 }];
 }
@@ -94,7 +116,10 @@
 -(void) hidePhoto
 {
     // Move the photo off-screen right
-    self.mockPagePhoto.frame = CGRectOffset(mockPagePhotoIBFrame_, 75.0f, 0.0f);
+    [self.view removeConstraint:self.mockPagePhotoOnscreenConstraint];
+    [self.view addConstraint:self.mockPagePhotoOffscreenConstraint];
+    [self.view layoutIfNeeded];
+
     self.mockPagePhoto.alpha = 0.0f;
 }
 

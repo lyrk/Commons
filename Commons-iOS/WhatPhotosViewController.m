@@ -29,11 +29,14 @@
 
     self.educateLabel.text = [MWMessage forKey:@"getting-started-what-photos-educate-label"].text;
     self.avoidLabel.text = [MWMessage forKey:@"getting-started-what-photos-avoid-label"].text;
-	
-	// Widen the labels for iPad
-	self.educateLabel.frame = CGRectInset(self.educateLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
-	self.avoidLabel.frame = CGRectInset(self.avoidLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
-	
+
+    self.verticalSpaceBetweenLabels.constant = self.view.frame.size.height * GETTING_STARTED_VERTICAL_SPACE_BETWEEN_LABELS;
+    self.verticalSpaceBetweenHalves.constant = self.view.frame.size.height * GETTING_STARTED_VERTICAL_SPACE_BETWEEN_HALVES;
+
+    // Widen the labels for iPad
+    self.educateLabelWidth.constant *= GETTING_STARTED_LABEL_WIDTH_MULTIPLIER;
+    self.avoidLabelWidth.constant *= GETTING_STARTED_LABEL_WIDTH_MULTIPLIER;
+
 	// Style attributes for labels
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	paragraphStyle.alignment = NSTextAlignmentCenter;
@@ -45,17 +48,13 @@
 					   NSFontAttributeName : [UIFont boldSystemFontOfSize:GETTING_STARTED_HEADING_FONT_SIZE],
 			 NSParagraphStyleAttributeName : paragraphStyle,
 			NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
-	 }];
+	 } preferredMaxLayoutWidth:self.educateLabelWidth.constant];
 	
 	[self.avoidLabel resizeWithAttributes: @{
 					 NSFontAttributeName : [UIFont systemFontOfSize:GETTING_STARTED_SUB_HEADING_FONT_SIZE],
 		   NSParagraphStyleAttributeName : paragraphStyle,
 		  NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:0.9f]
-	 }];
-	
-	// Ensure constant spacing around the newly resized labels
-	[self.educateLabel moveBelowView:self.mockBadPhotoContainerView spacing:GETTING_STARTED_SPACE_BELOW_ANIMATION];
-	[self.avoidLabel moveBelowView:self.educateLabel spacing:GETTING_STARTED_SPACE_BELOW_HEADING];
+	 } preferredMaxLayoutWidth:self.avoidLabelWidth.constant];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

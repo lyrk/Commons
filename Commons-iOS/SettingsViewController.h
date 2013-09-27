@@ -6,7 +6,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsViewController : UIViewController <UIActionSheetDelegate, UITableViewDataSource, UITableViewDelegate>
+@class UILabelDynamicHeight;
+
+@interface SettingsViewController : UIViewController <UIActionSheetDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *debugModeLabel;
 @property (weak, nonatomic) IBOutlet UISwitch *debugModeSwitch;
@@ -15,8 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *openInLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *settingsContainer;
-@property (weak, nonatomic) IBOutlet UITableView *browsersTableView;
-@property (weak, nonatomic) IBOutlet UISwitch *trackingSwitch;
 @property (weak, nonatomic) IBOutlet UILabel *trackingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *trackingDetailsLabel;
 @property (weak, nonatomic) IBOutlet UIView *trackingInfoContainer;
@@ -24,17 +24,17 @@
 @property (weak, nonatomic) IBOutlet UILabel *appNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *appVersionLabel;
 
-@property (weak, nonatomic) IBOutlet UIButton *commonsButton;
-@property (weak, nonatomic) IBOutlet UIButton *bugsButton;
-@property (weak, nonatomic) IBOutlet UIButton *privacyButton;
-@property (weak, nonatomic) IBOutlet UIButton *sourceButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *commonsButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *bugsButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *privacyButton;
+@property (weak, nonatomic) IBOutlet UILabel *sourceLabel;
 
-@property (weak, nonatomic) IBOutlet UIButton *thisAppSourceButton;
-@property (weak, nonatomic) IBOutlet UIButton *thisAppLicenseButton;
-@property (weak, nonatomic) IBOutlet UIButton *thisAppContributorsButton ;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *thisAppSourceButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *thisAppLicenseButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *thisAppContributorsButton ;
 
-@property (weak, nonatomic) IBOutlet UIButton *gradientButtonSourceButton;
-@property (weak, nonatomic) IBOutlet UIButton *gradientButtonLicenseButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *gradientButtonSourceButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *gradientButtonLicenseButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *thisAppLabel;
 @property (weak, nonatomic) IBOutlet UILabel *gradientButtonsLabel;
@@ -47,8 +47,13 @@
 
 @property (strong, nonatomic) IBOutlet UIView *mockPageContainerView;
 
--(IBAction)sourceButtonTap:(id)sender;
--(IBAction)openURLinExternalBrowser:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *sendUsageReportsButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *dontSendUsageReportsButton;
+
 -(IBAction)debugSwitchPushed:(id)sender;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *spaceAboveMockPageConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *spaceBetweenDebugAndBrowserContainersConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *spaceBetweenBrowserAndLinksContainersConstraint;
 
 @end

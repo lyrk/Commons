@@ -9,8 +9,8 @@
 
 @interface ImageScrollViewController : UIViewController <UIScrollViewDelegate>
 
-@property (nonatomic, strong) IBOutlet UIScrollView *imageScrollView;
-@property (nonatomic, strong) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) UIScrollView *imageScrollView;
+@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic) float detailsScrollNormal;
 

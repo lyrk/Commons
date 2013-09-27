@@ -21,6 +21,7 @@
 #import "GalleryMultiSelectCollectionVC.h"
 #import "ImageScrollViewController.h"
 #import "AspectFillThumbFetcher.h"
+//#import "UIView+Debugging.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
 #define OPAQUE_VIEW_BACKGROUND_COLOR blackColor
@@ -58,6 +59,7 @@
     self = [super initWithCoder:coder];
     if (self) {
         thumbnailCount_ = 0;
+        self.wantsFullScreenLayout = YES;
     }
     return self;
 }
@@ -65,7 +67,14 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+
+    // Set up refresh
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
+                  forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+    self.refreshControl.hidden = YES;
+
     if (thumbnailCount_ != 0){
         // Ensure welcome message is hidden if the user has images
         [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
@@ -83,6 +92,18 @@
     // self as observer in viewWillDisappear)
     CommonsApp *app = [CommonsApp singleton];
     [app.fetchDataURLQueue addObserver:self forKeyPath:@"operationCount" options:0 context:NULL];
+    
+    // Remove the record if needed. Moved deletions here so they can happen after the
+    // My Uploads is revealed when popping Details after delete tapped. Otherwise
+    // collection view had an autolayout fit.
+    if (app.recordToDelete != nil) {
+        [app deleteUploadRecord:self.selectedRecord];
+        app.recordToDelete = nil;
+    }
+    
+    // Enables jumping straight to Settings page for quick debugging
+    //SettingsViewController *settingsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+    //[self.navigationController pushViewController:settingsVC animated:YES];
 }
 
 - (void)viewDidLoad
@@ -99,14 +120,6 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChange:) name:kReachabilityChangedNotification object:nil];
 
-    // Set up refresh
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
-                  forControlEvents:UIControlEventValueChanged];
-    [self.collectionView addSubview:self.refreshControl];
-
-    // l10n
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
     self.title = [MWMessage forKey:@"contribs-title"].text;
     self.uploadButton.title = [MWMessage forKey:@"contribs-upload-button"].text;
     //self.choosePhotoButton.title = [MWMessage forKey:@"contribs-photo-library-button"].text; // fixme set accessibility title
@@ -141,17 +154,20 @@
     
     buttonAnimationInProgress_ = NO;
 
-    // This view is used to fade out the background when the take and choose photo buttons are revealed
-    opaqueView_ = [[UIView alloc] init];
-    opaqueView_.backgroundColor = [UIColor clearColor];
+    // Opaque view is used to fade out background when take and choose photo buttons are revealed
+    [self setupOpaqueView];
     
     // Make the About and Settings buttons stand out better against light colors
     [LoginViewController applyShadowToView:self.settingsButton];
     [LoginViewController applyShadowToView:self.aboutButton];
-    
-    // Increase hit area of buttons at the bottom of screen
-    [app resizeViewInPlace:self.aboutButton toSize:CGSizeMake(55, 55)];
-    [app resizeViewInPlace:self.settingsButton toSize:CGSizeMake(55, 55)];
+
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        // For iOS 7 turn auto scroll view insets off since we manually add them for ios 6 compatibility
+        // (the inset is added with "setCollectionViewTopInset")
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+
+    //[self.view randomlyColorSubviews];
 }
 
 -(BOOL)hasCamera
@@ -221,16 +237,44 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Opaque view
+
+-(void)setupOpaqueView
+{
+    opaqueView_ = [[UIView alloc] init];
+    opaqueView_.translatesAutoresizingMaskIntoConstraints = NO;
+    opaqueView_.hidden = YES;
+    opaqueView_.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:opaqueView_];
+
+    // Constrain the opaque view to take up the whole screen
+    void (^constrain)(NSString *) = ^(NSString * str){
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:str
+                                                                          options:0
+                                                                          metrics:0
+                                                                            views:NSDictionaryOfVariableBindings(opaqueView_)]];
+    };
+    constrain(@"H:|[opaqueView_]|");
+    constrain(@"V:|[opaqueView_]|");
+}
+
+#pragma mark - Layout
+
 -(void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     
-    // Make sure when the device is rotated that the opaqueView changes dimensions accordingly
-    opaqueView_.frame = self.view.bounds;
-    
+    [self setCollectionViewTopInset];
+
     // UIViews don't have access to self.interfaceOrientation, this gets around that so the
     // welcomeOverlayView can adjust its custom drawing when it needs to
     self.welcomeOverlayView.interfaceOrientation = self.interfaceOrientation;
+}
+
+-(void)setCollectionViewTopInset
+{
+    // Keep the top of the collectionView just below the bottom of the nav bar
+    self.spaceAboveCollectionViewConstraint.constant = self.navigationController.navigationBar.frame.size.height + [[CommonsApp singleton] getStatusBarHeight];
 }
 
 #pragma mark - Thumb Download Prioritization
@@ -513,19 +557,8 @@
     
     MWPromise *refresh = [CommonsApp.singleton refreshHistoryWithFailureAlert:YES];
     
-    // Make refresh control say "Refreshing..."
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refreshing"].text];
     [refresh always:^(id arg) {
         [self.refreshControl endRefreshing];
-        
-        // Wait just a second before switching back to the "Pull to refresh" text so the refresh control has
-        // time to hide itself first. Otherwise it just looks a bit odd to see it flash to the "Pull to
-        // refresh" text just before it hides.
-        int64_t delayInSeconds = 1.0;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-            // Executed on the main queue after delay
-            self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"contribs-refresh"].text];
-        });
         
         // Now that the refresh is done it is known whether there are images, so show the welcome message if needed
         if (thumbnailCount_ == 0) {
@@ -548,26 +581,24 @@
 - (IBAction)settingsButtonPushed:(id)sender {
 	
 	NSLog(@"Settings Button Pushed");
-	
-	[UIView animateWithDuration:0.2
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
 
-						 // Spin and enlarge the settings button briefly up tapping it
-						 self.settingsButton.transform = CGAffineTransformRotate(CGAffineTransformMakeScale(1.8, 1.8), DEGREES_TO_RADIANS(180));
-
-					 }
-					 completion:^(BOOL finished){
-
-						 // Reset the settings button transform
-						 self.settingsButton.transform = CGAffineTransformIdentity;
-						 
-						 // Push the settings view controller on to the nav controller now that the little animation is done
-						 SettingsViewController *settingsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-						 [self.navigationController pushViewController:settingsVC animated:YES];
-
-					 }];
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:0.2f];
+    // Spin and enlarge the settings button briefly up tapping it
+    CABasicAnimation *spinAndEnlargeAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
+    spinAndEnlargeAnimation.fillMode = kCAFillModeForwards;
+    spinAndEnlargeAnimation.autoreverses = YES;
+    spinAndEnlargeAnimation.removedOnCompletion = YES;
+    CATransform3D xf = CATransform3DConcat(CATransform3DMakeRotation(DEGREES_TO_RADIANS(180.0f), 0.0f, 0.0f, 1.0f),
+                                           CATransform3DMakeScale(1.8f, 1.8f, 1.0f));
+    spinAndEnlargeAnimation.toValue = [NSValue valueWithCATransform3D:xf];
+    [CATransaction setCompletionBlock:^{
+        // Push the settings view controller on to the nav controller now that the little animation is done
+        SettingsViewController *settingsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+        [self.navigationController pushViewController:settingsVC animated:YES];
+    }];
+    [self.settingsButton.layer addAnimation:spinAndEnlargeAnimation forKey:nil];
+    [CATransaction commit];
 }
 
 - (IBAction)addMediaButtonPushed:(id)sender {
@@ -592,6 +623,17 @@
 
 - (void)animateTakeAndChoosePhotoButtons {
     
+    CABasicAnimation *(^xfAnimation)(CATransform3D, float, float) = ^(CATransform3D xf, float delay, float duration){
+        CABasicAnimation *a = [CABasicAnimation animationWithKeyPath:@"transform"];
+        a.fillMode = kCAFillModeForwards;
+        a.autoreverses = NO;
+        a.duration = duration;
+        a.removedOnCompletion = NO;
+        [a setBeginTime:CACurrentMediaTime() + delay];
+        a.toValue = [NSValue valueWithCATransform3D:xf];
+        return a;
+    };
+    
     // Animates the take and choose photo buttons from their storyboard location to the location of the add media button
     // and vice-versa.
     
@@ -606,10 +648,6 @@
     
     // Use the visibility of the take photo button as a flag to know whether to hide or show
     if (self.takePhotoButton.hidden) {
-
-        // Make the opaque view appear, presently it's transparent, but its color transition will be animated along with the button location changes below
-        // (also ensure the buttons are on top of the opaque view)
-        [self.view addSubview:opaqueView_];
         [self.view bringSubviewToFront:opaqueView_];
         [self.view bringSubviewToFront:self.takePhotoButton];
         [self.view bringSubviewToFront:self.choosePhotoButton];
@@ -621,10 +659,16 @@
         self.takePhotoButton.center = self.addMediaButton.center;
         self.choosePhotoButton.center = self.addMediaButton.center;
         
-        //make the take and choose buttons twist as they're revealed and hidden
-        self.takePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-90));
-        self.choosePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
-        
+        // Make the take and choose buttons twist as they're revealed and hidden.
+        [self.takePhotoButton.layer addAnimation:
+         xfAnimation(CATransform3DMakeRotation(DEGREES_TO_RADIANS(-90), 0, 0, 1), 0.0f, 0.0f)
+                                          forKey:nil];
+
+        [self.choosePhotoButton.layer addAnimation:
+         xfAnimation(CATransform3DMakeRotation(DEGREES_TO_RADIANS(90), 0, 0, 1), 0.0f, 0.0f)
+                                            forKey:nil];
+
+        opaqueView_.hidden = NO;
         [UIView animateWithDuration:BUTTON_ANIMATION_DURATION
                               delay:0.0
                             options:UIViewAnimationOptionTransitionNone
@@ -636,11 +680,7 @@
                              self.choosePhotoButton.hidden = NO;
                              buttonAnimationInProgress_ = YES;
 
-                             self.addMediaButton.transform = CGAffineTransformMakeScale(0.65f, 0.65f);
                              self.addMediaButton.alpha = 0.25;
-                             
-                             self.takePhotoButton.transform = CGAffineTransformIdentity;
-                             self.choosePhotoButton.transform = CGAffineTransformIdentity;
                              
                              // Also animate the opaque view from transparent to partially opaque
                              [opaqueView_ setAlpha:OPAQUE_VIEW_ALPHA];
@@ -659,6 +699,21 @@
                                  [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_CHOOSE_OR_TAKE];
                              }
                          }];
+        
+        // Shrink the add media button when it's tapped
+        [self.addMediaButton.layer addAnimation:
+            xfAnimation(CATransform3DMakeScale(0.65f, 0.65f, 1.0f), 0.0f, BUTTON_ANIMATION_DURATION)
+                                         forKey:nil];
+        
+        // Reveal the choose button
+        [self.choosePhotoButton.layer addAnimation:
+            xfAnimation(CATransform3DIdentity, 0.0f, BUTTON_ANIMATION_DURATION)
+                                            forKey:nil];
+        
+        // Reveal the take button
+        [self.takePhotoButton.layer addAnimation:
+            xfAnimation(CATransform3DIdentity, 0.0f, BUTTON_ANIMATION_DURATION)
+                                          forKey:nil];
     }else{
         
         // Assuming a user with no images may need a little prompting, show a welcome message
@@ -675,29 +730,38 @@
                              self.choosePhotoButton.center = self.addMediaButton.center;
                              buttonAnimationInProgress_ = YES;
                              
-                             self.addMediaButton.transform = CGAffineTransformIdentity;
                              self.addMediaButton.alpha = 1.0;
                              
                              [opaqueView_ setAlpha:1.0];
                              opaqueView_.backgroundColor = [UIColor clearColor];
-                             
-                             self.takePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-90));
-                             self.choosePhotoButton.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90));
-                             
-                             //make the add media button swell as the take and choose buttons are hidden - almost makes it appear to swallow them
-                             self.addMediaButton.transform = CGAffineTransformMakeScale(1.25, 1.25);
-                             
                          }
                          completion:^(BOOL finished){
                              self.takePhotoButton.hidden = YES;
                              self.choosePhotoButton.hidden = YES;
                              self.takePhotoButton.center = takePhotoButtonOriginalCenter;
                              self.choosePhotoButton.center = choosePhotoButtonOriginalCenter;
-                             self.addMediaButton.transform = CGAffineTransformIdentity;
                              buttonAnimationInProgress_ = NO;
-                             
-                             [opaqueView_ removeFromSuperview];
+                             opaqueView_.hidden = YES;
                          }];
+
+        // Make the add media button swell as the take and choose buttons are hidden.
+        // Almost makes it appear to swallow them.
+        [self.addMediaButton.layer addAnimation:
+            xfAnimation(CATransform3DMakeScale(1.25f, 1.25f, 1.0f), 0.0f, BUTTON_ANIMATION_DURATION)
+                                         forKey:nil];
+
+        [self.addMediaButton.layer addAnimation:
+            xfAnimation(CATransform3DIdentity, BUTTON_ANIMATION_DURATION, 0.0f)
+                                         forKey:nil];
+
+        // Rotate the choose and take photo buttons slightly as they are hidden
+        [self.choosePhotoButton.layer addAnimation:
+            xfAnimation(CATransform3DMakeRotation(DEGREES_TO_RADIANS(90), 0, 0, 1), 0.0f, BUTTON_ANIMATION_DURATION)
+                                            forKey:nil];
+
+        [self.takePhotoButton.layer addAnimation:
+            xfAnimation(CATransform3DMakeRotation(DEGREES_TO_RADIANS(-90), 0, 0, 1), 0.0f, BUTTON_ANIMATION_DURATION)
+                                          forKey:nil];
     }
 }
 
@@ -810,6 +874,11 @@
 
 #pragma mark - UICollectionViewDelegate methods
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    self.refreshControl.hidden = NO;
+}
+
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CommonsApp *app = [CommonsApp singleton];
@@ -895,6 +964,8 @@
 - (void)configureCell:(ImageListCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     CommonsApp *app = CommonsApp.singleton;
     FileUpload *record = (FileUpload *)[app.fetchedResultsController objectAtIndexPath:indexPath];
+
+    [cell constrainSubviews];
     
     //NSString *indexPosition = [NSString stringWithFormat:@"%d", indexPath.item + 1];
     //cell.indexLabel.text = indexPosition;
@@ -1045,6 +1116,8 @@
     // Ensure cells are redrawn to account for the orientatiton change
     // Not sure why invalidateLayout doesn't completely take care of this
     //[self.collectionView reloadItemsAtIndexPaths:self.collectionView.indexPathsForVisibleItems];
+
+    [self setCollectionViewTopInset];
     
     // Update the lines for the new orientation
     [self.welcomeOverlayView animateLines];

@@ -29,10 +29,11 @@
 {
     [strikeForegroundLine_ removeFromSuperlayer];
     [strikeBackgroundLine_ removeFromSuperlayer];
-    self.mockBadPhoto.transform = CGAffineTransformIdentity;
-    self.mockBadPhotoBackground.transform = CGAffineTransformIdentity;
-    self.blendBacking.transform = CGAffineTransformIdentity;
-    self.blendMiddle.transform = CGAffineTransformIdentity;
+    
+    [self.mockBadPhoto.layer removeAllAnimations];
+    [self.mockBadPhotoBackground.layer removeAllAnimations];
+    [self.blendBacking.layer removeAllAnimations];
+    [self.blendMiddle.layer removeAllAnimations];
 }
 
 -(void)viewWillLayoutSubviews
@@ -91,19 +92,29 @@
     drawLerpLine(strikeBackgroundLine_, GETTING_STARTED_BG_COLOR, 13.0f);
     drawLerpLine(strikeForegroundLine_, [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0], 4.0f);
     
-    [UIView animateWithDuration:0.33
-						  delay:0.0
-						options:UIViewAnimationOptionTransitionNone
-					 animations:^{
-                         CGAffineTransform xf = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-10.0f));
-                         self.mockBadPhotoBackground.transform = CGAffineTransformTranslate(xf, -10.0f, -23.0f);
-                         self.mockBadPhotoBackground.alpha = GETTING_STARTED_MOCK_BAD_PHOTO_ALPHA_BACK;
-                         self.mockBadPhoto.transform = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(7.0f));
-                         self.blendBacking.transform = self.mockBadPhoto.transform;
-                         self.blendMiddle.transform = self.mockBadPhoto.transform;
-					 }
-					 completion:^(BOOL finished){
-					 }];
+    CABasicAnimation *(^animatePathToValue)(NSString *, NSValue *) = ^(NSString *path, NSValue *toValue){
+        CABasicAnimation *a = [CABasicAnimation animationWithKeyPath:path];
+        a.fillMode = kCAFillModeForwards;
+        a.autoreverses = NO;
+        a.duration = 0.33f;
+        a.removedOnCompletion = NO;
+        [a setBeginTime:CACurrentMediaTime()];
+        a.toValue = toValue;
+        return a;
+    };
+    
+    [self.mockBadPhotoBackground.layer addAnimation:animatePathToValue(@"opacity", @GETTING_STARTED_MOCK_BAD_PHOTO_ALPHA_BACK) forKey:nil];
+    
+    CATransform3D xf = CATransform3DConcat(
+                                           CATransform3DMakeRotation(DEGREES_TO_RADIANS(-10.0f), 0, 0, 1),
+                                           CATransform3DMakeTranslation(-10.0f, -23.0f, 0)
+                                           );
+    [self.mockBadPhotoBackground.layer addAnimation:animatePathToValue(@"transform", [NSValue valueWithCATransform3D:xf]) forKey:nil];
+    
+    xf = CATransform3DMakeRotation(DEGREES_TO_RADIANS(7.0f), 0, 0, 1);
+    [self.mockBadPhoto.layer addAnimation:animatePathToValue(@"transform", [NSValue valueWithCATransform3D:xf]) forKey:nil];
+    [self.blendBacking.layer addAnimation:animatePathToValue(@"transform", [NSValue valueWithCATransform3D:xf]) forKey:nil];
+    [self.blendMiddle.layer addAnimation:animatePathToValue(@"transform", [NSValue valueWithCATransform3D:xf]) forKey:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated

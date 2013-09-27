@@ -29,33 +29,32 @@
 	
     self.contributeLabel.text = [MWMessage forKey:@"getting-started-what-is-commons-contribute-label"].text;
     self.imagesLabel.text = [MWMessage forKey:@"getting-started-what-is-commons-images-label"].text;
-	
-	// Widen the labels for iPad
-	self.contributeLabel.frame = CGRectInset(self.contributeLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
-	self.imagesLabel.frame = CGRectInset(self.imagesLabel.frame, GETTING_STARTED_LABEL_INSET, 0.0f);
-	
+
+    self.verticalSpaceBetweenLabels.constant = self.view.frame.size.height * GETTING_STARTED_VERTICAL_SPACE_BETWEEN_LABELS;
+    self.verticalSpaceBetweenHalves.constant = self.view.frame.size.height * GETTING_STARTED_VERTICAL_SPACE_BETWEEN_HALVES;
+
+    // Widen the labels for iPad
+    self.contributeLabelWidth.constant *= GETTING_STARTED_LABEL_WIDTH_MULTIPLIER;
+    self.imagesLabelWidth.constant *= GETTING_STARTED_LABEL_WIDTH_MULTIPLIER;
+
 	// Style attributes for labels
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	paragraphStyle.alignment = NSTextAlignmentCenter;
 	paragraphStyle.lineSpacing = GETTING_STARTED_LABEL_LINE_SPACING;
 	paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
 	
-	// Apply styled attributes to label resizing it to fit the newly styled text (regardless of i18n string length!)
-	[self.contributeLabel resizeWithAttributes: @{
+    // Apply styled attributes to label resizing it to fit the newly styled text (regardless of i18n string length!)
+    [self.contributeLabel resizeWithAttributes: @{
 						  NSFontAttributeName : [UIFont boldSystemFontOfSize:GETTING_STARTED_HEADING_FONT_SIZE],
 				NSParagraphStyleAttributeName : paragraphStyle,
 			   NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
-	 }];
-	
+	 } preferredMaxLayoutWidth:self.contributeLabelWidth.constant];
+
 	[self.imagesLabel resizeWithAttributes: @{
 					  NSFontAttributeName : [UIFont systemFontOfSize:GETTING_STARTED_SUB_HEADING_FONT_SIZE],
 			NSParagraphStyleAttributeName : paragraphStyle,
 		   NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:0.9f]
-	 }];
-	
-	// Ensure constant spacing around the newly resized labels
-	[self.contributeLabel moveBelowView:self.mockPageContainerView spacing:GETTING_STARTED_SPACE_BELOW_ANIMATION];
-	[self.imagesLabel moveBelowView:self.contributeLabel spacing:GETTING_STARTED_SPACE_BELOW_HEADING];
+	 } preferredMaxLayoutWidth:self.imagesLabelWidth.constant];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

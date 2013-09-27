@@ -34,6 +34,7 @@
 
 @property (strong, nonatomic) NSOperationQueue *fetchDataURLQueue;
 @property (strong, nonatomic) SpeedGovernor *speedGovernor;
+@property (strong, nonatomic) FileUpload *recordToDelete;
 
 + (CommonsApp *)singleton;
 
@@ -89,7 +90,6 @@
 - (NSString *)getTrimmedString:(NSString *)string;
 
 - (void)clearKeychainCredentials;
-- (void)resizeViewInPlace:(UIView *)view toSize:(CGSize)size;
 
 - (float)getStatusBarHeight;
 

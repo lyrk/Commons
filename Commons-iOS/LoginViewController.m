@@ -20,14 +20,7 @@
 #import "PictureOfTheDayImageView.h"
 #import "UILabel+ResizeWithAttributes.h"
 #import "PictureOfDayCycler.h"
-
-struct WMDeviceOrientationOffsets {
-  CGFloat nonIpadPortrait;
-  CGFloat nonIpadLandscape;
-  CGFloat ipadPortrait;
-  CGFloat ipadLandscape;
-};
-typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
+#import "UIView+Debugging.h"
 
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
@@ -53,12 +46,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 // Note: use iPad to retrieve potd image cache files to be bundled
 #define FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE nil //@"2013-05-24"
 
-// Convenience flag for re-taking splash image screen shots with the logo in the exact
-// position and at the exact size it will initially appear once the application
-// starts. (setting this to YES doesn't actually take the screenshots, it just
-// freezes the app once the logo is in position)
-#define FREEZE_FOR_TAKING_SPLASH_SCREENSHOT NO
-
 @interface LoginViewController ()
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
@@ -69,6 +56,11 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 @property (strong, nonatomic) NSString *pictureOfTheDayLicense;
 @property (strong, nonatomic) NSString *pictureOfTheDayLicenseUrl;
 @property (strong, nonatomic) NSString *pictureOfTheDayWikiUrl;
+@property (strong, nonatomic) UILabel *attributionLabel;
+@property (strong, nonatomic) UIView *attributionLabelBackground;
+@property (strong, nonatomic) NSArray *attributionLabelOffscreenConstraints;
+@property (strong, nonatomic) NSArray *attributionLabelOnscreenConstraints;
+@property (strong, nonatomic) NSArray *logoImageViewKeyboardOnscreenConstraints;
 
 - (void)showMyUploadsVC;
 
@@ -99,6 +91,8 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 {
     if (self = [super initWithCoder:decoder])
     {
+        self.wantsFullScreenLayout = YES;
+
         allowSkippingToMyUploads_ = YES;
         pictureOfTheDayGetter_ = [[AspectFillThumbFetcher alloc] init];
         self.pictureOfTheDayUser = nil;
@@ -116,6 +110,20 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
         self.pictureOfDayCycler.dateStrings = cachedPotdDateStrings_;
         self.pictureOfDayCycler.transitionDuration = SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY;
         self.pictureOfDayCycler.displayInterval = SECONDS_TO_SHOW_EACH_PIC_OF_DAY;
+
+        // Create attributionLabel
+        self.attributionLabel = [[UILabel alloc] init];
+        self.attributionLabel.backgroundColor = [UIColor clearColor];
+        self.attributionLabel.hidden = YES;
+        self.attributionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        // Create background view to appear behind attributionLabel
+        // (easy way to add padding around the attribution text)
+        self.attributionLabelBackground = [[UIView alloc] init];
+        self.attributionLabelBackground.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.15f];;
+        self.attributionLabelBackground.hidden = YES;
+        self.attributionLabelBackground.layer.cornerRadius = 10.0f;
+        self.attributionLabelBackground.translatesAutoresizingMaskIntoConstraints = NO;
     }
     return self;
 }
@@ -213,12 +221,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
         // (loads the copy of the bundled default potd which was copied to the cache)
         [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
     }
-    
-    // Make logo a bit larger on iPad
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad){
-        _logoImageView.frame = CGRectInset(_logoImageView.frame, -75.0f, -75.0f);
-    }
-    
+
     _logoImageView.alpha = 1.0f;
     _usernameField.alpha = 1.0f;
     _passwordField.alpha = 1.0f;
@@ -261,10 +264,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
         }];
     };
 
-    // Increase hit area of buttons at the bottom of screen
-    [app resizeViewInPlace:self.aboutButton toSize:CGSizeMake(55, 55)];
-    [app resizeViewInPlace:self.attributionButton toSize:CGSizeMake(55, 55)];
-
     // Round username and pwd box corners
     [app roundCorners:UIRectCornerTopLeft|UIRectCornerTopRight ofView:self.usernameField toRadius:10.0];
 	[app roundCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight ofView:self.passwordField toRadius:10.0];
@@ -276,6 +275,22 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     // Observe changes to username and pwd box text so placeholder text can be updated
     [self.usernameField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
     [self.passwordField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+
+    // Prepare the attributionLabel
+    [self.view addSubview:self.attributionLabelBackground];
+    [self.view addSubview:self.attributionLabel];
+    
+    // Setup constraints to control attributionLabel layout
+    [self setupAttributionLabelConstraints];
+    
+    // Hide the logo when the keyboard is visible
+    self.logoImageViewKeyboardOnscreenConstraints = [NSLayoutConstraint
+                                                     constraintsWithVisualFormat: @"V:[logoImageView(0)]"
+                                                     options:  0
+                                                     metrics:  0
+                                                     views:    @{@"logoImageView" : self.logoImageView}
+                                                     ];
+    //[self.view randomlyColorSubviews];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -370,15 +385,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     // Automatically show the getting started pages, but only once and only if no credentials present
     [self performSelector:@selector(showGettingStartedAutomaticallyOnce) withObject:nil afterDelay:2.0f];
     
-    if (FREEZE_FOR_TAKING_SPLASH_SCREENSHOT) {
-        self.loginInfoContainer.alpha = 0.0f;
-        [self.pictureOfDayCycler stop];
-        self.potdImageView.image = nil;
-        self.potdImageView.backgroundColor = [UIColor blackColor];
-        self.aboutButton.alpha = 0.0f;
-        self.attributionButton.alpha = 0.0f;
-    }
-
     [super viewDidAppear:animated];
 }
 
@@ -671,100 +677,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 -(void)viewWillLayoutSubviews{
 
     [super viewWillLayoutSubviews];
-
-    WMDeviceOrientationOffsets scaleSettings = (WMDeviceOrientationOffsets){1.0f, 0.53, 1.0f, 0.83};
-    static BOOL isFirstTime = YES;
-    if (isFirstTime) {
-        isFirstTime = NO;
-        
-        // This is the logo location to use for taking splash screen screenshots
-        // (set FREEZE_FOR_TAKING_SPLASH_SCREENSHOT to YES to do so) and is the initial location
-        // the actual logo. Only change this location if you intend to re-take the
-        // splash image screenshots, otherwise the logo and splash images won't be
-        // in the same location.
-        _logoImageView.center = CGPointMake(self.view.center.x, self.view.center.y - 25.0f);
-
-        self.loginInfoContainer.alpha = 0.0f;
-        self.aboutButton.alpha = 0.0f;
-        self.attributionButton.alpha = 0.0f;
-        float scale = [self getOffsetForDeviceAndOrientation:scaleSettings];
-        _logoImageView.transform = CGAffineTransformMakeScale(scale, scale);
-        
-        if (FREEZE_FOR_TAKING_SPLASH_SCREENSHOT) return;
-
-        self.potdImageView.alpha = 0.0f;
-        self.view.backgroundColor = [UIColor blackColor];
-        [UIView animateWithDuration:1.2f
-                              delay:0.0
-                            options:UIViewAnimationOptionBeginFromCurrentState
-                         animations:^{
-                             self.potdImageView.alpha = 1.0f;
-                         }
-                         completion:^(BOOL finished){
-                             // setNeedsLayout will cause viewWillLayoutSubviews to be called again, but isFirstTime will no longer
-                             // be YES, so this if statement will be skipped
-                             [self.view setNeedsLayout];
-                         }];
-        return;
-    }
-
-    if (showingPictureOfTheDayAttribution_) {
-        [self updateAttributionLabelFrame];
-    }
-
-    _loginInfoContainer.layer.borderWidth = 0.0f;
-    _logoImageView.layer.borderWidth = 0.0f;
-    
-    // Match durations with the built-in rotation animation durations (about 0.4f for the iPad and 0.3f for non iPads)
-    // If not rotating just use a quick duration of about 0.2f
-    float duration = (isRotating_) ? (
-                                      (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 0.4f : 0.3f
-                                      ) : 0.2f;
-    
-    [UIView animateWithDuration:duration
-                          delay:0.0
-                        options:UIViewAnimationOptionBeginFromCurrentState
-                     animations:^{
-
-                         // Position the logo a percentage of the way down the screen
-                         float logoFromTop = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.3125f, 0.2325f, 0.3846f, 0.333}];
-                         _logoImageView.center = CGPointMake(self.view.center.x, self.view.frame.size.height * logoFromTop);
-
-                         self.loginInfoContainer.alpha = 1.0f;
-                         self.aboutButton.alpha = 1.0f;
-                         self.attributionButton.alpha = 1.0f;
-
-                         // Adjust logo size
-                         float scale = [self getOffsetForDeviceAndOrientation:scaleSettings];
-
-                         // Zoom in on the logo a bit if the keyboard is showing
-                         if (isKeyboardOnscreen_) {
-                             scale *= (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 1.5f : 1.2f;
-                             _logoImageView.alpha = 0.08;
-                             
-                         }else{
-                             _logoImageView.alpha = 1.0;
-                         }
-                         
-                         _logoImageView.transform = CGAffineTransformMakeScale(scale, scale);
-                         
-                         // Adjust the location of the _loginInfoContainer
-                         CGPoint newContainerCenter = CGPointZero;
-                         if (!isKeyboardOnscreen_) {
-                             float ySpacer = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){41.0f, 9.0f, 125.0f, 95.0f}];
-                             float yOffset = (_logoImageView.frame.size.height / 2.0f);
-                             yOffset += (_loginInfoContainer.frame.size.height / 2.0f);
-                             yOffset += ySpacer;
-                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
-                         }else{
-                             float yOffset = [self getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets){0.0f, 17.0f, 0.0f, -40.0f}];
-                             newContainerCenter = CGPointMake(_logoImageView.center.x, _logoImageView.center.y + yOffset);
-                         }
-
-                         _loginInfoContainer.center = newContainerCenter;
-                     }
-                     completion:^(BOOL finished){
-                     }];
 }
 
 #pragma mark - Rotation
@@ -788,17 +700,6 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 -(NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskAll;
-}
-
--(float)getOffsetForDeviceAndOrientation:(WMDeviceOrientationOffsets)offsets
-{
-    float result = 0.0f;
-    if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation)){
-        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadLandscape : offsets.nonIpadLandscape;
-    }else{
-        result = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? offsets.ipadPortrait : offsets.nonIpadPortrait;
-    }
-    return result;
 }
 
 #pragma mark - Pic of Day
@@ -898,37 +799,36 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                                     options: UIViewAnimationCurveLinear
                                  animations:^{
                                      weakSelf.attributionLabel.alpha = 0.0f;
+                                     weakSelf.attributionLabelBackground.alpha = 0.0f;
                                  }
                                  completion:^(BOOL finished){
                                      // Update the attribution text
                                      [weakSelf updateAttributionLabelText];
-                                     // Make the attribution label encompass the new attribution text
-                                     [weakSelf updateAttributionLabelFrame];
 
                                      //Now show the updated attribution box
                                      [UIView animateWithDuration:self.pictureOfDayCycler.transitionDuration / 3.0
                                                            delay:0.0
                                                          options: UIViewAnimationCurveLinear
                                                       animations:^{
+                                                          weakSelf.attributionLabelBackground.alpha = 1.0f;
                                                           weakSelf.attributionLabel.alpha = 1.0f;
                                                       }
                                                       completion:^(BOOL finished){
                                                       }];
                                  }];
 
-                // Transistion the picture of the day
+                // Cross-fade between pictures of the day
                 [CATransaction begin];
-                CABasicAnimation *crossFade = [CABasicAnimation animationWithKeyPath:@"contents"];
+                CATransition *crossFade = [CATransition animation];
+                crossFade.type = kCATransitionFade;
                 crossFade.duration = self.pictureOfDayCycler.transitionDuration;
-                crossFade.fromValue = (id)weakPotdImageView.image.CGImage;
-                crossFade.toValue = (id)image.CGImage;
+                crossFade.removedOnCompletion = YES;
                 [CATransaction setCompletionBlock:^{
                     if(done) done();
-                    [weakPotdImageView.layer removeAnimationForKey:@"animateContents"];
                 }];
-                [weakPotdImageView.layer addAnimation:crossFade forKey:@"animateContents"];
+                [[weakPotdImageView layer] addAnimation:crossFade forKey:@"Fade"];
                 [CATransaction commit];
-                
+
                 weakPotdImageView.image = image;
             }
         }
@@ -981,14 +881,23 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
         picOfTheDayLicenseName = [MWMessage forKey:@"picture-of-day-tap-for-license"].text;
     }
 
-    self.attributionLabel.text = [NSString stringWithFormat:
-                                  @"%@\n%@\n%@ %@\n%@",
-                                  picOfTheDayText,
-                                  prettyDateString,
-                                  picOfTheAuthorText,
-                                  self.pictureOfTheDayUser,
-                                  picOfTheDayLicenseName
-                                  ];
+    float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 30.0f : 15.0f;
+    float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 16.0f : 8.0f;
+
+    // Style attributes for labels
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+    paragraphStyle.paragraphSpacing = lineSpacing;
+    //paragraphStyle.lineSpacing = lineSpacing;
+
+    NSString *attributeString = [NSString stringWithFormat:@"%@\n%@\n%@ %@\n%@", picOfTheDayText, prettyDateString, picOfTheAuthorText, self.pictureOfTheDayUser, picOfTheDayLicenseName];
+
+    self.attributionLabel.attributedText = [[NSAttributedString alloc] initWithString:attributeString attributes: @{
+            NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
+            NSParagraphStyleAttributeName : paragraphStyle,
+            NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
+    }];
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -998,6 +907,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
         // On non-iPad the cancel button dismisses the action sheet
         self.attributionLabel.alpha = 1.0f;
         self.attributionButton.alpha = 1.0f;
+        self.attributionLabelBackground.alpha = 1.0f;
         return;
     }
 
@@ -1038,44 +948,8 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     [actionSheet showInView:self.view];
     [self.pictureOfDayCycler stop];
     self.attributionLabel.alpha = 0.0f;
+    self.attributionLabelBackground.alpha = 0.0f;
     self.attributionButton.alpha = 0.0f;
-}
-
--(void)updateAttributionLabelFrame
-{
-    // Set initial dimensions (the "resizeWithAttributes:" method will then shrink this if necessary)
-    CGPoint p = self.attributionLabel.center;
-    CGRect f = self.attributionLabel.frame;
-    f.size = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? CGSizeMake(410.0f, 375.0f) : CGSizeMake(175.0f, 175.0f);
-    self.attributionLabel.frame = f;
-    self.attributionLabel.center = p;
-
-    // Ensure the label encompasses its text perfectly
-    float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 38.0f : 15.0f;
-    float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 16.0f : 8.0f;
-    float backgroundPadding =   (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 30.0f : 10.0f;
-    float bottomMargin =        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 27.0f : 16.0f;
-    
-    // Style attributes for labels
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.alignment = NSTextAlignmentCenter;
-    paragraphStyle.lineSpacing = lineSpacing;
-    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    
-    // Apply styled attributes to label resizing it to fit the newly styled text (regardless of i18n string length!)
-    [self.attributionLabel resizeWithAttributes: @{
-                           NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
-                 NSParagraphStyleAttributeName : paragraphStyle,
-                NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
-     }];
-    // Reposition the resized label to be just above the bottom of the screen
-    self.attributionLabel.frame = CGRectInset(self.attributionLabel.frame, -backgroundPadding, -backgroundPadding);
-    self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x,
-                                               self.view.frame.size.height -
-                                               (self.attributionLabel.frame.size.height / 2.0f) -
-                                               bottomMargin
-                                               );
-    
 }
 
 -(void)showAttributionLabel
@@ -1083,15 +957,14 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     showingPictureOfTheDayAttribution_ = YES;
 
     [self updateAttributionLabelText];
-    
-    [self updateAttributionLabelFrame];
-    
+
     self.attributionLabel.hidden = NO;
-    CGPoint prevCenter = self.attributionLabel.center;
-    
-    // Move attributionLabel off the bottom of the screen
-    self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x, self.attributionLabel.center.y + (self.view.frame.size.height - self.attributionLabel.frame.origin.y));
-    
+    self.attributionLabelBackground.hidden = NO;
+
+    // Move the attribution label onscreen
+    [self.view removeConstraints:self.attributionLabelOffscreenConstraints];
+    [self.view addConstraints:self.attributionLabelOnscreenConstraints];
+
     [UIView animateWithDuration:0.2f
                           delay:0.0f
                         options:UIViewAnimationOptionTransitionNone
@@ -1099,9 +972,8 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                          self.logoImageView.alpha = 0.0f;
                          self.loginInfoContainer.alpha = 0.0f;
                          self.aboutButton.alpha = 0.0f;
-                         
-                         // Move attributionLabel back
-                         self.attributionLabel.center = prevCenter;
+                         // Cause the constraint changes to be animated
+                         [self.view layoutIfNeeded];
                      }
                      completion:^(BOOL finished){
                          self.logoImageView.hidden = YES;
@@ -1110,13 +982,7 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                      }];
     
     // Apply shadow to text (label is transparent now)
-    [LoginViewController applyShadowToView:self.attributionLabel];
-    
-    self.attributionLabel.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.15f];
-    
-    // Round label corners
-    self.attributionLabel.layer.cornerRadius = 10.0f;
-    self.attributionLabel.layer.masksToBounds = YES;
+    [LoginViewController applyShadowToView:self.attributionLabel];    
 }
 
 -(void)hideAttributionLabel
@@ -1126,8 +992,10 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
     self.logoImageView.hidden = NO;
     self.loginInfoContainer.hidden = NO;
     self.aboutButton.hidden = NO;
-    
-    CGPoint prevCenter = self.attributionLabel.center;
+
+    [self.view removeConstraints:self.attributionLabelOnscreenConstraints];
+    [self.view addConstraints:self.attributionLabelOffscreenConstraints];
+
     [UIView animateWithDuration:0.2f
                           delay:0.0f
                         options:UIViewAnimationOptionTransitionNone
@@ -1135,14 +1003,101 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
                          self.logoImageView.alpha = 1.0f;
                          self.loginInfoContainer.alpha = 1.0f;
                          self.aboutButton.alpha = 1.0f;
-                         // Move attributionLabel off the bottom of the screen
-                         self.attributionLabel.center = CGPointMake(self.attributionLabel.center.x, self.attributionLabel.center.y + (self.view.frame.size.height - self.attributionLabel.frame.origin.y));
+                         // Cause the constraint changes to be animated
+                         [self.view layoutIfNeeded];
                      }
                      completion:^(BOOL finished){
                          self.attributionLabel.hidden = YES;
-                         // Move attributionLabel back
-                         self.attributionLabel.center = prevCenter;
+                         self.attributionLabelBackground.hidden = YES;
                      }];
+}
+
+-(void)makeAttributionLabelHugText
+{
+    // Make label hug its text: http://stackoverflow.com/a/16009707
+    // Expands vertically as necessary
+    CGSize attributionLabelSize = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? CGSizeMake(360.0f, 375.0f) : CGSizeMake(175.0f, 175.0f);
+    NSDictionary *metrics = @{@"width" : @(attributionLabelSize.width)};
+    
+    self.attributionLabel.numberOfLines = 0;
+    self.attributionLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.attributionLabel.preferredMaxLayoutWidth = attributionLabelSize.width;
+    
+    [self.attributionLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    [self.attributionLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+    
+    NSArray* constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[_attributionLabel(width)]" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(_attributionLabel)];
+    [self.view addConstraints:constraints];
+    
+    [self.attributionLabel addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_attributionLabel(220@300)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_attributionLabel)]];
+}
+
+-(void)setupAttributionLabelConstraints
+{
+    // Make attribution label be just a bit bigger than the text it displays
+    [self makeAttributionLabelHugText];
+    
+    // Center the attribution label
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabel
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1
+                                                           constant:0]];
+    
+    // Create constraint for hiding the attributionLabel below self.view
+    self.attributionLabelOffscreenConstraints = [NSLayoutConstraint
+                                                 constraintsWithVisualFormat: @"V:[view]-margin-[attributionLabel]"
+                                                 options:  0
+                                                 metrics:  @{@"margin" : @(15)}
+                                                 views:    @{@"view" : self.view, @"attributionLabel" : self.attributionLabel}
+                                                 ];
+    
+    // Create constraint for placing attributionLabel just above the bottom of self.view
+    self.attributionLabelOnscreenConstraints = [NSLayoutConstraint
+                                                constraintsWithVisualFormat: @"V:[attributionLabel]-margin-|"
+                                                options:  NSLayoutFormatAlignAllBottom
+                                                metrics:  @{@"margin" : @((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 30 : 17)}
+                                                views:    @{@"attributionLabel" : self.attributionLabel}
+                                                ];
+    
+    // Initially use the constraint which hides the attributionLabel
+    [self.view addConstraints:self.attributionLabelOffscreenConstraints];
+    
+    // Size attributionLabelBackground to match attributionLabel plus margin
+    float margin = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 10 : 5;
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabelBackground
+                                                          attribute:NSLayoutAttributeLeft
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.attributionLabel
+                                                          attribute:NSLayoutAttributeLeft
+                                                         multiplier:1
+                                                           constant:-margin]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabelBackground
+                                                          attribute:NSLayoutAttributeRight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.attributionLabel
+                                                          attribute:NSLayoutAttributeRight
+                                                         multiplier:1
+                                                           constant:margin]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabelBackground
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.attributionLabel
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1
+                                                           constant:-margin]];
+    
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabelBackground
+                                                          attribute:NSLayoutAttributeBottom
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.attributionLabel
+                                                          attribute:NSLayoutAttributeBottom
+                                                         multiplier:1
+                                                           constant:margin]];
 }
 
 #pragma mark - Keyboard
@@ -1151,16 +1106,63 @@ typedef struct WMDeviceOrientationOffsets WMDeviceOrientationOffsets;
 {
     [self showPlaceHolderTextIfNecessary];
 
+    self.recoverPasswordButton.hidden = YES;
+    self.recoverPasswordButtonHeightConstraint.constant = 0.0f;
+
+    // Shrink the logo
+    [self.view addConstraints:self.logoImageViewKeyboardOnscreenConstraints];
+    
+    // Move the bottom spacer's bottom up to the top of the keyboard
+    NSDictionary *info = [notification userInfo];
+    CGRect keyboardWindowRect = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardViewRect = [self.view convertRect:keyboardWindowRect fromView:nil];
+    self.bottomSpacerViewToScreenBottomConstraint.constant = keyboardViewRect.size.height;
+
     isKeyboardOnscreen_ = YES;
-    [self.view setNeedsLayout];
+
+    if (isRotating_) {
+        [self.view layoutIfNeeded];
+    }else{
+        [UIView animateWithDuration:0.2f
+                              delay:0.0f
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             // Cause the constraint changes to be animated
+                             [self.view layoutIfNeeded];
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     [self showPlaceHolderTextIfNecessary];
 
+    // Reset the image logo size
+    [self.view removeConstraints:self.logoImageViewKeyboardOnscreenConstraints];
+    // Move the bottom spacer's bottom back to the bottom of the screen
+    
+    self.bottomSpacerViewToScreenBottomConstraint.constant = 0;
+    self.recoverPasswordButton.hidden = NO;
+    self.recoverPasswordButtonHeightConstraint.constant = 30.0f;
+    
     isKeyboardOnscreen_ = NO;
-    [self.view setNeedsLayout];
+    
+    if (isRotating_) {
+        [self.view layoutIfNeeded];
+    }else{
+        [UIView animateWithDuration:0.2f
+                              delay:0.0f
+                            options:UIViewAnimationOptionTransitionNone
+                         animations:^{
+                             // Cause the constraint changes to be animated
+                             [self.view layoutIfNeeded];
+                         }
+                         completion:^(BOOL finished){
+                         }];
+    }
+
     doubleTapRecognizer_.enabled = NO;
 }
 

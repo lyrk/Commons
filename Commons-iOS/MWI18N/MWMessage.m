@@ -73,6 +73,18 @@
 - (NSString *)text
 {
     NSString *msg = [self fetchMessage];
+
+    // Compact whitespace. Ensures no line breaks. Needed because there are some line breaks in
+    // some of the language strings files and iOS 7 may require apps respect users system font
+    // size preferences, which means text size may not be known in advance, which means breaks
+    // should not be hard-coded because varying text size means break locations will vary as well.
+    msg = [msg stringByReplacingOccurrencesOfString:@"\\s+" withString:@" "
+                       options:NSRegularExpressionSearch
+                       range:NSMakeRange(0, msg.length)];
+
+    // Uncomment to double strings for testing
+    // msg = [NSString stringWithFormat:@"%@ %@", msg, msg];
+
     // fixme parse?
     return [self replaceParameters:msg];
 }
