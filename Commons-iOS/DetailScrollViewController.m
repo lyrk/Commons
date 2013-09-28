@@ -1,12 +1,12 @@
 //
-//  DetailTableViewController.m
+//  DetailScrollViewController.m
 //  Commons-iOS
 //
 //  Created by Brion on 1/29/13.
 //  Copyright (c) 2013 Wikimedia. All rights reserved.
 //
 
-#import "DetailTableViewController.h"
+#import "DetailScrollViewController.h"
 #import "CommonsApp.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MWI18N/MWMessage.h"
@@ -19,6 +19,8 @@
 #import "MWI18N.h"
 #import "AspectFillThumbFetcher.h"
 #import "OpenInBrowserActivity.h"
+#import "UIView+Debugging.h"
+#import "UILabelDynamicHeight.h"
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
@@ -39,23 +41,24 @@
 
 #define DETAIL_TABLE_MAX_OVERLAY_ALPHA 0.85f
 
-@interface DetailTableViewController ()
+@interface DetailScrollViewController ()
 
 @property (weak, nonatomic) AppDelegate *appDelegate;
 
+@property (weak, nonatomic) NSLayoutConstraint *viewTopConstraint;
+
 @end
 
-@implementation DetailTableViewController{
+@implementation DetailScrollViewController{
     UIActivityIndicatorView *tableViewHeaderActivityIndicator_;
     UIImage *previewImage_;
     BOOL isFirstAppearance_;
-    BOOL isOKtoReportDetailsScroll_;
     DescriptionParser *descriptionParser_;
     UISwipeGestureRecognizer *swipeRecognizerDown_;
     UIView *navBackgroundView_;
-    UIView *tableBackgroundView_;
-    CAGradientLayer *tableTopGradient_;
-    CALayer *tableBottomFiller_;
+    UIView *backgroundView_;
+    UIView *viewAboveBackground_;
+    UIView *viewBelowBackground_;
 }
 
 #pragma mark - Init / dealloc
@@ -66,17 +69,16 @@
     if (self) {
         descriptionParser_ = [[DescriptionParser alloc] init];
         isFirstAppearance_ = YES;
-        isOKtoReportDetailsScroll_ = NO;
         navBackgroundView_ = nil;
+        viewAboveBackground_ = nil;
+        viewBelowBackground_ = nil;
     }
     return self;
 }
 
 -(void)dealloc
 {
-	[self.tableView removeObserver:self forKeyPath:@"contentSize"];
-	[self.tableView removeObserver:self forKeyPath:@"center"];
-	[self.tableView removeObserver:self forKeyPath:@"frame"];
+	[self.view  removeObserver:self forKeyPath:@"center"];
 }
 
 #pragma mark - Memory
@@ -96,21 +98,13 @@
 {
     [super viewDidLoad];
     
-    self.view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
-    UIViewAutoresizingFlexibleWidth |
-    UIViewAutoresizingFlexibleRightMargin |
-    UIViewAutoresizingFlexibleTopMargin |
-    UIViewAutoresizingFlexibleHeight |
-    UIViewAutoresizingFlexibleBottomMargin;
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
 
     previewImage_ = nil;
     
     // Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
-    [self.tableView registerNib:[UINib nibWithNibName:@"CategoryCell" bundle:nil] forCellReuseIdentifier:@"CategoryCell"];
-    [self.tableView registerNib:[UINib nibWithNibName:@"AddCategoryCell" bundle:nil] forCellReuseIdentifier:@"AddCategoryCell"];
-    
     // l10n
     self.title = [MWMessage forKey:@"details-title"].text;
     self.titleLabel.text = [MWMessage forKey:@"details-title-label"].text;
@@ -128,11 +122,7 @@
     
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
     self.categoryLabel.text = [MWMessage forKey:@"details-category-label"].text;
-
     
-    // Load up the selected record
-    FileUpload *record = self.selectedRecord;
-
     self.descriptionTextView.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
     self.titleTextField.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
     
@@ -145,8 +135,178 @@
 	self.titleTextField.textColor = DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR;
 	self.descriptionTextView.textColor = DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR;
 
+    // Set delegates so we know when fields change...
+    self.titleTextField.delegate = self;
+    self.descriptionTextView.delegate = self;
+    
+    // Make the title text box keyboard "Done" button dismiss the keyboard
+    [self.titleTextField setReturnKeyType:UIReturnKeyDone];
+    [self.titleTextField addTarget:self.descriptionTextView action:@selector(becomeFirstResponder) forControlEvents:UIControlEventEditingDidEndOnExit];
+    
+    // Make taps to title or description labels cause their respective text boxes to receive focus
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnTitleTextField)];
+    [self.titleContainer addGestureRecognizer:tapGesture];
+    
+    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
+    [self.descriptionContainer addGestureRecognizer:tapGesture];
+
+    self.licenseNameLabel.textColor = [UIColor whiteColor];
+    
+    self.descriptionLabel.textColor = DETAIL_LABEL_COLOR;
+    self.titleLabel.textColor = DETAIL_LABEL_COLOR;
+    self.licenseLabel.textColor = DETAIL_LABEL_COLOR;
+    self.categoryLabel.textColor = DETAIL_LABEL_COLOR;
+
+    [self.view setMultipleTouchEnabled:NO];
+
+    self.view.opaque = NO;
+    self.view.backgroundColor = [UIColor clearColor];
+
+    self.view.layer.cornerRadius = DETAIL_BORDER_RADIUS;
+    self.view.layer.borderWidth = DETAIL_BORDER_WIDTH;
+    self.view.layer.borderColor = [DETAIL_BORDER_COLOR CGColor];
+
+    // Allow the gradient above the table and the filler below the table to be seen
+    self.view.clipsToBounds = NO;
+ 
+    // Keep self.view the same size as self.scrollContainer so the pan gesture recognizer attached to self.view
+    // will cover the same area as self.scrollContainer
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeWidth
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.scrollContainer
+                                                          attribute:NSLayoutAttributeWidth
+                                                         multiplier:1.0
+                                                           constant:0]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeHeight
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.scrollContainer
+                                                          attribute:NSLayoutAttributeHeight
+                                                         multiplier:1.0
+                                                           constant:0]];
+
+    [self configureBackgrounds];
+
+    // Enable vertical sliding
+    UIPanGestureRecognizer *detailsPanRecognizer_ = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleDetailsPan:)];
+    detailsPanRecognizer_.delegate = self;
+    [self.view addGestureRecognizer:detailsPanRecognizer_];
+
+    // Keep track of sliding
+    [self.view addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
+
+    self.view.backgroundColor = [UIColor clearColor];
+    self.scrollContainer.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.5f];
+    UIColor *containerColor = [UIColor colorWithWhite:0.6f alpha:0.15f];
+    self.titleContainer.backgroundColor = containerColor;
+    self.descriptionContainer.backgroundColor = containerColor;
+    self.licenseContainer.backgroundColor = containerColor;
+    self.categoryContainer.backgroundColor = containerColor;
+    
+//    [self.view randomlyColorSubviews];
+}
+
+-(void)handleDetailsPan:(UIPanGestureRecognizer *)recognizer
+{
+    static CGPoint originalCenter;
+    if (recognizer.state == UIGestureRecognizerStateBegan)
+    {
+        originalCenter = recognizer.view.center;
+        //recognizer.view.layer.shouldRasterize = YES;
+    }
+    if (recognizer.state == UIGestureRecognizerStateChanged)
+    {
+        CGPoint translate = [recognizer translationInView:recognizer.view.superview];
+        translate.x = 0; // Don't move sideways
+        recognizer.view.center = CGPointMake(originalCenter.x + translate.x, originalCenter.y + translate.y);
+    }
+    if (recognizer.state == UIGestureRecognizerStateEnded ||
+        recognizer.state == UIGestureRecognizerStateFailed ||
+        recognizer.state == UIGestureRecognizerStateCancelled)
+    {
+        // Ensure the top constraint is updated to reflect the newly scrolled-to-position.
+        // Needed otherwise things like ensureScrollingDoesNotExceedThreshold only work the
+        // first time. This is because calls to "layoutIfNeeded" only result if the layout
+        // being updated if it sees that something has changed. If this constraint is not
+        // updated after scrolling, nothing will appear to have changed. To see an example
+        // of the issue, comment out the line below. Then load the details page and drag
+        // the details slider up until its bottom is visible. When released it will snap
+        // so back its bottom is at the bottom of the screen (thanks to the call to the
+        // "ensureScrollingDoesNotExceedThreshold" below). Now do so a second time and it
+        // won't snap back.
+        self.viewTopConstraint.constant = recognizer.view.frame.origin.y;
+    
+        // Ensure the table isn't scrolled so far down or up
+        [self ensureScrollingDoesNotExceedThreshold];
+    }
+}
+
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    [super didMoveToParentViewController:parent];
+    
+    self.viewTopConstraint = [NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view.superview
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1.0
+                                                           constant:0];
+    [self.view.superview addConstraint:self.viewTopConstraint];
+    
+    [self.view.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:self.view.superview
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                   multiplier:1.0
+                                                                     constant:0]];
+    
+    [self.view.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollContainer
+                                                                   attribute:NSLayoutAttributeWidth
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:self.view.superview
+                                                                   attribute:NSLayoutAttributeWidth
+                                                                  multiplier:1.0
+                                                                    constant:0]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	// Note:
+	// Don't call "[super viewWillAppear:animated]" here!
+	// It causes the tableView to scroll if the description box receives focus
+	// when it has been moved to the lower part of the screen
+	// See: http://stackoverflow.com/a/12111260/135557
+	// (the scrolling is unwanted because "scrollSoView:isBelowNavBar:" is being
+	// used instead - for greater control)
+
+
+	// Only move details to bottom if coming from my uploads (not categories, license etc...)
+	if(isFirstAppearance_){
+
+        // Move details to docking position at bottom of screen
+        [self moveDetailsToDock];
+        
+        [self.delegate clearOverlay];
+	}
+
+    if(!self.selectedRecord.complete.boolValue){
+        [self addNavBarBackgroundViewForTouchDetection];
+    }
+    
+    // Ensure nav bar isn't being underlapped by details
+    // (needed if details pushed another view controller while details was scrolled so far up that
+    // it had caused the nav bar to be hidden - without this extra call to "makeNavBarRunAwayFromDetails"
+    // here, when that pushed view gets popped, the nav would overlap the details)
+    [self makeNavBarRunAwayFromDetails];
+    
+    // Load up the selected record
+    FileUpload *record = self.selectedRecord;
     if (record != nil) {
         self.categoryList = [record.categoryList mutableCopy];
+        [self updateCategoryContainer];
         self.titleTextField.text = record.title;
         self.descriptionTextView.text = record.desc;
         self.descriptionPlaceholder.hidden = (record.desc.length > 0);
@@ -163,7 +323,6 @@
         }
 
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            
             if (record.complete.boolValue) {
                 // Completed upload...
                 self.titleTextField.enabled = NO;
@@ -208,21 +367,12 @@
                 [self updateUploadButton];
                 [self updateShareButton];
             }
-            
         });
     
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
     }
 
-    // Set delegates so we know when fields change...
-    self.titleTextField.delegate = self;
-    self.descriptionTextView.delegate = self;
-    
-    // Make the title text box keyboard "Done" button dismiss the keyboard
-    [self.titleTextField setReturnKeyType:UIReturnKeyDone];
-    [self.titleTextField addTarget:self.descriptionTextView action:@selector(becomeFirstResponder) forControlEvents:UIControlEventEditingDidEndOnExit];
-    
     // Add a "hide keyboard" button above the keyboard (when the description box has the focus and the
     // keyboard is visible). Did this so multi-line descriptions could still be entered *and* the
     // keyboard could still be dismissed (otherwise the "return" button would have to be made into a
@@ -245,125 +395,12 @@
         hideKeyboardButton.frame = CGRectMake(80.0, 210.0, 160.0, 28.0);
         self.descriptionTextView.inputAccessoryView = hideKeyboardButton;
     }
-    
-    // Make taps to title or description labels cause their respective text boxes to receive focus
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnTitleTextField)];
-    [self.titleCell addGestureRecognizer:tapGesture];
-    
-    tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusOnDescriptionTextView)];
-    [self.descCell addGestureRecognizer:tapGesture];
-    
-    // Round corners of text boxes
-    [self.titleTextField.layer setCornerRadius:6.0f];
-    [self.descriptionTextView.layer setCornerRadius:6.0f];
-    
-    self.licenseNameLabel.textColor = [UIColor whiteColor];
-    
-    self.descriptionLabel.textColor = DETAIL_LABEL_COLOR;
-    self.titleLabel.textColor = DETAIL_LABEL_COLOR;
-    self.licenseLabel.textColor = DETAIL_LABEL_COLOR;
-    self.categoryLabel.textColor = DETAIL_LABEL_COLOR;
-
-    [self.view setMultipleTouchEnabled:NO];
-
-    self.view.opaque = NO;
-    self.view.backgroundColor = [UIColor clearColor];
-
-    self.view.layer.cornerRadius = DETAIL_BORDER_RADIUS;
-    self.view.layer.borderWidth = DETAIL_BORDER_WIDTH;
-    self.view.layer.borderColor = [DETAIL_BORDER_COLOR CGColor];
-
-    // Allow the gradient above the table and the filler below the table to be seen
-    self.view.clipsToBounds = NO;
-
-    [self configureTableView];
-}
-
--(void)configureTableView
-{
-    self.tableView.delaysContentTouches = NO;
-    
-    // Get rid of table separator lines and border
-    self.tableView.separatorColor = [UIColor clearColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.tableView.layer setShadowColor:[UIColor clearColor].CGColor];
-
-    // Make the table view's background transparent
-    tableBackgroundView_ = [[UIView alloc] initWithFrame:CGRectZero];
-    tableBackgroundView_.backgroundColor = DETAIL_VIEW_COLOR;
-    tableBackgroundView_.alpha = 0.0f;
-    self.tableView.backgroundView = tableBackgroundView_;
-    
-    // Add gradient above table
-    tableTopGradient_ = [CAGradientLayer layer];
-    tableTopGradient_.locations = [NSArray arrayWithObjects:@0.0, @1.0, nil];
-    tableTopGradient_.colors = [NSArray arrayWithObjects:(id)[[UIColor clearColor] CGColor], (id)[DETAIL_VIEW_COLOR CGColor], nil];
-    [self.tableView.backgroundView.layer insertSublayer:tableTopGradient_ atIndex:0];
-    
-    // Add filler below table
-    tableBottomFiller_ = [CALayer layer];
-    tableBottomFiller_.backgroundColor = [DETAIL_VIEW_COLOR CGColor];
-    [self.tableView.backgroundView.layer insertSublayer:tableBottomFiller_ atIndex:0];
-    
-    // Enable the tableView border when debugging gradientTop_ and bottomFiller_.
-    // Would also be helpful to set distinct background colors on gradientTop_ and bottomFiller_.
-    //self.tableView.layer.borderColor = [[UIColor whiteColor]CGColor];
-    //self.tableView.layer.borderWidth = 1.0f;
-
-    // Without scrollEnabled, the license and category cells ignore the first touch
-    // after the self.view has been dragged
-    self.tableView.scrollEnabled = YES;
-    
-    // Keep the table view the same size as its content
-    [self.tableView addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
-
-    // Keep track of sliding
-    [self.tableView addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
-    
-    [self.tableView addObserver:self forKeyPath:@"frame" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	// Note:
-	// Don't call "[super viewWillAppear:animated]" here!
-	// It causes the tableView to scroll if the description box receives focus
-	// when it has been moved to the lower part of the screen
-	// See: http://stackoverflow.com/a/12111260/135557
-	// (the scrolling is unwanted because "scrollSoView:isBelowNavBar:" is being
-	// used instead - for greater control)
-
-    self.categoryList = [self.selectedRecord.categoryList mutableCopy];
-
-	// Only move details to bottom if coming from my uploads (not categories, license etc...)
-	if(isFirstAppearance_){
-
-        // Move details to docking position at bottom of screen
-        [self moveDetailsToDock];
-        
-        [self.delegate clearOverlay];
-	}
-
-    if(!self.selectedRecord.complete.boolValue){
-        [self addNavBarBackgroundViewForTouchDetection];
-    }
-    
-    // Ensure nav bar isn't being underlapped by details
-    // (needed if details pushed another view controller while details was scrolled so far up that
-    // it had caused the nav bar to be hidden - without this extra call to "makeNavBarRunAwayFromDetails"
-    // here, when that pushed view gets popped, the nav would overlap the details)
-    [self makeNavBarRunAwayFromDetails];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    isOKtoReportDetailsScroll_ = YES;
     isFirstAppearance_ = NO;
-
-    // Moved this here from viewWillAppear so "tableView:viewForHeaderInSection:" can calculate
-    // the titleLabelOffset accurately - wasn't able to do so for new images otherwise
-    [self.tableView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -452,7 +489,7 @@
             [self.appDelegate.loadingIndicator hide];
         }];
 
-        __weak DetailTableViewController *weakSelf = self;
+        __weak DetailScrollViewController *weakSelf = self;
 
         [self.shareActivityViewController setCompletionHandler:^(NSString *activityType, BOOL completed) {
             [weakSelf toggle];
@@ -507,6 +544,16 @@
 
 -(void)makeNavBarRunAwayFromDetails
 {
+    // Calling "setNavigationBarHidden:" below causes subviews to be laid out. If the view was being
+    // dragged when this method is called this will cause the layout system to use the last value it
+    // had for self.viewTopConstraint.constant, which, during drag, doesn't get updated until the drag
+    // ends, so the pre-drag value is seen and the layout system makes self.view jump down to this
+    // position, which is not what we want at all. To prevent this, update self.viewTopConstraint.constant
+    // here. See the note in "handleDetailsPan:" concerning updating "self.viewTopConstraint.constant"
+    // for more details about the issue. (To reproduce the bug, use iOS 7, comment out the line below and
+    // drag the details page slider up until the top of it hits the navigation bar.)
+    self.viewTopConstraint.constant = self.view.frame.origin.y;
+
     // Prevent details from underlapping nav bar by hiding nav bar when details scrolled up so
     // far that underlap would occur. And when details scrolled back down make nav bar re-appear.
     if ([self verticalDistanceFromNavBar] < 0.0f) {
@@ -525,222 +572,108 @@
 	return self.view.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
 }
 
-#pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 2;
-}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if (section == 0) {
-        // Hide only the license row if viewing details of already-uploaded image
-        if (self.selectedRecord.complete.boolValue) {
-            // Hide description row if none found
-            return (self.descriptionTextView.text.length == 0) ? 1 : 2;
-        }
-        // Fall through to static section handling...
-        return [super tableView:tableView numberOfRowsInSection:section];
-    } else if (section == 1) {
-        if (self.selectedRecord.complete.boolValue) {
-            // If no categories show one cell so it can contain "Loading..." message, else hide the add button
-            // for already uploaded images as categories are read-only for them for now
-            return (self.categoryList.count == 0) ? 1 : self.categoryList.count;
-        }
-        // Add one cell for the add button!
-        return self.categoryList.count + 1;
-    
-    } else {
-        return 0;
-    }
-}
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
-    switch (section) {
-        case 1:
-            return [MWMessage forKey:@"details-category-label"].text;
-        default:
-            return nil;
-    }
-}
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        // Fall through to static section handling...
-        UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-        return  cell;
-    } else if (indexPath.section == 1) {
-        // Categories
-        UITableViewCell *cell;
-        
-        if (self.selectedRecord.complete.boolValue) {
-            // Show "Loading..." row if no categories
-            if(self.categoryList.count == 0){
-                cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                cell.userInteractionEnabled = NO;
-                cell.textLabel.text = [MWMessage forKey:@"details-category-loading"].text;
-                cell.textLabel.backgroundColor = [UIColor clearColor];
-				cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                return cell;
-            }
-        }
-        
-        if (indexPath.row < self.categoryList.count) {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            // Make categories read-only for now
-            if (self.selectedRecord.complete.boolValue) {
-                cell.accessoryType = UITableViewCellAccessoryNone;
-                cell.userInteractionEnabled = NO;
-            }
-            
-            cell.textLabel.text = self.categoryList[indexPath.row];
-        } else {
-            cell = [tableView dequeueReusableCellWithIdentifier:@"AddCategoryCell"];
-            cell.textLabel.text = [MWMessage forKey:@"catadd-title"].text;
-            cell.textLabel.textColor = DETAIL_LABEL_COLOR;
-        }
-        
-        cell.textLabel.backgroundColor = [UIColor clearColor];
 
-        return cell;
-    } else {
-        // no exist!
-        return nil;
-    }
-}
 
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return NO;
-}
 
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-}
 
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
 
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return NO;
-}
 
-// must overload this or the static table handling explodes in cats dynamic section
--(int)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
-    }
-    return 5;
-}
 
-// Make the table cell backgrounds partially transparent
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+#pragma mark - To do - from table code
 
-    if (indexPath.section == 0) {
-        cell.backgroundColor = [UIColor clearColor];
-    }else{
-        cell.backgroundColor = DETAIL_TABLE_CATEGORIES_BACKGROUND_COLOR;
-    }
-}
 
-// Custom style for the "Categories" table header label. http://stackoverflow.com/a/7928944/135557
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    NSString *sectionTitle = [self tableView:tableView titleForHeaderInSection:section];
-    if (sectionTitle == nil) return nil;
+// Hide only the license row if viewing details of already-uploaded image
+//        if (self.selectedRecord.complete.boolValue) {
+//            // Hide description row if none found
+//            return (self.descriptionTextView.text.length == 0) ? 1 : 2;
+//        }
 
-    // Get the x offset of the title label relative to the tableView and use
-    // same offset for the categories label (makes the "Categories" header
-    // share the same left alignment as the title label)
-    float titleLabelOffset = [self.titleLabel convertPoint:CGPointZero toView:self.tableView].x;
+// Categories - show loading message while uploading already uploaded img categories
+//        if (self.selectedRecord.complete.boolValue) {
+//            // If no categories show one cell so it can contain "Loading..." message, else hide the add button
+//            // for already uploaded images as categories are read-only for them for now
+//            return (self.categoryList.count == 0) ? 1 : self.categoryList.count;
+//        }
 
-    UILabel *label = [[UILabel alloc] init];
-    label.frame = CGRectMake(titleLabelOffset, 8, 320, 20);
-    label.backgroundColor = [UIColor clearColor];
-    label.textColor = DETAIL_LABEL_COLOR;
-    label.shadowColor = [UIColor grayColor];
-    label.shadowOffset = CGSizeMake(0.0, 0.0);
-    label.font = [UIFont boldSystemFontOfSize:16];
-    label.text = sectionTitle;
-    label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    
-    UIView *view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor clearColor];
-    view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [view addSubview:label];
-    return view;
-}
+// Categories title
+//      [MWMessage forKey:@"details-category-label"].text;
 
-#pragma mark - Table view delegate
 
-// hack to hide table cells
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0 && indexPath.item >= 1 && self.selectedRecord && self.selectedRecord.complete.boolValue) {
-        if (self.selectedRecord.complete.boolValue) {
-            // Resize description cell according to the retrieved description's text height
-            // From: http://stackoverflow.com/a/2487402/135557
-            CGRect frame = self.descriptionTextView.frame;
-            frame.size.height = self.descriptionTextView.contentSize.height;
-            self.descriptionTextView.frame = frame;
-            return frame.size.height + frame.origin.y + 8.0f;
-        }
-    }
-    if (indexPath.section == 1) {
-        return 40; // ????? hack
-    }
-    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-}
+// Show add categories button for yet-to-be-uploaded images
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 0) {
-        // Static section already handled by storyboard segues.
-    } else if (indexPath.section == 1) {
-        if (indexPath.row < self.categoryList.count) {
-            // Segue isn't connected due to nib fun. :P
-            [self performSegueWithIdentifier: @"CategoryDetailSegue" sender: self];
-        } else {
-            // 'Add category...' cell button
-            // Segue isn't connected due to nib fun. :P
-            [self performSegueWithIdentifier: @"AddCategorySegue" sender: self];
-        }
-    }
-}
 
--(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.section == 1 && indexPath.row < self.categoryList.count) {
-        NSString *cat = self.categoryList[indexPath.row];
-        NSString *encCat = [cat stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        NSString *link = [NSString stringWithFormat:@"https://commons.m.wikimedia.org/wiki/Category:%@", encCat];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
-    }
-}
+//        if (self.selectedRecord.complete.boolValue) {
+// Show "Loading..." row if no categories
+//            if(self.categoryList.count == 0){
+//                cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
+//                cell.accessoryType = UITableViewCellAccessoryNone;
+//                cell.userInteractionEnabled = NO;
+//                cell.textLabel.text = [MWMessage forKey:@"details-category-loading"].text;
+//                cell.textLabel.backgroundColor = [UIColor clearColor];
+//				cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//                return cell;
+//            }
+//        }
 
-#pragma mark - Table style
 
--(void)removeBorderFromTableViewCell:(UITableViewCell *) cell
-{    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    [cell setAccessoryType:UITableViewCellAccessoryNone];
-    cell.backgroundView = nil;
-}
+//        if (indexPath.row < self.categoryList.count) {
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
+//			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//            // Make categories read-only for now
+//            if (self.selectedRecord.complete.boolValue) {
+//                cell.accessoryType = UITableViewCellAccessoryNone;
+//                cell.userInteractionEnabled = NO;
+//            }
+//            
+//            cell.textLabel.text = self.categoryList[indexPath.row];
+//        } else {
+//            cell = [tableView dequeueReusableCellWithIdentifier:@"AddCategoryCell"];
+//            cell.textLabel.text = [MWMessage forKey:@"catadd-title"].text;
+//            cell.textLabel.textColor = DETAIL_LABEL_COLOR;
+//        }
+
+
+
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (indexPath.section == 0) {
+//        // Static section already handled by storyboard segues.
+//    } else if (indexPath.section == 1) {
+//        if (indexPath.row < self.categoryList.count) {
+//            // Segue isn't connected due to nib fun. :P
+//            [self performSegueWithIdentifier: @"CategoryDetailSegue" sender: self];
+//        } else {
+//            // 'Add category...' cell button
+//            // Segue isn't connected due to nib fun. :P
+//            [self performSegueWithIdentifier: @"AddCategorySegue" sender: self];
+//        }
+//    }
+//}
+
+
+
+
+//-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (indexPath.section == 1 && indexPath.row < self.categoryList.count) {
+//        NSString *cat = self.categoryList[indexPath.row];
+//        NSString *encCat = [cat stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSString *link = [NSString stringWithFormat:@"https://commons.m.wikimedia.org/wiki/Category:%@", encCat];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
+//    }
+//}
+
+
+
+
+
+
+
+
 
 #pragma mark - Focus to box when title or description label tapped
 - (void)focusOnTitleTextField
@@ -831,7 +764,7 @@
         if (self.selectedRecord) {
             CategoryDetailTableViewController *view = [segue destinationViewController];
             view.selectedRecord = self.selectedRecord;
-            view.category = self.categoryList[self.tableView.indexPathForSelectedRow.row];
+//            view.category = self.categoryList[self.tableView.indexPathForSelectedRow.row];
         }
     }
     
@@ -877,10 +810,86 @@
         
         // Make interface use the new category list
         self.categoryList = previouslySavedCategories;
+        [self updateCategoryContainer];
+
         self.selectedRecord.categories = [self.categoryList componentsJoinedByString:@"|"];
         self.categoryListLabel.text = [self categoryShortList];
-        [self.tableView reloadData];
+//        [self.tableView reloadData];
     }];
+}
+
+-(void)updateCategoryContainer
+{
+    // Updates categoryContainer to have label for each entry found in self.categoryList.
+    // Constrains all categoryContainer subviews as well.
+
+    NSMutableArray *categoryLabels = [[NSMutableArray alloc] init];
+
+    // Every view which gets constrained by this method is also created by this method
+    // with the exeption of self.categoryLabel. This means views created here can be
+    // constrained here without having to worry about a new constraint conflicting with
+    // an old pre-existing constraint. But since self.categoryLabel isn't created here
+    // it may have constraints left-over from last time this method was invoked. Since
+    // constraints are usually added to a view's superview (or above), simply calling
+    // "[view removeConstraints:view.constraints]" won't get rid of them and it's a
+    // pain to have to go to the view's superview and inspect its constraints for those
+    // affecting view, so a quick way to achieve the same result is to remove view from
+    // it's superview, which causes constraints related to view to be removed, then just
+    // re-add view to superview. (Note: added removal of all categoryContainer subviews to
+    // ensure subsequent calls to this method won't result in duplicate category labels)
+    __strong UIView *label = self.categoryLabel;
+    UIView *sv = label.superview;
+    for (UIView *subview in [self.categoryContainer.subviews copy]) {
+        [subview removeFromSuperview];
+    }
+    [sv addSubview:label];
+
+    // Create labels for categories, add them to the categoryContainer, and remember
+    // them in a categoryLabels array
+    for (NSString *categoryString in self.categoryList) {
+        UILabelDynamicHeight *label = [[UILabelDynamicHeight alloc] initWithFrame:CGRectZero];
+        label.translatesAutoresizingMaskIntoConstraints = NO;
+        label.text = categoryString;
+        [label setFont:[UIFont systemFontOfSize:14.0f]];
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor clearColor];
+        label.borderColor = [UIColor clearColor];
+        label.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+        [label setPaddingInsets:UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f)];
+        [self.categoryContainer addSubview:label];
+        [categoryLabels addObject:label];
+    }
+
+    // Create autolayout format string for even vertically spacing of
+    // categoryContainer's subviews. Also create views dictionary with
+    // entry for each categoryContainer subview (use pointer address
+    // cast to string for category label identifiers)
+    NSMutableString *visualFormatString = [@"V:|-[categoryLabel]-" mutableCopy];
+    NSMutableDictionary *views = [[NSMutableDictionary alloc] init];
+    [views setObject:self.categoryLabel forKey:@"categoryLabel"];
+    for (UILabel *label in categoryLabels) {
+        NSString *pointerString = [NSString stringWithFormat: @"view_%p", label];
+        [visualFormatString appendString:[NSString stringWithFormat: @"[%@]-", pointerString]];
+        [views setObject:label forKey:pointerString];
+    }
+    [visualFormatString appendString:@"|"];
+    NSLog(@"\n\n\nvisual format string:\n\n %@\n\nview dictionary:\n\n%@\n\n\n", visualFormatString, views);
+
+    // Add space between sides of categoryLabel and categoryContainer
+    [self.categoryContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[categoryLabel]-|" options:0 metrics:nil views:@{@"categoryLabel": self.categoryLabel}]];
+
+    if (self.categoryList.count > 0) {
+        // Add space between sides of labels and categoryContainer
+        for (UILabel *l in categoryLabels) {
+            [self.categoryContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|" options:0 metrics:nil views:@{@"label": l}]];
+        }
+        // Add even vertical space between all subviews of categoryContainer
+        [self.categoryContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:visualFormatString options:0 metrics:nil views:views]];
+    }else{
+        // No categories found, so add space between the top and bottom of categoryLabel and categoryContainer
+        [self.categoryContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[categoryLabel]-|" options:0 metrics:nil views:@{@"categoryLabel": self.categoryLabel}]];
+    }
+    [self.view layoutIfNeeded];
 }
 
 - (void)getPreviouslySavedDescriptionForRecord:(FileUpload *)record
@@ -904,7 +913,6 @@
     MWPromise *req = [api getRequest:params];
     
     __weak UITextView *weakDescriptionTextView = self.descriptionTextView;
-    __weak UITableView *weakTableView = self.tableView;
     
     [req done:^(NSDictionary *result) {
         for (NSString *page in result[@"query"][@"pages"]) {
@@ -923,7 +931,7 @@
                     language = [MWI18N filterLanguage:language];
                     weakDescriptionTextView.text = ([descriptions objectForKey:language]) ? descriptions[language] : descriptions[@"en"];
                     // reloadData so description cell can be resized according to the retrieved description's text height
-                    [weakTableView reloadData];
+//                    [weakTableView reloadData];
                     
                 };
                 [descriptionParser_ parse];
@@ -953,26 +961,13 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    // Keep the table view the same size as its content
-    if ([keyPath isEqualToString:@"contentSize"]) {
-        NSValue *new = [change valueForKey:@"new"];
-        NSValue *old = [change valueForKey:@"old"];
-        if (new && old) {
-            if (![old isEqualToValue:new]) {
-				[self sizeTableViewToItsContents];
-            }
-        }
-    }else if ([keyPath isEqualToString:@"center"] || [keyPath isEqualToString:@"frame"]) {
+    if ([keyPath isEqualToString:@"center"]) {
 		// Keep track of sliding
         NSValue *new = [change valueForKey:@"new"];
         NSValue *old = [change valueForKey:@"old"];
         if (new && old) {
             if (![old isEqualToValue:new]) {
-				//CGPoint oldCenter = old.CGPointValue;
-				//CGPoint newCenter = new.CGPointValue;
-				if (isOKtoReportDetailsScroll_) {
-					[self reportDetailsScroll];
-				}
+                [self reportDetailsScroll];
             }
         }
     }
@@ -980,48 +975,36 @@
 
 #pragma mark - Rotation
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    isOKtoReportDetailsScroll_ = NO;
-    // Resize the gradient and filler CALayers which don't get resized automatically
-    [self sizeTableTopGradientAndBottomFillerWithFlip:YES];
-}
-
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-	[self sizeTableViewToItsContents];
-
     // If the keyboard was visible during rotation, scroll so the field being edited is near the top of the screen
     if (self.titleTextField.isFirstResponder) {
         [self scrollViewAboveKeyboard:self.titleLabel];
     }else if (self.descriptionTextView.isFirstResponder) {
         [self scrollViewAboveKeyboard:self.descriptionLabel];
+    }else{
+        [self ensureScrollingDoesNotExceedThreshold];
     }
-
-    isOKtoReportDetailsScroll_ = YES;
 }
 
 #pragma mark - Details moving
 
 -(void)moveDetailsToDock
 {
-    CGRect f = self.view.frame;
-    f.origin.y = self.delegate.view.frame.size.height - DETAIL_DOCK_DISTANCE_FROM_BOTTOM;
-    self.view.frame = f;
+    self.viewTopConstraint.constant = self.delegate.view.frame.size.height - DETAIL_DOCK_DISTANCE_FROM_BOTTOM;
+    [self.view.superview layoutIfNeeded];
 }
 
 -(void)moveDetailsToBottom
 {
-    CGRect f = self.view.frame;
-    f.origin.y = self.delegate.view.frame.size.height;
-    self.view.frame = f;
+    self.viewTopConstraint.constant = self.delegate.view.frame.size.height;
+    [self.view.superview layoutIfNeeded];
 }
 
 -(void)moveDetailsBeneathNav
 {
-    CGRect f = self.view.frame;
-    f.origin.y = self.navigationController.navigationBar.frame.size.height;
-    self.view.frame = f;
+    self.viewTopConstraint.constant = self.navigationController.navigationBar.frame.size.height + self.navigationController.navigationBar.frame.origin.y;
+    [self.view.superview layoutIfNeeded];
 }
 
 -(void)toggle
@@ -1048,7 +1031,7 @@
         float offset = self.view.frame.origin.y - detailsY;
         isAnimating = YES;
         [self scrollByAmount:-offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
-            [self ensureScrollingDoesNotExceedThreshold];
+//            [self ensureScrollingDoesNotExceedThreshold];
             isAnimating = NO;
         }];
     }
@@ -1063,13 +1046,14 @@
                         options: options
                      animations: ^{
 						 //self.view.layer.shouldRasterize = YES;
-
                          if(useXF){
                              self.view.transform = CGAffineTransformTranslate(self.view.transform, 0, amount);
                          }else{
-                             CGRect f = self.view.frame;
-                             f.origin.y += amount;
-                             self.view.frame = f;
+                             self.viewTopConstraint.constant = self.view.frame.origin.y + amount;
+                             
+NSLog(@"self.viewTopConstraint.constant = %f", self.viewTopConstraint.constant);
+
+                             [self.view.superview layoutIfNeeded];
                          }
 					 }
                      completion:^(BOOL finished){
@@ -1095,6 +1079,7 @@
     // Scroll to eliminate any gap beneath the table and the bottom of the delegate's view
     float bottomGapHeight = [self getBottomGapHeight];
     if (bottomGapHeight > 0.0f) {
+NSLog(@"bottomGapHeight = %f", bottomGapHeight);
         [self scrollByAmount:bottomGapHeight withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
     }
 }
@@ -1133,6 +1118,7 @@
 
 	float minChangeToReport = 0.025f;
     if (fabsf((scrollValue - lastScrollValue)) > minChangeToReport) {
+        //NSLog(@"scrollValue = %f", scrollValue);
         scrollValue = MIN(scrollValue, 1.0f);
         scrollValue = MAX(scrollValue, 0.0f);
         lastScrollValue = scrollValue;
@@ -1140,7 +1126,7 @@
 		[self.delegate setDetailsScrollNormal:scrollValue];
 
         // Set the background table alpha
-        tableBackgroundView_.alpha = MIN(DETAIL_TABLE_MAX_OVERLAY_ALPHA, 1.0f - scrollValue);
+        backgroundView_.alpha = MIN(DETAIL_TABLE_MAX_OVERLAY_ALPHA, 1.0f - scrollValue);
 
         // Clear out any prompt above the nav bar as soon as details scrolled
         [self clearNavBarPrompt];
@@ -1169,51 +1155,11 @@
     return -offsetForKeyboard;
 }
 
-#pragma mark - Details sizing
-
--(void)sizeTableTopGradientAndBottomFillerWithFlip:(BOOL)flip
-{
-    // Size the gradient and filler CALayers to fit above and below the table
-    if (!flip) {
-        tableTopGradient_.frame = CGRectMake(0, -self.tableView.frame.size.height, self.tableView.frame.size.width, self.view.frame.size.height);
-        tableBottomFiller_.frame = CGRectMake(0, self.tableView.frame.size.height, self.tableView.frame.size.width, self.delegate.view.frame.size.height);
-    }else{
-        // If this method is being invoked from "willRotateToInterfaceOrientation" the dimensions have not yet flipped, so do so here
-        tableTopGradient_.frame = CGRectMake(0, -self.tableView.frame.size.width, self.view.frame.size.height, self.tableView.frame.size.width);
-        tableBottomFiller_.frame = CGRectMake(0, self.tableView.frame.size.width, self.delegate.view.frame.size.height, self.tableView.frame.size.width);
-    }
-}
-
--(void)sizeTableViewToItsContents
-{
-	CGRect f = self.tableView.frame;
-	f.size = self.tableView.contentSize;
-
-    if(f.size.height <= self.delegate.view.bounds.size.height){
-        // If the height of its content is less than the screen height only add enough
-        // scroll margin to let the bottom of the details to scroll into view. (No point
-        // in having so much margin in this case that the top of the content can scroll
-        // off the top of the screen.)
-        f.size.height += (self.delegate.view.bounds.size.height - f.size.height);
-    }
-
-	self.tableView.frame = f;
-    
-    [self sizeTableTopGradientAndBottomFillerWithFlip:NO];
-    
-    if (self.view.alpha != 0.0f) {
-        // Don't mess with scrolling if the view is hidden!
-        if(!isFirstAppearance_){
-            [self ensureScrollingDoesNotExceedThreshold];
-        }
-    }
-}
-
 #pragma mark - Details distances
 
 -(float)getBottomGapHeight
 {
-	return self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.view.frame.size.height);
+	return self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.scrollContainer.frame.size.height);;
 }
 
 -(float)tableTopVerticalDistanceFromDelegateViewBottom
@@ -1231,6 +1177,44 @@
 -(float)distanceFromDock
 {
     return (self.delegate.view.frame.size.height - (DETAIL_DOCK_DISTANCE_FROM_BOTTOM / 2.0f)) - (self.view.frame.origin.y + (DETAIL_DOCK_DISTANCE_FROM_BOTTOM / 2.0f));
+}
+
+#pragma mark - Details backgrounds
+
+-(void)configureBackgrounds
+{
+    // backgroundView_'s alpha gets adjusted as the slider moves.
+    // It's subviews, viewAboveBackground_ and viewBelowBackground_, therefore do also.
+    // Here they are created
+
+    backgroundView_ = [[UIView alloc] initWithFrame:CGRectZero];
+    viewAboveBackground_ = [[UIView alloc] initWithFrame:CGRectZero];
+    viewBelowBackground_ = [[UIView alloc] initWithFrame:CGRectZero];
+    NSDictionary *views = @{@"background": backgroundView_, @"above": viewAboveBackground_, @"below": viewBelowBackground_};
+    
+    // Add background behind slider
+    backgroundView_.translatesAutoresizingMaskIntoConstraints = NO;
+    backgroundView_.backgroundColor = DETAIL_VIEW_COLOR;
+    backgroundView_.alpha = 0.0f;
+    [self.view insertSubview:backgroundView_ belowSubview:self.scrollContainer];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[background]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[background]|" options:0 metrics:nil views:views]];
+
+    // Add background above slider
+    viewAboveBackground_.backgroundColor = DETAIL_VIEW_COLOR;
+    viewAboveBackground_.translatesAutoresizingMaskIntoConstraints = NO;
+    [backgroundView_ insertSubview:viewAboveBackground_ atIndex:0];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[above]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[above(==background)]" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[above][background]" options:0 metrics:nil views:views]];
+
+    // Add background below slider
+    viewBelowBackground_.backgroundColor = DETAIL_VIEW_COLOR;
+    viewBelowBackground_.translatesAutoresizingMaskIntoConstraints = NO;
+    [backgroundView_ insertSubview:viewBelowBackground_ atIndex:0];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[below]|" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[below(==background)]" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[background][below]" options:0 metrics:nil views:views]];
 }
 
 /*

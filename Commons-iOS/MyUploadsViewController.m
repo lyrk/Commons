@@ -10,7 +10,7 @@
 #import "MyUploadsViewController.h"
 #import "CommonsApp.h"
 #import "ImageListCell.h"
-#import "DetailTableViewController.h"
+#import "DetailScrollViewController.h"
 #import "MWI18N/MWI18N.h"
 #import "Reachability.h"
 #import "SettingsViewController.h"
@@ -38,10 +38,9 @@
     NSUInteger thumbnailCount_;
     
     ImageScrollViewController *imageScrollVC_;
-    DetailTableViewController *detailVC_;
+    DetailScrollViewController *detailVC_;
     UITapGestureRecognizer *imageTapRecognizer_;
     UITapGestureRecognizer *imageDoubleTapRecognizer_;
-    UIPanGestureRecognizer *detailsPanRecognizer_;
 }
 
 - (void)animateTakeAndChoosePhotoButtons;
@@ -1259,7 +1258,7 @@
 
 -(void)addDetailsViewToImageScrollViewController
 {
-    detailVC_ = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailTableViewController"];
+    detailVC_ = [self.storyboard instantiateViewControllerWithIdentifier:@"DetailScrollViewController"];
     detailVC_.selectedRecord = self.selectedRecord;
     
     imageTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageTap:)];
@@ -1280,49 +1279,18 @@
 
     [imageTapRecognizer_ requireGestureRecognizerToFail:imageDoubleTapRecognizer_];
 
-    detailsPanRecognizer_ = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleDetailsPan:)];
-    detailsPanRecognizer_.delegate = self;
-    [detailVC_.view addGestureRecognizer:detailsPanRecognizer_];
-
     [imageScrollVC_ addChildViewController:detailVC_];
-    
-    detailVC_.view.frame = imageScrollVC_.view.bounds;
-	
     [imageScrollVC_.view addSubview:detailVC_.view];
-    [detailVC_ didMoveToParentViewController:imageScrollVC_];
 
     // Let the detailVC notify the imageScrollVC when the detailVC view slides around
     // This allows the imageScrollVC to adjust its image visibility depending on how
     // far the detailVS view has been slid
-    detailVC_.delegate = (ImageScrollViewController<DetailTableViewControllerDelegate> *)imageScrollVC_;
+    detailVC_.delegate = (ImageScrollViewController<DetailScrollViewControllerDelegate> *)imageScrollVC_;
+
+    [detailVC_ didMoveToParentViewController:imageScrollVC_];
     
     [imageScrollVC_.view bringSubviewToFront:detailVC_.view];
-    [detailVC_.view bringSubviewToFront:detailVC_.tableView];
-}
-
--(void)handleDetailsPan:(UIPanGestureRecognizer *)recognizer
-{
-    static CGPoint originalCenter;
-    if (recognizer.state == UIGestureRecognizerStateBegan)
-    {
-        originalCenter = recognizer.view.center;
-        //recognizer.view.layer.shouldRasterize = YES;
-    }
-    if (recognizer.state == UIGestureRecognizerStateChanged)
-    {
-        CGPoint translate = [recognizer translationInView:recognizer.view.superview];
-        translate.x = 0; // Don't move sideways
-        recognizer.view.center = CGPointMake(originalCenter.x + translate.x, originalCenter.y + translate.y);
-    }
-    if (recognizer.state == UIGestureRecognizerStateEnded ||
-        recognizer.state == UIGestureRecognizerStateFailed ||
-        recognizer.state == UIGestureRecognizerStateCancelled)
-    {
-        //recognizer.view.layer.shouldRasterize = NO;
-
-        // Ensure the table isn't scrolled so far down or up
-        [detailVC_ ensureScrollingDoesNotExceedThreshold];
-    }
+    [detailVC_.view bringSubviewToFront:detailVC_.scrollContainer];
 }
 
 -(void)handleImageTap:(UITapGestureRecognizer *)recognizer

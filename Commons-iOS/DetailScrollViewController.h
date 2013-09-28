@@ -1,5 +1,5 @@
 //
-//  DetailTableViewController.h
+//  DetailScrollViewController.h
 //  Commons-iOS
 //
 //  Created by Brion on 1/29/13.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FileUpload.h"
 
-@protocol DetailTableViewControllerDelegate <NSObject>
+@protocol DetailScrollViewControllerDelegate <NSObject>
     // Protocol for notifying other view controllers, such as ImageScrollViewController,
     // that the Details view has been scrolled. The ImageScrollViewController uses this
     // so it can adjust the image alpha.
@@ -19,7 +19,7 @@
     -(void)clearOverlay;
 @end
 
-@interface DetailTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface DetailScrollViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
@@ -34,18 +34,28 @@
 @property (weak, nonatomic) IBOutlet UILabel *licenseNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *ccByImage;
 @property (weak, nonatomic) IBOutlet UIImageView *ccSaImage;
-@property (weak, nonatomic) IBOutlet UITableViewCell *titleCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *descCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *licenseCell;
+//@property (weak, nonatomic) IBOutlet UITableViewCell *titleCell;
+//@property (weak, nonatomic) IBOutlet UITableViewCell *descCell;
+//@property (weak, nonatomic) IBOutlet UITableViewCell *licenseCell;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *categoryListLabel;
+@property (weak, nonatomic) IBOutlet UILabel *addCategoryLabel;
+
+@property (weak, nonatomic) IBOutlet UIView *titleContainer;
+@property (weak, nonatomic) IBOutlet UIView *descriptionContainer;
+@property (weak, nonatomic) IBOutlet UIView *licenseContainer;
+@property (weak, nonatomic) IBOutlet UIView *categoryContainer;
+
+@property (weak, nonatomic) IBOutlet UIView *scrollContainer;
+
+//@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (strong, nonatomic) FileUpload *selectedRecord;
 @property (strong, nonatomic) NSMutableArray *categoryList;
 
 @property (nonatomic, strong) UIActivityViewController *shareActivityViewController;
 
-@property (strong, nonatomic) id<DetailTableViewControllerDelegate> delegate;
+@property (strong, nonatomic) id<DetailScrollViewControllerDelegate> delegate;
 @property (nonatomic) float detailsScrollNormal;
 
 -(IBAction)deleteButtonPushed:(id)sender;

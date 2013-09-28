@@ -133,7 +133,7 @@
 		65C4D57F16CCE3550077E0A2 /* MWEventLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */; };
 		65C4D58016CCE3550077E0A2 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
 		65C4D58116CCE3550077E0A2 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* LoginViewController.m */; };
-		65C4D58216CCE3550077E0A2 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
+		65C4D58216CCE3550077E0A2 /* DetailScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailScrollViewController.m */; };
 		65C4D58416CCE3550077E0A2 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
 		65C4D58516CCE3550077E0A2 /* ImageListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281216C19C4D00BC3ABE /* ImageListCell.m */; };
 		65C4D58616CCE3550077E0A2 /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
@@ -153,7 +153,7 @@
 		65CA698616C05B9700839D09 /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
 		65CA698716C05B9700839D09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
 		65CA698916C05B9700839D09 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* LoginViewController.m */; };
-		65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
+		65CA698B16C05B9700839D09 /* DetailScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailScrollViewController.m */; };
 		65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
 		65CA698E16C05B9700839D09 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
 		65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
@@ -256,7 +256,7 @@
 		D48BB92117289CEF003100CE /* AddCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D48BB92017289CEF003100CE /* AddCategoryCell.xib */; };
 		D48FA3251725A1AA0039F254 /* messages-en-ca.json in Resources */ = {isa = PBXBuildFile; fileRef = D48FA3231725A1AA0039F254 /* messages-en-ca.json */; };
 		D48FA3261725A1AA0039F254 /* messages-ml.json in Resources */ = {isa = PBXBuildFile; fileRef = D48FA3241725A1AA0039F254 /* messages-ml.json */; };
-		D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */; };
+		D4AFF27516B886FD003D96F3 /* DetailScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailScrollViewController.m */; };
 		D4B1CDFD1721E248008E1B31 /* CategorySearchTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B1CDFC1721E248008E1B31 /* CategorySearchTableViewController.m */; };
 		D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		D4C037101700C38100AA2537 /* messages-af.json in Resources */ = {isa = PBXBuildFile; fileRef = D4C036F21700C38000AA2537 /* messages-af.json */; };
@@ -555,8 +555,8 @@
 		D48BB92017289CEF003100CE /* AddCategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddCategoryCell.xib; sourceTree = "<group>"; };
 		D48FA3231725A1AA0039F254 /* messages-en-ca.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-en-ca.json"; path = "messages/messages-en-ca.json"; sourceTree = "<group>"; };
 		D48FA3241725A1AA0039F254 /* messages-ml.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-ml.json"; path = "messages/messages-ml.json"; sourceTree = "<group>"; };
-		D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailTableViewController.h; sourceTree = "<group>"; };
-		D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailTableViewController.m; sourceTree = "<group>"; };
+		D4AFF27316B886FD003D96F3 /* DetailScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailScrollViewController.h; sourceTree = "<group>"; };
+		D4AFF27416B886FD003D96F3 /* DetailScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailScrollViewController.m; sourceTree = "<group>"; };
 		D4B1CDFB1721E248008E1B31 /* CategorySearchTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategorySearchTableViewController.h; sourceTree = "<group>"; };
 		D4B1CDFC1721E248008E1B31 /* CategorySearchTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategorySearchTableViewController.m; sourceTree = "<group>"; };
 		D4B83E2016BC950900ABAF94 /* BrowserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrowserHelper.h; sourceTree = "<group>"; };
@@ -1050,8 +1050,8 @@
 				D4086180169B760800D6ACB0 /* AppDelegate.m */,
 				D450A0DF16B347BE00D1D1E2 /* LoginViewController.h */,
 				D450A0E016B347BE00D1D1E2 /* LoginViewController.m */,
-				D4AFF27316B886FD003D96F3 /* DetailTableViewController.h */,
-				D4AFF27416B886FD003D96F3 /* DetailTableViewController.m */,
+				D4AFF27316B886FD003D96F3 /* DetailScrollViewController.h */,
+				D4AFF27416B886FD003D96F3 /* DetailScrollViewController.m */,
 				DC606FBD16BF28FA006EFA5C /* ImageScrollViewController.h */,
 				DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */,
 				D41D281116C19C4D00BC3ABE /* ImageListCell.h */,
@@ -1529,7 +1529,7 @@
 				65CA698916C05B9700839D09 /* LoginViewController.m in Sources */,
 				65CA699216C05BD500839D09 /* main.m in Sources */,
 				65CA699116C05BC300839D09 /* FileUpload.xcdatamodeld in Sources */,
-				65CA698B16C05B9700839D09 /* DetailTableViewController.m in Sources */,
+				65CA698B16C05B9700839D09 /* DetailScrollViewController.m in Sources */,
 				65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */,
 				65CA698E16C05B9700839D09 /* FileUpload.m in Sources */,
 				65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */,
@@ -1577,7 +1577,7 @@
 				65C4D57F16CCE3550077E0A2 /* MWEventLogging.m in Sources */,
 				65C4D58016CCE3550077E0A2 /* AppDelegate.m in Sources */,
 				65C4D58116CCE3550077E0A2 /* LoginViewController.m in Sources */,
-				65C4D58216CCE3550077E0A2 /* DetailTableViewController.m in Sources */,
+				65C4D58216CCE3550077E0A2 /* DetailScrollViewController.m in Sources */,
 				65C4D58416CCE3550077E0A2 /* ImageScrollViewController.m in Sources */,
 				65C4D58516CCE3550077E0A2 /* ImageListCell.m in Sources */,
 				65C4D58616CCE3550077E0A2 /* MyUploadsViewController.m in Sources */,
@@ -1609,7 +1609,7 @@
 				D450A0E116B347BE00D1D1E2 /* LoginViewController.m in Sources */,
 				D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */,
 				D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */,
-				D4AFF27516B886FD003D96F3 /* DetailTableViewController.m in Sources */,
+				D4AFF27516B886FD003D96F3 /* DetailScrollViewController.m in Sources */,
 				DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */,
 				D4B83E2216BC950900ABAF94 /* BrowserHelper.m in Sources */,
 				DC606FBF16BF28FA006EFA5C /* ImageScrollViewController.m in Sources */,
