@@ -40,6 +40,8 @@
 #define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 146.0f : 126.0f)
 
 #define DETAIL_TABLE_MAX_OVERLAY_ALPHA 0.85f
+#define LABEL_PADDING_INSET UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f)
+
 
 @interface DetailScrollViewController ()
 
@@ -127,18 +129,18 @@
     self.descriptionTextLabel.backgroundColor = [UIColor clearColor];
     self.descriptionTextLabel.borderColor = [UIColor clearColor];
     self.descriptionTextLabel.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-    [self.descriptionTextLabel setPaddingInsets:UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f)];
+    [self.descriptionTextLabel setPaddingInsets:LABEL_PADDING_INSET];
     
     self.titleTextField.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
     self.titleTextLabel.backgroundColor = [UIColor clearColor];
     self.titleTextLabel.borderColor = [UIColor clearColor];
     self.titleTextLabel.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-    [self.titleTextLabel setPaddingInsets:UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f)];
+    [self.titleTextLabel setPaddingInsets:LABEL_PADDING_INSET];
 
     // Add a bit of left and right padding to the text box
-    self.titleTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 20)];
+    self.titleTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.titleTextField.leftViewMode = UITextFieldViewModeAlways;
-    self.titleTextField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 20)];
+    self.titleTextField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.titleTextField.rightViewMode = UITextFieldViewModeAlways;
 
 	self.titleTextField.textColor = DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR;
@@ -342,6 +344,8 @@
                 self.descriptionTextView.editable = NO;
                 self.descriptionTextView.hidden = YES;
                 [self.descriptionTextView removeConstraint:self.descriptionTextViewHeightConstraint];
+                [self.titleTextField removeConstraint:self.titleTextFieldHeightConstraint];
+                
                 self.descriptionTextLabel.hidden = NO;
                 self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
                 self.actionButton.enabled = YES; // open link or share on the web
@@ -368,6 +372,8 @@
                 self.titleTextLabel.hidden = YES;
                 self.descriptionTextView.editable = YES;
                 [self.descriptionTextView addConstraint:self.descriptionTextViewHeightConstraint];
+                [self.titleTextField addConstraint:self.titleTextFieldHeightConstraint];
+
                 self.descriptionTextView.hidden = NO;
                 self.descriptionTextLabel.hidden = YES;
                 self.deleteButton.enabled = (record.progress.floatValue == 0.0f); // don't allow delete _during_ upload
@@ -871,7 +877,7 @@
         label.backgroundColor = [UIColor clearColor];
         label.borderColor = [UIColor clearColor];
         label.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-        [label setPaddingInsets:UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f)];
+        [label setPaddingInsets:LABEL_PADDING_INSET];
         [self.categoryContainer addSubview:label];
         [categoryLabels addObject:label];
     }

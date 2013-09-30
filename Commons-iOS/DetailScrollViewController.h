@@ -69,6 +69,7 @@
 -(void)scrollByAmount:(float)amount withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options useXF:(BOOL)useXF then:(void(^)(void))block;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *descriptionTextViewHeightConstraint;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *titleTextFieldHeightConstraint;
 
 -(void)ensureScrollingDoesNotExceedThreshold;
 -(void)toggle;
