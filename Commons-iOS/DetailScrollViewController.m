@@ -125,7 +125,11 @@
     
     self.descriptionTextView.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
     self.titleTextField.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-    
+    self.titleTextLabel.backgroundColor = [UIColor clearColor];
+    self.titleTextLabel.borderColor = [UIColor clearColor];
+    self.titleTextLabel.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+    [self.titleTextLabel setPaddingInsets:UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f)];
+
     // Add a bit of left and right padding to the text box
     self.titleTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 20)];
     self.titleTextField.leftViewMode = UITextFieldViewModeAlways;
@@ -308,6 +312,7 @@
         self.categoryList = [record.categoryList mutableCopy];
         [self updateCategoryContainer];
         self.titleTextField.text = record.title;
+        self.titleTextLabel.text = record.title;
         self.descriptionTextView.text = record.desc;
         self.descriptionPlaceholder.hidden = (record.desc.length > 0);
 
@@ -326,6 +331,8 @@
             if (record.complete.boolValue) {
                 // Completed upload...
                 self.titleTextField.enabled = NO;
+                self.titleTextField.hidden = YES;
+                self.titleTextLabel.hidden = NO;
                 self.descriptionTextView.editable = NO;
                 self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
                 self.actionButton.enabled = YES; // open link or share on the web
@@ -345,13 +352,15 @@
                 self.ccSaImage.hidden = YES;
 
 				self.descriptionTextView.backgroundColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-				self.titleTextField.backgroundColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+				//self.titleTextField.backgroundColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
 
                 // either use HTML http://commons.wikimedia.org/wiki/Commons:Machine-readable_data
                 // or pick apart the standard templates
             } else {
                 // Locally queued file...
                 self.titleTextField.enabled = YES;
+                self.titleTextField.hidden = NO;
+                self.titleTextLabel.hidden = YES;
                 self.descriptionTextView.editable = YES;
                 self.deleteButton.enabled = (record.progress.floatValue == 0.0f); // don't allow delete _during_ upload
                 self.actionButton.enabled = NO;

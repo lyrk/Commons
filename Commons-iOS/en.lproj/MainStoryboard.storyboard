@@ -1253,15 +1253,26 @@ to take or choose photos.</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
+                                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="r2g-Wc-vb5" userLabel="Title Text Label" customClass="UILabelDynamicHeight">
+                                                <rect key="frame" x="20" y="49" width="240" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0" green="0.45882352939999999" blue="0.67450980390000004" alpha="1" colorSpace="deviceRGB"/>
                                         <constraints>
                                             <constraint firstItem="8ha-ZZ-I4k" firstAttribute="top" secondItem="2bq-vj-2xO" secondAttribute="bottom" constant="8" symbolic="YES" id="0Il-0g-D2S"/>
                                             <constraint firstAttribute="trailing" secondItem="2bq-vj-2xO" secondAttribute="trailing" constant="20" symbolic="YES" id="8uy-II-c36"/>
+                                            <constraint firstAttribute="bottom" secondItem="r2g-Wc-vb5" secondAttribute="bottom" constant="20" symbolic="YES" id="9hr-iu-vFt"/>
                                             <constraint firstItem="2bq-vj-2xO" firstAttribute="leading" secondItem="jhZ-zd-ki7" secondAttribute="leading" constant="20" symbolic="YES" id="K8i-Xp-tlx"/>
                                             <constraint firstAttribute="trailing" secondItem="8ha-ZZ-I4k" secondAttribute="trailing" constant="20" symbolic="YES" id="Nox-TZ-qJa"/>
                                             <constraint firstAttribute="bottom" secondItem="8ha-ZZ-I4k" secondAttribute="bottom" constant="20" symbolic="YES" id="bBw-wB-Fdj"/>
+                                            <constraint firstAttribute="trailing" secondItem="r2g-Wc-vb5" secondAttribute="trailing" constant="20" symbolic="YES" id="dUV-GF-0df"/>
                                             <constraint firstItem="8ha-ZZ-I4k" firstAttribute="leading" secondItem="jhZ-zd-ki7" secondAttribute="leading" constant="20" symbolic="YES" id="lEF-pj-nw1"/>
+                                            <constraint firstItem="r2g-Wc-vb5" firstAttribute="leading" secondItem="jhZ-zd-ki7" secondAttribute="leading" constant="20" symbolic="YES" id="mkO-PU-4UL"/>
+                                            <constraint firstItem="r2g-Wc-vb5" firstAttribute="top" secondItem="2bq-vj-2xO" secondAttribute="bottom" constant="8" symbolic="YES" id="rLj-z3-xog"/>
                                             <constraint firstItem="2bq-vj-2xO" firstAttribute="top" secondItem="jhZ-zd-ki7" secondAttribute="top" constant="20" symbolic="YES" id="vLz-ss-A42"/>
                                         </constraints>
                                     </view>
@@ -1386,6 +1397,7 @@ to take or choose photos.</string>
                         <outlet property="titleContainer" destination="jhZ-zd-ki7" id="ZIb-2a-ay0"/>
                         <outlet property="titleLabel" destination="2bq-vj-2xO" id="ZNe-Lu-57P"/>
                         <outlet property="titleTextField" destination="8ha-ZZ-I4k" id="RSQ-5R-Ogc"/>
+                        <outlet property="titleTextLabel" destination="r2g-Wc-vb5" id="NwJ-ob-j4X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W0W-ri-2SE" userLabel="First Responder" sceneMemberID="firstResponder"/>
