@@ -124,6 +124,11 @@
     self.categoryLabel.text = [MWMessage forKey:@"details-category-label"].text;
     
     self.descriptionTextView.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+    self.descriptionTextLabel.backgroundColor = [UIColor clearColor];
+    self.descriptionTextLabel.borderColor = [UIColor clearColor];
+    self.descriptionTextLabel.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+    [self.descriptionTextLabel setPaddingInsets:UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f)];
+    
     self.titleTextField.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
     self.titleTextLabel.backgroundColor = [UIColor clearColor];
     self.titleTextLabel.borderColor = [UIColor clearColor];
@@ -208,7 +213,7 @@
     self.licenseContainer.backgroundColor = containerColor;
     self.categoryContainer.backgroundColor = containerColor;
     
-//    [self.view randomlyColorSubviews];
+    //[self.view randomlyColorSubviews];
 }
 
 -(void)handleDetailsPan:(UIPanGestureRecognizer *)recognizer
@@ -314,13 +319,14 @@
         self.titleTextField.text = record.title;
         self.titleTextLabel.text = record.title;
         self.descriptionTextView.text = record.desc;
+        self.descriptionTextLabel.text =record.desc;
         self.descriptionPlaceholder.hidden = (record.desc.length > 0);
 
         self.categoryListLabel.text = [self categoryShortList];
 
         // Get categories and description
         if (record.complete.boolValue) {
-            self.descriptionTextView.text = [MWMessage forKey:@"details-description-loading"].text;
+            self.descriptionTextLabel.text = [MWMessage forKey:@"details-description-loading"].text;
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [self getPreviouslySavedDescriptionForRecord:record];
                 [self getPreviouslySavedCategoriesForRecord:record];
@@ -334,6 +340,9 @@
                 self.titleTextField.hidden = YES;
                 self.titleTextLabel.hidden = NO;
                 self.descriptionTextView.editable = NO;
+                self.descriptionTextView.hidden = YES;
+                [self.descriptionTextView removeConstraint:self.descriptionTextViewHeightConstraint];
+                self.descriptionTextLabel.hidden = NO;
                 self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
                 self.actionButton.enabled = YES; // open link or share on the web
                 self.uploadButton.enabled = NO; // fixme either hide or replace with action button?
@@ -342,7 +351,6 @@
 
                 // Make description read-only for now
                 self.descriptionTextView.userInteractionEnabled = NO;
-                self.descriptionTextView.hidden = NO;
                 self.descriptionLabel.hidden = NO;
                 
                 // fixme: load license info from wiki page
@@ -350,9 +358,6 @@
                 self.licenseNameLabel.hidden = YES;
                 self.ccByImage.hidden = YES;
                 self.ccSaImage.hidden = YES;
-
-				self.descriptionTextView.backgroundColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-				//self.titleTextField.backgroundColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
 
                 // either use HTML http://commons.wikimedia.org/wiki/Commons:Machine-readable_data
                 // or pick apart the standard templates
@@ -362,11 +367,13 @@
                 self.titleTextField.hidden = NO;
                 self.titleTextLabel.hidden = YES;
                 self.descriptionTextView.editable = YES;
+                [self.descriptionTextView addConstraint:self.descriptionTextViewHeightConstraint];
+                self.descriptionTextView.hidden = NO;
+                self.descriptionTextLabel.hidden = YES;
                 self.deleteButton.enabled = (record.progress.floatValue == 0.0f); // don't allow delete _during_ upload
                 self.actionButton.enabled = NO;
                 
                 self.descriptionLabel.hidden = NO;
-                self.descriptionTextView.hidden = NO;
                 self.descriptionPlaceholder.hidden = (record.desc.length > 0);
                 self.licenseLabel.hidden = NO;
                 self.licenseNameLabel.hidden = NO;
@@ -922,6 +929,7 @@
     MWPromise *req = [api getRequest:params];
     
     __weak UITextView *weakDescriptionTextView = self.descriptionTextView;
+    __weak UILabelDynamicHeight *weakDescriptionTextLabel = self.descriptionTextLabel;
     
     [req done:^(NSDictionary *result) {
         for (NSString *page in result[@"query"][@"pages"]) {
@@ -941,7 +949,6 @@
                     weakDescriptionTextView.text = ([descriptions objectForKey:language]) ? descriptions[language] : descriptions[@"en"];
                     // reloadData so description cell can be resized according to the retrieved description's text height
 //                    [weakTableView reloadData];
-                    
                 };
                 [descriptionParser_ parse];
             }
@@ -952,6 +959,7 @@
         if ([weakDescriptionTextView.text isEqualToString: [MWMessage forKey:@"details-description-loading"].text]){
             weakDescriptionTextView.text = [MWMessage forKey:@"details-description-none-found"].text;
         }
+        weakDescriptionTextLabel.text = weakDescriptionTextView.text;
     }];
 }
 

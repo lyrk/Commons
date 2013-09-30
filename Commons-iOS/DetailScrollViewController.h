@@ -27,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *titleTextField;
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *titleTextLabel;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *descriptionTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionPlaceholder;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteButton;
@@ -66,6 +67,8 @@
 -(void)hideKeyboard;
 
 -(void)scrollByAmount:(float)amount withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options useXF:(BOOL)useXF then:(void(^)(void))block;
+
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *descriptionTextViewHeightConstraint;
 
 -(void)ensureScrollingDoesNotExceedThreshold;
 -(void)toggle;

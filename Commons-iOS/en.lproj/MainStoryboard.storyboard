@@ -1296,8 +1296,15 @@ to take or choose photos.</string>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="Required" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ez-E3-hMg" userLabel="Required Label">
-                                                <rect key="frame" x="20" y="66" width="265" height="21"/>
+                                            <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="aaw-cf-MZE" userLabel="Description Text Label" customClass="UILabelDynamicHeight">
+                                                <rect key="frame" x="20" y="49" width="240" height="154"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Required" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ez-E3-hMg" userLabel="Required Label">
+                                                <rect key="frame" x="30" y="57" width="230" height="21"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1308,11 +1315,18 @@ to take or choose photos.</string>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="rwu-hG-Nxi" secondAttribute="bottom" constant="20" symbolic="YES" id="12H-wA-z3G"/>
                                             <constraint firstItem="rwu-hG-Nxi" firstAttribute="leading" secondItem="ChD-4f-cDJ" secondAttribute="leading" constant="20" symbolic="YES" id="4VT-vc-djl"/>
+                                            <constraint firstItem="aaw-cf-MZE" firstAttribute="top" secondItem="7ez-E3-hMg" secondAttribute="top" constant="-8" id="7Hx-Ro-tWe"/>
                                             <constraint firstItem="CZQ-bf-MDt" firstAttribute="leading" secondItem="ChD-4f-cDJ" secondAttribute="leading" constant="20" symbolic="YES" id="7lV-od-O8L"/>
+                                            <constraint firstItem="aaw-cf-MZE" firstAttribute="trailing" secondItem="7ez-E3-hMg" secondAttribute="trailing" id="8xr-pm-4V2"/>
+                                            <constraint firstItem="aaw-cf-MZE" firstAttribute="leading" secondItem="ChD-4f-cDJ" secondAttribute="leading" constant="20" symbolic="YES" id="97D-9T-EDe"/>
                                             <constraint firstItem="rwu-hG-Nxi" firstAttribute="top" secondItem="CZQ-bf-MDt" secondAttribute="bottom" constant="8" symbolic="YES" id="OEg-4O-hRu"/>
+                                            <constraint firstItem="aaw-cf-MZE" firstAttribute="leading" secondItem="7ez-E3-hMg" secondAttribute="leading" constant="-10" id="OVI-at-mG7"/>
                                             <constraint firstItem="CZQ-bf-MDt" firstAttribute="top" secondItem="ChD-4f-cDJ" secondAttribute="top" constant="20" symbolic="YES" id="Tbe-TG-24S"/>
+                                            <constraint firstAttribute="bottom" secondItem="aaw-cf-MZE" secondAttribute="bottom" constant="20" symbolic="YES" id="Xux-Cf-RTi"/>
+                                            <constraint firstAttribute="trailing" secondItem="aaw-cf-MZE" secondAttribute="trailing" constant="20" symbolic="YES" id="bF7-QK-nPM"/>
                                             <constraint firstAttribute="trailing" secondItem="rwu-hG-Nxi" secondAttribute="trailing" constant="20" symbolic="YES" id="ce1-M6-7fR"/>
                                             <constraint firstAttribute="trailing" secondItem="CZQ-bf-MDt" secondAttribute="trailing" constant="20" symbolic="YES" id="d5i-t8-6Ji"/>
+                                            <constraint firstItem="aaw-cf-MZE" firstAttribute="top" secondItem="CZQ-bf-MDt" secondAttribute="bottom" constant="8" symbolic="YES" id="jL9-Ch-3sm"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0OK-Zl-28Q" userLabel="License Container">
@@ -1390,7 +1404,9 @@ to take or choose photos.</string>
                         <outlet property="descriptionContainer" destination="ChD-4f-cDJ" id="Kag-oJ-QIL"/>
                         <outlet property="descriptionLabel" destination="CZQ-bf-MDt" id="5Ys-xU-tlY"/>
                         <outlet property="descriptionPlaceholder" destination="7ez-E3-hMg" id="Lmn-FU-s50"/>
+                        <outlet property="descriptionTextLabel" destination="aaw-cf-MZE" id="emK-u2-BdX"/>
                         <outlet property="descriptionTextView" destination="rwu-hG-Nxi" id="SXN-Wq-k7I"/>
+                        <outlet property="descriptionTextViewHeightConstraint" destination="tRZ-n3-B8e" id="Pnb-HI-0nD"/>
                         <outlet property="licenseContainer" destination="0OK-Zl-28Q" id="uC5-C8-e8R"/>
                         <outlet property="licenseLabel" destination="myN-TB-iEG" id="Fg9-q8-CZA"/>
                         <outlet property="scrollContainer" destination="ehb-uI-yRM" id="ENZ-Y8-UOx"/>
