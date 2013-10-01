@@ -1180,6 +1180,7 @@
                          completion:^(BOOL finished){
                             [self.selectedRecord removeCategory:category];
                             [CommonsApp.singleton saveData];
+                            [self scrollDownIfGapBeneathDetails];
                          }];
     }
 }
@@ -1270,7 +1271,7 @@
         float offset = self.view.frame.origin.y - detailsY;
         isAnimating = YES;
         [self scrollByAmount:-offset withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:^{
-//            [self ensureScrollingDoesNotExceedThreshold];
+          //[self ensureScrollingDoesNotExceedThreshold];
             isAnimating = NO;
         }];
     }
@@ -1289,9 +1290,7 @@
                              self.view.transform = CGAffineTransformTranslate(self.view.transform, 0, amount);
                          }else{
                              self.viewTopConstraint.constant = self.view.frame.origin.y + amount;
-                             
-NSLog(@"self.viewTopConstraint.constant = %f", self.viewTopConstraint.constant);
-
+                             //NSLog(@"self.viewTopConstraint.constant = %f", self.viewTopConstraint.constant);
                              [self.view.superview layoutIfNeeded];
                          }
 					 }
@@ -1318,7 +1317,7 @@ NSLog(@"self.viewTopConstraint.constant = %f", self.viewTopConstraint.constant);
     // Scroll to eliminate any gap beneath the table and the bottom of the delegate's view
     float bottomGapHeight = [self getBottomGapHeight];
     if (bottomGapHeight > 0.0f) {
-NSLog(@"bottomGapHeight = %f", bottomGapHeight);
+        //NSLog(@"bottomGapHeight = %f", bottomGapHeight);
         [self scrollByAmount:bottomGapHeight withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
     }
 }
