@@ -226,6 +226,9 @@
     [self configureForSelectedRecord];
     [self configureHideKeyboardButton];
 
+    // Apply the style used by category labels to the category "Loading..." placeholder
+    [self styleCategoryLabel:self.categoryLoadingMsgLabel];
+
     //[self.view randomlyColorSubviews];
 }
 
@@ -407,6 +410,8 @@
         // Get categories and description
         if (record.complete.boolValue) {
             self.descriptionTextLabel.text = [MWMessage forKey:@"details-description-loading"].text;
+            self.categoryLoadingMsgLabel.text = [MWMessage forKey:@"details-category-loading"].text;
+
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [self getPreviouslySavedDescriptionForRecord:record];
                 [self getPreviouslySavedCategoriesForRecord:record];
@@ -939,6 +944,9 @@
 
     NSMutableArray *categoryLabels = [[NSMutableArray alloc] init];
 
+    // No longer need the "Loading..." category placeholder
+    [self.categoryLoadingMsgLabel removeFromSuperview];
+
     // Every view which gets constrained by this method is also created by this method
     // with the exeption of self.categoryLabel. This means views created here can be
     // constrained here without having to worry about a new constraint conflicting with
@@ -973,12 +981,7 @@
         UILabelDynamicHeight *label = [[UILabelDynamicHeight alloc] initWithFrame:CGRectZero];
         label.translatesAutoresizingMaskIntoConstraints = NO;
         label.text = categoryString;
-        [label setFont:[UIFont systemFontOfSize:14.0f]];
-        label.textColor = [UIColor whiteColor];
-        label.backgroundColor = [UIColor clearColor];
-        label.borderColor = [UIColor clearColor];
-        label.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-        [label setPaddingInsets:DETAIL_CATEGORY_PADDING_INSET];
+        [self styleCategoryLabel:label];
         [self.categoryContainer addSubview:label];
         [categoryLabels addObject:label];
 
@@ -1034,6 +1037,16 @@
     }
 
     [self.categoryContainer layoutIfNeeded];
+}
+
+-(void)styleCategoryLabel:(UILabelDynamicHeight *)label
+{
+    [label setFont:[UIFont systemFontOfSize:14.0f]];
+    label.textColor = [UIColor whiteColor];
+    label.backgroundColor = [UIColor clearColor];
+    label.borderColor = [UIColor clearColor];
+    label.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+    [label setPaddingInsets:DETAIL_CATEGORY_PADDING_INSET];
 }
 
 - (NSString *)categoryShortList

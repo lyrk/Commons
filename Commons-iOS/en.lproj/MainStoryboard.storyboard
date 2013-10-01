@@ -1231,8 +1231,8 @@ to take or choose photos.</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehb-uI-yRM" userLabel="Scroll Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="506"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ehb-uI-yRM" userLabel="Scroll Container">
+                                <rect key="frame" x="0.0" y="-330" width="320" height="531"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhZ-zd-ki7" userLabel="Title Container">
@@ -1353,7 +1353,7 @@ to take or choose photos.</string>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fx9-U5-jNG" userLabel="Category Container">
-                                        <rect key="frame" x="20" y="425" width="280" height="61"/>
+                                        <rect key="frame" x="20" y="425" width="280" height="86"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="jUg-Wa-cMl">
@@ -1363,13 +1363,23 @@ to take or choose photos.</string>
                                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading..." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="dyF-FO-sE1" userLabel="Loading Message Placeholder" customClass="UILabelDynamicHeight">
+                                                <rect key="frame" x="20" y="49" width="240" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstItem="jUg-Wa-cMl" firstAttribute="leading" secondItem="fx9-U5-jNG" secondAttribute="leading" constant="20" symbolic="YES" id="Eir-BG-oWC"/>
                                             <constraint firstItem="jUg-Wa-cMl" firstAttribute="top" secondItem="fx9-U5-jNG" secondAttribute="top" constant="20" symbolic="YES" id="GuJ-RG-cpo"/>
+                                            <constraint firstAttribute="trailing" secondItem="dyF-FO-sE1" secondAttribute="trailing" constant="20" symbolic="YES" id="Gub-aD-Am6"/>
+                                            <constraint firstItem="dyF-FO-sE1" firstAttribute="top" secondItem="jUg-Wa-cMl" secondAttribute="bottom" constant="8" symbolic="YES" id="UKZ-ct-1Bc"/>
                                             <constraint firstAttribute="trailing" secondItem="jUg-Wa-cMl" secondAttribute="trailing" constant="20" symbolic="YES" id="fbi-kd-6SU"/>
-                                            <constraint firstAttribute="bottom" secondItem="jUg-Wa-cMl" secondAttribute="bottom" constant="20" symbolic="YES" id="u19-D6-Yye"/>
+                                            <constraint firstItem="dyF-FO-sE1" firstAttribute="leading" secondItem="fx9-U5-jNG" secondAttribute="leading" constant="20" symbolic="YES" id="uxr-TL-Iqy"/>
+                                            <constraint firstAttribute="bottom" secondItem="dyF-FO-sE1" secondAttribute="bottom" constant="20" symbolic="YES" id="ytA-ja-q5t"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -1404,6 +1414,7 @@ to take or choose photos.</string>
                     <connections>
                         <outlet property="categoryContainer" destination="fx9-U5-jNG" id="e2I-cl-ZSs"/>
                         <outlet property="categoryLabel" destination="jUg-Wa-cMl" id="8yR-OG-vWN"/>
+                        <outlet property="categoryLoadingMsgLabel" destination="dyF-FO-sE1" id="nwo-Ty-SsO"/>
                         <outlet property="descriptionContainer" destination="ChD-4f-cDJ" id="Kag-oJ-QIL"/>
                         <outlet property="descriptionLabel" destination="CZQ-bf-MDt" id="5Ys-xU-tlY"/>
                         <outlet property="descriptionPlaceholder" destination="7ez-E3-hMg" id="Lmn-FU-s50"/>
@@ -1950,8 +1961,6 @@ Help Wikipedia articles come to life!</string>
         <image name="mockBadPhoto.png" width="237" height="286"/>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="30" height="30"/>
     </resources>
