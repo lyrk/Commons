@@ -40,7 +40,10 @@
 #define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 146.0f : 126.0f)
 
 #define DETAIL_TABLE_MAX_OVERLAY_ALPHA 0.85f
-#define LABEL_PADDING_INSET UIEdgeInsetsMake(17.0f, 11.0f, 17.0f, 11.0f)
+
+#define DETAIL_TITLE_PADDING_INSET UIEdgeInsetsMake(17.0f, 11.0f, 17.0f, 11.0f)
+#define DETAIL_DESCRIPTION_PADDING_INSET UIEdgeInsetsMake(17.0f, 11.0f, 17.0f, 11.0f)
+#define DETAIL_CATEGORY_PADDING_INSET UIEdgeInsetsMake(17.0f, 11.0f, 17.0f, 11.0f)
 
 
 @interface DetailScrollViewController ()
@@ -134,13 +137,13 @@
     self.descriptionTextLabel.backgroundColor = [UIColor clearColor];
     self.descriptionTextLabel.borderColor = [UIColor clearColor];
     self.descriptionTextLabel.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-    [self.descriptionTextLabel setPaddingInsets:LABEL_PADDING_INSET];
+    [self.descriptionTextLabel setPaddingInsets:DETAIL_DESCRIPTION_PADDING_INSET];
     
     self.titleTextField.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
     self.titleTextLabel.backgroundColor = [UIColor clearColor];
     self.titleTextLabel.borderColor = [UIColor clearColor];
     self.titleTextLabel.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-    [self.titleTextLabel setPaddingInsets:LABEL_PADDING_INSET];
+    [self.titleTextLabel setPaddingInsets:DETAIL_TITLE_PADDING_INSET];
 
     // Add a bit of left and right padding to the text box
     self.titleTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
@@ -982,7 +985,7 @@
         label.backgroundColor = [UIColor clearColor];
         label.borderColor = [UIColor clearColor];
         label.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
-        [label setPaddingInsets:LABEL_PADDING_INSET];
+        [label setPaddingInsets:DETAIL_CATEGORY_PADDING_INSET];
         [self.categoryContainer addSubview:label];
         [categoryLabels addObject:label];
 
@@ -996,10 +999,13 @@
                 label.textAlignment = NSTextAlignmentCenter;
                 label.paddingColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
             }else{
+                // Else it's not the "Add Category" button so it's an actual category label.
                 label.userInteractionEnabled = YES;
                 UIPanGestureRecognizer *catPanRecognizer_ = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleCategoryPan:)];
                 catPanRecognizer_.delegate = self;
                 [label addGestureRecognizer:catPanRecognizer_];
+                
+                [self addHamburgerToLabel:label];
             }
         }
     }
@@ -1046,6 +1052,25 @@
     } else {
         return [cats componentsJoinedByString:@", "];
     }
+}
+
+-(void)addHamburgerToLabel:(UILabelDynamicHeight *)label
+{
+    UIImageView *burger = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"categoryHamburger.png"]];
+    burger.translatesAutoresizingMaskIntoConstraints = NO;
+    [label.paddingView addSubview: burger];
+    [label.paddingView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[burger]|"
+                                                                              options:0
+                                                                              metrics:nil
+                                                                                views:@{@"burger": burger}
+                                       ]];
+    [label.paddingView addConstraint:[NSLayoutConstraint constraintWithItem:burger
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:label.paddingView
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                 multiplier:1.0
+                                                                   constant:0]];
 }
 
 #pragma mark - Category swipe to delete

@@ -20,6 +20,7 @@
 		04739E08174ECCDF00F32D13 /* WhatPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E07174ECCDF00F32D13 /* WhatPhotosViewController.m */; };
 		04739E0E174F0D3600F32D13 /* WhatIsCommonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */; };
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
+		048C8B9F17FB71520082EB28 /* categoryHamburger.png in Resources */ = {isa = PBXBuildFile; fileRef = 048C8B9E17FB71520082EB28 /* categoryHamburger.png */; };
 		04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */; };
 		04A0F33B17AACF7F004AB164 /* ImageResizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A0F33A17AACF7F004AB164 /* ImageResizer.m */; };
 		04A386E617CEFA2F00BC0A3D /* UIView+Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A386E517CEFA2F00BC0A3D /* UIView+Debugging.m */; };
@@ -358,6 +359,7 @@
 		04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhatIsCommonsViewController.m; sourceTree = "<group>"; };
 		0478F8E71731B5E9007D4531 /* WelcomeOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeOverlayView.h; sourceTree = "<group>"; };
 		0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeOverlayView.m; sourceTree = "<group>"; };
+		048C8B9E17FB71520082EB28 /* categoryHamburger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = categoryHamburger.png; path = "Commons-iOS/categoryHamburger.png"; sourceTree = SOURCE_ROOT; };
 		04A02DA7177502AF00A392C1 /* GalleryMultiSelectAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAssetCell.h; sourceTree = "<group>"; };
 		04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAssetCell.m; sourceTree = "<group>"; };
 		04A0F33917AACF7F004AB164 /* ImageResizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageResizer.h; sourceTree = "<group>"; };
@@ -946,6 +948,7 @@
 			isa = PBXGroup;
 			children = (
 				04AC5A7517A1D66800A06997 /* Bundled Pictures of Day */,
+				048C8B9E17FB71520082EB28 /* categoryHamburger.png */,
 				04E6617917614AB0003F35AD /* copyleft@2x.png */,
 				04E6617A17614AB0003F35AD /* copyleft.png */,
 				04C27B31174BEB9500B1942F /* mockPagePhoto.png */,
@@ -1433,6 +1436,7 @@
 				D48FA3261725A1AA0039F254 /* messages-ml.json in Resources */,
 				D48BB91F17289CBE003100CE /* CategoryCell.xib in Resources */,
 				D48BB92117289CEF003100CE /* AddCategoryCell.xib in Resources */,
+				048C8B9F17FB71520082EB28 /* categoryHamburger.png in Resources */,
 				D4E94E43172EBBBB0034CA6D /* messages-rif.json in Resources */,
 				D41BFA52173C26A100472EC7 /* messages-cy.json in Resources */,
 				D41BFA53173C26A100472EC7 /* messages-da.json in Resources */,
