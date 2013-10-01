@@ -127,6 +127,22 @@ NSLayoutConstraint *paddingConstraintRight_;
     }
 }
 
+-(void)setCenter:(CGPoint)center
+{
+    [super setCenter:center];
+
+    [self.paddingView setCenter:center];
+    [self.borderView setCenter:center];
+}
+
+-(void)setAlpha:(CGFloat)alpha
+{
+    [super setAlpha:alpha];
+
+    [self.paddingView setAlpha:alpha];
+    [self.borderView setAlpha:alpha];
+}
+
 -(void)setBounds:(CGRect)bounds
 {
     [super setBounds:bounds];

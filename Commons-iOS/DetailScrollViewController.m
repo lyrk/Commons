@@ -40,7 +40,7 @@
 #define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 146.0f : 126.0f)
 
 #define DETAIL_TABLE_MAX_OVERLAY_ALPHA 0.85f
-#define LABEL_PADDING_INSET UIEdgeInsetsMake(7.0f, 7.0f, 7.0f, 7.0f)
+#define LABEL_PADDING_INSET UIEdgeInsetsMake(17.0f, 11.0f, 17.0f, 11.0f)
 
 
 @interface DetailScrollViewController ()
@@ -56,11 +56,13 @@
     UIImage *previewImage_;
     BOOL isFirstAppearance_;
     DescriptionParser *descriptionParser_;
-    UISwipeGestureRecognizer *swipeRecognizerDown_;
     UIView *navBackgroundView_;
     UIView *backgroundView_;
     UIView *viewAboveBackground_;
     UIView *viewBelowBackground_;
+    UIPanGestureRecognizer *detailsPanRecognizer_;
+    CFTimeInterval timeLastDetailsPan_;
+    CFTimeInterval timeLastCategoryPan_;
 }
 
 #pragma mark - Init / dealloc
@@ -75,6 +77,8 @@
         viewAboveBackground_ = nil;
         viewBelowBackground_ = nil;
         self.categoriesNeedToBeRefreshed = NO;
+        timeLastDetailsPan_ = CACurrentMediaTime();
+        timeLastCategoryPan_ = CACurrentMediaTime();
     }
     return self;
 }
@@ -201,7 +205,7 @@
     [self configureBackgrounds];
 
     // Enable vertical sliding
-    UIPanGestureRecognizer *detailsPanRecognizer_ = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleDetailsPan:)];
+    detailsPanRecognizer_ = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleDetailsPan:)];
     detailsPanRecognizer_.delegate = self;
     [self.view addGestureRecognizer:detailsPanRecognizer_];
 
@@ -334,15 +338,29 @@
 -(void)handleDetailsPan:(UIPanGestureRecognizer *)recognizer
 {
     static CGPoint originalCenter;
+    static CGPoint originalTouch;
+    
     if (recognizer.state == UIGestureRecognizerStateBegan)
     {
         originalCenter = recognizer.view.center;
+        originalTouch = [recognizer locationInView:recognizer.view.superview];
         //recognizer.view.layer.shouldRasterize = YES;
     }
     if (recognizer.state == UIGestureRecognizerStateChanged)
     {
         CGPoint translate = [recognizer translationInView:recognizer.view.superview];
         translate.x = 0; // Don't move sideways
+        
+        CGPoint currentTouch = [recognizer locationInView:recognizer.view.superview];
+        CFTimeInterval elapsedTime = CACurrentMediaTime() - timeLastCategoryPan_;
+        if ((elapsedTime > 0.25) && (fabsf(currentTouch.y - originalTouch.y) > fabsf(currentTouch.x - originalTouch.x))) {
+            // If enough time has elapsed since timeLastCategoryPan_ and there's been more vertical than horizontal touch movement
+            // then it's safe to carry on and allow details to pan vertically
+            timeLastDetailsPan_ = CACurrentMediaTime();
+        }else{
+            translate.y = 0;
+        }
+        
         recognizer.view.center = CGPointMake(originalCenter.x + translate.x, originalCenter.y + translate.y);
     }
     if (recognizer.state == UIGestureRecognizerStateEnded ||
@@ -363,6 +381,8 @@
     
         // Ensure the table isn't scrolled so far down or up
         [self ensureScrollingDoesNotExceedThreshold];
+        
+        timeLastDetailsPan_ = CACurrentMediaTime();
     }
 }
 
@@ -623,7 +643,7 @@
 
 
 #pragma mark - To do - from table code
-
+// remove prepareForSegue and other cruft
 
 // Hide only the license row if viewing details of already-uploaded image
 //        if (self.selectedRecord.complete.boolValue) {
@@ -809,7 +829,64 @@
     
 }
 
-#pragma mark - Description and Category retrieval
+#pragma mark - Description retrieval
+
+- (void)getPreviouslySavedDescriptionForRecord:(FileUpload *)record
+{
+    CommonsApp *app = CommonsApp.singleton;
+    MWApi *api = [app startApi];
+    NSMutableDictionary *params = [@{
+                                   @"action": @"query",
+                                   @"prop": @"revisions",
+                                   @"rvprop": @"content",
+                                   @"rvparse": @"1",
+                                   @"rvlimit": @"1",
+                                   @"rvgeneratexml": @"1",
+                                   @"titles": [@"File:" stringByAppendingString:record.title],
+                                   
+                                   // Uncomment to test image w/multiple descriptions - see console for output (comment out the line above when doing so)
+                                   // @"titles": [@"File:" stringByAppendingString:@"2011-08-01 10-31-42 Switzerland Segl-Maria.jpg"],
+                                   
+                                   } mutableCopy];
+    
+    MWPromise *req = [api getRequest:params];
+    
+    __weak UITextView *weakDescriptionTextView = self.descriptionTextView;
+    __weak UILabelDynamicHeight *weakDescriptionTextLabel = self.descriptionTextLabel;
+    
+    [req done:^(NSDictionary *result) {
+        for (NSString *page in result[@"query"][@"pages"]) {
+            for (NSDictionary *category in result[@"query"][@"pages"][page][@"revisions"]) {
+                //NSMutableString *pageHTML = [category[@"*"] mutableCopy];
+                
+                descriptionParser_.xml = category[@"parsetree"];
+                descriptionParser_.done = ^(NSDictionary *descriptions){
+                    
+                    //for (NSString *description in descriptions) {
+                    //    NSLog(@"[%@] description = %@", description, descriptions[description]);
+                    //}
+                    
+                    // Show description for locale
+                    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
+                    language = [MWI18N filterLanguage:language];
+                    weakDescriptionTextView.text = ([descriptions objectForKey:language]) ? descriptions[language] : descriptions[@"en"];
+                    // reloadData so description cell can be resized according to the retrieved description's text height
+//                    [weakTableView reloadData];
+                };
+                [descriptionParser_ parse];
+            }
+        }
+    }];
+    
+    [req always:^(NSDictionary *result) {
+        if ([weakDescriptionTextView.text isEqualToString: [MWMessage forKey:@"details-description-loading"].text]){
+            weakDescriptionTextView.text = [MWMessage forKey:@"details-description-none-found"].text;
+        }
+        weakDescriptionTextLabel.text = weakDescriptionTextView.text;
+    }];
+}
+
+#pragma mark - Category retrieval
 
 - (void)getPreviouslySavedCategoriesForRecord:(FileUpload *)record
 {
@@ -856,6 +933,8 @@
 //        [self.tableView reloadData];
     }];
 }
+
+#pragma mark - Category layout
 
 -(void)updateCategoryContainer
 {
@@ -916,6 +995,11 @@
                 [label addGestureRecognizer:tapGesture];
                 label.textAlignment = NSTextAlignmentCenter;
                 label.paddingColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+            }else{
+                label.userInteractionEnabled = YES;
+                UIPanGestureRecognizer *catPanRecognizer_ = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleCategoryPan:)];
+                catPanRecognizer_.delegate = self;
+                [label addGestureRecognizer:catPanRecognizer_];
             }
         }
     }
@@ -953,71 +1037,6 @@
     [self.categoryContainer layoutIfNeeded];
 }
 
--(void)addCategoryTapped
-{
-    CategorySearchTableViewController *catVC = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:@"CategorySearchTableViewController"];
-    if (self.selectedRecord) {
-        catVC.title = [MWMessage forKey:@"catadd-title"].text;
-        catVC.selectedRecord = self.selectedRecord;
-    }
-    [self.navigationController pushViewController:catVC animated:YES];
-}
-
-- (void)getPreviouslySavedDescriptionForRecord:(FileUpload *)record
-{
-    CommonsApp *app = CommonsApp.singleton;
-    MWApi *api = [app startApi];
-    NSMutableDictionary *params = [@{
-                                   @"action": @"query",
-                                   @"prop": @"revisions",
-                                   @"rvprop": @"content",
-                                   @"rvparse": @"1",
-                                   @"rvlimit": @"1",
-                                   @"rvgeneratexml": @"1",
-                                   @"titles": [@"File:" stringByAppendingString:record.title],
-                                   
-                                   // Uncomment to test image w/multiple descriptions - see console for output (comment out the line above when doing so)
-                                   // @"titles": [@"File:" stringByAppendingString:@"2011-08-01 10-31-42 Switzerland Segl-Maria.jpg"],
-                                   
-                                   } mutableCopy];
-    
-    MWPromise *req = [api getRequest:params];
-    
-    __weak UITextView *weakDescriptionTextView = self.descriptionTextView;
-    __weak UILabelDynamicHeight *weakDescriptionTextLabel = self.descriptionTextLabel;
-    
-    [req done:^(NSDictionary *result) {
-        for (NSString *page in result[@"query"][@"pages"]) {
-            for (NSDictionary *category in result[@"query"][@"pages"][page][@"revisions"]) {
-                //NSMutableString *pageHTML = [category[@"*"] mutableCopy];
-                
-                descriptionParser_.xml = category[@"parsetree"];
-                descriptionParser_.done = ^(NSDictionary *descriptions){
-                    
-                    //for (NSString *description in descriptions) {
-                    //    NSLog(@"[%@] description = %@", description, descriptions[description]);
-                    //}
-                    
-                    // Show description for locale
-                    NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
-                    language = [MWI18N filterLanguage:language];
-                    weakDescriptionTextView.text = ([descriptions objectForKey:language]) ? descriptions[language] : descriptions[@"en"];
-                    // reloadData so description cell can be resized according to the retrieved description's text height
-//                    [weakTableView reloadData];
-                };
-                [descriptionParser_ parse];
-            }
-        }
-    }];
-    
-    [req always:^(NSDictionary *result) {
-        if ([weakDescriptionTextView.text isEqualToString: [MWMessage forKey:@"details-description-loading"].text]){
-            weakDescriptionTextView.text = [MWMessage forKey:@"details-description-none-found"].text;
-        }
-        weakDescriptionTextLabel.text = weakDescriptionTextView.text;
-    }];
-}
-
 - (NSString *)categoryShortList
 {
     // Assume the list will be cropped off in the label if it's long. :)
@@ -1027,6 +1046,154 @@
     } else {
         return [cats componentsJoinedByString:@", "];
     }
+}
+
+#pragma mark - Category swipe to delete
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+-(void)handleCategoryPan:(UIPanGestureRecognizer *)recognizer
+{
+    // The static dict is used because it is not guaranteed that a given call to the recognizer
+    // will be from the same object. This approach makes category swipe-to-delete work multi-touch!
+    static NSMutableDictionary *dict = nil;
+    if (!dict) dict = [[NSMutableDictionary alloc] init];
+    
+    // key() retrieves the correct object handle
+    NSString *(^key)() = ^(){
+        return [NSString stringWithFormat: @"%p", recognizer.view];
+    };
+    
+    if (recognizer.state == UIGestureRecognizerStateBegan)
+    {
+        dict[key()] = @{
+                        @"originalCenter": [NSValue valueWithCGPoint:recognizer.view.center],
+                        @"originalTouch": [NSValue valueWithCGPoint:[recognizer locationInView:recognizer.view.superview]],
+                        @"originalAlpha": @(recognizer.view.alpha)
+                        };
+    }
+    if (recognizer.state == UIGestureRecognizerStateChanged)
+    {
+        CGPoint translate = [recognizer translationInView:recognizer.view.superview];
+        translate.y = 0; // Don't move vertically
+        
+        CGPoint currentTouch = [recognizer locationInView:recognizer.view.superview];
+        CFTimeInterval elapsedTime = CACurrentMediaTime() - timeLastDetailsPan_;
+        CGPoint originalTouch = [dict[key()][@"originalTouch"] CGPointValue];
+        if ((elapsedTime > 0.5) && (fabsf(currentTouch.x - originalTouch.x) > fabsf(currentTouch.y - originalTouch.y))) {
+            // If enough time has elapsed since timeLastDetailsPan_ and there's been more horizontal than vertical touch movement
+            // then it's safe to carry on and allow category to pan horizontally
+            timeLastCategoryPan_ = CACurrentMediaTime();
+            
+            float alpha = 1.5f - fabsf(translate.x / (recognizer.view.frame.size.width / 2.0f));
+            //NSLog(@"alpha = %f", alpha);
+            recognizer.view.alpha = alpha;
+            
+            translate.x = translate.x * 0.66f;
+            
+        }else{
+            translate.x = 0;
+        }
+        
+        CGPoint originalCenter = [dict[key()][@"originalCenter"] CGPointValue];
+        recognizer.view.center = CGPointMake(originalCenter.x + translate.x, originalCenter.y + translate.y);
+        
+    }
+    if (recognizer.state == UIGestureRecognizerStateEnded ||
+        recognizer.state == UIGestureRecognizerStateFailed ||
+        recognizer.state == UIGestureRecognizerStateCancelled)
+    {
+        //CGPoint velocity = [recognizer velocityInView:recognizer.view.superview];
+        //NSLog(@"if fabsf(x velocity) is great here then delete = %@", NSStringFromCGPoint(velocity));
+
+        if (recognizer.view.alpha < 0.18f) {
+            [self deleteLabelsCategory:(UILabel *)recognizer.view];
+        }
+        
+        CGPoint originalCenter = [dict[key()][@"originalCenter"] CGPointValue];
+        recognizer.view.center = originalCenter;
+        
+        timeLastCategoryPan_ = CACurrentMediaTime();
+        
+        CGFloat originalAlpha = [dict[key()][@"originalAlpha"] floatValue];
+        
+        recognizer.view.alpha = originalAlpha;
+        
+        [dict removeObjectForKey:key()];
+    }
+}
+
+-(void)deleteLabelsCategory:(UILabel *)label
+{
+    // Remove the label of the category to be deleted from self.selectedRecord.
+    // Also adds proper constraints between the labels above and below the one
+    // being deleted.
+    UILabel *viewAbove = nil;
+    UILabel *viewBelow = nil;
+    for (NSLayoutConstraint *c in label.superview.constraints) {
+        if ((c.firstItem == label)) {
+            // Find the view above
+            if((c.firstAttribute == NSLayoutAttributeTop) && (c.secondAttribute == NSLayoutAttributeBottom)){
+                viewAbove = c.secondItem;
+                NSLog(@"above text %@", viewAbove.text);
+            }
+        }
+        if ((c.secondItem == label)) {
+            // Find the view below
+            if((c.firstAttribute == NSLayoutAttributeTop) && (c.secondAttribute == NSLayoutAttributeBottom)){
+                viewBelow = c.firstItem;
+                NSLog(@"below text %@", viewBelow.text);
+            }
+        }
+    }
+    
+    if (viewAbove != nil) {
+        UILabel *selectedLabel = (UILabel *)label;
+        __strong NSString *category = selectedLabel.text;
+        
+        [label removeFromSuperview];
+
+        if ((viewBelow != nil)) {
+            [viewAbove.superview addConstraints:
+                 [NSLayoutConstraint constraintsWithVisualFormat:@"V:[viewAbove]-[viewBelow]"
+                                                         options:0
+                                                         metrics:0
+                                                           views:NSDictionaryOfVariableBindings(viewAbove, viewBelow)]
+            ];
+        }else{
+            [viewAbove.superview addConstraints:
+                 [NSLayoutConstraint constraintsWithVisualFormat:@"V:[viewAbove]-|"
+                                                         options:0
+                                                         metrics:0
+                                                           views:NSDictionaryOfVariableBindings(viewAbove)]
+            ];
+        }
+        [UIView animateWithDuration:0.2f
+                              delay:0.0f
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [viewAbove.superview layoutIfNeeded];
+                         }
+                         completion:^(BOOL finished){
+                            [self.selectedRecord removeCategory:category];
+                            [CommonsApp.singleton saveData];
+                         }];
+    }
+}
+
+#pragma mark - Category addition
+
+-(void)addCategoryTapped
+{
+    CategorySearchTableViewController *catVC = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:@"CategorySearchTableViewController"];
+    if (self.selectedRecord) {
+        catVC.title = [MWMessage forKey:@"catadd-title"].text;
+        catVC.selectedRecord = self.selectedRecord;
+    }
+    [self.navigationController pushViewController:catVC animated:YES];
 }
 
 #pragma mark - KVO
