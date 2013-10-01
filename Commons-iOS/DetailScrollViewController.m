@@ -40,7 +40,7 @@
 #define DETAIL_DOCK_DISTANCE_FROM_BOTTOM ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 146.0f : 126.0f)
 
 #define DETAIL_TABLE_MAX_OVERLAY_ALPHA 0.85f
-#define LABEL_PADDING_INSET UIEdgeInsetsMake(5.0f, 5.0f, 5.0f, 5.0f)
+#define LABEL_PADDING_INSET UIEdgeInsetsMake(7.0f, 7.0f, 7.0f, 7.0f)
 
 
 @interface DetailScrollViewController ()
@@ -74,6 +74,7 @@
         navBackgroundView_ = nil;
         viewAboveBackground_ = nil;
         viewBelowBackground_ = nil;
+        self.categoriesNeedToBeRefreshed = NO;
     }
     return self;
 }
@@ -215,8 +216,120 @@
     self.licenseContainer.backgroundColor = containerColor;
     self.categoryContainer.backgroundColor = containerColor;
     
+    [self configureForSelectedRecord];
+    [self configureHideKeyboardButton];
+
     //[self.view randomlyColorSubviews];
 }
+
+- (void)didMoveToParentViewController:(UIViewController *)parent
+{
+    [super didMoveToParentViewController:parent];
+    
+    self.viewTopConstraint = [NSLayoutConstraint constraintWithItem:self.view
+                                                          attribute:NSLayoutAttributeTop
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view.superview
+                                                          attribute:NSLayoutAttributeTop
+                                                         multiplier:1.0
+                                                           constant:0];
+    [self.view.superview addConstraint:self.viewTopConstraint];
+    
+    [self.view.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.view
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                       toItem:self.view.superview
+                                                                    attribute:NSLayoutAttributeCenterX
+                                                                   multiplier:1.0
+                                                                     constant:0]];
+    
+    [self.view.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollContainer
+                                                                   attribute:NSLayoutAttributeWidth
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:self.view.superview
+                                                                   attribute:NSLayoutAttributeWidth
+                                                                  multiplier:1.0
+                                                                    constant:0]];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+	// Only move details to bottom if coming from my uploads (not categories, license etc...)
+	if(isFirstAppearance_){
+
+        // Move details to docking position at bottom of screen
+        [self moveDetailsToDock];
+        
+        [self.delegate clearOverlay];
+	}
+
+    if(!self.selectedRecord.complete.boolValue){
+        [self addNavBarBackgroundViewForTouchDetection];
+    }
+    
+    // Ensure nav bar isn't being underlapped by details
+    // (needed if details pushed another view controller while details was scrolled so far up that
+    // it had caused the nav bar to be hidden - without this extra call to "makeNavBarRunAwayFromDetails"
+    // here, when that pushed view gets popped, the nav would overlap the details)
+    [self makeNavBarRunAwayFromDetails];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    isFirstAppearance_ = NO;
+
+    if (self.categoriesNeedToBeRefreshed) {
+        self.categoriesNeedToBeRefreshed = NO;
+        FileUpload *record = self.selectedRecord;
+        if (record != nil) {
+            self.categoryList = [record.categoryList mutableCopy];
+            [self updateCategoryContainer];
+        }
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [navBackgroundView_ removeFromSuperview];
+    [self hideKeyboard];
+    [super viewWillDisappear:animated];
+
+    // Ensure the nav bar is visible
+    // (needed because "makeNavBarRunAwayFromDetails" method could have hidden the nav bar)
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+}
+
+#pragma mark - Keyboard
+
+-(void) configureHideKeyboardButton
+{
+    // Add a "hide keyboard" button above the keyboard (when the description box has the focus and the
+    // keyboard is visible). Did this so multi-line descriptions could still be entered *and* the
+    // keyboard could still be dismissed (otherwise the "return" button would have to be made into a
+    // "Done" button which would mean line breaks could not be entered)
+    
+    // Note: Only show the "hide keyboard" button for new images as existing image descriptions are
+    // read-only for now
+    if ((!self.selectedRecord.complete.boolValue) && (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)){
+        UIButton *hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [hideKeyboardButton addTarget:self action:@selector(hideKeyboardAccessoryViewTapped) forControlEvents:UIControlEventTouchDown];
+
+        [hideKeyboardButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [hideKeyboardButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
+        hideKeyboardButton.backgroundColor = [UIColor colorWithRed:0.56 green:0.59 blue:0.63 alpha:0.95];
+        [hideKeyboardButton.titleLabel setShadowColor:[UIColor blackColor]];
+        [hideKeyboardButton.titleLabel setShadowOffset: CGSizeMake(0, -1)];
+        
+        [hideKeyboardButton setTitle:[MWMessage forKey:@"details-hide-keyboard"].text forState:UIControlStateNormal];
+        hideKeyboardButton.frame = CGRectMake(80.0, 210.0, 160.0, 28.0);
+        self.descriptionTextView.inputAccessoryView = hideKeyboardButton;
+    }
+}
+
+#pragma mark - Gestures
 
 -(void)handleDetailsPan:(UIPanGestureRecognizer *)recognizer
 {
@@ -253,77 +366,19 @@
     }
 }
 
-- (void)didMoveToParentViewController:(UIViewController *)parent
+#pragma mark - Selected record
+
+-(void)configureForSelectedRecord
 {
-    [super didMoveToParentViewController:parent];
-    
-    self.viewTopConstraint = [NSLayoutConstraint constraintWithItem:self.view
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view.superview
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1.0
-                                                           constant:0];
-    [self.view.superview addConstraint:self.viewTopConstraint];
-    
-    [self.view.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.view
-                                                                    attribute:NSLayoutAttributeCenterX
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self.view.superview
-                                                                    attribute:NSLayoutAttributeCenterX
-                                                                   multiplier:1.0
-                                                                     constant:0]];
-    
-    [self.view.superview addConstraint:[NSLayoutConstraint constraintWithItem:self.scrollContainer
-                                                                   attribute:NSLayoutAttributeWidth
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.view.superview
-                                                                   attribute:NSLayoutAttributeWidth
-                                                                  multiplier:1.0
-                                                                    constant:0]];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-	// Note:
-	// Don't call "[super viewWillAppear:animated]" here!
-	// It causes the tableView to scroll if the description box receives focus
-	// when it has been moved to the lower part of the screen
-	// See: http://stackoverflow.com/a/12111260/135557
-	// (the scrolling is unwanted because "scrollSoView:isBelowNavBar:" is being
-	// used instead - for greater control)
-
-
-	// Only move details to bottom if coming from my uploads (not categories, license etc...)
-	if(isFirstAppearance_){
-
-        // Move details to docking position at bottom of screen
-        [self moveDetailsToDock];
-        
-        [self.delegate clearOverlay];
-	}
-
-    if(!self.selectedRecord.complete.boolValue){
-        [self addNavBarBackgroundViewForTouchDetection];
-    }
-    
-    // Ensure nav bar isn't being underlapped by details
-    // (needed if details pushed another view controller while details was scrolled so far up that
-    // it had caused the nav bar to be hidden - without this extra call to "makeNavBarRunAwayFromDetails"
-    // here, when that pushed view gets popped, the nav would overlap the details)
-    [self makeNavBarRunAwayFromDetails];
-    
     // Load up the selected record
     FileUpload *record = self.selectedRecord;
     if (record != nil) {
         self.categoryList = [record.categoryList mutableCopy];
-        [self updateCategoryContainer];
         self.titleTextField.text = record.title;
         self.titleTextLabel.text = record.title;
         self.descriptionTextView.text = record.desc;
-        self.descriptionTextLabel.text =record.desc;
+        self.descriptionTextLabel.text = record.desc;
         self.descriptionPlaceholder.hidden = (record.desc.length > 0);
-
         self.categoryListLabel.text = [self categoryShortList];
 
         // Get categories and description
@@ -333,6 +388,8 @@
                 [self getPreviouslySavedDescriptionForRecord:record];
                 [self getPreviouslySavedCategoriesForRecord:record];
             });
+        }else{
+            [self updateCategoryContainer];
         }
 
         dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -394,46 +451,6 @@
     } else {
         NSLog(@"This isn't right, have no selected record in detail view");
     }
-
-    // Add a "hide keyboard" button above the keyboard (when the description box has the focus and the
-    // keyboard is visible). Did this so multi-line descriptions could still be entered *and* the
-    // keyboard could still be dismissed (otherwise the "return" button would have to be made into a
-    // "Done" button which would mean line breaks could not be entered)
-    
-    // Note: Only show the "hide keyboard" button for new images as existing image descriptions are
-    // read-only for now
-
-    if ((!record.complete.boolValue) && (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad)){
-        UIButton *hideKeyboardButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [hideKeyboardButton addTarget:self action:@selector(hideKeyboardAccessoryViewTapped) forControlEvents:UIControlEventTouchDown];
-
-        [hideKeyboardButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [hideKeyboardButton.titleLabel setFont:[UIFont boldSystemFontOfSize:14.0f]];
-        hideKeyboardButton.backgroundColor = [UIColor colorWithRed:0.56 green:0.59 blue:0.63 alpha:0.95];
-        [hideKeyboardButton.titleLabel setShadowColor:[UIColor blackColor]];
-        [hideKeyboardButton.titleLabel setShadowOffset: CGSizeMake(0, -1)];
-        
-        [hideKeyboardButton setTitle:[MWMessage forKey:@"details-hide-keyboard"].text forState:UIControlStateNormal];
-        hideKeyboardButton.frame = CGRectMake(80.0, 210.0, 160.0, 28.0);
-        self.descriptionTextView.inputAccessoryView = hideKeyboardButton;
-    }
-}
-
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    isFirstAppearance_ = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [navBackgroundView_ removeFromSuperview];
-    [self hideKeyboard];
-    [super viewWillDisappear:animated];
-
-    // Ensure the nav bar is visible
-    // (needed because "makeNavBarRunAwayFromDetails" method could have hidden the nav bar)
-    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 #pragma mark - Buttons
@@ -866,9 +883,18 @@
     }
     [sv addSubview:label];
 
+    // Add entry for "Add Category" to end of categoryListCopy. This will cause
+    // the "Add Category" button to be made and constrained by hijacking the
+    // category layout code below.
+    NSMutableArray *categoryListCopy = [[[self.categoryList reverseObjectEnumerator] allObjects] mutableCopy];
+    FileUpload *record = self.selectedRecord;
+    if (record != nil && !record.complete.boolValue) {
+        [categoryListCopy insertObject:[MWMessage forKey:@"catadd-title"].text atIndex:0];
+    }
+
     // Create labels for categories, add them to the categoryContainer, and remember
     // them in a categoryLabels array
-    for (NSString *categoryString in self.categoryList) {
+    for (NSString *categoryString in categoryListCopy) {
         UILabelDynamicHeight *label = [[UILabelDynamicHeight alloc] initWithFrame:CGRectZero];
         label.translatesAutoresizingMaskIntoConstraints = NO;
         label.text = categoryString;
@@ -880,6 +906,18 @@
         [label setPaddingInsets:LABEL_PADDING_INSET];
         [self.categoryContainer addSubview:label];
         [categoryLabels addObject:label];
+
+        // Determine if the current label is the "Add Category" label. If so
+        // adjust it as needed to respond to touch.
+        if (record != nil && !record.complete.boolValue) {
+            if (categoryString == [categoryListCopy firstObject]){
+                //label.backgroundColor = [UIColor redColor];
+                UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addCategoryTapped)];
+                [label addGestureRecognizer:tapGesture];
+                label.textAlignment = NSTextAlignmentCenter;
+                label.paddingColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
+            }
+        }
     }
 
     // Create autolayout format string for even vertically spacing of
@@ -900,7 +938,7 @@
     // Add space between sides of categoryLabel and categoryContainer
     [self.categoryContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[categoryLabel]-|" options:0 metrics:nil views:@{@"categoryLabel": self.categoryLabel}]];
 
-    if (self.categoryList.count > 0) {
+    if (categoryListCopy.count > 0) {
         // Add space between sides of labels and categoryContainer
         for (UILabel *l in categoryLabels) {
             [self.categoryContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|" options:0 metrics:nil views:@{@"label": l}]];
@@ -911,7 +949,18 @@
         // No categories found, so add space between the top and bottom of categoryLabel and categoryContainer
         [self.categoryContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[categoryLabel]-|" options:0 metrics:nil views:@{@"categoryLabel": self.categoryLabel}]];
     }
-    [self.view layoutIfNeeded];
+
+    [self.categoryContainer layoutIfNeeded];
+}
+
+-(void)addCategoryTapped
+{
+    CategorySearchTableViewController *catVC = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:@"CategorySearchTableViewController"];
+    if (self.selectedRecord) {
+        catVC.title = [MWMessage forKey:@"catadd-title"].text;
+        catVC.selectedRecord = self.selectedRecord;
+    }
+    [self.navigationController pushViewController:catVC animated:YES];
 }
 
 - (void)getPreviouslySavedDescriptionForRecord:(FileUpload *)record

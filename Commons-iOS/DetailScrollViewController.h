@@ -74,4 +74,6 @@
 -(void)ensureScrollingDoesNotExceedThreshold;
 -(void)toggle;
 
+@property (nonatomic) BOOL categoriesNeedToBeRefreshed;
+
 @end

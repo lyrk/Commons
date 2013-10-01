@@ -8,6 +8,7 @@
 
 #import "CategorySearchTableViewController.h"
 #import "MWI18N.h"
+#import "DetailScrollViewController.h"
 
 #define SEARCH_CATS_LIMIT 25
 
@@ -19,7 +20,7 @@
 
 -(void)backButtonPressed:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    [self popBackToDetails];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -121,6 +122,23 @@
     return cell;
 }
 
+-(void)popBackToDetails
+{
+    // First notify the details controller that it needs to refresh its category list
+    UIViewController *prevVC = self.navigationController.viewControllers[self.navigationController.viewControllers.count - 2];
+    // Details is a child of ImageScrollViewController, which should be prevVC
+    for (UIViewController *vc in prevVC.childViewControllers) {
+        if ([vc isMemberOfClass:[DetailScrollViewController class]]) {
+            // Notifies details view controller that it needs to refresh its category layout after it appears.
+            // (Needs to do so after it appears so layout its layout constraints don't go bonkers.)
+            [(DetailScrollViewController *)vc setCategoriesNeedToBeRefreshed:YES];
+        }
+    }
+    // updateCategoryContainer causes the details view to reflect any new category selections
+    //    [details updateCategoryContainer];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -137,8 +155,7 @@
         [self.selectedRecord addCategory:cat];
         [CommonsApp.singleton updateCategory:cat];
         [CommonsApp.singleton saveData];
-
-        [self.navigationController popViewControllerAnimated:YES];
+        [self popBackToDetails];
     }
 }
 

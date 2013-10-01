@@ -1156,7 +1156,7 @@ to take or choose photos.</string>
         <!--Category Search Table View Controller - Add category-->
         <scene sceneID="pQt-gg-EkQ">
             <objects>
-                <tableViewController id="wdV-pe-EgK" customClass="CategorySearchTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="CategorySearchTableViewController" id="wdV-pe-EgK" customClass="CategorySearchTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="p2R-Ck-7B8">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1950,8 +1950,6 @@ Help Wikipedia articles come to life!</string>
         <image name="mockBadPhoto.png" width="237" height="286"/>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="30" height="30"/>
     </resources>
