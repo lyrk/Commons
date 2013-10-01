@@ -661,13 +661,6 @@
 //            return (self.categoryList.count == 0) ? 1 : self.categoryList.count;
 //        }
 
-// Categories title
-//      [MWMessage forKey:@"details-category-label"].text;
-
-
-// Show add categories button for yet-to-be-uploaded images
-
-
 //        if (self.selectedRecord.complete.boolValue) {
 // Show "Loading..." row if no categories
 //            if(self.categoryList.count == 0){
@@ -882,7 +875,7 @@
     }];
     
     [req always:^(NSDictionary *result) {
-        if ([weakDescriptionTextView.text isEqualToString: [MWMessage forKey:@"details-description-loading"].text]){
+        if (weakDescriptionTextView.text.length == 0){
             weakDescriptionTextView.text = [MWMessage forKey:@"details-description-none-found"].text;
         }
         weakDescriptionTextLabel.text = weakDescriptionTextView.text;

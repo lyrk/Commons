@@ -1306,8 +1306,8 @@ to take or choose photos.</string>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="Required" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ez-E3-hMg" userLabel="Required Label">
-                                                <rect key="frame" x="30" y="57" width="230" height="21"/>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Required" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7ez-E3-hMg" userLabel="Required Label">
+                                                <rect key="frame" x="30" y="57" width="230" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -1366,10 +1366,10 @@ to take or choose photos.</string>
                                         </subviews>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="jUg-Wa-cMl" firstAttribute="leading" secondItem="fx9-U5-jNG" secondAttribute="leading" constant="20" symbolic="YES" placeholder="YES" id="Eir-BG-oWC"/>
-                                            <constraint firstItem="jUg-Wa-cMl" firstAttribute="top" secondItem="fx9-U5-jNG" secondAttribute="top" constant="20" symbolic="YES" placeholder="YES" id="GuJ-RG-cpo"/>
-                                            <constraint firstAttribute="trailing" secondItem="jUg-Wa-cMl" secondAttribute="trailing" constant="20" symbolic="YES" placeholder="YES" id="fbi-kd-6SU"/>
-                                            <constraint firstAttribute="bottom" secondItem="jUg-Wa-cMl" secondAttribute="bottom" constant="20" symbolic="YES" placeholder="YES" id="u19-D6-Yye"/>
+                                            <constraint firstItem="jUg-Wa-cMl" firstAttribute="leading" secondItem="fx9-U5-jNG" secondAttribute="leading" constant="20" symbolic="YES" id="Eir-BG-oWC"/>
+                                            <constraint firstItem="jUg-Wa-cMl" firstAttribute="top" secondItem="fx9-U5-jNG" secondAttribute="top" constant="20" symbolic="YES" id="GuJ-RG-cpo"/>
+                                            <constraint firstAttribute="trailing" secondItem="jUg-Wa-cMl" secondAttribute="trailing" constant="20" symbolic="YES" id="fbi-kd-6SU"/>
+                                            <constraint firstAttribute="bottom" secondItem="jUg-Wa-cMl" secondAttribute="bottom" constant="20" symbolic="YES" id="u19-D6-Yye"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -1950,6 +1950,8 @@ Help Wikipedia articles come to life!</string>
         <image name="mockBadPhoto.png" width="237" height="286"/>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>
+        <image name="photo-button-bg.png" width="72" height="72"/>
+        <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="30" height="30"/>
     </resources>
