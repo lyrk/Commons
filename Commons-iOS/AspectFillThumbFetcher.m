@@ -9,6 +9,7 @@
 #import "MWPromise.h"
 #import "DescriptionParser.h"
 #import "MWI18N.h"
+#import "CategoryLicenseExtractor.h"
 
 #pragma mark - Private
 
@@ -40,7 +41,7 @@
 
 @implementation AspectFillThumbFetcher{
     DescriptionParser *descriptionParser_;
-    NSDictionary *commonLicenses_;
+    CategoryLicenseExtractor *categoryLicenseExtractor_;
 }
 
 - (id)init
@@ -54,7 +55,7 @@
         self.getTitle = nil;
         self.getGenerator = nil;
         descriptionParser_ = [[DescriptionParser alloc] init];
-        commonLicenses_ = [self getLicenses];
+        categoryLicenseExtractor_ = [[CategoryLicenseExtractor alloc] init];
     }
     return self;
 }
@@ -226,10 +227,10 @@
                     dataToCache[@"description"] = [self getDescriptionFromJson:result];
                     
                     // Cache the license (check categories for license)
-                    NSString *license = [self getLicenseFromCategories:dataToCache[@"categories"]];
+                    NSString *license = [categoryLicenseExtractor_ getLicenseFromCategories:dataToCache[@"categories"]];
                     if (license) {
                         dataToCache[@"license"] = license;
-                        dataToCache[@"licenseurl"] = commonLicenses_[license];
+                        dataToCache[@"licenseurl"] = [categoryLicenseExtractor_ getURLForLicense:license];
                     }
 
                     [dataToCache addEntriesFromDictionary:self.extraDataToCache];
@@ -319,52 +320,6 @@
     }
     if (description == nil) description = [@"" mutableCopy];
     return description;
-}
-
-#pragma mark - Licenses
-
--(NSString *)getLicenseFromCategories:(NSMutableArray *)categories
-{
-    // Sort the license names to be looked for by descending length
-    // (prevents unwanted substring matches in the loop below)
-    NSArray *licenseNamesSortedByDescendingLength = [[commonLicenses_ allKeys] sortedArrayUsingComparator:^NSComparisonResult(NSString* a, NSString* b) {
-        return (a.length > b.length) ? NO : YES;
-    }];
-
-    // Look at each category checking whether it begins with the name of a common license
-    for (NSString *license in licenseNamesSortedByDescendingLength) {
-        for (NSString *category in categories) {
-            NSRange foundRange = [category rangeOfString:license options:NSCaseInsensitiveSearch];
-            //if(foundRange.location != NSNotFound){
-            if(foundRange.location == 0){
-                return license;
-            }
-        }
-    }
-    return nil;
-}
-
--(NSDictionary *)getLicenses
-{
-    return @{
-             @"cc-by-sa-3.0" :       @"//creativecommons.org/licenses/by-sa/3.0/",
-             @"cc-by-sa-3.0-at" :    @"//creativecommons.org/licenses/by-sa/3.0/at/",
-             @"cc-by-sa-3.0-de" :    @"//creativecommons.org/licenses/by-sa/3.0/de/",
-             @"cc-by-sa-3.0-ee" :    @"//creativecommons.org/licenses/by-sa/3.0/ee/",
-             @"cc-by-sa-3.0-es" :    @"//creativecommons.org/licenses/by-sa/3.0/es/",
-             @"cc-by-sa-3.0-hr" :    @"//creativecommons.org/licenses/by-sa/3.0/hr/",
-             @"cc-by-sa-3.0-lu" :    @"//creativecommons.org/licenses/by-sa/3.0/lu/",
-             @"cc-by-sa-3.0-nl" :    @"//creativecommons.org/licenses/by-sa/3.0/nl/",
-             @"cc-by-sa-3.0-no" :    @"//creativecommons.org/licenses/by-sa/3.0/no/",
-             @"cc-by-sa-3.0-pl" :    @"//creativecommons.org/licenses/by-sa/3.0/pl/",
-             @"cc-by-sa-3.0-ro" :    @"//creativecommons.org/licenses/by-sa/3.0/ro/",
-             @"cc-by-3.0" :          @"//creativecommons.org/licenses/by/3.0/",
-             @"cc-zero" :            @"//creativecommons.org/publicdomain/zero/1.0/",
-             @"cc-by-sa-2.5" :       @"//creativecommons.org/licenses/by-sa/2.5/",
-             @"cc-by-2.5" :          @"//creativecommons.org/licenses/by/2.5/",
-             @"cc-by-sa-2.0" :       @"//creativecommons.org/licenses/by-sa/2.0/",
-             @"cc-by-2.0" :          @"//creativecommons.org/licenses/by/2.0/"
-             };
 }
 
 #pragma mark - JSON

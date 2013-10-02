@@ -21,6 +21,7 @@
 #import "OpenInBrowserActivity.h"
 #import "UIView+Debugging.h"
 #import "UILabelDynamicHeight.h"
+#import "CategoryLicenseExtractor.h"
 
 #define URL_IMAGE_LICENSE @"https://creativecommons.org/licenses/by-sa/3.0/"
 
@@ -66,6 +67,8 @@
     UIPanGestureRecognizer *detailsPanRecognizer_;
     CFTimeInterval timeLastDetailsPan_;
     CFTimeInterval timeLastCategoryPan_;
+    CategoryLicenseExtractor *categoryLicenseExtractor_;
+    NSURL *licenseURL_;
 }
 
 #pragma mark - Init / dealloc
@@ -74,11 +77,13 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
+        categoryLicenseExtractor_ = [[CategoryLicenseExtractor alloc] init];
         descriptionParser_ = [[DescriptionParser alloc] init];
         isFirstAppearance_ = YES;
         navBackgroundView_ = nil;
         viewAboveBackground_ = nil;
         viewBelowBackground_ = nil;
+        licenseURL_ = nil;
         self.categoriesNeedToBeRefreshed = NO;
         timeLastDetailsPan_ = CACurrentMediaTime();
         timeLastCategoryPan_ = CACurrentMediaTime();
@@ -223,11 +228,17 @@
     self.licenseContainer.backgroundColor = containerColor;
     self.categoryContainer.backgroundColor = containerColor;
     
+    // Show "Loading..." label for licenses
+    self.licenseDefaultLabel.text = [MWMessage forKey:@"details-license-loading"].text;
+
+    // Style the licenseDefaultLabel
+    [self styleDetailsLabel:self.licenseDefaultLabel];
+    
     [self configureForSelectedRecord];
     [self configureHideKeyboardButton];
 
     // Apply the style used by category labels to the category "Loading..." placeholder
-    [self styleCategoryLabel:self.categoryLoadingMsgLabel];
+    [self styleDetailsLabel:self.categoryDefaultLabel];
 
     //[self.view randomlyColorSubviews];
 }
@@ -410,7 +421,7 @@
         // Get categories and description
         if (record.complete.boolValue) {
             self.descriptionTextLabel.text = [MWMessage forKey:@"details-description-loading"].text;
-            self.categoryLoadingMsgLabel.text = [MWMessage forKey:@"details-category-loading"].text;
+            self.categoryDefaultLabel.text = [MWMessage forKey:@"details-category-loading"].text;
 
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [self getPreviouslySavedDescriptionForRecord:record];
@@ -418,6 +429,10 @@
             });
         }else{
             [self updateCategoryContainer];
+            
+
+// new pic! add list of licenses to be chosen from here
+
         }
 
         dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -443,7 +458,6 @@
                 self.descriptionLabel.hidden = NO;
                 
                 // fixme: load license info from wiki page
-                self.licenseLabel.hidden = YES;
                 self.licenseNameLabel.hidden = YES;
                 self.ccByImage.hidden = YES;
                 self.ccSaImage.hidden = YES;
@@ -466,7 +480,6 @@
                 
                 self.descriptionLabel.hidden = NO;
                 self.descriptionPlaceholder.hidden = (record.desc.length > 0);
-                self.licenseLabel.hidden = NO;
                 self.licenseNameLabel.hidden = NO;
                 self.ccByImage.hidden = NO;
                 self.ccSaImage.hidden = NO;
@@ -887,6 +900,39 @@
     }];
 }
 
+#pragma mark - License retrieval
+
+- (void)getPreviouslySavedLicenseFromCategories:(NSMutableArray *)categories
+{
+    // Replaces "loading..." message in licenseDefaultLabel with name of license or "Tap for license"
+    // message if no license found. If no license found makes "Tap for license" actually link to the
+    // image's wiki page.
+    
+    // Extract license from categories now that categories have been retrieved
+    NSString *license = [categoryLicenseExtractor_ getLicenseFromCategories:categories];
+    
+//license = nil;
+    
+    // If license was name was not retrieved change it to say "Tap for License" for now
+    if (license == nil){
+        license = [MWMessage forKey:@"picture-of-day-tap-for-license"].text;
+        
+        UITapGestureRecognizer *licenseTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLicenseTap:)];
+        [self.licenseDefaultLabel addGestureRecognizer:licenseTapGesture];
+        
+        // Get the wiki url for the image
+        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
+        NSURL *wikiUrl = [CommonsApp.singleton URLForWikiPage:pageTitle];
+        licenseURL_ = wikiUrl;
+    }else{
+        licenseURL_ = [NSURL URLWithString:[categoryLicenseExtractor_ getURLForLicense:license]];
+        license = [license uppercaseString];
+    }
+
+    // Update licenseDefaultLabel to show name of found license
+    self.licenseDefaultLabel.text = license;
+}
+
 #pragma mark - Category retrieval
 
 - (void)getPreviouslySavedCategoriesForRecord:(FileUpload *)record
@@ -933,6 +979,18 @@
         self.categoryListLabel.text = [self categoryShortList];
 //        [self.tableView reloadData];
     }];
+    
+    [req always:^(id obj) {
+        // Get license (extract from the categories for now)
+        [self getPreviouslySavedLicenseFromCategories:self.categoryList];
+    }];
+}
+
+-(void)handleLicenseTap:(UITapGestureRecognizer *)recognizer
+{
+    [CommonsApp.singleton openURLWithDefaultBrowser:licenseURL_];
+
+    NSLog(@"LICENSE TAPPED, GO TO THIS URL = %@", licenseURL_);
 }
 
 #pragma mark - Category layout
@@ -945,7 +1003,7 @@
     NSMutableArray *categoryLabels = [[NSMutableArray alloc] init];
 
     // No longer need the "Loading..." category placeholder
-    [self.categoryLoadingMsgLabel removeFromSuperview];
+    [self.categoryDefaultLabel removeFromSuperview];
 
     // Every view which gets constrained by this method is also created by this method
     // with the exeption of self.categoryLabel. This means views created here can be
@@ -981,7 +1039,7 @@
         UILabelDynamicHeight *label = [[UILabelDynamicHeight alloc] initWithFrame:CGRectZero];
         label.translatesAutoresizingMaskIntoConstraints = NO;
         label.text = categoryString;
-        [self styleCategoryLabel:label];
+        [self styleDetailsLabel:label];
         [self.categoryContainer addSubview:label];
         [categoryLabels addObject:label];
 
@@ -1039,7 +1097,7 @@
     [self.categoryContainer layoutIfNeeded];
 }
 
--(void)styleCategoryLabel:(UILabelDynamicHeight *)label
+-(void)styleDetailsLabel:(UILabelDynamicHeight *)label
 {
     [label setFont:[UIFont systemFontOfSize:14.0f]];
     label.textColor = [UIColor whiteColor];

@@ -21,6 +21,7 @@
 		04739E0E174F0D3600F32D13 /* WhatIsCommonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04739E0D174F0D3500F32D13 /* WhatIsCommonsViewController.m */; };
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
 		048C8B9F17FB71520082EB28 /* categoryHamburger.png in Resources */ = {isa = PBXBuildFile; fileRef = 048C8B9E17FB71520082EB28 /* categoryHamburger.png */; };
+		048C8BA217FC903A0082EB28 /* CategoryLicenseExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C8BA117FC903A0082EB28 /* CategoryLicenseExtractor.m */; };
 		04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */; };
 		04A0F33B17AACF7F004AB164 /* ImageResizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A0F33A17AACF7F004AB164 /* ImageResizer.m */; };
 		04A386E617CEFA2F00BC0A3D /* UIView+Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A386E517CEFA2F00BC0A3D /* UIView+Debugging.m */; };
@@ -360,6 +361,8 @@
 		0478F8E71731B5E9007D4531 /* WelcomeOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelcomeOverlayView.h; sourceTree = "<group>"; };
 		0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WelcomeOverlayView.m; sourceTree = "<group>"; };
 		048C8B9E17FB71520082EB28 /* categoryHamburger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = categoryHamburger.png; path = "Commons-iOS/categoryHamburger.png"; sourceTree = SOURCE_ROOT; };
+		048C8BA017FC903A0082EB28 /* CategoryLicenseExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryLicenseExtractor.h; sourceTree = "<group>"; };
+		048C8BA117FC903A0082EB28 /* CategoryLicenseExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryLicenseExtractor.m; sourceTree = "<group>"; };
 		04A02DA7177502AF00A392C1 /* GalleryMultiSelectAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAssetCell.h; sourceTree = "<group>"; };
 		04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAssetCell.m; sourceTree = "<group>"; };
 		04A0F33917AACF7F004AB164 /* ImageResizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageResizer.h; sourceTree = "<group>"; };
@@ -825,6 +828,8 @@
 				04DC756E1758884200D92849 /* CustomTextField.m */,
 				04DC75611758682900D92849 /* AspectFillThumbFetcher.h */,
 				04DC75621758682A00D92849 /* AspectFillThumbFetcher.m */,
+				048C8BA017FC903A0082EB28 /* CategoryLicenseExtractor.h */,
+				048C8BA117FC903A0082EB28 /* CategoryLicenseExtractor.m */,
 				04DC756417586EFE00D92849 /* PictureOfTheDayImageView.h */,
 				04DC756517586EFE00D92849 /* PictureOfTheDayImageView.m */,
 				04C27B1A174452E700B1942F /* DescriptionParser.h */,
@@ -1634,6 +1639,7 @@
 				044A0C3C170F6504003395DD /* GradientButton.m in Sources */,
 				3067546F170FF9D900A4BD8F /* SettingsViewController.m in Sources */,
 				305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */,
+				048C8BA217FC903A0082EB28 /* CategoryLicenseExtractor.m in Sources */,
 				D4C5B4191720966C00C40532 /* LicenseTableViewController.m in Sources */,
 				D4B1CDFD1721E248008E1B31 /* CategorySearchTableViewController.m in Sources */,
 				0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */,

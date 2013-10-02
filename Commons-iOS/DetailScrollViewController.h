@@ -44,7 +44,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *categoryListLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addCategoryLabel;
-@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *categoryLoadingMsgLabel;
+
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *categoryDefaultLabel;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *licenseDefaultLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *titleContainer;
 @property (weak, nonatomic) IBOutlet UIView *descriptionContainer;
