@@ -346,7 +346,7 @@
 -(void)viewWillDisappear:(BOOL)animated{
 
 	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
-								   initWithTitle: [MWMessage forKey:@"login-title"].text
+								   initWithTitle: [[CommonsApp singleton] getBackButtonString]
 								   style: UIBarButtonItemStyleBordered
 								   target:nil action: nil];
 	
