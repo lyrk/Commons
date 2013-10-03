@@ -303,7 +303,7 @@
     // (needed if details pushed another view controller while details was scrolled so far up that
     // it had caused the nav bar to be hidden - without this extra call to "makeNavBarRunAwayFromDetails"
     // here, when that pushed view gets popped, the nav would overlap the details)
-    [self makeNavBarRunAwayFromDetails];
+    //[self makeNavBarRunAwayFromDetails];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -1561,7 +1561,7 @@
 
     float scrollValue = self.view.frame.origin.y / (height - DETAIL_DOCK_DISTANCE_FROM_BOTTOM);
 
-    [self makeNavBarRunAwayFromDetails];
+    //[self makeNavBarRunAwayFromDetails];
 
 	float minChangeToReport = 0.025f;
     if (fabsf((scrollValue - lastScrollValue)) > minChangeToReport) {
