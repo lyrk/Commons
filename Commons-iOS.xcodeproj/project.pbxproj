@@ -11,6 +11,7 @@
 		0417D9E417698AF200081D8C /* PictureOfDayCycler.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E317698AF200081D8C /* PictureOfDayCycler.m */; };
 		0417D9EA176E666B00081D8C /* GalleryMultiSelectCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9E9176E666B00081D8C /* GalleryMultiSelectCollectionVC.m */; };
 		0417D9F0176EB00100081D8C /* GalleryMultiSelectAlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0417D9EF176EB00100081D8C /* GalleryMultiSelectAlbumCell.m */; };
+		0438EF0517FE20BA005F8BF5 /* clear.png in Resources */ = {isa = PBXBuildFile; fileRef = 0438EF0417FE20BA005F8BF5 /* clear.png */; };
 		044A0C3C170F6504003395DD /* GradientButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 044A0C3B170F6504003395DD /* GradientButton.m */; };
 		0451C8621739A2CC00C2D03B /* FetchImageOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C8611739A2CC00C2D03B /* FetchImageOperation.m */; };
 		0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */ = {isa = PBXBuildFile; fileRef = 0451C864173B3D3800C2D03B /* SpeedGovernor.m */; };
@@ -341,7 +342,8 @@
 		0417D9E9176E666B00081D8C /* GalleryMultiSelectCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectCollectionVC.m; sourceTree = "<group>"; };
 		0417D9EE176EB00000081D8C /* GalleryMultiSelectAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAlbumCell.h; sourceTree = "<group>"; };
 		0417D9EF176EB00100081D8C /* GalleryMultiSelectAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAlbumCell.m; sourceTree = "<group>"; };
-		0438EF0317FCCB96005F8BF5 /* FileUpload 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FileUpload 4.xcdatamodel"; sourceTree = "<group>"; };
+		0438EF0317FCCB96005F8BF5 /* FileUpload 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FileUpload 4.xcdatamodel"; sourceTree = "<group>"; };
+		0438EF0417FE20BA005F8BF5 /* clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = clear.png; path = "Commons-iOS/clear.png"; sourceTree = SOURCE_ROOT; };
 		044A0C3A170F6504003395DD /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
 		044A0C3B170F6504003395DD /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientButton.m; sourceTree = "<group>"; };
 		0451C8601739A2CC00C2D03B /* FetchImageOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchImageOperation.h; sourceTree = "<group>"; };
@@ -954,6 +956,7 @@
 			isa = PBXGroup;
 			children = (
 				04AC5A7517A1D66800A06997 /* Bundled Pictures of Day */,
+				0438EF0417FE20BA005F8BF5 /* clear.png */,
 				048C8B9E17FB71520082EB28 /* categoryHamburger.png */,
 				04E6617917614AB0003F35AD /* copyleft@2x.png */,
 				04E6617A17614AB0003F35AD /* copyleft.png */,
@@ -1463,6 +1466,7 @@
 				04E6617C17614AB0003F35AD /* copyleft.png in Resources */,
 				30DC441B178D42E60081555A /* cc-by-white.png in Resources */,
 				30DC441C178D42E60081555A /* cc-by-white@2x.png in Resources */,
+				0438EF0517FE20BA005F8BF5 /* clear.png in Resources */,
 				30DC441D178D42E60081555A /* cc-sa-white.png in Resources */,
 				30DC441E178D42E60081555A /* cc-sa-white@2x.png in Resources */,
 				04AC5A8A17A1D66800A06997 /* POTD-2007-06-15.dict in Resources */,

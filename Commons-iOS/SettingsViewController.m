@@ -204,6 +204,9 @@
 
     self.scrollView.delegate = self;
     
+    // Change back button to be an arrow
+    self.navigationItem.leftBarButtonItem = [[CommonsApp singleton] getBackButtonItemWithTarget:self action:@selector(backButtonPressed:)];
+    
     //[self.view randomlyColorSubviews];
 }
 
@@ -230,6 +233,13 @@
     [myUploadsViewController.collectionView reloadData];
     
     [myUploadsViewController.collectionView.collectionViewLayout invalidateLayout];
+}
+
+#pragma mark - Back button
+
+-(void)backButtonPressed:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Gestures

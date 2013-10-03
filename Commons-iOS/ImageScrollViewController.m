@@ -113,10 +113,8 @@
     self.wantsFullScreenLayout = YES;
 
     // Change back button to be an arrow
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString]
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:self
-                                                                            action:@selector(backButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = [[CommonsApp singleton] getBackButtonItemWithTarget:self action:@selector(backButtonPressed:)];
+
     [self setupOverlayView];
     
     [self setupImageScrollingViews];

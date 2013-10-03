@@ -43,15 +43,11 @@
     UITapGestureRecognizer *imageDoubleTapRecognizer_;
 }
 
-- (void)animateTakeAndChoosePhotoButtons;
-- (void)refreshImages;
-- (BOOL)isOpCellOnScreen:(FetchImageOperation *)op;
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context;
-- (void)raiseDowloadPriorityForImagesOfOnscreenCells;
-
 @end
 
 @implementation MyUploadsViewController
+
+#pragma mark - Init
 
 - (id)initWithCoder:(NSCoder *)coder
 {
@@ -62,6 +58,8 @@
     }
     return self;
 }
+
+#pragma mark - View lifecycle
 
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -166,25 +164,10 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
 
+    // Change back button to be an arrow
+    self.navigationItem.leftBarButtonItem = [[CommonsApp singleton] getBackButtonItemWithTarget:self action:@selector(backButtonPressed:)];
+    
     //[self.view randomlyColorSubviews];
-}
-
--(BOOL)hasCamera
-{
-    return [UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera];
-}
-
--(void)reachabilityChange:(NSNotification*)note {
-    Reachability * reach = [note object];
-    NetworkStatus netStatus = [reach currentReachabilityStatus];
-    if (netStatus == ReachableViaWiFi || netStatus == ReachableViaWWAN)
-    {
-        self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;;
-    }
-    else if (netStatus == NotReachable)
-    {
-        self.uploadButton.enabled = NO;
-    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -229,6 +212,31 @@
     // Prevent the overlay message from flickering as the view disappears
     [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
 }
+
+
+#pragma mark - Camera
+
+-(BOOL)hasCamera
+{
+    return [UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera];
+}
+
+#pragma mark - Reachability
+
+-(void)reachabilityChange:(NSNotification*)note {
+    Reachability * reach = [note object];
+    NetworkStatus netStatus = [reach currentReachabilityStatus];
+    if (netStatus == ReachableViaWiFi || netStatus == ReachableViaWWAN)
+    {
+        self.uploadButton.enabled = [[CommonsApp singleton] firstUploadRecord] ? YES : NO;;
+    }
+    else if (netStatus == NotReachable)
+    {
+        self.uploadButton.enabled = NO;
+    }
+}
+
+#pragma mark - Memory
 
 - (void)didReceiveMemoryWarning
 {
@@ -400,6 +408,11 @@
 }
 
 #pragma mark - Interface Actions
+
+-(void)backButtonPressed:(id)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (IBAction)uploadButtonPushed:(id)sender {
     
@@ -1125,23 +1138,7 @@
 #pragma mark Details segue methods
 
 - (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
-{
-    /*
-     if ([segue.identifier isEqualToString:@"DetailSegue"]) {
-     DetailTableViewController *detailVC = [segue destinationViewController];
-     detailVC.selectedRecord = self.selectedRecord;
-     
-     // Change back button to be arrow
-     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString] style:UIBarButtonItemStyleBordered target:self action:nil];
-     
-     // Make the table view's background transparent
-     UIView *backView = [[UIView alloc] initWithFrame:CGRectZero];
-     backView.backgroundColor = [UIColor clearColor];
-     detailVC.tableView.backgroundView = backView;
-     }
-     return;
-     */
-    
+{    
     if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
         
         if (self.selectedRecord) {
@@ -1215,7 +1212,9 @@
                                                                                   target:detailVC_
                                                                                   action:@selector(deleteButtonPushed:)];
     
-    
+    // Remove the outline around the trash can icon on iOS 6
+    [deleteButton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+
     UIBarButtonItem *spacerItemFlexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                                         target:nil
                                                                                         action:nil];

@@ -1467,6 +1467,18 @@ static CommonsApp *singleton_;
     return @"\U000025C0\U0000FE0E";
 }
 
+-(UIBarButtonItem *)getBackButtonItemWithTarget:(id)target action:(SEL)action
+{
+    UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle:[self getBackButtonString]
+                                                               style:UIBarButtonItemStyleBordered
+                                                              target:target
+                                                              action:action];
+    
+    
+    [button setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    return button;
+}
+
 -(void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius
 {   // Use for rounding *specific* corners of a UIView.
     // Based on http://stackoverflow.com/a/5826745/135557

@@ -176,8 +176,7 @@ typedef enum {
 {
     UINavigationItem *thisItem = navBar_.items[0];
     if (visible) {
-        NSString *backArrowStr = [[CommonsApp singleton] getBackButtonString];
-        thisItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:backArrowStr style:UIBarButtonItemStylePlain target:self action:@selector(returnToAlbums)];
+        thisItem.leftBarButtonItem = [[CommonsApp singleton] getBackButtonItemWithTarget:self action:@selector(returnToAlbums)];
         thisItem.hidesBackButton = NO;
     }else{
         thisItem.hidesBackButton = YES;

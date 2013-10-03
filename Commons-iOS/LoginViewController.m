@@ -150,7 +150,6 @@
     [self.logoutButton useWhiteStyle];
 
     // l10n
-    self.navigationItem.title = [MWMessage forKey:@"login-title"].text;
     self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
     self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
     [self.loginButton setTitle:[MWMessage forKey:@"login-button"].text forState:UIControlStateNormal];
@@ -344,19 +343,6 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-
-	UIBarButtonItem *backButton = [[UIBarButtonItem alloc]
-								   initWithTitle: [[CommonsApp singleton] getBackButtonString]
-								   style: UIBarButtonItemStyleBordered
-								   target:nil action: nil];
-	
-	[backButton setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-										[UIColor colorWithRed:1 green:1 blue:1 alpha:1], UITextAttributeTextColor,
-										[NSValue valueWithUIOffset:UIOffsetMake(0.0f, 0.0f)], UITextAttributeTextShadowOffset,
-										nil] forState:UIControlStateNormal];
-	
-	[self.navigationItem setBackBarButtonItem: backButton];
-
     [self.pictureOfDayCycler stop];
 
     [super viewWillDisappear:animated];

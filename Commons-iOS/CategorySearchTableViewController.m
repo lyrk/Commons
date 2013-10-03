@@ -37,10 +37,7 @@
     [super viewDidLoad];
 
     // Change back button to be an arrow
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString]
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:self
-                                                                            action:@selector(backButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = [[CommonsApp singleton] getBackButtonItemWithTarget:self action:@selector(backButtonPressed:)];
 
     self.recentCats = [self recentCategories]; // don't need a live view, it won't change while we're viewing
     self.searchCats = @[];
