@@ -10,6 +10,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "MWI18N/MWI18N.h"
 #import "CommonsApp.h"
+//#import "UIView+Debugging.h"
 
 #pragma mark - Defines
 
@@ -56,6 +57,8 @@ typedef enum {
     cellScale_ = 1.0f / scale;
 
     imageMargin_ = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? GALLERY_IPAD_IMAGE_BORDER_WIDTH : GALLERY_NON_IPAD_IMAGE_BORDER_WIDTH;
+
+    self.wantsFullScreenLayout = YES;
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -131,6 +134,8 @@ typedef enum {
 	[self.view addGestureRecognizer:swipeRecognizer_];
     
     [self addNavBar];
+    
+    //[self.view randomlyColorSubviews];
 }
 
 -(void)setSpacing
@@ -140,12 +145,12 @@ typedef enum {
     UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout*)self.collectionView.collectionViewLayout;
     
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
-        collectionViewLayout.sectionInset = UIEdgeInsetsMake(60.0f, 15.0f, 60.0f, 15.0f);
+        collectionViewLayout.sectionInset = UIEdgeInsetsMake(80.0f, 15.0f, 60.0f, 15.0f);
         collectionViewLayout.minimumInteritemSpacing = 10.0f;
         // Adds more space for the album labels
         collectionViewLayout.minimumLineSpacing = (self.galleryMode == GALLERY_SHOW_ALL_ALBUMS) ? 70.0f : 10.0f;
     }else{
-        collectionViewLayout.sectionInset = UIEdgeInsetsMake(80.0f, 40.0f, 80.0f, 40.0f);
+        collectionViewLayout.sectionInset = UIEdgeInsetsMake(100.0f, 40.0f, 80.0f, 40.0f);
         collectionViewLayout.minimumInteritemSpacing = 40.0f;
         // Adds more space for the album labels
         collectionViewLayout.minimumLineSpacing = (self.galleryMode == GALLERY_SHOW_ALL_ALBUMS) ? 90.0f : 55.0f;
@@ -154,7 +159,7 @@ typedef enum {
 
 -(void)addNavBar
 {
-    navBar_ = [[UINavigationBar alloc] initWithFrame: CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 44.0f)];
+    navBar_ = [[UINavigationBar alloc] initWithFrame: CGRectMake(0.0f, [[CommonsApp singleton] getStatusBarHeight], self.view.frame.size.width, 44.0f)];
     navBar_.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     navBar_.barStyle = UIBarStyleBlackTranslucent;
     [super.view addSubview:navBar_];
