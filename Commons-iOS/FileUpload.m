@@ -23,6 +23,7 @@
 @dynamic source;
 @dynamic thumbnailURL;
 @dynamic fileSize;
+@dynamic license;
 
 @synthesize fetchThumbnailProgress;
 

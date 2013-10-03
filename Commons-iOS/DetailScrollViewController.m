@@ -69,6 +69,9 @@
     CFTimeInterval timeLastCategoryPan_;
     CategoryLicenseExtractor *categoryLicenseExtractor_;
     NSURL *licenseURL_;
+    NSArray *selectableLicenses_;
+    NSInteger selectedLicenseIndex_;
+    NSMutableArray *licenseLabels_;
 }
 
 #pragma mark - Init / dealloc
@@ -87,6 +90,9 @@
         self.categoriesNeedToBeRefreshed = NO;
         timeLastDetailsPan_ = CACurrentMediaTime();
         timeLastCategoryPan_ = CACurrentMediaTime();
+        selectableLicenses_ = nil;
+        selectedLicenseIndex_ = 0;
+        licenseLabels_ = nil;
     }
     return self;
 }
@@ -116,7 +122,10 @@
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
 
     previewImage_ = nil;
-    
+
+    // Load the list of licenses user may choose from
+    [self loadSelectableLicenses];
+
     // Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
@@ -403,6 +412,146 @@
     }
 }
 
+#pragma mark - License retrieval
+
+- (void)getPreviouslySavedLicenseFromCategories:(NSMutableArray *)categories
+{
+    // Replaces "loading..." message in licenseDefaultLabel with name of license or "Tap for license"
+    // message if no license found. If no license found makes "Tap for license" actually link to the
+    // image's wiki page.
+    
+    // Extract license from categories now that categories have been retrieved
+    NSString *license = [categoryLicenseExtractor_ getLicenseFromCategories:categories];
+
+    // If license was name was not retrieved change it to say "Tap for License" for now
+    if (license == nil){
+        license = [MWMessage forKey:@"picture-of-day-tap-for-license"].text;
+        
+        UITapGestureRecognizer *licenseTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLicenseTap:)];
+        [self.licenseDefaultLabel addGestureRecognizer:licenseTapGesture];
+        
+        // Get the wiki url for the image
+        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
+        NSURL *wikiUrl = [CommonsApp.singleton URLForWikiPage:pageTitle];
+        licenseURL_ = wikiUrl;
+    }else{
+        licenseURL_ = [NSURL URLWithString:[categoryLicenseExtractor_ getURLForLicense:license]];
+        license = [license uppercaseString];
+    }
+
+    // Update licenseDefaultLabel to show name of found license
+    self.licenseDefaultLabel.text = license;
+}
+
+#pragma mark - License choices
+
+-(void)updateLicenseContainer{
+    // Presents and constrains a label for each license choice.
+    
+    //NSLog(@"license from record = %@", self.selectedRecord.license);
+    
+    if (self.selectedRecord.license == nil) self.selectedRecord.license = @"cc-by-sa-3.0";
+    selectedLicenseIndex_ = [self getSelectedRecordLicenseIndex];
+    
+    // Remove the "Loading..." label
+    [self.licenseDefaultLabel removeFromSuperview];
+    
+    licenseLabels_ = [@[] mutableCopy];
+    UIView *labelAbove = self.licenseLabel;
+    NSInteger tag = 0;
+    for (NSDictionary *license in selectableLicenses_) {
+        UILabelDynamicHeight *label = [[UILabelDynamicHeight alloc] init];
+        label.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.licenseContainer addSubview:label];
+        [self styleDetailsLabel:label];
+        [licenseLabels_ addObject:label];
+        
+        label.text = license[@"description"];
+        
+        [self.licenseContainer addSubview:label];
+        label.tag = tag++;
+        
+        // Constrain each license label appropriately
+        [self.licenseContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|" options:0 metrics:nil views:@{@"label": label}]];
+
+        NSString *formatString = @"V:[labelAbove]-[label]";
+        if (selectableLicenses_.lastObject == license) {
+            formatString = [formatString stringByAppendingString:@"-|"];
+        }
+        
+        [self.licenseContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:formatString options:0 metrics:nil views:@{@"label": label, @"labelAbove": labelAbove}]];
+        labelAbove = label;
+        
+        // Make label respond to taps
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(licenseSelectionTapped:)];
+        [label addGestureRecognizer:tapGesture];
+     
+        // Make the selected license appear highlighted
+        [self setLicenseSelectionIndication:label];
+    }
+}
+
+#pragma mark - License selection
+
+-(void) loadSelectableLicenses
+{
+    // The list of licenses to be chosen from.
+    selectableLicenses_ = @[
+                            @{
+                                @"license" :@"cc-by-sa-3.0",
+                                @"description": @"Creative Commons Attribution ShareAlike 3.0"
+                                },
+                            @{
+                                @"license" :@"cc-by-3.0",
+                                @"description": @"Creative Commons Attribution 3.0"
+                                },
+                            @{
+                                @"license" :@"cc-zero",
+                                @"description": @"Creative Commons CC0 Waiver"
+                                }
+                            ];
+}
+
+-(void)licenseSelectionTapped:(UITapGestureRecognizer *)recognizer
+{
+    NSLog(@"license selected = %d", recognizer.view.tag);
+    selectedLicenseIndex_ = recognizer.view.tag;
+    if (!(selectedLicenseIndex_ < selectableLicenses_.count)) {
+        selectedLicenseIndex_ = 0;
+    }
+    NSDictionary *selectedLicense = selectableLicenses_[selectedLicenseIndex_];    
+    self.selectedRecord.license = selectedLicense[@"license"];
+    
+    // Add the license to categories too (needed since we're pulling license info from categories)
+    [self.selectedRecord addCategory:[selectedLicense[@"license"] uppercaseString]];
+    
+    for (UILabelDynamicHeight *label in licenseLabels_) {
+        [self setLicenseSelectionIndication:label];
+    }
+}
+
+-(NSInteger)getSelectedRecordLicenseIndex
+{
+    // Looks for self.selectedRecord.license in selectableLicenses_ and returns index of match.
+    NSInteger index = 0;
+    for (NSDictionary *license in selectableLicenses_) {
+        if ([license[@"license"] isEqualToString:self.selectedRecord.license]) {
+            return index;
+        }
+        index++;
+    }
+    return index;
+}
+
+-(void)setLicenseSelectionIndication:(UILabelDynamicHeight *)label
+{
+    if (label.tag == selectedLicenseIndex_){
+        label.borderView.layer.borderWidth = 2.0f;
+    }else{
+        label.borderView.layer.borderWidth = 0.0f;
+    }
+}
+
 #pragma mark - Selected record
 
 -(void)configureForSelectedRecord
@@ -429,10 +578,8 @@
             });
         }else{
             [self updateCategoryContainer];
-            
 
-// new pic! add list of licenses to be chosen from here
-
+            [self updateLicenseContainer];
         }
 
         dispatch_async(dispatch_get_main_queue(), ^(void) {
@@ -900,39 +1047,6 @@
     }];
 }
 
-#pragma mark - License retrieval
-
-- (void)getPreviouslySavedLicenseFromCategories:(NSMutableArray *)categories
-{
-    // Replaces "loading..." message in licenseDefaultLabel with name of license or "Tap for license"
-    // message if no license found. If no license found makes "Tap for license" actually link to the
-    // image's wiki page.
-    
-    // Extract license from categories now that categories have been retrieved
-    NSString *license = [categoryLicenseExtractor_ getLicenseFromCategories:categories];
-    
-//license = nil;
-    
-    // If license was name was not retrieved change it to say "Tap for License" for now
-    if (license == nil){
-        license = [MWMessage forKey:@"picture-of-day-tap-for-license"].text;
-        
-        UITapGestureRecognizer *licenseTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleLicenseTap:)];
-        [self.licenseDefaultLabel addGestureRecognizer:licenseTapGesture];
-        
-        // Get the wiki url for the image
-        NSString *pageTitle = [@"File:" stringByAppendingString:self.selectedRecord.title];
-        NSURL *wikiUrl = [CommonsApp.singleton URLForWikiPage:pageTitle];
-        licenseURL_ = wikiUrl;
-    }else{
-        licenseURL_ = [NSURL URLWithString:[categoryLicenseExtractor_ getURLForLicense:license]];
-        license = [license uppercaseString];
-    }
-
-    // Update licenseDefaultLabel to show name of found license
-    self.licenseDefaultLabel.text = license;
-}
-
 #pragma mark - Category retrieval
 
 - (void)getPreviouslySavedCategoriesForRecord:(FileUpload *)record
@@ -1103,6 +1217,7 @@
     label.textColor = [UIColor whiteColor];
     label.backgroundColor = [UIColor clearColor];
     label.borderColor = [UIColor clearColor];
+    label.borderView.layer.borderColor = [UIColor colorWithWhite:1.0f alpha:0.8f].CGColor;
     label.paddingColor = DETAIL_NON_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
     [label setPaddingInsets:DETAIL_CATEGORY_PADDING_INSET];
 }

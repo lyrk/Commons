@@ -24,6 +24,7 @@
 @property (nonatomic, retain) NSString * source;
 @property (nonatomic, retain) NSString * thumbnailURL;
 @property (nonatomic, retain) NSNumber * fileSize;
+@property (nonatomic, retain) NSString * license;
 
 @property (nonatomic, retain) NSNumber * fetchThumbnailProgress;
 

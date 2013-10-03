@@ -683,6 +683,9 @@ static CommonsApp *singleton_;
        if (_currentUploadOp.isLoggedIn) {
            
            record.progress = @0.0f;
+
+            // In case license somehow is not set by now...
+            if (record.license == nil) record.license = @"cc-by-sa-3.0";
            
            MWPromise *upload = [_currentUploadOp uploadFile:fileName
                                                withFileData:fileData
@@ -763,12 +766,12 @@ static CommonsApp *singleton_;
     NSString *format = @"== {{int:filedesc}} ==\n"
                        @"{{Information\n|description=%@\n|source={{own}}\n|author=[[User:%@|%2$@]]\n|date=%@}}\n"
                        @"== {{int:license-header}} ==\n"
-                       @"{{self|cc-by-sa-3.0}}\n"
+                       @"{{self|%@}}\n"
                        @"\n"
                        @"{{Uploaded from Mobile|platform=iOS|version=%@}}\n"
                        @"%@";
     NSString *cats = [self formatCategories:record];
-    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], self.version, cats];
+    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], record.license, self.version, cats];
     return desc;
 }
 

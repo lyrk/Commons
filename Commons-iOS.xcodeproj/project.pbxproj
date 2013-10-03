@@ -341,6 +341,7 @@
 		0417D9E9176E666B00081D8C /* GalleryMultiSelectCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectCollectionVC.m; sourceTree = "<group>"; };
 		0417D9EE176EB00000081D8C /* GalleryMultiSelectAlbumCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAlbumCell.h; sourceTree = "<group>"; };
 		0417D9EF176EB00100081D8C /* GalleryMultiSelectAlbumCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAlbumCell.m; sourceTree = "<group>"; };
+		0438EF0317FCCB96005F8BF5 /* FileUpload 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FileUpload 4.xcdatamodel"; sourceTree = "<group>"; };
 		044A0C3A170F6504003395DD /* GradientButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GradientButton.h; sourceTree = "<group>"; };
 		044A0C3B170F6504003395DD /* GradientButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GradientButton.m; sourceTree = "<group>"; };
 		0451C8601739A2CC00C2D03B /* FetchImageOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchImageOperation.h; sourceTree = "<group>"; };
@@ -1997,11 +1998,12 @@
 		D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0438EF0317FCCB96005F8BF5 /* FileUpload 4.xcdatamodel */,
 				D41BFA46173AF10600472EC7 /* FileUpload 3.xcdatamodel */,
 				D4C5B4201720BCD700C40532 /* FileUpload 2.xcdatamodel */,
 				D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */,
 			);
-			currentVersion = D41BFA46173AF10600472EC7 /* FileUpload 3.xcdatamodel */;
+			currentVersion = 0438EF0317FCCB96005F8BF5 /* FileUpload 4.xcdatamodel */;
 			path = FileUpload.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
