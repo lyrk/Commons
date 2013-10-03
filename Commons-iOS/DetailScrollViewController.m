@@ -298,12 +298,6 @@
     if(!self.selectedRecord.complete.boolValue){
         [self addNavBarBackgroundViewForTouchDetection];
     }
-    
-    // Ensure nav bar isn't being underlapped by details
-    // (needed if details pushed another view controller while details was scrolled so far up that
-    // it had caused the nav bar to be hidden - without this extra call to "makeNavBarRunAwayFromDetails"
-    // here, when that pushed view gets popped, the nav would overlap the details)
-    //[self makeNavBarRunAwayFromDetails];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -328,7 +322,6 @@
     [super viewWillDisappear:animated];
 
     // Ensure the nav bar is visible
-    // (needed because "makeNavBarRunAwayFromDetails" method could have hidden the nav bar)
     [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
@@ -774,34 +767,9 @@
     self.delegate.navigationItem.prompt = nil;
 }
 
--(void)makeNavBarRunAwayFromDetails
-{
-    // Calling "setNavigationBarHidden:" below causes subviews to be laid out. If the view was being
-    // dragged when this method is called this will cause the layout system to use the last value it
-    // had for self.viewTopConstraint.constant, which, during drag, doesn't get updated until the drag
-    // ends, so the pre-drag value is seen and the layout system makes self.view jump down to this
-    // position, which is not what we want at all. To prevent this, update self.viewTopConstraint.constant
-    // here. See the note in "handleDetailsPan:" concerning updating "self.viewTopConstraint.constant"
-    // for more details about the issue. (To reproduce the bug, use iOS 7, comment out the line below and
-    // drag the details page slider up until the top of it hits the navigation bar.)
-    self.viewTopConstraint.constant = self.view.frame.origin.y;
-
-    // Prevent details from underlapping nav bar by hiding nav bar when details scrolled up so
-    // far that underlap would occur. And when details scrolled back down make nav bar re-appear.
-    if ([self verticalDistanceFromNavBar] < 0.0f) {
-        if (!self.navigationController.navigationBarHidden) {
-            [self.navigationController setNavigationBarHidden:YES animated:YES];
-        }
-    }else{
-        if (self.navigationController.navigationBarHidden) {
-            [self.navigationController setNavigationBarHidden:NO animated:YES];
-        }
-    }
-}
-
 -(float)verticalDistanceFromNavBar
 {
-	return self.view.frame.origin.y - self.navigationController.navigationBar.frame.size.height;
+	return self.view.frame.origin.y - (self.navigationController.navigationBar.frame.size.height + self.navigationController.navigationBar.frame.origin.y);
 }
 
 
@@ -1593,20 +1561,14 @@
     // position actively around the keyboard as it moves, other than to just slide
     // things up a bit when it first appears
     
-    float statusBarOffset = [view.superview convertPoint:view.frame.origin toView:self.delegate.view].y;
-    
-    // If not iPad return offset for scrolling view beneath the status bar.
-    // If iPad shift everything down a bit from there.
-    float offsetForKeyboard = statusBarOffset - ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 150.0f : 0.0f);
-    
-    return -offsetForKeyboard;
+    return -(self.view.frame.origin.y - self.navigationController.navigationBar.frame.size.height + [view.superview convertPoint:view.frame.origin toView:self.view].y - self.navigationController.navigationBar.frame.origin.y);
 }
 
 #pragma mark - Details distances
 
 -(float)getBottomGapHeight
 {
-	return self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.scrollContainer.frame.size.height);;
+	return self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.scrollContainer.frame.size.height);
 }
 
 -(float)tableTopVerticalDistanceFromDelegateViewBottom

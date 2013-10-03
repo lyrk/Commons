@@ -108,11 +108,9 @@
 {
     [super viewDidLoad];
 
-    // "wantsFullScreenLayout = NO" makes self.view not underlap the status bar on iOS 6.
-    // Really matters when pinch has expanded image and the image is dragged downward. The top
-    // of the image will drag (actually when drag is released) to the bottom of the status bar
-    // if this is NO, and to top of it if YES.
-    self.wantsFullScreenLayout = NO;
+    // For iOS 6 so it considers the absolute top left of the screen to be 0,0 - otherwise just below the
+    // title bar is 0,0
+    self.wantsFullScreenLayout = YES;
 
     // Change back button to be an arrow
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:[[CommonsApp singleton] getBackButtonString]
