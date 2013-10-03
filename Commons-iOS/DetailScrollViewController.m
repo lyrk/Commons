@@ -439,8 +439,12 @@
         license = [license uppercaseString];
     }
 
+    selectedLicenseIndex_ = [self getSelectedRecordLicenseIndex];
+
     // Update licenseDefaultLabel to show name of found license
-    self.licenseDefaultLabel.text = license;
+    //self.licenseDefaultLabel.text = [NSString stringWithFormat:@"%@ - %@", selectableLicenses_[selectedLicenseIndex_][@"description"], license];
+
+    self.licenseDefaultLabel.text = selectableLicenses_[selectedLicenseIndex_][@"description"];
 }
 
 #pragma mark - License choices
@@ -540,7 +544,8 @@
         }
         index++;
     }
-    return index;
+    // If no match was found assume the first entry in selectableLicenses_ is the default one
+    return 0;
 }
 
 -(void)setLicenseSelectionIndication:(UILabelDynamicHeight *)label
