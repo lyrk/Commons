@@ -47,7 +47,17 @@
         
     [self.searchBar setPlaceholder:[MWMessage forKey:@"catadd-search-placeholder"].text];
 
-    self.searchBar.tintColor = [UIColor darkGrayColor];
+    self.searchBar.tintColor = [UIColor blackColor];
+    
+    self.view.backgroundColor = [UIColor darkGrayColor];
+
+    for (UIView *v in self.tableView.subviews) {
+        v.backgroundColor = [UIColor darkGrayColor];
+    }
+    
+    for (UIView *v in self.view.subviews) {
+        v.backgroundColor = [UIColor darkGrayColor];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -101,7 +111,12 @@
     static NSString *CellIdentifier = @"CategoryCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
-    cell.textLabel.textColor = [UIColor blackColor];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.backgroundColor = [UIColor darkGrayColor];
+    
+    for (UIView *v in cell.subviews) {
+        v.backgroundColor = [UIColor darkGrayColor];
+    }
     
     NSArray *cats;
     if (tableView == self.tableView) {
@@ -184,6 +199,8 @@
 -(BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchText
 {
     CommonsApp *app = CommonsApp.singleton;
+
+    [controller.searchResultsTableView setBackgroundColor:[UIColor darkGrayColor]];
 
     // cancel live search
     if (self.api != nil) {
