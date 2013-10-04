@@ -394,6 +394,12 @@
                                                         target:self
                                                         action:@selector(uploadButtonPushed:)];
     }
+
+    [_uploadButton setTitleTextAttributes:@{
+                                            UITextAttributeFont: [UIFont boldSystemFontOfSize:16]
+                                            } forState:UIControlStateNormal];
+
+    [_uploadButton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     
     return _uploadButton;
 }
@@ -404,6 +410,13 @@
                                                             style:UIBarButtonItemStylePlain
                                                            target:self
                                                            action:@selector(cancelButtonPushed:)];
+
+    [btn setTitleTextAttributes:@{
+                                  UITextAttributeFont: [UIFont boldSystemFontOfSize:16]
+                                  } forState:UIControlStateNormal];
+
+    [btn setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+
     return btn;
 }
 
@@ -1207,30 +1220,14 @@
     UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                                  target:detailVC_
                                                                                  action:@selector(shareButtonPushed:)];
-        
-    UIBarButtonItem *deleteButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
-                                                                                  target:detailVC_
-                                                                                  action:@selector(deleteButtonPushed:)];
     
-    // Remove the outline around the trash can icon on iOS 6
-    [deleteButton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    // Remove the outline around the button to make iOS button look more iOS 7ish
+    [shareButton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 
-    UIBarButtonItem *spacerItemFlexible = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                                        target:nil
-                                                                                        action:nil];
-    
-    // These fake buttons trick the navigation bar into automatically centering the upload and openWiki buttons
-    UIBarButtonItem *fakeButton1 = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)]];
-    UIBarButtonItem *fakeButton2 = [[UIBarButtonItem alloc] initWithCustomView:[[UIView alloc] initWithFrame:CGRectMake(0, 0, 9, 1)]];
-    
     if (!self.selectedRecord.complete.boolValue) {
-        [imageScrollVC_.navigationItem setRightBarButtonItems:
-         @[deleteButton, fakeButton2, spacerItemFlexible, self.uploadButton, spacerItemFlexible,fakeButton1]
-                                                     animated:YES];
+        imageScrollVC_.navigationItem.rightBarButtonItem = self.uploadButton;
     }else{
-        [imageScrollVC_.navigationItem setRightBarButtonItems:
-         @[shareButton, spacerItemFlexible, fakeButton1]
-                                                     animated:YES];
+        imageScrollVC_.navigationItem.rightBarButtonItem = shareButton;
     }
 }
 

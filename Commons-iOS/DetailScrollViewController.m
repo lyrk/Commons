@@ -146,6 +146,9 @@
     
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
     self.categoryLabel.text = [MWMessage forKey:@"details-category-label"].text;
+
+    self.deleteLabel.text = [MWMessage forKey:@"details-deletion-label"].text;
+    self.deleteButton.text = [MWMessage forKey:@"details-deletion-button"].text;
     
     self.descriptionTextView.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
     self.descriptionTextLabel.backgroundColor = [UIColor clearColor];
@@ -189,6 +192,7 @@
     self.titleLabel.textColor = DETAIL_LABEL_COLOR;
     self.licenseLabel.textColor = DETAIL_LABEL_COLOR;
     self.categoryLabel.textColor = DETAIL_LABEL_COLOR;
+    self.deleteLabel.textColor = DETAIL_LABEL_COLOR;
 
     [self.view setMultipleTouchEnabled:NO];
 
@@ -236,6 +240,7 @@
     self.descriptionContainer.backgroundColor = containerColor;
     self.licenseContainer.backgroundColor = containerColor;
     self.categoryContainer.backgroundColor = containerColor;
+    self.deleteContainer.backgroundColor = containerColor;
     
     // Show "Loading..." label for licenses
     self.licenseDefaultLabel.text = [MWMessage forKey:@"details-license-loading"].text;
@@ -248,6 +253,8 @@
 
     // Apply the style used by category labels to the category "Loading..." placeholder
     [self styleDetailsLabel:self.categoryDefaultLabel];
+
+    [self configureDeleteButton];
 
     //[self.view randomlyColorSubviews];
 }
@@ -592,7 +599,6 @@
                 [self.titleTextField removeConstraint:self.titleTextFieldHeightConstraint];
                 
                 self.descriptionTextLabel.hidden = NO;
-                self.deleteButton.enabled = NO; // fixme in future, support deleting uploaded items
                 self.actionButton.enabled = YES; // open link or share on the web
                 self.uploadButton.enabled = NO; // fixme either hide or replace with action button?
                 
@@ -607,6 +613,7 @@
                 self.ccByImage.hidden = YES;
                 self.ccSaImage.hidden = YES;
 
+                [self hideDeleteButton];
                 // either use HTML http://commons.wikimedia.org/wiki/Commons:Machine-readable_data
                 // or pick apart the standard templates
             } else {
@@ -620,7 +627,10 @@
 
                 self.descriptionTextView.hidden = NO;
                 self.descriptionTextLabel.hidden = YES;
-                self.deleteButton.enabled = (record.progress.floatValue == 0.0f); // don't allow delete _during_ upload
+                if (record.progress.floatValue != 0.0f){
+                    // don't allow delete _during_ upload
+                    [self hideDeleteButton];
+                }
                 self.actionButton.enabled = NO;
                 
                 self.descriptionLabel.hidden = NO;
@@ -640,6 +650,24 @@
 }
 
 #pragma mark - Buttons
+
+- (void)configureDeleteButton
+{
+    UITapGestureRecognizer *tapDeleteGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(deleteButtonPushed:)];
+    [self.deleteButton addGestureRecognizer:tapDeleteGesture];
+
+    [self styleDetailsLabel:self.deleteButton];
+    self.deleteButton.paddingColor = [UIColor redColor];
+    self.deleteButton.paddingColor = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:0.5f];
+}
+
+- (void)hideDeleteButton
+{
+    if (self.deleteContainer.superview == nil) return;
+    // Only show delete button for already uploaded images
+    [self.deleteContainer removeFromSuperview];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[categoryContainer]-|" options:0 metrics:nil views:@{@"categoryContainer": self.categoryContainer}]];
+}
 
 - (void)updateUploadButton
 {

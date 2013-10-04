@@ -30,7 +30,6 @@
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *descriptionTextLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionPlaceholder;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *deleteButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *uploadButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButton;
@@ -47,11 +46,14 @@
 
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *categoryDefaultLabel;
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *licenseDefaultLabel;
+@property (weak, nonatomic) IBOutlet UILabel *deleteLabel;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *deleteButton;
 
 @property (weak, nonatomic) IBOutlet UIView *titleContainer;
 @property (weak, nonatomic) IBOutlet UIView *descriptionContainer;
 @property (weak, nonatomic) IBOutlet UIView *licenseContainer;
 @property (weak, nonatomic) IBOutlet UIView *categoryContainer;
+@property (weak, nonatomic) IBOutlet UIView *deleteContainer;
 
 @property (weak, nonatomic) IBOutlet UIView *scrollContainer;
 

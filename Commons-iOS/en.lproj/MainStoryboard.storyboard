@@ -1232,7 +1232,7 @@ to take or choose photos.</string>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehb-uI-yRM" userLabel="Scroll Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="556"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="650"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhZ-zd-ki7" userLabel="Title Container">
@@ -1392,6 +1392,36 @@ to take or choose photos.</string>
                                             <constraint firstAttribute="bottom" secondItem="dyF-FO-sE1" secondAttribute="bottom" constant="20" symbolic="YES" id="ytA-ja-q5t"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zMN-gT-FuM" userLabel="Delete Container">
+                                        <rect key="frame" x="20" y="544" width="280" height="86"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deletion" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="COf-gZ-FUh">
+                                                <rect key="frame" x="20" y="20" width="240" height="21"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete This Image" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="tnu-rV-ymq" customClass="UILabelDynamicHeight">
+                                                <rect key="frame" x="20" y="49" width="240" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="COf-gZ-FUh" firstAttribute="top" secondItem="zMN-gT-FuM" secondAttribute="top" constant="20" symbolic="YES" id="HnD-2T-aEE"/>
+                                            <constraint firstAttribute="trailing" secondItem="COf-gZ-FUh" secondAttribute="trailing" constant="20" symbolic="YES" id="MB1-RH-U3S"/>
+                                            <constraint firstItem="tnu-rV-ymq" firstAttribute="leading" secondItem="zMN-gT-FuM" secondAttribute="leading" constant="20" symbolic="YES" id="RBH-Lj-JdP"/>
+                                            <constraint firstItem="COf-gZ-FUh" firstAttribute="leading" secondItem="zMN-gT-FuM" secondAttribute="leading" constant="20" symbolic="YES" id="WOE-RU-kuX"/>
+                                            <constraint firstItem="tnu-rV-ymq" firstAttribute="top" secondItem="COf-gZ-FUh" secondAttribute="bottom" constant="8" symbolic="YES" id="dKh-TP-l61"/>
+                                            <constraint firstAttribute="trailing" secondItem="tnu-rV-ymq" secondAttribute="trailing" constant="20" symbolic="YES" id="jo7-sE-stT"/>
+                                            <constraint firstAttribute="bottom" secondItem="tnu-rV-ymq" secondAttribute="bottom" constant="20" symbolic="YES" id="yF4-hi-JnT"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -1400,15 +1430,18 @@ to take or choose photos.</string>
                                     <constraint firstItem="jhZ-zd-ki7" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="CDd-Mo-qUd"/>
                                     <constraint firstItem="jhZ-zd-ki7" firstAttribute="top" secondItem="ehb-uI-yRM" secondAttribute="top" constant="20" symbolic="YES" id="FrG-tc-PV1"/>
                                     <constraint firstItem="0OK-Zl-28Q" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="LcE-El-EfB"/>
+                                    <constraint firstItem="zMN-gT-FuM" firstAttribute="top" secondItem="fx9-U5-jNG" secondAttribute="bottom" constant="8" symbolic="YES" id="MUV-BJ-tih"/>
                                     <constraint firstItem="fx9-U5-jNG" firstAttribute="top" secondItem="0OK-Zl-28Q" secondAttribute="bottom" constant="8" symbolic="YES" id="OZ5-bo-3nu"/>
                                     <constraint firstItem="ChD-4f-cDJ" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="Qdx-Fe-QHc"/>
                                     <constraint firstAttribute="width" constant="320" placeholder="YES" id="RiN-tx-Eqg"/>
                                     <constraint firstAttribute="trailing" secondItem="fx9-U5-jNG" secondAttribute="trailing" constant="20" symbolic="YES" id="aqk-zd-f06"/>
                                     <constraint firstAttribute="trailing" secondItem="jhZ-zd-ki7" secondAttribute="trailing" constant="20" symbolic="YES" id="ayw-wb-VSx"/>
                                     <constraint firstAttribute="trailing" secondItem="0OK-Zl-28Q" secondAttribute="trailing" constant="20" symbolic="YES" id="gXz-1p-pLj"/>
-                                    <constraint firstAttribute="bottom" secondItem="fx9-U5-jNG" secondAttribute="bottom" constant="20" symbolic="YES" id="igR-ew-cNX"/>
                                     <constraint firstItem="fx9-U5-jNG" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="kXG-4H-AT8"/>
                                     <constraint firstItem="0OK-Zl-28Q" firstAttribute="top" secondItem="ChD-4f-cDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="ksp-3g-XaT"/>
+                                    <constraint firstItem="zMN-gT-FuM" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="mFR-2g-qdV"/>
+                                    <constraint firstAttribute="trailing" secondItem="zMN-gT-FuM" secondAttribute="trailing" constant="20" symbolic="YES" id="rzN-YP-yWK"/>
+                                    <constraint firstAttribute="bottom" secondItem="zMN-gT-FuM" secondAttribute="bottom" constant="20" symbolic="YES" id="uZj-YH-8pr"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1425,6 +1458,9 @@ to take or choose photos.</string>
                         <outlet property="categoryContainer" destination="fx9-U5-jNG" id="e2I-cl-ZSs"/>
                         <outlet property="categoryDefaultLabel" destination="dyF-FO-sE1" id="OXj-iy-LDf"/>
                         <outlet property="categoryLabel" destination="jUg-Wa-cMl" id="8yR-OG-vWN"/>
+                        <outlet property="deleteButton" destination="tnu-rV-ymq" id="XL3-yG-uXx"/>
+                        <outlet property="deleteContainer" destination="zMN-gT-FuM" id="tmh-TQ-NlA"/>
+                        <outlet property="deleteLabel" destination="COf-gZ-FUh" id="ETn-ZN-dfB"/>
                         <outlet property="descriptionContainer" destination="ChD-4f-cDJ" id="Kag-oJ-QIL"/>
                         <outlet property="descriptionLabel" destination="CZQ-bf-MDt" id="5Ys-xU-tlY"/>
                         <outlet property="descriptionPlaceholder" destination="7ez-E3-hMg" id="Lmn-FU-s50"/>

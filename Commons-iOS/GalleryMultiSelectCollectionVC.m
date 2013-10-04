@@ -167,6 +167,14 @@ typedef enum {
     UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithTitle:[MWMessage forKey:@"gallery-cancel-button"].text
                                                                     style:UIBarButtonItemStyleDone
                                                                    target:self action:@selector(dismiss)];
+
+    [rightButton setTitleTextAttributes:@{
+                                            UITextAttributeFont: [UIFont boldSystemFontOfSize:16]
+                                            } forState:UIControlStateNormal];
+
+    // Remove the outline around the button to make iOS button look more iOS 7ish
+    [rightButton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+
     UINavigationItem *item = [[UINavigationItem alloc] initWithTitle:[MWMessage forKey:@"gallery-album-title"].text];
     item.rightBarButtonItem = rightButton;
     [navBar_ pushNavigationItem:item animated:NO];
