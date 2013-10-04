@@ -146,8 +146,6 @@
     
     self.licenseLabel.text = [MWMessage forKey:@"details-license-label"].text;
     self.categoryLabel.text = [MWMessage forKey:@"details-category-label"].text;
-
-    self.deleteLabel.text = [MWMessage forKey:@"details-deletion-label"].text;
     self.deleteButton.text = [MWMessage forKey:@"details-deletion-button"].text;
     
     self.descriptionTextView.backgroundColor = DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR;
@@ -192,7 +190,6 @@
     self.titleLabel.textColor = DETAIL_LABEL_COLOR;
     self.licenseLabel.textColor = DETAIL_LABEL_COLOR;
     self.categoryLabel.textColor = DETAIL_LABEL_COLOR;
-    self.deleteLabel.textColor = DETAIL_LABEL_COLOR;
 
     [self.view setMultipleTouchEnabled:NO];
 

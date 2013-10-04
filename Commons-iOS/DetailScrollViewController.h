@@ -46,7 +46,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *categoryDefaultLabel;
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *licenseDefaultLabel;
-@property (weak, nonatomic) IBOutlet UILabel *deleteLabel;
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *deleteButton;
 
 @property (weak, nonatomic) IBOutlet UIView *titleContainer;
