@@ -37,9 +37,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *licenseNameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *ccByImage;
 @property (weak, nonatomic) IBOutlet UIImageView *ccSaImage;
-//@property (weak, nonatomic) IBOutlet UITableViewCell *titleCell;
-//@property (weak, nonatomic) IBOutlet UITableViewCell *descCell;
-//@property (weak, nonatomic) IBOutlet UITableViewCell *licenseCell;
 @property (weak, nonatomic) IBOutlet UILabel *categoryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *categoryListLabel;
 @property (weak, nonatomic) IBOutlet UILabel *addCategoryLabel;
@@ -55,8 +52,6 @@
 @property (weak, nonatomic) IBOutlet UIView *deleteContainer;
 
 @property (weak, nonatomic) IBOutlet UIView *scrollContainer;
-
-//@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (strong, nonatomic) FileUpload *selectedRecord;
 @property (strong, nonatomic) NSMutableArray *categoryList;

@@ -2002,8 +2002,6 @@ Help Wikipedia articles come to life!</string>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="30" height="30"/>
     </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

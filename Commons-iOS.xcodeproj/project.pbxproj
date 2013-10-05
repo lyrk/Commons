@@ -327,7 +327,6 @@
 		D4E0385C16C47B6C00330A7F /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
 		D4E0385D16C47B6C00330A7F /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
 		D4E0385E16C47B6C00330A7F /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
-		D4E325461739AA3000F7D278 /* CategoryDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4E325451739AA3000F7D278 /* CategoryDetailTableViewController.m */; };
 		D4E94E43172EBBBB0034CA6D /* messages-rif.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E94E42172EBBBB0034CA6D /* messages-rif.json */; };
 		DC0F63DF16BBB73F0017E63C /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC0F63DE16BBB73F0017E63C /* defaults.plist */; };
 		DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC2CB56616B9BD420047977E /* MWNetworkActivityIndicatorManager.m */; };
@@ -629,8 +628,6 @@
 		D4E0385216C46FDD00330A7F /* MWI18N.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWI18N.h; path = MWI18N/MWI18N.h; sourceTree = "<group>"; };
 		D4E0385316C46FDD00330A7F /* MWI18N.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWI18N.m; path = MWI18N/MWI18N.m; sourceTree = "<group>"; };
 		D4E0385B16C47B6C00330A7F /* messages-qqq.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-qqq.json"; path = "messages/messages-qqq.json"; sourceTree = "<group>"; };
-		D4E325441739AA3000F7D278 /* CategoryDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryDetailTableViewController.h; sourceTree = "<group>"; };
-		D4E325451739AA3000F7D278 /* CategoryDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryDetailTableViewController.m; sourceTree = "<group>"; };
 		D4E94E42172EBBBB0034CA6D /* messages-rif.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-rif.json"; path = "messages/messages-rif.json"; sourceTree = "<group>"; };
 		DC0F63DE16BBB73F0017E63C /* defaults.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = defaults.plist; sourceTree = "<group>"; };
 		DC2CB56516B9BD420047977E /* MWNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWNetworkActivityIndicatorManager.h; path = mwapi/MWNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
@@ -1080,8 +1077,6 @@
 				D4B1CDFC1721E248008E1B31 /* CategorySearchTableViewController.m */,
 				0478F8E71731B5E9007D4531 /* WelcomeOverlayView.h */,
 				0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */,
-				D4E325441739AA3000F7D278 /* CategoryDetailTableViewController.h */,
-				D4E325451739AA3000F7D278 /* CategoryDetailTableViewController.m */,
 				04F5736D1775408400376C46 /* Gallery Multi-Select */,
 				04739E02174DC9D800F32D13 /* Getting Started */,
 			);
@@ -1648,7 +1643,6 @@
 				D4C5B4191720966C00C40532 /* LicenseTableViewController.m in Sources */,
 				D4B1CDFD1721E248008E1B31 /* CategorySearchTableViewController.m in Sources */,
 				0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */,
-				D4E325461739AA3000F7D278 /* CategoryDetailTableViewController.m in Sources */,
 				D41BFA49173AF2CA00472EC7 /* Category.m in Sources */,
 				0451C8621739A2CC00C2D03B /* FetchImageOperation.m in Sources */,
 				0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */,

@@ -12,7 +12,6 @@
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
 #import "CategorySearchTableViewController.h"
-#import "CategoryDetailTableViewController.h"
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
 #import "DescriptionParser.h"
@@ -31,8 +30,6 @@
 #define DETAIL_BORDER_COLOR [UIColor colorWithWhite:1.0f alpha:0.75f]
 #define DETAIL_BORDER_WIDTH 0.0f
 #define DETAIL_BORDER_RADIUS 0.0f
-
-#define DETAIL_TABLE_CATEGORIES_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.1f]
 
 #define DETAIL_EDITABLE_TEXTBOX_BACKGROUND_COLOR [UIColor colorWithWhite:1.0f alpha:0.5f]
 #define DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR [UIColor whiteColor]
@@ -797,102 +794,6 @@
 	return self.view.frame.origin.y - (self.navigationController.navigationBar.frame.size.height + self.navigationController.navigationBar.frame.origin.y);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-#pragma mark - To do - from table code
-// remove prepareForSegue and other cruft
-
-// Hide only the license row if viewing details of already-uploaded image
-//        if (self.selectedRecord.complete.boolValue) {
-//            // Hide description row if none found
-//            return (self.descriptionTextView.text.length == 0) ? 1 : 2;
-//        }
-
-// Categories - show loading message while uploading already uploaded img categories
-//        if (self.selectedRecord.complete.boolValue) {
-//            // If no categories show one cell so it can contain "Loading..." message, else hide the add button
-//            // for already uploaded images as categories are read-only for them for now
-//            return (self.categoryList.count == 0) ? 1 : self.categoryList.count;
-//        }
-
-//        if (self.selectedRecord.complete.boolValue) {
-// Show "Loading..." row if no categories
-//            if(self.categoryList.count == 0){
-//                cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
-//                cell.accessoryType = UITableViewCellAccessoryNone;
-//                cell.userInteractionEnabled = NO;
-//                cell.textLabel.text = [MWMessage forKey:@"details-category-loading"].text;
-//                cell.textLabel.backgroundColor = [UIColor clearColor];
-//				cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                return cell;
-//            }
-//        }
-
-
-//        if (indexPath.row < self.categoryList.count) {
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"CategoryCell"];
-//			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//            // Make categories read-only for now
-//            if (self.selectedRecord.complete.boolValue) {
-//                cell.accessoryType = UITableViewCellAccessoryNone;
-//                cell.userInteractionEnabled = NO;
-//            }
-//            
-//            cell.textLabel.text = self.categoryList[indexPath.row];
-//        } else {
-//            cell = [tableView dequeueReusableCellWithIdentifier:@"AddCategoryCell"];
-//            cell.textLabel.text = [MWMessage forKey:@"catadd-title"].text;
-//            cell.textLabel.textColor = DETAIL_LABEL_COLOR;
-//        }
-
-
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (indexPath.section == 0) {
-//        // Static section already handled by storyboard segues.
-//    } else if (indexPath.section == 1) {
-//        if (indexPath.row < self.categoryList.count) {
-//            // Segue isn't connected due to nib fun. :P
-//            [self performSegueWithIdentifier: @"CategoryDetailSegue" sender: self];
-//        } else {
-//            // 'Add category...' cell button
-//            // Segue isn't connected due to nib fun. :P
-//            [self performSegueWithIdentifier: @"AddCategorySegue" sender: self];
-//        }
-//    }
-//}
-
-
-
-
-//-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (indexPath.section == 1 && indexPath.row < self.categoryList.count) {
-//        NSString *cat = self.categoryList[indexPath.row];
-//        NSString *encCat = [cat stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//        NSString *link = [NSString stringWithFormat:@"https://commons.m.wikimedia.org/wiki/Category:%@", encCat];
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
-//    }
-//}
-
-
-
-
-
-
-
-
-
 #pragma mark - Focus to box when title or description label tapped
 - (void)focusOnTitleTextField
 {
@@ -964,28 +865,6 @@
     NSLog(@"setting desc: %@", self.descriptionTextView.text);
     record.desc = self.descriptionTextView.text;
     [self updateUploadButton];
-}
-
-#pragma mark - Segue
-
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"AddCategorySegue"]) {
-        if (self.selectedRecord) {
-            CategorySearchTableViewController *catVC = [segue destinationViewController];
-
-            catVC.title = [MWMessage forKey:@"catadd-title"].text;
-            
-            catVC.selectedRecord = self.selectedRecord;
-        }
-    } else if ([segue.identifier isEqualToString:@"CategoryDetailSegue"]) {
-        if (self.selectedRecord) {
-            CategoryDetailTableViewController *view = [segue destinationViewController];
-            view.selectedRecord = self.selectedRecord;
-//            view.category = self.categoryList[self.tableView.indexPathForSelectedRow.row];
-        }
-    }
-    
 }
 
 #pragma mark - Description retrieval
