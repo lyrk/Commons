@@ -35,6 +35,8 @@
     "settings-debug-detail": "$1 \u306b\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u4e2d",
     "settings-usage-reports-label": "\u4f7f\u7528\u72b6\u6cc1\u306e\u5831\u544a:",
     "settings-usage-reports-description": "\u30a2\u30d7\u30ea\u306e\u6539\u5584\u3092\u652f\u63f4\u3059\u308b\u305f\u3081\u306b\u3001\u4f7f\u7528\u72b6\u6cc1\u306e\u5831\u544a\u3092\u30a6\u30a3\u30ad\u30e1\u30c7\u30a3\u30a2\u306b\u9001\u4fe1\u3057\u307e\u3059\u3002",
+    "settings-usage-reports-send-button": "\u9001\u4fe1",
+    "settings-usage-reports-dont-send-button": "\u9001\u4fe1\u3057\u306a\u3044",
     "settings-links-label": "\u30ea\u30f3\u30af:",
     "details-title": "\u8a73\u7d30",
     "details-upload-button": "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9",

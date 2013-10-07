@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Hym411",
             "Kwj2772",
             "\uc544\ub77c"
         ]
@@ -35,7 +36,10 @@
     "settings-debug-detail": "$1\uc5d0 \uc62c\ub9ac\ub294 \uc911",
     "settings-usage-reports-label": "\uc0ac\uc6a9 \ubcf4\uace0\uc11c:",
     "settings-usage-reports-description": "\uc560\ud50c\ub9ac\ucf00\uc774\uc158\uc744 \ud5a5\uc0c1\uc2dc\ud0ac \uc218 \uc788\ub3c4\ub85d \ub3d5\uae30 \uc704\ud574 \uc704\ud0a4\ubbf8\ub514\uc5b4\uc5d0 \uc0ac\uc6a9 \ubcf4\uace0\uc11c\ub97c \ubcf4\ub0c5\ub2c8\ub2e4.",
+    "settings-usage-reports-send-button": "\ubcf4\ub0b4\uae30",
+    "settings-usage-reports-dont-send-button": "\ubcf4\ub0b4\uc9c0 \uc54a\uae30",
     "settings-links-label": "\ub9c1\ud06c:",
+    "settings-source-label": "\ucd9c\ucc98:",
     "details-title": "\uc790\uc138\ud55c \uc0ac\ud56d",
     "details-nav-prompt": "\ud30c\uc77c\uc758 \uc124\uba85\uacfc \uc62c\ub9ac\uae30",
     "details-upload-button": "\uc62c\ub9ac\uae30",
