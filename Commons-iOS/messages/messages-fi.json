@@ -4,6 +4,7 @@
             "Lliehu",
             "Nike",
             "Olli",
+            "Samoasambia",
             "Silvonen"
         ]
     },
@@ -11,8 +12,8 @@
     "contribs-settings-button": "Asetukset",
     "contribs-upload-button": "Tallenna",
     "contribs-photo-library-button": "Kuvat",
-    "contribs-state-queued": "Jonossa",
-    "contribs-state-uploading": "Tallennetaan",
+    "contribs-state-queued": "$1 jonossa",
+    "contribs-state-uploading": "$1 tallennetaan kuvaa",
     "contribs-refresh": "P\u00e4ivit\u00e4 vet\u00e4m\u00e4ll\u00e4",
     "contribs-refreshing": "P\u00e4ivitet\u00e4\u00e4n...",
     "error-upload-failed": "Tallennus ep\u00e4onnistui.",
@@ -34,6 +35,7 @@
     "settings-debug-detail": "Tallennetaan sivustolle $1",
     "settings-usage-reports-label": "K\u00e4ytt\u00f6raportit:",
     "settings-usage-reports-description": "L\u00e4het\u00e4 k\u00e4ytt\u00f6raportteja Wikimediaan auttaaksesi meit\u00e4 t\u00e4m\u00e4n ohjelman kehityksess\u00e4.",
+    "settings-links-label": "Linkit:",
     "details-title": "Tiedot",
     "details-upload-button": "Tallenna",
     "details-title-label": "Aihe",
@@ -52,6 +54,7 @@
     "web-cancel": "Peru",
     "login-title": "Tili",
     "login-button": "Kirjaudu sis\u00e4\u00e4n",
+    "logout-button": "Kirjaudu ulos",
     "about-title": "Tietoja",
     "about-app-version-label": "Versio $1",
     "about-commons-button": "Wikimedia Commons",
@@ -75,5 +78,12 @@
     "catdetail-remove-label": "Poista $1",
     "catdetail-info-intro": "Lis\u00e4tietoja",
     "catdetail-info-label": "Lis\u00e4tietoja luokista",
-    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories"
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Categories",
+    "catadd-title": "Lis\u00e4\u00e4 luokka",
+    "catadd-search-placeholder": "Etsi luokkia",
+    "getting-started-yes-button": "Kyll\u00e4!",
+    "picture-of-day-label": "Wikimedia Commons\nP\u00e4iv\u00e4n kuva",
+    "picture-of-day-author": "Tekij\u00e4:",
+    "picture-of-day-menu-title": "P\u00e4iv\u00e4n kuva",
+    "picture-of-day-license-button": "Lisenssi"
 }
