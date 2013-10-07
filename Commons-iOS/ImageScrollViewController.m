@@ -91,7 +91,7 @@
 }
 
 -(void)viewDidLayoutSubviews{
-    [super viewWillLayoutSubviews];
+    [super viewDidLayoutSubviews];
     [self centerScrollViewContents];
 }
 
