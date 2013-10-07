@@ -4,6 +4,7 @@
             "Cwek",
             "Hydra",
             "Kuailong",
+            "Liuxinyu970226",
             "Qiyue2001",
             "Xiaomingyan",
             "Yfdyh000"
@@ -39,7 +40,10 @@
     "settings-debug-detail": "\u6b63\u5728\u4e0a\u4f20\u5230 $1",
     "settings-usage-reports-label": "\u4f7f\u7528\u62a5\u544a\uff1a",
     "settings-usage-reports-description": "\u5411\u7ef4\u57fa\u5a92\u4f53\u53d1\u9001\u4f7f\u7528\u62a5\u544a\uff0c\u5e2e\u52a9\u6211\u4eec\u6539\u8fdb\u5e94\u7528\u3002",
+    "settings-usage-reports-send-button": "\u53d1\u9001",
+    "settings-usage-reports-dont-send-button": "\u4e0d\u8981\u53d1\u9001",
     "settings-links-label": "\u94fe\u63a5:",
+    "settings-source-label": "\u6765\u6e90\uff1a",
     "details-title": "\u7ec6\u8282",
     "details-nav-prompt": "\u63cf\u8ff0\u548c\u4e0a\u4f20",
     "details-upload-button": "\u4e0a\u4f20",
