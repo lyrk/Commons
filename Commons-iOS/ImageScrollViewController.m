@@ -66,28 +66,19 @@
 }
 
 - (void)centerScrollViewContents {
-    CGFloat offsetX = (self.imageScrollView.bounds.size.width > self.imageScrollView.contentSize.width)?
-    (self.imageScrollView.bounds.size.width - self.imageScrollView.contentSize.width) * 0.5 : 0.0;
+    CGSize contentSize = self.imageScrollView.contentSize;
+    CGSize scrollViewSize = self.imageScrollView.bounds.size;
     
-    CGFloat offsetY = (self.imageScrollView.bounds.size.height > self.imageScrollView.contentSize.height)?
-    (self.imageScrollView.bounds.size.height - self.imageScrollView.contentSize.height) * 0.5 : 0.0;
+    CGFloat offsetX = (scrollViewSize.width > contentSize.width)?
+    (scrollViewSize.width - contentSize.width) * 0.5 : 0.0;
     
-    self.imageView.center = CGPointMake(self.imageScrollView.contentSize.width * 0.5 + offsetX,
-                                 self.imageScrollView.contentSize.height * 0.5 + offsetY);
+    CGFloat offsetY = (scrollViewSize.height > contentSize.height)?
+    (scrollViewSize.height - contentSize.height) * 0.5 : 0.0;
     
-    CGPoint centerOffset = CGPointMake(
-                                       (self.imageScrollView.contentSize.width/2) - (self.imageScrollView.bounds.size.width/2),
-                                       (self.imageScrollView.contentSize.height/2) - (self.imageScrollView.bounds.size.height/2)
-                                       );
-    
-    if(self.imageScrollView.bounds.size.width > self.imageScrollView.contentSize.width){
-        centerOffset.x = 0;
-    }
-    if(self.imageScrollView.bounds.size.height > self.imageScrollView.contentSize.height){
-        centerOffset.y = 0;
-    }
-    
-    [self.imageScrollView setContentOffset:centerOffset animated:NO];
+    self.imageView.center = CGPointMake(
+        (contentSize.width * 0.5) + offsetX,
+        (contentSize.height * 0.5) + offsetY
+    );
 }
 
 -(void)viewDidLayoutSubviews{
