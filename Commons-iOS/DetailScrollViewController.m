@@ -1256,7 +1256,7 @@
                               delay:0.0f
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             [viewAbove.superview layoutIfNeeded];
+                             [self.view layoutIfNeeded];
                          }
                          completion:^(BOOL finished){
                             [self.selectedRecord removeCategory:category];
