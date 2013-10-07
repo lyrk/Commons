@@ -92,6 +92,10 @@
         // Set the color of the nav bar and other system icons
         [[UIApplication sharedApplication] delegate].window.tintColor = [UIColor whiteColor];
         [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
+        // Set the blinky-cursor color for text boxes
+        [[UITextField appearance] setTintColor:[UIColor colorWithRed:0.00 green:0.49 blue:0.93 alpha:1.0]];
+        [[UITextView appearance] setTintColor:[UIColor colorWithRed:0.00 green:0.49 blue:0.93 alpha:1.0]];
     }
 }
 

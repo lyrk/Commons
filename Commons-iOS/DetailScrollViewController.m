@@ -163,6 +163,11 @@
     self.titleTextField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
     self.titleTextField.rightViewMode = UITextFieldViewModeAlways;
 
+    // Make spacing to left of blinking cursor (iOS 7) consistent with that of the title text field
+    if ([self.descriptionTextView respondsToSelector:@selector(textContainerInset)]) {
+        self.descriptionTextView.textContainerInset = UIEdgeInsetsMake(8, 6, 8, 8);
+    }
+
 	self.titleTextField.textColor = DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR;
 	self.descriptionTextView.textColor = DETAIL_EDITABLE_TEXTBOX_TEXT_COLOR;
 
