@@ -39,7 +39,7 @@
     [self.imageView sizeToFit];
     
     // And zoom so image fits
-    float scale = [self getScaleToMakeImageFullscreen];
+    float scale = [self getImageAspectFitScale];
 
     if (scale < self.imageScrollView.minimumZoomScale) {
         // Must adjust minimumZoomScale down or the image won't be able to be shrunken to fit
@@ -51,13 +51,23 @@
 
 #pragma mark - Positioning
 
--(float)getScaleToMakeImageFullscreen
+-(float)getImageAspectFitScale
 {
     // Determine the scale adjustment required to make the imageView fit completely within the view
     // (Note: this works because the imageView is sized to its image's size when its image is changed)
     CGSize dst = self.view.bounds.size;
     CGSize src = self.imageView.image.size;
     float scale = fminf(dst.width / src.width, dst.height / src.height);
+    return scale;
+}
+
+-(float)getImageAspectFillScale
+{
+    // Determine the scale adjustment required to make the imageView fill available screen
+    // (edges in one dimension may overlap)
+    CGSize dst = self.view.bounds.size;
+    CGSize src = self.imageView.image.size;
+    float scale = fmaxf(dst.width / src.width, dst.height / src.height);
     return scale;
 }
 
@@ -145,12 +155,19 @@
     */
 }
 
-/*
 -(void)viewDidAppear:(BOOL)animated
 {
-    [self.view randomlyColorSubviews];
+    [super viewDidAppear:animated];
+
+    // Zoom to aspect fill scale so image isn't surrounded by black bars and to
+    // hint to user that image can be pinch/zoomed. The addition of 0.01f means
+    // there will be a tiny overlap with the edges of the screen for the dimension
+    // of the image which would otherwise be exactly flush - this allow drag
+    // gesture to drag the image in this dimension, which otherwise would be
+    // locked to dragging unless the image were expand-pinched a bit. Nice for
+    // discoverability of the drag-ability and pinch-ability of the image.
+    [self.imageScrollView setZoomScale:([self getImageAspectFillScale] + 0.01f) animated:YES];
 }
-*/
 
 #pragma mark - Image scrolling setup
 

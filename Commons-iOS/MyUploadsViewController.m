@@ -1298,7 +1298,7 @@
 
 -(void)handleTwoFingerTap:(UITapGestureRecognizer *)recognizer
 {
-    [imageScrollVC_.imageScrollView setZoomScale:[imageScrollVC_ getScaleToMakeImageFullscreen] animated:YES];
+    [imageScrollVC_.imageScrollView setZoomScale:[imageScrollVC_ getImageAspectFitScale] animated:YES];
 }
 
 @end

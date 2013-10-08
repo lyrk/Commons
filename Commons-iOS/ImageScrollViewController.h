@@ -14,6 +14,6 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic) float detailsScrollNormal;
 
--(float)getScaleToMakeImageFullscreen;
+-(float)getImageAspectFitScale;
 
 @end
