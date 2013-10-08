@@ -1301,6 +1301,11 @@
 
 #pragma mark - Rotation
 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self preventDetailsFromDisappearingDuringRotation];
+}
+
 -(void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     // If the keyboard was visible during rotation, scroll so the field being edited is near the top of the screen
@@ -1314,6 +1319,32 @@
 }
 
 #pragma mark - Details moving
+
+-(void)preventDetailsFromDisappearingDuringRotation
+{
+    // If device held portrait and details slider as far near the bottom of the screen as it
+    // will go, then device is rotated landscape, the details slider will disappear during
+    // rotation only to pop back up. This code prevents this disappearance by adjusting the
+    // details slider's top constraint before the rotation animation starts. This causes the
+    // slider to be animated to its correct location as part of the rotation animation.
+
+    // Invoke this method in "willRotateToInterfaceOrientation:duration:" as it depends on
+    // width and height being reversed.
+
+    // Reminder: the addition of DETAIL_DOCK_DISTANCE_FROM_BOTTOM subtraction below means it
+    // will adjust the constraint if details would be positioned below the docking position
+    // after rotate (otherwise the constraint would be adjusted only if details top would be
+    // off the bottom of the screen after the rotation)
+
+    // Haven't rotated yet, so what's now width *will be* height, so see if present distance
+    // from details top will be offscreen after rotation.
+    if(self.viewTopConstraint.constant > (self.view.frame.size.width - DETAIL_DOCK_DISTANCE_FROM_BOTTOM)){
+        // If it will be offscreen subtract the absolute value of the width - height difference
+        // so after rotating details top will be same relative distance from bottom.
+        float widthHeightDelta = fabsf(self.delegate.view.frame.size.width - self.delegate.view.frame.size.height);
+        self.viewTopConstraint.constant -= widthHeightDelta;
+    }
+}
 
 -(void)moveDetailsToDock
 {
@@ -1340,6 +1371,7 @@
     static BOOL isAnimating = NO;
     if (isAnimating) return;
     if(!self.navigationController.navigationBar.hidden){
+        // Hide
         self.view.userInteractionEnabled = NO;
         [self.navigationController setNavigationBarHidden:YES animated:YES];
         [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
@@ -1351,14 +1383,24 @@
         }];
         [self hideKeyboard];
     }else{
+        // Show
         self.view.userInteractionEnabled = YES;
         [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
         [self.navigationController setNavigationBarHidden:NO animated:YES];
-        self.view.alpha = 1.0f;
         isAnimating = YES;
+
+        // First instantly and invisibly scroll details top to bottom of screen in case device was rotated since
+        // details was toggled offscreen.
+        self.viewTopConstraint.constant = self.view.frame.origin.y + (self.view.superview.frame.size.height - self.view.frame.origin.y);
+        [self.view.superview layoutIfNeeded];
+
+        // Now scroll back to original percentage of distance from top
+        self.view.alpha = 1.0f;
         [self scrollToPercentOfSuperview:percent then:^{
             //[self ensureScrollingDoesNotExceedThreshold];
-            isAnimating = NO;
+            [self scrollUpToDockIfNecessaryThen:^{
+                isAnimating = NO;
+            }];
         }];
     }
 }
@@ -1408,17 +1450,20 @@
     }
 }
 
-- (void)scrollUpToDockIfNecessary
+- (void)scrollUpToDockIfNecessaryThen:(void(^)(void))block
 {
     float distance = [self distanceFromDock];
-    if (distance > 0.0f) return;
-    [self scrollByAmount:distance withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:nil];
+    if (distance > 0.0f){
+        if(block != nil) block();
+        return;
+    }
+    [self scrollByAmount:distance withDuration:0.25f delay:0.0f options:UIViewAnimationCurveEaseOut useXF:NO then:block];
 }
 
 -(void)ensureScrollingDoesNotExceedThreshold
 {
     // Ensure the table isn't scrolled so far down that it goes too far down offscreen
-    [self scrollUpToDockIfNecessary];
+    [self scrollUpToDockIfNecessaryThen:nil];
     
     // Ensure the newly sized table isn't scrolled so far up that there's a gap beneath it
     [self scrollDownIfGapBeneathDetails];
