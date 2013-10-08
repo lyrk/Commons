@@ -1073,14 +1073,6 @@
             MWPromise *fetchThumb = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityNormal];
             [fetchThumb done:^(UIImage *image) {
                 if ([cell.title isEqualToString:title]) {
-                    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad){
-                        // Smooth transition (disabled on iPad for better performance - iPad shows many more images at once)
-                        CATransition *transition = [CATransition animation];
-                        transition.duration = 0.10f;
-                        transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-                        transition.type = kCATransitionFade;
-                        [cell.image.layer addAnimation:transition forKey:nil];
-                    }
                     // Also invoke the image setter asynchronously
                     dispatch_async(dispatch_get_main_queue(), ^(void) {
                         cell.image.contentMode = UIViewContentModeScaleAspectFill;
