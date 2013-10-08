@@ -1523,7 +1523,7 @@
     viewAboveBackground_.translatesAutoresizingMaskIntoConstraints = NO;
     [backgroundView_ insertSubview:viewAboveBackground_ atIndex:0];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[above]|" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[above(==background)]" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[above(1024)]" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[above][background]" options:0 metrics:nil views:views]];
 
     // Add background below slider
@@ -1531,7 +1531,7 @@
     viewBelowBackground_.translatesAutoresizingMaskIntoConstraints = NO;
     [backgroundView_ insertSubview:viewBelowBackground_ atIndex:0];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[below]|" options:0 metrics:nil views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[below(==background)]" options:0 metrics:nil views:views]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[below(1024)]" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[background][below]" options:0 metrics:nil views:views]];
 }
 
