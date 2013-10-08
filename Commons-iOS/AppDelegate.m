@@ -62,6 +62,11 @@
     //[CommonsApp.singleton initializeApp];
 
     CommonsApp *app = CommonsApp.singleton;
+
+    // Ensure debug mode is initally off in case app is upgraded from old version in which user could
+    // change debug mode from settings screen.
+    [app setDebugMode:NO];
+    
     [app initializeApp];
 
     // We seem to get a second ping after launching, wtf?
