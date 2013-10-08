@@ -17,17 +17,23 @@
 // Defines how dark the black overlay above the image can become when details slide up over the image
 #define FULL_SCREEN_IMAGE_MAX_OVERLAY_ALPHA 0.8f
 
+@interface ImageScrollViewController ()
+
+@property (nonatomic, strong) UIImage *imageInternal;
+
+@end
+
 @implementation ImageScrollViewController{
     UIView *overlayView_;
 }
 
 #pragma mark - Setters
 
-- (void)setImage:(UIImage *)anImage {
+- (void)setImageInternal:(UIImage *)anImage {
     
-    _image = anImage;
+    _imageInternal = anImage;
     
-    [self.imageView setImage:_image];
+    [self.imageView setImage:_imageInternal];
 
     // Resize imageView to match new image size
     [self.imageView sizeToFit];
@@ -49,19 +55,9 @@
 {
     // Determine the scale adjustment required to make the imageView fit completely within the view
     // (Note: this works because the imageView is sized to its image's size when its image is changed)
-    CGSize dst = self.view.frame.size;
-    CGSize src = self.imageView.frame.size;
-    float scale = fminf( dst.width/src.width, dst.height/src.height);
-
-    // (Turned this off because on iPad the images need to be scaled up a bit to fill larger screen better)
-    // Only do this in the case the image is larger than the view - otherwise images smaller than the view
-    // are scaled up giving the user a false impression
-    // return (scale > 1.0f) ? 1.0f : scale;
-
-    // Increased the scale just a bit so the image has just a bit of overlap
-    // Look nicer as the image then extends beyond the nav bar buttons
-    scale *= (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 1.05f : 1.30f;
-
+    CGSize dst = self.view.bounds.size;
+    CGSize src = self.imageView.image.size;
+    float scale = fminf(dst.width / src.width, dst.height / src.height);
     return scale;
 }
 
@@ -84,6 +80,7 @@
 -(void)viewDidLayoutSubviews{
     [super viewDidLayoutSubviews];
     [self centerScrollViewContents];
+    //[self.view randomlyColorSubviews];
 }
 
 #pragma mark - Nav
@@ -131,7 +128,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
+    // Setting imageInternal was delayed until the view is about to appear so the view
+    // controller has a chance to finish loading / setting up its subviews. Otherwise
+    // code which positions the layout of the image happens too soon (before self.view's
+    // dimensions have been established / made available).
+    self.imageInternal = self.image;
+
     self.imageScrollView.clipsToBounds = NO;
     /*
         if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
@@ -180,7 +183,7 @@
     self.imageScrollView.minimumZoomScale = FULL_SCREEN_IMAGE_MIN_ZOOM_SCALE;
     self.imageScrollView.maximumZoomScale = FULL_SCREEN_IMAGE_MAX_ZOOM_SCALE;
     self.imageScrollView.zoomScale = 1.0f;
-    self.imageScrollView.backgroundColor = [UIColor clearColor];
+    self.imageScrollView.backgroundColor = [UIColor blackColor];
 
     [self.view addSubview:self.imageScrollView];
 
@@ -201,7 +204,8 @@
 
 #pragma mark - UIScrollView
 
-- (void)scrollViewDidZoom:(UIScrollView *)aScrollView {    
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
     // The scroll view has zoomed, so we need to re-center the contents
     [self centerScrollViewContents];
 }

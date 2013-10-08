@@ -325,7 +325,6 @@
                                             <outlet property="image" destination="XOQ-vH-P1a" id="ODq-Px-xkj"/>
                                             <outlet property="infoBox" destination="okD-fs-BOe" id="qDq-MR-MbT"/>
                                             <outlet property="titleLabel" destination="t14-R2-Kf0" id="8eA-7X-PbQ"/>
-                                            <segue destination="ztA-ps-80H" kind="push" identifier="OpenImageSegue" id="KS6-kB-sDn"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

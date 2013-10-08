@@ -542,14 +542,16 @@
     
     galleryMultiSelectCollectionVC.didFinishPickingMediaWithInfo = ^(NSDictionary *info){
         NSLog(@"picked: %@", info);
-        [CommonsApp.singleton prepareImage:info from:pickerSource_];
-        [self dismissViewControllerAnimated:YES completion:nil];
-        if (self.popover) {
-            [self.popover dismissPopoverAnimated:YES];
-        }
-        self.choosePhotoButton.hidden = YES;
-        self.takePhotoButton.hidden = YES;
-        self.uploadButton.enabled = YES;
+        MWPromise *done = [CommonsApp.singleton prepareImage:info from:pickerSource_];
+        //[done always:^(id arg) {
+            [self dismissViewControllerAnimated:NO completion:nil];
+            if (self.popover) {
+                [self.popover dismissPopoverAnimated:NO];
+            }
+            self.choosePhotoButton.hidden = YES;
+            self.takePhotoButton.hidden = YES;
+            self.uploadButton.enabled = YES;
+        //}];
     };
     
     [self presentViewController:galleryMultiSelectCollectionVC animated:YES completion:^{}];    
@@ -837,13 +839,14 @@
 {
     switch (type) {
         case NSFetchedResultsChangeInsert:
-            [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
         {
+            [self.collectionView insertItemsAtIndexPaths:@[newIndexPath]];
             FileUpload *record = (FileUpload *)anObject;
             if (!record.complete.boolValue) {
                 // This will go crazy if we import multiple items at once :)
                 self.selectedRecord = record;
-                [self performSegueWithIdentifier:@"OpenImageSegue" /*@"DetailSegue"*/ sender:self];
+                // A new picture was taken or selected
+                [self pushDetailsForImageForRecord:self.selectedRecord];
             }
         }
             break;
@@ -898,6 +901,12 @@
 
 
 #pragma mark - UICollectionViewDelegate methods
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    // CollectionView image was tapped, so show its details
+    [self pushDetailsForImageForRecord:self.selectedRecord];
+}
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
@@ -1148,71 +1157,50 @@
     [self.welcomeOverlayView animateLines];
 }
 
-#pragma mark Details segue methods
+#pragma mark Open image in details
 
-- (void)prepareForSegue:(UIStoryboardSegue*)segue sender:(id)sender
-{    
-    if ([segue.identifier isEqualToString:@"OpenImageSegue"]) {
+// Shows the image preview with details slider for the specified record.
+- (void)pushDetailsForImageForRecord:(FileUpload *)record
+{
+    if (record == nil) return;
         
-        if (self.selectedRecord) {
-            
-            imageScrollVC_ = [segue destinationViewController];
+    imageScrollVC_ = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:@"ImageScrollViewController"];
+    
+    [self addDetailsViewToImageScrollViewController];
+    
+    [self addRightBarButtonsToImageScrollVC];
+    
+    // Allow the newly created detailsVC to access the upload button too
+    detailVC_.uploadButton = self.uploadButton;
 
-            [self addDetailsViewToImageScrollViewController];
-            
-            [self addRightBarButtonsToImageScrollVC];
-            
-            // Allow the newly created detailsVC to access the upload button too
-            detailVC_.uploadButton = self.uploadButton;
-            
-            FileUpload *record = self.selectedRecord;
-            if (record != nil) {
+    imageScrollVC_.title = @"";  //[MWMessage forKey:@"details-title"].text; //record.title;
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+    
+        MWPromise *fetch = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityVeryHigh];
+        [fetch done:^(id data) {
 
-                imageScrollVC_.title = @"";  //[MWMessage forKey:@"details-title"].text; //record.title;
-
-                dispatch_async(dispatch_get_main_queue(), ^(void) {
-
-                    MWPromise *fetch;
-                    /*
-                     if (record.complete.boolValue) {
-                     // Fetch cached or internet image at size to fit within self.view
-                     CGSize screenSize = self.view.bounds.size;
-                     AspectFillThumbFetcher *aspectFillThumbFetcher = [[AspectFillThumbFetcher alloc] init];
-                     fetch = [aspectFillThumbFetcher fetchThumbnail:record.title size:screenSize withQueuePriority:NSOperationQueuePriorityVeryHigh];
-                     } else {
-                     // Load the local file...
-                     */
-                    fetch = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityVeryHigh];
-                    //}
-                    
-                    [fetch done:^(id data) {
-                        // If a local file was loaded (from the "else" clause above) data will contain an image
-                        if([data isKindOfClass:[UIImage class]]){
-                            [imageScrollVC_ setImage:data];
-                        }else if([data isKindOfClass:[NSMutableDictionary class]]){
-                            // If image sized to fit within self.view was downloaded (from the "if" clause above)
-                            // data will contain a dict with an "image" entry
-                            NSData *imageData = data[@"image"];
-                            if (imageData){
-                                UIImage *image = [UIImage imageWithData:imageData scale:1.0];
-                                [imageScrollVC_ setImage:image];
-                            }
-                        }
-                    }];
-                    
-                    [fetch fail:^(NSError *error) {
-                        NSLog(@"Failed to download image: %@", [error localizedDescription]);
-                        // Pop back after a second if image failed to download
-                        [self performSelector:@selector(popViewControllerAnimated) withObject:nil afterDelay:1];
-                    }];
-                    
-                    [fetch always:^(id arg) {
-                        
-                    }];
-                });
+            // If a local file was loaded (from the "else" clause above) data will contain an image
+            if([data isKindOfClass:[UIImage class]]){
+                [imageScrollVC_ setImage:data];
+            }else if([data isKindOfClass:[NSMutableDictionary class]]){
+                // If image sized to fit within self.view was downloaded (from the "if" clause above)
+                // data will contain a dict with an "image" entry
+                NSData *imageData = data[@"image"];
+                if (imageData){
+                    UIImage *image = [UIImage imageWithData:imageData scale:1.0];
+                    [imageScrollVC_ setImage:image];
+                }
             }
-        }
-    }
+
+[self.navigationController pushViewController:imageScrollVC_ animated:YES];
+
+        }];
+
+        [fetch fail:^(NSError *error) {
+            NSLog(@"Failed to download image: %@", [error localizedDescription]);
+        }];
+    });
 }
 
 -(void)addRightBarButtonsToImageScrollVC
