@@ -41,6 +41,7 @@
     DetailScrollViewController *detailVC_;
     UITapGestureRecognizer *imageTapRecognizer_;
     UITapGestureRecognizer *imageDoubleTapRecognizer_;
+    UITapGestureRecognizer *imageTwoFingerTapRecognizer_;
 }
 
 @end
@@ -810,9 +811,19 @@
         if (touch.view == self.choosePhotoButton) return NO;
     }
     
-	if ((gestureRecognizer == imageTapRecognizer_) || (gestureRecognizer == imageDoubleTapRecognizer_)) {
+	if (
+        (gestureRecognizer == imageTapRecognizer_)
+        ||
+        (gestureRecognizer == imageDoubleTapRecognizer_)
+        ||
+        (gestureRecognizer == imageTwoFingerTapRecognizer_)
+    ) {
 		// Ignore touches which fall on the details table or its contents
-		if (!(imageScrollVC_.imageScrollView == touch.view || imageScrollVC_.imageView == touch.view)) return NO;
+		if (!(
+            imageScrollVC_.imageScrollView == touch.view
+            ||
+            imageScrollVC_.imageView == touch.view
+        )) return NO;
 	}
 	
     return YES;
@@ -1244,14 +1255,19 @@
     imageTapRecognizer_.cancelsTouchesInView = NO;
     imageTapRecognizer_.delegate = self;
 
+    imageTwoFingerTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTwoFingerTap:)];
+    imageTwoFingerTapRecognizer_.numberOfTouchesRequired = 2;
+    imageTwoFingerTapRecognizer_.numberOfTapsRequired = 1;
+    [imageScrollVC_.view addGestureRecognizer:imageTwoFingerTapRecognizer_];
+    imageTwoFingerTapRecognizer_.cancelsTouchesInView = NO;
+    imageTwoFingerTapRecognizer_.delegate = self;
+
     imageDoubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleImageDoubleTap:)];
     imageDoubleTapRecognizer_.numberOfTouchesRequired = 1;
     imageDoubleTapRecognizer_.numberOfTapsRequired = 2;
     [imageScrollVC_.view addGestureRecognizer:imageDoubleTapRecognizer_];
     imageDoubleTapRecognizer_.cancelsTouchesInView = NO;
     imageDoubleTapRecognizer_.delegate = self;
-	
-    imageDoubleTapRecognizer_.enabled = NO;
 
     [imageTapRecognizer_ requireGestureRecognizerToFail:imageDoubleTapRecognizer_];
 
@@ -1277,7 +1293,12 @@
 
 -(void)handleImageDoubleTap:(UITapGestureRecognizer *)recognizer
 {
-	//NSLog(@"Add double-tap to zoom here");
+    [imageScrollVC_.imageScrollView setZoomScale:(imageScrollVC_.imageScrollView.zoomScale * 2.0f) animated:YES];
+}
+
+-(void)handleTwoFingerTap:(UITapGestureRecognizer *)recognizer
+{
+    [imageScrollVC_.imageScrollView setZoomScale:[imageScrollVC_ getScaleToMakeImageFullscreen] animated:YES];
 }
 
 @end

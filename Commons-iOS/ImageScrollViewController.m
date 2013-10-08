@@ -103,8 +103,6 @@
     // Change back button to be an arrow
     self.navigationItem.leftBarButtonItem = [[CommonsApp singleton] getBackButtonItemWithTarget:self action:@selector(backButtonPressed:)];
 
-    [self setupOverlayView];
-    
     [self setupImageScrollingViews];
     
 	// Don't make the view background clear or the space surrounding the image will
@@ -247,27 +245,6 @@
     
     overlayView_.backgroundColor = [UIColor colorWithWhite:0.0f alpha:overlayAlpha];
     */
-}
-
-#pragma mark - Overlay view
-
--(void)setupOverlayView
-{
-    overlayView_ = [[UIView alloc] initWithFrame:self.view.bounds];
-    overlayView_.translatesAutoresizingMaskIntoConstraints = NO;
-    overlayView_.userInteractionEnabled = NO;
-    overlayView_.backgroundColor = [UIColor clearColor];
-
-    [self.view addSubview:overlayView_];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(overlayView_);
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[overlayView_]|" options:0 metrics:0 views:views]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[overlayView_]|" options:0 metrics:0 views:views]];
-}
-
--(void)clearOverlay
-{
-	overlayView_.backgroundColor = [UIColor clearColor];
 }
 
 @end

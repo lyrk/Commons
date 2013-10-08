@@ -297,8 +297,6 @@
 
         // Move details to docking position at bottom of screen
         [self moveDetailsToDock];
-        
-        [self.delegate clearOverlay];
 	}
 
     if(!self.selectedRecord.complete.boolValue){

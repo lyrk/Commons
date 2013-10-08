@@ -18,7 +18,6 @@
     @property (nonatomic) float detailsScrollNormal;
     @property (weak, nonatomic) UINavigationItem *navigationItem;
     @property (weak, nonatomic) UIView *view;
-    -(void)clearOverlay;
 @end
 
 @interface DetailScrollViewController : UIViewController <UITextFieldDelegate, UITextViewDelegate, UIGestureRecognizerDelegate>

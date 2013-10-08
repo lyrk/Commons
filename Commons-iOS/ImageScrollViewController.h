@@ -14,6 +14,6 @@
 @property (nonatomic, strong) UIImage *image;
 @property (nonatomic) float detailsScrollNormal;
 
--(void)clearOverlay;
+-(float)getScaleToMakeImageFullscreen;
 
 @end
