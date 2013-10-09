@@ -159,7 +159,7 @@ typedef enum {
 
 -(void)addNavBar
 {
-    navBar_ = [[UINavigationBar alloc] initWithFrame: CGRectMake(0.0f, [[CommonsApp singleton] getStatusBarHeight], self.view.frame.size.width, 44.0f)];
+    navBar_ = [[UINavigationBar alloc] initWithFrame: CGRectMake(0.0f, 0, self.view.frame.size.width, 44.0f + [[CommonsApp singleton] getStatusBarHeight])];
     navBar_.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     navBar_.barStyle = UIBarStyleBlackTranslucent;
     [super.view addSubview:navBar_];
