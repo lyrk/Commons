@@ -23,6 +23,8 @@
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
 		048C8B9F17FB71520082EB28 /* categoryHamburger.png in Resources */ = {isa = PBXBuildFile; fileRef = 048C8B9E17FB71520082EB28 /* categoryHamburger.png */; };
 		048C8BA217FC903A0082EB28 /* CategoryLicenseExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C8BA117FC903A0082EB28 /* CategoryLicenseExtractor.m */; };
+		049B4E9A1804D06300B31956 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 049B4E981804D06300B31956 /* info.png */; };
+		049B4E9B1804D06300B31956 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 049B4E991804D06300B31956 /* info@2x.png */; };
 		04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */; };
 		04A0F33B17AACF7F004AB164 /* ImageResizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A0F33A17AACF7F004AB164 /* ImageResizer.m */; };
 		04A386E617CEFA2F00BC0A3D /* UIView+Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A386E517CEFA2F00BC0A3D /* UIView+Debugging.m */; };
@@ -365,6 +367,8 @@
 		048C8B9E17FB71520082EB28 /* categoryHamburger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = categoryHamburger.png; path = "Commons-iOS/categoryHamburger.png"; sourceTree = SOURCE_ROOT; };
 		048C8BA017FC903A0082EB28 /* CategoryLicenseExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryLicenseExtractor.h; sourceTree = "<group>"; };
 		048C8BA117FC903A0082EB28 /* CategoryLicenseExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryLicenseExtractor.m; sourceTree = "<group>"; };
+		049B4E981804D06300B31956 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		049B4E991804D06300B31956 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		04A02DA7177502AF00A392C1 /* GalleryMultiSelectAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAssetCell.h; sourceTree = "<group>"; };
 		04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAssetCell.m; sourceTree = "<group>"; };
 		04A0F33917AACF7F004AB164 /* ImageResizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageResizer.h; sourceTree = "<group>"; };
@@ -957,6 +961,8 @@
 				048C8B9E17FB71520082EB28 /* categoryHamburger.png */,
 				04E6617917614AB0003F35AD /* copyleft@2x.png */,
 				04E6617A17614AB0003F35AD /* copyleft.png */,
+				049B4E981804D06300B31956 /* info.png */,
+				049B4E991804D06300B31956 /* info@2x.png */,
 				04C27B31174BEB9500B1942F /* mockPagePhoto.png */,
 				04C27B38174D78E200B1942F /* mockBadPhoto.png */,
 				04C27B2E174BEACD00B1942F /* mockPageLogo.png */,
@@ -1362,6 +1368,7 @@
 				D40CE3D116BB391300E63B27 /* Default-Landscape~ipad.png in Resources */,
 				D40CE3D316BB391500E63B27 /* Default-Landscape@2x~ipad.png in Resources */,
 				D40CE3D516BB398700E63B27 /* Commons-logo-72.png in Resources */,
+				049B4E9B1804D06300B31956 /* info@2x.png in Resources */,
 				D40CE3D716BB398A00E63B27 /* Commons-logo-72@2x.png in Resources */,
 				D40CE3DE16BB542300E63B27 /* fileicon-pdf.png in Resources */,
 				D40CE3DF16BB542300E63B27 /* fileicon-svg.png in Resources */,
@@ -1439,6 +1446,7 @@
 				D48FA3251725A1AA0039F254 /* messages-en-ca.json in Resources */,
 				D48FA3261725A1AA0039F254 /* messages-ml.json in Resources */,
 				D48BB91F17289CBE003100CE /* CategoryCell.xib in Resources */,
+				049B4E9A1804D06300B31956 /* info.png in Resources */,
 				D48BB92117289CEF003100CE /* AddCategoryCell.xib in Resources */,
 				048C8B9F17FB71520082EB28 /* categoryHamburger.png in Resources */,
 				D4E94E43172EBBBB0034CA6D /* messages-rif.json in Resources */,
