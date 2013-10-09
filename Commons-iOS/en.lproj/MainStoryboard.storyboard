@@ -1995,12 +1995,9 @@ Help Wikipedia articles come to life!</string>
         <image name="copyleft.png" width="19" height="19"/>
         <image name="gallery.png" width="30" height="25"/>
         <image name="info.png" width="19" height="19"/>
-        <image name="info.png" width="19" height="19"/>
         <image name="mockBadPhoto.png" width="237" height="286"/>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
-        <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="photo-button-bg.png" width="72" height="72"/>
         <image name="settings.png" width="19" height="19"/>
     </resources>
