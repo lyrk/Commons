@@ -250,6 +250,9 @@
 
     [self configureDeleteButton];
 
+    // Be notified when title text changes
+    [self.titleTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+
     //[self.view randomlyColorSubviews];
 }
 
@@ -854,6 +857,13 @@
     FileUpload *record = self.selectedRecord;
     NSLog(@"setting desc: %@", self.descriptionTextView.text);
     record.desc = self.descriptionTextView.text;
+    [self updateUploadButton];
+}
+
+- (void)textFieldDidChange:(UITextField *)textField
+{
+    FileUpload *record = self.selectedRecord;
+    record.title = textField.text;
     [self updateUploadButton];
 }
 
