@@ -19,6 +19,8 @@
 @property (strong, nonatomic) NSURL *thumbnailURL;
 @property (nonatomic) NSNumber *titleLabelMargin;
 
+@property (strong, nonatomic) NSString *uniqueID;
+
 -(void)constrainSubviews;
 -(void)resizeTitleLabelWithTitle:(NSString *)title fileName:(NSString *)fileName;
 //-(void)showPlaceHolderImage;

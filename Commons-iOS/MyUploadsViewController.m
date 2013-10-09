@@ -1017,6 +1017,16 @@
     // fixme indexPosition doesn't always update when we add new items
 
     NSString *title = record.title;
+    
+    // Concatenation of title and localFile is used to check if the record this cell
+    // is *presently* displaying is the same one it was displaying when the async call
+    // to retrieve thumb was made. Needed because the async thumb retrieval may return
+    // late - i.e. this cell may have been re-used to show other image in the mean time.
+    // Concatenation of title and localFile is used so it works with both already uploaded
+    // items which have titles and yet-to-be-uploaded files which may or may not have title
+    // yet.
+    NSString *uniqueID = [NSString stringWithFormat:@"%@|%@", record.title, record.localFile];
+    
     NSString *noExtFileName = [[record.title lastPathComponent] stringByDeletingPathExtension];
     
     // Title for queued images which have no title yet
@@ -1024,8 +1034,6 @@
     
     NSString *labelText = @"";
     cell.titleLabel.text = @"";
-
-    //cell.infoBox.backgroundColor = [UIColor clearColor];
 
     float progress = 0.0f;
     
@@ -1061,16 +1069,14 @@
     // Do not animate this progress setting. It needs to directly jump to the proper progress
     cell.infoBox.progressNormal = progress;
     [cell.infoBox setNeedsDisplay];
-
-
     
-    if (cell.title && [cell.title isEqual:title]) {
-        // Image should already be loaded.
+    // concat: title|local file name
+    if ([cell.uniqueID isEqual:uniqueID]) {
         NSLog(@"already loaded a title");
-    } else {
-        // Save the title for future checks...
+    }else{
         cell.title = title;
-
+        cell.uniqueID = uniqueID;
+        
         //cell.image.contentMode = UIViewContentModeCenter;
         //[cell showPlaceHolderImage];
         cell.image.image = nil;
@@ -1083,23 +1089,22 @@
         dispatch_async(dispatch_get_main_queue(), ^(void) {
             MWPromise *fetchThumb = [record fetchThumbnailWithQueuePriority:NSOperationQueuePriorityNormal];
             [fetchThumb done:^(UIImage *image) {
-                if ([cell.title isEqualToString:title]) {
-                    // Also invoke the image setter asynchronously
-                    dispatch_async(dispatch_get_main_queue(), ^(void) {
+                // Also invoke the image setter asynchronously
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    if ([cell.uniqueID isEqual:uniqueID]) {
                         cell.image.contentMode = UIViewContentModeScaleAspectFill;
                         cell.image.image = image;
-                    });
-                }
+                    }
+                });
             }];
-    
+            
             [fetchThumb fail:^(NSError *error) {
                 NSLog(@"failed to load thumbnail");
             }];
-        
+            
             [fetchThumb progress:^(NSDictionary *dict) {
-                if ([cell.title isEqualToString:title]) {
-                    dispatch_async(dispatch_get_main_queue(), ^(void) {
-                        
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    if ([cell.uniqueID isEqual:uniqueID]) {
                         // Make the download progress bar (the cell.infoBox) reflect new progress
                         NSNumber *bytesReceived = dict[@"received"];
                         NSNumber *bytesTotal = dict[@"total"];
@@ -1130,8 +1135,8 @@
                         // out how to properly ignore such out of sync updates before animating progress here
                         cell.infoBox.progressNormal = progress;
                         [cell.infoBox setNeedsDisplay];
-                    });
-                }
+                    }
+                });
             }];
             // Don't do a fetch thumb "always:" callback here in order to change cell.titleLabel.text
             // This is because the *upload image* code may also need to change cell.titleLabel.text
