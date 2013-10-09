@@ -36,6 +36,8 @@
 @property (strong, nonatomic) SpeedGovernor *speedGovernor;
 @property (strong, nonatomic) FileUpload *recordToDelete;
 
+@property (strong, nonatomic) NSArray *selectableLicenses;
+
 + (CommonsApp *)singleton;
 
 - (void)initializeApp;

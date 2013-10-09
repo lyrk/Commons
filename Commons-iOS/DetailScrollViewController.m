@@ -66,7 +66,6 @@
     CFTimeInterval timeLastCategoryPan_;
     CategoryLicenseExtractor *categoryLicenseExtractor_;
     NSURL *licenseURL_;
-    NSArray *selectableLicenses_;
     NSInteger selectedLicenseIndex_;
     NSMutableArray *licenseLabels_;
 }
@@ -87,7 +86,6 @@
         self.categoriesNeedToBeRefreshed = NO;
         timeLastDetailsPan_ = CACurrentMediaTime();
         timeLastCategoryPan_ = CACurrentMediaTime();
-        selectableLicenses_ = nil;
         selectedLicenseIndex_ = 0;
         licenseLabels_ = nil;
     }
@@ -119,9 +117,6 @@
     self.view.translatesAutoresizingMaskIntoConstraints = NO;
 
     previewImage_ = nil;
-
-    // Load the list of licenses user may choose from
-    [self loadSelectableLicenses];
 
     // Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -439,9 +434,9 @@
     selectedLicenseIndex_ = [self getSelectedRecordLicenseIndex];
 
     // Update licenseDefaultLabel to show name of found license
-    //self.licenseDefaultLabel.text = [NSString stringWithFormat:@"%@ - %@", selectableLicenses_[selectedLicenseIndex_][@"description"], license];
+    //self.licenseDefaultLabel.text = [NSString stringWithFormat:@"%@ - %@", [CommonsApp singleton].selectableLicenses[selectedLicenseIndex_][@"description"], license];
 
-    self.licenseDefaultLabel.text = selectableLicenses_[selectedLicenseIndex_][@"description"];
+    self.licenseDefaultLabel.text = [CommonsApp singleton].selectableLicenses[selectedLicenseIndex_][@"description"];
 }
 
 #pragma mark - License choices
@@ -460,7 +455,7 @@
     licenseLabels_ = [@[] mutableCopy];
     UIView *labelAbove = self.licenseLabel;
     NSInteger tag = 0;
-    for (NSDictionary *license in selectableLicenses_) {
+    for (NSDictionary *license in [CommonsApp singleton].selectableLicenses) {
         UILabelDynamicHeight *label = [[UILabelDynamicHeight alloc] init];
         label.translatesAutoresizingMaskIntoConstraints = NO;
         [self.licenseContainer addSubview:label];
@@ -476,7 +471,7 @@
         [self.licenseContainer addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[label]-|" options:0 metrics:nil views:@{@"label": label}]];
 
         NSString *formatString = @"V:[labelAbove]-[label]";
-        if (selectableLicenses_.lastObject == license) {
+        if ([CommonsApp singleton].selectableLicenses.lastObject == license) {
             formatString = [formatString stringByAppendingString:@"-|"];
         }
         
@@ -486,71 +481,63 @@
         // Make label respond to taps
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(licenseSelectionTapped:)];
         [label addGestureRecognizer:tapGesture];
-     
-        // Make the selected license appear highlighted
-        [self setLicenseSelectionIndication:label];
     }
+    
+    // Make the selected license appear highlighted
+    [self updateLicenseSelectionIndicators];
 }
 
 #pragma mark - License selection
 
--(void) loadSelectableLicenses
-{
-    // The list of licenses to be chosen from.
-    selectableLicenses_ = @[
-                            @{
-                                @"license" :@"cc-by-sa-3.0",
-                                @"description": @"Creative Commons Attribution ShareAlike 3.0"
-                                },
-                            @{
-                                @"license" :@"cc-by-3.0",
-                                @"description": @"Creative Commons Attribution 3.0"
-                                },
-                            @{
-                                @"license" :@"cc-zero",
-                                @"description": @"Creative Commons CC0 Waiver"
-                                }
-                            ];
-}
-
 -(void)licenseSelectionTapped:(UITapGestureRecognizer *)recognizer
 {
-    NSLog(@"license selected = %d", recognizer.view.tag);
+    //NSLog(@"license selected = %d", recognizer.view.tag);
     selectedLicenseIndex_ = recognizer.view.tag;
-    if (!(selectedLicenseIndex_ < selectableLicenses_.count)) {
+    if (!(selectedLicenseIndex_ < [CommonsApp singleton].selectableLicenses.count)) {
         selectedLicenseIndex_ = 0;
     }
-    NSDictionary *selectedLicense = selectableLicenses_[selectedLicenseIndex_];    
+    NSDictionary *selectedLicense = [CommonsApp singleton].selectableLicenses[selectedLicenseIndex_];
     self.selectedRecord.license = selectedLicense[@"license"];
     
-    // Add the license to categories too (needed since we're pulling license info from categories)
-    [self.selectedRecord addCategory:[selectedLicense[@"license"] uppercaseString]];
+    [CommonsApp.singleton saveData];
     
-    for (UILabelDynamicHeight *label in licenseLabels_) {
-        [self setLicenseSelectionIndication:label];
-    }
+    [self updateLicenseSelectionIndicators];
 }
 
 -(NSInteger)getSelectedRecordLicenseIndex
 {
-    // Looks for self.selectedRecord.license in selectableLicenses_ and returns index of match.
+    // Looks for self.selectedRecord.license in [CommonsApp singleton].selectableLicenses and
+    // returns index of match.
     NSInteger index = 0;
-    for (NSDictionary *license in selectableLicenses_) {
+    for (NSDictionary *license in [CommonsApp singleton].selectableLicenses) {
         if ([license[@"license"] isEqualToString:self.selectedRecord.license]) {
             return index;
         }
         index++;
     }
-    // If no match was found assume the first entry in selectableLicenses_ is the default one
+    // If no match was found assume the first entry in [CommonsApp singleton].selectableLicenses
+    // is the default one
     return 0;
 }
 
--(void)setLicenseSelectionIndication:(UILabelDynamicHeight *)label
+-(void)updateLicenseSelectionIndicators
 {
-    if (label.tag == selectedLicenseIndex_){
-        label.borderView.layer.borderWidth = 2.0f;
-    }else{
-        label.borderView.layer.borderWidth = 0.0f;
+    // Make license selection reflect self.selectedRecord.license
+    NSString *descriptionForSelectedRecordLicense = nil;
+    for (NSDictionary *license in [CommonsApp singleton].selectableLicenses) {
+        if ([[license[@"license"] uppercaseString] isEqualToString:[self.selectedRecord.license uppercaseString]]) {
+            descriptionForSelectedRecordLicense = license[@"description"];
+            continue;
+        }
+    }
+    
+    // Clear out existing selection indication borders
+    for (UILabelDynamicHeight *licenseLabel in licenseLabels_) {
+        if ([licenseLabel.text isEqualToString:descriptionForSelectedRecordLicense]) {
+            licenseLabel.borderView.layer.borderWidth = 2.0f;
+        }else{
+            licenseLabel.borderView.layer.borderWidth = 0.0f;
+        }
     }
 }
 
@@ -1262,9 +1249,10 @@
                              [self.view layoutIfNeeded];
                          }
                          completion:^(BOOL finished){
-                            [self.selectedRecord removeCategory:category];
-                            [CommonsApp.singleton saveData];
-                            [self scrollDownIfGapBeneathDetails];
+                             [self.selectedRecord removeCategory:category];
+
+                             [CommonsApp.singleton saveData];
+                             [self scrollDownIfGapBeneathDetails];
                          }];
     }
 }

@@ -32,6 +32,7 @@ static CommonsApp *singleton_;
 {
     self = [super init];
     if (self) {
+        [self loadSelectableLicenses];
         self.fetchedResultsController = nil;
         self.categoryResultsController = nil;
         persistentStore = nil;
@@ -42,6 +43,25 @@ static CommonsApp *singleton_;
         self.fetchDataURLQueue.maxConcurrentOperationCount = 1;
     }
     return self;
+}
+
+-(void)loadSelectableLicenses
+{
+    // The list of licenses to be chosen from.
+    self.selectableLicenses = @[
+                            @{
+                                @"license" :@"cc-by-sa-3.0",
+                                @"description": @"Creative Commons Attribution ShareAlike 3.0"
+                                },
+                            @{
+                                @"license" :@"cc-by-3.0",
+                                @"description": @"Creative Commons Attribution 3.0"
+                                },
+                            @{
+                                @"license" :@"cc-zero",
+                                @"description": @"Creative Commons CC0 Waiver"
+                                }
+                            ];
 }
 
 - (NSString *)machineName
