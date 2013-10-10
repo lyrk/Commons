@@ -102,6 +102,31 @@
         [[UITextField appearance] setTintColor:[UIColor colorWithRed:0.00 green:0.49 blue:0.93 alpha:1.0]];
         [[UITextView appearance] setTintColor:[UIColor colorWithRed:0.00 green:0.49 blue:0.93 alpha:1.0]];
     }
+    
+    // Further tweaks for ensuring iOS 6 buttons look more iOS 7ish. Ok for these to happen in both
+    // versions for consistency.
+    [[UIBarButtonItem appearance] setTitleTextAttributes:
+        @{
+            UITextAttributeFont: [UIFont boldSystemFontOfSize:16],
+            UITextAttributeTextColor: [UIColor whiteColor],
+            UITextAttributeTextShadowColor: [UIColor clearColor],
+        }
+    forState:UIControlStateNormal];
+    
+    [[UIButton appearance] setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
+    
+    [[UIBarButtonItem appearance] setBackgroundImage:[UIImage imageNamed:@"clear.png"]
+                                            forState:UIControlStateNormal
+                                          barMetrics:UIBarMetricsDefault];
+
+    [[UINavigationBar appearance] setTitleTextAttributes:
+        @{
+            UITextAttributeFont: [UIFont boldSystemFontOfSize:20],
+            UITextAttributeTextColor: [UIColor whiteColor],
+            UITextAttributeTextShadowColor: [UIColor clearColor],
+            UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetMake(0, -1)]
+        }
+     ];
 }
 
 -(void)preiOS7GlobalNavBarStyleOverrides
@@ -110,31 +135,9 @@
     // under "User Defined Runtime Attributes"
     //[[UINavigationBar appearance] setTranslucent:YES];
     //[[UINavigationBar appearance] setOpaque:YES];
-
     [[UINavigationBar appearance] setTintColor:[UIColor clearColor]];
     [[UINavigationBar appearance] setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.3f]];
-    
-    CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
-    CGContextFillRect(context, rect);
-    
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    [[UINavigationBar appearance] setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    
-    // Sets the nav bar text color - also sets the color of any nav bar navigation item prompt text.
-    // (needed because by default the prompt text is very gray and hard to see)
-    [[UINavigationBar appearance] setTitleTextAttributes:
-         @{
-                                    UITextAttributeTextColor: [UIColor whiteColor],
-                              UITextAttributeTextShadowColor: [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3f],
-                             UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetMake(0, -1)]
-         }
-     ];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"clear.png"] forBarMetrics:UIBarMetricsDefault];
 }
 
 - (void)receivedUINavigationControllerDidShowViewControllerNotification:(NSNotification *)notification {

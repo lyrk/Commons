@@ -115,10 +115,12 @@
     NSRange fileNameRange = [title rangeOfString:fileName];
     NSRange wholeRange = NSMakeRange(0, title.length);
     
+    /*
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor: [UIColor colorWithWhite:0.0f alpha:1.0f]];
     [shadow setShadowOffset:CGSizeMake (1.0, 1.0)];
     [shadow setShadowBlurRadius:0];
+    */
     
     [attStr beginEditing];
     [attStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:wholeRange];
@@ -127,7 +129,7 @@
     [attStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12.0f] range:wholeRange];
     [attStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14.0f] range:fileNameRange];
     [attStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:wholeRange];
-    [attStr addAttribute:NSShadowAttributeName value:shadow range:wholeRange];
+    //[attStr addAttribute:NSShadowAttributeName value:shadow range:wholeRange];
     [attStr endEditing];
     
     return attStr;

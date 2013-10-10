@@ -395,30 +395,15 @@
                                                         target:self
                                                         action:@selector(uploadButtonPushed:)];
     }
-
-    [_uploadButton setTitleTextAttributes:@{
-                                            UITextAttributeFont: [UIFont boldSystemFontOfSize:16]
-                                            } forState:UIControlStateNormal];
-
-    [_uploadButton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     
     return _uploadButton;
 }
 
 - (UIBarButtonItem *)cancelButton {
-    
-    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
-                                                            style:UIBarButtonItemStylePlain
-                                                           target:self
-                                                           action:@selector(cancelButtonPushed:)];
-
-    [btn setTitleTextAttributes:@{
-                                  UITextAttributeFont: [UIFont boldSystemFontOfSize:16]
-                                  } forState:UIControlStateNormal];
-
-    [btn setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-
-    return btn;
+    return [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
+                                            style:UIBarButtonItemStylePlain
+                                           target:self
+                                           action:@selector(cancelButtonPushed:)];
 }
 
 #pragma mark - Interface Actions
