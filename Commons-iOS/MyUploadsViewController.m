@@ -56,6 +56,7 @@
     if (self) {
         thumbnailCount_ = 0;
         self.wantsFullScreenLayout = YES;
+        self.refreshControl = nil;
     }
     return self;
 }
@@ -66,11 +67,6 @@
 {
     [super viewDidAppear:animated];
 
-    // Set up refresh
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
-                  forControlEvents:UIControlEventValueChanged];
-    [self.collectionView addSubview:self.refreshControl];
     self.refreshControl.hidden = YES;
 
     if (thumbnailCount_ != 0){
@@ -167,6 +163,12 @@
 
     // Change back button to be an arrow
     self.navigationItem.leftBarButtonItem = [[CommonsApp singleton] getBackButtonItemWithTarget:self action:@selector(backButtonPressed:)];
+    
+    // Set up refresh
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
+                  forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
     
     //[self.view randomlyColorSubviews];
 }
