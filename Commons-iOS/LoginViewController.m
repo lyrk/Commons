@@ -21,6 +21,7 @@
 #import "UILabel+ResizeWithAttributes.h"
 #import "PictureOfDayCycler.h"
 #import "UIView+Debugging.h"
+#import "UILabelDynamicHeight.h"
 
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
@@ -56,8 +57,7 @@
 @property (strong, nonatomic) NSString *pictureOfTheDayLicense;
 @property (strong, nonatomic) NSString *pictureOfTheDayLicenseUrl;
 @property (strong, nonatomic) NSString *pictureOfTheDayWikiUrl;
-@property (strong, nonatomic) UILabel *attributionLabel;
-@property (strong, nonatomic) UIView *attributionLabelBackground;
+@property (strong, nonatomic) UILabelDynamicHeight *attributionLabel;
 @property (strong, nonatomic) NSArray *attributionLabelOffscreenConstraints;
 @property (strong, nonatomic) NSArray *attributionLabelOnscreenConstraints;
 @property (strong, nonatomic) NSArray *logoImageViewKeyboardOnscreenConstraints;
@@ -112,18 +112,7 @@
         self.pictureOfDayCycler.displayInterval = SECONDS_TO_SHOW_EACH_PIC_OF_DAY;
 
         // Create attributionLabel
-        self.attributionLabel = [[UILabel alloc] init];
-        self.attributionLabel.backgroundColor = [UIColor clearColor];
-        self.attributionLabel.hidden = YES;
-        self.attributionLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        
-        // Create background view to appear behind attributionLabel
-        // (easy way to add padding around the attribution text)
-        self.attributionLabelBackground = [[UIView alloc] init];
-        self.attributionLabelBackground.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.15f];;
-        self.attributionLabelBackground.hidden = YES;
-        self.attributionLabelBackground.layer.cornerRadius = 10.0f;
-        self.attributionLabelBackground.translatesAutoresizingMaskIntoConstraints = NO;
+        [self setupAttributionLabel];
     }
     return self;
 }
@@ -276,7 +265,6 @@
     [self.passwordField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
 
     // Prepare the attributionLabel
-    [self.view addSubview:self.attributionLabelBackground];
     [self.view addSubview:self.attributionLabel];
     
     // Setup constraints to control attributionLabel layout
@@ -594,7 +582,6 @@
     self.currentUserButton.frame = f;
     // Re-center currentUserButton above logout button
     self.currentUserButton.center = CGPointMake(self.logoutButton.center.x, self.currentUserButton.center.y);
-    
 }
 
 -(void)revealLoginFieldsWithAnimation
@@ -778,29 +765,16 @@
                 weakSelf.pictureOfTheDayLicense = dict[@"license"];
                 weakSelf.pictureOfTheDayLicenseUrl = dict[@"licenseurl"];
                 weakSelf.pictureOfTheDayWikiUrl = dict[@"descriptionurl"];
-                
-                // Briefly hide the attribution label before updating it
-                [UIView animateWithDuration:self.pictureOfDayCycler.transitionDuration / 4.0
-                                      delay:0.0
+
+                // Animate attribution label resizing for its new text
+                [UIView animateWithDuration:self.pictureOfDayCycler.transitionDuration / 4.0f
+                                      delay:0
                                     options: UIViewAnimationCurveLinear
                                  animations:^{
-                                     weakSelf.attributionLabel.alpha = 0.0f;
-                                     weakSelf.attributionLabelBackground.alpha = 0.0f;
+                                    [weakSelf updateAttributionLabelText];
+                                    //[self.attributionLabel layoutIfNeeded];
                                  }
                                  completion:^(BOOL finished){
-                                     // Update the attribution text
-                                     [weakSelf updateAttributionLabelText];
-
-                                     //Now show the updated attribution box
-                                     [UIView animateWithDuration:self.pictureOfDayCycler.transitionDuration / 3.0
-                                                           delay:0.0
-                                                         options: UIViewAnimationCurveLinear
-                                                      animations:^{
-                                                          weakSelf.attributionLabelBackground.alpha = 1.0f;
-                                                          weakSelf.attributionLabel.alpha = 1.0f;
-                                                      }
-                                                      completion:^(BOOL finished){
-                                                      }];
                                  }];
 
                 // Cross-fade between pictures of the day
@@ -833,6 +807,26 @@
 
 #pragma mark - Pic of Day attribution
 
+-(void)setupAttributionLabel
+{
+    self.attributionLabel = [[UILabelDynamicHeight alloc] init];
+    self.attributionLabel.backgroundColor = [UIColor clearColor];
+    self.attributionLabel.hidden = YES;
+    self.attributionLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    // Setup attribution label with padding
+    float padding = 8.0f;
+    self.attributionLabel.borderColor = [UIColor colorWithWhite:1.0f alpha:0.15f];
+    self.attributionLabel.borderView.layer.cornerRadius = 10.0f;
+    self.attributionLabel.paddingColor = [UIColor clearColor];
+    self.attributionLabel.paddingInsets = UIEdgeInsetsMake(
+                                                           padding,
+                                                           padding,
+                                                           padding,
+                                                           padding
+                                                           );
+}
+
 - (IBAction)pushedAttributionButton:(id)sender{
     if (!showingPictureOfTheDayAttribution_) {
         [self showAttributionLabel];
@@ -860,6 +854,15 @@
     NSString *prettyDateString = [dateFormatter stringFromDate:date];
     NSString *picOfTheDayText = [MWMessage forKey:@"picture-of-day-label"].text;
     NSString *picOfTheAuthorText = [MWMessage forKey:@"picture-of-day-author"].text;
+
+    /*
+    // Random text for testing attribution label changes
+    int randNum2 = rand() % (25 - 1) + 1;
+    NSString *strToRepeat = @" abc";
+    NSString * randStr = [@"" stringByPaddingToLength:randNum2 * [strToRepeat length] withString:strToRepeat startingAtIndex:0];
+    picOfTheAuthorText = randStr;
+    */
+    
     NSString *picOfTheDayLicenseName = [self.pictureOfTheDayLicense uppercaseString];
 
     // If license was name was not retrieved change it to say "Tap for License" for now
@@ -867,8 +870,8 @@
         picOfTheDayLicenseName = [MWMessage forKey:@"picture-of-day-tap-for-license"].text;
     }
 
-    float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 30.0f : 15.0f;
-    float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 16.0f : 8.0f;
+    float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 20.0f : 15.0f;
+    float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 10.0f : 6.0f;
 
     // Style attributes for labels
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -893,7 +896,6 @@
         // On non-iPad the cancel button dismisses the action sheet
         self.attributionLabel.alpha = 1.0f;
         self.attributionButton.alpha = 1.0f;
-        self.attributionLabelBackground.alpha = 1.0f;
         return;
     }
 
@@ -934,7 +936,6 @@
     [actionSheet showInView:self.view];
     [self.pictureOfDayCycler stop];
     self.attributionLabel.alpha = 0.0f;
-    self.attributionLabelBackground.alpha = 0.0f;
     self.attributionButton.alpha = 0.0f;
 }
 
@@ -945,7 +946,6 @@
     [self updateAttributionLabelText];
 
     self.attributionLabel.hidden = NO;
-    self.attributionLabelBackground.hidden = NO;
 
     // Move the attribution label onscreen
     [self.view removeConstraints:self.attributionLabelOffscreenConstraints];
@@ -994,34 +994,21 @@
                      }
                      completion:^(BOOL finished){
                          self.attributionLabel.hidden = YES;
-                         self.attributionLabelBackground.hidden = YES;
                      }];
-}
-
--(void)makeAttributionLabelHugText
-{
-    // Make label hug its text: http://stackoverflow.com/a/16009707
-    // Expands vertically as necessary
-    CGSize attributionLabelSize = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? CGSizeMake(360.0f, 375.0f) : CGSizeMake(175.0f, 175.0f);
-    NSDictionary *metrics = @{@"width" : @(attributionLabelSize.width)};
-    
-    self.attributionLabel.numberOfLines = 0;
-    self.attributionLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    self.attributionLabel.preferredMaxLayoutWidth = attributionLabelSize.width;
-    
-    [self.attributionLabel setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    [self.attributionLabel setContentCompressionResistancePriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-    
-    NSArray* constraints = [NSLayoutConstraint constraintsWithVisualFormat:@"[_attributionLabel(width)]" options:0 metrics:metrics views:NSDictionaryOfVariableBindings(_attributionLabel)];
-    [self.view addConstraints:constraints];
-    
-    [self.attributionLabel addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_attributionLabel(220@300)]" options:0 metrics:nil views:NSDictionaryOfVariableBindings(_attributionLabel)]];
 }
 
 -(void)setupAttributionLabelConstraints
 {
-    // Make attribution label be just a bit bigger than the text it displays
-    [self makeAttributionLabelHugText];
+    // Constrain the attribution label width
+    CGSize attributionLabelSize = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        ? CGSizeMake(260.0f, 375.0f) : CGSizeMake(175.0f, 175.0f);
+
+    NSArray* constraints = [NSLayoutConstraint constraintsWithVisualFormat : @"H:[_attributionLabel(width)]"
+                                                                   options : 0
+                                                                   metrics : @{@"width" : @(attributionLabelSize.width)}
+                                                                     views : NSDictionaryOfVariableBindings(_attributionLabel)
+                            ];
+    [self.view addConstraints:constraints];
     
     // Center the attribution label
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabel
@@ -1050,40 +1037,6 @@
     
     // Initially use the constraint which hides the attributionLabel
     [self.view addConstraints:self.attributionLabelOffscreenConstraints];
-    
-    // Size attributionLabelBackground to match attributionLabel plus margin
-    float margin = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 10 : 5;
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabelBackground
-                                                          attribute:NSLayoutAttributeLeft
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.attributionLabel
-                                                          attribute:NSLayoutAttributeLeft
-                                                         multiplier:1
-                                                           constant:-margin]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabelBackground
-                                                          attribute:NSLayoutAttributeRight
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.attributionLabel
-                                                          attribute:NSLayoutAttributeRight
-                                                         multiplier:1
-                                                           constant:margin]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabelBackground
-                                                          attribute:NSLayoutAttributeTop
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.attributionLabel
-                                                          attribute:NSLayoutAttributeTop
-                                                         multiplier:1
-                                                           constant:-margin]];
-    
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.attributionLabelBackground
-                                                          attribute:NSLayoutAttributeBottom
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.attributionLabel
-                                                          attribute:NSLayoutAttributeBottom
-                                                         multiplier:1
-                                                           constant:margin]];
 }
 
 #pragma mark - Keyboard
