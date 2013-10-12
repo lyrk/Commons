@@ -747,17 +747,10 @@
 
 -(void)addNavBarBackgroundViewForTouchDetection
 {
-    CGRect f = self.navigationController.navigationBar.bounds;
-    // Set size to just encompass the upload button in the center of the screen
-    f = CGRectInset(f, (f.size.width / 2.0f) - 60.0f, 0.0f);
-    navBackgroundView_ = [[UIView alloc] initWithFrame:f];
-    navBackgroundView_.backgroundColor = [UIColor colorWithWhite:1.0f alpha:0.0f];
-    navBackgroundView_.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin |
-    UIViewAutoresizingFlexibleRightMargin |
-    UIViewAutoresizingFlexibleLeftMargin |
-    UIViewAutoresizingFlexibleTopMargin |
-    UIViewAutoresizingFlexibleHeight |
-    UIViewAutoresizingFlexibleBottomMargin;
+    // Add view to nav bar for touch detection
+    navBackgroundView_ = [[UIView alloc] initWithFrame:self.navigationController.navigationBar.bounds];
+    navBackgroundView_.backgroundColor = [UIColor clearColor];
+    navBackgroundView_.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.navigationController.navigationBar addSubview:navBackgroundView_];
     [self.navigationController.navigationBar sendSubviewToBack:navBackgroundView_];
     navBackgroundView_.userInteractionEnabled = YES;

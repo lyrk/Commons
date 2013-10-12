@@ -169,6 +169,9 @@
     [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
                   forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
+ 
+    // Keep track of upload button state so it can be hidden from the My Uploads page whenever disabled
+    [self.uploadButton addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
     
     //[self.view randomlyColorSubviews];
 }
@@ -291,6 +294,21 @@
 
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    // Hide the upload button on the My Uploads page if no images are ready for upload
+    // (It's a little wonky as UIBarButtonItem doesn't have a "hidden" property so it
+    // actually has to be removed / re-added to self.navigationItem.rightBarButtonItem)
+    if (object == self.uploadButton) {
+        if ([keyPath isEqualToString:@"enabled"]) {
+            if (self.uploadButton.enabled) {
+                if (self.navigationItem.rightBarButtonItem != self.uploadButton) {
+                    self.navigationItem.rightBarButtonItem = self.uploadButton;
+                }
+            }else{
+                self.navigationItem.rightBarButtonItem = nil;
+            }
+        }
+    }
+
     // Don't take action on observations if the view controller's view is no longer visible
     if (self.navigationController.topViewController != self) return;
     
@@ -300,8 +318,6 @@
     CommonsApp *app = [CommonsApp singleton];
     if (object == app.fetchDataURLQueue && [keyPath isEqualToString:@"operationCount"]) {
         [self raiseDowloadPriorityForImagesOfOnscreenCells];
-    }else{
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
@@ -387,19 +403,6 @@
 }
 
 #pragma mark - Interface Items
-
-- (UIBarButtonItem *)uploadButton {
-    
-    if (!_uploadButton) {
-        
-        _uploadButton = [[UIBarButtonItem alloc] initWithTitle:[MWMessage forKey:@"details-upload-button"].text
-                                                         style:UIBarButtonItemStylePlain
-                                                        target:self
-                                                        action:@selector(uploadButtonPushed:)];
-    }
-    
-    return _uploadButton;
-}
 
 - (UIBarButtonItem *)cancelButton {
     return [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
@@ -1203,10 +1206,6 @@
     UIBarButtonItem *shareButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                                  target:detailVC_
                                                                                  action:@selector(shareButtonPushed:)];
-    
-    // Remove the outline around the button to make iOS button look more iOS 7ish
-    [shareButton setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-
     if (!self.selectedRecord.complete.boolValue) {
         imageScrollVC_.navigationItem.rightBarButtonItem = self.uploadButton;
     }else{
