@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Gusta",
+            "Hamilton Abreu",
             "Luckas"
         ]
     },
@@ -14,7 +15,7 @@
     "reltime-hours": "$1 horas atr\u00e1s",
     "reltime-days": "$1 dias atr\u00e1s",
     "settings-title": "Configura\u00e7\u00f5es",
-    "settings-username-placeholder": "Nome de usu\u00e1rio",
+    "settings-username-placeholder": "Nome de utilizador",
     "settings-password-placeholder": "Senha",
     "settings-debug-label": "Modo de depura\u00e7\u00e3o:",
     "details-title": "Detalhes",
