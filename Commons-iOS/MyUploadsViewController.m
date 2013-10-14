@@ -21,6 +21,7 @@
 #import "GalleryMultiSelectCollectionVC.h"
 #import "ImageScrollViewController.h"
 #import "AspectFillThumbFetcher.h"
+#import "GettingStartedViewController.h"
 //#import "UIView+Debugging.h"
 
 #define OPAQUE_VIEW_ALPHA 0.7
@@ -43,6 +44,9 @@
     UITapGestureRecognizer *imageDoubleTapRecognizer_;
     UITapGestureRecognizer *imageTwoFingerTapRecognizer_;
 }
+
+@property (strong, nonatomic) IBOutlet UILabel *aboutButton;
+@property (strong, nonatomic) IBOutlet UILabel *settingsButton;
 
 @end
 
@@ -151,10 +155,6 @@
     // Opaque view is used to fade out background when take and choose photo buttons are revealed
     [self setupOpaqueView];
     
-    // Make the About and Settings buttons stand out better against light colors
-    [LoginViewController applyShadowToView:self.settingsButton];
-    [LoginViewController applyShadowToView:self.aboutButton];
-
     if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
         // For iOS 7 turn auto scroll view insets off since we manually add them for ios 6 compatibility
         // (the inset is added with "setCollectionViewTopInset")
@@ -172,6 +172,9 @@
  
     // Keep track of upload button state so it can be hidden from the My Uploads page whenever disabled
     [self.uploadButton addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
+    
+    [self setupSettingsButton];
+    [self setupAboutButton];
     
     //[self.view randomlyColorSubviews];
 }
@@ -219,6 +222,42 @@
     [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
 }
 
+#pragma mark - Round buttons
+
+-(void) setupSettingsButton
+{
+    self.settingsButton = [[CommonsApp singleton] getRoundLabelForCharacter:[NSString stringWithFormat:@"\u2699"]];
+    self.settingsButton.userInteractionEnabled = YES;
+    [self.view addSubview:self.settingsButton];
+    [self.settingsButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[view]-|" options:0 metrics:nil views:@{@"view": self.settingsButton}]];
+    [self.settingsButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-|" options:0 metrics:nil views:@{@"view": self.settingsButton}]];
+    [self.settingsButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(settingsButtonPushed:)]];
+    [self styleRoundLabel:self.settingsButton];
+    
+    // Make the unicode gear a tad bigger
+    NSMutableAttributedString *text = [self.settingsButton.attributedText mutableCopy];
+    [text removeAttribute:NSFontAttributeName range:NSMakeRange(0, text.length)];
+    [text addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:22.5] range:NSMakeRange(0, text.length)];
+    self.settingsButton.attributedText = text;
+}
+
+-(void) setupAboutButton
+{
+    self.aboutButton = [[CommonsApp singleton] getRoundLabelForCharacter:@"i"];
+    self.aboutButton.userInteractionEnabled = YES;
+    [self.view addSubview:self.aboutButton];
+    [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[view]" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
+    [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-|" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
+    [self.aboutButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleInfoLabelTap:)]];
+    [self styleRoundLabel:self.aboutButton];
+}
+
+-(void) styleRoundLabel:(UILabel *)label
+{
+    label.textColor = [UIColor colorWithWhite:1.0 alpha:1.0];
+    label.layer.backgroundColor = [UIColor colorWithRed:0.30 green:0.30 blue:0.30 alpha:1.0].CGColor;
+    label.layer.borderColor = [UIColor colorWithRed:0.10 green:0.10 blue:0.10 alpha:1.0].CGColor;
+}
 
 #pragma mark - Camera
 
@@ -412,6 +451,12 @@
 }
 
 #pragma mark - Interface Actions
+
+-(void)handleInfoLabelTap:(UITapGestureRecognizer *)recognizer
+{
+    GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
+    [self presentViewController:gettingStartedVC animated:YES completion:nil];
+}
 
 -(void)backButtonPressed:(id)sender
 {

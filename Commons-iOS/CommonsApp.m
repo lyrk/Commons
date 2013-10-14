@@ -1502,4 +1502,63 @@ static CommonsApp *singleton_;
     view.layer.mask = maskLayer;
 }
 
+-(UILabel *)getRoundLabelForCharacter:(NSString *)character
+{
+    float labelWidth = 27.5f;
+    float cornerRadius = labelWidth / 2.0f;
+    float fontSize = 20.0f;
+    float shadowRadius = 4.0f;
+    float shadowOpacity = 4.0f;
+    CGColorRef shadowColor = [UIColor whiteColor].CGColor;
+
+    CGColorRef backgroundColor = [UIColor blackColor].CGColor;
+    CGColorRef borderColor = [UIColor whiteColor].CGColor;
+    float borderWidth = 2.0f;
+    
+    // Create and round corners of label
+    UILabel *label = [[UILabel alloc] init];
+    label.backgroundColor = [UIColor clearColor];
+    label.numberOfLines = 0;
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    label.layer.cornerRadius = cornerRadius;
+    label.layer.borderWidth = 0;
+
+    // Configure shadow
+    label.clipsToBounds = YES;
+    [label.layer setMasksToBounds:NO];
+    [label.layer setShadowColor:shadowColor];
+    [label.layer setShadowOpacity:shadowOpacity];
+    [label.layer setShadowRadius:shadowRadius];
+    [label.layer setShadowOffset:CGSizeMake(0, 0)];
+    [label.layer setShadowPath: [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, labelWidth, labelWidth) cornerRadius:cornerRadius] CGPath]];
+    label.layer.borderColor = borderColor;
+    label.layer.borderWidth = borderWidth;
+    [label.layer setBackgroundColor:backgroundColor];
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = 0;
+    paragraphStyle.alignment = NSTextAlignmentCenter;
+    label.attributedText = [[NSAttributedString alloc] initWithString:character attributes: @{
+          NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
+          NSParagraphStyleAttributeName : paragraphStyle,
+          NSForegroundColorAttributeName : [UIColor whiteColor],
+          NSStrokeWidthAttributeName: @0
+    }];
+
+    /*
+     // Add shadow to the character string
+     NSShadow *shadow = [[NSShadow alloc] init];
+     [shadow setShadowColor: [UIColor colorWithWhite:0.0f alpha:1.0f]];
+     [shadow setShadowOffset:CGSizeMake (1.0, 1.0)];
+     [shadow setShadowBlurRadius:0];
+     label.attributedText = [[NSAttributedString alloc] initWithString:label.text attributes:@{NSShadowAttributeName : shadow}];
+    */
+
+    // Constrain the label width and height
+    [label addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[view(==%f)]", labelWidth] options:0 metrics:nil views:@{@"view": label}]];
+    [label addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[view(==%f)]", labelWidth] options:0 metrics:nil views:@{@"view": label}]];
+    
+    return label;
+};
+
 @end

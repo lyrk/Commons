@@ -8,24 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
-@class GradientButton;
+@class UILabelDynamicHeight;
 @class PictureOfTheDayImageView;
 @class PictureOfDayCycler;
 
 @interface LoginViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
+@property (weak, nonatomic) IBOutlet UIView *usernamePasswordDivider;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
-@property (weak, nonatomic) IBOutlet GradientButton *loginButton;
-@property (weak, nonatomic) IBOutlet GradientButton *logoutButton;
-@property (weak, nonatomic) IBOutlet GradientButton *currentUserButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *loginButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *logoutButton;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *currentUserButton;
 @property (weak, nonatomic) IBOutlet UIButton *recoverPasswordButton;
 
 @property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UIView *loginInfoContainer;
 @property (weak, nonatomic) IBOutlet PictureOfTheDayImageView *potdImageView;
-@property (weak, nonatomic) IBOutlet UIButton *aboutButton;
-@property (weak, nonatomic) IBOutlet UIButton *attributionButton;
 
 @property (strong, nonatomic) PictureOfDayCycler *pictureOfDayCycler;
 
@@ -39,7 +38,7 @@
 -(IBAction)pushedAttributionButton:(id)sender;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomSpacerViewToScreenBottomConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *recoverPasswordButtonHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *usernamePasswordDividerHeightConstraint;
 
 @property (weak, nonatomic) IBOutlet UIView *topSpacer;
 @property (weak, nonatomic) IBOutlet UIView *middleSpacer;

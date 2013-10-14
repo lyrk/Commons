@@ -11,7 +11,6 @@
 #import "mwapi/MWApi.h"
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
-#import "GradientButton.h"
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
 #import "GettingStartedViewController.h"
@@ -27,6 +26,26 @@
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 #define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
+#define LOGIN_BUTTON_CORNER_RADIUS 11
+#define LOGIN_BUTTON_PLACEHOLDER_TEXT_COLOR [UIColor colorWithWhite:1.0f alpha:1.0f]
+
+#define LOGIN_TEXTBOX_PLACEHOLDER_COLOR [UIColor colorWithWhite:0.8f alpha:1.0f]
+#define LOGIN_TEXTBOX_ACTIVE_TEXT_COLOR [UIColor colorWithWhite:0.25f alpha:1.0f]
+
+#define BUTTONS_ACTIVE_TEXT_COLOR [UIColor whiteColor]
+#define BUTTONS_INACTIVE_BACKGROUND_COLOR [UIColor colorWithWhite:0.45f alpha:1.0f]
+#define BUTTONS_ACTIVE_BACKGROUND_COLOR [UIColor colorWithRed:0.00 green:0.48 blue:1.00 alpha:1.0]
+
+#define BUTTONS_BORDER_WIDTH 1.5
+#define BUTTONS_BORDER_COLOR [UIColor colorWithWhite:1.0f alpha:0.9f]
+
+#define DISABLE_POTD_FOR_DEBUGGING 0
+
+/*
+#define LOGIN_BUTTON_CORNER_RADIUS 2
+#define LOGIN_BUTTON_PLACEHOLDER_TEXT_COLOR [UIColor colorWithWhite:0.8f alpha:1.0f]
+#define BUTTONS_ACTIVE_TEXT_COLOR [UIColor colorWithWhite:0.25f alpha:1.0f]
+*/
 
 // Note: to change the bundled picture of the day simply remove the existing one from the
 // bundle, add the new one, then change is date to match the date from the newly bundled
@@ -49,6 +68,8 @@
 
 @interface LoginViewController ()
 
+#pragma mark - Private properties
+
 @property (weak, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSString *trimmedUsername;
 @property (strong, nonatomic) NSString *trimmedPassword;
@@ -61,6 +82,8 @@
 @property (strong, nonatomic) NSArray *attributionLabelOffscreenConstraints;
 @property (strong, nonatomic) NSArray *attributionLabelOnscreenConstraints;
 @property (strong, nonatomic) NSArray *logoImageViewKeyboardOnscreenConstraints;
+@property (strong, nonatomic) IBOutlet UILabel *aboutButton;
+@property (strong, nonatomic) IBOutlet UILabel *attributionButton;
 
 - (void)showMyUploadsVC;
 
@@ -72,7 +95,6 @@
     UISwipeGestureRecognizer *swipeRecognizerUp_;
     UISwipeGestureRecognizer *swipeRecognizerDown_;
     UISwipeGestureRecognizer *swipeRecognizerLeft_;
-    UITapGestureRecognizer *tapRecognizer_;
     UITapGestureRecognizer *doubleTapRecognizer_;
     UITapGestureRecognizer *attributionLabelTapRecognizer_;
     AspectFillThumbFetcher *pictureOfTheDayGetter_;
@@ -106,13 +128,12 @@
         isRotating_ = NO;
         isKeyboardOnscreen_ = NO;
 
-        self.pictureOfDayCycler = [[PictureOfDayCycler alloc] init];
-        self.pictureOfDayCycler.dateStrings = cachedPotdDateStrings_;
-        self.pictureOfDayCycler.transitionDuration = SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY;
-        self.pictureOfDayCycler.displayInterval = SECONDS_TO_SHOW_EACH_PIC_OF_DAY;
-
-        // Create attributionLabel
-        [self setupAttributionLabel];
+        if (!DISABLE_POTD_FOR_DEBUGGING) {
+            self.pictureOfDayCycler = [[PictureOfDayCycler alloc] init];
+            self.pictureOfDayCycler.dateStrings = cachedPotdDateStrings_;
+            self.pictureOfDayCycler.transitionDuration = SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY;
+            self.pictureOfDayCycler.displayInterval = SECONDS_TO_SHOW_EACH_PIC_OF_DAY;
+        }
     }
     return self;
 }
@@ -134,149 +155,19 @@
 	// Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
-	// Set gradient buttons color
-	[self.loginButton useWhiteStyle];
-    [self.logoutButton useWhiteStyle];
-
-    // l10n
-    self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
-    self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
-    [self.loginButton setTitle:[MWMessage forKey:@"login-button"].text forState:UIControlStateNormal];
-
-    [self.logoutButton setTitle:[MWMessage forKey:@"logout-button"].text forState:UIControlStateNormal];
+    // Setup various views and buttons
+    [self setupRectangularButtons];
+    [self setupTextBoxes];
+    [self setupPOTD];
+    [self setupLogoImageView];
+    [self setupAttributionLabel];
+    [self setupShadows];
+    [self setupAttributionButton];
+    [self setupAboutButton];
+    [self setupGestureRecognizers];
 
     [self.recoverPasswordButton setTitle:[MWMessage forKey:@"login-recover-password-button"].text forState:UIControlStateNormal];
 
-    // Disable auto-correct on login boxes
-    self.usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
-    self.passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
-    
-    // Gray out the login button if no credentials
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fadeLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.usernameField];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fadeLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.passwordField];
-    
-    [self.loginButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-    
-	// Do any additional setup after loading the view.
-    CommonsApp *app = CommonsApp.singleton;
-    self.usernameField.text = app.username;
-    self.passwordField.text = app.password;
-    
-    //hide keyboard when anywhere else is tapped
-	tapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
-    tapRecognizer_.numberOfTapsRequired = 1;
-	[self.view addGestureRecognizer:tapRecognizer_];
-
-	longPressRecognizer_ = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
-    longPressRecognizer_.minimumPressDuration = 1.0f;
-	[self.view addGestureRecognizer:longPressRecognizer_];
-    
-    swipeRecognizerUp_ = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUp)];
-    swipeRecognizerUp_.numberOfTouchesRequired = 1;
-    swipeRecognizerUp_.direction = UISwipeGestureRecognizerDirectionUp;
-	[self.view addGestureRecognizer:swipeRecognizerUp_];
-
-    swipeRecognizerDown_ = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown)];
-    swipeRecognizerDown_.numberOfTouchesRequired = 1;
-    swipeRecognizerDown_.direction = UISwipeGestureRecognizerDirectionDown;
-	[self.view addGestureRecognizer:swipeRecognizerDown_];
-
-    swipeRecognizerLeft_ = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft)];
-    swipeRecognizerLeft_.numberOfTouchesRequired = 1;
-    swipeRecognizerLeft_.direction = UISwipeGestureRecognizerDirectionLeft;
-	[self.view addGestureRecognizer:swipeRecognizerLeft_];
-
-    doubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
-    doubleTapRecognizer_.numberOfTapsRequired = 2;
-	[self.view addGestureRecognizer:doubleTapRecognizer_];
-    doubleTapRecognizer_.enabled = NO;
-   
-    attributionLabelTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleAttributionLabelTap:)];
-    attributionLabelTapRecognizer_.numberOfTapsRequired = 1;
-    [self.attributionLabel addGestureRecognizer:attributionLabelTapRecognizer_];
-    self.attributionLabel.userInteractionEnabled = YES;
-
-    [self fadeLoginButtonIfNoCredentials];
-
-    self.potdImageView.useFilter = NO;
-
-    // Ensure bundled pic of day is in cache
-    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES extension:@"dict"];
-    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES extension:@"jpg"];
-
-    if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE == nil){
-        // Load default image to ensure something is showing even if no net connection
-        // (loads the copy of the bundled default potd which was copied to the cache)
-        [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
-    }
-
-    _logoImageView.alpha = 1.0f;
-    _usernameField.alpha = 1.0f;
-    _passwordField.alpha = 1.0f;
-    _loginButton.alpha = 1.0f;
-    
-    // Add shadow behind the login text boxes and buttons so they stand out on light background
-    [LoginViewController applyShadowToView:self.loginInfoContainer];
-    [LoginViewController applyShadowToView:self.aboutButton];    
-    [LoginViewController applyShadowToView:self.attributionButton];
-    [LoginViewController applyShadowToView:self.recoverPasswordButton];
-    [LoginViewController applyShadowToView:self.logoImageView];
-
-    // The "cycle" callback below is invoked by self.pictureOfDayCycler to change which picture of the day is showing
-    __weak LoginViewController *weakSelf = self;
-    __weak NSMutableArray *weakCachedPotdDateStrings_ = cachedPotdDateStrings_;
-    // todayDateString must be set *inside* cycle callback! it's used to see if midnight rolled around while the images
-    // were transitioning. if so it adds a date string for the new day to cachedPotdDateStrings_ so the new day's image
-    // will load (previously you had to leave the login page and go back to see the new day's image)
-    __block NSString *todayDateString = nil;
-    __weak PictureOfDayCycler *weakPictureOfDayCycler_ = self.pictureOfDayCycler;
-    self.pictureOfDayCycler.cycle = ^(NSString *dateString){
-        // If today's date string is not in cachedPotdDateStrings_ (can happen if the login page is displaying and
-        // midnight occurs) add it so it will be downloaded.
-        todayDateString = [weakSelf getDateStringForDaysAgo:0];
-        if(![weakCachedPotdDateStrings_ containsObject:todayDateString]){
-            [weakCachedPotdDateStrings_ addObject:todayDateString];
-            // Stop the cycler while the new day's image is retrieved - otherwise the cycler moves on, then whenever
-            // the image is retrieved the callback is invoked causing it to display even if this happens in the middle
-            // of another image's cycle - this looks jarring, so stop cycling until new image is grabbed
-            [weakPictureOfDayCycler_ stop];
-            dateString = todayDateString;
-            //[weakPictureOfDayCycler_ moveIndexToEnd];
-        }
-        //NSLog(@"\n\nweakCachedPotdDateStrings_ = \n\n%@\n\n", weakCachedPotdDateStrings_);
-        [weakSelf getPictureOfTheDayForDateString:dateString done:^{
-            if ([dateString isEqualToString:todayDateString]) {
-                // If the cycler was stopped because midnight rolled around, restart it
-                [weakPictureOfDayCycler_ start];
-            }
-        }];
-    };
-
-    // Round username and pwd box corners
-    [app roundCorners:UIRectCornerTopLeft|UIRectCornerTopRight ofView:self.usernameField toRadius:10.0];
-	[app roundCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight ofView:self.passwordField toRadius:10.0];
-
-    // Center align username and pwd box text
-    self.usernameField.textAlignment = NSTextAlignmentCenter;
-    self.passwordField.textAlignment = NSTextAlignmentCenter;
-    
-    // Observe changes to username and pwd box text so placeholder text can be updated
-    [self.usernameField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-    [self.passwordField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
-
-    // Prepare the attributionLabel
-    [self.view addSubview:self.attributionLabel];
-    
-    // Setup constraints to control attributionLabel layout
-    [self setupAttributionLabelConstraints];
-    
-    // Hide the logo when the keyboard is visible
-    self.logoImageViewKeyboardOnscreenConstraints = [NSLayoutConstraint
-                                                     constraintsWithVisualFormat: @"V:[logoImageView(0)]"
-                                                     options:  0
-                                                     metrics:  0
-                                                     views:    @{@"logoImageView" : self.logoImageView}
-                                                     ];
     //[self.view randomlyColorSubviews];
 }
 
@@ -333,6 +224,8 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [self.pictureOfDayCycler stop];
 
+    [self hideKeyboard];
+
     [super viewWillDisappear:animated];
 }
 
@@ -356,72 +249,426 @@
                                                  name:UIKeyboardDidShowNotification
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appResumed:)
+                                                 name:UIApplicationWillEnterForegroundNotification
+                                               object:nil];
+
     // Automatically show the getting started pages, but only once and only if no credentials present
     [self performSelector:@selector(showGettingStartedAutomaticallyOnce) withObject:nil afterDelay:2.0f];
     
     [super viewDidAppear:animated];
 }
 
-#pragma mark - Utility
+#pragma mark - Shadows
 
-+ (void)applyShadowToView:(UIView *)view{
-
-    // "shouldRasterize" improves shadow performance: http://stackoverflow.com/a/7867703/135557
-    // This is especially noticable on old 3.5 inch devices during pic of the day transitions
-    view.layer.shouldRasterize = YES;
-    view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-
-    // Apply shadow
-    view.layer.shadowColor = [UIColor blackColor].CGColor;
-    view.layer.shadowOffset = CGSizeMake(0, 0);
-    view.layer.shadowOpacity = 1;
-    view.layer.shadowRadius = 6.0;
-    view.clipsToBounds = NO;
+-(void)setupShadows
+{
+    // Add shadow behind the login text boxes and buttons so they stand out on light background
+    [LoginViewController applyShadowToView:self.recoverPasswordButton];
+    [LoginViewController applyShadowToView:self.logoImageView];
 }
 
-#pragma mark - Other view controllers
+#pragma mark - Logo
 
--(void)showGettingStartedAutomaticallyOnce
+-(void)setupLogoImageView{
+    _logoImageView.alpha = 1.0f;
+
+    // Hide the logo when the keyboard is visible
+    self.logoImageViewKeyboardOnscreenConstraints = [NSLayoutConstraint
+                                                     constraintsWithVisualFormat: @"V:[logoImageView(0)]"
+                                                     options:  0
+                                                     metrics:  0
+                                                     views:    @{@"logoImageView" : self.logoImageView}
+                                                     ];
+}
+
+#pragma mark - Text boxes
+
+-(void) setupTextBoxes
 {
-    // Automatically show the getting started pages, but only once and only if no credentials present
-    if(
-       ([self trimmedUsername].length == 0)
-       &&
-       ([self trimmedPassword].length == 0)
-       &&
-       ![[NSUserDefaults standardUserDefaults] boolForKey:@"GettingStartedWasAutomaticallyShown"]
-       )
-    {
-        GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
-        [self presentViewController:gettingStartedVC animated:YES completion:nil];
-        
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GettingStartedWasAutomaticallyShown"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    // Setup user name and password text boxes
+    self.usernameField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"settings-username-placeholder"].text attributes:@{NSForegroundColorAttributeName : LOGIN_TEXTBOX_PLACEHOLDER_COLOR}];
+    
+    self.passwordField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:[MWMessage forKey:@"settings-password-placeholder"].text attributes:@{NSForegroundColorAttributeName : LOGIN_TEXTBOX_PLACEHOLDER_COLOR}];
+
+    self.usernameField.textColor = LOGIN_TEXTBOX_ACTIVE_TEXT_COLOR;
+    self.passwordField.textColor = LOGIN_TEXTBOX_ACTIVE_TEXT_COLOR;
+    
+    // Center align username and pwd box text
+    self.usernameField.textAlignment = NSTextAlignmentCenter;
+    self.passwordField.textAlignment = NSTextAlignmentCenter;
+
+    // Round username and pwd box corners
+    [[CommonsApp singleton] roundCorners:UIRectCornerTopLeft|UIRectCornerTopRight ofView:self.usernameField toRadius:LOGIN_BUTTON_CORNER_RADIUS];
+	[[CommonsApp singleton] roundCorners:UIRectCornerBottomLeft|UIRectCornerBottomRight ofView:self.passwordField toRadius:LOGIN_BUTTON_CORNER_RADIUS];
+    
+    // Disable auto-correct on login boxes
+    self.usernameField.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.passwordField.autocorrectionType = UITextAutocorrectionTypeNo;
+    
+    // Do any additional setup after loading the view.
+    CommonsApp *app = CommonsApp.singleton;
+    self.usernameField.text = app.username;
+    self.passwordField.text = app.password;
+
+        // Gray out the login button if no credentials
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fadeLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.usernameField];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(fadeLoginButtonIfNoCredentials) name:UITextFieldTextDidChangeNotification object:self.passwordField];
+
+    [self fadeLoginButtonIfNoCredentials];
+
+    _usernameField.alpha = 1.0f;
+    _passwordField.alpha = 1.0f;
+    _usernamePasswordDivider.alpha = 1.0f;
+
+    // Observe changes to username and pwd box text so placeholder text can be updated
+    [self.usernameField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+    [self.passwordField addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:NULL];
+
+    self.usernamePasswordDivider.backgroundColor = BUTTONS_INACTIVE_BACKGROUND_COLOR;
+    self.usernamePasswordDividerHeightConstraint.constant = BUTTONS_BORDER_WIDTH;
+}
+
+-(BOOL)setTextInputFocusOnEmptyField
+{
+    // Sets focus on first empty username or password field returning YES if it does so
+    // Returns no if no blank fields found
+    UITextField *textFieldInNeedOfInput = [self getTextFieldInNeedOfInput];
+    if (textFieldInNeedOfInput) {
+        [textFieldInNeedOfInput becomeFirstResponder];
+        return YES;
+    }else{
+        return NO;
     }
 }
 
--(void)showMyUploadsVC{
-    // For pushing the MyUploads view controller on to the navigation controller (used when login
-    // credentials have been authenticated)
-    MyUploadsViewController *myUploadsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
-    [self.navigationController pushViewController:myUploadsVC animated:YES];
+-(UITextField *)getTextFieldInNeedOfInput
+{
+    // If neither username nor password, return username field
+    if(!self.trimmedUsername.length && !self.trimmedPassword.length) return self.usernameField;
     
-    // Show logout elementes after slight delay. if the login page is sliding offscreen it looks odd
-    // to update its interface elements as it's sliding away - the delay fixes this
-    float delayInSeconds = 0.25;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
-        // Executed on the main queue after delay
-        [self showLogout:YES];
-    });
+    // If some username but no password return password field
+    if(self.trimmedUsername.length && !self.trimmedPassword.length) return self.passwordField;
+    
+    // If some password but no username return username field
+    if(!self.trimmedUsername.length && self.trimmedPassword.length) return self.usernameField;
+
+    return nil;
 }
 
-#pragma mark - Buttons
+-(NSString *) trimmedUsername{
+    // Returns trimmed version of the username as it *presently exists* in the usernameField UITextField
+    return [CommonsApp.singleton getTrimmedString:self.usernameField.text];
+}
+
+-(NSString *) trimmedPassword{
+    // Returns trimmed version of the password as it *presently exists* in the passwordField UITextField
+    return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
+}
+
+- (void)showPlaceHolderTextIfNecessary
+{
+    if (self.usernameField.text.length == 0) {
+        self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
+    }
+
+    if (self.passwordField.text.length == 0) {
+        self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField;
+{
+    // Advance text field to text field with next tag.
+    NSInteger nextTag = textField.tag + 1;
+
+    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
+    if (nextResponder) {
+        [nextResponder becomeFirstResponder];
+    } else if (textField != self.passwordField) {
+        [textField resignFirstResponder];
+    }
+    
+    if (textField == self.passwordField) {
+        [self pushedLoginButton:textField];
+    }
+
+    return NO;
+}
+
+#pragma mark - Rectangular buttons
+
+-(void) setupRectangularButtons
+{
+    // Adjust appearance of login, logout and current user buttons
+    self.logoutButton.hidden = YES;
+    self.currentUserButton.hidden = YES;
+
+    [self styleRectangularButton:self.loginButton];
+    [self styleRectangularButton:self.logoutButton];
+    [self styleRectangularButton:self.currentUserButton];
+    
+    self.loginButton.textColor = LOGIN_BUTTON_PLACEHOLDER_TEXT_COLOR;
+    self.logoutButton.textColor = BUTTONS_ACTIVE_TEXT_COLOR;
+    self.currentUserButton.textColor = BUTTONS_ACTIVE_TEXT_COLOR;
+    self.currentUserButton.paddingView.backgroundColor = BUTTONS_ACTIVE_BACKGROUND_COLOR;
+    
+    [self.loginButton setText:[MWMessage forKey:@"login-button"].text];
+    [self.logoutButton setText:[MWMessage forKey:@"logout-button"].text];
+
+    _loginButton.alpha = 1.0f;
+}
+
+-(void) styleRectangularButton:(UILabelDynamicHeight *)label
+{
+    label.paddingColor = BUTTONS_INACTIVE_BACKGROUND_COLOR;
+    label.backgroundColor = [UIColor clearColor];
+    label.borderView.layer.cornerRadius = LOGIN_BUTTON_CORNER_RADIUS;
+
+    //label.borderView.layer.borderWidth = 1.0f;
+    //label.borderView.layer.borderColor = [UIColor colorWithWhite:0.0f alpha:0.8f].CGColor;
+
+    /*
+    NSShadow *shadow = [[NSShadow alloc] init];
+    [shadow setShadowColor: [UIColor colorWithWhite:0.0f alpha:1.0f]];
+    [shadow setShadowOffset:CGSizeMake (1.0, 1.0)];
+    [shadow setShadowBlurRadius:0];
+    label.attributedText = [[NSAttributedString alloc] initWithString:label.text attributes:@{NSShadowAttributeName : shadow}];
+    */
+
+    label.paddingView.layer.cornerRadius = LOGIN_BUTTON_CORNER_RADIUS;
+    label.borderInsets = UIEdgeInsetsMake(1, 1, 1, 1);
+    label.paddingInsets = UIEdgeInsetsMake(8, 8, 8, 8);
+    label.borderView.backgroundColor = [UIColor clearColor];
+
+    label.paddingView.layer.borderColor = BUTTONS_BORDER_COLOR.CGColor;
+    label.paddingView.layer.borderWidth = BUTTONS_BORDER_WIDTH;
+}
 
 - (void)fadeLoginButtonIfNoCredentials
 {
-    [self.loginButton setTitleColor:
-     (!self.trimmedUsername.length || !self.trimmedPassword.length) ? [UIColor grayColor] : [UIColor blackColor]
-                           forState:UIControlStateNormal];
+    if ((!self.trimmedUsername.length || !self.trimmedPassword.length)) {
+        self.loginButton.textColor = LOGIN_BUTTON_PLACEHOLDER_TEXT_COLOR;
+        self.loginButton.paddingColor = BUTTONS_INACTIVE_BACKGROUND_COLOR;
+        //self.loginButton.paddingView.layer.borderColor = BUTTONS_BORDER_COLOR.CGColor;
+    }else{
+        self.loginButton.textColor = BUTTONS_ACTIVE_TEXT_COLOR;
+        self.loginButton.paddingColor = BUTTONS_ACTIVE_BACKGROUND_COLOR;
+        //self.loginButton.paddingView.layer.borderColor = BUTTONS_ACTIVE_BACKGROUND_COLOR.CGColor;
+    }
+}
+
+#pragma mark - Round buttons
+
+-(void) setupAttributionButton
+{
+    self.attributionButton = [[CommonsApp singleton] getRoundLabelForCharacter:@"C"];
+    self.attributionButton.userInteractionEnabled = YES;
+    self.attributionButton.transform = CGAffineTransformMakeScale(-1.0, 1.0);
+    [self.view addSubview:self.attributionButton];
+    [self.attributionButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[view]-|" options:0 metrics:nil views:@{@"view": self.attributionButton}]];
+    [self.attributionButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-|" options:0 metrics:nil views:@{@"view": self.attributionButton}]];
+    [self.attributionButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushedAttributionButton:)]];
+    [self styleRoundLabel:self.attributionButton];
+}
+-(void) setupAboutButton
+{
+    self.aboutButton = [[CommonsApp singleton] getRoundLabelForCharacter:@"i"];
+    self.aboutButton.userInteractionEnabled = YES;
+    [self.view addSubview:self.aboutButton];
+    [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[view]" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
+    [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-|" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
+    [self.aboutButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleInfoLabelTap:)]];
+    [self styleRoundLabel:self.aboutButton];
+}
+
+-(void) styleRoundLabel:(UILabel *)label
+{
+    NSMutableAttributedString *text = [label.attributedText mutableCopy];
+    [text removeAttribute:NSForegroundColorAttributeName range:NSMakeRange(0, text.length)];
+    [text addAttribute:NSForegroundColorAttributeName value:BUTTONS_ACTIVE_TEXT_COLOR range:NSMakeRange(0, text.length)];
+    label.attributedText = text;
+    label.layer.backgroundColor = BUTTONS_INACTIVE_BACKGROUND_COLOR.CGColor;
+    label.layer.shadowRadius = 0.0f;
+    label.layer.borderColor = BUTTONS_BORDER_COLOR.CGColor;
+    label.layer.borderWidth = BUTTONS_BORDER_WIDTH;
+}
+
+#pragma mark - Buttons state
+
+-(void)showLogout:(BOOL)show
+{
+    self.logoutButton.hidden = !show;
+    self.currentUserButton.hidden = !show;
+    self.loginButton.hidden = show;
+    self.usernameField.hidden = show;
+    self.passwordField.hidden = show;
+    self.usernamePasswordDivider.hidden = show;
+    self.recoverPasswordButton.hidden = show;
+
+    [self.currentUserButton setText:[MWMessage forKey:@"login-current-user-button" param:self.usernameField.text].text];
+}
+
+-(void)revealLoginFieldsWithAnimation
+{
+    CGPoint origCurrentUserButtonCenter = self.currentUserButton.center;
+    self.logoutButton.layer.zPosition = self.currentUserButton.layer.zPosition + 1;
+    // Animate currentUserButton to slide down behind logoutButton
+    [UIView animateWithDuration:0.15f
+                          delay:0.0f
+                        options:UIViewAnimationOptionTransitionNone
+                     animations:^{
+                         self.currentUserButton.center = self.logoutButton.center;
+                         self.currentUserButton.alpha = 0.0f;
+                     }
+                     completion:^(BOOL finished){
+                         
+                         // Now animate usernameField and passwordField sliding up
+                         self.currentUserButton.hidden = YES;
+                         self.currentUserButton.center = origCurrentUserButtonCenter;
+                         self.loginButton.alpha = 0.0f;
+                         self.usernameField.alpha = 0.0f;
+                         self.passwordField.alpha = 0.0f;
+                         self.usernamePasswordDivider.alpha = 0.0f;
+                         self.recoverPasswordButton.alpha = 0.0f;
+                         self.loginButton.hidden = NO;
+                         self.usernameField.hidden = NO;
+                         self.passwordField.hidden = NO;
+                         self.usernamePasswordDivider.hidden = NO;
+                         self.recoverPasswordButton.hidden = NO;
+
+                         CGRect origUsernameFieldFrame = self.usernameField.frame;
+                         CGRect origPasswordFieldFrame = self.passwordField.frame;
+                         CGRect origDividerFrame = self.usernamePasswordDivider.frame;
+                         float vOffset = self.loginButton.frame.origin.y - self.usernameField.frame.origin.y;
+                         self.usernameField.center = CGPointMake(self.usernameField.center.x, self.usernameField.center.y + vOffset);
+                         self.passwordField.center = CGPointMake(self.passwordField.center.x, self.passwordField.center.y + vOffset);
+                         self.usernamePasswordDivider.center = CGPointMake(self.usernamePasswordDivider.center.x, self.usernamePasswordDivider.center.y + vOffset);
+                         [UIView animateWithDuration:0.15f
+                                               delay:0.0f
+                                             options:UIViewAnimationOptionTransitionNone
+                                          animations:^{
+                                              
+                                              self.usernameField.alpha = 1.0f;
+                                              self.passwordField.alpha = 1.0f;
+                                              self.usernamePasswordDivider.alpha = 1.0f;
+                                              
+                                              self.recoverPasswordButton.alpha = 1.0f;
+                                              self.loginButton.alpha = 1.0f;
+                                              // If either username or password blank fade the login button
+                                              [self fadeLoginButtonIfNoCredentials];
+                                              
+                                              self.logoutButton.alpha = 0.0f;
+                                              
+                                              self.usernameField.frame = origUsernameFieldFrame;
+                                              self.passwordField.frame = origPasswordFieldFrame;
+                                              self.usernamePasswordDivider.frame = origDividerFrame;
+                                          }
+                                          completion:^(BOOL finished){
+                                              // Reset logout state
+                                              [self showLogout:NO];
+                                              // Ensure login button isn't stuck drawn selected
+                                              [self.loginButton setNeedsDisplay];
+                                              // The logout button is hidden by now, but ensure it can be seen the next time it is animated
+                                              self.logoutButton.alpha = 1.0f;
+                                              self.currentUserButton.alpha = 1.0f;
+                                          }];
+                     }];
+}
+
+#pragma mark - Gesture recognizer setup
+
+-(void)setupGestureRecognizers
+{
+    //hide keyboard when anywhere else is tapped
+	[self.view addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)]];
+
+	longPressRecognizer_ = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress)];
+    longPressRecognizer_.minimumPressDuration = 1.0f;
+	[self.view addGestureRecognizer:longPressRecognizer_];
+    
+    swipeRecognizerUp_ = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeUp)];
+    swipeRecognizerUp_.numberOfTouchesRequired = 1;
+    swipeRecognizerUp_.direction = UISwipeGestureRecognizerDirectionUp;
+	[self.view addGestureRecognizer:swipeRecognizerUp_];
+
+    swipeRecognizerDown_ = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeDown)];
+    swipeRecognizerDown_.numberOfTouchesRequired = 1;
+    swipeRecognizerDown_.direction = UISwipeGestureRecognizerDirectionDown;
+	[self.view addGestureRecognizer:swipeRecognizerDown_];
+
+    swipeRecognizerLeft_ = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeLeft)];
+    swipeRecognizerLeft_.numberOfTouchesRequired = 1;
+    swipeRecognizerLeft_.direction = UISwipeGestureRecognizerDirectionLeft;
+	[self.view addGestureRecognizer:swipeRecognizerLeft_];
+
+    doubleTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap)];
+    doubleTapRecognizer_.numberOfTapsRequired = 2;
+	[self.view addGestureRecognizer:doubleTapRecognizer_];
+    doubleTapRecognizer_.enabled = NO;
+   
+    attributionLabelTapRecognizer_ = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleAttributionLabelTap:)];
+    attributionLabelTapRecognizer_.numberOfTapsRequired = 1;
+    [self.attributionLabel addGestureRecognizer:attributionLabelTapRecognizer_];
+    self.attributionLabel.userInteractionEnabled = YES;
+
+	[self.loginButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushedLoginButton:)]];
+
+	[self.logoutButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushedLogoutButton:)]];
+
+	[self.currentUserButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushedCurrentUserButton:)]];
+}
+
+#pragma mark - Gesture handling
+
+-(void)handleTap
+{
+    if (showingPictureOfTheDayAttribution_) {
+        [self hideAttributionLabel];
+        return;
+    }
+    
+    [self setTextInputFocusOnEmptyField];
+}
+
+-(void)handleSwipeUp
+{
+    if (showingPictureOfTheDayAttribution_) return;
+    [self setTextInputFocusOnEmptyField];
+}
+
+-(void)handleSwipeDown
+{
+    if (showingPictureOfTheDayAttribution_){
+        [self hideAttributionLabel];
+        return;
+    }
+    [self hideKeyboard];
+}
+
+-(void)handleSwipeLeft
+{
+    if (self.currentUserButton.hidden) return;
+    
+    [self showMyUploadsVC];
+}
+
+-(void)handleLongPress
+{
+    // Uncomment for presentation username/pwd auto entry
+    /*
+     self.usernameField.text = @"";
+     self.passwordField.text = @"";
+     
+     [self fadeLoginButtonIfNoCredentials];
+     */
+}
+
+-(void)handleDoubleTap
+{
+    // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
+    [self hideKeyboard];
 }
 
 - (IBAction)pushedLogoutButton:(id)sender
@@ -561,95 +808,76 @@
     }
 }
 
--(void)showLogout:(BOOL)show
-{
-    self.logoutButton.hidden = !show;
-    self.currentUserButton.hidden = !show;
-    self.loginButton.hidden = show;
-    self.usernameField.hidden = show;
-    self.passwordField.hidden = show;
-    self.recoverPasswordButton.hidden = show;
+#pragma mark - Notifications
 
-    [self.currentUserButton setTitle:[MWMessage forKey:@"login-current-user-button" param:self.usernameField.text].text forState:UIControlStateNormal];
-    
-    // Size currentUserButton to fix whatever text it now contains
-    CGRect f = self.currentUserButton.frame;
-    CGSize s = [self.currentUserButton sizeThatFits:self.currentUserButton.frame.size];
-    // Add padding to right and left of re-sized currentUserButton's text
-    f.size.width = s.width + 40.0f;
-    // If resized currentUserButton is narrower than the logout button make it same width as logout button
-    f.size.width = (f.size.width < self.logoutButton.frame.size.width) ? self.logoutButton.frame.size.width : f.size.width;
-    self.currentUserButton.frame = f;
-    // Re-center currentUserButton above logout button
-    self.currentUserButton.center = CGPointMake(self.logoutButton.center.x, self.currentUserButton.center.y);
+- (void)appResumed:(NSNotification *)notification
+{
+    // If the attribution action sheet caused an external link to be opened, when the app resumes the attribution
+    // label and buttons will need to be reshown
+    if (showingPictureOfTheDayAttribution_) {
+        self.attributionLabel.alpha = 1.0f;
+        self.attributionButton.alpha = 1.0f;
+    }
 }
 
--(void)revealLoginFieldsWithAnimation
-{
-    CGPoint origCurrentUserButtonCenter = self.currentUserButton.center;
-    self.logoutButton.layer.zPosition = self.currentUserButton.layer.zPosition + 1;
-    // Animate currentUserButton to slide down behind logoutButton
-    [UIView animateWithDuration:0.15f
-                          delay:0.0f
-                        options:UIViewAnimationOptionTransitionNone
-                     animations:^{
-                         self.currentUserButton.center = self.logoutButton.center;
-                         self.currentUserButton.alpha = 0.0f;
-                     }
-                     completion:^(BOOL finished){
-                         
-                         // Now animate usernameField and passwordField sliding up
-                         self.currentUserButton.hidden = YES;
-                         self.currentUserButton.center = origCurrentUserButtonCenter;
-                         self.loginButton.alpha = 0.0f;
-                         self.usernameField.alpha = 0.0f;
-                         self.passwordField.alpha = 0.0f;
-                         self.recoverPasswordButton.alpha = 0.0f;
-                         self.loginButton.hidden = NO;
-                         self.usernameField.hidden = NO;
-                         self.passwordField.hidden = NO;
-                         self.recoverPasswordButton.hidden = NO;
+#pragma mark - Utility
 
-                         CGRect origUsernameFieldFrame = self.usernameField.frame;
-                         CGRect origPasswordFieldFrame = self.passwordField.frame;
-                         float vOffset = self.loginButton.frame.origin.y - self.usernameField.frame.origin.y;
-                         self.usernameField.center = CGPointMake(self.usernameField.center.x, self.usernameField.center.y + vOffset);
-                         self.passwordField.center = CGPointMake(self.passwordField.center.x, self.passwordField.center.y + vOffset);
-                         [UIView animateWithDuration:0.15f
-                                               delay:0.0f
-                                             options:UIViewAnimationOptionTransitionNone
-                                          animations:^{
-                                              
-                                              self.usernameField.alpha = 1.0f;
-                                              self.passwordField.alpha = 1.0f;
-                                              
-                                              self.recoverPasswordButton.alpha = 1.0f;
-                                              self.loginButton.alpha = 1.0f;
-                                              // If either username or password blank fade the login button
-                                              [self fadeLoginButtonIfNoCredentials];
-                                              
-                                              self.logoutButton.alpha = 0.0f;
-                                              
-                                              self.usernameField.frame = origUsernameFieldFrame;
-                                              self.passwordField.frame = origPasswordFieldFrame;
-                                          }
-                                          completion:^(BOOL finished){
-                                              // Reset logout state
-                                              [self showLogout:NO];
-                                              // Ensure login button isn't stuck drawn selected
-                                              [self.loginButton setNeedsDisplay];
-                                              // The logout button is hidden by now, but ensure it can be seen the next time it is animated
-                                              self.logoutButton.alpha = 1.0f;
-                                              self.currentUserButton.alpha = 1.0f;
-                                          }];
-                     }];
++ (void)applyShadowToView:(UIView *)view{
+
+    // "shouldRasterize" improves shadow performance: http://stackoverflow.com/a/7867703/135557
+    // This is especially noticable on old 3.5 inch devices during pic of the day transitions
+    view.layer.shouldRasterize = YES;
+    view.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+
+    // Apply shadow
+    view.layer.shadowColor = [UIColor colorWithWhite:0.0 alpha:1.0].CGColor;
+    view.layer.shadowOffset = CGSizeMake(0, 0);
+    view.layer.shadowOpacity = 1;
+    view.layer.shadowRadius = 3.0;
+    view.clipsToBounds = NO;
+}
+
+#pragma mark - Other view controllers
+
+-(void)showGettingStartedAutomaticallyOnce
+{
+    // Automatically show the getting started pages, but only once and only if no credentials present
+    if(
+       ([self trimmedUsername].length == 0)
+       &&
+       ([self trimmedPassword].length == 0)
+       &&
+       ![[NSUserDefaults standardUserDefaults] boolForKey:@"GettingStartedWasAutomaticallyShown"]
+       )
+    {
+        GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
+        [self presentViewController:gettingStartedVC animated:YES completion:nil];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"GettingStartedWasAutomaticallyShown"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+-(void)showMyUploadsVC{
+    // For pushing the MyUploads view controller on to the navigation controller (used when login
+    // credentials have been authenticated)
+    MyUploadsViewController *myUploadsVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MyUploadsViewController"];
+    [self.navigationController pushViewController:myUploadsVC animated:YES];
+    
+    // Show logout elementes after slight delay. if the login page is sliding offscreen it looks odd
+    // to update its interface elements as it's sliding away - the delay fixes this
+    float delayInSeconds = 0.25;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void){
+        // Executed on the main queue after delay
+        [self showLogout:YES];
+    });
 }
 
 #pragma mark - Layout
 
 -(void)viewWillLayoutSubviews{
-
     [super viewWillLayoutSubviews];
+    //[self.view randomlyColorSubviews];
 }
 
 #pragma mark - Rotation
@@ -676,6 +904,52 @@
 }
 
 #pragma mark - Pic of Day
+
+-(void)setupPOTD
+{
+    if (DISABLE_POTD_FOR_DEBUGGING) return;
+
+    self.potdImageView.useFilter = NO;
+    // Ensure bundled pic of day is in cache
+    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES extension:@"dict"];
+    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES extension:@"jpg"];
+
+    if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE == nil){
+        // Load default image to ensure something is showing even if no net connection
+        // (loads the copy of the bundled default potd which was copied to the cache)
+        [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
+    }
+
+    // The "cycle" callback below is invoked by self.pictureOfDayCycler to change which picture of the day is showing
+    __weak LoginViewController *weakSelf = self;
+    __weak NSMutableArray *weakCachedPotdDateStrings_ = cachedPotdDateStrings_;
+    // todayDateString must be set *inside* cycle callback! it's used to see if midnight rolled around while the images
+    // were transitioning. if so it adds a date string for the new day to cachedPotdDateStrings_ so the new day's image
+    // will load (previously you had to leave the login page and go back to see the new day's image)
+    __block NSString *todayDateString = nil;
+    __weak PictureOfDayCycler *weakPictureOfDayCycler_ = self.pictureOfDayCycler;
+    self.pictureOfDayCycler.cycle = ^(NSString *dateString){
+        // If today's date string is not in cachedPotdDateStrings_ (can happen if the login page is displaying and
+        // midnight occurs) add it so it will be downloaded.
+        todayDateString = [weakSelf getDateStringForDaysAgo:0];
+        if(![weakCachedPotdDateStrings_ containsObject:todayDateString]){
+            [weakCachedPotdDateStrings_ addObject:todayDateString];
+            // Stop the cycler while the new day's image is retrieved - otherwise the cycler moves on, then whenever
+            // the image is retrieved the callback is invoked causing it to display even if this happens in the middle
+            // of another image's cycle - this looks jarring, so stop cycling until new image is grabbed
+            [weakPictureOfDayCycler_ stop];
+            dateString = todayDateString;
+            //[weakPictureOfDayCycler_ moveIndexToEnd];
+        }
+        //NSLog(@"\n\nweakCachedPotdDateStrings_ = \n\n%@\n\n", weakCachedPotdDateStrings_);
+        [weakSelf getPictureOfTheDayForDateString:dateString done:^{
+            if ([dateString isEqualToString:todayDateString]) {
+                // If the cycler was stopped because midnight rolled around, restart it
+                [weakPictureOfDayCycler_ start];
+            }
+        }];
+    };
+}
 
 -(void)copyToCacheBundledPotdsNamed:(NSString *)defaultBundledPotdsDates extension:(NSString *)extension
 {
@@ -817,7 +1091,7 @@
     // Setup attribution label with padding
     float padding = 8.0f;
     self.attributionLabel.borderColor = [UIColor colorWithWhite:1.0f alpha:0.15f];
-    self.attributionLabel.borderView.layer.cornerRadius = 10.0f;
+    self.attributionLabel.borderView.layer.cornerRadius = LOGIN_BUTTON_CORNER_RADIUS;
     self.attributionLabel.paddingColor = [UIColor clearColor];
     self.attributionLabel.paddingInsets = UIEdgeInsetsMake(
                                                            padding,
@@ -825,6 +1099,11 @@
                                                            padding,
                                                            padding
                                                            );
+    // Prepare the attributionLabel
+    [self.view addSubview:self.attributionLabel];
+    
+    // Setup constraints to control attributionLabel layout
+    [self addAttributionLabelConstraints];
 }
 
 - (IBAction)pushedAttributionButton:(id)sender{
@@ -924,6 +1203,12 @@
     [self.pictureOfDayCycler start];
 }
 
+-(void)handleInfoLabelTap:(UITapGestureRecognizer *)recognizer
+{
+    GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
+    [self presentViewController:gettingStartedVC animated:YES completion:nil];
+}
+
 -(void)handleAttributionLabelTap:(UITapGestureRecognizer *)recognizer
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:[MWMessage forKey:@"picture-of-day-menu-title"].text
@@ -997,7 +1282,7 @@
                      }];
 }
 
--(void)setupAttributionLabelConstraints
+-(void)addAttributionLabelConstraints
 {
     // Constrain the attribution label width
     CGSize attributionLabelSize = (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -1045,9 +1330,6 @@
 {
     [self showPlaceHolderTextIfNecessary];
 
-    self.recoverPasswordButton.hidden = YES;
-    self.recoverPasswordButtonHeightConstraint.constant = 0.0f;
-
     // Shrink the logo
     [self.view addConstraints:self.logoImageViewKeyboardOnscreenConstraints];
     
@@ -1083,8 +1365,6 @@
     // Move the bottom spacer's bottom back to the bottom of the screen
     
     self.bottomSpacerViewToScreenBottomConstraint.constant = 0;
-    self.recoverPasswordButton.hidden = NO;
-    self.recoverPasswordButtonHeightConstraint.constant = 30.0f;
     
     isKeyboardOnscreen_ = NO;
     
@@ -1114,130 +1394,6 @@
 - (void)keyboardDidShow:(NSNotification *)notification
 {
     doubleTapRecognizer_.enabled = YES;
-}
-
-#pragma mark - Text fields
-
--(BOOL)setTextInputFocusOnEmptyField
-{
-    // Sets focus on first empty username or password field returning YES if it does so
-    // Returns no if no blank fields found
-    UITextField *textFieldInNeedOfInput = [self getTextFieldInNeedOfInput];
-    if (textFieldInNeedOfInput) {
-        [textFieldInNeedOfInput becomeFirstResponder];
-        return YES;
-    }else{
-        return NO;
-    }
-}
-
--(UITextField *)getTextFieldInNeedOfInput
-{
-    // If neither username nor password, return username field
-    if(!self.trimmedUsername.length && !self.trimmedPassword.length) return self.usernameField;
-    
-    // If some username but no password return password field
-    if(self.trimmedUsername.length && !self.trimmedPassword.length) return self.passwordField;
-    
-    // If some password but no username return username field
-    if(!self.trimmedUsername.length && self.trimmedPassword.length) return self.usernameField;
-
-    return nil;
-}
-
--(NSString *) trimmedUsername{
-    // Returns trimmed version of the username as it *presently exists* in the usernameField UITextField
-    return [CommonsApp.singleton getTrimmedString:self.usernameField.text];
-}
-
--(NSString *) trimmedPassword{
-    // Returns trimmed version of the password as it *presently exists* in the passwordField UITextField
-    return [CommonsApp.singleton getTrimmedString:self.passwordField.text];
-}
-
-- (void)showPlaceHolderTextIfNecessary
-{
-    if (self.usernameField.text.length == 0) {
-        self.usernameField.placeholder = [MWMessage forKey:@"settings-username-placeholder"].text;
-    }
-
-    if (self.passwordField.text.length == 0) {
-        self.passwordField.placeholder = [MWMessage forKey:@"settings-password-placeholder"].text;
-    }
-}
-
-#pragma mark - Gesture
-
--(void)handleTap
-{
-    if (showingPictureOfTheDayAttribution_) {
-        [self hideAttributionLabel];
-        return;
-    }
-    
-    [self setTextInputFocusOnEmptyField];
-}
-
--(void)handleSwipeUp
-{
-    if (showingPictureOfTheDayAttribution_) return;
-    [self setTextInputFocusOnEmptyField];
-}
-
--(void)handleSwipeDown
-{
-    if (showingPictureOfTheDayAttribution_){
-        [self hideAttributionLabel];
-        return;
-    }
-    [self hideKeyboard];
-}
-
--(void)handleSwipeLeft
-{
-    if (self.currentUserButton.hidden) return;
-    
-    [self showMyUploadsVC];
-}
-
--(void)handleLongPress
-{
-    // Uncomment for presentation username/pwd auto entry
-    /*
-     self.usernameField.text = @"";
-     self.passwordField.text = @"";
-     
-     [self fadeLoginButtonIfNoCredentials];
-     */
-}
-
--(void)handleDoubleTap
-{
-    // Hide the keyboard. Needed because on non-iPad keyboard there is no hide keyboard button
-    [self hideKeyboard];
-}
-
-#pragma mark - Text field delegate methods
-
-/**
- * Advance text field to text field with next tag.
- */
-- (BOOL)textFieldShouldReturn:(UITextField *)textField;
-{
-    NSInteger nextTag = textField.tag + 1;
-
-    UIResponder *nextResponder = [textField.superview viewWithTag:nextTag];
-    if (nextResponder) {
-        [nextResponder becomeFirstResponder];
-    } else if (textField != self.passwordField) {
-        [textField resignFirstResponder];
-    }
-    
-    if (textField == self.passwordField) {
-        [self pushedLoginButton:textField];
-    }
-
-    return NO;
 }
 
 #pragma mark - KVO

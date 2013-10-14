@@ -99,5 +99,6 @@
 - (UIBarButtonItem *)getBackButtonItemWithTarget:(id)target action:(SEL)action;
 
 - (void)roundCorners:(UIRectCorner)corners ofView:(UIView *)view toRadius:(float)radius;
+- (UILabel *)getRoundLabelForCharacter:(NSString *)character;
 
 @end

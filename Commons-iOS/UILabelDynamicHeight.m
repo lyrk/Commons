@@ -135,6 +135,28 @@ NSLayoutConstraint *paddingConstraintRight_;
     [self.borderView setCenter:center];
 }
 
+-(void)setHidden:(BOOL)hidden
+{
+    [super setHidden:hidden];
+
+    [self.paddingView setHidden:hidden];
+    [self.borderView setHidden:hidden];
+}
+
+
+
+/*
+-(void)setText:(NSString *)text
+{
+    [super setText:text];
+    
+    NSLog(@"text = %@", text);
+    
+    [self invalidateIntrinsicContentSize];
+}
+*/
+
+
 -(void)setAlpha:(CGFloat)alpha
 {
     [super setAlpha:alpha];

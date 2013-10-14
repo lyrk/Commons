@@ -19,8 +19,6 @@
 @property (strong, nonatomic) UIPopoverController *popover;
 @property (strong, nonatomic) FileUpload *selectedRecord;
 
-@property (weak, nonatomic) IBOutlet UIButton *aboutButton;
-@property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 @property (weak, nonatomic) IBOutlet UIButton *addMediaButton;
 @property (weak, nonatomic) IBOutlet UIButton *takePhotoButton;
 @property (weak, nonatomic) IBOutlet UIButton *choosePhotoButton;
