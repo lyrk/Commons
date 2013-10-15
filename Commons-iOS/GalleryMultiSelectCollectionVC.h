@@ -6,7 +6,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GalleryMultiSelectCollectionVC : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface GalleryMultiSelectCollectionVC : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIAlertViewDelegate>
 
 // GalleryMultiSelectCollectionVC allows more than one photo to be selected, but presently it is being used as a
 // drop-on replacement for the built-in image picker. Presently when a single image is selected from an album the

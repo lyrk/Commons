@@ -461,8 +461,14 @@ typedef enum {
             errorMessage = [NSString stringWithFormat:@"%@", [error description]];
             break;
     }
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    // If there was an error, dismiss the picker
+    [self dismiss];
 }
 
 + (ALAssetsLibrary *)defaultAssetsLibrary
