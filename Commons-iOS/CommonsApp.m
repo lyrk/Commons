@@ -1483,9 +1483,6 @@ static CommonsApp *singleton_;
                                                                style:UIBarButtonItemStyleBordered
                                                               target:target
                                                               action:action];
-    
-    
-    [button setBackgroundImage:[UIImage imageNamed:@"clear.png"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
     return button;
 }
 

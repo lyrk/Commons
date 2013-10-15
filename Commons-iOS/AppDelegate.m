@@ -112,6 +112,14 @@
             UITextAttributeTextShadowColor: [UIColor clearColor],
         }
     forState:UIControlStateNormal];
+
+    [[UIBarButtonItem appearance] setTitleTextAttributes:
+        @{
+            UITextAttributeFont: [UIFont boldSystemFontOfSize:16],
+            UITextAttributeTextColor: [UIColor lightGrayColor],
+            UITextAttributeTextShadowColor: [UIColor clearColor],
+        }
+    forState:UIControlStateDisabled];
     
     [[UIButton appearance] setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
     
