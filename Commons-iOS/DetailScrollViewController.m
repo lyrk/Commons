@@ -245,6 +245,11 @@
     [self configureForSelectedRecord];
     [self configureHideKeyboardButton];
 
+    // Add placeholder accessory view to titleTextField for use by getVerticalKeyboardOffset method
+    UIView *placeholderView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 1.0, 1.0)];
+    placeholderView.backgroundColor = [UIColor clearColor];
+    self.titleTextField.inputAccessoryView = placeholderView;
+
     // Apply the style used by category labels to the category "Loading..." placeholder
     [self styleDetailsLabel:self.categoryDefaultLabel];
 
@@ -1511,7 +1516,34 @@
 
 -(float)getBottomGapHeight
 {
-	return self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.scrollContainer.frame.size.height);
+    float gap = self.delegate.view.bounds.size.height - (self.view.frame.origin.y + self.scrollContainer.frame.size.height);
+
+    // If keyboard is showing measure bottom gap from top of keyboard instead of bottom of screen.
+    // This will allow the user to scroll the bottom of details view up to top of keyboard when
+    // keyboard is onscreen.
+    gap -= [self getVerticalKeyboardOffset];
+
+	return gap;
+}
+
+-(float)getVerticalKeyboardOffset
+{
+    // If the keyboard is showing make the gap reflect the top of the keyboard's
+    // inputAccessoryView (i.e. the "Hide Keyboard" button.) The description text
+    // box uses a "Hide Keyboard" button for its accessory view and the title text
+    // box uses a placeholder view which is only one pixel tall and exists only for
+    // the purpose of triggering this code. (Note: inputAccessoryView.superview is
+    // nil when the keyboard is not using that particular inputAccessoryView - that's
+    // why this works.)
+    if (self.descriptionTextView.inputAccessoryView.superview != nil) {
+        float accessoryViewY = [self.descriptionTextView.inputAccessoryView.superview convertPoint:CGPointZero toView:nil].y;
+        return (self.delegate.view.bounds.size.height-accessoryViewY);
+    }
+    if (self.titleTextField.inputAccessoryView.superview != nil) {
+        float accessoryViewY = [self.titleTextField.inputAccessoryView.superview convertPoint:CGPointZero toView:nil].y;
+        return (self.delegate.view.bounds.size.height-accessoryViewY);
+    }
+    return 0;
 }
 
 -(float)tableTopVerticalDistanceFromDelegateViewBottom
@@ -1528,7 +1560,13 @@
 
 -(float)distanceFromDock
 {
-    return (self.delegate.view.frame.size.height - (DETAIL_DOCK_DISTANCE_FROM_BOTTOM / 2.0f)) - (self.view.frame.origin.y + (DETAIL_DOCK_DISTANCE_FROM_BOTTOM / 2.0f));
+    float distance = (self.delegate.view.frame.size.height - (DETAIL_DOCK_DISTANCE_FROM_BOTTOM / 2.0f)) - (self.view.frame.origin.y + (DETAIL_DOCK_DISTANCE_FROM_BOTTOM / 2.0f));
+
+    // If keyboard is showing move "dock" location up by keyboard height so top of details
+    // can't be dragged completely beneath the keyboard
+    distance -= [self getVerticalKeyboardOffset];
+    
+    return distance;
 }
 
 #pragma mark - Details backgrounds
