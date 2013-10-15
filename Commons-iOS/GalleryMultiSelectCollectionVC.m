@@ -448,7 +448,20 @@ typedef enum {
 #pragma mark Error
 
 -(void)showError:(NSError *)error{
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:[NSString stringWithFormat:@"%@", [error description]] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    NSString *errorMessage = nil;
+    switch (error.code) {
+        case ALAssetsLibraryAccessUserDeniedError:
+        case ALAssetsLibraryAccessGloballyDeniedError:
+            errorMessage = [NSString stringWithFormat:@"%@\n\n%@",
+                [MWMessage forKey:@"contribs-photo-access-error"].text,
+                [MWMessage forKey:@"contribs-photo-access-remedy"].text
+            ];
+            break;
+        default:
+            errorMessage = [NSString stringWithFormat:@"%@", [error description]];
+            break;
+    }
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"Error" message:errorMessage delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
     [alert show];
 }
 

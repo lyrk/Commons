@@ -8,6 +8,8 @@
     "contribs-state-downloading": "$1 Retrieving Thumbnail",
     "contribs-state-generating-thumb": "$1 Generating Thumbnail",
     "contribs-untitled": "Untitled",
+    "contribs-photo-access-error": "This app does not have access to your photos.",
+    "contribs-photo-access-remedy": "You can enable access in Privacy Settings.",
 
     "contribs-refresh": "Pull to refresh",
     "contribs-refreshing": "Refreshing...",

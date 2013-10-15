@@ -15,6 +15,8 @@
     "contribs-untitled": "Title displayed for newly acquired images which have not a title yet.\n{{Identical|Untitled}}",
     "contribs-refresh": "Label appearing on 'pull-to-refresh' area above upload scroller view",
     "contribs-refreshing": "Message appearing on 'pull-to-refresh' area above upload scroller view when reloading images",
+    "contribs-photo-access-error": "Message appearing when user tries to access photo album but has previously denied the app access to photo albums.",
+    "contribs-photo-access-remedy": "Steps to take to re-enable access to photo albums.",
     "error-upload-failed": "Error message indicating that upload failed.\n{{Identical|Upload failed}}",
     "error-upload-cancelled": "Alert message indicating upload cancelled.",
     "error-dismiss": "Button text for dismissing error alert.\n{{Identical|Dismiss}}",
