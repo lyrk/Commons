@@ -1399,6 +1399,21 @@
     }
 }
 
+#pragma mark - Description UITextView scrolling
+
+// When the description has the focus and the user is scrolling through the description
+// text (once the amount of text causes the description box to scroll) temporarily
+// disable scrolling of the details slider or both scroll at once, which is weird.
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    detailsPanRecognizer_.enabled = NO;
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    detailsPanRecognizer_.enabled = YES;
+}
+
 #pragma mark - Details scrolling
 
 -(void)scrollByAmount:(float)amount withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options useXF:(BOOL)useXF then:(void(^)(void))block
