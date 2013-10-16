@@ -51,7 +51,7 @@
 // bundle, add the new one, then change is date to match the date from the newly bundled
 // file name (Nice thing about this approach is the code doesn't have to know anything
 // about a special-case file - it works normally with no extra checks)
-#define DEFAULT_BUNDLED_PIC_OF_DAY_DATE @"2013-05-24"
+#define DEFAULT_BUNDLED_PIC_OF_DAY_DATE @"2007-06-15"
 
 // Change this to a plist later, but we're not bundling that many images
 #define BUNDLED_PIC_OF_DAY_DATES @"2007-06-15|2008-01-25|2008-11-14|2009-06-19|2010-05-24|2012-07-08|2013-04-21|2013-04-29|2013-05-24|2013-06-04"
