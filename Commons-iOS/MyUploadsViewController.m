@@ -169,9 +169,6 @@
     [self.refreshControl addTarget:self action:@selector(refreshButtonPushed:)
                   forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
- 
-    // Keep track of upload button state so it can be hidden from the My Uploads page whenever disabled
-    [self.uploadButton addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
     
     [self setupSettingsButton];
     [self setupAboutButton];
@@ -182,7 +179,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-  
+ 
+    // Keep track of upload button state so it can be hidden from the My Uploads page whenever disabled
+    [self.uploadButton addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld | NSKeyValueObservingOptionPrior context:NULL];
+ 
     // When the debug mode is toggled the fetchedResultsController.delegate was getting blasted for some reason
     // This resets it
     [CommonsApp singleton].fetchedResultsController.delegate = self;
@@ -220,6 +220,8 @@
     
     // Prevent the overlay message from flickering as the view disappears
     [self.welcomeOverlayView showMessage:WELCOME_MESSAGE_NONE];
+    
+    [self.uploadButton removeObserver:self forKeyPath:@"enabled"];
 }
 
 #pragma mark - Round buttons
