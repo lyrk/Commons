@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Christian List",
             "HenrikKbh",
             "Jsmakaayb"
         ]
@@ -33,7 +34,12 @@
     "settings-debug-detail": "Uploader til $1",
     "settings-usage-reports-label": "Brugsrapporter:",
     "settings-usage-reports-description": "Send brugsrapporter til Wikimedia, s\u00e5 vi kan forbedre denne app.",
+    "settings-usage-reports-send-button": "Send",
+    "settings-usage-reports-dont-send-button": "Send ikke",
+    "settings-links-label": "Links:",
+    "settings-source-label": "Kilde:",
     "details-title": "Detaljer",
+    "details-nav-prompt": "Beskriv og upload",
     "details-upload-button": "Opl\u00e6g",
     "details-title-label": "Titel",
     "details-title-placeholder": "Entydig beskrivende titel",
@@ -42,11 +48,13 @@
     "details-description-loading": "Indl\u00e6ser",
     "details-description-none-found": "Beskrivelse ikke fundet",
     "details-license-label": "Licens",
+    "details-license-loading": "Indl\u00e6ser...",
     "details-hide-keyboard": "Skjul tastatur",
     "details-category-label": "Kategorier",
     "details-category-select": "V\u00e6lg...",
     "details-category-loading": "Indl\u00e6ser...",
     "details-category-none-found": "Ingen kategorier fundet",
+    "details-deletion-button": "Slet dette billede",
     "web-open-in": "\u00c5ben i $1",
     "web-cancel": "Afbryd",
     "login-title": "Konto",
@@ -64,6 +72,8 @@
     "about-source-this-app-contributors": "Bidragsydere",
     "about-license-button": "Tilladelse",
     "about-source-gradient-title": "Jeff LaMarche's graduerende UIKnap:",
+    "welcome-no-images-message": "Ingen uploads fundet\nBrug knappen nedenfor for at tage eller v\u00e6lge billeder",
+    "welcome-take-or-choose-message": "Tage eller v\u00e6lge et billede",
     "license-title": "Licens",
     "license-details-intro": "Flere oplysninger",
     "catdetail-title": "Kategori",
