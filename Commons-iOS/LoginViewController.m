@@ -15,12 +15,11 @@
 #import "LoadingIndicator.h"
 #import "GettingStartedViewController.h"
 #import "QuartzCore/QuartzCore.h"
-#import "AspectFillThumbFetcher.h"
 #import "PictureOfTheDayImageView.h"
-#import "UILabel+ResizeWithAttributes.h"
 #import "PictureOfDayCycler.h"
 #import "UIView+Debugging.h"
 #import "UILabelDynamicHeight.h"
+#import "PictureOfDayManager.h"
 
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
@@ -47,25 +46,6 @@
 #define BUTTONS_ACTIVE_TEXT_COLOR [UIColor colorWithWhite:0.25f alpha:1.0f]
 */
 
-// Note: to change the bundled picture of the day simply remove the existing one from the
-// bundle, add the new one, then change is date to match the date from the newly bundled
-// file name (Nice thing about this approach is the code doesn't have to know anything
-// about a special-case file - it works normally with no extra checks)
-#define DEFAULT_BUNDLED_PIC_OF_DAY_DATE @"2007-06-15"
-
-// Change this to a plist later, but we're not bundling that many images
-#define BUNDLED_PIC_OF_DAY_DATES @"2007-06-15|2008-01-25|2008-11-14|2009-06-19|2010-05-24|2012-07-08|2013-04-21|2013-04-29|2013-05-24|2013-06-04"
-
-// Pic of day transition settings
-#define SECONDS_TO_SHOW_EACH_PIC_OF_DAY 6.0f
-#define SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY 2.3f
-
-#define PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO 0 //0 for today, 1 for yesterday, -1 for tomorrow etc
-
-// Force the app to download and cache a particularly interesting picture of the day
-// Note: use iPad to retrieve potd image cache files to be bundled
-#define FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE nil //@"2013-05-24"
-
 @interface LoginViewController ()
 
 #pragma mark - Private properties
@@ -73,11 +53,6 @@
 @property (weak, nonatomic) AppDelegate *appDelegate;
 @property (strong, nonatomic) NSString *trimmedUsername;
 @property (strong, nonatomic) NSString *trimmedPassword;
-@property (strong, nonatomic) NSString *pictureOfTheDayUser;
-@property (strong, nonatomic) NSString *pictureOfTheDayDateString;
-@property (strong, nonatomic) NSString *pictureOfTheDayLicense;
-@property (strong, nonatomic) NSString *pictureOfTheDayLicenseUrl;
-@property (strong, nonatomic) NSString *pictureOfTheDayWikiUrl;
 @property (strong, nonatomic) UILabelDynamicHeight *attributionLabel;
 @property (strong, nonatomic) NSArray *attributionLabelOffscreenConstraints;
 @property (strong, nonatomic) NSArray *attributionLabelOnscreenConstraints;
@@ -97,9 +72,7 @@
     UISwipeGestureRecognizer *swipeRecognizerLeft_;
     UITapGestureRecognizer *doubleTapRecognizer_;
     UITapGestureRecognizer *attributionLabelTapRecognizer_;
-    AspectFillThumbFetcher *pictureOfTheDayGetter_;
     BOOL showingPictureOfTheDayAttribution_;
-    NSMutableArray *cachedPotdDateStrings_;
     
     // Only skip the login screen on initial load
     BOOL allowSkippingToMyUploads_;
@@ -114,26 +87,12 @@
     if (self = [super initWithCoder:decoder])
     {
         self.wantsFullScreenLayout = YES;
-
         allowSkippingToMyUploads_ = YES;
-        pictureOfTheDayGetter_ = [[AspectFillThumbFetcher alloc] init];
-        self.pictureOfTheDayUser = nil;
-        self.pictureOfTheDayDateString = nil;
-        self.pictureOfTheDayLicense = nil;
-        self.pictureOfTheDayLicenseUrl = nil;
-        self.pictureOfTheDayWikiUrl = nil;
         showingPictureOfTheDayAttribution_ = NO;
-        cachedPotdDateStrings_ = [[NSMutableArray alloc] init];
         self.potdImageView.image = nil;
         isRotating_ = NO;
         isKeyboardOnscreen_ = NO;
-
-        if (!DISABLE_POTD_FOR_DEBUGGING) {
-            self.pictureOfDayCycler = [[PictureOfDayCycler alloc] init];
-            self.pictureOfDayCycler.dateStrings = cachedPotdDateStrings_;
-            self.pictureOfDayCycler.transitionDuration = SECONDS_TO_TRANSITION_EACH_PIC_OF_DAY;
-            self.pictureOfDayCycler.displayInterval = SECONDS_TO_SHOW_EACH_PIC_OF_DAY;
-        }
+        self.pictureOfDayManager = [[PictureOfDayManager alloc] init];
     }
     return self;
 }
@@ -155,12 +114,18 @@
 	// Get the app delegate so the loading indicator may be accessed
 	self.appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 
+    self.pictureOfDayManager.screenSize = self.view.bounds.size;
+    self.pictureOfDayManager.potdImageView = self.potdImageView;
+
     // Setup various views and buttons
     [self setupRectangularButtons];
     [self setupTextBoxes];
-    [self setupPOTD];
+    [self.pictureOfDayManager setupPOTD];
     [self setupLogoImageView];
     [self setupAttributionLabel];
+
+    self.pictureOfDayManager.attributionLabel = self.attributionLabel;
+    
     [self setupShadows];
     [self setupAttributionButton];
     [self setupAboutButton];
@@ -182,27 +147,8 @@
     
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
     [super viewWillAppear:animated];
-	
-    // The wikimedia picture of the day urls use yyyy-MM-dd format - get such a string
-    NSString *dateString = [self getDateStringForDaysAgo:PIC_OF_THE_DAY_TO_DOWNLOAD_DAYS_AGO];
-    
-    if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE != nil){
-        dateString = FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE;
-    }
 
-    // Populate array cachedPotdDateStrings_ with all cached potd file date strings
-    [self loadArrayOfCachedPotdDateStrings];
-    // If dateString not already in cachedPotdDateStrings_ 
-    if (![cachedPotdDateStrings_ containsObject:dateString]) {
-        // Download the current PotD!
-        [self getPictureOfTheDayForDateString:dateString done:^{
-            // Update "cachedPotdDateStrings_" so it contains date string for the newly downloaded file
-            [self loadArrayOfCachedPotdDateStrings];
-            [self.pictureOfDayCycler start];
-        }];
-    }else{
-        [self.pictureOfDayCycler start];
-    }
+    [self.pictureOfDayManager viewWillAppear];
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
@@ -222,7 +168,7 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [self.pictureOfDayCycler stop];
+    [self.pictureOfDayManager.pictureOfDayCycler stop];
 
     [self hideKeyboard];
 
@@ -903,182 +849,6 @@
     return UIInterfaceOrientationMaskAll;
 }
 
-#pragma mark - Pic of Day
-
--(void)setupPOTD
-{
-    if (DISABLE_POTD_FOR_DEBUGGING) return;
-
-    self.potdImageView.useFilter = NO;
-    // Ensure bundled pic of day is in cache
-    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES extension:@"dict"];
-    [self copyToCacheBundledPotdsNamed:BUNDLED_PIC_OF_DAY_DATES extension:@"jpg"];
-
-    if(FORCE_PIC_OF_DAY_DOWNLOAD_FOR_DATE == nil){
-        // Load default image to ensure something is showing even if no net connection
-        // (loads the copy of the bundled default potd which was copied to the cache)
-        [self getPictureOfTheDayForDateString:DEFAULT_BUNDLED_PIC_OF_DAY_DATE done:nil];
-    }
-
-    // The "cycle" callback below is invoked by self.pictureOfDayCycler to change which picture of the day is showing
-    __weak LoginViewController *weakSelf = self;
-    __weak NSMutableArray *weakCachedPotdDateStrings_ = cachedPotdDateStrings_;
-    // todayDateString must be set *inside* cycle callback! it's used to see if midnight rolled around while the images
-    // were transitioning. if so it adds a date string for the new day to cachedPotdDateStrings_ so the new day's image
-    // will load (previously you had to leave the login page and go back to see the new day's image)
-    __block NSString *todayDateString = nil;
-    __weak PictureOfDayCycler *weakPictureOfDayCycler_ = self.pictureOfDayCycler;
-    self.pictureOfDayCycler.cycle = ^(NSString *dateString){
-        // If today's date string is not in cachedPotdDateStrings_ (can happen if the login page is displaying and
-        // midnight occurs) add it so it will be downloaded.
-        todayDateString = [weakSelf getDateStringForDaysAgo:0];
-        if(![weakCachedPotdDateStrings_ containsObject:todayDateString]){
-            [weakCachedPotdDateStrings_ addObject:todayDateString];
-            // Stop the cycler while the new day's image is retrieved - otherwise the cycler moves on, then whenever
-            // the image is retrieved the callback is invoked causing it to display even if this happens in the middle
-            // of another image's cycle - this looks jarring, so stop cycling until new image is grabbed
-            [weakPictureOfDayCycler_ stop];
-            dateString = todayDateString;
-            //[weakPictureOfDayCycler_ moveIndexToEnd];
-        }
-        //NSLog(@"\n\nweakCachedPotdDateStrings_ = \n\n%@\n\n", weakCachedPotdDateStrings_);
-        [weakSelf getPictureOfTheDayForDateString:dateString done:^{
-            if ([dateString isEqualToString:todayDateString]) {
-                // If the cycler was stopped because midnight rolled around, restart it
-                [weakPictureOfDayCycler_ start];
-            }
-        }];
-    };
-}
-
--(void)copyToCacheBundledPotdsNamed:(NSString *)defaultBundledPotdsDates extension:(NSString *)extension
-{
-    NSArray *dates = [defaultBundledPotdsDates componentsSeparatedByString:@"|"];
-    for (NSString *bundledPotdDateString in dates) {
-        // Copy bundled default picture of the day to the cache (if it's not already there)
-        // so there's a pic of the day shows even if today's image can't download
-        NSString *defaultBundledPotdFileName = [NSString stringWithFormat:@"POTD-%@.%@", bundledPotdDateString, extension];
-        NSString *defaultBundledPath = [[NSBundle mainBundle] pathForResource:defaultBundledPotdFileName ofType:nil];
-        if (defaultBundledPath){
-            //Bundled File Found! See: http://stackoverflow.com/a/7487235
-            NSFileManager *fm = [NSFileManager defaultManager];
-            NSString *cachePotdPath = [[CommonsApp singleton] potdPath:defaultBundledPotdFileName];
-            if (![fm fileExistsAtPath:cachePotdPath]) {
-                // Cached version of bundle file not found, so copy bundle file to cache!
-                [fm copyItemAtPath:defaultBundledPath toPath:cachePotdPath error:nil];
-            }else{
-                // Cached version was found, so check if bundled file differs from existing cached file by comparing last modified dates
-                NSError *error = nil;
-                NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:defaultBundledPath error:&error];
-                NSDate *bundledFileModDate = [fileAttributes objectForKey:NSFileModificationDate];
-                fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:cachePotdPath error:&error];
-                NSDate *cachedFileModDate = [fileAttributes objectForKey:NSFileModificationDate];
-                if (![cachedFileModDate isEqualToDate:bundledFileModDate]) {
-                    // Remove the cached version
-                    [fm removeItemAtPath:cachePotdPath error:&error];
-                    // Bundled version newer than cached version, so copy bundle file to cache
-                    [fm copyItemAtPath:defaultBundledPath toPath:cachePotdPath error:&error];
-                }
-            }
-        }
-    }
-}
-
--(void)loadArrayOfCachedPotdDateStrings
-{
-    [cachedPotdDateStrings_ removeAllObjects];
-    
-    // Get array cachedPotdDateStrings_ of cached potd date strings
-    // Uses reverseObjectEnumerator so most recently downloaded images show first
-    NSArray *allFileInPotdFolder = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[[CommonsApp singleton] potdPath:@""] error:nil];
-    for (NSString *fileName in [allFileInPotdFolder reverseObjectEnumerator]) {
-        if ([fileName hasPrefix:@"POTD-"] && [fileName hasSuffix:@"dict"]) {
-            NSString *dateString = [fileName substringWithRange:NSMakeRange(5, 10)];
-            [cachedPotdDateStrings_ addObject:dateString];
-        }
-    }
-
-    // Move the default bundled image to the end of the array so it doesn't show again
-    // until the other images have been cycled through
-    [cachedPotdDateStrings_ removeObject:DEFAULT_BUNDLED_PIC_OF_DAY_DATE];
-    [cachedPotdDateStrings_ addObject:DEFAULT_BUNDLED_PIC_OF_DAY_DATE];
-
-    //NSLog(@"\n\ncachedPotdDateStrings_ = \n\n%@\n\n", cachedPotdDateStrings_);
-}
-
--(NSString *)getDateStringForDaysAgo:(int)daysAgo
-{
-    NSDate *date = [[NSDate alloc] init];
-    date = [date dateByAddingTimeInterval: -(86400.0 * daysAgo)];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd"];
-    return [formatter stringFromDate:date];
-}
-
--(void)getPictureOfTheDayForDateString:(NSString *)dateString done:(void(^)(void)) done
-{
-    // Prepare callback block for getting picture of the day
-    __weak PictureOfTheDayImageView *weakPotdImageView = self.potdImageView;
-    __weak LoginViewController *weakSelf = self;
-
-    // Determine the resolution of the picture of the day to request
-    CGSize screenSize = self.view.bounds.size;
-    // For now leave scale at one - retina iPads would request too high a resolution otherwise
-    CGFloat scale = 1.0f; //[[UIScreen mainScreen] scale];
-    
-    MWPromise *fetch = [pictureOfTheDayGetter_ fetchPictureOfDay:dateString size:CGSizeMake(screenSize.width * scale, screenSize.height * scale) withQueuePriority:NSOperationQueuePriorityHigh];
-    
-    [fetch done:^(NSDictionary *dict) {
-        if (dict) {
-            NSData *imageData = dict[@"image"];
-            if (imageData) {
-                UIImage *image = [UIImage imageWithData:imageData scale:1.0];
-
-                weakSelf.pictureOfTheDayUser = dict[@"user"];
-                weakSelf.pictureOfTheDayDateString = dict[@"potd_date"];
-                weakSelf.pictureOfTheDayLicense = dict[@"license"];
-                weakSelf.pictureOfTheDayLicenseUrl = dict[@"licenseurl"];
-                weakSelf.pictureOfTheDayWikiUrl = dict[@"descriptionurl"];
-
-                // Animate attribution label resizing for its new text
-                [UIView animateWithDuration:self.pictureOfDayCycler.transitionDuration / 4.0f
-                                      delay:0
-                                    options: UIViewAnimationCurveLinear
-                                 animations:^{
-                                    [weakSelf updateAttributionLabelText];
-                                    //[self.attributionLabel layoutIfNeeded];
-                                 }
-                                 completion:^(BOOL finished){
-                                 }];
-
-                // Cross-fade between pictures of the day
-                [CATransaction begin];
-                CATransition *crossFade = [CATransition animation];
-                crossFade.type = kCATransitionFade;
-                crossFade.duration = self.pictureOfDayCycler.transitionDuration;
-                crossFade.removedOnCompletion = YES;
-                [CATransaction setCompletionBlock:^{
-                    if(done) done();
-                }];
-                [[weakPotdImageView layer] addAnimation:crossFade forKey:@"Fade"];
-                [CATransaction commit];
-
-                weakPotdImageView.image = image;
-            }
-        }
-    }];
-
-    // Cycle through cached images even of there was problem downloading a new one
-    [fetch fail:^(NSError *error) {
-        NSLog(@"PictureOfTheDay Error: %@", error.description);
-        if(done) done();
-    }];
-
-    [fetch always:^(id obj) {
-
-    }];
-}
-
 #pragma mark - Pic of Day attribution
 
 -(void)setupAttributionLabel
@@ -1113,59 +883,10 @@
         [self hideAttributionLabel];
     }
 
-    NSLog(@"pictureOfTheDayUser = %@", self.pictureOfTheDayUser);
-    NSLog(@"pictureOfTheDayDateString = %@", self.pictureOfTheDayDateString);
-    NSLog(@"pictureOfTheDayLicense = %@", self.pictureOfTheDayLicense);
-    NSLog(@"pictureOfTheDayLicenseUrl = %@", self.pictureOfTheDayLicenseUrl);
-}
-
--(void)updateAttributionLabelText
-{
-    // Convert the date string to an NSDate
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSDate *date = [dateFormatter dateFromString:self.pictureOfTheDayDateString];
-    
-    // Now get nice readable date for current locale
-    NSString *formatString = [NSDateFormatter dateFormatFromTemplate:@"EdMMMy" options:0 locale:[NSLocale currentLocale]];
-    [dateFormatter setDateFormat:formatString];
-    
-    NSString *prettyDateString = [dateFormatter stringFromDate:date];
-    NSString *picOfTheDayText = [MWMessage forKey:@"picture-of-day-label"].text;
-    NSString *picOfTheAuthorText = [MWMessage forKey:@"picture-of-day-author"].text;
-
-    /*
-    // Random text for testing attribution label changes
-    int randNum2 = rand() % (25 - 1) + 1;
-    NSString *strToRepeat = @" abc";
-    NSString * randStr = [@"" stringByPaddingToLength:randNum2 * [strToRepeat length] withString:strToRepeat startingAtIndex:0];
-    picOfTheAuthorText = randStr;
-    */
-    
-    NSString *picOfTheDayLicenseName = [self.pictureOfTheDayLicense uppercaseString];
-
-    // If license was name was not retrieved change it to say "Tap for License" for now
-    if (picOfTheDayLicenseName == nil){
-        picOfTheDayLicenseName = [MWMessage forKey:@"picture-of-day-tap-for-license"].text;
-    }
-
-    float fontSize =            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 20.0f : 15.0f;
-    float lineSpacing =         (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 10.0f : 6.0f;
-
-    // Style attributes for labels
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.alignment = NSTextAlignmentCenter;
-    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-    paragraphStyle.paragraphSpacing = lineSpacing;
-    //paragraphStyle.lineSpacing = lineSpacing;
-
-    NSString *attributeString = [NSString stringWithFormat:@"%@\n%@\n%@ %@\n%@", picOfTheDayText, prettyDateString, picOfTheAuthorText, self.pictureOfTheDayUser, picOfTheDayLicenseName];
-
-    self.attributionLabel.attributedText = [[NSAttributedString alloc] initWithString:attributeString attributes: @{
-            NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
-            NSParagraphStyleAttributeName : paragraphStyle,
-            NSForegroundColorAttributeName : [UIColor colorWithWhite:1.0f alpha:1.0f]
-    }];
+    NSLog(@"pictureOfTheDayUser = %@", self.pictureOfDayManager.pictureOfTheDayUser);
+    NSLog(@"pictureOfTheDayDateString = %@", self.pictureOfDayManager.pictureOfTheDayDateString);
+    NSLog(@"pictureOfTheDayLicense = %@", self.pictureOfDayManager.pictureOfTheDayLicense);
+    NSLog(@"pictureOfTheDayLicenseUrl = %@", self.pictureOfDayManager.pictureOfTheDayLicenseUrl);
 }
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -1180,15 +901,15 @@
 
     // If license name was not retrieved make the license button open the wiki page for now
     // (the wiki page should have license info so at least the user is pointed in the right direction)
-    if (self.pictureOfTheDayLicense == nil) buttonIndex = 0;
+    if (self.pictureOfDayManager.pictureOfTheDayLicense == nil) buttonIndex = 0;
 
     NSString *urlToOpen = nil;
     switch (buttonIndex) {
         case 0:
-            urlToOpen = self.pictureOfTheDayWikiUrl;
+            urlToOpen = self.pictureOfDayManager.pictureOfTheDayWikiUrl;
             break;
         case 1:
-            urlToOpen = [NSString stringWithFormat:@"%@%@", @"http:", self.pictureOfTheDayLicenseUrl];
+            urlToOpen = [NSString stringWithFormat:@"%@%@", @"http:", self.pictureOfDayManager.pictureOfTheDayLicenseUrl];
             break;
         default:
             break;
@@ -1200,7 +921,7 @@
     // Ensure the cycler is restarted. Added this because on iPad action sheet
     // there is no "Cancel" button so "actionSheet:clickedButtonAtIndex:" doesn't
     // get called when action sheet is dismissed on iPad
-    [self.pictureOfDayCycler start];
+    [self.pictureOfDayManager.pictureOfDayCycler start];
 }
 
 -(void)handleInfoLabelTap:(UITapGestureRecognizer *)recognizer
@@ -1219,7 +940,7 @@
                                                     [MWMessage forKey:@"picture-of-day-license-button"].text, nil];
     actionSheet.actionSheetStyle = UIBarStyleBlackTranslucent;
     [actionSheet showInView:self.view];
-    [self.pictureOfDayCycler stop];
+    [self.pictureOfDayManager.pictureOfDayCycler stop];
     self.attributionLabel.alpha = 0.0f;
     self.attributionButton.alpha = 0.0f;
 }
@@ -1228,7 +949,8 @@
 {
     showingPictureOfTheDayAttribution_ = YES;
 
-    [self updateAttributionLabelText];
+    // Update attribution label text
+    self.attributionLabel.attributedText = [self.pictureOfDayManager getAttributionLabelText];
 
     self.attributionLabel.hidden = NO;
 

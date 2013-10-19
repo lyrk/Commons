@@ -13,6 +13,7 @@
 #import "MyUploadsViewController.h"
 #import "LoginViewController.h"
 #import "PictureOfDayCycler.h"
+#import "PictureOfDayManager.h"
 
 @implementation AppDelegate
 
@@ -187,7 +188,7 @@
                 // means LoginViewController's view appearance methods won't be called which means the
                 // cycler which is started in LoginViewController's viewDidLoad method won't be stopped
                 // by it's viewWillDisappear method.
-                [((LoginViewController *)toVc).pictureOfDayCycler stop];
+                [((LoginViewController *)toVc).pictureOfDayManager.pictureOfDayCycler stop];
 
                 // Only skip to MyUploadsViewController if credentials found.
                 // Did so after slight delay as autolayout was having issues (freezing) with doing

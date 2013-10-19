@@ -25,26 +25,6 @@
 		04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */; };
 		04A0F33B17AACF7F004AB164 /* ImageResizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A0F33A17AACF7F004AB164 /* ImageResizer.m */; };
 		04A386E617CEFA2F00BC0A3D /* UIView+Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A386E517CEFA2F00BC0A3D /* UIView+Debugging.m */; };
-		04AC5A8A17A1D66800A06997 /* POTD-2007-06-15.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7617A1D66800A06997 /* POTD-2007-06-15.dict */; };
-		04AC5A8B17A1D66800A06997 /* POTD-2007-06-15.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7717A1D66800A06997 /* POTD-2007-06-15.jpg */; };
-		04AC5A8C17A1D66800A06997 /* POTD-2008-01-25.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7817A1D66800A06997 /* POTD-2008-01-25.dict */; };
-		04AC5A8D17A1D66800A06997 /* POTD-2008-01-25.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7917A1D66800A06997 /* POTD-2008-01-25.jpg */; };
-		04AC5A8E17A1D66800A06997 /* POTD-2008-11-14.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7A17A1D66800A06997 /* POTD-2008-11-14.dict */; };
-		04AC5A8F17A1D66800A06997 /* POTD-2008-11-14.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7B17A1D66800A06997 /* POTD-2008-11-14.jpg */; };
-		04AC5A9017A1D66800A06997 /* POTD-2009-06-19.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7C17A1D66800A06997 /* POTD-2009-06-19.dict */; };
-		04AC5A9117A1D66800A06997 /* POTD-2009-06-19.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7D17A1D66800A06997 /* POTD-2009-06-19.jpg */; };
-		04AC5A9217A1D66800A06997 /* POTD-2010-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7E17A1D66800A06997 /* POTD-2010-05-24.dict */; };
-		04AC5A9317A1D66800A06997 /* POTD-2010-05-24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A7F17A1D66800A06997 /* POTD-2010-05-24.jpg */; };
-		04AC5A9417A1D66800A06997 /* POTD-2012-07-08.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8017A1D66800A06997 /* POTD-2012-07-08.dict */; };
-		04AC5A9517A1D66800A06997 /* POTD-2012-07-08.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8117A1D66800A06997 /* POTD-2012-07-08.jpg */; };
-		04AC5A9617A1D66800A06997 /* POTD-2013-04-21.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8217A1D66800A06997 /* POTD-2013-04-21.dict */; };
-		04AC5A9717A1D66800A06997 /* POTD-2013-04-21.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8317A1D66800A06997 /* POTD-2013-04-21.jpg */; };
-		04AC5A9817A1D66800A06997 /* POTD-2013-04-29.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8417A1D66800A06997 /* POTD-2013-04-29.dict */; };
-		04AC5A9917A1D66800A06997 /* POTD-2013-04-29.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8517A1D66800A06997 /* POTD-2013-04-29.jpg */; };
-		04AC5A9A17A1D66800A06997 /* POTD-2013-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8617A1D66800A06997 /* POTD-2013-05-24.dict */; };
-		04AC5A9B17A1D66800A06997 /* POTD-2013-05-24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8717A1D66800A06997 /* POTD-2013-05-24.jpg */; };
-		04AC5A9C17A1D66800A06997 /* POTD-2013-06-04.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8817A1D66800A06997 /* POTD-2013-06-04.dict */; };
-		04AC5A9D17A1D66800A06997 /* POTD-2013-06-04.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04AC5A8917A1D66800A06997 /* POTD-2013-06-04.jpg */; };
 		04BDAEE017F366570086E4AE /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BDAEDF17F366570086E4AE /* UIImage+ImageEffects.m */; };
 		04BDAEE217F36B5E0086E4AE /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04BDAEE117F36B5E0086E4AE /* Accelerate.framework */; };
 		04C27B191741C24200B1942F /* ProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B181741C24200B1942F /* ProgressView.m */; };
@@ -57,6 +37,27 @@
 		04C27B32174BEB9500B1942F /* mockPagePhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C27B31174BEB9500B1942F /* mockPagePhoto.png */; };
 		04C27B37174D44CC00B1942F /* CALerpLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C27B36174D44C900B1942F /* CALerpLine.m */; };
 		04C27B39174D78E200B1942F /* mockBadPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 04C27B38174D78E200B1942F /* mockBadPhoto.png */; };
+		04CE7CD318120ADD006F7545 /* POTD-2007-06-15.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CBF18120ADD006F7545 /* POTD-2007-06-15.dict */; };
+		04CE7CD418120ADD006F7545 /* POTD-2008-01-25.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC018120ADD006F7545 /* POTD-2008-01-25.dict */; };
+		04CE7CD518120ADD006F7545 /* POTD-2008-11-14.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC118120ADD006F7545 /* POTD-2008-11-14.dict */; };
+		04CE7CD618120ADD006F7545 /* POTD-2009-06-19.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC218120ADD006F7545 /* POTD-2009-06-19.dict */; };
+		04CE7CD718120ADD006F7545 /* POTD-2010-05-24.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC318120ADD006F7545 /* POTD-2010-05-24.dict */; };
+		04CE7CD818120ADD006F7545 /* POTD-2012-07-08.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC418120ADD006F7545 /* POTD-2012-07-08.dict */; };
+		04CE7CD918120ADD006F7545 /* POTD-2013-04-21.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC518120ADD006F7545 /* POTD-2013-04-21.dict */; };
+		04CE7CDA18120ADD006F7545 /* POTD-2013-04-29.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC618120ADD006F7545 /* POTD-2013-04-29.dict */; };
+		04CE7CDB18120ADD006F7545 /* POTD-2013-06-04.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC718120ADD006F7545 /* POTD-2013-06-04.dict */; };
+		04CE7CDC18120ADD006F7545 /* POTD-2013-09-03.dict in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC818120ADD006F7545 /* POTD-2013-09-03.dict */; };
+		04CE7CDD18120ADD006F7545 /* POTD-2007-06-15.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CC918120ADD006F7545 /* POTD-2007-06-15.jpg */; };
+		04CE7CDE18120ADD006F7545 /* POTD-2008-01-25.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CCA18120ADD006F7545 /* POTD-2008-01-25.jpg */; };
+		04CE7CDF18120ADD006F7545 /* POTD-2008-11-14.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CCB18120ADD006F7545 /* POTD-2008-11-14.jpg */; };
+		04CE7CE018120ADD006F7545 /* POTD-2009-06-19.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CCC18120ADD006F7545 /* POTD-2009-06-19.jpg */; };
+		04CE7CE118120ADD006F7545 /* POTD-2010-05-24.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CCD18120ADD006F7545 /* POTD-2010-05-24.jpg */; };
+		04CE7CE218120ADD006F7545 /* POTD-2012-07-08.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CCE18120ADD006F7545 /* POTD-2012-07-08.jpg */; };
+		04CE7CE318120ADD006F7545 /* POTD-2013-04-21.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CCF18120ADD006F7545 /* POTD-2013-04-21.jpg */; };
+		04CE7CE418120ADD006F7545 /* POTD-2013-04-29.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CD018120ADD006F7545 /* POTD-2013-04-29.jpg */; };
+		04CE7CE518120ADD006F7545 /* POTD-2013-06-04.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CD118120ADD006F7545 /* POTD-2013-06-04.jpg */; };
+		04CE7CE618120ADD006F7545 /* POTD-2013-09-03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04CE7CD218120ADD006F7545 /* POTD-2013-09-03.jpg */; };
+		04CE7CE918121C59006F7545 /* PictureOfDayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04CE7CE818121C59006F7545 /* PictureOfDayManager.m */; };
 		04DC75631758682B00D92849 /* AspectFillThumbFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC75621758682A00D92849 /* AspectFillThumbFetcher.m */; };
 		04DC756617586EFF00D92849 /* PictureOfTheDayImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04DC756517586EFE00D92849 /* PictureOfTheDayImageView.m */; };
 		04DC756A1758837600D92849 /* Commons-logo-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 04DC75691758837600D92849 /* Commons-logo-white.png */; };
@@ -364,26 +365,6 @@
 		04A0F33A17AACF7F004AB164 /* ImageResizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageResizer.m; sourceTree = "<group>"; };
 		04A386E417CEFA2F00BC0A3D /* UIView+Debugging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Debugging.h"; sourceTree = "<group>"; };
 		04A386E517CEFA2F00BC0A3D /* UIView+Debugging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Debugging.m"; sourceTree = "<group>"; };
-		04AC5A7617A1D66800A06997 /* POTD-2007-06-15.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2007-06-15.dict"; sourceTree = "<group>"; };
-		04AC5A7717A1D66800A06997 /* POTD-2007-06-15.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2007-06-15.jpg"; sourceTree = "<group>"; };
-		04AC5A7817A1D66800A06997 /* POTD-2008-01-25.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-01-25.dict"; sourceTree = "<group>"; };
-		04AC5A7917A1D66800A06997 /* POTD-2008-01-25.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2008-01-25.jpg"; sourceTree = "<group>"; };
-		04AC5A7A17A1D66800A06997 /* POTD-2008-11-14.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-11-14.dict"; sourceTree = "<group>"; };
-		04AC5A7B17A1D66800A06997 /* POTD-2008-11-14.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2008-11-14.jpg"; sourceTree = "<group>"; };
-		04AC5A7C17A1D66800A06997 /* POTD-2009-06-19.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2009-06-19.dict"; sourceTree = "<group>"; };
-		04AC5A7D17A1D66800A06997 /* POTD-2009-06-19.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2009-06-19.jpg"; sourceTree = "<group>"; };
-		04AC5A7E17A1D66800A06997 /* POTD-2010-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2010-05-24.dict"; sourceTree = "<group>"; };
-		04AC5A7F17A1D66800A06997 /* POTD-2010-05-24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2010-05-24.jpg"; sourceTree = "<group>"; };
-		04AC5A8017A1D66800A06997 /* POTD-2012-07-08.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2012-07-08.dict"; sourceTree = "<group>"; };
-		04AC5A8117A1D66800A06997 /* POTD-2012-07-08.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2012-07-08.jpg"; sourceTree = "<group>"; };
-		04AC5A8217A1D66800A06997 /* POTD-2013-04-21.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-21.dict"; sourceTree = "<group>"; };
-		04AC5A8317A1D66800A06997 /* POTD-2013-04-21.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-04-21.jpg"; sourceTree = "<group>"; };
-		04AC5A8417A1D66800A06997 /* POTD-2013-04-29.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-29.dict"; sourceTree = "<group>"; };
-		04AC5A8517A1D66800A06997 /* POTD-2013-04-29.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-04-29.jpg"; sourceTree = "<group>"; };
-		04AC5A8617A1D66800A06997 /* POTD-2013-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-05-24.dict"; sourceTree = "<group>"; };
-		04AC5A8717A1D66800A06997 /* POTD-2013-05-24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-05-24.jpg"; sourceTree = "<group>"; };
-		04AC5A8817A1D66800A06997 /* POTD-2013-06-04.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-06-04.dict"; sourceTree = "<group>"; };
-		04AC5A8917A1D66800A06997 /* POTD-2013-06-04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-06-04.jpg"; sourceTree = "<group>"; };
 		04BDAEDE17F366570086E4AE /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
 		04BDAEDF17F366570086E4AE /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		04BDAEE117F36B5E0086E4AE /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -404,6 +385,28 @@
 		04C27B35174D44C800B1942F /* CALerpLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CALerpLine.h; sourceTree = "<group>"; };
 		04C27B36174D44C900B1942F /* CALerpLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CALerpLine.m; sourceTree = "<group>"; };
 		04C27B38174D78E200B1942F /* mockBadPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mockBadPhoto.png; sourceTree = "<group>"; };
+		04CE7CBF18120ADD006F7545 /* POTD-2007-06-15.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2007-06-15.dict"; sourceTree = "<group>"; };
+		04CE7CC018120ADD006F7545 /* POTD-2008-01-25.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-01-25.dict"; sourceTree = "<group>"; };
+		04CE7CC118120ADD006F7545 /* POTD-2008-11-14.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2008-11-14.dict"; sourceTree = "<group>"; };
+		04CE7CC218120ADD006F7545 /* POTD-2009-06-19.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2009-06-19.dict"; sourceTree = "<group>"; };
+		04CE7CC318120ADD006F7545 /* POTD-2010-05-24.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2010-05-24.dict"; sourceTree = "<group>"; };
+		04CE7CC418120ADD006F7545 /* POTD-2012-07-08.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2012-07-08.dict"; sourceTree = "<group>"; };
+		04CE7CC518120ADD006F7545 /* POTD-2013-04-21.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-21.dict"; sourceTree = "<group>"; };
+		04CE7CC618120ADD006F7545 /* POTD-2013-04-29.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-04-29.dict"; sourceTree = "<group>"; };
+		04CE7CC718120ADD006F7545 /* POTD-2013-06-04.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-06-04.dict"; sourceTree = "<group>"; };
+		04CE7CC818120ADD006F7545 /* POTD-2013-09-03.dict */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "POTD-2013-09-03.dict"; sourceTree = "<group>"; };
+		04CE7CC918120ADD006F7545 /* POTD-2007-06-15.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2007-06-15.jpg"; sourceTree = "<group>"; };
+		04CE7CCA18120ADD006F7545 /* POTD-2008-01-25.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2008-01-25.jpg"; sourceTree = "<group>"; };
+		04CE7CCB18120ADD006F7545 /* POTD-2008-11-14.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2008-11-14.jpg"; sourceTree = "<group>"; };
+		04CE7CCC18120ADD006F7545 /* POTD-2009-06-19.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2009-06-19.jpg"; sourceTree = "<group>"; };
+		04CE7CCD18120ADD006F7545 /* POTD-2010-05-24.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2010-05-24.jpg"; sourceTree = "<group>"; };
+		04CE7CCE18120ADD006F7545 /* POTD-2012-07-08.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2012-07-08.jpg"; sourceTree = "<group>"; };
+		04CE7CCF18120ADD006F7545 /* POTD-2013-04-21.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-04-21.jpg"; sourceTree = "<group>"; };
+		04CE7CD018120ADD006F7545 /* POTD-2013-04-29.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-04-29.jpg"; sourceTree = "<group>"; };
+		04CE7CD118120ADD006F7545 /* POTD-2013-06-04.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-06-04.jpg"; sourceTree = "<group>"; };
+		04CE7CD218120ADD006F7545 /* POTD-2013-09-03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "POTD-2013-09-03.jpg"; sourceTree = "<group>"; };
+		04CE7CE718121C59006F7545 /* PictureOfDayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfDayManager.h; sourceTree = "<group>"; };
+		04CE7CE818121C59006F7545 /* PictureOfDayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PictureOfDayManager.m; sourceTree = "<group>"; };
 		04DC75611758682900D92849 /* AspectFillThumbFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AspectFillThumbFetcher.h; sourceTree = "<group>"; };
 		04DC75621758682A00D92849 /* AspectFillThumbFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AspectFillThumbFetcher.m; sourceTree = "<group>"; };
 		04DC756417586EFE00D92849 /* PictureOfTheDayImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PictureOfTheDayImageView.h; sourceTree = "<group>"; };
@@ -739,26 +742,26 @@
 		04AC5A7517A1D66800A06997 /* Bundled Pictures of Day */ = {
 			isa = PBXGroup;
 			children = (
-				04AC5A7617A1D66800A06997 /* POTD-2007-06-15.dict */,
-				04AC5A7717A1D66800A06997 /* POTD-2007-06-15.jpg */,
-				04AC5A7817A1D66800A06997 /* POTD-2008-01-25.dict */,
-				04AC5A7917A1D66800A06997 /* POTD-2008-01-25.jpg */,
-				04AC5A7A17A1D66800A06997 /* POTD-2008-11-14.dict */,
-				04AC5A7B17A1D66800A06997 /* POTD-2008-11-14.jpg */,
-				04AC5A7C17A1D66800A06997 /* POTD-2009-06-19.dict */,
-				04AC5A7D17A1D66800A06997 /* POTD-2009-06-19.jpg */,
-				04AC5A7E17A1D66800A06997 /* POTD-2010-05-24.dict */,
-				04AC5A7F17A1D66800A06997 /* POTD-2010-05-24.jpg */,
-				04AC5A8017A1D66800A06997 /* POTD-2012-07-08.dict */,
-				04AC5A8117A1D66800A06997 /* POTD-2012-07-08.jpg */,
-				04AC5A8217A1D66800A06997 /* POTD-2013-04-21.dict */,
-				04AC5A8317A1D66800A06997 /* POTD-2013-04-21.jpg */,
-				04AC5A8417A1D66800A06997 /* POTD-2013-04-29.dict */,
-				04AC5A8517A1D66800A06997 /* POTD-2013-04-29.jpg */,
-				04AC5A8617A1D66800A06997 /* POTD-2013-05-24.dict */,
-				04AC5A8717A1D66800A06997 /* POTD-2013-05-24.jpg */,
-				04AC5A8817A1D66800A06997 /* POTD-2013-06-04.dict */,
-				04AC5A8917A1D66800A06997 /* POTD-2013-06-04.jpg */,
+				04CE7CBF18120ADD006F7545 /* POTD-2007-06-15.dict */,
+				04CE7CC018120ADD006F7545 /* POTD-2008-01-25.dict */,
+				04CE7CC118120ADD006F7545 /* POTD-2008-11-14.dict */,
+				04CE7CC218120ADD006F7545 /* POTD-2009-06-19.dict */,
+				04CE7CC318120ADD006F7545 /* POTD-2010-05-24.dict */,
+				04CE7CC418120ADD006F7545 /* POTD-2012-07-08.dict */,
+				04CE7CC518120ADD006F7545 /* POTD-2013-04-21.dict */,
+				04CE7CC618120ADD006F7545 /* POTD-2013-04-29.dict */,
+				04CE7CC718120ADD006F7545 /* POTD-2013-06-04.dict */,
+				04CE7CC818120ADD006F7545 /* POTD-2013-09-03.dict */,
+				04CE7CC918120ADD006F7545 /* POTD-2007-06-15.jpg */,
+				04CE7CCA18120ADD006F7545 /* POTD-2008-01-25.jpg */,
+				04CE7CCB18120ADD006F7545 /* POTD-2008-11-14.jpg */,
+				04CE7CCC18120ADD006F7545 /* POTD-2009-06-19.jpg */,
+				04CE7CCD18120ADD006F7545 /* POTD-2010-05-24.jpg */,
+				04CE7CCE18120ADD006F7545 /* POTD-2012-07-08.jpg */,
+				04CE7CCF18120ADD006F7545 /* POTD-2013-04-21.jpg */,
+				04CE7CD018120ADD006F7545 /* POTD-2013-04-29.jpg */,
+				04CE7CD118120ADD006F7545 /* POTD-2013-06-04.jpg */,
+				04CE7CD218120ADD006F7545 /* POTD-2013-09-03.jpg */,
 			);
 			path = "Bundled Pictures of Day";
 			sourceTree = "<group>";
@@ -811,6 +814,8 @@
 				04A0F33A17AACF7F004AB164 /* ImageResizer.m */,
 				0417D9E217698AF200081D8C /* PictureOfDayCycler.h */,
 				0417D9E317698AF200081D8C /* PictureOfDayCycler.m */,
+				04CE7CE718121C59006F7545 /* PictureOfDayManager.h */,
+				04CE7CE818121C59006F7545 /* PictureOfDayManager.m */,
 				04C27B35174D44C800B1942F /* CALerpLine.h */,
 				04C27B36174D44C900B1942F /* CALerpLine.m */,
 				04DC756D1758884100D92849 /* CustomTextField.h */,
@@ -1336,6 +1341,7 @@
 				D408617B169B760800D6ACB0 /* InfoPlist.strings in Resources */,
 				D4086183169B760800D6ACB0 /* Default.png in Resources */,
 				D4086185169B760800D6ACB0 /* Default@2x.png in Resources */,
+				04CE7CDF18120ADD006F7545 /* POTD-2008-11-14.jpg in Resources */,
 				D4086187169B760800D6ACB0 /* Default-568h@2x.png in Resources */,
 				D408618A169B760800D6ACB0 /* MainStoryboard.storyboard in Resources */,
 				D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */,
@@ -1355,12 +1361,14 @@
 				D41D281016C18C9F00BC3ABE /* cc-sa@2x.png in Resources */,
 				D4E0384A16C463C700330A7F /* messages-en.json in Resources */,
 				D4E0385C16C47B6C00330A7F /* messages-qqq.json in Resources */,
+				04CE7CD418120ADD006F7545 /* POTD-2008-01-25.dict in Resources */,
 				D48555A516CD804900ED60B1 /* add_image.png in Resources */,
 				D48555A616CD804900ED60B1 /* add_image@2x.png in Resources */,
 				D48555A716CD804900ED60B1 /* camera.png in Resources */,
 				D48555A816CD804900ED60B1 /* camera@2x.png in Resources */,
 				D48555A916CD804900ED60B1 /* gallery.png in Resources */,
 				D48555AA16CD804900ED60B1 /* gallery@2x.png in Resources */,
+				04CE7CD618120ADD006F7545 /* POTD-2009-06-19.dict in Resources */,
 				D43E578D16CD9C3C00FBB0F9 /* photo-button-bg.png in Resources */,
 				D43E578E16CD9C3C00FBB0F9 /* photo-button-bg@2x.png in Resources */,
 				D400C37016DD96F70059F6A7 /* commons-logo.png in Resources */,
@@ -1374,10 +1382,15 @@
 				D4C037151700C38100AA2537 /* messages-br.json in Resources */,
 				D4C037161700C38100AA2537 /* messages-cs.json in Resources */,
 				D4C037171700C38100AA2537 /* messages-de.json in Resources */,
+				04CE7CE218120ADD006F7545 /* POTD-2012-07-08.jpg in Resources */,
 				D4C037181700C38100AA2537 /* messages-diq.json in Resources */,
 				D4C037191700C38100AA2537 /* messages-dsb.json in Resources */,
+				04CE7CDA18120ADD006F7545 /* POTD-2013-04-29.dict in Resources */,
 				D4C0371A1700C38100AA2537 /* messages-eo.json in Resources */,
 				D4C0371B1700C38100AA2537 /* messages-es.json in Resources */,
+				04CE7CDE18120ADD006F7545 /* POTD-2008-01-25.jpg in Resources */,
+				04CE7CD318120ADD006F7545 /* POTD-2007-06-15.dict in Resources */,
+				04CE7CD818120ADD006F7545 /* POTD-2012-07-08.dict in Resources */,
 				D4C0371C1700C38100AA2537 /* messages-fo.json in Resources */,
 				D4C0371D1700C38100AA2537 /* messages-fr.json in Resources */,
 				D4C0371E1700C38100AA2537 /* messages-gl.json in Resources */,
@@ -1385,19 +1398,25 @@
 				D4C037201700C38100AA2537 /* messages-hsb.json in Resources */,
 				D4C037211700C38100AA2537 /* messages-ia.json in Resources */,
 				D4C037221700C38100AA2537 /* messages-it.json in Resources */,
+				04CE7CE318120ADD006F7545 /* POTD-2013-04-21.jpg in Resources */,
 				D4C037231700C38100AA2537 /* messages-ja.json in Resources */,
+				04CE7CD718120ADD006F7545 /* POTD-2010-05-24.dict in Resources */,
 				D4C037241700C38100AA2537 /* messages-km.json in Resources */,
 				D4C037251700C38100AA2537 /* messages-ko.json in Resources */,
 				D4C037261700C38100AA2537 /* messages-lb.json in Resources */,
 				D4C037271700C38100AA2537 /* messages-mk.json in Resources */,
 				D4C037281700C38100AA2537 /* messages-ms.json in Resources */,
 				D4C037291700C38100AA2537 /* messages-ps.json in Resources */,
+				04CE7CE418120ADD006F7545 /* POTD-2013-04-29.jpg in Resources */,
 				D4C0372A1700C38100AA2537 /* messages-ru.json in Resources */,
+				04CE7CDC18120ADD006F7545 /* POTD-2013-09-03.dict in Resources */,
 				D4C0372B1700C38100AA2537 /* messages-sr-ec.json in Resources */,
+				04CE7CE118120ADD006F7545 /* POTD-2010-05-24.jpg in Resources */,
 				D4C0372C1700C38100AA2537 /* messages-sv.json in Resources */,
 				D4C0372D1700C38100AA2537 /* messages-zh-hans.json in Resources */,
 				D4C037321700F29600AA2537 /* toolbar-back.png in Resources */,
 				D4C037331700F29600AA2537 /* toolbar-back@2x.png in Resources */,
+				04CE7CD518120ADD006F7545 /* POTD-2008-11-14.dict in Resources */,
 				D4C037341700F29600AA2537 /* toolbar-forward.png in Resources */,
 				D4C037351700F29600AA2537 /* toolbar-forward@2x.png in Resources */,
 				D4DE80E6170A3761005F7580 /* messages-ca.json in Resources */,
@@ -1409,10 +1428,13 @@
 				D4DE80EC170A3761005F7580 /* messages-ro.json in Resources */,
 				D4DE80ED170A3761005F7580 /* messages-vi.json in Resources */,
 				D475B28E171C750D00AA81C9 /* messages-fi.json in Resources */,
+				04CE7CE618120ADD006F7545 /* POTD-2013-09-03.jpg in Resources */,
 				D475B28F171C750D00AA81C9 /* messages-ksh.json in Resources */,
+				04CE7CDD18120ADD006F7545 /* POTD-2007-06-15.jpg in Resources */,
 				D475B290171C750D00AA81C9 /* messages-pa.json in Resources */,
 				D475B291171C750D00AA81C9 /* messages-pt-br.json in Resources */,
 				D475B292171C750D00AA81C9 /* messages-te.json in Resources */,
+				04CE7CE018120ADD006F7545 /* POTD-2009-06-19.jpg in Resources */,
 				D475B293171C750D00AA81C9 /* messages-tr.json in Resources */,
 				D475B294171C750D00AA81C9 /* messages-uk.json in Resources */,
 				D475B295171C750D00AA81C9 /* messages-ur.json in Resources */,
@@ -1433,6 +1455,7 @@
 				D41BFA59173C26A100472EC7 /* messages-ta.json in Resources */,
 				04C27B30174BEACD00B1942F /* mockPageLogo.png in Resources */,
 				04C27B32174BEB9500B1942F /* mockPagePhoto.png in Resources */,
+				04CE7CD918120ADD006F7545 /* POTD-2013-04-21.dict in Resources */,
 				04C27B39174D78E200B1942F /* mockBadPhoto.png in Resources */,
 				04DC756A1758837600D92849 /* Commons-logo-white.png in Resources */,
 				04DC7597175D748400D92849 /* cc@2x.png in Resources */,
@@ -1442,30 +1465,12 @@
 				30DC441C178D42E60081555A /* cc-by-white@2x.png in Resources */,
 				0438EF0517FE20BA005F8BF5 /* clear.png in Resources */,
 				30DC441D178D42E60081555A /* cc-sa-white.png in Resources */,
+				04CE7CE518120ADD006F7545 /* POTD-2013-06-04.jpg in Resources */,
 				30DC441E178D42E60081555A /* cc-sa-white@2x.png in Resources */,
-				04AC5A8A17A1D66800A06997 /* POTD-2007-06-15.dict in Resources */,
-				04AC5A8B17A1D66800A06997 /* POTD-2007-06-15.jpg in Resources */,
-				04AC5A8C17A1D66800A06997 /* POTD-2008-01-25.dict in Resources */,
-				04AC5A8D17A1D66800A06997 /* POTD-2008-01-25.jpg in Resources */,
-				04AC5A8E17A1D66800A06997 /* POTD-2008-11-14.dict in Resources */,
-				04AC5A8F17A1D66800A06997 /* POTD-2008-11-14.jpg in Resources */,
-				04AC5A9017A1D66800A06997 /* POTD-2009-06-19.dict in Resources */,
-				04AC5A9117A1D66800A06997 /* POTD-2009-06-19.jpg in Resources */,
-				04AC5A9217A1D66800A06997 /* POTD-2010-05-24.dict in Resources */,
-				04AC5A9317A1D66800A06997 /* POTD-2010-05-24.jpg in Resources */,
-				04AC5A9417A1D66800A06997 /* POTD-2012-07-08.dict in Resources */,
-				04AC5A9517A1D66800A06997 /* POTD-2012-07-08.jpg in Resources */,
-				04AC5A9617A1D66800A06997 /* POTD-2013-04-21.dict in Resources */,
-				04AC5A9717A1D66800A06997 /* POTD-2013-04-21.jpg in Resources */,
-				04AC5A9817A1D66800A06997 /* POTD-2013-04-29.dict in Resources */,
-				04AC5A9917A1D66800A06997 /* POTD-2013-04-29.jpg in Resources */,
-				04AC5A9A17A1D66800A06997 /* POTD-2013-05-24.dict in Resources */,
-				04AC5A9B17A1D66800A06997 /* POTD-2013-05-24.jpg in Resources */,
-				04AC5A9C17A1D66800A06997 /* POTD-2013-06-04.dict in Resources */,
-				04AC5A9D17A1D66800A06997 /* POTD-2013-06-04.jpg in Resources */,
 				B938B3C317B332250039ABF8 /* browser.png in Resources */,
 				B938B3C417B332250039ABF8 /* browser@2x.png in Resources */,
 				B938B3C517B332250039ABF8 /* browser@2x~ipad.png in Resources */,
+				04CE7CDB18120ADD006F7545 /* POTD-2013-06-04.dict in Resources */,
 				B938B3C617B332250039ABF8 /* browser~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1608,6 +1613,7 @@
 				D4E0384116C462C800330A7F /* MWMessageStore.m in Sources */,
 				D4E0385416C46FDD00330A7F /* MWI18N.m in Sources */,
 				04BDAEE017F366570086E4AE /* UIImage+ImageEffects.m in Sources */,
+				04CE7CE918121C59006F7545 /* PictureOfDayManager.m in Sources */,
 				D4284F1016C9C2AA008640B0 /* MWEventLogging.m in Sources */,
 				D44DDD3C16CC4D6000318FBF /* MWDeferred.m in Sources */,
 				D44DDD3F16CC4D6000318FBF /* MWPromise.m in Sources */,
