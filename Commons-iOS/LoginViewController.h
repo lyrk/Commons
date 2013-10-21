@@ -10,7 +10,7 @@
 
 @class UILabelDynamicHeight;
 @class PictureOfTheDayImageView;
-@class PictureOfDayCycler;
+@class PictureOfDayManager;
 
 @interface LoginViewController : UIViewController <UITextFieldDelegate, UIActionSheetDelegate>
 
@@ -25,8 +25,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UIView *loginInfoContainer;
 @property (weak, nonatomic) IBOutlet PictureOfTheDayImageView *potdImageView;
-
-@property (strong, nonatomic) PictureOfDayCycler *pictureOfDayCycler;
 
 -(IBAction)pushedLoginButton:(id)sender;
 -(IBAction)pushedLogoutButton:(id)sender;
@@ -43,5 +41,7 @@
 @property (weak, nonatomic) IBOutlet UIView *topSpacer;
 @property (weak, nonatomic) IBOutlet UIView *middleSpacer;
 @property (weak, nonatomic) IBOutlet UIView *bottomSpacer;
+
+@property (strong, nonatomic) PictureOfDayManager *pictureOfDayManager;
 
 @end

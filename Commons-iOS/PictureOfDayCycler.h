@@ -8,7 +8,9 @@
 
 @interface PictureOfDayCycler : NSObject
 
-@property(weak, nonatomic) NSMutableArray *dateStrings;
+@property(strong, nonatomic) NSMutableArray *dateStrings;
+@property(strong, nonatomic, readonly) NSString *currentDateString;
+@property(nonatomic) NSUInteger currentDateStringIndex;
 
 @property(copy) void(^cycle)(NSString *dateString);
 

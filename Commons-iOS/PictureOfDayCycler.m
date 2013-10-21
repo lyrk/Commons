@@ -9,7 +9,6 @@
 
 @interface PictureOfDayCycler (){
     NSTimer *timer_;
-    uint currentIndex_;
 }
 @end
 
@@ -21,7 +20,7 @@
     if (self) {
         self.displayInterval = 3.0f;
         self.transitionDuration = 1.0f;
-        currentIndex_ = 0;
+        self.currentDateStringIndex = 0;
         timer_ = nil;
     }
     return self;
@@ -34,6 +33,8 @@
 
 -(void)start
 {
+    _currentDateString = self.dateStrings[self.currentDateStringIndex];
+
     // Added initial call to "first" on a shorter timer because the initial image isn't
     // fading in from a previous image and thus *looks* like it's taking longer even
     // thought it isn't. Since NSTimer can't have its timerInterval changed once it's
@@ -73,13 +74,13 @@
 {
     if (self.dateStrings.count < 2) return;
     
-    if (currentIndex_ > (self.dateStrings.count - 1)) currentIndex_ = self.dateStrings.count - 1;
+    if (self.currentDateStringIndex > (self.dateStrings.count - 1)) self.currentDateStringIndex = self.dateStrings.count - 1;
     
-    NSString *dateString = self.dateStrings[currentIndex_];
+    _currentDateString = self.dateStrings[self.currentDateStringIndex];
     
-    self.cycle(dateString);
+    self.cycle(self.currentDateString);
     
-    currentIndex_ = (currentIndex_ == (self.dateStrings.count - 1)) ? 0 : currentIndex_ + 1;
+    self.currentDateStringIndex = (self.currentDateStringIndex == (self.dateStrings.count - 1)) ? 0 : self.currentDateStringIndex + 1;
 }
 
 @end
