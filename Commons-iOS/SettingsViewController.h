@@ -36,7 +36,8 @@
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *gradientButtonSourceButton;
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *gradientButtonLicenseButton;
 
-@property (weak, nonatomic) IBOutlet UILabel *thisAppLabel;
+@property (weak, nonatomic) IBOutlet UILabelDynamicHeight *settingsBackgroundImageWikiUrlButton;
+
 @property (weak, nonatomic) IBOutlet UILabel *gradientButtonsLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *externalLinksLabel;

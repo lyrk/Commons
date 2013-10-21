@@ -34,6 +34,7 @@
 
 #define URL_GRADIENT_BUTTON_SOURCE    @"https://code.google.com/p/iphonegradientbuttons/"
 #define URL_GRADIENT_BUTTON_LICENSE   @"http://opensource.org/licenses/mit-license.php"
+#define URL_BACKGROUND_IMAGE_WIKI_URL @"http://commons.wikimedia.org/wiki/File:Papageitaucher_Fratercula_arctica.jpg"
 
 #define URL_GRADIENT_BUTTON_PADDING   18.0f
 #define URL_GRADIENT_BUTTON_BORDER_WIDTH 2.0f
@@ -116,7 +117,6 @@
     multiLine(self.debugModeLabel);
     multiLine(self.openInLabel);
     multiLine(self.sourceLabel);
-    multiLine(self.thisAppLabel);
     multiLine(self.gradientButtonsLabel);
 
     // Get the app delegate so the loading indicator may be accessed
@@ -153,10 +153,10 @@
     [self.sourceLabel setText:[MWMessage forKey:@"settings-source-label"].text];
     
     // i18n for the sub-items under the Source button
-    [self.thisAppLabel setText:[MWMessage forKey:@"about-source-this-app-title"].text];
     [self.thisAppContributorsButton setText:[MWMessage forKey:@"about-source-this-app-contributors"].text];
     [self.thisAppSourceButton setText:[MWMessage forKey:@"about-source-button"].text];
     [self.thisAppLicenseButton setText:[MWMessage forKey:@"about-license-button"].text];
+    [self.settingsBackgroundImageWikiUrlButton setText:[MWMessage forKey:@"settings-background-label"].text];
     
     [self.gradientButtonsLabel setText:[MWMessage forKey:@"about-source-gradient-title"].text];
     [self.gradientButtonSourceButton setText:[MWMessage forKey:@"about-source-button"].text];
@@ -216,8 +216,11 @@
 
     navBarOriginalColor_ = self.navigationController.navigationBar.backgroundColor;
     [self.navigationController.navigationBar setBackgroundColor:[UIColor colorWithWhite:0.0f alpha:0.65f]];
+    
+    settingsImageView_.contentMode = UIViewContentModeScaleAspectFill;
+    settingsImageView_.image = [UIImage imageNamed:@"blurredSettingsBackground.png"];
 
-    [self useLastPicOfDayShownByLoginPageAsBackground];
+    //[self useLastPicOfDayShownByLoginPageAsBackground];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -261,6 +264,7 @@
     addTap(self.commonsButton, @selector(openURLinExternalBrowser:));
     addTap(self.privacyButton, @selector(openURLinExternalBrowser:));
     addTap(self.bugsButton, @selector(openURLinExternalBrowser:));
+    addTap(self.settingsBackgroundImageWikiUrlButton, @selector(openURLinExternalBrowser:));
 
     addTap(self.sendUsageReportsButton, @selector(loggingSwitchPushed:));
     addTap(self.dontSendUsageReportsButton, @selector(loggingSwitchPushed:));
@@ -370,6 +374,14 @@
         UIColor *tintColor = [UIColor colorWithWhite:0.0 alpha:0.5];
         UIImage *blurredImage = [potdImageView_.image applyBlurWithRadius:20 tintColor:tintColor saturationDeltaFactor:1.8 maskImage:nil];;
 
+        /*
+         // Uncomment to save blurred pic to file system
+         NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+         NSString * basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+         NSData * binaryImageData = UIImagePNGRepresentation(blurredImage);
+         [binaryImageData writeToFile:[basePath stringByAppendingPathComponent:@"blurredImage.png"] atomically:YES];
+        */
+
         // Set up the cross-fade transition
         [CATransaction begin];
         CATransition *crossFade = [CATransition animation];
@@ -426,6 +438,7 @@
     [self styleButton:self.gradientButtonSourceButton];
     [self styleButton:self.sendUsageReportsButton];
     [self styleButton:self.dontSendUsageReportsButton];
+    [self styleButton:self.settingsBackgroundImageWikiUrlButton];
 }
 
 #pragma mark - ScrollView
@@ -723,8 +736,10 @@
     }else if (sender == self.gradientButtonLicenseButton) {
         
         urlStr = URL_GRADIENT_BUTTON_LICENSE;
+    }else if (sender == self.settingsBackgroundImageWikiUrlButton) {
+
+        urlStr = URL_BACKGROUND_IMAGE_WIKI_URL;
     }
-    
     // Open the url in the user's preferred browser
     if (urlStr) [app_ openURLWithDefaultBrowser:[NSURL URLWithString:urlStr]];    
 }

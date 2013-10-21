@@ -636,18 +636,8 @@ to take or choose photos.</string>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
-                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="This App (iOS):" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="TVE-J7-nmJ">
-                                                        <rect key="frame" x="20" y="49" width="280" height="21"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="280" id="afX-Yz-Hid"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
                                                     <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Contributors" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="MLV-sa-SAW" userLabel="Contributors" customClass="UILabelDynamicHeight">
-                                                        <rect key="frame" x="20" y="78" width="280" height="21"/>
+                                                        <rect key="frame" x="20" y="49" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="280" id="kPX-Hr-mBE"/>
@@ -657,7 +647,7 @@ to take or choose photos.</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="License" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="PyL-Hi-Fde" userLabel="License" customClass="UILabelDynamicHeight">
-                                                        <rect key="frame" x="20" y="107" width="280" height="21"/>
+                                                        <rect key="frame" x="20" y="78" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="280" id="bOB-EO-kPy"/>
@@ -667,7 +657,7 @@ to take or choose photos.</string>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Source" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-5v-OVE" userLabel="Source" customClass="UILabelDynamicHeight">
-                                                        <rect key="frame" x="20" y="136" width="280" height="21"/>
+                                                        <rect key="frame" x="20" y="107" width="280" height="21"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="280" id="rZP-DW-cts"/>
@@ -676,21 +666,31 @@ to take or choose photos.</string>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <label opaque="NO" clipsSubviews="YES" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="oVS-0N-at5" customClass="UILabelDynamicHeight">
+                                                        <rect key="frame" x="20" y="136" width="280" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="280" id="Qfb-ea-6yV"/>
+                                                        </constraints>
+                                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
-                                                    <constraint firstItem="MLV-sa-SAW" firstAttribute="top" secondItem="TVE-J7-nmJ" secondAttribute="bottom" constant="8" symbolic="YES" id="051-8I-WJO"/>
-                                                    <constraint firstAttribute="centerX" secondItem="TVE-J7-nmJ" secondAttribute="centerX" id="Bbd-00-Zpg"/>
                                                     <constraint firstItem="PyL-Hi-Fde" firstAttribute="top" secondItem="MLV-sa-SAW" secondAttribute="bottom" constant="8" symbolic="YES" id="L9O-Cg-l1i"/>
                                                     <constraint firstAttribute="centerX" secondItem="QvM-5v-OVE" secondAttribute="centerX" id="N9d-uB-hKb"/>
                                                     <constraint firstItem="DfD-4i-tLc" firstAttribute="top" secondItem="wYm-NR-odc" secondAttribute="top" constant="20" symbolic="YES" id="ORg-Fk-CAU"/>
                                                     <constraint firstAttribute="centerX" secondItem="DfD-4i-tLc" secondAttribute="centerX" id="VDy-pw-2nx"/>
+                                                    <constraint firstItem="MLV-sa-SAW" firstAttribute="top" secondItem="DfD-4i-tLc" secondAttribute="bottom" constant="8" symbolic="YES" id="Xcz-NZ-Ejt"/>
                                                     <constraint firstAttribute="centerX" secondItem="MLV-sa-SAW" secondAttribute="centerX" id="ZC3-5z-mRx"/>
+                                                    <constraint firstAttribute="centerX" secondItem="oVS-0N-at5" secondAttribute="centerX" id="a6U-1Z-cI2"/>
                                                     <constraint firstAttribute="width" constant="320" id="bZv-kk-4sf"/>
-                                                    <constraint firstItem="TVE-J7-nmJ" firstAttribute="top" secondItem="DfD-4i-tLc" secondAttribute="bottom" constant="8" symbolic="YES" id="fYa-08-3lo"/>
-                                                    <constraint firstAttribute="bottom" secondItem="QvM-5v-OVE" secondAttribute="bottom" constant="20" symbolic="YES" id="gn0-qt-atr"/>
+                                                    <constraint firstItem="oVS-0N-at5" firstAttribute="top" secondItem="QvM-5v-OVE" secondAttribute="bottom" constant="8" symbolic="YES" id="hwy-dg-04o"/>
                                                     <constraint firstAttribute="centerX" secondItem="PyL-Hi-Fde" secondAttribute="centerX" id="rh3-NC-fKG"/>
                                                     <constraint firstItem="QvM-5v-OVE" firstAttribute="top" secondItem="PyL-Hi-Fde" secondAttribute="bottom" constant="8" symbolic="YES" id="wfp-Sp-hOg"/>
+                                                    <constraint firstAttribute="bottom" secondItem="oVS-0N-at5" secondAttribute="bottom" constant="20" symbolic="YES" id="yga-3b-Y8G"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -749,6 +749,7 @@ to take or choose photos.</string>
                         <outlet property="privacyButton" destination="dWo-56-N06" id="yEB-vr-pXw"/>
                         <outlet property="scrollView" destination="8Ub-kI-Lsv" id="FFJ-jY-IXE"/>
                         <outlet property="sendUsageReportsButton" destination="xkh-KN-53q" id="Aq4-p0-O3b"/>
+                        <outlet property="settingsBackgroundImageWikiUrlButton" destination="oVS-0N-at5" id="QSo-kp-MeC"/>
                         <outlet property="settingsContainer" destination="88b-ga-lLw" id="Lk7-Nj-AoV"/>
                         <outlet property="sourceDetailsContainer" destination="wYm-NR-odc" id="2wV-XO-ZE2"/>
                         <outlet property="sourceLabel" destination="DfD-4i-tLc" id="FTQ-0f-jwC"/>
@@ -756,7 +757,6 @@ to take or choose photos.</string>
                         <outlet property="spaceBetweenBrowserAndLinksContainersConstraint" destination="M4N-9c-ywZ" id="mRr-T4-EpF"/>
                         <outlet property="spaceBetweenDebugAndBrowserContainersConstraint" destination="aGD-LD-5Kn" id="LjZ-0S-N4c"/>
                         <outlet property="thisAppContributorsButton" destination="MLV-sa-SAW" id="5XO-QO-PRA"/>
-                        <outlet property="thisAppLabel" destination="TVE-J7-nmJ" id="hWz-2v-WHR"/>
                         <outlet property="thisAppLicenseButton" destination="PyL-Hi-Fde" id="0Ee-6Z-68A"/>
                         <outlet property="thisAppSourceButton" destination="QvM-5v-OVE" id="kgh-Th-bmM"/>
                         <outlet property="trackingDetailsLabel" destination="SZo-q4-tcy" id="P4e-ej-0qH"/>
@@ -1872,7 +1872,7 @@ Help Wikipedia articles come to life!</string>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="dbR-9g-yz2"/>
+        <segue reference="aQi-hT-KWU"/>
         <segue reference="F72-2D-Gl0"/>
     </inferredMetricsTieBreakers>
 </document>

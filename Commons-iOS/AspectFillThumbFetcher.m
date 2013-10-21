@@ -211,6 +211,8 @@
 
             NSURL *thumbURL = [NSURL URLWithString:[self getValueForKey:@"thumburl" fromJson:result]];
             if (thumbURL) {
+                //NSLog(@"thumbURL: %@", thumbURL);
+            
                 // Now request the generated thumbnail
                 MWPromise *fetchImage = [CommonsApp.singleton fetchDataURL:thumbURL withQueuePriority:NSOperationQueuePriorityNormal];
                 [fetchImage done:^(NSData *data) {

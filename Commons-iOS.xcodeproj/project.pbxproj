@@ -22,6 +22,7 @@
 		0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */; };
 		048C8B9F17FB71520082EB28 /* categoryHamburger.png in Resources */ = {isa = PBXBuildFile; fileRef = 048C8B9E17FB71520082EB28 /* categoryHamburger.png */; };
 		048C8BA217FC903A0082EB28 /* CategoryLicenseExtractor.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C8BA117FC903A0082EB28 /* CategoryLicenseExtractor.m */; };
+		049AA03A1815A9F20043E855 /* blurredSettingsBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 049AA0391815A9F20043E855 /* blurredSettingsBackground.png */; };
 		04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */; };
 		04A0F33B17AACF7F004AB164 /* ImageResizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A0F33A17AACF7F004AB164 /* ImageResizer.m */; };
 		04A386E617CEFA2F00BC0A3D /* UIView+Debugging.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A386E517CEFA2F00BC0A3D /* UIView+Debugging.m */; };
@@ -359,6 +360,7 @@
 		048C8B9E17FB71520082EB28 /* categoryHamburger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = categoryHamburger.png; path = "Commons-iOS/categoryHamburger.png"; sourceTree = SOURCE_ROOT; };
 		048C8BA017FC903A0082EB28 /* CategoryLicenseExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryLicenseExtractor.h; sourceTree = "<group>"; };
 		048C8BA117FC903A0082EB28 /* CategoryLicenseExtractor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryLicenseExtractor.m; sourceTree = "<group>"; };
+		049AA0391815A9F20043E855 /* blurredSettingsBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blurredSettingsBackground.png; sourceTree = "<group>"; };
 		04A02DA7177502AF00A392C1 /* GalleryMultiSelectAssetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GalleryMultiSelectAssetCell.h; sourceTree = "<group>"; };
 		04A02DA8177502AF00A392C1 /* GalleryMultiSelectAssetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GalleryMultiSelectAssetCell.m; sourceTree = "<group>"; };
 		04A0F33917AACF7F004AB164 /* ImageResizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageResizer.h; sourceTree = "<group>"; };
@@ -945,6 +947,7 @@
 			isa = PBXGroup;
 			children = (
 				04AC5A7517A1D66800A06997 /* Bundled Pictures of Day */,
+				049AA0391815A9F20043E855 /* blurredSettingsBackground.png */,
 				0438EF0417FE20BA005F8BF5 /* clear.png */,
 				048C8B9E17FB71520082EB28 /* categoryHamburger.png */,
 				04C27B31174BEB9500B1942F /* mockPagePhoto.png */,
@@ -1370,6 +1373,7 @@
 				D48555AA16CD804900ED60B1 /* gallery@2x.png in Resources */,
 				04CE7CD618120ADD006F7545 /* POTD-2009-06-19.dict in Resources */,
 				D43E578D16CD9C3C00FBB0F9 /* photo-button-bg.png in Resources */,
+				049AA03A1815A9F20043E855 /* blurredSettingsBackground.png in Resources */,
 				D43E578E16CD9C3C00FBB0F9 /* photo-button-bg@2x.png in Resources */,
 				D400C37016DD96F70059F6A7 /* commons-logo.png in Resources */,
 				D400C37116DD96F70059F6A7 /* commons-logo@2x.png in Resources */,

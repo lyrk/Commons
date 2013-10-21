@@ -263,6 +263,9 @@
             [self scheduleDateStringForNextDisplay:dateString];
         }
     }];
+    [retrieve fail:^(NSError *error) {
+        NSLog(@"Pic of Day Download Fail: %@", error);
+    }];
 }
 
 -(void)scheduleDateStringForNextDisplay:(NSString *)dateString
