@@ -8,7 +8,6 @@
 #import "GettingStartedConstants.h"
 #import "MWI18N.h"
 #import "UILabel+ResizeWithAttributes.h"
-#import "UIView+Space.h"
 #import "MockPageViewController.h"
 
 @interface WhatIsCommonsViewController ()
