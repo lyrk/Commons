@@ -1121,7 +1121,7 @@ to take or choose photos.</string>
                                                     <constraint firstAttribute="height" constant="28" id="bUR-EJ-VoB"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                             </textField>
                                             <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="r2g-Wc-vb5" userLabel="Title Text Label" customClass="UILabelDynamicHeight">
                                                 <rect key="frame" x="20" y="49" width="240" height="28"/>
@@ -1164,7 +1164,7 @@ to take or choose photos.</string>
                                                     <constraint firstAttribute="height" constant="130" id="tRZ-n3-B8e"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" enablesReturnKeyAutomatically="YES"/>
                                             </textView>
                                             <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="aaw-cf-MZE" userLabel="Description Text Label" customClass="UILabelDynamicHeight">
                                                 <rect key="frame" x="20" y="49" width="240" height="130"/>

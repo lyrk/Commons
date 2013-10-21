@@ -171,7 +171,6 @@
     self.descriptionTextView.delegate = self;
     
     // Make the title text box keyboard "Done" button dismiss the keyboard
-    [self.titleTextField setReturnKeyType:UIReturnKeyDone];
     [self.titleTextField addTarget:self.descriptionTextView action:@selector(becomeFirstResponder) forControlEvents:UIControlEventEditingDidEndOnExit];
     
     // Make taps to title or description labels cause their respective text boxes to receive focus
