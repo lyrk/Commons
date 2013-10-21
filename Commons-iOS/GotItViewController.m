@@ -8,9 +8,9 @@
 #import "GettingStartedConstants.h"
 #import "MWI18N.h"
 #import "UILabel+ResizeWithAttributes.h"
-#import "UIView+Space.h"
 #import "MockPageViewController.h"
 #import "MockBadPhotoViewController.h"
+#import "UIView+Debugging.h"
 
 @interface GotItViewController (){
     UITapGestureRecognizer *tapRecognizer_;
@@ -47,14 +47,14 @@
     // Widen the labels for iPad
     self.gotItLabelWidth.constant *= GETTING_STARTED_LABEL_WIDTH_MULTIPLIER;
 
-    // Constrain the mock views horizonally
+    // Constrain the mock views horizonally. Ensures the scaled animations have sufficient space between them.
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.mockPageContainerView
                                                           attribute:NSLayoutAttributeCenterX
                                                           relatedBy:NSLayoutRelationEqual
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeLeft
                                                          multiplier:1
-                                                           constant:(self.view.frame.size.width * 0.3f)]];
+                                                           constant:(self.view.frame.size.width * GETTING_STARTED_GOTIT_MOCKPAGE_PERCENT_FROM_LEFT)]];
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.mockBadPhotoContainerView
                                                           attribute:NSLayoutAttributeCenterX
@@ -62,16 +62,13 @@
                                                              toItem:self.view
                                                           attribute:NSLayoutAttributeRight
                                                          multiplier:1
-                                                           constant:-(self.view.frame.size.width * 0.28f)]];
+                                                           constant:-(self.view.frame.size.width * GETTING_STARTED_GOTIT_MOCKBADPHOTO_PERCENT_FROM_RIGHT)]];
 
 	// Scale the animations up for iPad
 	CGAffineTransform xf = CGAffineTransformMakeScale(GETTING_STARTED_GOTIT_ANIMATIONS_SCALE, GETTING_STARTED_GOTIT_ANIMATIONS_SCALE);
 	self.mockPageContainerView.transform = xf;
 	self.mockBadPhotoContainerView.transform = xf;
 
-	// Ensure the scaled animations have sufficient space between them
-	[self.mockPageContainerView moveBesideView:self.mockBadPhotoContainerView spacing:GETTING_STARTED_GOTIT_ANIMATIONS_SPACE_BETWEEN];
-	
 	// Style attributes for labels
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	paragraphStyle.alignment = NSTextAlignmentCenter;
@@ -87,6 +84,8 @@
 
     // The button should resize properly if its i18n text is large, but it needs some padding around the text, which this provides.
     self.yesButton.contentEdgeInsets = UIEdgeInsetsMake(9.0f, 20.0f, 9.0f, 20.0f);
+
+    //[self.view randomlyColorSubviews];
 }
 
 -(void)viewDidAppear:(BOOL)animated
