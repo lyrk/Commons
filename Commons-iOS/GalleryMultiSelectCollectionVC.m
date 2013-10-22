@@ -102,9 +102,7 @@ typedef enum {
 {
     [super viewWillAppear:animated];
     
-    [self loadCollectionDataForCoverImagesThen:^{
-        [self refresh];
-    }];
+    [self loadAlbumsListOrOpenLastSelectedAlbum];
     
     // Refresh in case photos/albums changed since the app was suspended
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -198,15 +196,7 @@ typedef enum {
 
 -(void)appWillEnterForeground
 {
-    if (selectedAlbumGroupURL_ != nil) {
-        [self loadCollectionDataForAssetGroupURL:selectedAlbumGroupURL_ then:^{
-            [self setNavBarTitle:collectionData_[0][@"name"]];
-            [self refresh];
-        }];
-    }else{
-        self.galleryMode = GALLERY_SHOW_SINGLE_ALBUM;
-        [self returnToAlbums];
-    }
+    [self loadAlbumsListOrOpenLastSelectedAlbum];
 }
 
 -(void)refresh
@@ -232,16 +222,14 @@ typedef enum {
 }
 
 - (void)returnToAlbums{
-        if (self.galleryMode == GALLERY_SHOW_SINGLE_ALBUM) {
-            self.galleryMode = GALLERY_SHOW_ALL_ALBUMS;
-            selectedAlbumGroupURL_ = nil;
-            [self loadCollectionDataForCoverImagesThen:^{
-                [self setNavBarTitle:[MWMessage forKey:@"gallery-album-title"].text];
-                [self refresh];
-            }];
-            [self setNavBarBackButtonVisible:NO];
-            [self.collectionView reloadData];
-        }
+    self.galleryMode = GALLERY_SHOW_ALL_ALBUMS;
+    selectedAlbumGroupURL_ = nil;
+    [self loadCollectionDataForCoverImagesThen:^{
+        [self setNavBarTitle:[MWMessage forKey:@"gallery-album-title"].text];
+        [self refresh];
+    }];
+    [self setNavBarBackButtonVisible:NO];
+    [self.collectionView reloadData];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -271,6 +259,69 @@ typedef enum {
         default:
             return nil;
     }
+}
+
+#pragma mark - Restore previous selection
+
+-(void)getPreviousAlbumGroupURL:(void (^)(NSString *previousAlbumGroupURL))block
+{
+    // Get any previously selected album url, if not found return the url of the camera roll
+    // so fresh installs go directly to the camera roll's images the first time.
+
+    NSString *previousAlbumGroupURL = [[NSUserDefaults standardUserDefaults] objectForKey:@"previousAlbumGroupURL"];
+    if (previousAlbumGroupURL != nil) {
+        // If previous url exists return it
+        block(previousAlbumGroupURL);
+    }else{
+        // Else if previous url not found find and return the camera roll url
+        void (^cameraRollEnumerator)(ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop) {
+            if (group != nil){
+                // There should only be one group because ALAssetsGroupSavedPhotos is the group
+                // for all the photos in the camera roll
+                NSURL *cameraRollURL = [group valueForProperty:ALAssetsGroupPropertyURL];
+                block(cameraRollURL.description);
+                *stop = YES;
+            }
+        };
+        // ALAssetsGroupSavedPhotos should cause only the camera roll to be sought
+        [[GalleryMultiSelectCollectionVC defaultAssetsLibrary] enumerateGroupsWithTypes: ALAssetsGroupSavedPhotos
+                                                                             usingBlock: cameraRollEnumerator
+                                                                           failureBlock: nil];
+    }
+}
+
+-(void)loadAlbumsListOrOpenLastSelectedAlbum
+{
+    [self getPreviousAlbumGroupURL:^(NSString *previousAlbumGroupURL){
+        // If a previous album url is found, use it if it still exists
+        if (previousAlbumGroupURL != nil) {
+            selectedAlbumGroupURL_ = [NSURL URLWithString:previousAlbumGroupURL];
+            
+            void (^groupResult)(ALAssetsGroup *) = ^(ALAssetsGroup *group) {
+                // If the previous album still exists use it
+                if(group != nil){
+                    self.galleryMode = GALLERY_SHOW_SINGLE_ALBUM;
+                    [self loadCollectionDataForAssetGroupURL:selectedAlbumGroupURL_ then:^{
+                        [self setNavBarTitle:collectionData_[0][@"name"]];
+                        [self refresh];
+                    }];
+                    [self setNavBarBackButtonVisible:YES];
+                }else{
+                    // Previous album url no longer exists, so show existing album covers
+                    [self returnToAlbums];
+                }
+            };
+            void (^groupFail)(NSError *) = ^(NSError *error) {
+                // Failed to access previous album, so perform existing code for showing album covers
+                [self returnToAlbums];
+            };
+
+            [[GalleryMultiSelectCollectionVC defaultAssetsLibrary] groupForURL:selectedAlbumGroupURL_ resultBlock:groupResult failureBlock:groupFail];
+        }else{
+            // No previous album url, so show existing album covers
+            [self returnToAlbums];
+        }
+    }];
 }
 
 #pragma mark - Cells
@@ -339,6 +390,11 @@ typedef enum {
             [self refresh];
         }];
         [self setNavBarBackButtonVisible:YES];
+        
+        // Remember the user's last album selection
+        [[NSUserDefaults standardUserDefaults] setObject:selectedAlbumGroupURL_.description
+                                                  forKey:@"previousAlbumGroupURL"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
     }else{
 		// A photo was selected
 		NSLog(@"single selection made!");
