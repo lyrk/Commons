@@ -66,7 +66,7 @@
 
     if (result == nil) {
         // JSON deserialization failure
-        [deferred_ resolve:error];
+        [deferred_ reject:error];
     } else if (result[@"error"]) {
         NSLog(@"%@", result);
         // Generic error result from the API.
