@@ -222,6 +222,9 @@
 		D41D281716C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
 		D41D281816C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
 		D4284F1016C9C2AA008640B0 /* MWEventLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */; };
+		D43DFDBC181890150052FFD7 /* Commons-logo-76.png in Resources */ = {isa = PBXBuildFile; fileRef = D43DFDB9181890150052FFD7 /* Commons-logo-76.png */; };
+		D43DFDBD181890150052FFD7 /* Commons-logo-120.png in Resources */ = {isa = PBXBuildFile; fileRef = D43DFDBA181890150052FFD7 /* Commons-logo-120.png */; };
+		D43DFDBE181890150052FFD7 /* Commons-logo-152.png in Resources */ = {isa = PBXBuildFile; fileRef = D43DFDBB181890150052FFD7 /* Commons-logo-152.png */; };
 		D43E578D16CD9C3C00FBB0F9 /* photo-button-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = D43E578B16CD9C3C00FBB0F9 /* photo-button-bg.png */; };
 		D43E578E16CD9C3C00FBB0F9 /* photo-button-bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D43E578C16CD9C3C00FBB0F9 /* photo-button-bg@2x.png */; };
 		D44DDD3C16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
@@ -512,6 +515,9 @@
 		D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyUploadsViewController.m; sourceTree = "<group>"; };
 		D4284F0E16C9C2AA008640B0 /* MWEventLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWEventLogging.h; path = MWEventLogging/MWEventLogging.h; sourceTree = "<group>"; };
 		D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWEventLogging.m; path = MWEventLogging/MWEventLogging.m; sourceTree = "<group>"; };
+		D43DFDB9181890150052FFD7 /* Commons-logo-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-76.png"; sourceTree = SOURCE_ROOT; };
+		D43DFDBA181890150052FFD7 /* Commons-logo-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-120.png"; sourceTree = SOURCE_ROOT; };
+		D43DFDBB181890150052FFD7 /* Commons-logo-152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-152.png"; sourceTree = SOURCE_ROOT; };
 		D43E578B16CD9C3C00FBB0F9 /* photo-button-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-button-bg.png"; sourceTree = "<group>"; };
 		D43E578C16CD9C3C00FBB0F9 /* photo-button-bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "photo-button-bg@2x.png"; sourceTree = "<group>"; };
 		D44DDD3816CC4D6000318FBF /* MWDeferred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWDeferred.h; path = mwapi/MWDeferred.h; sourceTree = "<group>"; };
@@ -980,8 +986,11 @@
 				30DC441A178D42E60081555A /* cc-sa-white@2x.png */,
 				D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */,
 				D40CE3DD16BB542200E63B27 /* fileicon-svg.png */,
-				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
 				D4086196169B791100D6ACB0 /* Commons-logo-57.png */,
+				D43DFDB9181890150052FFD7 /* Commons-logo-76.png */,
+				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
+				D43DFDBA181890150052FFD7 /* Commons-logo-120.png */,
+				D43DFDBB181890150052FFD7 /* Commons-logo-152.png */,
 				D4086178169B760800D6ACB0 /* Commons-iOS-Info.plist */,
 				D4086179169B760800D6ACB0 /* InfoPlist.strings */,
 				D408617C169B760800D6ACB0 /* main.m */,
@@ -1344,6 +1353,7 @@
 				D408618A169B760800D6ACB0 /* MainStoryboard.storyboard in Resources */,
 				D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */,
 				D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */,
+				D43DFDBE181890150052FFD7 /* Commons-logo-152.png in Resources */,
 				D40CE3CD16BB390A00E63B27 /* Default-Portrait~ipad.png in Resources */,
 				D40CE3CF16BB390D00E63B27 /* Default-Portrait@2x~ipad.png in Resources */,
 				D40CE3D116BB391300E63B27 /* Default-Landscape~ipad.png in Resources */,
@@ -1402,6 +1412,7 @@
 				04CE7CD718120ADD006F7545 /* POTD-2010-05-24.dict in Resources */,
 				D4C037241700C38100AA2537 /* messages-km.json in Resources */,
 				D4C037251700C38100AA2537 /* messages-ko.json in Resources */,
+				D43DFDBC181890150052FFD7 /* Commons-logo-76.png in Resources */,
 				D4C037261700C38100AA2537 /* messages-lb.json in Resources */,
 				D4C037271700C38100AA2537 /* messages-mk.json in Resources */,
 				D4C037281700C38100AA2537 /* messages-ms.json in Resources */,
@@ -1428,6 +1439,7 @@
 				D4DE80ED170A3761005F7580 /* messages-vi.json in Resources */,
 				D475B28E171C750D00AA81C9 /* messages-fi.json in Resources */,
 				04CE7CE618120ADD006F7545 /* POTD-2013-09-03.jpg in Resources */,
+				D43DFDBD181890150052FFD7 /* Commons-logo-120.png in Resources */,
 				D475B28F171C750D00AA81C9 /* messages-ksh.json in Resources */,
 				04CE7CDD18120ADD006F7545 /* POTD-2007-06-15.jpg in Resources */,
 				D475B290171C750D00AA81C9 /* messages-pa.json in Resources */,
