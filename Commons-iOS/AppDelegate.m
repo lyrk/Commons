@@ -131,7 +131,7 @@
     [[UINavigationBar appearance] setTitleTextAttributes:
         @{
             UITextAttributeFont: [UIFont boldSystemFontOfSize:20],
-            UITextAttributeTextColor: [UIColor whiteColor],
+            /* UITextAttributeTextColor: [UIColor whiteColor], */   // <-- Causes share by email title to be washed out in iOS 7
             UITextAttributeTextShadowColor: [UIColor clearColor],
             UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetMake(0, -1)]
         }

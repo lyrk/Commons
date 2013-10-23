@@ -28,7 +28,7 @@
 #define URL_BUGS                      @"https://bugzilla.wikimedia.org/buglist.cgi?product=Commons%20App"
 #define URL_PRIVACY                   @"https://commons.wikimedia.org/wiki/Commons:Privacy_policy"
 
-#define URL_THIS_APP_SOURCE           @"https://github.com/wikimedia/Commons-iOS"
+#define URL_THIS_APP_SOURCE           @"https://github.com/wikimedia/apps-ios-commons"
 #define URL_THIS_APP_LICENSE          @"https://raw.github.com/wikimedia/Commons-iOS/master/COPYING"
 #define URL_THIS_APP_CONTRIBUTORS     @"https://github.com/wikimedia/Commons-iOS/contributors"
 
