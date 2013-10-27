@@ -13,6 +13,8 @@
     "contribs-state-downloading": "Recuperando a miniatura de \"$1\"",
     "contribs-state-generating-thumb": "Xerando a miniatura de \"$1\"",
     "contribs-untitled": "Sen t\u00edtulo",
+    "contribs-photo-access-error": "Esta aplicaci\u00f3n non ten acceso \u00e1 s\u00faas fotos.",
+    "contribs-photo-access-remedy": "Pode permitir o acceso desde a configuraci\u00f3n da protecci\u00f3n de datos.",
     "contribs-refresh": "Tire para refrescar",
     "contribs-refreshing": "Refrescando...",
     "error-upload-failed": "Erro durante a carga!",

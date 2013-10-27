@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Ale.salmo",
             "Beta16",
             "Raoli",
             "Una giornata uggiosa '94",
@@ -16,6 +17,8 @@
     "contribs-state-downloading": "$1 (recupero dell'anteprima...)",
     "contribs-state-generating-thumb": "$1 (creazione dell'anteprima in corso...)",
     "contribs-untitled": "Senza titolo",
+    "contribs-photo-access-error": "Questa applicazione non ha accesso alle tue foto.",
+    "contribs-photo-access-remedy": "\u00c8 possibile abilitare l'accesso nelle impostazioni della Privacy.",
     "contribs-refresh": "Trascina in basso per aggiornare",
     "contribs-refreshing": "Aggiornamento in corso...",
     "error-upload-failed": "Caricamento non riuscito",
@@ -41,6 +44,7 @@
     "settings-usage-reports-dont-send-button": "Non inviare",
     "settings-links-label": "Link:",
     "settings-source-label": "Fonte:",
+    "settings-background-label": "Sfondo",
     "details-title": "Dettagli",
     "details-nav-prompt": "Descrivi e carica",
     "details-upload-button": "Carica",

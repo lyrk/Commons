@@ -13,6 +13,8 @@
     "contribs-state-downloading": "Recuperando la miniatura de \"$1\"",
     "contribs-state-generating-thumb": "Xenerando la miniatura de \"$1\"",
     "contribs-untitled": "Ensin t\u00edtulu",
+    "contribs-photo-access-error": "Esta aplicaci\u00f3n nun tien accesu a les sos fotos.",
+    "contribs-photo-access-remedy": "Pue permitir l'accesu dende la configuraci\u00f3n de Protecci\u00f3n de datos.",
     "contribs-refresh": "Tirar pa refrescar",
     "contribs-refreshing": "Refrescando...",
     "error-upload-failed": "\u00a1Fall\u00f3 la xuba!",

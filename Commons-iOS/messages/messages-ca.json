@@ -15,6 +15,8 @@
     "contribs-state-downloading": "S'est\u00e0 recuperant la miniatura $1",
     "contribs-state-generating-thumb": "S'est\u00e0 generant la miniatura $1",
     "contribs-untitled": "Sense t\u00edtol",
+    "contribs-photo-access-error": "L'aplicaci\u00f3 no pot accedir a les vostres fotos.",
+    "contribs-photo-access-remedy": "Podeu habilitar l'acc\u00e9s a les prefer\u00e8ncies de privadesa.",
     "contribs-refresh": "Estira per a refrescar",
     "contribs-refreshing": "S'est\u00e0 refrescant\u2026",
     "error-upload-failed": "Ha fallat la c\u00e0rrega!",

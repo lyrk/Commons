@@ -40,7 +40,7 @@
     "settings-usage-reports-dont-send-button": "Don't send usage reports button text",
     "settings-links-label": "Label for links section.\n{{Identical|Link}}",
     "settings-source-label": "Label for source section of the settings pages.\n{{Identical|Source}}",
-    "settings-background-label": "Label for button linking to Wiki page for image used as Settings background",
+    "settings-background-label": "Label for button linking to Wiki page for image used as Settings background.\n{{Identical|Background}}",
     "details-title": "Title for photo details screen.\n{{Identical|Detail}}",
     "details-nav-prompt": "Prompt which appears above the navigation bar at the top of the screen when a newly taken, yet to be uploaded picture is first presented",
     "details-upload-button": "Button text for button to begin uploading the selected photo.\n{{Identical|Upload}}",
