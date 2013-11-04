@@ -2,6 +2,7 @@
     "@metadata": {
         "authors": [
             "Amer-aln7l",
+            "Claw eg",
             "Mido",
             "OsamaK"
         ]
@@ -37,6 +38,7 @@
     "settings-usage-reports-label": "\u062a\u0642\u0627\u0631\u064a\u0631 \u0627\u0644\u0627\u0633\u062a\u062e\u062f\u0627\u0645:",
     "settings-usage-reports-description": "\u0623\u0631\u0633\u0644 \u062a\u0642\u0627\u0631\u064a\u0631 \u0627\u0644\u0627\u0633\u062a\u062e\u062f\u0627\u0645 \u0644\u0648\u064a\u0643\u064a\u0645\u064a\u062f\u064a\u0627 \u0644\u062a\u0633\u0627\u0639\u062f\u0646\u0627 \u0639\u0644\u0649 \u062a\u062d\u0633\u064a\u0646 \u0627\u0644\u062a\u0637\u0628\u064a\u0642.",
     "settings-links-label": "\u0627\u0644\u0648\u0635\u0644\u0627\u062a:",
+    "settings-background-label": "\u0627\u0644\u062e\u0644\u0641\u064a\u0629",
     "details-title": "\u0627\u0644\u062a\u0641\u0627\u0635\u064a\u0644",
     "details-nav-prompt": "\u0635\u0650\u0641 \u0648\u0627\u0631\u0641\u0639",
     "details-upload-button": "\u0627\u0631\u0641\u0639",
