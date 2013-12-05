@@ -1,6 +1,7 @@
 {
     "@metadata": {
         "authors": [
+            "Evropi",
             "Geraki",
             "Glavkos"
         ]
@@ -27,6 +28,7 @@
     "settings-title": "Ρυθμίσεις",
     "settings-username-placeholder": "Όνομα χρήστη",
     "settings-password-placeholder": "Κωδικός",
+    "settings-usage-reports-send-button": "Αποστολή",
     "details-title": "Λεπτομέρειες",
     "details-upload-button": "Επιφόρτωση",
     "details-title-label": "Τίτλος",
@@ -37,12 +39,25 @@
     "details-hide-keyboard": "Απόκρυψη Πληκτρολογίου",
     "web-cancel": "Ακύρωση",
     "login-title": "Λογαριασμός",
+    "login-current-user-button": "Συνεχίστε ως: $1",
     "login-button": "Είσοδος",
+    "login-recover-password-button": "ανακτήστε τον κωδικό σας",
+    "logout-button": "Έξοδος",
     "about-title": "Σχετικά",
     "about-app-version-label": "Έκδοση $1",
     "about-commons-button": "Wikimedia Commons",
     "about-privacy-button": "Πολιτική ιδιωτικού απορρήτου",
     "about-source-button": "Πηγή",
     "about-source-this-app-contributors": "Συνεισφέροντες",
-    "about-license-button": "Άδεια χρήσης"
+    "about-license-button": "Άδεια χρήσης",
+    "license-title": "Άδεια",
+    "license-details-intro": "Περισσότερες πληροφορίες",
+    "catdetail-title": "Κατηγορία",
+    "catadd-title": "Προσθήκη κατηγορίας",
+    "getting-started-yes-button": "Ναι!",
+    "picture-of-day-author": "Δημιουργός:",
+    "picture-of-day-license-button": "Άδεια",
+    "picture-of-day-cancel-button": "Ακύρωση",
+    "refresh-failed-alert": "Η Ανανέωση Απέτυχε!",
+    "gallery-cancel-button": "Ακύρωση"
 }
