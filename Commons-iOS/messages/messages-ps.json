@@ -15,7 +15,7 @@
     "error-upload-failed": "پورته کېدنه پاتې شوه",
     "error-nologin-title": "اوهو!",
     "error-nologin-text": "د انځورونو د پورته کولو دمخه بايد غونډال ته ورننوځۍ",
-    "error-bad-password-title": "د ننوتنې ستونزه",
+    "error-bad-password-title": "د ننوتلو ستونزه",
     "error-bad-password": "ناسم کارن-نوم يا پټنوم",
     "reltime-minutes": "$1 دقيقه دمخه",
     "reltime-hours": "$1 گړۍ دمخه",
