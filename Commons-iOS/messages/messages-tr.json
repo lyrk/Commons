@@ -5,7 +5,8 @@
             "Emperyan",
             "Incelemeelemani",
             "Meelo",
-            "Talha Samil Cakir"
+            "Talha Samil Cakir",
+            "Cagrix"
         ]
     },
     "contribs-title": "Yüklemelerim",
@@ -37,7 +38,7 @@
     "settings-debug-label": "Hata Ayıklama Modu:",
     "settings-open-links-label": "Bağlantıları Şununla Aç:",
     "settings-open-links-only-safari": "Diğer desteklenen tarayıcılar yüklü değil.",
-    "settings-debug-detail": "$1 sitesine Yükleniyor",
+    "settings-debug-detail": "$1 Yükleniyor",
     "settings-usage-reports-label": "Kullanım Raporları:",
     "settings-usage-reports-description": "Uygulamayı geliştirmemize yardımcı olmak için kullanım raporlarını Wikimedia'ya gönder.",
     "settings-usage-reports-send-button": "Gönder",

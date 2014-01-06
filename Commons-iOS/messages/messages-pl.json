@@ -5,7 +5,8 @@
             "Faren",
             "Rezonansowy",
             "Ty221",
-            "Woytecr"
+            "Woytecr",
+            "Olaf"
         ]
     },
     "contribs-title": "Moje przesłane pliki",
@@ -39,8 +40,11 @@
     "settings-debug-detail": "Przesyłanie do $1",
     "settings-usage-reports-label": "Raporty o wykorzystaniu:",
     "settings-usage-reports-description": "Wyślij raporty o wykorzystaniu do Wikimedia, aby pomóc nam udoskonalić aplikację.",
+    "settings-usage-reports-send-button": "Wyślij",
+    "settings-usage-reports-dont-send-button": "Nie wysyłaj",
     "settings-links-label": "Linki:",
     "settings-source-label": "Źródło:",
+    "settings-background-label": "Tło",
     "details-title": "Szczegóły",
     "details-nav-prompt": "Opisz i wyślij",
     "details-upload-button": "Prześlij",
