@@ -1,7 +1,8 @@
 {
     "@metadata": {
         "authors": [
-            "सरोज कुमार ढकाल"
+            "सरोज कुमार ढकाल",
+            "Krish Dulal"
         ]
     },
     "contribs-title": "मेरा अपलोडहरू",
@@ -44,7 +45,7 @@
     "web-cancel": "रद्द गर्नुहोस्",
     "login-title": "खाता",
     "login-button": "प्रवेश गर्ने",
-    "logout-button": "निर्गमन (लग आउउ)",
+    "logout-button": "निर्गमन (लग आउट)",
     "about-title": "बारेमा",
     "about-app-version-label": "संस्करण $1",
     "about-commons-button": "विकिमीडिया कमन्स",

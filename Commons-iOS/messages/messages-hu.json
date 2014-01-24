@@ -11,8 +11,12 @@
     "contribs-settings-button": "Beállítások",
     "contribs-upload-button": "Feltöltés",
     "contribs-photo-library-button": "Képek",
-    "contribs-state-queued": "Várólistán",
-    "contribs-state-uploading": "Feltöltés",
+    "contribs-state-queued": "$1 várólistán",
+    "contribs-state-uploading": "$1 feltöltése",
+    "contribs-state-downloading": "$1 miniatűr letöltése",
+    "contribs-state-generating-thumb": "$1 miniatűr generálása",
+    "contribs-untitled": "Címnélküli",
+    "contribs-photo-access-error": "Ez az alkalmazás nem rendelkezik hozzáféréssel a fényképeidhez.",
     "contribs-refreshing": "Frissítés...",
     "error-upload-failed": "Feltöltés sikertelen!",
     "error-upload-cancelled": "Feltöltés megszakítva",
@@ -57,5 +61,10 @@
     "license-details-intro": "További információ",
     "catdetail-title": "Kategória",
     "catdetail-info-intro": "További információ",
-    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Kategóriák"
+    "catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:Kategóriák",
+    "picture-of-day-license-button": "Licenc",
+    "picture-of-day-cancel-button": "Mégse",
+    "refresh-failed-alert": "Nem sikerült frissíteni!",
+    "gallery-cancel-button": "Mégse",
+    "gallery-album-title": "Albumok"
 }
