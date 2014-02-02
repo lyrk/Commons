@@ -1,10 +1,13 @@
 {
     "@metadata": {
         "authors": [
-            "Kusavica"
+            "Kusavica",
+            "Sudo77(new)"
         ]
     },
+    "contribs-title": "Moje obrázky",
     "contribs-settings-button": "Nastavenia",
+    "contribs-upload-button": "Nahrať",
     "contribs-photo-library-button": "Fotografie",
     "contribs-state-queued": "$1 je vo fronte",
     "contribs-untitled": "Bez názvu",

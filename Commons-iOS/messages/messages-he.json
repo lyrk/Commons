@@ -6,7 +6,8 @@
             "Inkbug",
             "YaronSh",
             "דולב",
-            "Barakolo"
+            "Barakolo",
+            "Lego770"
         ]
     },
     "contribs-title": "ההעלאות שלי",
@@ -40,7 +41,7 @@
     "settings-open-links-only-safari": "לא הותקנו דפדפנים נתמכים אחרים.",
     "settings-debug-detail": "העלאה אל $1",
     "settings-usage-reports-label": "דוחות שימוש:",
-    "settings-usage-reports-description": "לשלוח דוחות שימוש לויקימדיה כדי לעזור לנו לשפר את היישום.",
+    "settings-usage-reports-description": "לשלוח דוחות שימוש לוויקימדיה כדי לעזור לנו לשפר את היישום.",
     "settings-usage-reports-dont-send-button": "אל תשלח",
     "settings-links-label": "קישורים:",
     "settings-source-label": "מקור:",
@@ -61,7 +62,7 @@
     "details-category-select": "בחירה...",
     "details-category-loading": "נטען...",
     "details-category-none-found": "לא נמצאו קטגוריות",
-    "details-deletion-button": "מחיקת דף זה",
+    "details-deletion-button": "מחיקת תמונה זו",
     "web-open-in": "לפתוח בדפדפן $1",
     "web-cancel": "ביטול",
     "login-title": "חשבון",
@@ -88,7 +89,7 @@
     "license-details-url": "https://commons.m.wikimedia.org/wiki/Commons:Licensing/he",
     "catdetail-title": "קטגוריה",
     "catdetail-intro": "קטגוריות עוזרות לתמונות שלך להיות קלות יותר לגילוי בוויקי־שיתוף.",
-    "catdetail-remove-label": "הסרת „$1”",
+    "catdetail-remove-label": "הסרת \"$1\"",
     "catdetail-info-intro": "מידע נוסף",
     "catdetail-info-label": "מידע על הקטגוריות",
     "catadd-title": "הוספת קטגוריה",
