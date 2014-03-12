@@ -42,6 +42,7 @@
     "settings-debug-detail": "העלאה אל $1",
     "settings-usage-reports-label": "דוחות שימוש:",
     "settings-usage-reports-description": "לשלוח דוחות שימוש לוויקימדיה כדי לעזור לנו לשפר את היישום.",
+    "settings-usage-reports-send-button": "שליחה",
     "settings-usage-reports-dont-send-button": "אל תשלח",
     "settings-links-label": "קישורים:",
     "settings-source-label": "מקור:",
