@@ -1,12 +1,13 @@
 {
     "@metadata": {
         "authors": [
-            "Toliño"
+            "Toliño",
+            "Vivaelcelta"
         ]
     },
     "contribs-title": "As miñas cargas",
     "contribs-settings-button": "Configuracións",
-    "contribs-upload-button": "Cargar",
+    "contribs-upload-button": "Subir",
     "contribs-photo-library-button": "Fotos",
     "contribs-state-queued": "\"$1\" na cola",
     "contribs-state-uploading": "Cargando a foto \"$1\"",
@@ -43,7 +44,7 @@
     "settings-background-label": "Fondo",
     "details-title": "Detalles",
     "details-nav-prompt": "Describir e cargar",
-    "details-upload-button": "Cargar",
+    "details-upload-button": "Subir",
     "details-title-label": "Título",
     "details-title-placeholder": "Título único e descritivo",
     "details-description-label": "Descrición",
