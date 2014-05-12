@@ -73,7 +73,7 @@
 	"login-current-user-button": "Continuar como: $1",
 	"login-button": "Iniciar sesión",
 	"login-recover-password-button": "recuperar contraseña",
-	"logout-button": "Cerrar sesión",
+	"logout-button": "Salir",
 	"about-title": "Acerca de",
 	"about-app-version-label": "Versión $1",
 	"about-commons-button": "Wikimedia Commons",
