@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Lloffiwr",
-			"Robin Owain"
+			"Robin Owain",
+			"Xxglennxx"
 		]
 	},
 	"contribs-title": "Ffeiliau rwyf wedi'u huwchlwytho",
@@ -58,7 +59,7 @@
 	"details-category-select": "Dewisiwch",
 	"details-category-loading": "Wrthi'n llwytho...",
 	"details-category-none-found": "Ni chanfyddwyd categoriau",
-	"details-deletion-button": "Dileer y ddelwedd hon",
+	"details-deletion-button": "Dilëir y ddelwedd hon",
 	"web-open-in": "Agor yn $1",
 	"web-cancel": "Canslo",
 	"login-title": "Cyfrif",

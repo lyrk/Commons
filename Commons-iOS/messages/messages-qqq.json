@@ -57,7 +57,7 @@
 	"details-category-select": "Placeholder for category short list on image detail page when no categories are present. Should be short and encourage tapping to open the category selector.\n{{Identical|Select}}",
 	"details-category-loading": "Loading message for categories on photo details.\n{{Identical|Loading}}",
 	"details-category-none-found": "No categories found message for photo details.",
-	"details-deletion-button": "Button text for image deletion button",
+	"details-deletion-button": "Button text for image deletion button.\n{{Identical|Delete image}}",
 	"web-open-in": "Button text for opening web page in a given browser. Parameters:\n* $1 - the application name such as 'Safari' or 'Opera'",
 	"web-cancel": "Button text for cancel button.\n{{Identical|Cancel}}",
 	"login-title": "Title for the button that brings the user back to the login page. Note that PLURAL will be supported, but is not yet.\n{{Identical|Account}}",
