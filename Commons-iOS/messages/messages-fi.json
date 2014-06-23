@@ -6,7 +6,8 @@
 			"Nike",
 			"Olli",
 			"Samoasambia",
-			"Silvonen"
+			"Silvonen",
+			"Jack Phoenix"
 		]
 	},
 	"contribs-title": "Omat tallennukset",
@@ -15,6 +16,8 @@
 	"contribs-photo-library-button": "Kuvat",
 	"contribs-state-queued": "$1 jonossa",
 	"contribs-state-uploading": "$1 tallennetaan kuvaa",
+	"contribs-state-downloading": "$1 Haetaan pikkukuvaa",
+	"contribs-state-generating-thumb": "$1 Luodaan pikkukuva",
 	"contribs-untitled": "Nimetön",
 	"contribs-photo-access-error": "Tämä sovellus ei ole voi käyttää kuviasi.",
 	"contribs-photo-access-remedy": "Mahdollista tämä muuttamalla asetusta yksityisyysasetuksissa.",
@@ -45,6 +48,7 @@
 	"settings-source-label": "Lähde:",
 	"settings-background-label": "Tausta",
 	"details-title": "Tiedot",
+	"details-nav-prompt": "Kuvaile ja tallenna",
 	"details-upload-button": "Tallenna",
 	"details-title-label": "Aihe",
 	"details-title-placeholder": "Yksilöivä, kuvaava otsikko",
