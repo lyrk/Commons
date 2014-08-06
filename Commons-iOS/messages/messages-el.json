@@ -3,7 +3,8 @@
 		"authors": [
 			"Evropi",
 			"Geraki",
-			"Glavkos"
+			"Glavkos",
+			"Auslaender"
 		]
 	},
 	"contribs-title": "Οι επιφορτώσεις μου",
@@ -22,6 +23,7 @@
 	"error-upload-failed": "Αποστολή απέτυχε!",
 	"error-dismiss": "Απόρριψη",
 	"error-nologin-title": "Ωχ!",
+	"error-nologin-text": "Πρέπει να συνδεθείτε για να ανεβάσετε φωτογραφίες",
 	"error-bad-password": "Λάθος όνομα χρήστη ή κωδικός",
 	"reltime-minutes": "$1 λεπτά πριν",
 	"reltime-hours": "$1 ώρες πριν",

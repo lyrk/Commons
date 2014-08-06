@@ -5,7 +5,9 @@
 			"Justincheng12345",
 			"Liflon",
 			"Simon Shek",
-			"StephDC"
+			"StephDC",
+			"LNDDYL",
+			"Liuxinyu970226"
 		]
 	},
 	"contribs-title": "我的上載",
@@ -32,7 +34,7 @@
 	"reltime-hours": "$1小時前",
 	"reltime-days": "$1天前",
 	"settings-title": "設定",
-	"settings-username-placeholder": "用戶名",
+	"settings-username-placeholder": "使用者名稱",
 	"settings-password-placeholder": "密碼",
 	"settings-debug-label": "偵錯模式：",
 	"settings-open-links-label": "使用以下程式打開連結：",
@@ -64,7 +66,7 @@
 	"details-deletion-button": "刪除此圖像",
 	"web-open-in": "在$1中打開",
 	"web-cancel": "取消",
-	"login-title": "用戶",
+	"login-title": "帳戶",
 	"login-current-user-button": "以$1繼續",
 	"login-button": "登入",
 	"login-recover-password-button": "恢復密碼",

@@ -2,7 +2,9 @@
 	"@metadata": {
 		"authors": [
 			"Rv77ax",
-			"Farras"
+			"Farras",
+			"Arifin.wijaya",
+			"Iwan Novirion"
 		]
 	},
 	"contribs-title": "Unggahan saya",
@@ -11,8 +13,8 @@
 	"contribs-photo-library-button": "Foto",
 	"contribs-state-queued": "$1 Diantrikan",
 	"contribs-state-uploading": "Mengunggah Foto $1",
-	"contribs-state-downloading": "Menerima Gambar Kecil $1",
-	"contribs-state-generating-thumb": "Menciptakan Gambar Kecil $1",
+	"contribs-state-downloading": "Menerima Gambar Miniatur $1",
+	"contribs-state-generating-thumb": "Menciptakan Gambar Miniatur $1",
 	"contribs-untitled": "Tanpa Nama",
 	"contribs-photo-access-error": "Aplikasi ini tidak memiliki akses ke foto-foto Anda.",
 	"contribs-photo-access-remedy": "Anda dapat mengaktifkan akses di Setelan Privasi.",
@@ -22,7 +24,7 @@
 	"error-upload-cancelled": "Pengunggahan dibatalkan",
 	"error-dismiss": "Tutup",
 	"error-nologin-title": "Uh oh!",
-	"error-nologin-text": "Anda harus masuk lo terlebih dahulu sebelum mengunggah foto",
+	"error-nologin-text": "Anda harus masuk log terlebih dahulu sebelum mengunggah foto",
 	"error-bad-password-title": "Kesalahan masuk log",
 	"error-bad-password": "Nama pengguna atau kata kunci salah",
 	"reltime-minutes": "$1 menit yang lalu",
@@ -33,7 +35,7 @@
 	"settings-password-placeholder": "Kata sandi",
 	"settings-debug-label": "Mode ''Debug'':",
 	"settings-open-links-label": "Buka Tautan Dengan:",
-	"settings-open-links-only-safari": "Tidak ada dukungan perambah jejaring lain yang terpasang.",
+	"settings-open-links-only-safari": "Tidak ada dukungan peramban jejaring lain yang terpasang.",
 	"settings-debug-detail": "Mengunggah ke $1",
 	"settings-usage-reports-label": "Laporan Penggunaan:",
 	"settings-usage-reports-description": "Kirimkan laporan penggunaan ke Wikimedia untuk membantu kami memperbarui aplikasi",
