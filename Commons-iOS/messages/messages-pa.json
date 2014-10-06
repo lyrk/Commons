@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Aalam",
-			"Babanwalia"
+			"Babanwalia",
+			"Jimidar"
 		]
 	},
 	"contribs-title": "ਮੇਰੇ ਅੱਪਲੋਡ",
@@ -14,6 +15,8 @@
 	"contribs-state-downloading": "ਤਸਵੀਰ ਸਿਰਲੇਖ $1 ਵਾਪਸ ਲਿਆ ਗਿਆ",
 	"contribs-state-generating-thumb": "ਤਸਵੀਰ ਸਿਰਲੇਖ $1 ਬਣਾਇਆ ਜਾ ਰਿਹਾ ਹੈ",
 	"contribs-untitled": "ਬਗ਼ੈਰ ਸਿਰਲੇਖ ਤੋਂ",
+	"contribs-photo-access-error": "ਇਸ ਐਪ ਕੋਲ ਤੁਹਾਡੀਆਂ ਤਸਵੀਰਾਂ ਤੱਕ ਦਖਲ ਨਹੀਂ ਹੈ",
+	"contribs-photo-access-remedy": "ਤੁਸੀਂ ਪਰਦੇਦਾਰੀ ਦੀਆਂ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਪਹੁੰਚ ਨੂੰ ਸਮਰੱਥ ਕਰ ਸਕਦੇ ਹੋ।",
 	"contribs-refresh": "ਤਾਜ਼ਾ ਕਰਨ ਲਈ ਖਿੱਚੋ",
 	"contribs-refreshing": "ਤਾਜ਼ਾ ਹੋ ਰਿਹਾ ਹੈ...",
 	"error-upload-failed": "ਅੱਪਲੋਡ ਫੇਲ੍ਹ ਹੋ ਗਿਆ!",
@@ -63,7 +66,7 @@
 	"login-current-user-button": "ਇੱਦਾਂ ਅਗਾਂਹ ਵਧੋ: $1",
 	"login-button": "ਦਾਖ਼ਲਾ",
 	"login-recover-password-button": "ਪਾਸਵਰਡ ਵਸੂਲੋ",
-	"logout-button": "ਵਿਦਾਈ",
+	"logout-button": "ਬਾਹਰ ਆਉ",
 	"about-title": "ਇਸ ਬਾਰੇ",
 	"about-app-version-label": "ਵਰਜਨ $1",
 	"about-commons-button": "ਵਿਕੀਮੀਡੀਆ ਕਾਮਨਜ਼",
@@ -100,6 +103,7 @@
 	"picture-of-day-author": "ਲੇਖਕ:",
 	"picture-of-day-tap-for-license": "ਲਸੰਸ ਲਈ ਛੂਹੋ",
 	"picture-of-day-menu-title": "ਦਿਨ ਦੀ ਤਸਵੀਰ",
+	"picture-of-day-commons-button": "ਕਾਮਨਜ਼ ਦਾ ਵਰਕਾ",
 	"picture-of-day-license-button": "ਲਸੰਸ",
 	"picture-of-day-cancel-button": "ਰੱਦ ਕਰੋ",
 	"refresh-failed-alert": "ਤਾਜ਼ਾ ਕਰਨਾਂ ਫੇਲ੍ਹ ਹੋਇਆ!",

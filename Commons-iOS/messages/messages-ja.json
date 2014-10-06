@@ -2,7 +2,8 @@
 	"@metadata": {
 		"authors": [
 			"Fryed-peach",
-			"Shirayuki"
+			"Shirayuki",
+			"Takot"
 		]
 	},
 	"contribs-title": "自分のアップロード",
@@ -85,8 +86,10 @@
 	"catdetail-info-url": "https://commons.m.wikimedia.org/wiki/Commons:カテゴリ",
 	"catadd-title": "カテゴリを追加",
 	"catadd-search-placeholder": "カテゴリの検索",
+	"getting-started-what-is-commons-contribute-label": "画像を投稿してください。ウィキペディアの記事に彩りを！",
 	"getting-started-got-it-label": "ご理解いただけましたか?",
 	"getting-started-yes-button": "はい!",
+	"picture-of-day-label": "ウィキメディア・コモンズ\n今日の一枚",
 	"picture-of-day-author": "作者:",
 	"picture-of-day-tap-for-license": "タップでライセンスを表示",
 	"picture-of-day-menu-title": "今日の一枚",
