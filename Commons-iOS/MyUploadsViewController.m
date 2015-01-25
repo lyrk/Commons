@@ -232,7 +232,7 @@
     self.settingsButton.userInteractionEnabled = YES;
     [self.view addSubview:self.settingsButton];
     [self.settingsButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[view]-|" options:0 metrics:nil views:@{@"view": self.settingsButton}]];
-    [self.settingsButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-|" options:0 metrics:nil views:@{@"view": self.settingsButton}]];
+    [self.settingsButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-15-|" options:0 metrics:nil views:@{@"view": self.settingsButton}]];
     [self.settingsButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(settingsButtonPushed:)]];
     [self styleRoundLabel:self.settingsButton];
     
@@ -249,7 +249,7 @@
     self.aboutButton.userInteractionEnabled = YES;
     [self.view addSubview:self.aboutButton];
     [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[view]" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
-    [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-|" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
+    [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-15-|" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
     [self.aboutButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleInfoLabelTap:)]];
     [self styleRoundLabel:self.aboutButton];
 }

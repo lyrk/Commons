@@ -414,7 +414,7 @@
     self.attributionButton.transform = CGAffineTransformMakeScale(-1.0, 1.0);
     [self.view addSubview:self.attributionButton];
     [self.attributionButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[view]-|" options:0 metrics:nil views:@{@"view": self.attributionButton}]];
-    [self.attributionButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-|" options:0 metrics:nil views:@{@"view": self.attributionButton}]];
+    [self.attributionButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-15-|" options:0 metrics:nil views:@{@"view": self.attributionButton}]];
     [self.attributionButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushedAttributionButton:)]];
     [self styleRoundLabel:self.attributionButton];
 }
@@ -424,7 +424,7 @@
     self.aboutButton.userInteractionEnabled = YES;
     [self.view addSubview:self.aboutButton];
     [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[view]" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
-    [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-|" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
+    [self.aboutButton.superview addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[view]-15-|" options:0 metrics:nil views:@{@"view": self.aboutButton}]];
     [self.aboutButton addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleInfoLabelTap:)]];
     [self styleRoundLabel:self.aboutButton];
 }
