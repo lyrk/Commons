@@ -570,6 +570,7 @@
 
             dispatch_async(dispatch_get_main_queue(), ^(void) {
                 [self getPreviouslySavedDescriptionForRecord:record];
+                [self getPreviouslySavedLicenseForRecord:record];
                 [self getPreviouslySavedCategoriesForRecord:record];
             });
         }else{
@@ -918,6 +919,33 @@
             weakDescriptionTextView.text = [MWMessage forKey:@"details-description-none-found"].text;
         }
         weakDescriptionTextLabel.text = weakDescriptionTextView.text;
+    }];
+}
+
+- (void)getPreviouslySavedLicenseForRecord:(FileUpload *)record
+{
+    CommonsApp *app = CommonsApp.singleton;
+    MWApi *api = [app startApi];
+    NSMutableDictionary *params = [@{
+                                     @"action": @"query",
+                                     @"prop": @"imageinfo",
+                                     @"iiprop": @"extmetadata",
+                                     @"titles": [@"File:" stringByAppendingString:record.title],
+                                     
+                                     } mutableCopy];
+    MWPromise *req = [api getRequest:params];
+    
+    [req done:^(NSDictionary *result) {
+        NSDictionary *metadata = result;
+        NSDictionary *pages = metadata[@"query"][@"pages"];
+        NSDictionary *usageTerms = pages[[[pages allKeys] objectAtIndex:0]][@"imageinfo"][0][@"extmetadata"][@"UsageTerms"];
+        NSString *usageTermsText = usageTerms[@"value"];
+        
+        NSDictionary *license = pages[[[pages allKeys] objectAtIndex:0]][@"imageinfo"][0][@"extmetadata"][@"License"];
+        NSString *licenseValue = license[@"value"];
+        
+        record.license = licenseValue;
+        self.licenseDefaultLabel.text = usageTermsText;
     }];
 }
 

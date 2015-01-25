@@ -45,7 +45,7 @@ static CommonsApp *singleton_;
     return self;
 }
 
--(void)loadSelectableLicenses
+- (void)loadSelectableLicenses
 {
     // The list of licenses to be chosen from.
     self.selectableLicenses = @[
