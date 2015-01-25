@@ -174,6 +174,7 @@
 		65CA699D16C0687C00839D09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086174169B760800D6ACB0 /* CoreGraphics.framework */; };
 		65D839AF16D056CA00C0371A /* LocalizationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839AE16D056CA00C0371A /* LocalizationTest.m */; };
 		65D839B216D08F9200C0371A /* DataTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839B116D08F9200C0371A /* DataTest.m */; };
+		A872CD641A749A3F00643AA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A872CD631A749A3F00643AA4 /* Images.xcassets */; };
 		B938B3C317B332250039ABF8 /* browser.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3BF17B332250039ABF8 /* browser.png */; };
 		B938B3C417B332250039ABF8 /* browser@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3C017B332250039ABF8 /* browser@2x.png */; };
 		B938B3C517B332250039ABF8 /* browser@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3C117B332250039ABF8 /* browser@2x~ipad.png */; };
@@ -459,6 +460,7 @@
 		65CA697416BFCE3300839D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		65D839AE16D056CA00C0371A /* LocalizationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalizationTest.m; sourceTree = "<group>"; };
 		65D839B116D08F9200C0371A /* DataTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTest.m; sourceTree = "<group>"; };
+		A872CD631A749A3F00643AA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B938B3BF17B332250039ABF8 /* browser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = browser.png; sourceTree = "<group>"; };
 		B938B3C017B332250039ABF8 /* browser@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser@2x.png"; sourceTree = "<group>"; };
 		B938B3C117B332250039ABF8 /* browser@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser@2x~ipad.png"; sourceTree = "<group>"; };
@@ -940,6 +942,7 @@
 				D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */,
 				D48BB91E17289CBE003100CE /* CategoryCell.xib */,
 				D48BB92017289CEF003100CE /* AddCategoryCell.xib */,
+				A872CD631A749A3F00643AA4 /* Images.xcassets */,
 			);
 			path = "Commons-iOS";
 			sourceTree = "<group>";
@@ -1185,7 +1188,7 @@
 			name = "Commons-iOS-Logic-Testing";
 			productName = "Commons-iOS-Logic-Testing";
 			productReference = 65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		65137D0516BE6696006FA9BD /* Commons-iOS-Application-Testing */ = {
 			isa = PBXNativeTarget;
@@ -1203,7 +1206,7 @@
 			name = "Commons-iOS-Application-Testing";
 			productName = "Commons-iOS-Application-Testing";
 			productReference = 65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		65C4D53B16CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing */ = {
 			isa = PBXNativeTarget;
@@ -1396,6 +1399,7 @@
 				D4C037191700C38100AA2537 /* messages-dsb.json in Resources */,
 				04CE7CDA18120ADD006F7545 /* POTD-2013-04-29.dict in Resources */,
 				D4C0371A1700C38100AA2537 /* messages-eo.json in Resources */,
+				A872CD641A749A3F00643AA4 /* Images.xcassets in Resources */,
 				D4C0371B1700C38100AA2537 /* messages-es.json in Resources */,
 				04CE7CDE18120ADD006F7545 /* POTD-2008-01-25.jpg in Resources */,
 				04CE7CD318120ADD006F7545 /* POTD-2007-06-15.dict in Resources */,
@@ -1901,6 +1905,8 @@
 		D4086194169B760800D6ACB0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1920,6 +1926,8 @@
 		D4086195169B760800D6ACB0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
