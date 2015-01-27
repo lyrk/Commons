@@ -3,6 +3,7 @@
     <dependencies>
         <deployment version="1536" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -120,7 +121,7 @@
                                     <constraint firstItem="3va-h9-QXe" firstAttribute="top" secondItem="wMJ-sV-V0U" secondAttribute="bottom" constant="8" symbolic="YES" id="yYc-gC-JLe"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5wL-YR-by3" userLabel="Top Spacer">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5wL-YR-by3" userLabel="Top Spacer">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Iu-YZ-Mbg" userLabel="Middle Spacer">
@@ -1042,8 +1043,8 @@ to take or choose photos.</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehb-uI-yRM" userLabel="Scroll Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="597"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ehb-uI-yRM" userLabel="Scroll Container">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="472"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhZ-zd-ki7" userLabel="Title Container">
                                         <rect key="frame" x="20" y="20" width="280" height="97"/>
@@ -1133,35 +1134,8 @@ to take or choose photos.</string>
                                             <constraint firstItem="aaw-cf-MZE" firstAttribute="top" secondItem="CZQ-bf-MDt" secondAttribute="bottom" constant="8" symbolic="YES" id="jL9-Ch-3sm"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0OK-Zl-28Q" userLabel="License Container">
-                                        <rect key="frame" x="20" y="332" width="280" height="86"/>
-                                        <subviews>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" text="License          " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="myN-TB-iEG">
-                                                <rect key="frame" x="20" y="20" width="240" height="21"/>
-                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            </label>
-                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="LS9-Wd-TxX" userLabel="Default Label" customClass="UILabelDynamicHeight">
-                                                <rect key="frame" x="20" y="49" width="240" height="17"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="LS9-Wd-TxX" secondAttribute="trailing" constant="20" symbolic="YES" id="3IO-iz-5W1"/>
-                                            <constraint firstAttribute="bottom" secondItem="LS9-Wd-TxX" secondAttribute="bottom" constant="20" symbolic="YES" id="563-j8-Z25"/>
-                                            <constraint firstItem="myN-TB-iEG" firstAttribute="top" secondItem="0OK-Zl-28Q" secondAttribute="top" constant="20" symbolic="YES" id="Mgr-4o-3b3"/>
-                                            <constraint firstItem="LS9-Wd-TxX" firstAttribute="top" secondItem="myN-TB-iEG" secondAttribute="bottom" constant="8" symbolic="YES" id="Ofm-wF-usc"/>
-                                            <constraint firstItem="myN-TB-iEG" firstAttribute="leading" secondItem="0OK-Zl-28Q" secondAttribute="leading" constant="20" symbolic="YES" id="WVq-O5-9lt"/>
-                                            <constraint firstAttribute="trailing" secondItem="myN-TB-iEG" secondAttribute="trailing" constant="20" symbolic="YES" id="e3q-FH-Ufn"/>
-                                            <constraint firstItem="LS9-Wd-TxX" firstAttribute="leading" secondItem="0OK-Zl-28Q" secondAttribute="leading" constant="20" symbolic="YES" id="xhY-l5-kTp"/>
-                                        </constraints>
-                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fx9-U5-jNG" userLabel="Category Container">
-                                        <rect key="frame" x="20" y="426" width="280" height="86"/>
+                                        <rect key="frame" x="20" y="513" width="280" height="86"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="jUg-Wa-cMl">
                                                 <rect key="frame" x="20" y="20" width="240" height="21"/>
@@ -1188,7 +1162,7 @@ to take or choose photos.</string>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zMN-gT-FuM" userLabel="Delete Container">
-                                        <rect key="frame" x="20" y="520" width="280" height="57"/>
+                                        <rect key="frame" x="20" y="607" width="280" height="57"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delete This Image" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="tnu-rV-ymq" customClass="UILabelDynamicHeight">
                                                 <rect key="frame" x="20" y="20" width="240" height="17"/>
@@ -1205,26 +1179,81 @@ to take or choose photos.</string>
                                             <constraint firstAttribute="bottom" secondItem="tnu-rV-ymq" secondAttribute="bottom" constant="20" symbolic="YES" id="yF4-hi-JnT"/>
                                         </constraints>
                                     </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0OK-Zl-28Q" userLabel="License Container">
+                                        <rect key="frame" x="20" y="419" width="280" height="86"/>
+                                        <subviews>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" text="License          " lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="myN-TB-iEG">
+                                                <rect key="frame" x="20" y="20" width="240" height="21"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </label>
+                                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="240" translatesAutoresizingMaskIntoConstraints="NO" id="LS9-Wd-TxX" userLabel="Default Label" customClass="UILabelDynamicHeight">
+                                                <rect key="frame" x="20" y="49" width="240" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="LS9-Wd-TxX" secondAttribute="trailing" constant="20" symbolic="YES" id="3IO-iz-5W1"/>
+                                            <constraint firstAttribute="bottom" secondItem="LS9-Wd-TxX" secondAttribute="bottom" constant="20" symbolic="YES" id="563-j8-Z25"/>
+                                            <constraint firstItem="myN-TB-iEG" firstAttribute="top" secondItem="0OK-Zl-28Q" secondAttribute="top" constant="20" symbolic="YES" id="Mgr-4o-3b3"/>
+                                            <constraint firstItem="LS9-Wd-TxX" firstAttribute="top" secondItem="myN-TB-iEG" secondAttribute="bottom" constant="8" symbolic="YES" id="Ofm-wF-usc"/>
+                                            <constraint firstItem="myN-TB-iEG" firstAttribute="leading" secondItem="0OK-Zl-28Q" secondAttribute="leading" constant="20" symbolic="YES" id="WVq-O5-9lt"/>
+                                            <constraint firstAttribute="trailing" secondItem="myN-TB-iEG" secondAttribute="trailing" constant="20" symbolic="YES" id="e3q-FH-Ufn"/>
+                                            <constraint firstItem="LS9-Wd-TxX" firstAttribute="leading" secondItem="0OK-Zl-28Q" secondAttribute="leading" constant="20" symbolic="YES" id="xhY-l5-kTp"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="koi-Hx-Ur1" userLabel="Map Container">
+                                        <rect key="frame" x="20" y="332" width="280" height="79"/>
+                                        <subviews>
+                                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" scrollEnabled="NO" rotateEnabled="NO" pitchEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5pe-aj-KBd">
+                                                <rect key="frame" x="0.0" y="0.0" width="280" height="79"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="5pe-aj-KBd" secondAttribute="height" multiplier="280:79" id="LPh-1Q-pRa"/>
+                                                </constraints>
+                                            </mapView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="5pe-aj-KBd" firstAttribute="leading" secondItem="koi-Hx-Ur1" secondAttribute="leading" id="9eS-2h-sGw"/>
+                                            <constraint firstAttribute="bottom" secondItem="5pe-aj-KBd" secondAttribute="bottom" id="Rji-MS-Bic"/>
+                                            <constraint firstItem="5pe-aj-KBd" firstAttribute="top" secondItem="koi-Hx-Ur1" secondAttribute="top" id="T7a-9b-gY3"/>
+                                            <constraint firstAttribute="trailing" secondItem="5pe-aj-KBd" secondAttribute="trailing" id="Y1y-FL-UYH"/>
+                                            <constraint firstAttribute="width" secondItem="koi-Hx-Ur1" secondAttribute="height" multiplier="280:79" id="cFs-Hi-gxf"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="koi-Hx-Ur1" firstAttribute="top" secondItem="ChD-4f-cDJ" secondAttribute="bottom" constant="8" id="12y-hK-L9m"/>
                                     <constraint firstItem="ChD-4f-cDJ" firstAttribute="top" secondItem="jhZ-zd-ki7" secondAttribute="bottom" constant="8" symbolic="YES" id="2oa-Zv-BwU"/>
                                     <constraint firstAttribute="trailing" secondItem="ChD-4f-cDJ" secondAttribute="trailing" constant="20" symbolic="YES" id="C70-4o-IyQ"/>
                                     <constraint firstItem="jhZ-zd-ki7" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="CDd-Mo-qUd"/>
+                                    <constraint firstItem="koi-Hx-Ur1" firstAttribute="top" secondItem="ChD-4f-cDJ" secondAttribute="bottom" constant="8" id="DAt-eC-0YM"/>
                                     <constraint firstItem="jhZ-zd-ki7" firstAttribute="top" secondItem="ehb-uI-yRM" secondAttribute="top" constant="20" symbolic="YES" id="FrG-tc-PV1"/>
+                                    <constraint firstItem="0OK-Zl-28Q" firstAttribute="top" secondItem="koi-Hx-Ur1" secondAttribute="bottom" constant="8" id="Jds-qi-iHZ"/>
                                     <constraint firstItem="0OK-Zl-28Q" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="LcE-El-EfB"/>
                                     <constraint firstItem="zMN-gT-FuM" firstAttribute="top" secondItem="fx9-U5-jNG" secondAttribute="bottom" constant="8" symbolic="YES" id="MUV-BJ-tih"/>
                                     <constraint firstItem="fx9-U5-jNG" firstAttribute="top" secondItem="0OK-Zl-28Q" secondAttribute="bottom" constant="8" symbolic="YES" id="OZ5-bo-3nu"/>
                                     <constraint firstItem="ChD-4f-cDJ" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="Qdx-Fe-QHc"/>
+                                    <constraint firstItem="koi-Hx-Ur1" firstAttribute="top" secondItem="ChD-4f-cDJ" secondAttribute="bottom" constant="8" id="Qzo-vr-SxU"/>
                                     <constraint firstAttribute="width" constant="320" placeholder="YES" id="RiN-tx-Eqg"/>
+                                    <constraint firstAttribute="trailing" secondItem="koi-Hx-Ur1" secondAttribute="trailing" constant="20" id="Xae-xQ-hn5"/>
                                     <constraint firstAttribute="trailing" secondItem="fx9-U5-jNG" secondAttribute="trailing" constant="20" symbolic="YES" id="aqk-zd-f06"/>
                                     <constraint firstAttribute="trailing" secondItem="jhZ-zd-ki7" secondAttribute="trailing" constant="20" symbolic="YES" id="ayw-wb-VSx"/>
                                     <constraint firstAttribute="trailing" secondItem="0OK-Zl-28Q" secondAttribute="trailing" constant="20" symbolic="YES" id="gXz-1p-pLj"/>
+                                    <constraint firstItem="koi-Hx-Ur1" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" id="j3h-NG-Otc"/>
                                     <constraint firstItem="fx9-U5-jNG" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="kXG-4H-AT8"/>
-                                    <constraint firstItem="0OK-Zl-28Q" firstAttribute="top" secondItem="ChD-4f-cDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="ksp-3g-XaT"/>
+                                    <constraint firstItem="0OK-Zl-28Q" firstAttribute="top" secondItem="ChD-4f-cDJ" secondAttribute="bottom" priority="900" constant="8" id="ksp-3g-XaT"/>
                                     <constraint firstItem="zMN-gT-FuM" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="mFR-2g-qdV"/>
+                                    <constraint firstItem="0OK-Zl-28Q" firstAttribute="top" secondItem="koi-Hx-Ur1" secondAttribute="bottom" constant="8" id="pNB-oW-8i9"/>
+                                    <constraint firstItem="0OK-Zl-28Q" firstAttribute="top" secondItem="koi-Hx-Ur1" secondAttribute="bottom" constant="8" id="qbK-aq-KiR"/>
                                     <constraint firstAttribute="trailing" secondItem="zMN-gT-FuM" secondAttribute="trailing" constant="20" symbolic="YES" id="rzN-YP-yWK"/>
-                                    <constraint firstAttribute="bottom" secondItem="zMN-gT-FuM" secondAttribute="bottom" constant="20" symbolic="YES" id="uZj-YH-8pr"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="koi-Hx-Ur1" secondAttribute="trailing" constant="20" id="t7H-gd-5bF"/>
+                                    <constraint firstItem="koi-Hx-Ur1" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" id="ulO-me-tzX"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1252,6 +1281,8 @@ to take or choose photos.</string>
                         <outlet property="licenseContainer" destination="0OK-Zl-28Q" id="uC5-C8-e8R"/>
                         <outlet property="licenseDefaultLabel" destination="LS9-Wd-TxX" id="D6n-Fy-sNz"/>
                         <outlet property="licenseLabel" destination="myN-TB-iEG" id="Fg9-q8-CZA"/>
+                        <outlet property="mapContainer" destination="koi-Hx-Ur1" id="HuP-1T-Brf"/>
+                        <outlet property="mapview" destination="5pe-aj-KBd" id="VA6-r5-SpA"/>
                         <outlet property="scrollContainer" destination="ehb-uI-yRM" id="ENZ-Y8-UOx"/>
                         <outlet property="titleContainer" destination="jhZ-zd-ki7" id="ZIb-2a-ay0"/>
                         <outlet property="titleLabel" destination="2bq-vj-2xO" id="ZNe-Lu-57P"/>
@@ -1262,7 +1293,7 @@ to take or choose photos.</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W0W-ri-2SE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-69" y="1077"/>
+            <point key="canvasLocation" x="-69" y="1076"/>
         </scene>
         <!--Image Scroll View Controller-->
         <scene sceneID="4bg-WC-a6Z">

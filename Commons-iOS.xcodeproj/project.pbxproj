@@ -175,6 +175,7 @@
 		65D839AF16D056CA00C0371A /* LocalizationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839AE16D056CA00C0371A /* LocalizationTest.m */; };
 		65D839B216D08F9200C0371A /* DataTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839B116D08F9200C0371A /* DataTest.m */; };
 		A872CD641A749A3F00643AA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A872CD631A749A3F00643AA4 /* Images.xcassets */; };
+		A872CD691A76D9E900643AA4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A872CD681A76D9E900643AA4 /* MapKit.framework */; };
 		B938B3C317B332250039ABF8 /* browser.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3BF17B332250039ABF8 /* browser.png */; };
 		B938B3C417B332250039ABF8 /* browser@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3C017B332250039ABF8 /* browser@2x.png */; };
 		B938B3C517B332250039ABF8 /* browser@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3C117B332250039ABF8 /* browser@2x~ipad.png */; };
@@ -461,6 +462,7 @@
 		65D839AE16D056CA00C0371A /* LocalizationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalizationTest.m; sourceTree = "<group>"; };
 		65D839B116D08F9200C0371A /* DataTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTest.m; sourceTree = "<group>"; };
 		A872CD631A749A3F00643AA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A872CD681A76D9E900643AA4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B938B3BF17B332250039ABF8 /* browser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = browser.png; sourceTree = "<group>"; };
 		B938B3C017B332250039ABF8 /* browser@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser@2x.png"; sourceTree = "<group>"; };
 		B938B3C117B332250039ABF8 /* browser@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser@2x~ipad.png"; sourceTree = "<group>"; };
@@ -689,6 +691,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A872CD691A76D9E900643AA4 /* MapKit.framework in Frameworks */,
 				04BDAEE217F36B5E0086E4AE /* Accelerate.framework in Frameworks */,
 				040860BB17136FC300D3290B /* CoreImage.framework in Frameworks */,
 				D400C36D16DD8C030059F6A7 /* ImageIO.framework in Frameworks */,
@@ -909,6 +912,7 @@
 		D408616F169B760800D6ACB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A872CD681A76D9E900643AA4 /* MapKit.framework */,
 				04BDAEE117F36B5E0086E4AE /* Accelerate.framework */,
 				040860BA17136FC300D3290B /* CoreImage.framework */,
 				D400C36C16DD8C030059F6A7 /* ImageIO.framework */,

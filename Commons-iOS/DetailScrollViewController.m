@@ -946,6 +946,36 @@
         
         record.license = licenseValue;
         self.licenseDefaultLabel.text = usageTermsText;
+        
+        
+        /*location*/
+        NSDictionary *locationLat = pages[[[pages allKeys] objectAtIndex:0]][@"imageinfo"][0][@"extmetadata"][@"GPSLatitude"];
+        NSString *lat = locationLat[@"value"];
+        float latfloat = lat.floatValue;
+        
+        NSDictionary *locationLon = pages[[[pages allKeys] objectAtIndex:0]][@"imageinfo"][0][@"extmetadata"][@"GPSLongitude"];
+        NSString *lon = locationLon[@"value"];
+        float lonfloat = lon.floatValue;
+        
+        if (lonfloat!=0&&latfloat!=0){
+            CLLocationCoordinate2D coordinate;
+            coordinate.latitude = latfloat;
+            coordinate.longitude = lonfloat;
+            
+            MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+            point.coordinate = coordinate;
+            
+            int zoom = 12;
+            MKCoordinateSpan span = MKCoordinateSpanMake(180 / pow(2, zoom) *
+                                                         self.mapview.frame.size.height / 256, 0);
+            
+            self.mapview.centerCoordinate = coordinate;
+            [self.mapview setRegion:MKCoordinateRegionMake(coordinate, span) animated:false];
+            [self.mapview addAnnotation: point];
+        }
+        else {
+            [self.mapContainer removeFromSuperview];
+        }
     }];
 }
 

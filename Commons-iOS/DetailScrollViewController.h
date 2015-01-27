@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 #import "FileUpload.h"
 
 @class UILabelDynamicHeight;
@@ -63,6 +64,9 @@
 -(IBAction)deleteButtonPushed:(id)sender;
 -(IBAction)shareButtonPushed:(id)sender;
 -(void)hideKeyboard;
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapview;
+@property (weak, nonatomic) IBOutlet UIView *mapContainer;
 
 -(void)scrollByAmount:(float)amount withDuration:(NSTimeInterval)duration delay:(NSTimeInterval)delay options:(UIViewAnimationOptions)options useXF:(BOOL)useXF then:(void(^)(void))block;
 
