@@ -1256,7 +1256,7 @@
 				ORGANIZATIONNAME = Wikimedia;
 				TargetAttributes = {
 					D408616B169B760800D6ACB0 = {
-						DevelopmentTeam = AKK7J2GV64;
+						DevelopmentTeam = JURMHCPNY3;
 					};
 				};
 			};
