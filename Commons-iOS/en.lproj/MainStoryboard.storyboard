@@ -1043,8 +1043,8 @@ to take or choose photos.</string>
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ehb-uI-yRM" userLabel="Scroll Container">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="472"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ehb-uI-yRM" userLabel="Scroll Container">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="473"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jhZ-zd-ki7" userLabel="Title Container">
                                         <rect key="frame" x="20" y="20" width="280" height="97"/>
@@ -1233,6 +1233,7 @@ to take or choose photos.</string>
                                     <constraint firstAttribute="trailing" secondItem="ChD-4f-cDJ" secondAttribute="trailing" constant="20" symbolic="YES" id="C70-4o-IyQ"/>
                                     <constraint firstItem="jhZ-zd-ki7" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="CDd-Mo-qUd"/>
                                     <constraint firstItem="koi-Hx-Ur1" firstAttribute="top" secondItem="ChD-4f-cDJ" secondAttribute="bottom" constant="8" id="DAt-eC-0YM"/>
+                                    <constraint firstAttribute="bottom" secondItem="zMN-gT-FuM" secondAttribute="bottom" constant="20" id="EH3-EG-TFk"/>
                                     <constraint firstItem="jhZ-zd-ki7" firstAttribute="top" secondItem="ehb-uI-yRM" secondAttribute="top" constant="20" symbolic="YES" id="FrG-tc-PV1"/>
                                     <constraint firstItem="0OK-Zl-28Q" firstAttribute="top" secondItem="koi-Hx-Ur1" secondAttribute="bottom" constant="8" id="Jds-qi-iHZ"/>
                                     <constraint firstItem="0OK-Zl-28Q" firstAttribute="leading" secondItem="ehb-uI-yRM" secondAttribute="leading" constant="20" symbolic="YES" id="LcE-El-EfB"/>
