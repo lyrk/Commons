@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D408616B169B760800D6ACB0"
-               BuildableName = "Commons-iOS.app"
-               BlueprintName = "Commons-iOS"
-               ReferencedContainer = "container:Commons-iOS.xcodeproj">
+               BuildableName = "Commons.app"
+               BlueprintName = "Commons"
+               ReferencedContainer = "container:Commons.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "65137D0516BE6696006FA9BD"
-               BuildableName = "Commons-iOS-Application-Testing.octest"
-               BlueprintName = "Commons-iOS-Application-Testing"
-               ReferencedContainer = "container:Commons-iOS.xcodeproj">
+               BuildableName = "Commons-Application-Testing.octest"
+               BlueprintName = "Commons-Application-Testing"
+               ReferencedContainer = "container:Commons.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -43,9 +43,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D408616B169B760800D6ACB0"
-            BuildableName = "Commons-iOS.app"
-            BlueprintName = "Commons-iOS"
-            ReferencedContainer = "container:Commons-iOS.xcodeproj">
+            BuildableName = "Commons.app"
+            BlueprintName = "Commons"
+            ReferencedContainer = "container:Commons.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D408616B169B760800D6ACB0"
-            BuildableName = "Commons-iOS.app"
-            BlueprintName = "Commons-iOS"
-            ReferencedContainer = "container:Commons-iOS.xcodeproj">
+            BuildableName = "Commons.app"
+            BlueprintName = "Commons"
+            ReferencedContainer = "container:Commons.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -80,9 +80,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D408616B169B760800D6ACB0"
-            BuildableName = "Commons-iOS.app"
-            BlueprintName = "Commons-iOS"
-            ReferencedContainer = "container:Commons-iOS.xcodeproj">
+            BuildableName = "Commons.app"
+            BlueprintName = "Commons"
+            ReferencedContainer = "container:Commons.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

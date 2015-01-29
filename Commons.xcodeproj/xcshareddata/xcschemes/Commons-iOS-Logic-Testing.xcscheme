@@ -17,9 +17,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "65137CD316BE4C3B006FA9BD"
-               BuildableName = "Commons-iOS-Logic-Testing.octest"
-               BlueprintName = "Commons-iOS-Logic-Testing"
-               ReferencedContainer = "container:Commons-iOS.xcodeproj">
+               BuildableName = "Commons-Logic-Testing.octest"
+               BlueprintName = "Commons-Logic-Testing"
+               ReferencedContainer = "container:Commons.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

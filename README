@@ -1,8 +1,3 @@
-Please note that this app is no longer officially supported by the Wikimedia Foundation.
-
-This is an iOS app for uploading photos to Wikimedia Commons.
-Currently builds only for iOS 6.0 or later.
-
-Code implementing the MediaWiki web API is in the mwapi/ subdirectory.
+Wikimedia Foundation doesn't care anymore, but we do.
 
 Code is currently under Apache License 2.0; see the file COPYING for details.

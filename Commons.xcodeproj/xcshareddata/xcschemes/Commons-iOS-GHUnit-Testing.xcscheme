@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D408616B169B760800D6ACB0"
-               BuildableName = "Commons-iOS.app"
-               BlueprintName = "Commons-iOS"
-               ReferencedContainer = "container:Commons-iOS.xcodeproj">
+               BlueprintIdentifier = "65C4D53B16CCE10B0077E0A2"
+               BuildableName = "Commons-GHUnit-Testing.app"
+               BlueprintName = "Commons-GHUnit-Testing"
+               ReferencedContainer = "container:Commons.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,24 +28,14 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       buildConfiguration = "Debug">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "65137D0516BE6696006FA9BD"
-               BuildableName = "Commons-iOS-Application-Testing.octest"
-               BlueprintName = "Commons-iOS-Application-Testing"
-               ReferencedContainer = "container:Commons-iOS.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D408616B169B760800D6ACB0"
-            BuildableName = "Commons-iOS.app"
-            BlueprintName = "Commons-iOS"
-            ReferencedContainer = "container:Commons-iOS.xcodeproj">
+            BlueprintIdentifier = "65C4D53B16CCE10B0077E0A2"
+            BuildableName = "Commons-GHUnit-Testing.app"
+            BlueprintName = "Commons-GHUnit-Testing"
+            ReferencedContainer = "container:Commons.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -61,10 +51,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D408616B169B760800D6ACB0"
-            BuildableName = "Commons-iOS.app"
-            BlueprintName = "Commons-iOS"
-            ReferencedContainer = "container:Commons-iOS.xcodeproj">
+            BlueprintIdentifier = "65C4D53B16CCE10B0077E0A2"
+            BuildableName = "Commons-GHUnit-Testing.app"
+            BlueprintName = "Commons-GHUnit-Testing"
+            ReferencedContainer = "container:Commons.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -79,10 +69,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D408616B169B760800D6ACB0"
-            BuildableName = "Commons-iOS.app"
-            BlueprintName = "Commons-iOS"
-            ReferencedContainer = "container:Commons-iOS.xcodeproj">
+            BlueprintIdentifier = "65C4D53B16CCE10B0077E0A2"
+            BuildableName = "Commons-GHUnit-Testing.app"
+            BlueprintName = "Commons-GHUnit-Testing"
+            ReferencedContainer = "container:Commons.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -436,9 +436,9 @@
 		30DC441A178D42E60081555A /* cc-sa-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cc-sa-white@2x.png"; sourceTree = "<group>"; };
 		30FA25D51751E3D80040292C /* UILabel+ResizeWithAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+ResizeWithAttributes.h"; sourceTree = "<group>"; };
 		30FA25D61751E3D80040292C /* UILabel+ResizeWithAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+ResizeWithAttributes.m"; sourceTree = "<group>"; };
-		65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65137CD416BE4C3B006FA9BD /* Commons-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-iOS-Application-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65137D0616BE6696006FA9BD /* Commons-Application-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-Application-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65137D1816BE69B8006FA9BD /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = "Testing-Libraries/libOCMock.a"; sourceTree = "<group>"; };
 		65137D1A16BE69B8006FA9BD /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
 		65137D1B16BE69B8006FA9BD /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
@@ -448,8 +448,8 @@
 		65137D1F16BE69B8006FA9BD /* OCMockRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockRecorder.h; sourceTree = "<group>"; };
 		655BF5ED16C1052D00B22299 /* StorageTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StorageTools.h; sourceTree = "<group>"; };
 		655BF5EE16C1052D00B22299 /* StorageTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StorageTools.m; sourceTree = "<group>"; };
-		65C4D53C16CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Commons-iOS-GHUnit-Testing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		65C4D54216CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-iOS-GHUnit-Testing-Info.plist"; sourceTree = "<group>"; };
+		65C4D53C16CCE10B0077E0A2 /* Commons-GHUnit-Testing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Commons-GHUnit-Testing.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65C4D54216CCE10B0077E0A2 /* Commons-GHUnit-Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-GHUnit-Testing-Info.plist"; sourceTree = "<group>"; };
 		65C4D54416CCE10B0077E0A2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65C4D54616CCE10B0077E0A2 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		65C4D54816CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commons-iOS-GHUnit-Testing-Prefix.pch"; sourceTree = "<group>"; };
@@ -472,14 +472,14 @@
 		D400C36C16DD8C030059F6A7 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		D400C36E16DD96F70059F6A7 /* commons-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commons-logo.png"; sourceTree = "<group>"; };
 		D400C36F16DD96F70059F6A7 /* commons-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "commons-logo@2x.png"; sourceTree = "<group>"; };
-		D408616C169B760800D6ACB0 /* Commons-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Commons-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D408616C169B760800D6ACB0 /* Commons.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Commons.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4086170169B760800D6ACB0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D4086172169B760800D6ACB0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D4086174169B760800D6ACB0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		D4086178169B760800D6ACB0 /* Commons-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-iOS-Info.plist"; sourceTree = "<group>"; };
+		D4086178169B760800D6ACB0 /* Commons-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Commons-Info.plist"; sourceTree = "<group>"; };
 		D408617A169B760800D6ACB0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D408617C169B760800D6ACB0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		D408617E169B760800D6ACB0 /* Commons-iOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commons-iOS-Prefix.pch"; sourceTree = "<group>"; };
+		D408617E169B760800D6ACB0 /* Commons-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Commons-Prefix.pch"; sourceTree = "<group>"; };
 		D408617F169B760800D6ACB0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D4086180169B760800D6ACB0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D4086182169B760800D6ACB0 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = "Commons-iOS/Default.png"; sourceTree = "<group>"; };
@@ -872,7 +872,7 @@
 		65C4D54116CCE10B0077E0A2 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				65C4D54216CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing-Info.plist */,
+				65C4D54216CCE10B0077E0A2 /* Commons-GHUnit-Testing-Info.plist */,
 				65C4D54316CCE10B0077E0A2 /* InfoPlist.strings */,
 				65C4D54616CCE10B0077E0A2 /* main.m */,
 				65C4D54816CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing-Prefix.pch */,
@@ -901,10 +901,10 @@
 		D408616D169B760800D6ACB0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D408616C169B760800D6ACB0 /* Commons-iOS.app */,
-				65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */,
-				65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */,
-				65C4D53C16CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing.app */,
+				D408616C169B760800D6ACB0 /* Commons.app */,
+				65137CD416BE4C3B006FA9BD /* Commons-Logic-Testing.octest */,
+				65137D0616BE6696006FA9BD /* Commons-Application-Testing.octest */,
+				65C4D53C16CCE10B0077E0A2 /* Commons-GHUnit-Testing.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -998,10 +998,10 @@
 				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
 				D43DFDBA181890150052FFD7 /* Commons-logo-120.png */,
 				D43DFDBB181890150052FFD7 /* Commons-logo-152.png */,
-				D4086178169B760800D6ACB0 /* Commons-iOS-Info.plist */,
+				D4086178169B760800D6ACB0 /* Commons-Info.plist */,
 				D4086179169B760800D6ACB0 /* InfoPlist.strings */,
 				D408617C169B760800D6ACB0 /* main.m */,
-				D408617E169B760800D6ACB0 /* Commons-iOS-Prefix.pch */,
+				D408617E169B760800D6ACB0 /* Commons-Prefix.pch */,
 				DC0F63DE16BBB73F0017E63C /* defaults.plist */,
 				D4E0384D16C463D300330A7F /* Messages */,
 			);
@@ -1176,9 +1176,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		65137CD316BE4C3B006FA9BD /* Commons-iOS-Logic-Testing */ = {
+		65137CD316BE4C3B006FA9BD /* Commons-Logic-Testing */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 65137CE516BE4C3B006FA9BD /* Build configuration list for PBXNativeTarget "Commons-iOS-Logic-Testing" */;
+			buildConfigurationList = 65137CE516BE4C3B006FA9BD /* Build configuration list for PBXNativeTarget "Commons-Logic-Testing" */;
 			buildPhases = (
 				65137CCF16BE4C3B006FA9BD /* Sources */,
 				65137CD016BE4C3B006FA9BD /* Frameworks */,
@@ -1189,14 +1189,14 @@
 			);
 			dependencies = (
 			);
-			name = "Commons-iOS-Logic-Testing";
+			name = "Commons-Logic-Testing";
 			productName = "Commons-iOS-Logic-Testing";
-			productReference = 65137CD416BE4C3B006FA9BD /* Commons-iOS-Logic-Testing.octest */;
+			productReference = 65137CD416BE4C3B006FA9BD /* Commons-Logic-Testing.octest */;
 			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
-		65137D0516BE6696006FA9BD /* Commons-iOS-Application-Testing */ = {
+		65137D0516BE6696006FA9BD /* Commons-Application-Testing */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 65137D1416BE6696006FA9BD /* Build configuration list for PBXNativeTarget "Commons-iOS-Application-Testing" */;
+			buildConfigurationList = 65137D1416BE6696006FA9BD /* Build configuration list for PBXNativeTarget "Commons-Application-Testing" */;
 			buildPhases = (
 				65137D0116BE6696006FA9BD /* Sources */,
 				65137D0216BE6696006FA9BD /* Frameworks */,
@@ -1207,14 +1207,14 @@
 			);
 			dependencies = (
 			);
-			name = "Commons-iOS-Application-Testing";
+			name = "Commons-Application-Testing";
 			productName = "Commons-iOS-Application-Testing";
-			productReference = 65137D0616BE6696006FA9BD /* Commons-iOS-Application-Testing.octest */;
+			productReference = 65137D0616BE6696006FA9BD /* Commons-Application-Testing.octest */;
 			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
-		65C4D53B16CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing */ = {
+		65C4D53B16CCE10B0077E0A2 /* Commons-GHUnit-Testing */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 65C4D55416CCE10B0077E0A2 /* Build configuration list for PBXNativeTarget "Commons-iOS-GHUnit-Testing" */;
+			buildConfigurationList = 65C4D55416CCE10B0077E0A2 /* Build configuration list for PBXNativeTarget "Commons-GHUnit-Testing" */;
 			buildPhases = (
 				65C4D53816CCE10B0077E0A2 /* Sources */,
 				65C4D53916CCE10B0077E0A2 /* Frameworks */,
@@ -1224,14 +1224,14 @@
 			);
 			dependencies = (
 			);
-			name = "Commons-iOS-GHUnit-Testing";
+			name = "Commons-GHUnit-Testing";
 			productName = "Commons-iOS-GHUnit-Testing";
-			productReference = 65C4D53C16CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing.app */;
+			productReference = 65C4D53C16CCE10B0077E0A2 /* Commons-GHUnit-Testing.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D408616B169B760800D6ACB0 /* Commons-iOS */ = {
+		D408616B169B760800D6ACB0 /* Commons */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D4086193169B760800D6ACB0 /* Build configuration list for PBXNativeTarget "Commons-iOS" */;
+			buildConfigurationList = D4086193169B760800D6ACB0 /* Build configuration list for PBXNativeTarget "Commons" */;
 			buildPhases = (
 				D4086168169B760800D6ACB0 /* Sources */,
 				D4086169169B760800D6ACB0 /* Frameworks */,
@@ -1241,9 +1241,9 @@
 			);
 			dependencies = (
 			);
-			name = "Commons-iOS";
+			name = Commons;
 			productName = "Commons-iOS";
-			productReference = D408616C169B760800D6ACB0 /* Commons-iOS.app */;
+			productReference = D408616C169B760800D6ACB0 /* Commons.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1253,14 +1253,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0450;
-				ORGANIZATIONNAME = Wikimedia;
+				ORGANIZATIONNAME = Lyrk;
 				TargetAttributes = {
 					D408616B169B760800D6ACB0 = {
 						DevelopmentTeam = JURMHCPNY3;
 					};
 				};
 			};
-			buildConfigurationList = D4086166169B760800D6ACB0 /* Build configuration list for PBXProject "Commons-iOS" */;
+			buildConfigurationList = D4086166169B760800D6ACB0 /* Build configuration list for PBXProject "Commons" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -1290,10 +1290,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D408616B169B760800D6ACB0 /* Commons-iOS */,
-				65137CD316BE4C3B006FA9BD /* Commons-iOS-Logic-Testing */,
-				65137D0516BE6696006FA9BD /* Commons-iOS-Application-Testing */,
-				65C4D53B16CCE10B0077E0A2 /* Commons-iOS-GHUnit-Testing */,
+				D408616B169B760800D6ACB0 /* Commons */,
+				65137CD316BE4C3B006FA9BD /* Commons-Logic-Testing */,
+				65137D0516BE6696006FA9BD /* Commons-Application-Testing */,
+				65C4D53B16CCE10B0077E0A2 /* Commons-GHUnit-Testing */,
 			);
 		};
 /* End PBXProject section */
@@ -1721,7 +1721,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Testing-Libraries\"",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Commons-Logic-Testing";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -1745,7 +1745,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Testing-Libraries\"",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Commons-Logic-Testing";
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
@@ -1769,7 +1769,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Testing-Libraries\"",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Commons-Application-Testing";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1794,7 +1794,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Testing-Libraries\"",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Commons-Application-Testing";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1812,8 +1812,8 @@
 					"\"$(SRCROOT)/Testing-Libraries\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Commons-iOS-GHUnit-Testing/Commons-iOS-GHUnit-Testing-Prefix.pch";
-				INFOPLIST_FILE = "Commons-iOS-GHUnit-Testing/Commons-iOS-GHUnit-Testing-Info.plist";
+				GCC_PREFIX_HEADER = "Commons-iOS-GHUnit-Testing/Commons-GHUnit-Testing-Prefix.pch";
+				INFOPLIST_FILE = "Commons-iOS-GHUnit-Testing/Commons-GHUnit-Testing-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1823,7 +1823,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Commons-GHUnit-Testing";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1840,8 +1840,8 @@
 					"\"$(SRCROOT)/Testing-Libraries\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Commons-iOS-GHUnit-Testing/Commons-iOS-GHUnit-Testing-Prefix.pch";
-				INFOPLIST_FILE = "Commons-iOS-GHUnit-Testing/Commons-iOS-GHUnit-Testing-Info.plist";
+				GCC_PREFIX_HEADER = "Commons-iOS-GHUnit-Testing/Commons-GHUnit-Testing-Prefix.pch";
+				INFOPLIST_FILE = "Commons-iOS-GHUnit-Testing/Commons-GHUnit-Testing-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1851,7 +1851,7 @@
 					"-ObjC",
 					"-all_load",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Commons-GHUnit-Testing";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1914,12 +1914,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Commons-iOS/Commons-iOS-Prefix.pch";
+				GCC_PREFIX_HEADER = "Commons-iOS/Commons-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = "Commons-iOS/Commons-iOS-Info.plist";
+				INFOPLIST_FILE = "Commons-iOS/Commons-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Commons;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1935,12 +1935,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Commons-iOS/Commons-iOS-Prefix.pch";
+				GCC_PREFIX_HEADER = "Commons-iOS/Commons-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				INFOPLIST_FILE = "Commons-iOS/Commons-iOS-Info.plist";
+				INFOPLIST_FILE = "Commons-iOS/Commons-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Commons;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1951,7 +1951,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		65137CE516BE4C3B006FA9BD /* Build configuration list for PBXNativeTarget "Commons-iOS-Logic-Testing" */ = {
+		65137CE516BE4C3B006FA9BD /* Build configuration list for PBXNativeTarget "Commons-Logic-Testing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				65137CE316BE4C3B006FA9BD /* Debug */,
@@ -1960,7 +1960,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		65137D1416BE6696006FA9BD /* Build configuration list for PBXNativeTarget "Commons-iOS-Application-Testing" */ = {
+		65137D1416BE6696006FA9BD /* Build configuration list for PBXNativeTarget "Commons-Application-Testing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				65137D1516BE6696006FA9BD /* Debug */,
@@ -1969,7 +1969,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		65C4D55416CCE10B0077E0A2 /* Build configuration list for PBXNativeTarget "Commons-iOS-GHUnit-Testing" */ = {
+		65C4D55416CCE10B0077E0A2 /* Build configuration list for PBXNativeTarget "Commons-GHUnit-Testing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				65C4D55216CCE10B0077E0A2 /* Debug */,
@@ -1978,7 +1978,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4086166169B760800D6ACB0 /* Build configuration list for PBXProject "Commons-iOS" */ = {
+		D4086166169B760800D6ACB0 /* Build configuration list for PBXProject "Commons" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4086191169B760800D6ACB0 /* Debug */,
@@ -1987,7 +1987,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4086193169B760800D6ACB0 /* Build configuration list for PBXNativeTarget "Commons-iOS" */ = {
+		D4086193169B760800D6ACB0 /* Build configuration list for PBXNativeTarget "Commons" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4086194169B760800D6ACB0 /* Debug */,
