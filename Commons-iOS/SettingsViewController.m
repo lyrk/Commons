@@ -25,12 +25,12 @@
 #define URL_DEBUG_MODE_TARGET_COMMONS @"commons.wikimedia.org"
 
 #define URL_COMMONS                   @"https://commons.wikimedia.org"
-#define URL_BUGS                      @"https://bugzilla.wikimedia.org/buglist.cgi?product=Commons%20App"
-#define URL_PRIVACY                   @"https://commons.wikimedia.org/wiki/Commons:Privacy_policy"
+#define URL_BUGS                      @"https://github.com/lyrk/Commons/issues"
+#define URL_PRIVACY                   @"https://wikimediafoundation.org/wiki/Privacy_policy"
 
-#define URL_THIS_APP_SOURCE           @"https://github.com/wikimedia/apps-ios-commons"
-#define URL_THIS_APP_LICENSE          @"https://raw.github.com/wikimedia/Commons-iOS/master/COPYING"
-#define URL_THIS_APP_CONTRIBUTORS     @"https://github.com/wikimedia/Commons-iOS/contributors"
+#define URL_THIS_APP_SOURCE           @"https://github.com/lyrk/Commons"
+#define URL_THIS_APP_LICENSE          @"https://raw.githubusercontent.com/lyrk/Commons/master/COPYING"
+#define URL_THIS_APP_CONTRIBUTORS     @"https://github.com/lyrk/Commons/graphs/contributors"
 
 #define URL_GRADIENT_BUTTON_SOURCE    @"https://code.google.com/p/iphonegradientbuttons/"
 #define URL_GRADIENT_BUTTON_LICENSE   @"http://opensource.org/licenses/mit-license.php"
