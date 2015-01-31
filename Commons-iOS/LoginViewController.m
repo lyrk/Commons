@@ -212,7 +212,6 @@
 {
     // Add shadow behind the login text boxes and buttons so they stand out on light background
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
-    [LoginViewController applyShadowToView:self.logoImageView];
 }
 
 #pragma mark - Logo
@@ -371,17 +370,6 @@
     label.paddingColor = BUTTONS_INACTIVE_BACKGROUND_COLOR;
     label.backgroundColor = [UIColor clearColor];
     label.borderView.layer.cornerRadius = LOGIN_BUTTON_CORNER_RADIUS;
-
-    //label.borderView.layer.borderWidth = 1.0f;
-    //label.borderView.layer.borderColor = [UIColor colorWithWhite:0.0f alpha:0.8f].CGColor;
-
-    /*
-    NSShadow *shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor: [UIColor colorWithWhite:0.0f alpha:1.0f]];
-    [shadow setShadowOffset:CGSizeMake (1.0, 1.0)];
-    [shadow setShadowBlurRadius:0];
-    label.attributedText = [[NSAttributedString alloc] initWithString:label.text attributes:@{NSShadowAttributeName : shadow}];
-    */
 
     label.paddingView.layer.cornerRadius = LOGIN_BUTTON_CORNER_RADIUS;
     label.borderInsets = UIEdgeInsetsMake(1, 1, 1, 1);
