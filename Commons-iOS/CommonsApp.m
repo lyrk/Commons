@@ -1507,9 +1507,6 @@ static CommonsApp *singleton_;
     float labelWidth = 27.5f;
     float cornerRadius = labelWidth / 2.0f;
     float fontSize = 20.0f;
-    float shadowRadius = 4.0f;
-    float shadowOpacity = 4.0f;
-    CGColorRef shadowColor = [UIColor whiteColor].CGColor;
 
     CGColorRef backgroundColor = [UIColor blackColor].CGColor;
     CGColorRef borderColor = [UIColor whiteColor].CGColor;
@@ -1522,15 +1519,8 @@ static CommonsApp *singleton_;
     label.translatesAutoresizingMaskIntoConstraints = NO;
     label.layer.cornerRadius = cornerRadius;
     label.layer.borderWidth = 0;
-
-    // Configure shadow
     label.clipsToBounds = YES;
     [label.layer setMasksToBounds:NO];
-    [label.layer setShadowColor:shadowColor];
-    [label.layer setShadowOpacity:shadowOpacity];
-    [label.layer setShadowRadius:shadowRadius];
-    [label.layer setShadowOffset:CGSizeMake(0, 0)];
-    [label.layer setShadowPath: [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, labelWidth, labelWidth) cornerRadius:cornerRadius] CGPath]];
     label.layer.borderColor = borderColor;
     label.layer.borderWidth = borderWidth;
     [label.layer setBackgroundColor:backgroundColor];

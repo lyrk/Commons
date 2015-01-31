@@ -456,8 +456,22 @@
 
 -(void)handleInfoLabelTap:(UITapGestureRecognizer *)recognizer
 {
-    GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
-    [self presentViewController:gettingStartedVC animated:YES completion:nil];
+	[CATransaction begin];
+	[CATransaction setAnimationDuration:0.1f];
+	CABasicAnimation *spinAndEnlargeAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
+	spinAndEnlargeAnimation.fillMode = kCAFillModeForwards;
+	spinAndEnlargeAnimation.autoreverses = YES;
+	spinAndEnlargeAnimation.removedOnCompletion = YES;
+	CATransform3D xf = CATransform3DConcat(CATransform3DMakeRotation(DEGREES_TO_RADIANS(10.f), 0.0f, 0.0f, 1.0f),
+										   CATransform3DMakeScale(1.8f, 1.8f, 1.0f));
+	spinAndEnlargeAnimation.toValue = [NSValue valueWithCATransform3D:xf];
+	[CATransaction setCompletionBlock:^{
+		GettingStartedViewController *gettingStartedVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GettingStartedViewController"];
+		[self presentViewController:gettingStartedVC animated:YES completion:nil];
+	}];
+	[self.aboutButton.layer addAnimation:spinAndEnlargeAnimation forKey:nil];
+	[CATransaction commit];
+	
 }
 
 -(void)backButtonPressed:(id)sender
@@ -648,13 +662,13 @@
 	NSLog(@"Settings Button Pushed");
 
     [CATransaction begin];
-    [CATransaction setAnimationDuration:0.2f];
+    [CATransaction setAnimationDuration:0.1f];
     // Spin and enlarge the settings button briefly up tapping it
     CABasicAnimation *spinAndEnlargeAnimation = [CABasicAnimation animationWithKeyPath:@"transform"];
     spinAndEnlargeAnimation.fillMode = kCAFillModeForwards;
     spinAndEnlargeAnimation.autoreverses = YES;
     spinAndEnlargeAnimation.removedOnCompletion = YES;
-    CATransform3D xf = CATransform3DConcat(CATransform3DMakeRotation(DEGREES_TO_RADIANS(180.0f), 0.0f, 0.0f, 1.0f),
+    CATransform3D xf = CATransform3DConcat(CATransform3DMakeRotation(DEGREES_TO_RADIANS(10.f), 0.0f, 0.0f, 1.0f),
                                            CATransform3DMakeScale(1.8f, 1.8f, 1.0f));
     spinAndEnlargeAnimation.toValue = [NSValue valueWithCATransform3D:xf];
     [CATransaction setCompletionBlock:^{
