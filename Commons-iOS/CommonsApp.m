@@ -1545,14 +1545,6 @@ static CommonsApp *singleton_;
           NSStrokeWidthAttributeName: @0
     }];
 
-    /*
-     // Add shadow to the character string
-     NSShadow *shadow = [[NSShadow alloc] init];
-     [shadow setShadowColor: [UIColor colorWithWhite:0.0f alpha:1.0f]];
-     [shadow setShadowOffset:CGSizeMake (1.0, 1.0)];
-     [shadow setShadowBlurRadius:0];
-     label.attributedText = [[NSAttributedString alloc] initWithString:label.text attributes:@{NSShadowAttributeName : shadow}];
-    */
 
     // Constrain the label width and height
     [label addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[view(==%f)]", labelWidth] options:0 metrics:nil views:@{@"view": label}]];
