@@ -453,7 +453,7 @@
     
     //NSLog(@"license from record = %@", self.selectedRecord.license);
     
-    if (self.selectedRecord.license == nil) self.selectedRecord.license = @"cc-by-sa-3.0";
+    if (self.selectedRecord.license == nil) self.selectedRecord.license = @"cc-zero";
     selectedLicenseIndex_ = [self getSelectedRecordLicenseIndex];
     
     // Remove the "Loading..." label

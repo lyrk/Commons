@@ -50,17 +50,17 @@ static CommonsApp *singleton_;
     // The list of licenses to be chosen from.
     self.selectableLicenses = @[
                             @{
-                                @"license" :@"cc-by-sa-3.0",
-                                @"description": @"Creative Commons Attribution ShareAlike 3.0"
-                                },
-                            @{
-                                @"license" :@"cc-by-3.0",
-                                @"description": @"Creative Commons Attribution 3.0"
-                                },
-                            @{
                                 @"license" :@"cc-zero",
                                 @"description": @"Creative Commons CC0 Waiver"
-                                }
+                                },
+                            @{
+                                @"license" :@"cc-by-4.0",
+                                @"description": @"Creative Commons Attribution 4.0"
+                                },
+                            @{
+                                @"license" :@"cc-by-sa-4.0",
+                                @"description": @"Creative Commons Attribution ShareAlike 4.0"
+                            }
                             ];
 }
 
