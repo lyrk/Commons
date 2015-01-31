@@ -574,9 +574,15 @@
                 [self getPreviouslySavedCategoriesForRecord:record];
             });
         }else{
+            //image is not uploaded yet
             [self updateCategoryContainer];
 
             [self updateLicenseContainer];
+            
+            //TODO: get Location from selected image and show map with location or reversed geocode for image
+            //remove Map from detailview
+            [self.mapContainer removeFromSuperview];
+            
         }
 
         dispatch_async(dispatch_get_main_queue(), ^(void) {
