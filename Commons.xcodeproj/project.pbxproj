@@ -110,16 +110,12 @@
 		65C4D55916CCE2A80077E0A2 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4896B5016B5C97D009A35FA /* AssetsLibrary.framework */; };
 		65C4D55A16CCE2AA0077E0A2 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41B99F416B1CEB50045BEB5 /* CoreData.framework */; };
 		65C4D55B16CCE2AD0077E0A2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4C08F2916AF47300069172D /* Security.framework */; };
-		65C4D55C16CCE2E20077E0A2 /* Commons-logo-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3D616BB398A00E63B27 /* Commons-logo-72@2x.png */; };
-		65C4D55D16CCE2E20077E0A2 /* Commons-logo-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3D416BB398700E63B27 /* Commons-logo-72.png */; };
 		65C4D56216CCE2E30077E0A2 /* cc-by.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280916C18C9F00BC3ABE /* cc-by.png */; };
 		65C4D56316CCE2E30077E0A2 /* cc-by@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280A16C18C9F00BC3ABE /* cc-by@2x.png */; };
 		65C4D56416CCE2E30077E0A2 /* cc-sa.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280B16C18C9F00BC3ABE /* cc-sa.png */; };
 		65C4D56516CCE2E30077E0A2 /* cc-sa@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D41D280C16C18C9F00BC3ABE /* cc-sa@2x.png */; };
 		65C4D56616CCE2E30077E0A2 /* fileicon-pdf.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */; };
 		65C4D56716CCE2E30077E0A2 /* fileicon-svg.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3DD16BB542200E63B27 /* fileicon-svg.png */; };
-		65C4D56816CCE2E30077E0A2 /* Commons-logo-114.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086198169B791400D6ACB0 /* Commons-logo-114.png */; };
-		65C4D56916CCE2E30077E0A2 /* Commons-logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086196169B791100D6ACB0 /* Commons-logo-57.png */; };
 		65C4D56D16CCE3110077E0A2 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */; };
 		65C4D56E16CCE31E0077E0A2 /* messages-en.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0384916C463C700330A7F /* messages-en.json */; };
 		65C4D57016CCE31E0077E0A2 /* messages-qqq.json in Resources */ = {isa = PBXBuildFile; fileRef = D4E0385B16C47B6C00330A7F /* messages-qqq.json */; };
@@ -196,10 +192,6 @@
 		D408617D169B760800D6ACB0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D408617C169B760800D6ACB0 /* main.m */; };
 		D4086181169B760800D6ACB0 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D4086180169B760800D6ACB0 /* AppDelegate.m */; };
 		D408618A169B760800D6ACB0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */; };
-		D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086196169B791100D6ACB0 /* Commons-logo-57.png */; };
-		D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */ = {isa = PBXBuildFile; fileRef = D4086198169B791400D6ACB0 /* Commons-logo-114.png */; };
-		D40CE3D516BB398700E63B27 /* Commons-logo-72.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3D416BB398700E63B27 /* Commons-logo-72.png */; };
-		D40CE3D716BB398A00E63B27 /* Commons-logo-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3D616BB398A00E63B27 /* Commons-logo-72@2x.png */; };
 		D40CE3DE16BB542300E63B27 /* fileicon-pdf.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */; };
 		D40CE3DF16BB542300E63B27 /* fileicon-svg.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3DD16BB542200E63B27 /* fileicon-svg.png */; };
 		D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */; };
@@ -222,9 +214,6 @@
 		D41D281716C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
 		D41D281816C19CE100BC3ABE /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
 		D4284F1016C9C2AA008640B0 /* MWEventLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */; };
-		D43DFDBC181890150052FFD7 /* Commons-logo-76.png in Resources */ = {isa = PBXBuildFile; fileRef = D43DFDB9181890150052FFD7 /* Commons-logo-76.png */; };
-		D43DFDBD181890150052FFD7 /* Commons-logo-120.png in Resources */ = {isa = PBXBuildFile; fileRef = D43DFDBA181890150052FFD7 /* Commons-logo-120.png */; };
-		D43DFDBE181890150052FFD7 /* Commons-logo-152.png in Resources */ = {isa = PBXBuildFile; fileRef = D43DFDBB181890150052FFD7 /* Commons-logo-152.png */; };
 		D44DDD3C16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
 		D44DDD3D16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
 		D44DDD3E16CC4D6000318FBF /* MWDeferred.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3916CC4D6000318FBF /* MWDeferred.m */; };
@@ -485,10 +474,6 @@
 		D408617F169B760800D6ACB0 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D4086180169B760800D6ACB0 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D4086189169B760800D6ACB0 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		D4086196169B791100D6ACB0 /* Commons-logo-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-57.png"; path = "../Commons-logo-57.png"; sourceTree = "<group>"; };
-		D4086198169B791400D6ACB0 /* Commons-logo-114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Commons-logo-114.png"; path = "../Commons-logo-114.png"; sourceTree = "<group>"; };
-		D40CE3D416BB398700E63B27 /* Commons-logo-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-72.png"; sourceTree = "<group>"; };
-		D40CE3D616BB398A00E63B27 /* Commons-logo-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-72@2x.png"; sourceTree = "<group>"; };
 		D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fileicon-pdf.png"; sourceTree = "<group>"; };
 		D40CE3DD16BB542200E63B27 /* fileicon-svg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fileicon-svg.png"; sourceTree = "<group>"; };
 		D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FileUpload.xcdatamodel; sourceTree = "<group>"; };
@@ -514,9 +499,6 @@
 		D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyUploadsViewController.m; sourceTree = "<group>"; };
 		D4284F0E16C9C2AA008640B0 /* MWEventLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWEventLogging.h; path = MWEventLogging/MWEventLogging.h; sourceTree = "<group>"; };
 		D4284F0F16C9C2AA008640B0 /* MWEventLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWEventLogging.m; path = MWEventLogging/MWEventLogging.m; sourceTree = "<group>"; };
-		D43DFDB9181890150052FFD7 /* Commons-logo-76.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-76.png"; sourceTree = SOURCE_ROOT; };
-		D43DFDBA181890150052FFD7 /* Commons-logo-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-120.png"; sourceTree = SOURCE_ROOT; };
-		D43DFDBB181890150052FFD7 /* Commons-logo-152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Commons-logo-152.png"; sourceTree = SOURCE_ROOT; };
 		D44DDD3816CC4D6000318FBF /* MWDeferred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWDeferred.h; path = mwapi/MWDeferred.h; sourceTree = "<group>"; };
 		D44DDD3916CC4D6000318FBF /* MWDeferred.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MWDeferred.m; path = mwapi/MWDeferred.m; sourceTree = "<group>"; };
 		D44DDD3A16CC4D6000318FBF /* MWPromise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MWPromise.h; path = mwapi/MWPromise.h; sourceTree = "<group>"; };
@@ -873,8 +855,6 @@
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
-				D40CE3D616BB398A00E63B27 /* Commons-logo-72@2x.png */,
-				D40CE3D416BB398700E63B27 /* Commons-logo-72.png */,
 				0484602717A198410054BA47 /* Splash Images */,
 				D4D0E1C7169BA036003047A8 /* API headers */,
 				D4086176169B760800D6ACB0 /* Commons-iOS */,
@@ -977,11 +957,6 @@
 				30DC441A178D42E60081555A /* cc-sa-white@2x.png */,
 				D40CE3DC16BB542200E63B27 /* fileicon-pdf.png */,
 				D40CE3DD16BB542200E63B27 /* fileicon-svg.png */,
-				D4086196169B791100D6ACB0 /* Commons-logo-57.png */,
-				D43DFDB9181890150052FFD7 /* Commons-logo-76.png */,
-				D4086198169B791400D6ACB0 /* Commons-logo-114.png */,
-				D43DFDBA181890150052FFD7 /* Commons-logo-120.png */,
-				D43DFDBB181890150052FFD7 /* Commons-logo-152.png */,
 				D4086178169B760800D6ACB0 /* Commons-Info.plist */,
 				D4086179169B760800D6ACB0 /* InfoPlist.strings */,
 				D408617C169B760800D6ACB0 /* main.m */,
@@ -1308,16 +1283,12 @@
 				65C4D56E16CCE31E0077E0A2 /* messages-en.json in Resources */,
 				65C4D57016CCE31E0077E0A2 /* messages-qqq.json in Resources */,
 				65C4D56D16CCE3110077E0A2 /* MainStoryboard.storyboard in Resources */,
-				65C4D55C16CCE2E20077E0A2 /* Commons-logo-72@2x.png in Resources */,
-				65C4D55D16CCE2E20077E0A2 /* Commons-logo-72.png in Resources */,
 				65C4D56216CCE2E30077E0A2 /* cc-by.png in Resources */,
 				65C4D56316CCE2E30077E0A2 /* cc-by@2x.png in Resources */,
 				65C4D56416CCE2E30077E0A2 /* cc-sa.png in Resources */,
 				65C4D56516CCE2E30077E0A2 /* cc-sa@2x.png in Resources */,
 				65C4D56616CCE2E30077E0A2 /* fileicon-pdf.png in Resources */,
 				65C4D56716CCE2E30077E0A2 /* fileicon-svg.png in Resources */,
-				65C4D56816CCE2E30077E0A2 /* Commons-logo-114.png in Resources */,
-				65C4D56916CCE2E30077E0A2 /* Commons-logo-57.png in Resources */,
 				65C4D54516CCE10B0077E0A2 /* InfoPlist.strings in Resources */,
 				65C4D54D16CCE10B0077E0A2 /* Default.png in Resources */,
 				65C4D54F16CCE10B0077E0A2 /* Default@2x.png in Resources */,
@@ -1333,12 +1304,7 @@
 				04CE7CDF18120ADD006F7545 /* POTD-2008-11-14.jpg in Resources */,
 				D408618A169B760800D6ACB0 /* MainStoryboard.storyboard in Resources */,
 				2FA2200B1A7D7D3500876F7D /* splash_commons_ipad@2x.png in Resources */,
-				D4086197169B791100D6ACB0 /* Commons-logo-57.png in Resources */,
-				D4086199169B791400D6ACB0 /* Commons-logo-114.png in Resources */,
-				D43DFDBE181890150052FFD7 /* Commons-logo-152.png in Resources */,
 				2FA21FF81A7D73C800876F7D /* add@2x.png in Resources */,
-				D40CE3D516BB398700E63B27 /* Commons-logo-72.png in Resources */,
-				D40CE3D716BB398A00E63B27 /* Commons-logo-72@2x.png in Resources */,
 				D40CE3DE16BB542300E63B27 /* fileicon-pdf.png in Resources */,
 				D40CE3DF16BB542300E63B27 /* fileicon-svg.png in Resources */,
 				DC0F63DF16BBB73F0017E63C /* defaults.plist in Resources */,
@@ -1385,7 +1351,6 @@
 				D4C037241700C38100AA2537 /* messages-km.json in Resources */,
 				2FA21FF51A7D719300876F7D /* button_bg@2x.png in Resources */,
 				D4C037251700C38100AA2537 /* messages-ko.json in Resources */,
-				D43DFDBC181890150052FFD7 /* Commons-logo-76.png in Resources */,
 				D4C037261700C38100AA2537 /* messages-lb.json in Resources */,
 				D4C037271700C38100AA2537 /* messages-mk.json in Resources */,
 				D4C037281700C38100AA2537 /* messages-ms.json in Resources */,
@@ -1415,7 +1380,6 @@
 				D475B28E171C750D00AA81C9 /* messages-fi.json in Resources */,
 				2FA2200A1A7D7D3500876F7D /* splash_commons_ipad.png in Resources */,
 				04CE7CE618120ADD006F7545 /* POTD-2013-09-03.jpg in Resources */,
-				D43DFDBD181890150052FFD7 /* Commons-logo-120.png in Resources */,
 				D475B28F171C750D00AA81C9 /* messages-ksh.json in Resources */,
 				04CE7CDD18120ADD006F7545 /* POTD-2007-06-15.jpg in Resources */,
 				D475B290171C750D00AA81C9 /* messages-pa.json in Resources */,

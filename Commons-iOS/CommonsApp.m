@@ -700,7 +700,7 @@ static CommonsApp *singleton_;
            MWPromise *upload = [_currentUploadOp uploadFile:fileName
                                                withFileData:fileData
                                                        text:[self formatDescription:record]
-                                                    comment:@"Uploaded with Commons for iOS"];
+                                                    comment:@"Uploaded with Commons Reloaded for iOS"];
 
            [upload progress:^(NSDictionary *dict) {
                // Progress block
@@ -778,7 +778,7 @@ static CommonsApp *singleton_;
                        @"== {{int:license-header}} ==\n"
                        @"{{self|%@}}\n"
                        @"\n"
-                       @"{{Uploaded from Mobile|platform=iOS|version=%@}}\n"
+                       @"{{Uploaded from Commons Reloaded|version=%@}}\n"
                        @"%@";
     NSString *cats = [self formatCategories:record];
     NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], record.license, self.version, cats];
