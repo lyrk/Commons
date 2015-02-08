@@ -21,7 +21,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="wRv-eo-aen" userLabel="Pic o' the Day Image View" customClass="PictureOfTheDayImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="Commons-logo-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Y6M-eQ-GLr" userLabel="Logo Image View">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" misplaced="YES" image="commons_big.png" translatesAutoresizingMaskIntoConstraints="NO" id="Y6M-eQ-GLr" userLabel="Logo Image View">
                                 <rect key="frame" x="35" y="8" width="250" height="258"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
@@ -1793,11 +1793,11 @@ Help Wikipedia articles come to life!</string>
     <resources>
         <image name="Add Icon" width="42" height="42"/>
         <image name="Camera Icon" width="42" height="32"/>
-        <image name="Commons-logo-white.png" width="250" height="364"/>
         <image name="Image Icon" width="42" height="32"/>
         <image name="Media Select Button" width="72" height="72"/>
         <image name="cc-by.png" width="24" height="24"/>
         <image name="cc-sa.png" width="24" height="24"/>
+        <image name="commons_big.png" width="500" height="600"/>
         <image name="mockBadPhoto.png" width="237" height="286"/>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>

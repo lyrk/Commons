@@ -700,7 +700,7 @@ static CommonsApp *singleton_;
            MWPromise *upload = [_currentUploadOp uploadFile:fileName
                                                withFileData:fileData
                                                        text:[self formatDescription:record]
-                                                    comment:@"Uploaded with Commons for iOS"];
+                                                    comment:@"Uploaded with Commons Reloaded for iOS"];
 
            [upload progress:^(NSDictionary *dict) {
                // Progress block
@@ -778,7 +778,7 @@ static CommonsApp *singleton_;
                        @"== {{int:license-header}} ==\n"
                        @"{{self|%@}}\n"
                        @"\n"
-                       @"{{Uploaded from Mobile|platform=iOS|version=%@}}\n"
+                       @"{{Uploaded from Commons Reloaded|version=%@}}\n"
                        @"%@";
     NSString *cats = [self formatCategories:record];
     NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], record.license, self.version, cats];
@@ -1507,9 +1507,6 @@ static CommonsApp *singleton_;
     float labelWidth = 27.5f;
     float cornerRadius = labelWidth / 2.0f;
     float fontSize = 20.0f;
-    float shadowRadius = 4.0f;
-    float shadowOpacity = 4.0f;
-    CGColorRef shadowColor = [UIColor whiteColor].CGColor;
 
     CGColorRef backgroundColor = [UIColor blackColor].CGColor;
     CGColorRef borderColor = [UIColor whiteColor].CGColor;
@@ -1522,15 +1519,8 @@ static CommonsApp *singleton_;
     label.translatesAutoresizingMaskIntoConstraints = NO;
     label.layer.cornerRadius = cornerRadius;
     label.layer.borderWidth = 0;
-
-    // Configure shadow
     label.clipsToBounds = YES;
     [label.layer setMasksToBounds:NO];
-    [label.layer setShadowColor:shadowColor];
-    [label.layer setShadowOpacity:shadowOpacity];
-    [label.layer setShadowRadius:shadowRadius];
-    [label.layer setShadowOffset:CGSizeMake(0, 0)];
-    [label.layer setShadowPath: [[UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, labelWidth, labelWidth) cornerRadius:cornerRadius] CGPath]];
     label.layer.borderColor = borderColor;
     label.layer.borderWidth = borderWidth;
     [label.layer setBackgroundColor:backgroundColor];
@@ -1545,14 +1535,6 @@ static CommonsApp *singleton_;
           NSStrokeWidthAttributeName: @0
     }];
 
-    /*
-     // Add shadow to the character string
-     NSShadow *shadow = [[NSShadow alloc] init];
-     [shadow setShadowColor: [UIColor colorWithWhite:0.0f alpha:1.0f]];
-     [shadow setShadowOffset:CGSizeMake (1.0, 1.0)];
-     [shadow setShadowBlurRadius:0];
-     label.attributedText = [[NSAttributedString alloc] initWithString:label.text attributes:@{NSShadowAttributeName : shadow}];
-    */
 
     // Constrain the label width and height
     [label addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[view(==%f)]", labelWidth] options:0 metrics:nil views:@{@"view": label}]];
