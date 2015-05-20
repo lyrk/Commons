@@ -24,6 +24,8 @@
 @dynamic thumbnailURL;
 @dynamic fileSize;
 @dynamic license;
+//@dynamic imageLocation;
+@synthesize imageLocation;
 
 @synthesize fetchThumbnailProgress;
 
@@ -156,6 +158,5 @@
         self.categories = [cats componentsJoinedByString:@"|"];
     }
 }
-
 
 @end

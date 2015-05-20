@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import <MapKit/MapKit.h>
 #import "FileUpload.h"
 #import "Category.h"
 #import "mwapi/MWApi.h"

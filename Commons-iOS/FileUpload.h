@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import <MapKit/MapKit.h>
 
 #import "mwapi/MWApi.h"
 
@@ -25,6 +26,7 @@
 @property (nonatomic, retain) NSString * thumbnailURL;
 @property (nonatomic, retain) NSNumber * fileSize;
 @property (nonatomic, retain) NSString * license;
+@property (nonatomic, retain) CLLocation * imageLocation;
 
 @property (nonatomic, retain) NSNumber * fetchThumbnailProgress;
 

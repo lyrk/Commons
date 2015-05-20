@@ -175,6 +175,7 @@
 		65CA699D16C0687C00839D09 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4086174169B760800D6ACB0 /* CoreGraphics.framework */; };
 		65D839AF16D056CA00C0371A /* LocalizationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839AE16D056CA00C0371A /* LocalizationTest.m */; };
 		65D839B216D08F9200C0371A /* DataTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839B116D08F9200C0371A /* DataTest.m */; };
+		A82AA4721A90223400D2C01F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A82AA4711A90223400D2C01F /* CoreLocation.framework */; };
 		A872CD641A749A3F00643AA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A872CD631A749A3F00643AA4 /* Images.xcassets */; };
 		A872CD691A76D9E900643AA4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A872CD681A76D9E900643AA4 /* MapKit.framework */; };
 		B938B3C317B332250039ABF8 /* browser.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3BF17B332250039ABF8 /* browser.png */; };
@@ -452,6 +453,7 @@
 		65CA697416BFCE3300839D09 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		65D839AE16D056CA00C0371A /* LocalizationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalizationTest.m; sourceTree = "<group>"; };
 		65D839B116D08F9200C0371A /* DataTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTest.m; sourceTree = "<group>"; };
+		A82AA4711A90223400D2C01F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A872CD631A749A3F00643AA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A872CD681A76D9E900643AA4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B938B3BF17B332250039ABF8 /* browser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = browser.png; sourceTree = "<group>"; };
@@ -660,6 +662,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A82AA4721A90223400D2C01F /* CoreLocation.framework in Frameworks */,
 				A872CD691A76D9E900643AA4 /* MapKit.framework in Frameworks */,
 				04BDAEE217F36B5E0086E4AE /* Accelerate.framework in Frameworks */,
 				040860BB17136FC300D3290B /* CoreImage.framework in Frameworks */,
@@ -879,6 +882,7 @@
 		D408616F169B760800D6ACB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A82AA4711A90223400D2C01F /* CoreLocation.framework */,
 				A872CD681A76D9E900643AA4 /* MapKit.framework */,
 				04BDAEE117F36B5E0086E4AE /* Accelerate.framework */,
 				040860BA17136FC300D3290B /* CoreImage.framework */,

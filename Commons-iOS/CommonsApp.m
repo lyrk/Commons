@@ -775,13 +775,14 @@ static CommonsApp *singleton_;
 {
     NSString *format = @"== {{int:filedesc}} ==\n"
                        @"{{Information\n|description=%@\n|source={{own}}\n|author=[[User:%@|%2$@]]\n|date=%@}}\n"
+                        @"%@\n"//location
                        @"== {{int:license-header}} ==\n"
                        @"{{self|%@}}\n"
                        @"\n"
                        @"{{Uploaded from Commons Reloaded|version=%@}}\n"
                        @"%@";
     NSString *cats = [self formatCategories:record];
-    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], record.license, self.version, cats];
+    NSString *desc = [NSString stringWithFormat:format, record.desc, self.username, [self formatDescriptionDate:record], [self formatImageLocation:record], record.license, self.version, cats];
     return desc;
 }
 
@@ -833,6 +834,32 @@ static CommonsApp *singleton_;
         return [NSString stringWithFormat: @"[[Category:%@]]",
                 [cats componentsJoinedByString:@"]]\n[[Category:"]];
     }
+}
+
+- (NSString *)formatImageLocation:(FileUpload *)record
+{
+    if(CLLocationCoordinate2DIsValid(record.imageLocation.coordinate)){
+        float lat = record.imageLocation.coordinate.latitude;
+        float lon = record.imageLocation.coordinate.longitude;
+        
+        //NSMutableString * attributes;
+        NSMutableArray * attributeList = [[NSMutableArray alloc] init];
+        
+        [attributeList addObject: @"source:exif"]; //add Source exif
+        
+        if(record.imageLocation.altitude != NAN){
+            [attributeList addObject: [NSString stringWithFormat:@"alt:%f", record.imageLocation.altitude]]; //add altitude
+        }
+        if(record.imageLocation.course != NAN){
+            [attributeList addObject: [NSString stringWithFormat:@"heading:%f", record.imageLocation.course]]; //add compass direction
+        }
+
+        NSString * attributes = [attributeList componentsJoinedByString:@"_"];
+        
+        
+        return [NSString stringWithFormat:@"{{Location dec|%f|%f|%@}}",lat,lon,attributes];
+    }
+    return @"";
 }
 
 - (void)cancelCurrentUpload {
@@ -905,12 +932,15 @@ static CommonsApp *singleton_;
         FileUpload *record = [self createUploadRecord];
         record.complete = @NO;
         record.source = source;
+        
 
         record.created = [NSDate date];
         record.title = title;
         record.desc = desc;
         
+        
         record.fileType = [self getImageType:info];
+        record.imageLocation = [self getImageGpsLocation:info];
         record.fileSize = [NSNumber numberWithInteger:[data length]];
         record.progress = @0.0f;
         
@@ -1123,6 +1153,45 @@ static CommonsApp *singleton_;
         // Freshly taken photo, we'll go craaaazy
         return @"image/jpeg";
     }
+}
+
+- (CLLocation *) getImageGpsLocation:(NSDictionary *)info
+{
+    NSURL *url = info[UIImagePickerControllerReferenceURL];
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = NAN;//NAN is a valid invalid
+    coordinate.longitude = NAN;
+    
+    double altitude = NAN;
+    double compassDirection = NAN;
+    //check if image comes from camera roll or directly camera
+    if (url) {
+        //from camera roll - ask for exif data
+        NSObject * gps = info[UIImagePickerControllerMediaMetadata][@"{GPS}"];//[@"Latitude"];
+
+        if(gps){
+            double lat = [[gps valueForKey:@"Latitude"] floatValue];
+            double lon = [[gps valueForKey:@"Longitude"] floatValue];
+            compassDirection = [[gps valueForKey:@"ImgDirection"] floatValue];
+            altitude = [[gps valueForKey:@"Altitude"] floatValue];
+            coordinate.latitude = lat;
+            coordinate.longitude = lon;
+        }
+    }
+    //else {
+        //TODO directly from camera - ask for current location
+        //CLLocationManager *locationManager = [CLLocationManager new];
+        //CLLocation *loc = [locationManager location];
+    //}
+    CLLocation * location = [[CLLocation alloc]
+                             initWithCoordinate:coordinate
+                             altitude: altitude
+                             horizontalAccuracy: NAN
+                             verticalAccuracy: NAN
+                             course: compassDirection
+                             speed: NAN
+                             timestamp:nil];//TODO add compass data?
+    return location;
 }
 
 - (MWPromise *)saveImageData:(NSDictionary *)info
