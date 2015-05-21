@@ -25,6 +25,7 @@
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
 #define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
+#define REGISTER_ACCOUNT_URL @"https://commons.m.wikimedia.org/w/index.php?title=Special:UserLogin&type=signup"
 #define LOGIN_BUTTON_CORNER_RADIUS 11
 #define LOGIN_BUTTON_PLACEHOLDER_TEXT_COLOR [UIColor colorWithWhite:1.0f alpha:1.0f]
 
@@ -132,6 +133,7 @@
     [self setupGestureRecognizers];
 
     [self.recoverPasswordButton setTitle:[MWMessage forKey:@"login-recover-password-button"].text forState:UIControlStateNormal];
+    [self.registerAccountButton setTitle:[MWMessage forKey:@"login-create-account-button"].text forState:UIControlStateNormal];
 
     //[self.view randomlyColorSubviews];
 }
@@ -212,6 +214,7 @@
 {
     // Add shadow behind the login text boxes and buttons so they stand out on light background
     [LoginViewController applyShadowToView:self.recoverPasswordButton];
+    [LoginViewController applyShadowToView:self.registerAccountButton];
 }
 
 #pragma mark - Logo
@@ -440,6 +443,7 @@
     self.passwordField.hidden = show;
     self.usernamePasswordDivider.hidden = show;
     self.recoverPasswordButton.hidden = show;
+    self.registerAccountButton.hidden = show;
 
     [self.currentUserButton setText:[MWMessage forKey:@"login-current-user-button" param:self.usernameField.text].text];
 }
@@ -466,11 +470,13 @@
                          self.passwordField.alpha = 0.0f;
                          self.usernamePasswordDivider.alpha = 0.0f;
                          self.recoverPasswordButton.alpha = 0.0f;
+                         self.registerAccountButton.alpha = 0.0f;
                          self.loginButton.hidden = NO;
                          self.usernameField.hidden = NO;
                          self.passwordField.hidden = NO;
                          self.usernamePasswordDivider.hidden = NO;
                          self.recoverPasswordButton.hidden = NO;
+                         self.registerAccountButton.hidden = NO;
 
                          CGRect origUsernameFieldFrame = self.usernameField.frame;
                          CGRect origPasswordFieldFrame = self.passwordField.frame;
@@ -489,6 +495,7 @@
                                               self.usernamePasswordDivider.alpha = 1.0f;
                                               
                                               self.recoverPasswordButton.alpha = 1.0f;
+                                              self.registerAccountButton.alpha = 1.0f;
                                               self.loginButton.alpha = 1.0f;
                                               // If either username or password blank fade the login button
                                               [self fadeLoginButtonIfNoCredentials];
@@ -627,6 +634,12 @@
 {
     CommonsApp *app = CommonsApp.singleton;
     [app openURLWithDefaultBrowser:[NSURL URLWithString:RESET_PASSWORD_URL]];
+}
+
+- (IBAction)pushedRegisterAccountButton:(id)sender
+{
+    CommonsApp *app = CommonsApp.singleton;
+    [app openURLWithDefaultBrowser:[NSURL URLWithString:REGISTER_ACCOUNT_URL]];
 }
 
 - (IBAction)pushedLoginButton:(id)sender

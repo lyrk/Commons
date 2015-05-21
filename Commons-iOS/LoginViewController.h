@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *logoutButton;
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *currentUserButton;
 @property (weak, nonatomic) IBOutlet UIButton *recoverPasswordButton;
+@property (weak, nonatomic) IBOutlet UIButton *registerAccountButton;
+
 
 @property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
 @property (weak, nonatomic) IBOutlet UIView *loginInfoContainer;
@@ -30,6 +32,7 @@
 -(IBAction)pushedLogoutButton:(id)sender;
 -(IBAction)pushedCurrentUserButton:(id)sender;
 -(IBAction)pushedRecoverPasswordButton:(id)sender;
+-(IBAction)pushedRegisterAccountButton:(id)sender;
 
 -(void)showLogout:(BOOL)show;
 +(void)applyShadowToView:(UIView *)view;

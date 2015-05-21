@@ -67,6 +67,7 @@
 	"login-current-user-button": "Weitermachen als: $1",
 	"login-button": "Anmelden",
 	"login-recover-password-button": "Passwort wiederherstellen",
+	"login-create-account-button": "Account anlegen",
 	"logout-button": "Abmelden",
 	"about-title": "Über",
 	"about-app-version-label": "Version $1",

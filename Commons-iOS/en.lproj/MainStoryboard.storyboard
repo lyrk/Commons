@@ -26,7 +26,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </imageView>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f9g-qG-jTX" userLabel="Login Info Container">
-                                <rect key="frame" x="0.0" y="275" width="320" height="176"/>
+                                <rect key="frame" x="0.0" y="238" width="320" height="213"/>
                                 <subviews>
                                     <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current User" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="7hN-Vo-alr" userLabel="Current User" customClass="UILabelDynamicHeight">
                                         <rect key="frame" x="20" y="6" width="280" height="85"/>
@@ -92,6 +92,16 @@
                                             <action selector="pushedRecoverPasswordButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="EpO-fE-a0J"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r87-0c-c6X" userLabel="register">
+                                        <rect key="frame" x="85" y="175" width="150" height="30"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                        <state key="normal" title="Create Account">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="pushedRegisterAccountButton:" destination="CKn-7N-hi9" eventType="touchUpInside" id="x3k-vx-pBC"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -101,7 +111,7 @@
                                     <constraint firstItem="ce8-FB-OHg" firstAttribute="top" secondItem="f9g-qG-jTX" secondAttribute="top" constant="6" id="BMi-KP-PII"/>
                                     <constraint firstItem="wMJ-sV-V0U" firstAttribute="leading" secondItem="f9g-qG-jTX" secondAttribute="leading" constant="20" symbolic="YES" id="FO6-oR-Yn7"/>
                                     <constraint firstItem="uZ2-XX-w6g" firstAttribute="top" secondItem="GAV-ZZ-8pl" secondAttribute="bottom" id="GId-xA-emg"/>
-                                    <constraint firstAttribute="bottom" secondItem="3va-h9-QXe" secondAttribute="bottom" id="Irq-CC-2pE"/>
+                                    <constraint firstAttribute="bottom" secondItem="3va-h9-QXe" secondAttribute="bottom" constant="37" id="Irq-CC-2pE"/>
                                     <constraint firstItem="ce8-FB-OHg" firstAttribute="top" secondItem="7hN-Vo-alr" secondAttribute="top" id="JhW-up-xUK"/>
                                     <constraint firstAttribute="width" constant="320" id="SgE-4S-tj5"/>
                                     <constraint firstAttribute="trailing" secondItem="7hN-Vo-alr" secondAttribute="trailing" constant="20" symbolic="YES" id="UyH-K3-xTq"/>
@@ -113,12 +123,14 @@
                                     <constraint firstAttribute="centerX" secondItem="3va-h9-QXe" secondAttribute="centerX" id="j5e-Uf-RKs"/>
                                     <constraint firstItem="WZr-eg-FmI" firstAttribute="top" secondItem="wMJ-sV-V0U" secondAttribute="top" id="l2L-kb-jEg"/>
                                     <constraint firstAttribute="trailing" secondItem="GAV-ZZ-8pl" secondAttribute="trailing" constant="20" id="mHs-io-ich"/>
+                                    <constraint firstAttribute="centerX" secondItem="r87-0c-c6X" secondAttribute="centerX" id="qBB-L3-7vT"/>
                                     <constraint firstItem="ce8-FB-OHg" firstAttribute="leading" secondItem="f9g-qG-jTX" secondAttribute="leading" constant="20" symbolic="YES" id="taK-LO-6oP"/>
                                     <constraint firstItem="GAV-ZZ-8pl" firstAttribute="top" secondItem="ce8-FB-OHg" secondAttribute="bottom" id="thN-mq-uto"/>
                                     <constraint firstAttribute="trailing" secondItem="uZ2-XX-w6g" secondAttribute="trailing" constant="20" symbolic="YES" id="vHT-3h-EKv"/>
                                     <constraint firstItem="WZr-eg-FmI" firstAttribute="leading" secondItem="f9g-qG-jTX" secondAttribute="leading" constant="20" symbolic="YES" id="wgd-BM-eyZ"/>
                                     <constraint firstItem="7hN-Vo-alr" firstAttribute="bottom" secondItem="uZ2-XX-w6g" secondAttribute="bottom" id="xHA-sg-fz6"/>
                                     <constraint firstItem="3va-h9-QXe" firstAttribute="top" secondItem="wMJ-sV-V0U" secondAttribute="bottom" constant="8" symbolic="YES" id="yYc-gC-JLe"/>
+                                    <constraint firstAttribute="bottom" secondItem="r87-0c-c6X" secondAttribute="bottom" constant="8" id="yxu-l3-425"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5wL-YR-by3" userLabel="Top Spacer">
@@ -171,6 +183,7 @@
                         <outlet property="passwordField" destination="uZ2-XX-w6g" id="SpP-Zf-QJu"/>
                         <outlet property="potdImageView" destination="wRv-eo-aen" id="F44-UF-bUJ"/>
                         <outlet property="recoverPasswordButton" destination="3va-h9-QXe" id="SfO-QU-9r6"/>
+                        <outlet property="registerAccountButton" destination="r87-0c-c6X" id="naB-g3-FRr"/>
                         <outlet property="topSpacer" destination="5wL-YR-by3" id="Kcp-fL-Q6D"/>
                         <outlet property="usernameField" destination="ce8-FB-OHg" id="Nza-A8-gcX"/>
                         <outlet property="usernamePasswordDivider" destination="GAV-ZZ-8pl" id="ewO-CY-QrE"/>

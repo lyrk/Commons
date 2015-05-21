@@ -66,6 +66,7 @@
     "login-current-user-button": "Continue as: $1",
     "login-button": "Login",
     "login-recover-password-button": "recover password",
+    "login-create-account-button": "create new account",
     
     "logout-button": "Logout",
 
