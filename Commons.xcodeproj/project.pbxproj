@@ -456,6 +456,7 @@
 		A82AA4711A90223400D2C01F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A872CD631A749A3F00643AA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A872CD681A76D9E900643AA4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		A8FC819F1B0E5C5600E29AAD /* FileUpload 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FileUpload 5.xcdatamodel"; sourceTree = "<group>"; };
 		B938B3BF17B332250039ABF8 /* browser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = browser.png; sourceTree = "<group>"; };
 		B938B3C017B332250039ABF8 /* browser@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser@2x.png"; sourceTree = "<group>"; };
 		B938B3C117B332250039ABF8 /* browser@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser@2x~ipad.png"; sourceTree = "<group>"; };
@@ -1945,11 +1946,12 @@
 			isa = XCVersionGroup;
 			children = (
 				0438EF0317FCCB96005F8BF5 /* FileUpload 4.xcdatamodel */,
+				A8FC819F1B0E5C5600E29AAD /* FileUpload 5.xcdatamodel */,
 				D41BFA46173AF10600472EC7 /* FileUpload 3.xcdatamodel */,
 				D4C5B4201720BCD700C40532 /* FileUpload 2.xcdatamodel */,
 				D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */,
 			);
-			currentVersion = 0438EF0317FCCB96005F8BF5 /* FileUpload 4.xcdatamodel */;
+			currentVersion = A8FC819F1B0E5C5600E29AAD /* FileUpload 5.xcdatamodel */;
 			path = FileUpload.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
