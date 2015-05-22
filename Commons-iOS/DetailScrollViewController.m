@@ -1091,6 +1091,13 @@
         UILabelDynamicHeight *label = [[UILabelDynamicHeight alloc] initWithFrame:CGRectZero];
         label.translatesAutoresizingMaskIntoConstraints = NO;
         label.text = categoryString;
+        
+        //add tab Event to commons Label to open Category in Browser
+        UITapGestureRecognizer *gestureRec = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openCommonsUrlFromLabel:)];
+        gestureRec.numberOfTouchesRequired = 1;
+        gestureRec.numberOfTapsRequired = 1;
+        [label addGestureRecognizer:gestureRec];
+        
         [self styleDetailsLabel:label];
         [self.categoryContainer addSubview:label];
         [categoryLabels addObject:label];
@@ -1147,6 +1154,25 @@
     }
 
     [self.categoryContainer layoutIfNeeded];
+}
+
+- (void)openCommonsUrlFromLabel:(id)sender
+{
+    UIGestureRecognizer *rec = (UIGestureRecognizer *)sender;
+    
+    id hitLabel = [self.view hitTest:[rec locationInView:self.view] withEvent:UIEventTypeTouches];
+    
+    if ([hitLabel isKindOfClass:[UILabel class]]) {
+    
+        //create category URL
+        NSString * category = ((UILabel *)hitLabel).text;
+        category = [category stringByReplacingOccurrencesOfString:@" "
+                                                       withString:@"_"];
+        category = [category stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSMutableString * urlString = [NSMutableString stringWithString:@"https://commons.wikimedia.org/wiki/Category:"];
+        [urlString appendString:category];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+    }
 }
 
 -(void)styleDetailsLabel:(UILabelDynamicHeight *)label
