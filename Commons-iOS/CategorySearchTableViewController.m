@@ -211,16 +211,23 @@
     // it also turns up categories that should be empty... not sure how to best improve this.
     self.api = [app startApi];
     MWPromise *fetch = [self.api getRequest:@{
-        @"action": @"query",
+        /*@"action": @"query",
         @"list": @"allcategories",
         @"acprefix": searchText,
-        @"aclimit": @SEARCH_CATS_LIMIT
+        @"aclimit": @SEARCH_CATS_LIMIT*/
+        @"action": @"query",
+        @"list": @"allpages",
+        @"apfrom": searchText,
+        @"apprefix": searchText,
+        @"apnamespace": @"14",
+        @"aplimit": @SEARCH_CATS_LIMIT
+                                              
     }];
     [fetch done:^(NSDictionary *result) {
         NSMutableArray *categories = [[NSMutableArray alloc] init];
         if (result[@"query"]) {
-            for (NSDictionary *entry in result[@"query"][@"allcategories"]) {
-                NSString *cat = entry[@"*"]; // yay crappy result formats
+            for (NSDictionary *entry in result[@"query"][@"allpages"]) {
+                NSString *cat = [entry[@"title"] stringByReplacingOccurrencesOfString:@"Category:" withString: @"" options:NSLiteralSearch range:[entry[@"title"] rangeOfString:@"Category:"]];
                 [categories addObject:cat];
             }
         }
