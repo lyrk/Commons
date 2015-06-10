@@ -662,7 +662,10 @@ static CommonsApp *singleton_;
 
 - (MWPromise *)beginUpload:(FileUpload *)record
 {
-    NSString *fileName = [self filenameForTitle:record.title type:record.fileType];
+    NSString * fileTitle = record.title;
+    fileTitle = [fileTitle stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+    NSString *fileName = [self filenameForTitle:fileTitle type:record.fileType];
+    
     MWDeferred *deferred = [[MWDeferred alloc] init];
     
     MWPromise *nameCheck = [self checkFileName:fileName];
