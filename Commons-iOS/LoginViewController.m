@@ -24,7 +24,7 @@
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
 
-#define RESET_PASSWORD_URL @"http://commons.wikimedia.org/wiki/Special:PasswordReset"
+#define RESET_PASSWORD_URL @"https://commons.wikimedia.org/wiki/Special:PasswordReset"
 #define REGISTER_ACCOUNT_URL @"https://commons.m.wikimedia.org/w/index.php?title=Special:UserLogin&type=signup"
 #define LOGIN_BUTTON_CORNER_RADIUS 11
 #define LOGIN_BUTTON_PLACEHOLDER_TEXT_COLOR [UIColor colorWithWhite:1.0f alpha:1.0f]

@@ -34,7 +34,7 @@
 
 #define URL_GRADIENT_BUTTON_SOURCE    @"https://code.google.com/p/iphonegradientbuttons/"
 #define URL_GRADIENT_BUTTON_LICENSE   @"http://opensource.org/licenses/mit-license.php"
-#define URL_BACKGROUND_IMAGE_WIKI_URL @"http://commons.wikimedia.org/wiki/File:Papageitaucher_Fratercula_arctica.jpg"
+#define URL_BACKGROUND_IMAGE_WIKI_URL @"https://commons.wikimedia.org/wiki/File:Papageitaucher_Fratercula_arctica.jpg"
 
 #define URL_GRADIENT_BUTTON_PADDING   18.0f
 #define URL_GRADIENT_BUTTON_BORDER_WIDTH 2.0f
