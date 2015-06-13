@@ -173,6 +173,8 @@
     [self setupSettingsButton];
     [self setupAboutButton];
     
+    self.locationManager = [[CLLocationManager alloc]init];
+    
     //[self.view randomlyColorSubviews];
 }
 
@@ -423,8 +425,17 @@
      UIImagePickerControllerReferenceURL = "assets-library://asset/asset.JPG?id=E248436B-4DB7-4583-BB6C-6073C332B9A6&ext=JPG";
      }
      */
+    
+    CLLocation *lastLocation = self.lastLocation;
+    [self.locationManager stopUpdatingLocation];
+    
+    NSMutableDictionary *infoWithDeviceLocation = [NSMutableDictionary dictionaryWithDictionary:info];
+    if (lastLocation){
+        [infoWithDeviceLocation setObject:lastLocation forKey: @"LastDeviceGeoLocation"];
+    }
+    
     NSLog(@"picked: %@", info);
-    [CommonsApp.singleton prepareImage:info from:pickerSource_];
+    [CommonsApp.singleton prepareImage:infoWithDeviceLocation from:pickerSource_];
     [self dismissViewControllerAnimated:YES completion:nil];
     if (self.popover) {
         [self.popover dismissPopoverAnimated:YES];
@@ -554,9 +565,19 @@
     }
 }
 
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locationsuserLocation
+{
+    self.lastLocation = [locationsuserLocation lastObject];
+}
+
 - (IBAction)takePhotoButtonPushed:(id)sender {
     
     [self hideTakeAndChoosePhotoButtons:nil];
+    
+    self.locationManager.delegate = self; // we set the delegate of locationManager to self.
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest; // setting the accuracy
+    [self.locationManager requestWhenInUseAuthorization];
+    [self.locationManager startUpdatingLocation];  //requesting location updates
     
     NSLog(@"Take photo");
     pickerSource_ = @"camera";
