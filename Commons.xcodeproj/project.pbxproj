@@ -430,7 +430,7 @@
 		30FA25D61751E3D80040292C /* UILabel+ResizeWithAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+ResizeWithAttributes.m"; sourceTree = "<group>"; };
 		65137CD416BE4C3B006FA9BD /* Commons-Logic-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-Logic-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65137CF616BE4C8C006FA9BD /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		65137D0616BE6696006FA9BD /* Commons-Application-Testing.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-Application-Testing.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		65137D0616BE6696006FA9BD /* Commons-Application-Testing.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Commons-Application-Testing.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65137D1816BE69B8006FA9BD /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libOCMock.a; path = "Testing-Libraries/libOCMock.a"; sourceTree = "<group>"; };
 		65137D1A16BE69B8006FA9BD /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
 		65137D1B16BE69B8006FA9BD /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
@@ -874,7 +874,7 @@
 			children = (
 				D408616C169B760800D6ACB0 /* Commons.app */,
 				65137CD416BE4C3B006FA9BD /* Commons-Logic-Testing.octest */,
-				65137D0616BE6696006FA9BD /* Commons-Application-Testing.octest */,
+				65137D0616BE6696006FA9BD /* Commons-Application-Testing.xctest */,
 				65C4D53C16CCE10B0077E0A2 /* Commons-GHUnit-Testing.app */,
 			);
 			name = Products;
@@ -1173,8 +1173,8 @@
 			);
 			name = "Commons-Application-Testing";
 			productName = "Commons-iOS-Application-Testing";
-			productReference = 65137D0616BE6696006FA9BD /* Commons-Application-Testing.octest */;
-			productType = "com.apple.product-type.bundle.ocunit-test";
+			productReference = 65137D0616BE6696006FA9BD /* Commons-Application-Testing.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		65C4D53B16CCE10B0077E0A2 /* Commons-GHUnit-Testing */ = {
 			isa = PBXNativeTarget;
@@ -1216,6 +1216,7 @@
 		D4086163169B760800D6ACB0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastTestingUpgradeCheck = 0700;
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = Lyrk;
 				TargetAttributes = {
@@ -1703,6 +1704,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Commons-iOS-Application-Testing/Commons-iOS-Application-Testing-Prefix.pch";
@@ -1714,7 +1716,6 @@
 				);
 				PRODUCT_NAME = "Commons-Application-Testing";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
 		};
@@ -1728,6 +1729,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"$(inherited)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Commons-iOS-Application-Testing/Commons-iOS-Application-Testing-Prefix.pch";
@@ -1739,7 +1741,6 @@
 				);
 				PRODUCT_NAME = "Commons-Application-Testing";
 				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = octest;
 			};
 			name = Release;
 		};
