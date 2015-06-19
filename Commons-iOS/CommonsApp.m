@@ -1166,7 +1166,7 @@ static CommonsApp *singleton_;
     //check if image comes from camera roll or directly camera
     if (url) {
         //from camera roll - ask for exif data
-        NSObject * gps = info[UIImagePickerControllerMediaMetadata][@"{GPS}"];//[@"Latitude"];
+        NSObject * gps = info[UIImagePickerControllerMediaMetadata][@"{GPS}"];
 
         if(gps){
             CLLocationCoordinate2D coordinate;
@@ -1283,7 +1283,7 @@ static CommonsApp *singleton_;
                                    @"action": @"query",
                                    @"list": @"logevents",
                                    @"leaction": @"upload/upload",
-                                   @"leprop": @"title|timestamp",
+                                   @"leprop": @"title|timestamp|ids",
                                    @"leuser": self.username,
                                    @"lelimit": @"100",  // @"500",
                                    @"ledir": @"newer"
@@ -1332,7 +1332,14 @@ static CommonsApp *singleton_;
              */
             
             NSString *title = [self cleanupTitle:logevent[@"title"]];
-            BOOL skip = NO;
+            NSNumber *pageid = logevent[@"pageid"];
+            BOOL skip;
+            if ([pageid intValue] == 0){
+                skip = YES;
+            }
+            else {
+                skip = NO;
+            }
 
             // fixme do this more efficiently
             // check for dupes
