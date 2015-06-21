@@ -452,6 +452,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     self.choosePhotoButton.hidden = YES;
     self.takePhotoButton.hidden = YES;
+    [self.locationManager stopUpdatingLocation];
 }
 
 #pragma mark - Interface Items
