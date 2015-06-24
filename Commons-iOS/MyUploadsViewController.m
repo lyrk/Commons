@@ -1025,7 +1025,12 @@
         if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
             return CGSizeMake(screenSize.width, 240.0f);
         } else {
-            return CGSizeMake(screenSize.height / 2.0f - 2.5f, 240.0f);
+            if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_6_1) {
+                return CGSizeMake(screenSize.height / 2.0f - 2.5f, 240.0f);
+            }
+            else {
+                return CGSizeMake(screenSize.width / 2.0f - 2.5f, screenSize.height * 0.7);
+            }
         }
     }
 }
