@@ -1025,7 +1025,7 @@
         if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
             return CGSizeMake(screenSize.width, 240.0f);
         } else {
-            if (NSFoundationVersionNumber < NSFoundationVersionNumber_iOS_8_0) {
+            if (NSFoundationVersionNumber <= NSFoundationVersionNumber_iOS_7_1) {
                 return CGSizeMake(screenSize.height / 2.0f - 2.5f, 240.0f);
             }
             else {
