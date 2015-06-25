@@ -24,7 +24,7 @@
             CGSize newSize = CGSizeMake(img.size.width * ratio, img.size.height * ratio);
 
             UIGraphicsBeginImageContext(newSize);
-            [img drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+            [img drawInRect:CGRectMake(0, 0, newSize.width+1, newSize.height+1)];
             UIImage *newImg = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
 
