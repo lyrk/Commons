@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabelDynamicHeight *currentUserButton;
 @property (weak, nonatomic) IBOutlet UIButton *recoverPasswordButton;
 @property (weak, nonatomic) IBOutlet UIButton *registerAccountButton;
+@property (weak, nonatomic) IBOutlet UIButton *onePasswordButton;
 
 
 @property (weak, nonatomic) IBOutlet UIImageView *logoImageView;

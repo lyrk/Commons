@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface Category : NSManagedObject
+@interface CommonsCategory : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDate * lastUsed;

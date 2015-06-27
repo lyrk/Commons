@@ -141,7 +141,6 @@
 		65C4D58616CCE3550077E0A2 /* MyUploadsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D41D281616C19CE100BC3ABE /* MyUploadsViewController.m */; };
 		65C4D58716CCE3550077E0A2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
 		65C4D58816CCE3550077E0A2 /* StorageTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 655BF5EE16C1052D00B22299 /* StorageTools.m */; };
-		65C4D58916CCE3550077E0A2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		65C4D58A16CCE3550077E0A2 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		65C4D58D16CCE37F0077E0A2 /* LoginTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65C4D58C16CCE37F0077E0A2 /* LoginTest.m */; };
 		65C4D58E16CCEE5E0077E0A2 /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65137D1816BE69B8006FA9BD /* libOCMock.a */; };
@@ -158,7 +157,6 @@
 		65CA698B16C05B9700839D09 /* DetailScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D4AFF27416B886FD003D96F3 /* DetailScrollViewController.m */; };
 		65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC606FBE16BF28FA006EFA5C /* ImageScrollViewController.m */; };
 		65CA698E16C05B9700839D09 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
-		65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		65CA699016C05B9700839D09 /* BrowserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D4B83E2116BC950900ABAF94 /* BrowserHelper.m */; };
 		65CA699116C05BC300839D09 /* FileUpload.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */; };
 		65CA699216C05BD500839D09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D408617C169B760800D6ACB0 /* main.m */; };
@@ -176,8 +174,13 @@
 		65D839AF16D056CA00C0371A /* LocalizationTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839AE16D056CA00C0371A /* LocalizationTest.m */; };
 		65D839B216D08F9200C0371A /* DataTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 65D839B116D08F9200C0371A /* DataTest.m */; };
 		A82AA4721A90223400D2C01F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A82AA4711A90223400D2C01F /* CoreLocation.framework */; };
+		A84662171B3DDEF7008BD3F2 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A84662161B3DDEF7008BD3F2 /* WebKit.framework */; };
 		A872CD641A749A3F00643AA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A872CD631A749A3F00643AA4 /* Images.xcassets */; };
 		A872CD691A76D9E900643AA4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A872CD681A76D9E900643AA4 /* MapKit.framework */; };
+		A8B247981B3EC7CA00328922 /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A8B247941B3EC7CA00328922 /* 1Password.xcassets */; };
+		A8B247991B3EC7CA00328922 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = A8B247951B3EC7CA00328922 /* LICENSE.txt */; };
+		A8B2479A1B3EC7CA00328922 /* OnePasswordExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = A8B247971B3EC7CA00328922 /* OnePasswordExtension.m */; };
+		A8B2479D1B3EC8F300328922 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = A8B2479C1B3EC8F300328922 /* CommonsApp.m */; };
 		B938B3C317B332250039ABF8 /* browser.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3BF17B332250039ABF8 /* browser.png */; };
 		B938B3C417B332250039ABF8 /* browser@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3C017B332250039ABF8 /* browser@2x.png */; };
 		B938B3C517B332250039ABF8 /* browser@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = B938B3C117B332250039ABF8 /* browser@2x~ipad.png */; };
@@ -197,7 +200,7 @@
 		D40CE3DF16BB542300E63B27 /* fileicon-svg.png in Resources */ = {isa = PBXBuildFile; fileRef = D40CE3DD16BB542200E63B27 /* fileicon-svg.png */; };
 		D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */; };
 		D41B99F516B1CEB50045BEB5 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41B99F416B1CEB50045BEB5 /* CoreData.framework */; };
-		D41BFA49173AF2CA00472EC7 /* Category.m in Sources */ = {isa = PBXBuildFile; fileRef = D41BFA48173AF2CA00472EC7 /* Category.m */; };
+		D41BFA49173AF2CA00472EC7 /* CommonsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = D41BFA48173AF2CA00472EC7 /* CommonsCategory.m */; };
 		D41BFA52173C26A100472EC7 /* messages-cy.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA4A173C26A100472EC7 /* messages-cy.json */; };
 		D41BFA53173C26A100472EC7 /* messages-da.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA4B173C26A100472EC7 /* messages-da.json */; };
 		D41BFA54173C26A100472EC7 /* messages-hak.json in Resources */ = {isa = PBXBuildFile; fileRef = D41BFA4C173C26A100472EC7 /* messages-hak.json */; };
@@ -222,7 +225,6 @@
 		D44DDD4016CC4D6000318FBF /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
 		D44DDD4116CC4D6000318FBF /* MWPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = D44DDD3B16CC4D6000318FBF /* MWPromise.m */; };
 		D450A0E116B347BE00D1D1E2 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E016B347BE00D1D1E2 /* LoginViewController.m */; };
-		D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */; };
 		D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */ = {isa = PBXBuildFile; fileRef = D450A0F816B366E200D1D1E2 /* FileUpload.m */; };
 		D471635316F3D54F00962205 /* messages-nl.json in Resources */ = {isa = PBXBuildFile; fileRef = D471635216F3D54F00962205 /* messages-nl.json */; };
 		D475B28E171C750D00AA81C9 /* messages-fi.json in Resources */ = {isa = PBXBuildFile; fileRef = D475B285171C750D00AA81C9 /* messages-fi.json */; };
@@ -454,8 +456,16 @@
 		65D839AE16D056CA00C0371A /* LocalizationTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalizationTest.m; sourceTree = "<group>"; };
 		65D839B116D08F9200C0371A /* DataTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataTest.m; sourceTree = "<group>"; };
 		A82AA4711A90223400D2C01F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A84662161B3DDEF7008BD3F2 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		A872CD631A749A3F00643AA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A872CD681A76D9E900643AA4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		A8B247921B3E346700328922 /* FileUpload 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FileUpload 6.xcdatamodel"; sourceTree = "<group>"; };
+		A8B247941B3EC7CA00328922 /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
+		A8B247951B3EC7CA00328922 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		A8B247961B3EC7CA00328922 /* OnePasswordExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnePasswordExtension.h; sourceTree = "<group>"; };
+		A8B247971B3EC7CA00328922 /* OnePasswordExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnePasswordExtension.m; sourceTree = "<group>"; };
+		A8B2479B1B3EC8F300328922 /* CommonsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonsApp.h; sourceTree = "<group>"; };
+		A8B2479C1B3EC8F300328922 /* CommonsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonsApp.m; sourceTree = "<group>"; };
 		A8FC819F1B0E5C5600E29AAD /* FileUpload 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FileUpload 5.xcdatamodel"; sourceTree = "<group>"; };
 		B938B3BF17B332250039ABF8 /* browser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = browser.png; sourceTree = "<group>"; };
 		B938B3C017B332250039ABF8 /* browser@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "browser@2x.png"; sourceTree = "<group>"; };
@@ -482,8 +492,8 @@
 		D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FileUpload.xcdatamodel; sourceTree = "<group>"; };
 		D41B99F416B1CEB50045BEB5 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D41BFA46173AF10600472EC7 /* FileUpload 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FileUpload 3.xcdatamodel"; sourceTree = "<group>"; };
-		D41BFA47173AF2CA00472EC7 /* Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Category.h; sourceTree = "<group>"; };
-		D41BFA48173AF2CA00472EC7 /* Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Category.m; sourceTree = "<group>"; };
+		D41BFA47173AF2CA00472EC7 /* CommonsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonsCategory.h; sourceTree = "<group>"; };
+		D41BFA48173AF2CA00472EC7 /* CommonsCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonsCategory.m; sourceTree = "<group>"; };
 		D41BFA4A173C26A100472EC7 /* messages-cy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-cy.json"; path = "messages/messages-cy.json"; sourceTree = "<group>"; };
 		D41BFA4B173C26A100472EC7 /* messages-da.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-da.json"; path = "messages/messages-da.json"; sourceTree = "<group>"; };
 		D41BFA4C173C26A100472EC7 /* messages-hak.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-hak.json"; path = "messages/messages-hak.json"; sourceTree = "<group>"; };
@@ -514,8 +524,6 @@
 		D450A0DE16B3477400D1D1E2 /* NSURLRequest+DictionaryRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSURLRequest+DictionaryRequest.h"; path = "mwapi/NSURLRequest+DictionaryRequest.h"; sourceTree = "<group>"; };
 		D450A0DF16B347BE00D1D1E2 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		D450A0E016B347BE00D1D1E2 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		D450A0E216B34ADD00D1D1E2 /* CommonsApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonsApp.h; sourceTree = "<group>"; };
-		D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonsApp.m; sourceTree = "<group>"; };
 		D450A0F716B366E200D1D1E2 /* FileUpload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUpload.h; sourceTree = "<group>"; };
 		D450A0F816B366E200D1D1E2 /* FileUpload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUpload.m; sourceTree = "<group>"; };
 		D471635216F3D54F00962205 /* messages-nl.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "messages-nl.json"; path = "messages/messages-nl.json"; sourceTree = "<group>"; };
@@ -663,6 +671,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A84662171B3DDEF7008BD3F2 /* WebKit.framework in Frameworks */,
 				A82AA4721A90223400D2C01F /* CoreLocation.framework in Frameworks */,
 				A872CD691A76D9E900643AA4 /* MapKit.framework in Frameworks */,
 				04BDAEE217F36B5E0086E4AE /* Accelerate.framework in Frameworks */,
@@ -856,6 +865,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		A8B247931B3EC7CA00328922 /* OnePasswordExtension */ = {
+			isa = PBXGroup;
+			children = (
+				A8B247941B3EC7CA00328922 /* 1Password.xcassets */,
+				A8B247951B3EC7CA00328922 /* LICENSE.txt */,
+				A8B247961B3EC7CA00328922 /* OnePasswordExtension.h */,
+				A8B247971B3EC7CA00328922 /* OnePasswordExtension.m */,
+			);
+			path = OnePasswordExtension;
+			sourceTree = "<group>";
+		};
 		D4086161169B760800D6ACB0 = {
 			isa = PBXGroup;
 			children = (
@@ -883,6 +903,7 @@
 		D408616F169B760800D6ACB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A84662161B3DDEF7008BD3F2 /* WebKit.framework */,
 				A82AA4711A90223400D2C01F /* CoreLocation.framework */,
 				A872CD681A76D9E900643AA4 /* MapKit.framework */,
 				04BDAEE117F36B5E0086E4AE /* Accelerate.framework */,
@@ -904,6 +925,9 @@
 		D4086176169B760800D6ACB0 /* Commons-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				A8B2479B1B3EC8F300328922 /* CommonsApp.h */,
+				A8B2479C1B3EC8F300328922 /* CommonsApp.m */,
+				A8B247931B3EC7CA00328922 /* OnePasswordExtension */,
 				1F7C6BF616BEEE4D00B7C558 /* Reachability.h */,
 				1F7C6BF716BEEE4D00B7C558 /* Reachability.m */,
 				D4E0383416C44C4B00330A7F /* mwi18n */,
@@ -913,8 +937,6 @@
 				D450A0D516B3471A00D1D1E2 /* Data Model */,
 				655BF5EC16C104CD00B22299 /* Utilities */,
 				D4086177169B760800D6ACB0 /* Supporting Files */,
-				D450A0E216B34ADD00D1D1E2 /* CommonsApp.h */,
-				D450A0E316B34ADD00D1D1E2 /* CommonsApp.m */,
 				D4086188169B760800D6ACB0 /* MainStoryboard.storyboard */,
 				D48BB91E17289CBE003100CE /* CategoryCell.xib */,
 				D48BB92017289CEF003100CE /* AddCategoryCell.xib */,
@@ -1010,8 +1032,8 @@
 			isa = PBXGroup;
 			children = (
 				D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */,
-				D41BFA47173AF2CA00472EC7 /* Category.h */,
-				D41BFA48173AF2CA00472EC7 /* Category.m */,
+				D41BFA47173AF2CA00472EC7 /* CommonsCategory.h */,
+				D41BFA48173AF2CA00472EC7 /* CommonsCategory.m */,
 				D450A0F716B366E200D1D1E2 /* FileUpload.h */,
 				D450A0F816B366E200D1D1E2 /* FileUpload.m */,
 			);
@@ -1221,7 +1243,7 @@
 				ORGANIZATIONNAME = Lyrk;
 				TargetAttributes = {
 					D408616B169B760800D6ACB0 = {
-						DevelopmentTeam = JURMHCPNY3;
+						DevelopmentTeam = 399ZH66X56;
 					};
 				};
 			};
@@ -1306,6 +1328,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8B247991B3EC7CA00328922 /* LICENSE.txt in Resources */,
 				D408617B169B760800D6ACB0 /* InfoPlist.strings in Resources */,
 				04CE7CDF18120ADD006F7545 /* POTD-2008-11-14.jpg in Resources */,
 				D408618A169B760800D6ACB0 /* MainStoryboard.storyboard in Resources */,
@@ -1421,6 +1444,7 @@
 				2FA21FFB1A7D746400876F7D /* picture@2x.png in Resources */,
 				04DC7598175D748400D92849 /* cc.png in Resources */,
 				2FA21FF91A7D73C800876F7D /* photo@2x.png in Resources */,
+				A8B247981B3EC7CA00328922 /* 1Password.xcassets in Resources */,
 				04DC759A175D98A600D92849 /* Commons-logo-white@2x.png in Resources */,
 				30DC441B178D42E60081555A /* cc-by-white.png in Resources */,
 				30DC441C178D42E60081555A /* cc-by-white@2x.png in Resources */,
@@ -1488,7 +1512,6 @@
 				65CA698B16C05B9700839D09 /* DetailScrollViewController.m in Sources */,
 				65CA698D16C05B9700839D09 /* ImageScrollViewController.m in Sources */,
 				65CA698E16C05B9700839D09 /* FileUpload.m in Sources */,
-				65CA698F16C05B9700839D09 /* CommonsApp.m in Sources */,
 				65CA699016C05B9700839D09 /* BrowserHelper.m in Sources */,
 				D4E0383D16C4567500330A7F /* MWMessage.m in Sources */,
 				D4E0384216C462C800330A7F /* MWMessageStore.m in Sources */,
@@ -1539,7 +1562,6 @@
 				65C4D58616CCE3550077E0A2 /* MyUploadsViewController.m in Sources */,
 				65C4D58716CCE3550077E0A2 /* FileUpload.m in Sources */,
 				65C4D58816CCE3550077E0A2 /* StorageTools.m in Sources */,
-				65C4D58916CCE3550077E0A2 /* CommonsApp.m in Sources */,
 				65C4D58A16CCE3550077E0A2 /* BrowserHelper.m in Sources */,
 				65C4D54716CCE10B0077E0A2 /* main.m in Sources */,
 				65C4D58D16CCE37F0077E0A2 /* LoginTest.m in Sources */,
@@ -1563,7 +1585,6 @@
 				D4086181169B760800D6ACB0 /* AppDelegate.m in Sources */,
 				D41B99EF16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld in Sources */,
 				D450A0E116B347BE00D1D1E2 /* LoginViewController.m in Sources */,
-				D450A0E416B34ADD00D1D1E2 /* CommonsApp.m in Sources */,
 				D450A0F916B366E200D1D1E2 /* FileUpload.m in Sources */,
 				D4AFF27516B886FD003D96F3 /* DetailScrollViewController.m in Sources */,
 				DC2CB56716B9BD420047977E /* MWNetworkActivityIndicatorManager.m in Sources */,
@@ -1579,6 +1600,7 @@
 				04CE7CE918121C59006F7545 /* PictureOfDayManager.m in Sources */,
 				D4284F1016C9C2AA008640B0 /* MWEventLogging.m in Sources */,
 				D44DDD3C16CC4D6000318FBF /* MWDeferred.m in Sources */,
+				A8B2479A1B3EC7CA00328922 /* OnePasswordExtension.m in Sources */,
 				D44DDD3F16CC4D6000318FBF /* MWPromise.m in Sources */,
 				655BF5EF16C1052D00B22299 /* StorageTools.m in Sources */,
 				04A386E617CEFA2F00BC0A3D /* UIView+Debugging.m in Sources */,
@@ -1588,9 +1610,10 @@
 				305BC76A1710BD3300B2CC01 /* LoadingIndicator.m in Sources */,
 				048C8BA217FC903A0082EB28 /* CategoryLicenseExtractor.m in Sources */,
 				D4C5B4191720966C00C40532 /* LicenseTableViewController.m in Sources */,
+				A8B2479D1B3EC8F300328922 /* CommonsApp.m in Sources */,
 				D4B1CDFD1721E248008E1B31 /* CategorySearchTableViewController.m in Sources */,
 				0478F8E91731B5EA007D4531 /* WelcomeOverlayView.m in Sources */,
-				D41BFA49173AF2CA00472EC7 /* Category.m in Sources */,
+				D41BFA49173AF2CA00472EC7 /* CommonsCategory.m in Sources */,
 				0451C8621739A2CC00C2D03B /* FetchImageOperation.m in Sources */,
 				0451C865173B3D3800C2D03B /* SpeedGovernor.m in Sources */,
 				04C27B191741C24200B1942F /* ProgressView.m in Sources */,
@@ -1806,11 +1829,14 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1819,6 +1845,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1834,17 +1861,24 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_CFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-DNS_BLOCK_ASSERTIONS=1",
+				);
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1857,15 +1891,32 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Commons-iOS/Commons-Prefix.pch";
-				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"ONE_PASSWORD_EXTENSION_ENABLE_WK_WEB_VIEW=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/include/libxml2",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = "Commons-iOS/Commons-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_GENERATE_MAP_FILE = NO;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Commons;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1878,15 +1929,24 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Commons-iOS/Commons-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "ONE_PASSWORD_EXTENSION_ENABLE_WK_WEB_VIEW=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				INFOPLIST_FILE = "Commons-iOS/Commons-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				LD_GENERATE_MAP_FILE = NO;
+				LD_RUNPATH_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Commons;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1946,13 +2006,14 @@
 		D41B99ED16B1CB2E0045BEB5 /* FileUpload.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				A8B247921B3E346700328922 /* FileUpload 6.xcdatamodel */,
 				0438EF0317FCCB96005F8BF5 /* FileUpload 4.xcdatamodel */,
 				A8FC819F1B0E5C5600E29AAD /* FileUpload 5.xcdatamodel */,
 				D41BFA46173AF10600472EC7 /* FileUpload 3.xcdatamodel */,
 				D4C5B4201720BCD700C40532 /* FileUpload 2.xcdatamodel */,
 				D41B99EE16B1CB2E0045BEB5 /* FileUpload.xcdatamodel */,
 			);
-			currentVersion = A8FC819F1B0E5C5600E29AAD /* FileUpload 5.xcdatamodel */;
+			currentVersion = A8B247921B3E346700328922 /* FileUpload 6.xcdatamodel */;
 			path = FileUpload.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

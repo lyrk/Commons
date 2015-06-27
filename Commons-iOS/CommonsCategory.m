@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 Wikimedia. All rights reserved.
 //
 
-#import "Category.h"
+#import "CommonsCategory.h"
 
 
-@implementation Category
+@implementation CommonsCategory
 
 @dynamic name;
 @dynamic lastUsed;

@@ -11,10 +11,10 @@
 -(void)createThumbImage
 {
     NSFileManager *fm = [NSFileManager defaultManager];
-
+    
     if (![fm fileExistsAtPath:self.thumbImagePath]) {
         if ([fm fileExistsAtPath:self.imagePath]) {
-
+            //Generates Thumbnails for fresh uploaded images
             UIImage *img = [UIImage imageWithContentsOfFile:self.imagePath];
             CGFloat hRatio = self.desiredSize.width / img.size.width;
             CGFloat vRatio = self.desiredSize.height / img.size.height;

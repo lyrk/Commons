@@ -20,6 +20,7 @@
 #import "UIView+Debugging.h"
 #import "UILabelDynamicHeight.h"
 #import "PictureOfDayManager.h"
+#import "OnePasswordExtension/OnePasswordExtension.h"
 
 #define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
 #define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
@@ -134,6 +135,9 @@
 
     [self.recoverPasswordButton setTitle:[MWMessage forKey:@"login-recover-password-button"].text forState:UIControlStateNormal];
     [self.registerAccountButton setTitle:[MWMessage forKey:@"login-create-account-button"].text forState:UIControlStateNormal];
+    
+    if(![[OnePasswordExtension sharedExtension] isAppExtensionAvailable])
+        self.onePasswordButton.hidden = YES;
 
     //[self.view randomlyColorSubviews];
 }
@@ -145,6 +149,8 @@
     // its selected visual state to its unselected visual state. When this happens, when the view
     // which was pushed gets popped, the currentUserButton can appear to be pushed - visually a bit
     // more dark. setNeedsDisplay tells it to draw itself again
+    
+    
     [self.currentUserButton setNeedsDisplay];
     
 	[self.navigationController setNavigationBarHidden:YES animated:animated];
@@ -206,6 +212,21 @@
     [self performSelector:@selector(showGettingStartedAutomaticallyOnce) withObject:nil afterDelay:2.0f];
     
     [super viewDidAppear:animated];
+}
+
+- (IBAction)findLoginFrom1Password:(id)sender {
+    [[OnePasswordExtension sharedExtension] findLoginForURLString:@"https://commons.wikimedia.org" forViewController:self sender:sender completion:^(NSDictionary *loginDictionary, NSError *error) {
+        if (loginDictionary.count == 0) {
+            if (error.code != AppExtensionErrorCodeCancelledByUser) {
+                NSLog(@"Error invoking 1Password App Extension for find login: %@", error);
+            }
+            return;
+        }
+        
+        self.usernameField.text = loginDictionary[AppExtensionUsernameKey];
+        self.passwordField.text = loginDictionary[AppExtensionPasswordKey];
+        //TODO automatisch anmeldebutton drücken
+    }];
 }
 
 #pragma mark - Shadows
@@ -444,6 +465,11 @@
     self.usernamePasswordDivider.hidden = show;
     self.recoverPasswordButton.hidden = show;
     self.registerAccountButton.hidden = show;
+    
+    if([[OnePasswordExtension sharedExtension] isAppExtensionAvailable])
+        self.onePasswordButton.hidden = show;
+    else
+        self.onePasswordButton.hidden = YES;
 
     [self.currentUserButton setText:[MWMessage forKey:@"login-current-user-button" param:self.usernameField.text].text];
 }
@@ -477,6 +503,8 @@
                          self.usernamePasswordDivider.hidden = NO;
                          self.recoverPasswordButton.hidden = NO;
                          self.registerAccountButton.hidden = NO;
+                         //self.onePasswordButton.hidden = NO;
+                         self.onePasswordButton.hidden = ![[OnePasswordExtension sharedExtension] isAppExtensionAvailable];
 
                          CGRect origUsernameFieldFrame = self.usernameField.frame;
                          CGRect origPasswordFieldFrame = self.passwordField.frame;

@@ -533,7 +533,7 @@ static CommonsApp *singleton_;
 /**
  * Look up a specific category, if it's recorded, or nil.
  */
-- (Category *)lookupCategory:(NSString *)name;
+- (CommonsCategory *)lookupCategory:(NSString *)name;
 {
     NSFetchedResultsController *fetchedResultsController;
     fetchedResultsController = [self fetchCategories: ^(NSFetchRequest *fetchRequest) {
@@ -554,9 +554,9 @@ static CommonsApp *singleton_;
 /**
  * Create a new category record
  */
-- (Category *)createCategory:(NSString *)name;
+- (CommonsCategory *)createCategory:(NSString *)name;
 {
-    Category *cat = [NSEntityDescription insertNewObjectForEntityForName:@"Category" inManagedObjectContext:self.context];
+    CommonsCategory *cat = [NSEntityDescription insertNewObjectForEntityForName:@"Category" inManagedObjectContext:self.context];
     cat.name = name;
     cat.lastUsed = NSDate.distantPast;
     cat.timesUsed = @0;
@@ -568,7 +568,7 @@ static CommonsApp *singleton_;
  */
 - (void)updateCategory:(NSString *)name;
 {
-    Category *cat = [self lookupCategory:name];
+    CommonsCategory *cat = [self lookupCategory:name];
     if (cat == nil) {
         cat = [self createCategory:name];
     }
@@ -1197,7 +1197,7 @@ static CommonsApp *singleton_;
         //TODO directly from camera - ask for current location
         //CLLocationManager *locationManager = [CLLocationManager new];
         //CLLocation *loc = [locationManager location];
-        NSLog(@"directly from Camera")
+        NSLog(@"directly from Camera");
         location = [info objectForKey: @"LastDeviceGeoLocation"];
     }
         return location;

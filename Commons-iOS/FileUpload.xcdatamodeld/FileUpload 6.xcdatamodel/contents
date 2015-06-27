@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Category" representedClassName="CommonsCategory" syncable="YES">
+    <entity name="CommonsCategory" representedClassName="CommonsCategory" syncable="YES">
         <attribute name="lastUsed" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timesUsed" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -21,7 +21,7 @@
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Category" positionX="0" positionY="0" width="128" height="90"/>
-        <element name="FileUpload" positionX="0" positionY="0" width="128" height="240"/>
+        <element name="CommonsCategory" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="FileUpload" positionX="0" positionY="0" width="0" height="0"/>
     </elements>
 </model>

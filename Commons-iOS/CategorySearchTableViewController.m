@@ -74,7 +74,7 @@
     CommonsApp *app = CommonsApp.singleton;
     NSArray *cats = [app recentCategories]; // array of Category objects
     NSMutableArray *names = [[NSMutableArray alloc] init];
-    for (Category *cat in cats) {
+    for (CommonsCategory *cat in cats) {
         [names addObject:cat.name];
     }
     return [NSArray arrayWithArray:names];

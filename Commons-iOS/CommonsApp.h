@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import <MapKit/MapKit.h>
 #import "FileUpload.h"
-#import "Category.h"
+#import "CommonsCategory.h"
 #import "mwapi/MWApi.h"
 #import "MWEventLogging/MWEventLogging.h"
 #import "ThumbFetcher.h"
@@ -63,8 +63,8 @@
 - (FileUpload *)createUploadRecord;
 - (FileUpload *)firstUploadRecord;
 - (NSArray *)recentCategories;
-- (Category *)lookupCategory:(NSString *)name;
-- (Category *)createCategory:(NSString *)name;
+- (CommonsCategory *)lookupCategory:(NSString *)name;
+- (CommonsCategory *)createCategory:(NSString *)name;
 - (void)updateCategory:(NSString *)name;
 
 - (MWApi *)startApi;
