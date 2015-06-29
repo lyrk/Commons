@@ -495,7 +495,7 @@ static CommonsApp *singleton_;
 - (NSFetchedResultsController *)fetchCategories:(void(^)(NSFetchRequest*))block
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Category"
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"CommonsCategory"
                                               inManagedObjectContext:self.context];
     fetchRequest.entity = entity;
     
@@ -556,7 +556,7 @@ static CommonsApp *singleton_;
  */
 - (CommonsCategory *)createCategory:(NSString *)name;
 {
-    CommonsCategory *cat = [NSEntityDescription insertNewObjectForEntityForName:@"Category" inManagedObjectContext:self.context];
+    CommonsCategory *cat = [NSEntityDescription insertNewObjectForEntityForName:@"CommonsCategory" inManagedObjectContext:self.context];
     cat.name = name;
     cat.lastUsed = NSDate.distantPast;
     cat.timesUsed = @0;
