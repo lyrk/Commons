@@ -1243,7 +1243,7 @@
 				ORGANIZATIONNAME = Lyrk;
 				TargetAttributes = {
 					D408616B169B760800D6ACB0 = {
-						DevelopmentTeam = 399ZH66X56;
+						DevelopmentTeam = JURMHCPNY3;
 					};
 				};
 			};
