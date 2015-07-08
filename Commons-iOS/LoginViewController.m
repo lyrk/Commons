@@ -11,6 +11,7 @@
 #import "mwapi/MWApi.h"
 #import "MWI18N/MWMessage.h"
 #import "MyUploadsViewController.h"
+#import "RegistrationWebViewController.h"
 #import "AppDelegate.h"
 #import "LoadingIndicator.h"
 #import "GettingStartedViewController.h"
@@ -666,8 +667,12 @@
 
 - (IBAction)pushedRegisterAccountButton:(id)sender
 {
-    CommonsApp *app = CommonsApp.singleton;
-    [app openURLWithDefaultBrowser:[NSURL URLWithString:REGISTER_ACCOUNT_URL]];
+    //CommonsApp *app = CommonsApp.singleton;
+    //[app openURLWithDefaultBrowser:[NSURL URLWithString:REGISTER_ACCOUNT_URL]];
+	
+	RegistrationWebViewController* controller = [self.storyboard instantiateViewControllerWithIdentifier:@"RegistrationViewController"];//[[RegistrationWebViewController alloc] init];
+	//[self presentedViewController :controller animated:YES]
+	[self.navigationController pushViewController:controller animated:YES];
 }
 
 - (IBAction)pushedLoginButton:(id)sender

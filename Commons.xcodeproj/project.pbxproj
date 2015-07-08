@@ -177,6 +177,7 @@
 		A84662171B3DDEF7008BD3F2 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A84662161B3DDEF7008BD3F2 /* WebKit.framework */; };
 		A872CD641A749A3F00643AA4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A872CD631A749A3F00643AA4 /* Images.xcassets */; };
 		A872CD691A76D9E900643AA4 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A872CD681A76D9E900643AA4 /* MapKit.framework */; };
+		A89F746F1B4C4B5400022FF9 /* RegistrationWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A89F746E1B4C4B5400022FF9 /* RegistrationWebViewController.m */; };
 		A8B247981B3EC7CA00328922 /* 1Password.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A8B247941B3EC7CA00328922 /* 1Password.xcassets */; };
 		A8B247991B3EC7CA00328922 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = A8B247951B3EC7CA00328922 /* LICENSE.txt */; };
 		A8B2479A1B3EC7CA00328922 /* OnePasswordExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = A8B247971B3EC7CA00328922 /* OnePasswordExtension.m */; };
@@ -459,6 +460,8 @@
 		A84662161B3DDEF7008BD3F2 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		A872CD631A749A3F00643AA4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A872CD681A76D9E900643AA4 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		A89F746D1B4C4B5400022FF9 /* RegistrationWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationWebViewController.h; sourceTree = "<group>"; };
+		A89F746E1B4C4B5400022FF9 /* RegistrationWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationWebViewController.m; sourceTree = "<group>"; };
 		A8B247921B3E346700328922 /* FileUpload 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "FileUpload 6.xcdatamodel"; sourceTree = "<group>"; };
 		A8B247941B3EC7CA00328922 /* 1Password.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = 1Password.xcassets; sourceTree = "<group>"; };
 		A8B247951B3EC7CA00328922 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
@@ -1067,6 +1070,8 @@
 				0478F8E81731B5EA007D4531 /* WelcomeOverlayView.m */,
 				04F5736D1775408400376C46 /* Gallery Multi-Select */,
 				04739E02174DC9D800F32D13 /* Getting Started */,
+				A89F746D1B4C4B5400022FF9 /* RegistrationWebViewController.h */,
+				A89F746E1B4C4B5400022FF9 /* RegistrationWebViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -1636,6 +1641,7 @@
 				0417D9F0176EB00100081D8C /* GalleryMultiSelectAlbumCell.m in Sources */,
 				04A02DA9177502AF00A392C1 /* GalleryMultiSelectAssetCell.m in Sources */,
 				B94B599E17B2338900A9B744 /* OpenInBrowserActivity.m in Sources */,
+				A89F746F1B4C4B5400022FF9 /* RegistrationWebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
