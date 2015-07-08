@@ -1406,6 +1406,13 @@ to take or choose photos.</string>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="scz-et-0TZ"/>
+                                    <barButtonItem image="safari" id="6lL-JC-9cU">
+                                        <inset key="imageInsets" minX="0.0" minY="-4" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <action selector="ShareButtonPressed:" destination="FiL-Rr-VBc" id="iWw-o3-QBv"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem width="40" style="plain" systemItem="fixedSpace" id="XGC-sS-kqP"/>
                                     <barButtonItem style="plain" systemItem="done" id="wiu-LN-fQH">
                                         <connections>
                                             <action selector="DoneButtonPress:" destination="FiL-Rr-VBc" id="AKY-iq-iur"/>
@@ -1893,6 +1900,7 @@ Help Wikipedia articles come to life!</string>
         <image name="mockPagePhoto.png" width="134" height="103"/>
         <image name="next" width="22" height="22"/>
         <image name="onepassword-button" width="27" height="27"/>
+        <image name="safari" width="25" height="25"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

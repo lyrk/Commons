@@ -61,4 +61,15 @@
 	}
 }
 
+- (IBAction)ShareButtonPressed:(id)sender
+{
+	NSURL * currentURL = self.webview.request.URL;
+	[self shareUrl: currentURL];
+}
+
+- (void)shareUrl:(NSURL *)url
+{
+	[[UIApplication sharedApplication] openURL:url];
+}
+
 @end
