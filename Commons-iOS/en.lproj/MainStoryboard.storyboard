@@ -1429,6 +1429,8 @@ to take or choose photos.</string>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
                     <connections>
                         <outlet property="DoneButton" destination="wiu-LN-fQH" id="PyE-i3-4Nb"/>
+                        <outlet property="backButton" destination="5BG-es-xdh" id="w10-Kc-m0G"/>
+                        <outlet property="nextButton" destination="Jgn-uq-v8T" id="8j0-0l-iiL"/>
                         <outlet property="webview" destination="Jjo-uI-fmh" id="a4I-c5-Oii"/>
                     </connections>
                 </viewController>

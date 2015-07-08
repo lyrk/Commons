@@ -17,8 +17,10 @@
 #define REGISTER_ACCOUNT_URL @"https://commons.m.wikimedia.org/w/index.php?title=Special:UserLogin&type=signup"
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do view setup here.
+	[super viewDidLoad];
+	[self.webview setDelegate:self];
+
+	
 	NSLog(@"view geladen");
 	
 	NSString *urlAddress = REGISTER_ACCOUNT_URL;
@@ -31,6 +33,32 @@
 
 - (IBAction)DoneButtonPress:(id)sender {
 	[self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+	[self updateNavButtons];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+	[self updateNavButtons];
+}
+
+- (void)updateNavButtons
+{
+	if([self.webview canGoBack]){
+		[self.backButton setEnabled:YES];
+	}
+	else {
+		[self.backButton setEnabled:NO];
+	}
+	if([self.webview canGoForward]){
+		[self.nextButton setEnabled:YES];
+	}
+	else {
+		[self.nextButton setEnabled:NO];
+	}
 }
 
 @end

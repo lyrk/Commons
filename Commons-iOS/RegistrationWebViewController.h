@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface RegistrationWebViewController : UIViewController
+@interface RegistrationWebViewController : UIViewController <UIWebViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UIWebView *webview;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nextButton;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *DoneButton;
 
