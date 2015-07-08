@@ -1386,20 +1386,27 @@ to take or choose photos.</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jjo-uI-fmh">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="438"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="436"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translatesAutoresizingMaskIntoConstraints="NO" id="V46-3S-NoI">
                                 <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                                 <items>
-                                    <barButtonItem style="plain" systemItem="rewind" id="5BG-es-xdh">
+                                    <barButtonItem image="back" style="plain" id="5BG-es-xdh">
+                                        <inset key="imageInsets" minX="0.0" minY="-4" maxX="0.0" maxY="0.0"/>
                                         <connections>
                                             <action selector="goBack" destination="Jjo-uI-fmh" id="Rlr-YW-z42"/>
                                         </connections>
                                     </barButtonItem>
+                                    <barButtonItem width="40" style="plain" systemItem="fixedSpace" id="Jan-V5-fXr"/>
+                                    <barButtonItem image="next" id="Jgn-uq-v8T">
+                                        <inset key="imageInsets" minX="0.0" minY="-4" maxX="0.0" maxY="0.0"/>
+                                        <connections>
+                                            <action selector="goForward" destination="Jjo-uI-fmh" id="RfC-pH-84n"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="scz-et-0TZ"/>
-                                    <barButtonItem style="done" systemItem="done" id="wiu-LN-fQH">
-                                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <barButtonItem style="plain" systemItem="done" id="wiu-LN-fQH">
                                         <connections>
                                             <action selector="DoneButtonPress:" destination="FiL-Rr-VBc" id="AKY-iq-iur"/>
                                         </connections>
@@ -1410,13 +1417,13 @@ to take or choose photos.</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="3lh-pS-BET" firstAttribute="top" secondItem="V46-3S-NoI" secondAttribute="bottom" id="7VS-fo-ylZ"/>
+                            <constraint firstItem="3lh-pS-BET" firstAttribute="top" secondItem="V46-3S-NoI" secondAttribute="bottom" symbolic="YES" id="7VS-fo-ylZ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="V46-3S-NoI" secondAttribute="trailing" constant="-16" id="E84-By-nX1"/>
                             <constraint firstItem="Jjo-uI-fmh" firstAttribute="leading" secondItem="tgk-tj-BR6" secondAttribute="leadingMargin" constant="-16" id="EKN-77-7zA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Jjo-uI-fmh" secondAttribute="trailing" constant="-16" id="U4n-wk-Jlj"/>
                             <constraint firstItem="Jjo-uI-fmh" firstAttribute="top" secondItem="tgk-tj-BR6" secondAttribute="topMargin" id="Wgy-E4-x9c"/>
                             <constraint firstItem="V46-3S-NoI" firstAttribute="leading" secondItem="tgk-tj-BR6" secondAttribute="leadingMargin" constant="-16" id="bbI-JK-lPr"/>
-                            <constraint firstItem="3lh-pS-BET" firstAttribute="top" secondItem="Jjo-uI-fmh" secondAttribute="bottom" constant="42" id="edd-tX-wRz"/>
+                            <constraint firstItem="3lh-pS-BET" firstAttribute="top" secondItem="Jjo-uI-fmh" secondAttribute="bottom" constant="44" id="edd-tX-wRz"/>
                         </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
@@ -1875,12 +1882,14 @@ Help Wikipedia articles come to life!</string>
         <image name="Camera Icon" width="42" height="32"/>
         <image name="Image Icon" width="42" height="32"/>
         <image name="Media Select Button" width="72" height="72"/>
+        <image name="back" width="22" height="22"/>
         <image name="cc-by.png" width="24" height="24"/>
         <image name="cc-sa.png" width="24" height="24"/>
         <image name="commons_big.png" width="500" height="600"/>
         <image name="mockBadPhoto.png" width="237" height="286"/>
         <image name="mockPageLogo.png" width="64" height="106"/>
         <image name="mockPagePhoto.png" width="134" height="103"/>
+        <image name="next" width="22" height="22"/>
         <image name="onepassword-button" width="27" height="27"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
