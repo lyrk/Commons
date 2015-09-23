@@ -1177,7 +1177,15 @@ static CommonsApp *singleton_;
             double compassDirection = NAN;
             
             double lat = [[gps valueForKey:@"Latitude"] floatValue];
+			if ([[gps valueForKey:@"LatitudeRef"] isEqualToString: @"S"])
+			{
+				lat = lat * -1;
+			}
             double lon = [[gps valueForKey:@"Longitude"] floatValue];
+			if ([[gps valueForKey:@"LongitudeRef"] isEqualToString: @"W"])
+			{
+				lon = lon * -1;
+			}
             compassDirection = [[gps valueForKey:@"ImgDirection"] floatValue];
             altitude = [[gps valueForKey:@"Altitude"] floatValue];
             coordinate.latitude = lat;
