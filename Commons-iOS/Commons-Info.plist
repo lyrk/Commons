@@ -13,7 +13,7 @@
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>org.lyrk.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>$(PRODUCT_NAME:rfc1034identifier)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -43,8 +43,12 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Take Photos</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Commons needs location to geotag photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Select Photos to Upload</string>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
