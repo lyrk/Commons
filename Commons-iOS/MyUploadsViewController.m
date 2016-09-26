@@ -612,23 +612,15 @@
 
 -(void)presentMultiImageGalleryPicker
 {
-    GalleryMultiSelectCollectionVC *galleryMultiSelectCollectionVC = [self.storyboard instantiateViewControllerWithIdentifier:@"GalleryMultiSelectCollectionVC"];
-    
-    galleryMultiSelectCollectionVC.didFinishPickingMediaWithInfo = ^(NSDictionary *info){
-        NSLog(@"picked: %@", info);
-        MWPromise *done = [CommonsApp.singleton prepareImage:info from:pickerSource_];
-        //[done always:^(id arg) {
-            [self dismissViewControllerAnimated:NO completion:nil];
-            if (self.popover) {
-                [self.popover dismissPopoverAnimated:NO];
-            }
-            self.choosePhotoButton.hidden = YES;
-            self.takePhotoButton.hidden = YES;
-            self.uploadButton.enabled = YES;
-        //}];
-    };
-    
-    [self presentViewController:galleryMultiSelectCollectionVC animated:YES completion:^{}];    
+	UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+	picker.delegate = self;
+	picker.allowsEditing = NO;
+	picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	//picker.navigationController.navigationBar.backgroundColor = [UIColor colorWithRed:0.5f green:0.5f blue:0.5f alpha:1.0f];
+	//picker.navigationBar.backgroundColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f];
+	picker.navigationBar.barTintColor = [UIColor colorWithRed:0.5f green:0.5f blue:0.5f alpha:1.0f];
+	
+	[self presentViewController:picker animated:YES completion:^{}];
 }
 
 -(void)presentSingleImageGalleryPicker

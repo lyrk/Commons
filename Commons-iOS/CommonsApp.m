@@ -14,6 +14,7 @@
 #import "CommonsApp.h"
 #import "FetchImageOperation.h"
 #import <QuartzCore/QuartzCore.h>
+#import <Photos/Photos.h>
 
 @implementation CommonsApp{
     NSPersistentStore *persistentStore;
@@ -698,7 +699,7 @@ static CommonsApp *singleton_;
            record.progress = @0.0f;
 
             // In case license somehow is not set by now...
-            if (record.license == nil) record.license = @"cc-by-sa-3.0";
+            if (record.license == nil) record.license = @"cc-zero";
            
            MWPromise *upload = [_currentUploadOp uploadFile:fileName
                                                withFileData:fileData
@@ -1166,40 +1167,9 @@ static CommonsApp *singleton_;
     //check if image comes from camera roll or directly camera
     if (url) {
         //from camera roll - ask for exif data
-        NSObject * gps = info[UIImagePickerControllerMediaMetadata][@"{GPS}"];
-
-        if(gps){
-            CLLocationCoordinate2D coordinate;
-            coordinate.latitude = NAN;//NAN is a valid invalid
-            coordinate.longitude = NAN;
-            
-            double altitude = NAN;
-            double compassDirection = NAN;
-            
-            double lat = [[gps valueForKey:@"Latitude"] floatValue];
-			if ([[gps valueForKey:@"LatitudeRef"] isEqualToString: @"S"])
-			{
-				lat = lat * -1;
-			}
-            double lon = [[gps valueForKey:@"Longitude"] floatValue];
-			if ([[gps valueForKey:@"LongitudeRef"] isEqualToString: @"W"])
-			{
-				lon = lon * -1;
-			}
-            compassDirection = [[gps valueForKey:@"ImgDirection"] floatValue];
-            altitude = [[gps valueForKey:@"Altitude"] floatValue];
-            coordinate.latitude = lat;
-            coordinate.longitude = lon;
-            
-            location = [[CLLocation alloc]
-                        initWithCoordinate:coordinate
-                        altitude: altitude
-                        horizontalAccuracy: NAN
-                        verticalAccuracy: NAN
-                        course: compassDirection
-                        speed: NAN
-                        timestamp:nil];
-        }
+		NSArray *arr = [NSArray arrayWithObjects: url, nil];
+		PHAsset *asset = [PHAsset fetchAssetsWithALAssetURLs:arr options:nil][0];
+		location = asset.location;
     }
     else {
         //TODO directly from camera - ask for current location
