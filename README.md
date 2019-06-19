@@ -1,4 +1,4 @@
-In 2016, Wikimedia Foundation removed the Commons app from all app stores.
+In 2014, Wikimedia Foundation removed the Commons app from all app stores.
 
 This project aims to revive the Commons iOS app. It was made available on the AppStore for a while. Unfortunately, the current project leader's account expired and he has not renewed it because he is not doing iOS development at the moment.
 
